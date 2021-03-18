@@ -1,0 +1,21 @@
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  
+  // fonts
+  --font-cera: CeraPro;
+  --font-playfair: Playfair;
+  --fallback-font: Arial, Helvetica, sans-serif;
+  
+  --thin: 300;
+  --light: 400;
+  --regular: normal;
+  --medium: 500;
+  --bold: bold;
+  
+  // breakpoints
+  --laptop: 1279px;
+  --tablet: 1023px;
+  --phone: 767px;
+  --phone-xs: 320px;
+}
