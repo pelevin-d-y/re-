@@ -1,34 +1,37 @@
 import React from 'react'
 import classNames from 'classnames'
-import NextLink from 'next/link'
 import { css } from 'astroturf'
+import { faAlignLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import HeaderSearch from './HeaderSearch'
 
-const Header = (): JSX.Element => (
-  <header className={classNames(styles.header)}>
-    <div className={classNames('container', styles.container)}>
-      <div className={styles.menu}>Menu</div>
-      <div className={styles.logo}>
-        <NextLink href="/">
-          <a className={styles.logoLink}>
-            Logo
-          </a>
-        </NextLink>
+const Header = (): JSX.Element => {
+  const menuHandler = () => {
+    console.log('menuHandler')
+  }
+
+  return (
+    <header className={classNames(styles.header)}>
+      <div className={classNames('container', styles.container)}>
+        <FontAwesomeIcon
+          className={styles.menu}
+          onClick={menuHandler}
+          icon={faAlignLeft}
+          size="2x"
+        />
+        <div> Welcome to your Dashboard, Hailey </div>
+        <HeaderSearch />
       </div>
-      <div className={styles.profile}>
-        <div className={styles.link}>
-          <NextLink href="/sign-up">
-            <a className={styles.profileLink}>Sign up</a>
-          </NextLink>
-        </div>
-      </div>
-    </div>
-  </header>
-)
+    </header>
+  )
+}
 
 const styles = css`
   .header {
     width: 100%;
     padding-top: 35px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid grey;
   }
 
   .container {
@@ -41,33 +44,7 @@ const styles = css`
   }
 
   .menu {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-
-    line-height: 14px;
-    color: inherit;
     cursor: pointer;
-  }
-
-
-  .logoLink {
-    font-size: 50px;
-    text-decoration: none;
-    color: black;
-  }
-
-  .profile {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-  }
-
-  .profileLink {
-    padding: 10px 22px;
-    border: 1px solid var(--black);
-    color: inherit;
-    text-decoration: none;
   }
 `
 

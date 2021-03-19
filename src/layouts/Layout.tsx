@@ -6,12 +6,10 @@ import { css } from 'astroturf'
 
 const HomeLayout: React.FC = ({ children }) => (
   <div className={styles.root}>
-    <Sidebar className={styles.sidebar}/>
+    <Sidebar className={styles.sidebar} />
     <div className={styles.main}>
       <Header />
-        <div className={styles.content}>
-          {children}
-        </div>
+      <div className={styles.content}>{children}</div>
       <Footer />
     </div>
   </div>
@@ -23,7 +21,7 @@ const styles = css`
 
     display: flex;
     flex-flow: row nowrap;
-    padding-left: 301px;
+    padding-left: 300px;
   }
 
   .main {

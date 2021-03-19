@@ -6,55 +6,38 @@ import { css } from 'astroturf'
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   href: string
   children: React.ReactNode
-  typeSize: 'medium' | 'large'
-  typeColor: 'light' | 'dark'
+  filled?: true | false
 }
 
-const Link = ({
-  href,
-  children,
-  typeSize,
-  typeColor,
-  className,
-}: Props): JSX.Element => (
+const Link = ({ href, children, className, filled }: Props): JSX.Element => (
   <NextLink href={href}>
-    <a
-      className={classNames(
-        styles.link,
-        styles[typeSize],
-        styles[typeColor],
-        className
-      )}
-    >
+    <a className={classNames(className, styles.link, filled && styles.filled)}>
       {children}
     </a>
   </NextLink>
 )
 
+Link.defaultProps = {
+  filled: false,
+}
+
 const styles = css`
   .link {
     display: inline-block;
-    border: 0.5px solid var(--black);
+    padding: 10px 20px;
+
     text-decoration: none;
     text-align: center;
+    color: var(--blue);
+
+    border: 1px solid var(--blue);
+    background: var(--white);
+    border-radius: 18px;
   }
 
-  .link.large {
-    width: 300px;
-    padding: 18px 8px;
-    text-transform: uppercase;
-  }
-
-  .link.light {
-    border: 1px solid var(--white);
+  .link.filled {
+    background: var(--blue);
     color: var(--white);
-    background: none;
-  }
-
-  .link.dark {
-    border: 1px solid var(--black);
-    color: var(--white);
-    background: var(--black);
   }
 `
 
