@@ -1,7 +1,6 @@
 import React from 'react'
-import Header from 'src/components/Header'
-import Footer from 'src/components/Footer'
-import Sidebar from 'src/components/Sidebar'
+import Header from 'src/components/shared-ui/Header'
+import Sidebar from 'src/components/shared-ui/Sidebar'
 import { css } from 'astroturf'
 
 const HomeLayout: React.FC = ({ children }) => (
@@ -10,7 +9,6 @@ const HomeLayout: React.FC = ({ children }) => (
     <div className={styles.main}>
       <Header />
       <div className={styles.content}>{children}</div>
-      <Footer />
     </div>
   </div>
 )
@@ -38,6 +36,14 @@ const styles = css`
     padding: 15px;
 
     border-right: 1px solid #e4e0e0;
+  }
+
+  .content {
+    display: flex;
+    flex-flow: row nowrap;
+    max-width: 1400px;
+    width: 100%;
+    padding: 20px;
   }
 `
 

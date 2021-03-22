@@ -25,7 +25,6 @@ const styles = css`
   .input {
     padding: 12px;
     padding-left: 28px;
-    border-radius: 18px;
     border: 1px solid grey;
   }
 `

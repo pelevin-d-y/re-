@@ -3,7 +3,10 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { faAlignLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import HeaderSearch from './HeaderSearch'
+import HeaderToDos from './HeaderToDos'
+import HeaderProfile from './HeaderProfile'
 
 const Header = (): JSX.Element => {
   const menuHandler = () => {
@@ -21,6 +24,8 @@ const Header = (): JSX.Element => {
         />
         <div> Welcome to your Dashboard, Hailey </div>
         <HeaderSearch />
+        <HeaderToDos />
+        <HeaderProfile />
       </div>
     </header>
   )
