@@ -43,6 +43,8 @@ const styles = css`
     flex-flow: row nowrap;
     max-width: 1400px;
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 20px;
   }
 `

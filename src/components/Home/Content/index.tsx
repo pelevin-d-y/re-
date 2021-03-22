@@ -1,12 +1,12 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
+import HomeRecommendations from './HomeRecommendations'
 
-interface Props {}
-
-const Content = ({}: Props) => {
+const Content = () => {
   return (
-    <div className={styles.container}>Container</div>
+    <div className={styles.container}>
+      <HomeRecommendations />
+    </div>
   )
 }
 
