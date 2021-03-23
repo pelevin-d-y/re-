@@ -1,9 +1,10 @@
 import React from 'react'
 import { css } from 'astroturf'
 import SmallCard from 'src/components/shared-ui/cards/SmallCard'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 
-const HomeRecommendations = (): JSX.Element => (
-  <div className={styles.container}>
+const HomeRecommendations: React.FC = () => (
+  <CardContainer className={styles.container}>
     <div className={styles.title}>Your Weekly Recommendations</div>
     <div className={styles.cards}>
       <div className={styles.column}>
@@ -16,14 +17,11 @@ const HomeRecommendations = (): JSX.Element => (
         <SmallCard />
       </div>
     </div>
-  </div>
+  </CardContainer>
 )
 
 const styles = css`
   .container {
-    border: 1px solid grey;
-    border-radius: 5px;
-    margin-right: 20px;
     padding: 10px;
   }
 

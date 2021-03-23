@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 }
 
-const SignUp = (): JSX.Element => {
+const SignUp: React.FC = () => {
   const { data, isLoading } = useQuery('people', fetchPeople)
   const { data: dataPlanets } = useQuery('planets', fetchPlanet)
 

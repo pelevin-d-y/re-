@@ -45,7 +45,8 @@ const styles = css`
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
   }
 `
 

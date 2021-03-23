@@ -3,13 +3,14 @@ import { css } from 'astroturf'
 import classNames from 'classnames'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CardContainer from '../CardContainer'
 
 interface Props {
-  className?: string
+  className?: string | undefined
 }
 
-const SmallCard = ({ className }: Props): JSX.Element => (
-  <div className={classNames(className, styles.card)}>
+const SmallCard: React.FC<Props> = ({ className }) => (
+  <CardContainer className={classNames(className, styles.card)}>
     <div className={styles.avatar}>
       <FontAwesomeIcon icon={faUserCircle} size="3x" />
     </div>
@@ -17,7 +18,7 @@ const SmallCard = ({ className }: Props): JSX.Element => (
     <button type="button" className={styles.button}>
       Follow Up
     </button>
-  </div>
+  </CardContainer>
 )
 
 const styles = css`
@@ -28,8 +29,6 @@ const styles = css`
 
     width: 100%;
     padding: 9px;
-    border: 1px solid grey;
-    border-radius: 5px;
   }
 
   .avatar {
@@ -40,8 +39,5 @@ const styles = css`
     margin-bottom: 10px;
   }
 `
-SmallCard.defaultProps = {
-  className: null,
-}
 
 export default SmallCard

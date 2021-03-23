@@ -1,16 +1,9 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
 
-interface Props {}
-
-const ContentSidebar = ({}: Props) => {
-  return (
-    <div className={styles.container}>
-      Sidebar
-    </div>
-  ) 
-}
+const ContentSidebar: React.FC = () => (
+  <div className={styles.container}>Sidebar</div>
+)
 
 const styles = css`
   .container {

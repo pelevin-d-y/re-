@@ -3,7 +3,7 @@ import { css } from 'astroturf'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const HeaderSearch = (): JSX.Element => (
+const HeaderSearch: React.FC = () => (
   <div className={styles.search}>
     <FontAwesomeIcon className={styles.icon} icon={faSearch} />
     <input className={styles.input} type="text" />

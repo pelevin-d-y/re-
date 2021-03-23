@@ -1,15 +1,16 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import CardContainer from '../CardContainer'
 
-interface Props {}
-
-const LongCard = ({}: Props) => {
-  return <div></div>
-}
+const LongCard: React.FC = () => (
+  <CardContainer className={classNames(styles.container)}>
+    Long container
+  </CardContainer>
+)
 
 const styles = css`
-  .link {
+  .container {
   }
 `
 

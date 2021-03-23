@@ -3,7 +3,7 @@ import { css } from 'astroturf'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const HeaderProfile = (): JSX.Element => (
+const HeaderProfile: React.FC = () => (
   <div className={styles.container}>
     <div className={styles.email}>hailey@strata.cc</div>
     <FontAwesomeIcon icon={faUserCircle} size="2x" />

@@ -13,7 +13,7 @@ interface Props {
   className?: string
 }
 
-const SidebarList = ({ className }: Props): JSX.Element => (
+const SidebarList: React.FC<Props> = ({ className }) => (
   <div className={classNames(className)}>
     <div className={styles.title}>Connect</div>
     <ul className={styles.list}>
@@ -38,7 +38,7 @@ const SidebarList = ({ className }: Props): JSX.Element => (
 )
 
 SidebarList.defaultProps = {
-  className: null,
+  className: undefined,
 }
 
 const styles = css`

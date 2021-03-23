@@ -5,11 +5,10 @@ import { css } from 'astroturf'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   href: string
-  children: React.ReactNode
   filled?: true | false
 }
 
-const Link = ({ href, children, className, filled }: Props): JSX.Element => (
+const Link: React.FC<Props> = ({ href, children, className, filled }) => (
   <NextLink href={href}>
     <a className={classNames(className, styles.link, filled && styles.filled)}>
       {children}
