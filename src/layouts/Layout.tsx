@@ -13,13 +13,15 @@ const HomeLayout: React.FC = ({ children }) => (
   </div>
 )
 
+const sidebarWidth = 238
+
 const styles = css`
   .root {
     min-height: 100vh;
 
     display: flex;
     flex-flow: row nowrap;
-    padding-left: 300px;
+    padding-left: ${sidebarWidth}px;
   }
 
   .main {
@@ -31,7 +33,7 @@ const styles = css`
     left: 0;
     top: 0;
 
-    width: 300px;
+    width: ${sidebarWidth}px;
     height: 100%;
     padding: 15px;
 
