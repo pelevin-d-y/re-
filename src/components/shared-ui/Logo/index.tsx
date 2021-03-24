@@ -1,8 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 import Link from 'next/link'
-import { faAws } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import LogoIcon from 'public/svg/logo.svg'
 import classNames from 'classnames'
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 const Logo: React.FC<Props> = ({ className }) => (
   <Link href="/">
     <a className={classNames(className, styles.link)}>
-      <FontAwesomeIcon icon={faAws} style={{ width: '100%', height: '50px' }} />
+      <LogoIcon />
     </a>
   </Link>
 )
@@ -26,7 +25,6 @@ const styles = css`
     display: block;
     width: 100%;
     height: 50px;
-    color: black;
   }
 `
 

@@ -48,8 +48,9 @@ const styles = css`
   }
 
   .title {
-    text-transform: uppercase;
+    padding-left: 34px;
     margin-bottom: 20px;
+    text-transform: uppercase;
   }
 
   .item {
@@ -58,18 +59,22 @@ const styles = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    padding: 10px 5px 10px 30px;
+    padding: 12px 5px 12px 73px;
 
+    text-transform: uppercase;
+    font-weight: bold;
     cursor: pointer;
 
     &:hover {
-      background: #7ab3e4;
+      background: var(--lightBlue);
+      color: var(--blue);
+      border-right: 1px solid var(--blue);
     }
   }
 
   .icon {
     position: absolute;
-    left: 0;
+    left: 34px;
     top: 12px;
   }
 `
