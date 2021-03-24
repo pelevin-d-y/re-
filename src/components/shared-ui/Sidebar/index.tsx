@@ -14,7 +14,9 @@ const Sidebar: React.FC<Props> = ({ className }: Props) => (
     <div className={styles.content}>
       <Logo className={styles.logo} />
       <SidebarList />
-      <Link href="/">Sign Up</Link>
+      <Link className={styles.link} href="/">
+        Log Out
+      </Link>
     </div>
   </div>
 )
@@ -26,6 +28,10 @@ Sidebar.defaultProps = {
 const styles = css`
   .logo {
     margin-bottom: 20px;
+    padding-left: 34px;
+  }
+  .link {
+    margin-left: 34px;
   }
 `
 

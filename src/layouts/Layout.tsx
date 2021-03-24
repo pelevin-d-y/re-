@@ -35,7 +35,7 @@ const styles = css`
 
     width: ${sidebarWidth}px;
     height: 100%;
-    padding: 15px;
+    padding: 28px 0 15px 0;
 
     border-right: 1px solid #e4e0e0;
   }
