@@ -1,24 +1,17 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-interface Props {}
-
-const HeaderToDos = ({}: Props) => {
-  return (
-    <div className={styles.container}>
-      <FontAwesomeIcon icon={faList} className={styles.icon}/>
-      <div className={styles.text}>TO-DOs</div>
-      <div className={styles.number}>
-        <div className="numberText">
-          13
-        </div>
-      </div>
+const HeaderToDos: React.FC = () => (
+  <div className={styles.container}>
+    <FontAwesomeIcon icon={faList} className={styles.icon} />
+    <div className={styles.text}>TO-DOs</div>
+    <div className={styles.number}>
+      <div className={styles.numberText}>13</div>
     </div>
-  )
-}
+  </div>
+)
 
 const styles = css`
   .container {
@@ -49,12 +42,14 @@ const styles = css`
     width: 22px;
     height: 22px;
 
-
-    font-size: 13px;
+    font-size: 11px;
     background: red;
     color: var(--white);
     border: 2px solid var(--white);
     border-radius: 50%;
+  }
+  .numberText {
+    line-height: 20px;
   }
 `
 

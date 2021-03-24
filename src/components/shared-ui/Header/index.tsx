@@ -8,7 +8,7 @@ import HeaderSearch from './HeaderSearch'
 import HeaderToDos from './HeaderToDos'
 import HeaderProfile from './HeaderProfile'
 
-const Header = (): JSX.Element => {
+const Header: React.FC = () => {
   const menuHandler = () => {
     console.log('menuHandler')
   }

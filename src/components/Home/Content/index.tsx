@@ -1,18 +1,19 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
+import HomeRecommendations from './HomeRecommendations'
+import HomeUpcoming from './HomeUpcoming'
 
-interface Props {}
-
-const Content = ({}: Props) => {
-  return (
-    <div className={styles.container}>Container</div>
-  )
-}
+const Content: React.FC = () => (
+  <div className={styles.container}>
+    <HomeRecommendations />
+    <HomeUpcoming />
+  </div>
+)
 
 const styles = css`
   .container {
     width: 70%;
+    padding: 0 20px 20px 20px;
   }
 `
 

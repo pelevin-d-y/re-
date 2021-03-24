@@ -9,7 +9,7 @@ interface Props {
   className?: string
 }
 
-const Sidebar = ({ className }: Props): JSX.Element => (
+const Sidebar: React.FC<Props> = ({ className }: Props) => (
   <div className={classNames(className)}>
     <div className={styles.content}>
       <Logo className={styles.logo} />
@@ -20,7 +20,7 @@ const Sidebar = ({ className }: Props): JSX.Element => (
 )
 
 Sidebar.defaultProps = {
-  className: null,
+  className: undefined,
 }
 
 const styles = css`
