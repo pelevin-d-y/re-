@@ -4,16 +4,16 @@ import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
 
 const Content: React.FC = () => (
-  <div className={styles.container}>
+  <div className={s.container}>
     <HomeRecommendations />
     <HomeUpcoming />
   </div>
 )
 
-const styles = css`
+const s = css`
   .container {
     width: 70%;
-    padding: 0 20px 20px 20px;
+    padding: 0 12px 20px 0;
   }
 `
 

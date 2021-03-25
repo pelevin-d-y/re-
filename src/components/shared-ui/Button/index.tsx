@@ -1,53 +1,38 @@
-import React from 'react'
-import NextLink from 'next/link'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props {
   className?: string
   size?: 'small' | 'medium' | 'large' | undefined
-  variant?: 'outlined' | 'contained'
-  href: string
+  variant: 'outlined' | 'contained'
 }
 
-const Link: React.FC<Props> = ({
-  href,
-  className,
-  children,
-  size,
-  variant,
-}) => (
-  <NextLink href={href}>
-    <a
-      className={classNames(
-        s.link,
-        size && s[size],
-        variant && s[variant],
-        className
-      )}
-    >
-      {children}
-    </a>
-  </NextLink>
+const Button: React.FC<Props> = ({ className, children, size, variant }) => (
+  <button
+    className={classNames(s.button, size && s[size], s[variant], className)}
+    type="button"
+  >
+    {children}
+  </button>
 )
 
-Link.defaultProps = {
+Button.defaultProps = {
   size: undefined,
   variant: 'contained',
 }
 
 const s = css`
-  .link {
+  .button {
     display: inline-block;
     padding: 7px 11px;
+    height: 32px;
 
     font-size: 14px;
     font-weight: var(--semibold);
     border: 1px solid var(--blue);
     border-radius: 16px;
-    text-decoration: none;
 
-    transition: all 0.2s linear;
+    transition: all 0.3s linear;
   }
 
   .small {
@@ -64,7 +49,6 @@ const s = css`
 
   .outlined {
     color: var(--blue);
-    background: var(--white);
 
     &:hover {
       color: var(--white);
@@ -83,4 +67,4 @@ const s = css`
   }
 `
 
-export default Link
+export default Button

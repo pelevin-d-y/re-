@@ -4,24 +4,24 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const name: React.FC = () => (
-  <div className={styles.container}>
-    <div className={styles.date}>
-      <div className={styles.month}>feb</div>
-      <div className={styles.number}>18</div>
+  <div className={s.container}>
+    <div className={s.date}>
+      <div className={s.month}>feb</div>
+      <div className={s.number}>18</div>
     </div>
-    <div className={styles.text}>
-      <div className={styles.bigText}>Your Upcoming Trip to Los Angeles</div>
-      <div className={styles.smallText}>
+    <div className={s.text}>
+      <div className={s.bigText}>Your Upcoming Trip to Los Angeles</div>
+      <div className={s.smallText}>
         Plan your trip ahead but scheduling meeting with contacts in LA
       </div>
     </div>
-    <div className={styles.star}>
+    <div className={s.star}>
       <FontAwesomeIcon icon={faStar} />
     </div>
   </div>
 )
 
-const styles = css`
+const s = css`
   .container {
     position: relative;
 

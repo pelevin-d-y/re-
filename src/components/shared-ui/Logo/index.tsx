@@ -10,7 +10,7 @@ interface Props {
 
 const Logo: React.FC<Props> = ({ className }) => (
   <Link href="/">
-    <a className={classNames(className, styles.link)}>
+    <a className={classNames(className, s.link)}>
       <LogoIcon />
     </a>
   </Link>
@@ -20,7 +20,7 @@ Logo.defaultProps = {
   className: undefined,
 }
 
-const styles = css`
+const s = css`
   .link {
     display: block;
     width: 100%;

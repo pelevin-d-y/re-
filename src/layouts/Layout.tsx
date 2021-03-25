@@ -1,26 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from 'src/components/shared-ui/Header'
 import Sidebar from 'src/components/shared-ui/Sidebar'
 import { css } from 'astroturf'
+import classNames from 'classnames'
 
-const HomeLayout: React.FC = ({ children }) => (
-  <div className={styles.root}>
-    <Sidebar className={styles.sidebar} />
-    <div className={styles.main}>
-      <Header />
-      <div className={styles.content}>{children}</div>
+const HomeLayout: React.FC = ({ children }) => {
+  const [menuOpen, setMenuOpen] = useState(true)
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen)
+  }
+
+  return (
+    <div className={classNames(s.root, menuOpen && s.open)}>
+      <Sidebar className={s.sidebar} />
+      <div className={s.main}>
+        <Header toggleMenu={toggleMenu} />
+        <div className={classNames('container', s.content)}>{children}</div>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 const sidebarWidth = 238
 
-const styles = css`
+const s = css`
   .root {
     min-height: 100vh;
 
     display: flex;
     flex-flow: row nowrap;
+    padding-left: 0;
+
+    transition: all 0.2s ease-in;
+  }
+
+  .root.open {
     padding-left: ${sidebarWidth}px;
   }
 
@@ -28,16 +43,23 @@ const styles = css`
     width: 100%;
   }
 
+  .open .sidebar {
+    width: ${sidebarWidth}px;
+  }
+
   .sidebar {
     position: fixed;
     left: 0;
     top: 0;
+    overflow: hidden;
 
-    width: ${sidebarWidth}px;
+    width: 0;
     height: 100%;
     padding: 28px 0 15px 0;
 
     border-right: 1px solid #e4e0e0;
+
+    transition: all 0.2s ease-in;
   }
 
   .content {
@@ -47,8 +69,7 @@ const styles = css`
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 20px;
-    padding-right: 20px;
+    padding-top: 10px;
   }
 `
 

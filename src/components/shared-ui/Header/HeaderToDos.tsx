@@ -2,28 +2,30 @@ import React from 'react'
 import { css } from 'astroturf'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Button from '../Button'
 
 const HeaderToDos: React.FC = () => (
-  <div className={styles.container}>
-    <FontAwesomeIcon icon={faList} className={styles.icon} />
-    <div className={styles.text}>TO-DOs</div>
-    <div className={styles.number}>
-      <div className={styles.numberText}>13</div>
+  <div className={s.container}>
+    <FontAwesomeIcon icon={faList} className={s.icon} />
+    <div className={s.text}>TO-DOs</div>
+    <div className={s.number}>
+      <div className={s.numberText}>13</div>
     </div>
   </div>
 )
 
-const styles = css`
+const s = css`
   .container {
     position: relative;
 
     display: flex;
     flex-flow: row nowrap;
-    padding: 12px;
+    padding: 9px 8px 9px 12px;
 
-    background: #baf3b9;
-    color: #0fb73b;
-    border-radius: 18px;
+    font-weight: var(--semibold);
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 16px;
 
     cursor: pointer;
   }
@@ -35,7 +37,7 @@ const styles = css`
   .number {
     position: absolute;
     right: -6px;
-    bottom: -9px;
+    bottom: -11px;
 
     display: flex;
     justify-content: center;
