@@ -10,7 +10,7 @@ const HomeUpcoming: React.FC = () => (
   </CardContainer>
 )
 
-const styles = css`
+const s = css`
   .link {
   }
 `

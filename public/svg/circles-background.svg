@@ -1,0 +1,31 @@
+<svg viewBox="0 0 675 288" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect rx="6" fill="white"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0">
+<rect rx="6" fill="white"/>
+</mask>
+<g mask="url(#mask0)">
+<circle cx="-19" cy="-12" r="69" fill="#CACEFF"/>
+<circle cx="637.5" cy="116.5" r="92.5" fill="#F3F4FF"/>
+<g style="mix-blend-mode:multiply">
+<circle cx="557" cy="282" r="36" fill="#FFDCAF"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<circle cx="526" cy="7" r="16" stroke="#FFDCAF" stroke-width="4"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<circle cx="655" cy="210" r="23" fill="#C5FFDB"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<circle cx="620.5" cy="26.5" r="36.5" stroke="#85B1FF" stroke-width="4"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<circle cx="10.5" cy="94.5" r="17.5" fill="#CBFFDF"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<circle cx="-2.5" cy="258.5" r="40.5" fill="#FFDCAF"/>
+</g>
+<g style="mix-blend-mode:multiply">
+<circle cx="208.5" cy="288.5" r="13.5" stroke="#85B1FF" stroke-width="4"/>
+</g>
+</g>
+</svg>

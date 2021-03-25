@@ -2,11 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
-  faAws,
-  faAccessibleIcon,
-  faAirbnb,
-  faAmilia,
-} from '@fortawesome/free-brands-svg-icons'
+  faCompass,
+  faUserFriends,
+  faAddressBook,
+  faClipboardList,
+  faScroll,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface Props {
@@ -15,23 +16,24 @@ interface Props {
 
 const SidebarList: React.FC<Props> = ({ className }) => (
   <div className={classNames(className)}>
-    <div className={styles.title}>Connect</div>
-    <ul className={styles.list}>
-      <li className={styles.item}>
-        <FontAwesomeIcon className={styles.icon} icon={faAws} /> Home
+    <div className={s.title}>Connect</div>
+    <ul className={s.list}>
+      <li className={s.item}>
+        <FontAwesomeIcon className={s.icon} icon={faCompass} /> Home
       </li>
-      <li className={styles.item}>
-        <FontAwesomeIcon className={styles.icon} icon={faAccessibleIcon} /> List
+      <li className={s.item}>
+        <FontAwesomeIcon className={s.icon} icon={faUserFriends} /> List
       </li>
-      <li className={styles.item}>
-        <FontAwesomeIcon className={styles.icon} icon={faAirbnb} />{' '}
+      <li className={s.item}>
+        <FontAwesomeIcon className={s.icon} icon={faClipboardList} />{' '}
         Recommendations
       </li>
-      <li className={styles.item}>
-        <FontAwesomeIcon className={styles.icon} icon={faAmilia} /> Contacts
+      <li className={s.item}>
+        <FontAwesomeIcon className={s.icon} icon={faAddressBook} />{' '}
+        Contacts
       </li>
-      <li className={styles.item}>
-        <FontAwesomeIcon className={styles.icon} icon={faAws} /> Templates
+      <li className={s.item}>
+        <FontAwesomeIcon className={s.icon} icon={faScroll} /> Templates
       </li>
     </ul>
   </div>
@@ -41,7 +43,7 @@ SidebarList.defaultProps = {
   className: undefined,
 }
 
-const styles = css`
+const s = css`
   .list {
     padding: 0;
     list-style: none;

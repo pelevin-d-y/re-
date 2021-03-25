@@ -2,10 +2,10 @@ import React from 'react'
 import { css } from 'astroturf'
 
 const ContentSidebar: React.FC = () => (
-  <div className={styles.container}>Sidebar</div>
+  <div className={s.container}>Sidebar</div>
 )
 
-const styles = css`
+const s = css`
   .container {
     width: 30%;
     height: 100vh;

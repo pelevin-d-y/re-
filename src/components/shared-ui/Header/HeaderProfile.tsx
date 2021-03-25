@@ -4,13 +4,13 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const HeaderProfile: React.FC = () => (
-  <div className={styles.container}>
-    <div className={styles.email}>hailey@strata.cc</div>
+  <div className={s.container}>
+    <div className={s.email}>hailey@strata.cc</div>
     <FontAwesomeIcon icon={faUserCircle} size="2x" />
   </div>
 )
 
-const styles = css`
+const s = css`
   .container {
     display: flex;
     flex-flow: row nowrap;
@@ -19,7 +19,8 @@ const styles = css`
   }
 
   .email {
-    margin-right: 10px;
+    font-size: 12px;
+    margin-right: 18px;
   }
 `
 

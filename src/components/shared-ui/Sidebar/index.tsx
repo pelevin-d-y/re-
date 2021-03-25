@@ -11,10 +11,10 @@ interface Props {
 
 const Sidebar: React.FC<Props> = ({ className }: Props) => (
   <div className={classNames(className)}>
-    <div className={styles.content}>
-      <Logo className={styles.logo} />
+    <div className={s.content}>
+      <Logo className={s.logo} />
       <SidebarList />
-      <Link className={styles.link} href="/">
+      <Link className={s.link} variant="outlined" href="/">
         Log Out
       </Link>
     </div>
@@ -25,13 +25,14 @@ Sidebar.defaultProps = {
   className: undefined,
 }
 
-const styles = css`
+const s = css`
   .logo {
     margin-bottom: 20px;
     padding-left: 34px;
   }
   .link {
     margin-left: 34px;
+    margin-top: 50px;
   }
 `
 

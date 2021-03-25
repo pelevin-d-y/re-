@@ -4,12 +4,12 @@ import { css } from 'astroturf'
 import CardContainer from '../CardContainer'
 
 const LongCard: React.FC = () => (
-  <CardContainer className={classNames(styles.container)}>
+  <CardContainer className={classNames(s.container)}>
     Long container
   </CardContainer>
 )
 
-const styles = css`
+const s = css`
   .container {
   }
 `
