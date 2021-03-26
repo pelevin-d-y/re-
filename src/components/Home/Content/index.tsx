@@ -13,7 +13,7 @@ const Content: React.FC = () => (
 const s = css`
   .container {
     width: 70%;
-    padding: 0 12px 20px 0;
+    padding: 0 12px 12px 0;
   }
 `
 

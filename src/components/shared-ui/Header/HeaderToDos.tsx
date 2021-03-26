@@ -2,7 +2,6 @@ import React from 'react'
 import { css } from 'astroturf'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Button from '../Button'
 
 const HeaderToDos: React.FC = () => (
   <div className={s.container}>

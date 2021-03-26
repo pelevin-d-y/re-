@@ -1,6 +1,5 @@
 import React from 'react'
 import Layout from 'src/layouts/Layout'
-import Footer from 'src/components/Footer'
 import { GetServerSideProps } from 'next'
 import { QueryClient, useQuery } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
@@ -39,7 +38,6 @@ const SignUp: React.FC = () => {
       {dataPlanets.results.map((item: { name: string }) => (
         <div key={item.name}>{item.name}</div>
       ))}
-      <Footer />
     </Layout>
   )
 }

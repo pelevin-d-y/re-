@@ -22,11 +22,11 @@ const HomeRecommendations: React.FC = () => {
     </CardContainer>
   )
 }
- 
 
 const s = css`
   .container {
     padding: 22px 35px 44px 35px;
+    background: url('/svg/circles-background.svg') no-repeat center/cover;
   }
 
   .title {
