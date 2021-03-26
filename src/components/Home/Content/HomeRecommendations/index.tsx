@@ -22,7 +22,6 @@ const HomeRecommendations: React.FC = () => {
     </CardContainer>
   )
 }
- 
 
 const s = css`
   .container {

@@ -29,8 +29,7 @@ const SidebarList: React.FC<Props> = ({ className }) => (
         Recommendations
       </li>
       <li className={s.item}>
-        <FontAwesomeIcon className={s.icon} icon={faAddressBook} />{' '}
-        Contacts
+        <FontAwesomeIcon className={s.icon} icon={faAddressBook} /> Contacts
       </li>
       <li className={s.item}>
         <FontAwesomeIcon className={s.icon} icon={faScroll} /> Templates

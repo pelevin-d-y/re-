@@ -2,13 +2,21 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Image from 'next/image'
-import Star from 'public/svg/star.svg'
+
+import Select from 'src/components/shared-ui/Select'
+import Star from 'src/components/shared-ui/Star'
 import CardContainer from '../CardContainer'
 
 interface Props {
   className?: string
   src: string
 }
+
+const selectOptions = [
+  { value: 'followUp', label: 'Follow Up' },
+  { value: 'congrats', label: 'Congrats' },
+  { value: 'planDinner', label: 'Plan Dinner' },
+]
 
 const SmallCard: React.FC<Props> = ({ className, src }) => (
   <CardContainer className={classNames(className)}>
@@ -21,9 +29,7 @@ const SmallCard: React.FC<Props> = ({ className, src }) => (
         <span className={s.circle} />
         Follow up on Meetings
       </div>
-      <button type="button" className={s.button}>
-        Follow Up
-      </button>
+      <Select options={selectOptions} />
       <Star className={s.star} />
     </div>
   </CardContainer>
@@ -59,11 +65,9 @@ const s = css`
     position: absolute;
     top: 13px;
     right: 13px;
-    width: 16px;
-    height: 16px;
+  }
 
-    color: var(--grey);
-    cursor: pointer;
+  .select {
   }
 `
 
