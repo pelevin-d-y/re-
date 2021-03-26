@@ -1,7 +1,7 @@
-<svg viewBox="0 0 675 288" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect rx="6" fill="white"/>
-<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0">
-<rect rx="6" fill="white"/>
+<svg width="675" height="288" viewBox="0 0 675 288" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="675" height="288" rx="6" fill="white"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="675" height="288">
+<rect width="675" height="288" rx="6" fill="white"/>
 </mask>
 <g mask="url(#mask0)">
 <circle cx="-19" cy="-12" r="69" fill="#CACEFF"/>

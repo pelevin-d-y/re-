@@ -26,6 +26,7 @@ const HomeRecommendations: React.FC = () => {
 const s = css`
   .container {
     padding: 22px 35px 44px 35px;
+    background: url('/svg/circles-background.svg') no-repeat center/cover;
   }
 
   .title {

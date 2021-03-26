@@ -19,19 +19,17 @@ const selectOptions = [
 ]
 
 const SmallCard: React.FC<Props> = ({ className, src }) => (
-  <CardContainer className={classNames(className)}>
-    <div className={s.container}>
-      <div className={s.avatar}>
-        <Image className={s.avatar} src={src} width={44} height={44} />
-      </div>
-      <div className={s.name}>Landon Tucker</div>
-      <div className={s.actionType}>
-        <span className={s.circle} />
-        Follow up on Meetings
-      </div>
-      <Select options={selectOptions} />
-      <Star className={s.star} />
+  <CardContainer className={classNames(className, s.container)}>
+    <div className={s.avatar}>
+      <Image className={s.avatar} src={src} width={44} height={44} />
     </div>
+    <div className={s.name}>Landon Tucker</div>
+    <div className={s.actionType}>
+      <span className={s.circle} />
+      Follow up on Meetings
+    </div>
+    <Select options={selectOptions} />
+    <Star className={s.star} />
   </CardContainer>
 )
 
@@ -41,6 +39,7 @@ const s = css`
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    background: var(--white);
 
     width: 100%;
     padding: 14px 24px 18px 24px;
