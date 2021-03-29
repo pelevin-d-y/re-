@@ -43,7 +43,10 @@ const CardItsBeen: React.FC<Props> = ({ className }) => (
       <Button className={classNames(s.buttonDots, s.button)} variant="outlined">
         •••
       </Button>
-      <Button className={classNames(s.buttonList, s.button)} variant="contained">
+      <Button
+        className={classNames(s.buttonList, s.button)}
+        variant="contained"
+      >
         View List
       </Button>
     </div>
