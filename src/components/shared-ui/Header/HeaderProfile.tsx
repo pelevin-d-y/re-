@@ -1,12 +1,11 @@
 import React from 'react'
 import { css } from 'astroturf'
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Avatar from 'src/components/shared-ui/Avatar'
 
 const HeaderProfile: React.FC = () => (
   <div className={s.container}>
     <div className={s.email}>hailey@strata.cc</div>
-    <FontAwesomeIcon icon={faUserCircle} size="2x" />
+    <Avatar src="/svg/avatar-placeholder.svg" width={44} height={44} />
   </div>
 )
 

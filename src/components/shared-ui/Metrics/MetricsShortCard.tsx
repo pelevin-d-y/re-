@@ -18,7 +18,7 @@ const name: React.FC<Props> = ({ className, number, days }) => (
 
 const s = css`
   .container {
-    background: var(--lightGrey);
+    background: #fbfbfb;
     width: 100%;
     padding: 19px 12px 14px 12px;
   }
