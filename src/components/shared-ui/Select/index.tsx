@@ -1,5 +1,9 @@
 import React from 'react'
-import SelectComp, { components, StylesConfig } from 'react-select'
+import SelectComp, {
+  components,
+  StylesConfig,
+  IndicatorProps,
+} from 'react-select'
 import InputArrow from 'public/svg/inputArrow.svg'
 
 interface Option {
@@ -58,7 +62,8 @@ const selectStyles: StylesConfig<Option, false> = {
 }
 
 const Select: React.FC<Props> = ({ options }) => {
-  const DropdownIndicator = (props) => (
+  // eslint-disable-next-line
+  const DropdownIndicator = (props: IndicatorProps<any, any>) => (
     <components.DropdownIndicator {...props}>
       <InputArrow />
     </components.DropdownIndicator>
