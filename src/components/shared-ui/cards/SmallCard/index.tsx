@@ -1,10 +1,11 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import Image from 'next/image'
 
 import Select from 'src/components/shared-ui/Select'
 import Star from 'src/components/shared-ui/Star'
+import Avatar from 'src/components/shared-ui/Avatar'
+import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import CardContainer from '../CardContainer'
 
 interface Props {
@@ -20,12 +21,10 @@ const selectOptions = [
 
 const SmallCard: React.FC<Props> = ({ className, src }) => (
   <CardContainer className={classNames(className, s.container)}>
-    <div className={s.avatar}>
-      <Image className={s.avatar} src={src} width={44} height={44} />
-    </div>
+    <Avatar src={src} width={44} height={44} className={s.avatar} />
     <div className={s.name}>Landon Tucker</div>
     <div className={s.actionType}>
-      <span className={s.circle} />
+      <ColorfulCircle />
       Follow up on Meetings
     </div>
     <Select options={selectOptions} />
@@ -46,9 +45,7 @@ const s = css`
   }
 
   .avatar {
-    overflow: hidden;
     margin-bottom: 15px;
-    border-radius: 50%;
   }
 
   .actionType {
@@ -64,9 +61,6 @@ const s = css`
     position: absolute;
     top: 13px;
     right: 13px;
-  }
-
-  .select {
   }
 `
 

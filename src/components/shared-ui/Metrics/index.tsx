@@ -19,8 +19,18 @@ const Metrics: React.FC = () => (
     </div>
     <div className={s.longCards}>
       <MetricsLongCard className={s.longCard} number={245} period="6 Months" />
-      <MetricsLongCard className={s.longCard} number={60} period="2 Weeks" />
-      <MetricsLongCard className={s.longCard} number={90} period="2 Weeks" />
+      <MetricsLongCard
+        className={s.longCard}
+        number={60}
+        period="2 Weeks"
+        bar={76}
+      />
+      <MetricsLongCard
+        className={s.longCard}
+        number={90}
+        period="2 Weeks"
+        bar={21}
+      />
     </div>
   </CardContainer>
 )

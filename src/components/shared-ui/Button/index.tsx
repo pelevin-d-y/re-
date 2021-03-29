@@ -33,6 +33,7 @@ const s = css`
     border-radius: 16px;
 
     transition: all 0.3s linear;
+    cursor: pointer;
   }
 
   .small {
@@ -49,6 +50,7 @@ const s = css`
 
   .outlined {
     color: var(--blue);
+    background: var(--white);
 
     &:hover {
       color: var(--white);
