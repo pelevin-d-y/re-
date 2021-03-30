@@ -23,6 +23,7 @@ Button.defaultProps = {
 
 const s = css`
   .button {
+    position: relative;
     display: inline-block;
     padding: 7px 11px;
     height: 32px;

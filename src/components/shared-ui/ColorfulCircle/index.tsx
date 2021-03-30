@@ -5,6 +5,15 @@ import { random } from 'lodash'
 
 interface Props {
   className?: string
+  color?:
+    | 'black'
+    | 'blue'
+    | 'lightBlue'
+    | 'green'
+    | 'red'
+    | 'ginger'
+    | 'grey'
+    | 'lightGrey'
 }
 const colors = [
   'black',
@@ -17,13 +26,17 @@ const colors = [
   'lightGrey',
 ]
 
-const ColorfulCircle: React.FC<Props> = ({ className }) => {
+const ColorfulCircle: React.FC<Props> = ({ className, color: colorProp }) => {
   const [color, setColor] = useState('')
 
   useEffect(() => {
-    const colorNumber = random(0, colors.length - 1)
-    setColor(colors[colorNumber])
-  }, [])
+    if (colorProp) {
+      setColor(colorProp)
+    } else {
+      const colorNumber = random(0, colors.length - 1)
+      setColor(colors[colorNumber])
+    }
+  }, [colorProp])
 
   return <div className={classNames(className, s.circle, s[color])} />
 }

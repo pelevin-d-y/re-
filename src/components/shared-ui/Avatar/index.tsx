@@ -11,12 +11,14 @@ interface Props {
 }
 
 const name: React.FC<Props> = ({ className, src, width, height }) => (
-  <Image
-    className={classNames(className, s.avatar)}
-    src={src || '/svg/avatar-placeholder.svg'}
-    width={width || 44}
-    height={height || 44}
-  />
+  <div className={className}>
+    <Image
+      className={s.avatar}
+      src={src || '/svg/avatar-placeholder.svg'}
+      width={width || 44}
+      height={height || 44}
+    />
+  </div>
 )
 
 const s = css`
