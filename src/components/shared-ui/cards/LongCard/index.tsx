@@ -33,9 +33,8 @@ const LongCard: React.FC<Props> = ({ data, className }) => {
         <ColorfulCircle color="black" />
         {event}
       </div>
-      <Button variant="outlined" className={s.button}>
+      <Button className={s.button} variant="outlined" isArrow>
         Reach out
-        <InputArrow className={s.arrow} />
       </Button>
     </CardContainer>
   )
@@ -79,14 +78,6 @@ const s = css`
   .button {
     max-width: 119px;
     width: 100%;
-    padding-right: 15px;
-  }
-
-  .arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 10px;
   }
 `
 

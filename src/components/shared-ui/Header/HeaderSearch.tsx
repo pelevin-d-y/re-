@@ -1,15 +1,10 @@
 import React from 'react'
 import { css } from 'astroturf'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Search from 'public/svg/search.svg'
 
 const HeaderSearch: React.FC = () => (
   <div className={s.search}>
-    <FontAwesomeIcon
-      className={s.icon}
-      icon={faSearch}
-      style={{ width: '18px', height: '18px' }}
-    />
+    <Search className={s.icon} />
     <input className={s.input} type="text" placeholder="Search..." />
   </div>
 )
@@ -23,7 +18,9 @@ const s = css`
   .icon {
     position: absolute;
     left: 16px;
-    top: 12px;
+    top: 11px;
+    width: 18px;
+    height: 18px;
   }
 
   .input {

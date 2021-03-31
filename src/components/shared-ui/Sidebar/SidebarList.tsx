@@ -1,14 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import {
-  faCompass,
-  faUserFriends,
-  faAddressBook,
-  faClipboardList,
-  faScroll,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Compass from 'public/svg/compass.svg'
+import Lists from 'public/svg/lists.svg'
+import Community from 'public/svg/community.svg'
+import Contacts from 'public/svg/contacts.svg'
+import Templates from 'public/svg/templates.svg'
 
 interface Props {
   className?: string
@@ -19,20 +16,19 @@ const SidebarList: React.FC<Props> = ({ className }) => (
     <div className={s.title}>Connect</div>
     <ul className={s.list}>
       <li className={s.item}>
-        <FontAwesomeIcon className={s.icon} icon={faCompass} /> Home
+        <Compass className={s.icon} /> Home
       </li>
       <li className={s.item}>
-        <FontAwesomeIcon className={s.icon} icon={faUserFriends} /> List
+        <Lists className={s.icon} /> List
       </li>
       <li className={s.item}>
-        <FontAwesomeIcon className={s.icon} icon={faClipboardList} />{' '}
-        Recommendations
+        <Community className={s.icon} /> Recommendations
       </li>
       <li className={s.item}>
-        <FontAwesomeIcon className={s.icon} icon={faAddressBook} /> Contacts
+        <Contacts className={s.icon} /> Contacts
       </li>
       <li className={s.item}>
-        <FontAwesomeIcon className={s.icon} icon={faScroll} /> Templates
+        <Templates className={s.icon} /> Templates
       </li>
     </ul>
   </div>
@@ -77,6 +73,9 @@ const s = css`
     position: absolute;
     left: 34px;
     top: 12px;
+
+    height: 21px;
+    width: 21px;
   }
 `
 

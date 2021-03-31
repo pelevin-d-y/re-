@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-
-import Select from 'src/components/shared-ui/Select'
+import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
+import { Popover } from 'react-tiny-popover'
 import CardContainer from '../CardContainer'
 
 interface Props {
@@ -13,24 +13,34 @@ interface Props {
   src: string
 }
 
-const selectOptions = [
-  { value: 'followUp', label: 'Follow Up' },
-  { value: 'congrats', label: 'Congrats' },
-  { value: 'planDinner', label: 'Plan Dinner' },
-]
-
-const SmallCard: React.FC<Props> = ({ className, src }) => (
-  <CardContainer className={classNames(className, s.container)}>
-    <Avatar src={src} width={44} height={44} className={s.avatar} />
-    <div className={s.name}>Landon Tucker</div>
-    <div className={s.actionType}>
-      <ColorfulCircle />
-      Follow up on Meetings
-    </div>
-    <Select options={selectOptions} />
-    <Star className={s.star} />
-  </CardContainer>
-)
+const SmallCard: React.FC<Props> = ({ className, src }) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+  return (
+    <CardContainer className={classNames(className, s.container)}>
+      <Avatar src={src} width={44} height={44} className={s.avatar} />
+      <div className={s.name}>Landon Tucker</div>
+      <div className={s.actionType}>
+        <ColorfulCircle />
+        Follow up on Meetings
+      </div>
+      <Popover
+        isOpen={isPopoverOpen}
+        positions={['bottom', 'top', 'left', 'right']}
+        content={<div>Hi! I'm popover content.</div>}
+      >
+        <Button
+          className={s.button}
+          handler={() => setIsPopoverOpen(!isPopoverOpen)}
+          variant="contained"
+          isArrow
+        >
+          Reach out
+        </Button>
+      </Popover>
+      <Star className={s.star} />
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {
@@ -61,6 +71,11 @@ const s = css`
     position: absolute;
     top: 13px;
     right: 13px;
+  }
+
+  .button {
+    max-width: 140px;
+    width: 100%;
   }
 `
 
