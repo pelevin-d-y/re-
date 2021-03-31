@@ -9,10 +9,11 @@ interface Props {
   variant: 'outlined' | 'contained'
   isArrow?: boolean
   handler?: () => void
+  open?: boolean
 }
 
 const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
-  ({ className, children, size, variant, isArrow, handler }, ref) => (
+  ({ className, children, size, variant, isArrow, handler, ...props }, ref) => (
     <button
       className={classNames(
         s.button,
@@ -24,6 +25,7 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
       type="button"
       ref={ref}
       onClick={handler}
+      {...props}
     >
       <span className={s.text}>{children}</span>
       {isArrow && <InputArrow className={s.arrow} />}

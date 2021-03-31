@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
+import Stars from 'src/components/shared-ui/Starts'
 import Avatar from 'src/components/shared-ui/Avatar'
+import Popover from 'src/components/shared-ui/Popover'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
-import { Popover } from 'react-tiny-popover'
 import CardContainer from '../CardContainer'
 
 interface Props {
@@ -13,34 +14,46 @@ interface Props {
   src: string
 }
 
-const SmallCard: React.FC<Props> = ({ className, src }) => {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  return (
-    <CardContainer className={classNames(className, s.container)}>
-      <Avatar src={src} width={44} height={44} className={s.avatar} />
-      <div className={s.name}>Landon Tucker</div>
-      <div className={s.actionType}>
-        <ColorfulCircle />
-        Follow up on Meetings
-      </div>
-      <Popover
-        isOpen={isPopoverOpen}
-        positions={['bottom', 'top', 'left', 'right']}
-        content={<div>Hi! I'm popover content.</div>}
-      >
-        <Button
-          className={s.button}
-          handler={() => setIsPopoverOpen(!isPopoverOpen)}
-          variant="contained"
-          isArrow
-        >
+const SmallCard: React.FC<Props> = ({ className, src }) => (
+  <CardContainer className={classNames(className, s.container)}>
+    <Avatar src={src} width={44} height={44} className={s.avatar} />
+    <div className={s.name}>Landon Tucker</div>
+    <div className={s.actionType}>
+      <ColorfulCircle />
+      Follow up on Meetings
+    </div>
+    <Popover
+      triggerElement={
+        <Button className={s.button} variant="contained" isArrow>
           Reach out
         </Button>
-      </Popover>
-      <Star className={s.star} />
-    </CardContainer>
-  )
-}
+      }
+      popupContent={
+        <CardContainer className={s.popup}>
+          <ul className={s.list}>
+            <li className={s.item}>
+              <div className={s.popupButton}>
+                Rate Recommendation
+                <Stars className={s.stars} />
+              </div>
+            </li>
+            <li className={s.item}>
+              <button type="button" className={s.popupButton}>
+                Schedule Send
+              </button>
+            </li>
+            <li className={s.item}>
+              <button type="button" className={s.popupButton}>
+                Ignore
+              </button>
+            </li>
+          </ul>
+        </CardContainer>
+      }
+    />
+    <Star className={s.star} />
+  </CardContainer>
+)
 
 const s = css`
   .container {
@@ -76,6 +89,45 @@ const s = css`
   .button {
     max-width: 140px;
     width: 100%;
+  }
+
+  .popup {
+    padding: 6px 0;
+    background: var(--white);
+  }
+
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .item {
+    padding: 0 15px;
+
+    &:last-child {
+      .popupButton {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .stars {
+    margin-top: 6px;
+  }
+
+  .popupButton {
+    width: 100%;
+    padding-top: 9px;
+    padding-bottom: 9px;
+
+    font-size: 12px;
+    font-weight: var(--bold);
+    text-align: left;
+    background: var(--white);
+    border: none;
+    border-bottom: 1px solid var(--lightGrey);
+    cursor: pointer;
   }
 `
 
