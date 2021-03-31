@@ -11,13 +11,34 @@ interface Props {
 }
 
 const avatars = [
-  '/images/gino.jpeg',
-  '/images/maker.jpeg',
-  '/images/mary.jpeg',
-  '/images/gino.jpeg',
-  '/images/mary.jpeg',
-  '/images/maker.jpeg',
-  '/images/mary.jpeg',
+  {
+    src: '/images/gino.jpeg',
+    id: 1,
+  },
+  {
+    src: '/images/maker.jpeg',
+    id: 2,
+  },
+  {
+    src: '/images/mary.jpeg',
+    id: 3,
+  },
+  {
+    src: '/images/gino.jpeg',
+    id: 4,
+  },
+  {
+    src: '/images/mary.jpeg',
+    id: 5,
+  },
+  {
+    src: '/images/gino.jpeg',
+    id: 6,
+  },
+  {
+    src: '/images/maker.jpeg',
+    id: 7,
+  },
 ]
 
 const CardItsBeen: React.FC<Props> = ({ className }) => (
@@ -32,10 +53,10 @@ const CardItsBeen: React.FC<Props> = ({ className }) => (
       {avatars.map((item, index) => (
         <div
           className={s.avatar}
-          key={item}
+          key={item.id}
           style={{ transform: `translateX(-${index * 10}px)` }}
         >
-          <Avatar src={item} />
+          <Avatar src={item.src} />
         </div>
       ))}
     </div>

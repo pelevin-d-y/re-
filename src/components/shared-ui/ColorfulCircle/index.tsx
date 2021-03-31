@@ -1,28 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { random } from 'lodash'
 
 interface Props {
   className?: string
+  color?:
+    | 'black'
+    | 'blue'
+    | 'lightBlue'
+    | 'green'
+    | 'red'
+    | 'ginger'
+    | 'grey'
+    | 'lightGrey'
 }
+const colors = [
+  'black',
+  'blue',
+  'lightBlue',
+  'green',
+  'red',
+  'ginger',
+  'grey',
+  'lightGrey',
+]
 
-const ColorfulCircle: React.FC<Props> = ({ className }) => {
-  const colors = [
-    'black',
-    'blue',
-    'lightBlue',
-    'green',
-    'red',
-    'ginger',
-    'grey',
-    'lightGrey',
-  ]
-  const colorNumber = random(0, colors.length - 1)
+const ColorfulCircle: React.FC<Props> = ({ className, color: colorProp }) => {
+  const [color, setColor] = useState('')
 
-  return (
-    <div className={classNames(className, s.circle, s[colors[colorNumber]])} />
-  )
+  useEffect(() => {
+    if (colorProp) {
+      setColor(colorProp)
+    } else {
+      const colorNumber = random(0, colors.length - 1)
+      setColor(colors[colorNumber])
+    }
+  }, [colorProp])
+
+  return <div className={classNames(className, s.circle, s[color])} />
 }
 
 const s = css`

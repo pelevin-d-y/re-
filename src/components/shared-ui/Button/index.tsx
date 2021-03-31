@@ -1,19 +1,36 @@
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import InputArrow from 'public/svg/inputArrow.svg'
 
 interface Props {
   className?: string
   size?: 'small' | 'medium' | 'large' | undefined
   variant: 'outlined' | 'contained'
+  isArrow?: boolean
+  handler?: () => void
+  open?: boolean
 }
 
-const Button: React.FC<Props> = ({ className, children, size, variant }) => (
-  <button
-    className={classNames(s.button, size && s[size], s[variant], className)}
-    type="button"
-  >
-    {children}
-  </button>
+const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
+  ({ className, children, size, variant, isArrow, handler, ...props }, ref) => (
+    <button
+      className={classNames(
+        s.button,
+        size && s[size],
+        s[variant],
+        isArrow && s.arrowButton,
+        className
+      )}
+      type="button"
+      ref={ref}
+      onClick={handler}
+      {...props}
+    >
+      <span className={s.text}>{children}</span>
+      {isArrow && <InputArrow className={s.arrow} />}
+    </button>
+  )
 )
 
 Button.defaultProps = {
@@ -23,6 +40,7 @@ Button.defaultProps = {
 
 const s = css`
   .button {
+    position: relative;
     display: inline-block;
     padding: 7px 11px;
     height: 32px;
@@ -34,6 +52,10 @@ const s = css`
 
     transition: all 0.3s linear;
     cursor: pointer;
+  }
+
+  .arrowButton {
+    padding-right: 15px;
   }
 
   .small {
@@ -66,6 +88,13 @@ const s = css`
       background: var(--white);
       color: var(--blue);
     }
+  }
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
   }
 `
 

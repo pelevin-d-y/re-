@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Night from 'public/svg/night.svg'
-import Light from 'public/svg/sun.svg'
-import Thunder from 'public/svg/thunder.svg'
+import ThemeNormal from 'public/svg/theme-normal.svg'
+import ThemeLight from 'public/svg/theme-light.svg'
+import ThemeDark from 'public/svg/theme-dark.svg'
 
 type TType = 'light' | 'dark' | 'grey'
 
@@ -21,21 +21,21 @@ const HeaderTheme: React.FC = () => {
         className={classNames(s.item, theme === 'dark' && s.active)}
         onClick={() => activeThemeHandler('dark')}
       >
-        <Night className={s.icon} />
+        <ThemeNormal className={s.icon} />
       </button>
       <button
         type="button"
         className={classNames(s.item, theme === 'light' && s.active)}
         onClick={() => activeThemeHandler('light')}
       >
-        <Light className={s.icon} />
+        <ThemeLight className={s.icon} />
       </button>
       <button
         type="button"
         className={classNames(s.item, theme === 'grey' && s.active)}
         onClick={() => activeThemeHandler('grey')}
       >
-        <Thunder className={s.icon} />
+        <ThemeDark className={s.icon} />
       </button>
     </div>
   )

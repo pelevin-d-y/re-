@@ -59,6 +59,10 @@ const selectStyles: StylesConfig<Option, false> = {
     ...provided,
     cursor: 'pointer',
   }),
+  menu: (provided) => ({
+    ...provided,
+    zIndex: 20,
+  }),
 }
 
 const Select: React.FC<Props> = ({ options }) => {

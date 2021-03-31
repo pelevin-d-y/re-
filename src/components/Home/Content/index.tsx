@@ -7,11 +7,11 @@ import HomeUpcoming from './HomeUpcoming'
 const Content: React.FC = () => (
   <div className={s.container}>
     <HomeRecommendations />
-    {/* <HomeUpcoming /> */}
     <div className={s.been}>
       <CardItsBeen className={s.cardBeen} />
       <CardItsBeen className={s.cardBeen} />
     </div>
+    <HomeUpcoming className={s.upcoming} />
   </div>
 )
 
@@ -31,6 +31,10 @@ const s = css`
   .cardBeen {
     width: 50%;
     margin-left: 15px;
+  }
+
+  .upcoming {
+    margin-top: 12px;
   }
 `
 
