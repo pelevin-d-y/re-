@@ -14,6 +14,7 @@ const Popover: React.FC<Props> = ({ triggerElement, popupContent }) => (
     trigger={triggerElement}
     position="bottom center"
     closeOnDocumentClick
+    on="hover"
   >
     {popupContent}
   </DynamicPopup>
