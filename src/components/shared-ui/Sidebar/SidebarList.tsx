@@ -34,10 +34,6 @@ const SidebarList: React.FC<Props> = ({ className }) => (
   </div>
 )
 
-SidebarList.defaultProps = {
-  className: undefined,
-}
-
 const s = css`
   .list {
     padding: 0;
