@@ -8,7 +8,7 @@ interface Props {
   handler: () => void
 }
 
-const CloseModal: React.FC<Props> = ({ className, handler }) => (
+const ModalClose: React.FC<Props> = ({ className, handler }) => (
   <button
     type="button"
     onClick={handler}
@@ -24,6 +24,7 @@ const s = css`
     height: 36px;
     cursor: pointer;
     background: #f1f1f1;
+    border: none;
   }
   .closeIcon {
     width: 9px;
@@ -31,4 +32,4 @@ const s = css`
   }
 `
 
-export default CloseModal
+export default ModalClose
