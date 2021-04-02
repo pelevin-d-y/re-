@@ -30,7 +30,6 @@ const ColorfulCircle: React.FC<Props> = ({ className, color: colorProp }) => {
   const [color, setColor] = useState('')
 
   useEffect(() => {
-    console.log('colorProp', colorProp)
     if (colorProp) {
       setColor(colorProp)
     } else {

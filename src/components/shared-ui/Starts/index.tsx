@@ -17,9 +17,4 @@ const Stars: React.FC<Props> = ({ className }) => (
   />
 )
 
-const s = css`
-  .link {
-  }
-`
-
 export default Stars

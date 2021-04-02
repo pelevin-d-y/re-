@@ -15,7 +15,8 @@ const ModalMoreInfo: React.FC = () => {
   return (
     <div className={s.container}>
       <button type="button" onClick={collapseHandler} className={s.trigger}>
-        {isOpen ? 'Less' : 'More'} Info about Landon <Arrow className={classNames(s.arrowIcon, isOpen && s.arrowOpen)} />
+        {isOpen ? 'Less' : 'More'} Info about Landon{' '}
+        <Arrow className={classNames(s.arrowIcon, isOpen && s.arrowOpen)} />
       </button>
       {isOpen && (
         <div className={s.content}>

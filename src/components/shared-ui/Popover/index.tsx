@@ -1,6 +1,5 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
-import { css } from 'astroturf'
 
 const DynamicPopup = dynamic(() => import('reactjs-popup'), { ssr: false })
 
@@ -19,10 +18,5 @@ const Popover: React.FC<Props> = ({ triggerElement, popupContent }) => (
     {popupContent}
   </DynamicPopup>
 )
-
-const s = css`
-  .link {
-  }
-`
 
 export default Popover

@@ -14,7 +14,6 @@ const ModalLastMessage: React.FC<Props> = ({ className }) => (
     </div>
     <div className={s.content}>
       Hi Hailey, <br />
-
       Hope all is well. <br />
       Below is a link to our presentation: <br />
       https://docsend.com/view/8zryc9243hgeu8eq <br />
