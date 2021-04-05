@@ -28,6 +28,9 @@ const HtmlEditorModal: React.FC<Props> = ({ className }) => {
     paragraph: {
       element: 'p',
     },
+    unstyled: {
+      element: 'p',
+    }
   })
 
   const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(
@@ -43,7 +46,7 @@ const HtmlEditorModal: React.FC<Props> = ({ className }) => {
       <Editor
         editorState={editorState}
         onChange={setEditorState}
-        blockRenderMap={extendedBlockRenderMap}
+        // blockRenderMap={extendedBlockRenderMap}
       />
     </div>
   )
@@ -51,7 +54,6 @@ const HtmlEditorModal: React.FC<Props> = ({ className }) => {
 
 const s = css`
   .container {
-
   }
 `
 

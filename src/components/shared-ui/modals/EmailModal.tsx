@@ -26,9 +26,6 @@ const EmailModal: React.FC = () => {
     },
   }
 
-  const textareaDefaultValue =
-    "Hi Landon, \n\nYou recently introduced me to <Intro Name> (thanks again!). \n\n<Intro Name> and I spoke about... \n\nNext steps are... \n\nHow's everything with you? \n\nBest, \n\n<Client Name>"
-
   return (
     <ReactModal
       isOpen={state.isOpen}
@@ -61,12 +58,7 @@ const EmailModal: React.FC = () => {
             </span>
             <Templates className={s.icon} />
           </div>
-          <HtmlEditorModal className={s.textarea}/>
-          {/* <textarea
-            className={s.textarea}
-            name="description"
-            defaultValue={textareaDefaultValue}
-          /> */}
+          <HtmlEditorModal className={s.textarea} />
           <div className={s.buttons}>
             <Button variant="outlined" size="medium" className={s.buttonDots}>
               •••
