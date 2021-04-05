@@ -3,7 +3,6 @@ import { css } from 'astroturf'
 import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
 import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const Content: React.FC = () => (
   <div className={s.container}>
