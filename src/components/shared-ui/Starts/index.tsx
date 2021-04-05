@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from 'astroturf'
 import ReactStars from 'react-stars'
 
 interface Props {
@@ -16,10 +15,5 @@ const Stars: React.FC<Props> = ({ className }) => (
     color2="#FFB100"
   />
 )
-
-const s = css`
-  .link {
-  }
-`
 
 export default Stars

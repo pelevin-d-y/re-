@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import InputArrow from 'public/svg/inputArrow.svg'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
