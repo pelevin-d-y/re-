@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from 'astroturf'
 import ReactStars from 'react-stars'
 
 interface Props {

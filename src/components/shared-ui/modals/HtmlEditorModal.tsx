@@ -1,14 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
-import {
-  Editor,
-  EditorState,
-  ContentState,
-  convertFromHTML,
-  DefaultDraftBlockRenderMap,
-} from 'draft-js'
-import Immutable from 'immutable'
 import { css } from 'astroturf'
+import dynamic from 'next/dynamic'
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
 interface Props {
   className?: string
@@ -16,42 +11,19 @@ interface Props {
 
 const HtmlEditorModal: React.FC<Props> = ({ className }) => {
   const template =
-    "<p>Hi Landon,</p><p>You recently introduced me to &lt;Intro Name&gt; (thanks again!).</p><p>&lt;Intro Name&gt; and I spoke about...</p> <p>Next steps are...</p><p>How's everything with you?</p><p>Best,</p><p>&lt;Client Name&gt;</p>"
+    "<p>Hi Landon,</p><p> </p><p>You recently introduced me to &lt;Intro Name&gt; (thanks again!).</p><p> </p><p>&lt;Intro Name&gt; and I spoke about...</p><p> </p> <p>Next steps are...</p><p> </p><p>How's everything with you?</p><p> </p><p>Best,</p><p> </p><p>&lt;Client Name&gt;</p>"
 
-  const blocksFromHTML = convertFromHTML(template)
-  const draftJsState = ContentState.createFromBlockArray(
-    blocksFromHTML.contentBlocks,
-    blocksFromHTML.entityMap
-  )
-
-  const blockRenderMap = Immutable.Map({
-    paragraph: {
-      element: 'p',
-    },
-  })
-
-  const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(
-    blockRenderMap
-  )
-
-  const [editorState, setEditorState] = React.useState(() =>
-    EditorState.createWithContent(draftJsState)
-  )
+  const [value, setValue] = useState(template)
 
   return (
     <div className={classNames(className, s.container)}>
-      <Editor
-        editorState={editorState}
-        onChange={setEditorState}
-        blockRenderMap={extendedBlockRenderMap}
-      />
+      <ReactQuill theme="snow" value={value} onChange={setValue} />
     </div>
   )
 }
 
 const s = css`
   .container {
-
   }
 `
 
