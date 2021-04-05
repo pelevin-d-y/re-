@@ -9,6 +9,7 @@ import Button from 'src/components/shared-ui/Button'
 import Templates from 'public/svg/templates.svg'
 import CloseModal from './ModalClose'
 import ModalMoreInfo from './ModalMoreInfo'
+import HtmlEditorModal from './HtmlEditorModal'
 
 const EmailModal: React.FC = () => {
   const { closePopup, state } = usePopup()
@@ -60,11 +61,12 @@ const EmailModal: React.FC = () => {
             </span>
             <Templates className={s.icon} />
           </div>
-          <textarea
+          <HtmlEditorModal className={s.textarea}/>
+          {/* <textarea
             className={s.textarea}
             name="description"
             defaultValue={textareaDefaultValue}
-          />
+          /> */}
           <div className={s.buttons}>
             <Button variant="outlined" size="medium" className={s.buttonDots}>
               •••
