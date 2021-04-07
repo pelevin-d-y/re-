@@ -5,7 +5,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 const HeaderProfile: React.FC = () => (
   <div className={s.container}>
     <div className={s.email}>hailey@strata.cc</div>
-    <Avatar src="/svg/avatar-placeholder.svg" width={44} height={44} />
+    <Avatar />
   </div>
 )
 

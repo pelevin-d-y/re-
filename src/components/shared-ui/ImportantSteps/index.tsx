@@ -2,7 +2,7 @@ import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import StarIcon from 'public/svg/star.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import ImportantCard from './ImportantCard'
 
 interface Props {
@@ -17,7 +17,10 @@ const ImportantSteps: React.FC<Props> = ({ className }) => (
         <div className={s.headerNext}>Next Steps</div>
       </div>
       <div className={s.headerStart}>
-        <StarIcon className={s.headerStarIcon} />
+        <SvgIcon
+          className={s.headerStarIcon}
+          icon={require('public/svg/star.svg?include')}
+        />
       </div>
     </div>
     <div className={s.cards}>

@@ -12,7 +12,12 @@ interface Props {
 
 const ImportantCard: React.FC<Props> = ({ className }) => (
   <CardContainer className={classNames(className, s.container)}>
-    <Avatar className={s.avatar} width={38} height={38} />
+    <Avatar
+      className={s.avatar}
+      width={38}
+      height={38}
+      image={require('public/images/gino.jpeg')}
+    />
     <div className={s.info}>
       <div className={s.name}>Landon Tucker</div>
       <ColorfulCircle />

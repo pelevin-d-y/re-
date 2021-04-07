@@ -8,17 +8,17 @@ const HomeRecommendations: React.FC = () => {
     {
       id: 1,
       name: 'Landon Tucker',
-      image: '/images/maker.jpeg',
+      image: require('public/images/maker.jpeg'),
     },
     {
       id: 2,
       name: 'Mary Smith',
-      image: '/images/mary.jpeg',
+      image: require('public/images/mary.jpeg'),
     },
     {
       id: 3,
       name: 'Gino Mo',
-      image: '/images/gino.jpeg',
+      image: require('public/images/gino.jpeg'),
     },
   ]
   return (

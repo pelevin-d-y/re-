@@ -1,10 +1,13 @@
 import React from 'react'
 import { css } from 'astroturf'
-import Search from 'public/svg/search.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 const HeaderSearch: React.FC = () => (
   <div className={s.search}>
-    <Search className={s.icon} />
+    <SvgIcon
+      className={s.icon}
+      icon={require('public/svg/search.svg?include')}
+    />
     <input className={s.input} type="text" placeholder="Search..." />
   </div>
 )

@@ -32,7 +32,7 @@ const SmallCard: React.FC<Props> = ({ className, data }) => {
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Avatar src={image} width={44} height={44} className={s.avatar} />
+      <Avatar image={image} width={44} height={44} className={s.avatar} />
       <div className={s.name}>{name}</div>
       <div className={s.actionType}>
         <ColorfulCircle />

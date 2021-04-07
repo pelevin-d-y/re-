@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import ThemeNormal from 'public/svg/theme-normal.svg'
-import ThemeLight from 'public/svg/theme-light.svg'
-import ThemeDark from 'public/svg/theme-dark.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type TType = 'light' | 'dark' | 'grey'
 
@@ -21,21 +19,30 @@ const HeaderTheme: React.FC = () => {
         className={classNames(s.item, theme === 'dark' && s.active)}
         onClick={() => activeThemeHandler('dark')}
       >
-        <ThemeNormal className={s.icon} />
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/theme-normal.svg?include')}
+        />
       </button>
       <button
         type="button"
         className={classNames(s.item, theme === 'light' && s.active)}
         onClick={() => activeThemeHandler('light')}
       >
-        <ThemeLight className={s.icon} />
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/theme-light.svg?include')}
+        />
       </button>
       <button
         type="button"
         className={classNames(s.item, theme === 'grey' && s.active)}
         onClick={() => activeThemeHandler('grey')}
       >
-        <ThemeDark className={s.icon} />
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/theme-dark.svg?include')}
+        />
       </button>
     </div>
   )

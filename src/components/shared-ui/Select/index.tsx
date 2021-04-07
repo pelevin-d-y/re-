@@ -4,7 +4,7 @@ import SelectComp, {
   StylesConfig,
   IndicatorProps,
 } from 'react-select'
-import InputArrow from 'public/svg/inputArrow.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 interface Option {
   value: string
@@ -69,7 +69,7 @@ const Select: React.FC<Props> = ({ options }) => {
   // eslint-disable-next-line
   const DropdownIndicator = (props: IndicatorProps<any, any>) => (
     <components.DropdownIndicator {...props}>
-      <InputArrow />
+      <SvgIcon icon={require('public/svg/inputArrow.svg?include')} />
     </components.DropdownIndicator>
   )
 
