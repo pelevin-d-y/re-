@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 import Link from 'next/link'
-import LogoIcon from 'public/svg/logo.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import classNames from 'classnames'
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const Logo: React.FC<Props> = ({ className }) => (
   <Link href="/">
     <a className={classNames(className, s.link)}>
-      <LogoIcon />
+      <SvgIcon icon={require('public/svg/logo.svg?include')} />
     </a>
   </Link>
 )

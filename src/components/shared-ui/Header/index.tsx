@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Menu from 'public/svg/menu.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 import HeaderSearch from './HeaderSearch'
 import HeaderToDos from './HeaderToDos'
@@ -16,7 +16,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => (
   <header className={classNames(s.header)}>
     <div className={classNames('container', s.container)}>
       <button type="button" className={s.menu} onClick={toggleMenu}>
-        <Menu />
+        <SvgIcon icon={require('public/svg/menu.svg?include')} />
       </button>
       <div className={s.text}>
         <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>

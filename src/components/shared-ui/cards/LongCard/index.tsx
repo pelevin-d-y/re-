@@ -22,7 +22,7 @@ const LongCard: React.FC<Props> = ({ data, className }) => {
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} src={src} />
+        <Avatar className={s.avatar} image={src} />
         <div className={s.text}>
           <div className={s.name}>{name}</div>
           <div className={s.position}>{position}</div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import StarIcon from 'public/svg/star.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 interface Props {
   className?: string
@@ -10,10 +10,16 @@ interface Props {
 const Star: React.FC<Props> = ({ className }) => {
   const [isActive, setIsActive] = useState(false)
   return (
-    <StarIcon
-      className={classNames(s.icon, isActive && s.active, className)}
+    <button
+      type="button"
       onClick={() => setIsActive(!isActive)}
-    />
+      className={classNames(className, s.button)}
+    >
+      <SvgIcon
+        icon={require('public/svg/star.svg?include')}
+        className={classNames(s.icon, isActive && s.active)}
+      />
+    </button>
   )
 }
 
@@ -32,6 +38,13 @@ const s = css`
 
   .icon.active {
     color: var(--ginger);
+  }
+
+  .button {
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
   }
 `
 

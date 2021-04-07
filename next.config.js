@@ -1,4 +1,8 @@
-module.exports = {
+/* eslint-disable @typescript-eslint/no-var-requires */
+const withPlugins = require('next-compose-plugins')
+const optimizedImages = require('next-optimized-images')
+
+module.exports = withPlugins([optimizedImages], {
   cssModules: true,
   webpack: (config) => {
     config.module.rules.push({
@@ -13,11 +17,6 @@ module.exports = {
       ],
     })
 
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
-
     return config
   },
-}
+})

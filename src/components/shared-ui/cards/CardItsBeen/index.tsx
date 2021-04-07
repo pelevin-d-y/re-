@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Clock from 'public/svg/clock.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
@@ -14,31 +14,31 @@ interface Props {
 
 const avatars = [
   {
-    src: '/images/gino.jpeg',
+    src: require('public/images/gino.jpeg'),
     id: 1,
   },
   {
-    src: '/images/maker.jpeg',
+    src: require('public/images/maker.jpeg'),
     id: 2,
   },
   {
-    src: '/images/mary.jpeg',
+    src: require('public/images/mary.jpeg'),
     id: 3,
   },
   {
-    src: '/images/gino.jpeg',
+    src: require('public/images/gino.jpeg'),
     id: 4,
   },
   {
-    src: '/images/mary.jpeg',
+    src: require('public/images/mary.jpeg'),
     id: 5,
   },
   {
-    src: '/images/gino.jpeg',
+    src: require('public/images/gino.jpeg'),
     id: 6,
   },
   {
-    src: '/images/maker.jpeg',
+    src: require('public/images/maker.jpeg'),
     id: 7,
   },
 ]
@@ -49,7 +49,10 @@ const CardItsBeen: React.FC<Props> = ({ className }) => (
     <div className={s.header}>
       <div className={s.cardName}>It’s been</div>
       <div className={s.title}>90 Days…</div>
-      <Clock className={s.clock} />
+      <SvgIcon
+        className={s.clock}
+        icon={require('public/svg/clock.svg?include')}
+      />
     </div>
     <div className={s.avatars}>
       {avatars.map((item, index) => (
@@ -58,7 +61,7 @@ const CardItsBeen: React.FC<Props> = ({ className }) => (
           key={item.id}
           style={{ transform: `translateX(-${index * 10}px)` }}
         >
-          <Avatar src={item.src} />
+          <Avatar image={item.src} />
         </div>
       ))}
     </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import InputArrow from 'public/svg/inputArrow.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 interface Props {
   className?: string
@@ -28,7 +28,12 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
       {...props}
     >
       <span className={s.text}>{children}</span>
-      {isArrow && <InputArrow className={s.arrow} />}
+      {isArrow && (
+        <SvgIcon
+          className={s.arrow}
+          icon={require('public/svg/inputArrow.svg?include')}
+        />
+      )}
     </button>
   )
 )

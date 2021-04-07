@@ -13,31 +13,31 @@ interface Props {
 
 const users = [
   {
-    src: '/images/gino.jpeg',
+    src: require('public/images/gino.jpeg'),
     name: 'Landon Tucker',
     position: 'Founder at Company X',
     event: 'Landon is traveling in LA',
   },
   {
-    src: '/images/maker.jpeg',
+    src: require('public/images/maker.jpeg'),
     name: 'Taylor Smith',
     position: 'Founder at Company X',
     event: 'Taylor is based in LA',
   },
   {
-    src: '/images/mary.jpeg',
+    src: require('public/images/mary.jpeg'),
     name: 'Gino Mo',
     position: 'Founder at Company X',
     event: 'Gino took you to dinner',
   },
   {
-    src: '/images/james.png',
+    src: require('public/images/james.png'),
     name: 'James Malone',
     position: 'Founder at Company X',
     event: 'James is based in LA',
   },
   {
-    src: '/images/gino.jpeg',
+    src: require('public/images/gino.jpeg'),
     name: 'Mary Smith',
     position: 'Founder at Company X',
     event: 'Mary has a startup in LA',

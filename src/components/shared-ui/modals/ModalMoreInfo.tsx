@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Arrow from 'public/svg/inputArrow.svg'
 import ModalLastMessage from './ModalLastMessage'
 import ModalAdditionInfo from './ModalAdditionInfo'
@@ -16,7 +17,10 @@ const ModalMoreInfo: React.FC = () => {
     <div className={s.container}>
       <button type="button" onClick={collapseHandler} className={s.trigger}>
         {isOpen ? 'Less' : 'More'} Info about Landon{' '}
-        <Arrow className={classNames(s.arrowIcon, isOpen && s.arrowOpen)} />
+        <SvgIcon
+          className={classNames(s.arrowIcon, isOpen && s.arrowOpen)}
+          icon={require('public/svg/inputArrow.svg?include')}
+        />
       </button>
       {isOpen && (
         <div className={s.content}>
