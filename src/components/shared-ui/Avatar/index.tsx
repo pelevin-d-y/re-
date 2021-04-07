@@ -9,7 +9,7 @@ interface Props {
   height?: number
 }
 
-const name: React.FC<Props> = ({ className, src, width, height }) => (
+const Avatar: React.FC<Props> = ({ className, src, width, height }) => (
   <div className={className}>
     <Image
       className={s.avatar}
@@ -27,4 +27,4 @@ const s = css`
   }
 `
 
-export default name
+export default Avatar

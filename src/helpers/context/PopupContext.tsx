@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-type Data = { [key: string]: string }
+type Data = { name?: string; image?: string; email?: string }
 
 type Action =
   | { type: 'OPEN_POPUP' }
