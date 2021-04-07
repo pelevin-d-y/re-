@@ -5,17 +5,29 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 
 const HomeRecommendations: React.FC = () => {
   const images = [
-    '/images/gino.jpeg',
-    '/images/maker.jpeg',
-    '/images/mary.jpeg',
+    {
+      id: 1,
+      name: 'Landon Tucker',
+      image: require('public/images/maker.jpeg'),
+    },
+    {
+      id: 2,
+      name: 'Mary Smith',
+      image: require('public/images/mary.jpeg'),
+    },
+    {
+      id: 3,
+      name: 'Gino Mo',
+      image: require('public/images/gino.jpeg'),
+    },
   ]
   return (
     <CardContainer className={s.container}>
       <div className={s.title}>Your Weekly Recommendations</div>
       <div className={s.cards}>
         {images.map((item) => (
-          <div className={s.column} key={item}>
-            <SmallCard src={item} />
+          <div className={s.column} key={item.id}>
+            <SmallCard data={item} />
           </div>
         ))}
       </div>

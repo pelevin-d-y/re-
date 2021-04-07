@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Close from 'public/svg/close.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 interface Props {
   className?: string
@@ -14,7 +14,10 @@ const ModalClose: React.FC<Props> = ({ className, handler }) => (
     onClick={handler}
     className={classNames(className, s.close)}
   >
-    <Close className={s.closeIcon} />
+    <SvgIcon
+      className={s.closeIcon}
+      icon={require('public/svg/close.svg?include')}
+    />
   </button>
 )
 

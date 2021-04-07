@@ -3,19 +3,21 @@ import { css } from 'astroturf'
 import Image from 'next/image'
 
 interface Props {
-  src?: string
   className?: string
   width?: number
   height?: number
+  image?: string
 }
 
-const name: React.FC<Props> = ({ className, src, width, height }) => (
-  <div className={className}>
-    <Image
+const Avatar: React.FC<Props> = ({ className, image, width, height }) => (
+  <div
+    className={className}
+    style={{ width: width || 40, height: height || 40 }}
+  >
+    <img
+      alt=""
       className={s.avatar}
-      src={src || '/svg/avatar-placeholder.svg'}
-      width={width || 44}
-      height={height || 44}
+      src={image || require('public/svg/avatar-placeholder.svg?include')}
     />
   </div>
 )
@@ -27,4 +29,4 @@ const s = css`
   }
 `
 
-export default name
+export default Avatar

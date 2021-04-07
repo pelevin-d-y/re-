@@ -6,13 +6,15 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
-import Templates from 'public/svg/templates.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CloseModal from './ModalClose'
 import ModalMoreInfo from './ModalMoreInfo'
 import HtmlEditorModal from './HtmlEditorModal'
 
 const EmailModal: React.FC = () => {
   const { closePopup, state } = usePopup()
+  const { data } = state
+
   ReactModal.setAppElement('#__next')
   const modalStyles = {
     overlay: {
@@ -37,9 +39,9 @@ const EmailModal: React.FC = () => {
       <div className={s.content}>
         <div className={s.header}>
           <div className={s.profile}>
-            <Avatar />
+            <Avatar image={data.image} />
             <div className={s.profileInfo}>
-              <div className={s.name}>Landon Tucker</div>
+              <div className={s.name}>{data.name}</div>
               <div className={s.profileType}>
                 <ColorfulCircle color="black" />
                 Follow up on Meetings
@@ -54,11 +56,14 @@ const EmailModal: React.FC = () => {
         <CardContainer className={s.textContainer}>
           <div className={s.textHeader}>
             <span className={s.textTitle}>
-              Follow up with Landon for meeting
+              Follow up with {data.name} for meeting
             </span>
-            <Templates className={s.icon} />
+            <SvgIcon
+              className={s.icon}
+              icon={require('public/svg/templates.svg?include')}
+            />
           </div>
-          <HtmlEditorModal className={s.textarea} />
+          <HtmlEditorModal className={s.textarea} name={data.name} />
           <div className={s.buttons}>
             <Button variant="outlined" size="medium" className={s.buttonDots}>
               •••

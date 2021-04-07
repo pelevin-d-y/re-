@@ -12,7 +12,7 @@ const fetchPlanet = () =>
   axios.get('https://swapi.dev/api/planets/').then((res) => res.data)
 
 // ssr + react query example
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery('people', fetchPeople)
   await queryClient.prefetchQuery('planets', fetchPlanet)

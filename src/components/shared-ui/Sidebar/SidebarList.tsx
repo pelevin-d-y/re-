@@ -1,11 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Compass from 'public/svg/compass.svg'
-import Lists from 'public/svg/lists.svg'
-import Community from 'public/svg/community.svg'
-import Contacts from 'public/svg/contacts.svg'
-import Templates from 'public/svg/templates.svg'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 interface Props {
   className?: string
@@ -16,19 +12,39 @@ const SidebarList: React.FC<Props> = ({ className }) => (
     <div className={s.title}>Connect</div>
     <ul className={s.list}>
       <li className={s.item}>
-        <Compass className={s.icon} /> Home
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/compass.svg?include')}
+        />{' '}
+        Home
       </li>
       <li className={s.item}>
-        <Lists className={s.icon} /> List
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/lists.svg?include')}
+        />{' '}
+        List
       </li>
       <li className={s.item}>
-        <Community className={s.icon} /> Recommendations
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/community.svg?include')}
+        />{' '}
+        Recommendations
       </li>
       <li className={s.item}>
-        <Contacts className={s.icon} /> Contacts
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/contacts.svg?include')}
+        />{' '}
+        Contacts
       </li>
       <li className={s.item}>
-        <Templates className={s.icon} /> Templates
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/templates.svg?include')}
+        />{' '}
+        Templates
       </li>
     </ul>
   </div>
