@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Arrow from 'public/svg/inputArrow.svg'
 import ModalLastMessage from './ModalLastMessage'
 import ModalAdditionInfo from './ModalAdditionInfo'
 

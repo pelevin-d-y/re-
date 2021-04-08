@@ -3,15 +3,17 @@ import { css } from 'astroturf'
 import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
 import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
+import HomeMeeting from './HomeMeeting'
 
 const Content: React.FC = () => (
   <div className={s.container}>
     <HomeRecommendations />
     <div className={s.been}>
-      <CardItsBeen className={s.cardBeen} />
-      <CardItsBeen className={s.cardBeen} />
+      <CardItsBeen />
+      <CardItsBeen />
     </div>
     <HomeUpcoming className={s.upcoming} />
+    <HomeMeeting />
   </div>
 )
 
@@ -22,18 +24,10 @@ const s = css`
   }
 
   .been {
-    display: flex;
-    flex-flow: row nowrap;
-    margin-top: 12px;
-    margin-left: -15px;
-  }
-
-  .cardBeen {
-    width: 50%;
-    margin-left: 15px;
-  }
-
-  .upcoming {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+    width: 100%;
     margin-top: 12px;
   }
 `

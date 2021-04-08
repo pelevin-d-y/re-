@@ -1,58 +1,79 @@
 import React from 'react'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import CardHeader from 'src/components/shared-ui/cards/CardHeader'
-import LongCard from 'src/components/shared-ui/cards/LongCard'
-import Star from 'src/components/shared-ui/Star'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Button from 'src/components/shared-ui/Button'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import Star from 'src/components/shared-ui/Star'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import Button from 'src/components/shared-ui/Button'
+import CardHeader from 'src/components/shared-ui/cards/CardHeader'
+import CardLikes from 'src/components/shared-ui/cards/CardLikes'
 
 interface Props {
   className?: string
 }
 
-const users = [
+const cards = [
   {
+    id: 1,
     image: require('public/images/gino.jpeg'),
     name: 'Landon Tucker',
-    position: 'Founder at Company X',
+    description: 'Founder at Company X',
     event: 'Landon is traveling in LA',
   },
   {
+    id: 2,
     image: require('public/images/maker.jpeg'),
     name: 'Taylor Smith',
-    position: 'Founder at Company X',
+    description: 'Founder at Company X',
     event: 'Taylor is based in LA',
   },
   {
+    id: 3,
     image: require('public/images/mary.jpeg'),
     name: 'Gino Mo',
-    position: 'Founder at Company X',
+    description: 'Founder at Company X',
     event: 'Gino took you to dinner',
   },
   {
+    id: 4,
     image: require('public/images/james.png'),
     name: 'James Malone',
-    position: 'Founder at Company X',
+    description: 'Founder at Company X',
     event: 'James is based in LA',
   },
   {
+    id: 5,
     image: require('public/images/gino.jpeg'),
     name: 'Mary Smith',
-    position: 'Founder at Company X',
+    description: 'Founder at Company X',
+    event: 'Mary has a startup in LA',
+  },
+  {
+    id: 6,
+    image: require('public/images/maker.jpeg'),
+    name: 'Mary Smith',
+    description: 'Founder at Company X',
     event: 'Mary has a startup in LA',
   },
 ]
 
-const HomeUpcoming: React.FC<Props> = ({ className }) => (
+const HomeMeeting: React.FC<Props> = ({ className }) => (
   <CardContainer className={classNames(className, s.container)}>
     <Star className={s.star} />
     <CardHeader month="feb" day="18" />
     <div className={s.cards}>
-      {users.map((item) => (
-        <LongCard data={item} key={item.name} />
-      ))}
+      {cards.map(
+        (item, index) =>
+          index <= 5 && (
+            <CardLikes
+              key={item.id}
+              className={s.card}
+              name={item.name}
+              image={item.image}
+              description={item.description}
+            />
+          )
+      )}
     </div>
     <div className={s.buttons}>
       <PopoverDots
@@ -82,6 +103,14 @@ const s = css`
     z-index: 10;
   }
 
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 17px;
+    margin-top: 18px;
+  }
+
   .buttons {
     display: grid;
     grid-template-columns: 1fr 3fr;
@@ -94,4 +123,4 @@ const s = css`
   }
 `
 
-export default HomeUpcoming
+export default HomeMeeting

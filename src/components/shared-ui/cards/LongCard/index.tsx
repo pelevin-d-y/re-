@@ -2,14 +2,15 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
-import Button from 'src/components/shared-ui/Button'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
+import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import { usePopup } from 'src/helpers/context/PopupContext'
 import CardContainer from '../CardContainer'
 
 interface Props {
   className?: string
   data: {
-    src: string
+    image: string
     name: string
     position: string
     event: string
@@ -17,12 +18,17 @@ interface Props {
 }
 
 const LongCard: React.FC<Props> = ({ data, className }) => {
-  const { src, name, position, event } = data
+  const { image, name, position, event } = data
+  const { openPopup, updatePopupData } = usePopup()
+  const buttonHandler = () => {
+    updatePopupData({ name, image })
+    openPopup()
+  }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={src} />
+        <Avatar className={s.avatar} image={image} />
         <div className={s.text}>
           <div className={s.name}>{name}</div>
           <div className={s.position}>{position}</div>
@@ -32,9 +38,13 @@ const LongCard: React.FC<Props> = ({ data, className }) => {
         <ColorfulCircle color="black" />
         {event}
       </div>
-      <Button className={s.button} variant="outlined" isArrow>
+      <PopoverRate
+        className={s.button}
+        buttonClickHandler={buttonHandler}
+        variant="outlined"
+      >
         Reach out
-      </Button>
+      </PopoverRate>
     </CardContainer>
   )
 }
