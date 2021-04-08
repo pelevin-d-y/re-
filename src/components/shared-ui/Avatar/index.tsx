@@ -1,6 +1,5 @@
 import React from 'react'
 import { css } from 'astroturf'
-import Image from 'next/image'
 
 interface Props {
   className?: string
@@ -12,12 +11,12 @@ interface Props {
 const Avatar: React.FC<Props> = ({ className, image, width, height }) => (
   <div
     className={className}
-    style={{ width: width || 40, height: height || 40 }}
+    style={{ width: width || 47, height: height || 47 }}
   >
     <img
       alt=""
       className={s.avatar}
-      src={image || require('public/svg/avatar-placeholder.svg?include')}
+      src={image || require('public/svg/avatar-placeholder.svg')}
     />
   </div>
 )
@@ -26,6 +25,9 @@ const s = css`
   .avatar {
     overflow: hidden;
     border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `
 

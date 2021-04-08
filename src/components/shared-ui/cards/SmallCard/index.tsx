@@ -1,14 +1,11 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
-import Stars from 'src/components/shared-ui/Starts'
 import Avatar from 'src/components/shared-ui/Avatar'
-import Popover from 'src/components/shared-ui/Popover'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
-import PopoverContent from 'src/components/shared-ui/Popover/PopoverContent'
 import { usePopup } from 'src/helpers/context/PopupContext'
+import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import CardContainer from '../CardContainer'
 
 interface dataProps {
@@ -38,37 +35,13 @@ const SmallCard: React.FC<Props> = ({ className, data }) => {
         <ColorfulCircle />
         Follow up on Meetings
       </div>
-      <Popover
-        triggerElement={
-          <Button
-            className={s.button}
-            variant="contained"
-            isArrow
-            handler={() => buttonHandler()}
-          >
-            Reach out
-          </Button>
-        }
-        popupContent={
-          <PopoverContent
-            items={[
-              {
-                name: 'Schedule Send',
-                handler: () => null,
-              },
-              {
-                name: 'Ignore',
-                handler: () => null,
-              },
-            ]}
-          >
-            <div className={s.rate}>
-              Rate Recommendation
-              <Stars className={s.stars} />
-            </div>
-          </PopoverContent>
-        }
-      />
+      <PopoverRate
+        buttonClickHandler={buttonHandler}
+        className={s.button}
+        variant="contained"
+      >
+        Follow Up
+      </PopoverRate>
       <Star className={s.star} />
     </CardContainer>
   )
@@ -94,6 +67,11 @@ const s = css`
     margin-bottom: 12px;
   }
 
+  .button {
+    max-width: 140px;
+    width: 100%;
+  }
+
   .name {
     margin-bottom: 4px;
     font-weight: var(--bold);
@@ -103,20 +81,6 @@ const s = css`
     position: absolute;
     top: 13px;
     right: 13px;
-  }
-
-  .button {
-    max-width: 140px;
-    width: 100%;
-  }
-
-  .stars {
-    margin-top: 6px;
-  }
-
-  .rate {
-    padding: 9px 15px;
-    font-weight: var(--bold);
   }
 `
 

@@ -6,7 +6,7 @@ import ImportantSteps from 'src/components/shared-ui/ImportantSteps'
 const ContentSidebar: React.FC = () => (
   <div className={s.container}>
     <Metrics />
-    {/* <ImportantSteps /> */}
+    <ImportantSteps />
   </div>
 )
 

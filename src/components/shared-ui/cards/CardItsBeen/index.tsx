@@ -4,8 +4,7 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
-import Popover from 'src/components/shared-ui/Popover'
-import PopoverContent from 'src/components/shared-ui/Popover/PopoverContent'
+import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import CardContainer from '../CardContainer'
 
 interface Props {
@@ -66,29 +65,9 @@ const CardItsBeen: React.FC<Props> = ({ className }) => (
       ))}
     </div>
     <div className={s.buttons}>
-      <Popover
-        triggerElement={
-          <Button
-            className={classNames(s.buttonDots, s.button)}
-            variant="outlined"
-          >
-            •••
-          </Button>
-        }
-        popupContent={
-          <PopoverContent
-            items={[
-              {
-                name: 'Manage',
-                handler: () => null,
-              },
-              {
-                name: 'Unsubscribe',
-                handler: () => null,
-              },
-            ]}
-          />
-        }
+      <PopoverDots
+        className={classNames(className, s.buttonDots)}
+        variant="outlined"
       />
       <Button
         className={classNames(s.buttonList, s.button)}
@@ -102,6 +81,7 @@ const CardItsBeen: React.FC<Props> = ({ className }) => (
 
 const s = css`
   .container {
+    overflow: hidden;
     position: relative;
     padding: 26px 24px 26px 15px;
   }
@@ -148,7 +128,6 @@ const s = css`
   .buttons {
     display: flex;
     flex-flow: row nowrap;
-    margin-left: -17px;
   }
 
   .button {
