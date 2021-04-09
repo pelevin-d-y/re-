@@ -50,7 +50,7 @@ const s = css`
   }
 
   .arrowOpen {
-    transform: rotate(180deg);
+    transform: rotate(180deg) translateY(-12px);
   }
 
   .content {

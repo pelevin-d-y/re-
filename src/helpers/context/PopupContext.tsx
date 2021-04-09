@@ -3,10 +3,15 @@ import * as React from 'react'
 type Data = { name?: string; image?: string; email?: string }
 
 type Action =
-  | { type: 'OPEN_POPUP' }
-  | { type: 'CLOSE_POPUP' }
+  | { type: 'TOGGLE_EMAIL_POPUP' }
+  | { type: 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP' }
   | { type: 'UPDATE_DATA'; payload: Data }
-type State = { isOpen: boolean; data: Data }
+
+type State = {
+  emailModalIsOpen: boolean
+  multiEmailsIsOpen: boolean
+  data: Data
+}
 type Dispatch = (action: Action) => void
 
 const PopupContext = React.createContext<[State, Dispatch] | undefined>(
@@ -15,16 +20,16 @@ const PopupContext = React.createContext<[State, Dispatch] | undefined>(
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'OPEN_POPUP': {
+    case 'TOGGLE_EMAIL_POPUP': {
       return {
         ...state,
-        isOpen: !state.isOpen,
+        emailModalIsOpen: !state.emailModalIsOpen,
       }
     }
-    case 'CLOSE_POPUP': {
+    case 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP': {
       return {
         ...state,
-        isOpen: false,
+        multiEmailsIsOpen: !state.multiEmailsIsOpen,
       }
     }
     case 'UPDATE_DATA': {
@@ -35,7 +40,8 @@ const popupReducer = (state: State, action: Action): State => {
     }
     default: {
       return {
-        isOpen: false,
+        emailModalIsOpen: false,
+        multiEmailsIsOpen: false,
         data: {},
       }
     }
@@ -46,7 +52,8 @@ const PopupProvider = (
   props: JSX.IntrinsicAttributes & React.ProviderProps<State | undefined>
 ): JSX.Element => {
   const [state, dispatch] = React.useReducer(popupReducer, {
-    isOpen: false,
+    emailModalIsOpen: false,
+    multiEmailsIsOpen: false,
     data: {},
   })
 
@@ -58,8 +65,8 @@ const PopupProvider = (
 }
 
 interface UsePopup {
-  openPopup: () => void
-  closePopup: () => void
+  toggleEmailPopup: () => void
+  toggleMultiEmailsPopup: () => void
   updatePopupData: (payload: Data) => void
   dispatch: Dispatch
   state: State
@@ -71,14 +78,15 @@ const usePopup = (): UsePopup => {
     throw new Error('usePopup must be used within a CountProvider')
   }
   const [state, dispatch] = context
-  const openPopup = () => dispatch({ type: 'OPEN_POPUP' })
-  const closePopup = () => dispatch({ type: 'CLOSE_POPUP' })
+  const toggleEmailPopup = () => dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
+  const toggleMultiEmailsPopup = () =>
+    dispatch({ type: 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP' })
   const updatePopupData = (payload: Data) =>
     dispatch({ type: 'UPDATE_DATA', payload })
 
   return {
-    openPopup,
-    closePopup,
+    toggleEmailPopup,
+    toggleMultiEmailsPopup,
     updatePopupData,
     dispatch,
     state,

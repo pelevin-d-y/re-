@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import { usePopup } from 'src/helpers/context/PopupContext'
 
 interface Props {
   className?: string
@@ -45,29 +46,46 @@ const users = [
   },
 ]
 
-const HomeUpcoming: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classNames(className, s.container)}>
-    <Star className={s.star} />
-    <CardHeader month="feb" day="18" />
-    <div className={s.cards}>
-      {users.map((item) => (
-        <LongCard data={item} key={item.name} />
-      ))}
-    </div>
-    <div className={s.buttons}>
-      <PopoverDots
-        className={classNames(s.buttonDots, s.button)}
-        variant="outlined"
-      />
-      <Button
-        className={classNames(s.buttonFollow, s.button)}
-        variant="contained"
-      >
-        Follow up with all
-      </Button>
-    </div>
-  </CardContainer>
-)
+const headerData = {
+  month: 'feb',
+  day: '20',
+  title: 'Your Upcoming Trip to Los Angeles',
+  description:
+    'Plan your trip ahead but scheduling meetings with contacts in LA',
+}
+
+const HomeUpcoming: React.FC<Props> = ({ className }) => {
+  const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
+  const followUpWithAllHandler = () => {
+    updatePopupData({})
+    toggleMultiEmailsPopup()
+  }
+
+  return (
+    <CardContainer className={classNames(className, s.container)}>
+      <Star className={s.star} />
+      <CardHeader data={headerData} />
+      <div className={s.cards}>
+        {users.map((item) => (
+          <LongCard data={item} key={item.name} />
+        ))}
+      </div>
+      <div className={s.buttons}>
+        <PopoverDots
+          className={classNames(s.buttonDots, s.button)}
+          variant="outlined"
+        />
+        <Button
+          className={classNames(s.buttonFollow, s.button)}
+          variant="contained"
+          handler={followUpWithAllHandler}
+        >
+          Follow up with all
+        </Button>
+      </div>
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {

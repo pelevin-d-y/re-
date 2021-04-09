@@ -2,26 +2,33 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
-interface Props {
-  className?: string
+interface Data {
   month: string
   day: string
+  title: string
+  description: string
+}
+interface Props {
+  className?: string
+  data: Data
 }
 
-const CardHeader: React.FC<Props> = ({ className, month, day }) => (
-  <div className={classNames(className, s.container)}>
-    <div className={s.date}>
-      <div className={s.month}>{month}</div>
-      <div className={s.day}>{day}</div>
-    </div>
-    <div className={s.text}>
-      <div className={s.bigText}>Your Upcoming Trip to Los Angeles</div>
-      <div className={s.smallText}>
-        Plan your trip ahead but scheduling meeting with contacts in LA
+const CardHeader: React.FC<Props> = ({ className, data }) => {
+  const { month, day, title, description } = data
+
+  return (
+    <div className={classNames(className, s.container)}>
+      <div className={s.date}>
+        <div className={s.month}>{month}</div>
+        <div className={s.day}>{day}</div>
+      </div>
+      <div className={s.text}>
+        <div className={s.bigText}>{title}</div>
+        <div className={s.smallText}>{description}</div>
       </div>
     </div>
-  </div>
-)
+  )
+} 
 
 const s = css`
   .container {

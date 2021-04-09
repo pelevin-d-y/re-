@@ -21,10 +21,10 @@ const CardLikes: React.FC<Props> = ({
   name,
   description,
 }) => {
-  const { openPopup, updatePopupData } = usePopup()
+  const { toggleEmailPopup, updatePopupData } = usePopup()
   const buttonHandler = () => {
     updatePopupData({ name, image })
-    openPopup()
+    toggleEmailPopup()
   }
 
   return (

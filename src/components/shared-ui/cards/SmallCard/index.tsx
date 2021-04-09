@@ -19,12 +19,12 @@ interface Props {
 }
 
 const SmallCard: React.FC<Props> = ({ className, data }) => {
-  const { openPopup, updatePopupData } = usePopup()
+  const { toggleEmailPopup, updatePopupData } = usePopup()
   const { name, image } = data
 
   const buttonHandler = () => {
     updatePopupData({ name, image })
-    openPopup()
+    toggleEmailPopup()
   }
 
   return (

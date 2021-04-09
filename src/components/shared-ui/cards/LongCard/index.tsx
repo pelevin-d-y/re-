@@ -19,10 +19,10 @@ interface Props {
 
 const LongCard: React.FC<Props> = ({ data, className }) => {
   const { image, name, position, event } = data
-  const { openPopup, updatePopupData } = usePopup()
+  const { toggleEmailPopup, updatePopupData } = usePopup()
   const buttonHandler = () => {
     updatePopupData({ name, image })
-    openPopup()
+    toggleEmailPopup()
   }
 
   return (

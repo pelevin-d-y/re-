@@ -7,6 +7,8 @@ import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import Button from 'src/components/shared-ui/Button'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
+import { usePopup } from 'src/helpers/context/PopupContext'
+import { useUsers } from 'src/helpers/context/UsersContext'
 
 interface Props {
   className?: string
@@ -57,38 +59,56 @@ const cards = [
   },
 ]
 
-const HomeMeeting: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classNames(className, s.container)}>
-    <Star className={s.star} />
-    <CardHeader month="feb" day="18" />
-    <div className={s.cards}>
-      {cards.map(
-        (item, index) =>
-          index <= 5 && (
-            <CardLikes
-              key={item.id}
-              className={s.card}
-              name={item.name}
-              image={item.image}
-              description={item.description}
-            />
-          )
-      )}
-    </div>
-    <div className={s.buttons}>
-      <PopoverDots
-        className={classNames(s.buttonDots, s.button)}
-        variant="outlined"
-      />
-      <Button
-        className={classNames(s.buttonFollow, s.button)}
-        variant="contained"
-      >
-        Follow up with all
-      </Button>
-    </div>
-  </CardContainer>
-)
+const headerData = {
+  month: 'feb',
+  day: '18',
+  title: 'Your meeting with Company X ',
+  description: 'February 12, 2021 - Frontend Round table',
+}
+
+const HomeMeeting: React.FC<Props> = ({ className }) => {
+  const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
+  const { updateUsersData } = useUsers()
+  const followUpWithAllHandler = () => {
+    updatePopupData({})
+    updateUsersData(cards)
+    toggleMultiEmailsPopup()
+  }
+
+  return (
+    <CardContainer className={classNames(className, s.container)}>
+      <Star className={s.star} />
+      <CardHeader data={headerData} />
+      <div className={s.cards}>
+        {cards.map(
+          (item, index) =>
+            index <= 5 && (
+              <CardLikes
+                key={item.id}
+                className={s.card}
+                name={item.name}
+                image={item.image}
+                description={item.description}
+              />
+            )
+        )}
+      </div>
+      <div className={s.buttons}>
+        <PopoverDots
+          className={classNames(s.buttonDots, s.button)}
+          variant="outlined"
+        />
+        <Button
+          className={classNames(s.buttonFollow, s.button)}
+          variant="contained"
+          handler={followUpWithAllHandler}
+        >
+          Follow up with all
+        </Button>
+      </div>
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {
