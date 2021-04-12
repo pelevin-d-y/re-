@@ -14,7 +14,7 @@ import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 
 const MultiEmailsModal: React.FC = () => {
-  const { toggleMultiEmailsPopup, state } = usePopup()
+  const { toggleMultiEmailsPopup, state, updatePopupData } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
   const { data: usersData } = users
@@ -48,6 +48,14 @@ const MultiEmailsModal: React.FC = () => {
     }
   }
 
+  const selectUsers = (user: {
+    name?: string
+    image?: string
+    description?: string
+  }) => {
+    updatePopupData({ name: user.name, image: user.image })
+  }
+
   return (
     <ModalBase
       className={s.container}
@@ -68,13 +76,18 @@ const MultiEmailsModal: React.FC = () => {
             <div className={s.selectedQuantity}>4 Selected</div>
           </div>
           {selectedUsers?.map((item) => (
-            <div className={classNames(s.user, s.selectedUser)} key={item.name}>
+            <button
+              type="button"
+              onClick={() => selectUsers(item)}
+              className={classNames(s.user, s.selectedUser)}
+              key={item.name}
+            >
               <Avatar className={s.avatar} image={item.image} />
               <div className={s.userInfo}>
                 <div className={s.userName}>{item.name}</div>
                 <div className={s.userDescription}>{item.description}</div>
               </div>
-            </div>
+            </button>
           ))}
           <div className={s.selectedActions}>
             <Button variant="outlined">•••</Button>
@@ -162,10 +175,14 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    width: 100%;
     padding: 10px 25px 10px 28px;
   }
 
   .selectedUser {
+    border-radius: none;
+    border: none;
+    background: var(--white);
     cursor: pointer;
     &:hover {
       background: #f5f5f5;
