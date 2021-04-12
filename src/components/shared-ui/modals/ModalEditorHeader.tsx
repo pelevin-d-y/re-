@@ -10,7 +10,9 @@ interface Props {
 
 const ModalEditorHeader: React.FC<Props> = ({ name, className }) => (
   <div className={classNames(s.container, className)}>
-    <span className={s.textTitle}>Follow up with {name} for meeting</span>
+    <span className={s.textTitle}>
+      Follow up with {name || '<unknown>'} for meeting
+    </span>
     <SvgIcon
       className={s.icon}
       icon={require('public/svg/templates.svg?include')}

@@ -2,8 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import Search from 'src/components/shared-ui/Search'
 
-import HeaderSearch from './HeaderSearch'
 import HeaderToDos from './HeaderToDos'
 import HeaderProfile from './HeaderProfile'
 import HeaderTheme from './HeaderTheme'
@@ -22,7 +22,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => (
         <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
         Hailey
       </div>
-      <HeaderSearch />
+      <Search className={s.search} inputPlaceholder="Search..." />
       <HeaderTheme />
       <HeaderToDos />
       <HeaderProfile />
@@ -45,6 +45,11 @@ const s = css`
     align-items: center;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .search {
+    max-width: 202px;
+    width: 100%;
   }
 
   .text {

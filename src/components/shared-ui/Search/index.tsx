@@ -1,21 +1,35 @@
 import React from 'react'
 import { css } from 'astroturf'
+import classNames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
-const HeaderSearch: React.FC = () => (
-  <div className={s.search}>
+interface Props {
+  className?: string
+  inputClassName?: string
+  inputPlaceholder: string
+}
+
+const Search: React.FC<Props> = ({
+  className,
+  inputPlaceholder,
+  inputClassName,
+}) => (
+  <div className={classNames(className, s.search)}>
     <SvgIcon
       className={s.icon}
       icon={require('public/svg/search.svg?include')}
     />
-    <input className={s.input} type="text" placeholder="Search..." />
+    <input
+      className={classNames(s.input, inputClassName)}
+      type="text"
+      placeholder={inputPlaceholder}
+    />
   </div>
 )
 
 const s = css`
   .search {
     position: relative;
-    width: 202px;
   }
 
   .icon {
@@ -33,4 +47,4 @@ const s = css`
   }
 `
 
-export default HeaderSearch
+export default Search

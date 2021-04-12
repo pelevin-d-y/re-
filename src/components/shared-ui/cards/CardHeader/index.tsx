@@ -28,7 +28,7 @@ const CardHeader: React.FC<Props> = ({ className, data }) => {
       </div>
     </div>
   )
-} 
+}
 
 const s = css`
   .container {

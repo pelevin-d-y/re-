@@ -46,7 +46,7 @@ const cards = [
   {
     id: 5,
     image: require('public/images/gino.jpeg'),
-    name: 'Mary Smith',
+    name: 'Mary Smiqth',
     description: 'Founder at Company X',
     event: 'Mary has a startup in LA',
   },
@@ -70,7 +70,7 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
   const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
   const { updateUsersData } = useUsers()
   const followUpWithAllHandler = () => {
-    updatePopupData({})
+    updatePopupData({ name: cards[0].name, image: cards[0].image })
     updateUsersData(cards)
     toggleMultiEmailsPopup()
   }

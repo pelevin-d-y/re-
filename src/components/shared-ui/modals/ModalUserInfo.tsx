@@ -17,7 +17,7 @@ const ModalUserInfo: React.FC<Props> = ({ className }) => {
       <div className={s.profile}>
         <Avatar image={data.image} />
         <div className={s.profileInfo}>
-          <div className={s.name}>{data.name}</div>
+          <div className={s.name}>{data.name || '<unknown>'}</div>
           <div className={s.profileType}>
             <ColorfulCircle color="black" />
             Follow up on Meetings
