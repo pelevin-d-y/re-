@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { css } from 'astroturf'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import CloseModal from '../ModalClose'
@@ -9,34 +9,50 @@ import HtmlEditorModal from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
+import ModalSent from '../ModalSent'
 
 const EmailModal: React.FC = () => {
   const { toggleEmailPopup, state } = usePopup()
   const { data, emailModalIsOpen } = state
+  const [isSent, setIsSent] = useState(false)
+
+  const closeHandler = () => {
+    toggleEmailPopup()
+    setIsSent(false)
+  }
 
   return (
     <ModalBase
       className={s.container}
       isOpen={emailModalIsOpen}
-      onClose={toggleEmailPopup}
+      onClose={closeHandler}
     >
-      <CloseModal handler={toggleEmailPopup} className={s.close} />
+      <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
         <ModalUserInfo className={s.header} />
-        <CardContainer className={s.textContainer}>
-          <ModalEditorHeader name={data.name} />
-          <HtmlEditorModal className={s.editor} name={data.name} />
-          <div className={s.buttons}>
-            <Button variant="outlined" size="medium" className={s.buttonDots}>
-              •••
-            </Button>
-            <Button variant="contained" size="medium" className={s.buttonSend}>
-              Send
-            </Button>
-          </div>
-        </CardContainer>
+        {!isSent ? (
+          <CardContainer className={s.textContainer}>
+            <ModalEditorHeader name={data.name} />
+            <HtmlEditorModal className={s.editor} name={data.name} />
+            <div className={s.buttons}>
+              <Button variant="outlined" size="medium" className={s.buttonDots}>
+                •••
+              </Button>
+              <Button
+                variant="contained"
+                size="medium"
+                className={s.buttonSend}
+                handler={() => setIsSent(true)}
+              >
+                Send
+              </Button>
+            </div>
+          </CardContainer>
+        ) : (
+          <ModalSent />
+        )}
       </div>
-      <ModalMoreInfo />
+      {!isSent ? <ModalMoreInfo /> : null}
     </ModalBase>
   )
 }

@@ -6,7 +6,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Star from 'src/components/shared-ui/Star'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Likes from 'src/components/shared-ui/Likes'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
 
 interface Props {
   className?: string

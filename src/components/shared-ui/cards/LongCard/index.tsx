@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from '../CardContainer'
 
 interface Props {

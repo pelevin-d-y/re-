@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import Star from 'src/components/shared-ui/Star'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import CardContainer from '../CardContainer'
 

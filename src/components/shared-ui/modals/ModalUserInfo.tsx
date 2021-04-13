@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import { css } from 'astroturf'

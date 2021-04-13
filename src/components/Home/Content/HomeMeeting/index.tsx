@@ -7,8 +7,8 @@ import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import Button from 'src/components/shared-ui/Button'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
-import { usePopup } from 'src/helpers/context/PopupContext'
-import { useUsers } from 'src/helpers/context/UsersContext'
+import { usePopup } from 'src/components/context/PopupContext'
+import { useUsers } from 'src/components/context/UsersContext'
 
 interface Props {
   className?: string
@@ -67,10 +67,9 @@ const headerData = {
 }
 
 const HomeMeeting: React.FC<Props> = ({ className }) => {
-  const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
+  const { toggleMultiEmailsPopup } = usePopup()
   const { updateUsersData } = useUsers()
   const followUpWithAllHandler = () => {
-    // updatePopupData({ name: cards[0].name, image: cards[0].image })
     updateUsersData(cards)
     toggleMultiEmailsPopup()
   }

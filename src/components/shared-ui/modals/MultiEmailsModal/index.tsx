@@ -1,9 +1,9 @@
 import React, { useState, useEffect, MouseEvent } from 'react'
 import { css } from 'astroturf'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
-import { useUsers } from 'src/helpers/context/UsersContext'
+import { useUsers } from 'src/components/context/UsersContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
 import classNames from 'classnames'
@@ -13,6 +13,7 @@ import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalClose from '../ModalClose'
+import ModalSendingListHeader from '../ModalSendingListHeader'
 
 const MultiEmailsModal: React.FC = () => {
   const { toggleMultiEmailsPopup, state, updatePopupData } = usePopup()
@@ -24,15 +25,12 @@ const MultiEmailsModal: React.FC = () => {
 
   const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
-  // useEffect(() => {
-  //   if (usersData.length) {
-  //     setSelectedContacts([usersData?.[0]])
-  //   }
-  // }, [usersData])
-
   useEffect(() => {
     if (usersData.length) {
       setContacts(usersData)
+    }
+    return () => {
+      setSelectedContacts([])
     }
   }, [setContacts, usersData])
 
@@ -73,7 +71,9 @@ const MultiEmailsModal: React.FC = () => {
         <div className={s.selected}>
           <div className={s.selectedHeader}>
             <div className={s.sidebarTitle}>Sending to:</div>
-            <div className={s.selectedQuantity}>4 Selected</div>
+            <div className={s.selectedQuantity}>
+              {selectedContacts.length} Selected
+            </div>
           </div>
           {selectedContacts?.map((item) => (
             <div
@@ -121,6 +121,7 @@ const MultiEmailsModal: React.FC = () => {
         ))}
       </div>
       <div className={s.content}>
+        <ModalSendingListHeader />
         <ModalUserInfo className={s.header} />
         <CardContainer className={s.textContainer}>
           <ModalEditorHeader name={data.name} />
@@ -266,6 +267,10 @@ const s = css`
     margin-left: auto;
     background: #dae6ff;
     border-radius: 3px;
+  }
+
+  .moreInfo {
+    margin-top: 20px;
   }
 `
 

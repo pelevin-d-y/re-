@@ -7,7 +7,8 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
+import { useUsers } from 'src/components/context/UsersContext'
 
 interface Props {
   className?: string
@@ -56,8 +57,10 @@ const headerData = {
 
 const HomeUpcoming: React.FC<Props> = ({ className }) => {
   const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
+  const { updateUsersData } = useUsers()
   const followUpWithAllHandler = () => {
     updatePopupData({})
+    updateUsersData(users)
     toggleMultiEmailsPopup()
   }
 
