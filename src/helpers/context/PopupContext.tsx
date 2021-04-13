@@ -1,16 +1,14 @@
 import * as React from 'react'
 
-type Data = { name?: string; image?: string; email?: string }
-
 type Action =
   | { type: 'TOGGLE_EMAIL_POPUP' }
   | { type: 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP' }
-  | { type: 'UPDATE_DATA'; payload: Data }
+  | { type: 'UPDATE_DATA'; payload: UserData }
 
 type State = {
   emailModalIsOpen: boolean
   multiEmailsIsOpen: boolean
-  data: Data
+  data: UserData
 }
 type Dispatch = (action: Action) => void
 
@@ -67,7 +65,7 @@ const PopupProvider = (
 interface UsePopup {
   toggleEmailPopup: () => void
   toggleMultiEmailsPopup: () => void
-  updatePopupData: (payload: Data) => void
+  updatePopupData: (payload: UserData) => void
   dispatch: Dispatch
   state: State
 }
@@ -81,7 +79,7 @@ const usePopup = (): UsePopup => {
   const toggleEmailPopup = () => dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   const toggleMultiEmailsPopup = () =>
     dispatch({ type: 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP' })
-  const updatePopupData = (payload: Data) =>
+  const updatePopupData = (payload: UserData) =>
     dispatch({ type: 'UPDATE_DATA', payload })
 
   return {

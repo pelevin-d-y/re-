@@ -70,7 +70,7 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
   const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
   const { updateUsersData } = useUsers()
   const followUpWithAllHandler = () => {
-    updatePopupData({ name: cards[0].name, image: cards[0].image })
+    // updatePopupData({ name: cards[0].name, image: cards[0].image })
     updateUsersData(cards)
     toggleMultiEmailsPopup()
   }

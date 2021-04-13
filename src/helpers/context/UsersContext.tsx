@@ -1,8 +1,6 @@
 import * as React from 'react'
 
-type Data = { name?: string; image?: string; description?: string }
-
-type Users = Data[]
+type Users = UserData[]
 type Action = { type: 'UPDATE_DATA'; payload: Users }
 type State = { data: Users }
 type Dispatch = (action: Action) => void

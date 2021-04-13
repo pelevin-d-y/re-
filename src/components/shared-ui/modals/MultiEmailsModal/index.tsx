@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, MouseEvent } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/helpers/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -12,6 +12,7 @@ import HtmlEditorModal from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
+import ModalClose from '../ModalClose'
 
 const MultiEmailsModal: React.FC = () => {
   const { toggleMultiEmailsPopup, state, updatePopupData } = usePopup()
@@ -19,41 +20,40 @@ const MultiEmailsModal: React.FC = () => {
   const { state: users } = useUsers()
   const { data: usersData } = users
 
-  const [filteredUsers, setFilteredUsers] = useState(usersData)
+  const [contacts, setContacts] = useState(usersData)
 
-  const [selectedUsers, setSelectedUsers] = useState(
-    usersData.length ? [usersData?.[0]] : []
-  )
+  const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
-  useEffect(() => {
-    if (usersData.length) {
-      setSelectedUsers([usersData?.[0]])
-    }
-  }, [usersData])
+  // useEffect(() => {
+  //   if (usersData.length) {
+  //     setSelectedContacts([usersData?.[0]])
+  //   }
+  // }, [usersData])
 
   useEffect(() => {
     if (usersData.length) {
-      setFilteredUsers(usersData)
+      setContacts(usersData)
     }
-  }, [setFilteredUsers, usersData])
+  }, [setContacts, usersData])
 
-  const addUserHandler = (user: {
-    name?: string
-    image?: string
-    description?: string
-  }) => {
-    const isInclude = selectedUsers.find((item) => item.name === user.name)
+  const addUserHandler = (user: UserData) => {
+    const isInclude = selectedContacts.find((item) => item.name === user.name)
     if (!isInclude) {
-      setSelectedUsers([...selectedUsers, user])
+      setSelectedContacts([...selectedContacts, user])
+      setContacts(contacts.filter((item) => item.name !== user.name))
     }
   }
 
-  const selectUsers = (user: {
-    name?: string
-    image?: string
-    description?: string
-  }) => {
+  const selectUser = (user: UserData) => {
     updatePopupData({ name: user.name, image: user.image })
+  }
+
+  const removeUser = (user: UserData, e: MouseEvent) => {
+    e.stopPropagation()
+    setSelectedContacts(
+      selectedContacts.filter((item) => item.name !== user.name)
+    )
+    setContacts([...contacts, user])
   }
 
   return (
@@ -75,10 +75,12 @@ const MultiEmailsModal: React.FC = () => {
             <div className={s.sidebarTitle}>Sending to:</div>
             <div className={s.selectedQuantity}>4 Selected</div>
           </div>
-          {selectedUsers?.map((item) => (
-            <button
-              type="button"
-              onClick={() => selectUsers(item)}
+          {selectedContacts?.map((item) => (
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => selectUser(item)}
+              onKeyDown={() => selectUser(item)}
               className={classNames(s.user, s.selectedUser)}
               key={item.name}
             >
@@ -87,7 +89,11 @@ const MultiEmailsModal: React.FC = () => {
                 <div className={s.userName}>{item.name}</div>
                 <div className={s.userDescription}>{item.description}</div>
               </div>
-            </button>
+              <ModalClose
+                className={s.buttonRemove}
+                handler={(e: MouseEvent) => removeUser(item, e)}
+              />
+            </div>
           ))}
           <div className={s.selectedActions}>
             <Button variant="outlined">•••</Button>
@@ -97,7 +103,7 @@ const MultiEmailsModal: React.FC = () => {
         <div className={s.selectedHeader}>
           <div className={s.sidebarTitle}>Contacts to send to</div>
         </div>
-        {filteredUsers?.map((item) => (
+        {contacts?.map((item) => (
           <div className={s.user} key={item.name}>
             <Avatar className={s.avatar} image={item.image} />
             <div className={s.userInfo}>
@@ -185,7 +191,11 @@ const s = css`
     background: var(--white);
     cursor: pointer;
     &:hover {
-      background: #f5f5f5;
+      background: #f0f5ff;
+
+      .buttonRemove {
+        display: block;
+      }
     }
   }
 
@@ -249,6 +259,13 @@ const s = css`
 
   .buttonAdd {
     margin-left: auto;
+  }
+
+  .buttonRemove {
+    display: none;
+    margin-left: auto;
+    background: #dae6ff;
+    border-radius: 3px;
   }
 `
 
