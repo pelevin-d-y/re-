@@ -11,7 +11,9 @@ interface Props {
 }
 
 const HtmlEditorModal: React.FC<Props> = ({ className, name }) => {
-  const template = `<p>Hi ${name},</p><p> </p><p>You recently introduced me to &lt;Intro Name&gt; (thanks again!).</p><p> </p><p>&lt;Intro Name&gt; and I spoke about...</p><p> </p> <p>Next steps are...</p><p> </p><p>How's everything with you?</p><p> </p><p>Best,</p><p> </p><p>&lt;Client Name&gt;</p>`
+  const template = `<p>Hi ${
+    name || '&lt;unknown&gt;'
+  },</p><p> </p><p>You recently introduced me to &lt;Intro Name&gt; (thanks again!).</p><p> </p><p>&lt;Intro Name&gt; and I spoke about...</p><p> </p> <p>Next steps are...</p><p> </p><p>How's everything with you?</p><p> </p><p>Best,</p><p> </p><p>&lt;Client Name&gt;</p>`
 
   const [value, setValue] = useState(template)
 

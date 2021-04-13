@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
+import classNames from 'classnames'
 import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
 import HomeMeeting from './HomeMeeting'
@@ -8,12 +9,12 @@ import HomeMeeting from './HomeMeeting'
 const Content: React.FC = () => (
   <div className={s.container}>
     <HomeRecommendations />
-    <div className={s.been}>
+    <div className={classNames(s.been, s.cards)}>
       <CardItsBeen />
       <CardItsBeen />
     </div>
-    <HomeUpcoming className={s.upcoming} />
-    <HomeMeeting />
+    <HomeUpcoming className={s.cards} />
+    <HomeMeeting className={s.cards} />
   </div>
 )
 
@@ -28,6 +29,10 @@ const s = css`
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
     width: 100%;
+    margin-top: 12px;
+  }
+
+  .cards {
     margin-top: 12px;
   }
 `

@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
-import { usePopup } from 'src/helpers/context/PopupContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from '../CardContainer'
 
 interface Props {
@@ -19,10 +19,10 @@ interface Props {
 
 const LongCard: React.FC<Props> = ({ data, className }) => {
   const { image, name, position, event } = data
-  const { openPopup, updatePopupData } = usePopup()
+  const { toggleEmailPopup, updatePopupData } = usePopup()
   const buttonHandler = () => {
     updatePopupData({ name, image })
-    openPopup()
+    toggleEmailPopup()
   }
 
   return (

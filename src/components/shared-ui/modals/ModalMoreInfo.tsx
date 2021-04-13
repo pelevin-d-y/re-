@@ -5,7 +5,11 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import ModalLastMessage from './ModalLastMessage'
 import ModalAdditionInfo from './ModalAdditionInfo'
 
-const ModalMoreInfo: React.FC = () => {
+interface Props {
+  className?: string
+}
+
+const ModalMoreInfo: React.FC<Props> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const collapseHandler = () => {
@@ -13,7 +17,7 @@ const ModalMoreInfo: React.FC = () => {
   }
 
   return (
-    <div className={s.container}>
+    <div className={classNames(className, s.container)}>
       <button type="button" onClick={collapseHandler} className={s.trigger}>
         {isOpen ? 'Less' : 'More'} Info about Landon{' '}
         <SvgIcon
@@ -50,7 +54,7 @@ const s = css`
   }
 
   .arrowOpen {
-    transform: rotate(180deg);
+    transform: rotate(180deg) translateY(-12px);
   }
 
   .content {

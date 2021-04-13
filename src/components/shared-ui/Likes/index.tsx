@@ -1,21 +1,20 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 const Likes: React.FC = () => (
   <>
     <button className={classNames(s.button, s.like)} type="button">
-      <img
+      <SvgIcon
         className={s.image}
-        src={require('public/images/like.png')}
-        alt="like"
+        icon={require('public/svg/like.svg?include')}
       />
     </button>
     <button className={classNames(s.button, s.dislike)} type="button">
-      <img
+      <SvgIcon
         className={s.image}
-        src={require('public/images/like.png')}
-        alt="dislike"
+        icon={require('public/svg/like.svg?include')}
       />
     </button>
   </>
@@ -27,15 +26,24 @@ const s = css`
     cursor: pointer;
 
     background: var(--white);
-    border: 1px solid #dfdfdf;
+    border: 1px solid #a7a7a7;
     border-radius: 50%;
     line-height: 0;
+    color: #a7a7a7;
+    transition: all 0.2s linear;
+
+    &:hover {
+      color: var(--white);
+      border: 1px solid var(--white);
+      background: #a7a7a7;
+    }
   }
 
   .image {
     width: 15px;
     height: 15px;
     object-fit: contain;
+    // color: var(--grey);
   }
 
   .like {
