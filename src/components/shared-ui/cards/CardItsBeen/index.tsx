@@ -5,79 +5,61 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import { usePopup } from 'src/components/context/PopupContext'
+import { useUsers } from 'src/components/context/UsersContext'
+import { users } from 'src/testData'
 import CardContainer from '../CardContainer'
 
 interface Props {
   className?: string
 }
 
-const avatars = [
-  {
-    src: require('public/images/gino.jpeg'),
-    id: 1,
-  },
-  {
-    src: require('public/images/maker.jpeg'),
-    id: 2,
-  },
-  {
-    src: require('public/images/mary.jpeg'),
-    id: 3,
-  },
-  {
-    src: require('public/images/gino.jpeg'),
-    id: 4,
-  },
-  {
-    src: require('public/images/mary.jpeg'),
-    id: 5,
-  },
-  {
-    src: require('public/images/gino.jpeg'),
-    id: 6,
-  },
-  {
-    src: require('public/images/maker.jpeg'),
-    id: 7,
-  },
-]
+const CardItsBeen: React.FC<Props> = ({ className }) => {
+  const { toggleRecommendationPopup } = usePopup()
+  const { updateUsersData } = useUsers()
+  const openModalHandler = () => {
+    updateUsersData(users)
+    toggleRecommendationPopup()
+  }
 
-const CardItsBeen: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classNames(s.container, className)}>
-    <Star className={s.star} />
-    <div className={s.header}>
-      <div className={s.cardName}>It’s been</div>
-      <div className={s.title}>90 Days…</div>
-      <SvgIcon
-        className={s.clock}
-        icon={require('public/svg/clock.svg?include')}
-      />
-    </div>
-    <div className={s.avatars}>
-      {avatars.map((item, index) => (
-        <div
-          className={s.avatar}
-          key={item.id}
-          style={{ transform: `translateX(-${index * 10}px)` }}
+  return (
+    <CardContainer className={classNames(s.container, className)}>
+      <Star className={s.star} />
+      <div className={s.header}>
+        <div className={s.cardName}>It’s been</div>
+        <div className={s.title}>90 Days…</div>
+        <SvgIcon
+          className={s.clock}
+          icon={require('public/svg/clock.svg?include')}
+        />
+      </div>
+      <div className={s.avatars}>
+        {users.map((item, index) => (
+          <div
+            className={s.avatar}
+            key={item.id}
+            style={{ transform: `translateX(-${index * 10}px)` }}
+          >
+            <Avatar image={item.avatar} />
+          </div>
+        ))}
+      </div>
+      <div className={s.buttons}>
+        <PopoverDots
+          className={classNames(className, s.buttonDots)}
+          variant="outlined"
+        />
+        <Button
+          className={classNames(s.buttonList, s.button)}
+          variant="contained"
+          handler={openModalHandler}
         >
-          <Avatar image={item.src} />
-        </div>
-      ))}
-    </div>
-    <div className={s.buttons}>
-      <PopoverDots
-        className={classNames(className, s.buttonDots)}
-        variant="outlined"
-      />
-      <Button
-        className={classNames(s.buttonList, s.button)}
-        variant="contained"
-      >
-        View List
-      </Button>
-    </div>
-  </CardContainer>
-)
+          View List
+        </Button>
+      </div>
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {

@@ -2,12 +2,14 @@ import * as React from 'react'
 
 type Action =
   | { type: 'TOGGLE_EMAIL_POPUP' }
-  | { type: 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP' }
+  | { type: 'TOGGLE_MULTI_EMAILS_POPUP' }
+  | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
   | { type: 'UPDATE_DATA'; payload: UserData }
 
 type State = {
   emailModalIsOpen: boolean
   multiEmailsIsOpen: boolean
+  recommendationsIsOpen: boolean
   data: UserData
 }
 type Dispatch = (action: Action) => void
@@ -24,10 +26,16 @@ const popupReducer = (state: State, action: Action): State => {
         emailModalIsOpen: !state.emailModalIsOpen,
       }
     }
-    case 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP': {
+    case 'TOGGLE_MULTI_EMAILS_POPUP': {
       return {
         ...state,
         multiEmailsIsOpen: !state.multiEmailsIsOpen,
+      }
+    }
+    case 'TOGGLE_RECOMMENDATIONS_POPUP': {
+      return {
+        ...state,
+        recommendationsIsOpen: !state.recommendationsIsOpen,
       }
     }
     case 'UPDATE_DATA': {
@@ -40,6 +48,7 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         emailModalIsOpen: false,
         multiEmailsIsOpen: false,
+        recommendationsIsOpen: false,
         data: {},
       }
     }
@@ -52,6 +61,7 @@ const PopupProvider = (
   const [state, dispatch] = React.useReducer(popupReducer, {
     emailModalIsOpen: false,
     multiEmailsIsOpen: false,
+    recommendationsIsOpen: false,
     data: {},
   })
 
@@ -65,6 +75,7 @@ const PopupProvider = (
 interface UsePopup {
   toggleEmailPopup: () => void
   toggleMultiEmailsPopup: () => void
+  toggleRecommendationPopup: () => void
   updatePopupData: (payload: UserData) => void
   dispatch: Dispatch
   state: State
@@ -73,18 +84,21 @@ interface UsePopup {
 const usePopup = (): UsePopup => {
   const context = React.useContext(PopupContext)
   if (context === undefined) {
-    throw new Error('usePopup must be used within a CountProvider')
+    throw new Error('usePopup must be used within a PopupProvider')
   }
   const [state, dispatch] = context
   const toggleEmailPopup = () => dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
+  const toggleRecommendationPopup = () =>
+    dispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   const toggleMultiEmailsPopup = () =>
-    dispatch({ type: 'CLOSE_TOGGLE_MULTI_EMAILS_POPUP' })
+    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   const updatePopupData = (payload: UserData) =>
     dispatch({ type: 'UPDATE_DATA', payload })
 
   return {
     toggleEmailPopup,
     toggleMultiEmailsPopup,
+    toggleRecommendationPopup,
     updatePopupData,
     dispatch,
     state,

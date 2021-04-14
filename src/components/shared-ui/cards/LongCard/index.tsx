@@ -10,7 +10,7 @@ import CardContainer from '../CardContainer'
 interface Props {
   className?: string
   data: {
-    image: string
+    avatar: string
     name: string
     position: string
     event: string
@@ -18,17 +18,17 @@ interface Props {
 }
 
 const LongCard: React.FC<Props> = ({ data, className }) => {
-  const { image, name, position, event } = data
+  const { avatar, name, position, event } = data
   const { toggleEmailPopup, updatePopupData } = usePopup()
   const buttonHandler = () => {
-    updatePopupData({ name, image })
+    updatePopupData({ name, avatar })
     toggleEmailPopup()
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={image} />
+        <Avatar className={s.avatar} image={avatar} />
         <div className={s.text}>
           <div className={s.name}>{name}</div>
           <div className={s.position}>{position}</div>
