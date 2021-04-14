@@ -14,6 +14,7 @@ import ModalSent from '../ModalSent'
 const EmailModal: React.FC = () => {
   const { toggleEmailPopup, state } = usePopup()
   const { data, emailModalIsOpen } = state
+  const { name } = data
   const [isSent, setIsSent] = useState(false)
 
   const closeHandler = () => {
@@ -32,8 +33,8 @@ const EmailModal: React.FC = () => {
         <ModalUserInfo className={s.header} />
         {!isSent ? (
           <CardContainer className={s.textContainer}>
-            <ModalEditorHeader name={data.name} />
-            <HtmlEditorModal className={s.editor} name={data.name} />
+            <ModalEditorHeader name={name} />
+            <HtmlEditorModal className={s.editor} name={name} />
             <div className={s.buttons}>
               <Button variant="outlined" size="medium" className={s.buttonDots}>
                 •••
@@ -49,7 +50,7 @@ const EmailModal: React.FC = () => {
             </div>
           </CardContainer>
         ) : (
-          <ModalSent />
+          name && <ModalSent names={name} />
         )}
       </div>
       {!isSent ? <ModalMoreInfo /> : null}

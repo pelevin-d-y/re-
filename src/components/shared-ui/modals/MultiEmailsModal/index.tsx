@@ -14,12 +14,14 @@ import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalClose from '../ModalClose'
 import ModalSendingListHeader from '../ModalSendingListHeader'
+import ModalSent from '../ModalSent'
 
 const MultiEmailsModal: React.FC = () => {
   const { toggleMultiEmailsPopup, state, updatePopupData } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
   const { data: usersData } = users
+  const [isSent, setIsSent] = useState(false)
 
   const [contacts, setContacts] = useState(usersData)
 
@@ -54,11 +56,17 @@ const MultiEmailsModal: React.FC = () => {
     setContacts([...contacts, user])
   }
 
+  const closeHandler = () => {
+    setSelectedContacts([])
+    toggleMultiEmailsPopup()
+    setIsSent(false)
+  }
+
   return (
     <ModalBase
       className={s.container}
       isOpen={multiEmailsIsOpen}
-      onClose={toggleMultiEmailsPopup}
+      onClose={closeHandler}
     >
       <div className={s.sidebar}>
         <div className={s.searchContainer}>
@@ -123,15 +131,36 @@ const MultiEmailsModal: React.FC = () => {
       <div className={s.content}>
         <ModalSendingListHeader />
         <ModalUserInfo className={s.header} />
-        <CardContainer className={s.textContainer}>
-          <ModalEditorHeader name={data.name} />
-          <HtmlEditorModal className={s.editor} name={data.name} />
-          <div className={s.buttons}>
-            <Button variant="contained" size="medium" className={s.buttonSend}>
-              Send
-            </Button>
-          </div>
-        </CardContainer>
+        {!isSent ? (
+          <CardContainer className={s.textContainer}>
+            <ModalEditorHeader name={data.name} />
+            <HtmlEditorModal className={s.editor} name={data.name} />
+            <div className={s.buttons}>
+              <Button
+                variant="contained"
+                size="medium"
+                className={s.buttonSend}
+                handler={() => setIsSent(true)}
+              >
+                Send
+              </Button>
+            </div>
+          </CardContainer>
+        ) : (
+          selectedContacts && (
+            <>
+              <ModalSent names={selectedContacts.map((item) => item.name)} />
+              <Button
+                variant="contained"
+                size="medium"
+                className={s.buttonBack}
+                handler={closeHandler}
+              >
+                Back to home
+              </Button>
+            </>
+          )
+        )}
         <ModalMoreInfo className={s.moreInfo} />
       </div>
     </ModalBase>
@@ -176,6 +205,10 @@ const s = css`
 
   .sidebarTitle {
     color: #acacac;
+  }
+
+  .selectedQuantity {
+    color: var(--blue);
   }
 
   .user {
@@ -271,6 +304,13 @@ const s = css`
 
   .moreInfo {
     margin-top: 20px;
+  }
+
+  .buttonBack {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
   }
 `
 
