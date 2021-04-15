@@ -35,18 +35,15 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {users.map(
-          (item, index) =>
-            index <= 5 && (
-              <CardLikes
-                key={item.id}
-                className={s.card}
-                name={item.name}
-                avatar={item.avatar}
-                position={item.position}
-              />
-            )
-        )}
+        {users.slice(0, 6).map((item) => (
+          <CardLikes
+            key={item.id}
+            className={s.card}
+            name={item.name}
+            avatar={item.avatar}
+            position={item.position}
+          />
+        ))}
       </div>
       <div className={s.buttons}>
         <PopoverDots

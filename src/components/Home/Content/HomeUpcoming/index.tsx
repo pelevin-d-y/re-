@@ -37,7 +37,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {users.map((item) => (
+        {users.slice(0, 6).map((item) => (
           <LongCard data={item} key={item.id} />
         ))}
       </div>

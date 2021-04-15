@@ -13,7 +13,7 @@ import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalClose from '../ModalClose'
-import ModalSendingListHeader from '../ModalSendingListHeader'
+import ModalHeader from '../ModalHeader'
 import ModalSent from '../ModalSent'
 
 const MultiEmailsModal: React.FC = () => {
@@ -129,7 +129,13 @@ const MultiEmailsModal: React.FC = () => {
         ))}
       </div>
       <div className={s.content}>
-        <ModalSendingListHeader />
+        <ModalHeader
+          className={s.modalHeader}
+          name="Sending List"
+          title="MSG Fund"
+          date="January 12, 2012"
+          image={require('public/svg/lists.svg?include')}
+        />
         <ModalUserInfo className={s.header} />
         {!isSent ? (
           <CardContainer className={s.textContainer}>
@@ -178,6 +184,10 @@ const s = css`
     border-right: 1px solid #d0d0d0;
     padding-top: 36px;
     padding-bottom: 36px;
+  }
+
+  .modalHeader {
+    color: var(--blue);
   }
 
   .searchContainer {

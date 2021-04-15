@@ -9,12 +9,7 @@ import CardContainer from '../CardContainer'
 
 interface Props {
   className?: string
-  data: {
-    avatar: string
-    name: string
-    position: string
-    event: string
-  }
+  data: UserData
 }
 
 const LongCard: React.FC<Props> = ({ data, className }) => {

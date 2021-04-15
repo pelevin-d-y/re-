@@ -9,7 +9,7 @@ type Playlists = (
   | 'Relocation'
   | 'Holidays'
   | 'Share Strata'
-  | 'Checkin Emails'
+  | 'Checking Emails'
   | 'Follow Ups'
   | 'Intros received'
   | 'New Roles'

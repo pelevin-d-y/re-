@@ -4,7 +4,7 @@ export const users: UserData[] = [
     avatar: require('public/images/gino.jpeg'),
     name: 'Landon Tucker',
     position: 'Founder at Company X',
-    event: 'Landon is traveling in LA',
+    event: 'Asked a question',
     lastMessage:
       'Landon intro-ed Ari Kieth last week, follow up with Landon on how the meeting went with her.',
   },
@@ -37,7 +37,7 @@ export const users: UserData[] = [
   },
   {
     id: 5,
-    avatar: require('public/images/gino.jpeg'),
+    avatar: require('public/images/phil.jpeg'),
     name: 'Mary Smith',
     position: 'Founder at Company X',
     event: 'Mary has a startup in LA',
@@ -46,10 +46,19 @@ export const users: UserData[] = [
   },
   {
     id: 6,
-    avatar: require('public/images/maker.jpeg'),
+    avatar: require('public/images/steve.jpeg'),
     name: 'Steve Lee',
     position: 'Founder at Company X',
-    event: 'Mary has a startup in LA',
+    event: 'Requested deck',
+    lastMessage:
+      'Thank Steve for sharing his works during the Creative Soundable last Wednesday.',
+  },
+  {
+    id: 7,
+    avatar: require('public/images/maker.jpeg'),
+    name: 'Phil Hoyt',
+    position: 'Founder at Company X',
+    event: 'Asked for Dinner',
     lastMessage:
       'Thank Steve for sharing his works during the Creative Soundable last Wednesday.',
   },
@@ -66,7 +75,7 @@ export const playlists: Playlists = [
   'Relocation',
   'Holidays',
   'Share Strata',
-  'Checkin Emails',
+  'Checking Emails',
   'Follow Ups',
   'Intros received',
   'New Roles',

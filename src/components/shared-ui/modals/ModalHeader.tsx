@@ -5,17 +5,24 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 interface Props {
   className?: string
+  name: string
+  title: string
+  date?: string
+  image: string
 }
 
-const ModalSendingListHeader: React.FC<Props> = ({ className }) => (
+const ModalHeader: React.FC<Props> = ({
+  className,
+  name,
+  title,
+  date,
+  image,
+}) => (
   <div className={classNames(className, s.container)}>
-    <div className={s.name}>Sending List</div>
-    <div className={s.title}>MSG Fund</div>
-    <div className={s.date}>January 12, 2012</div>
-    <SvgIcon
-      className={s.icon}
-      icon={require('public/svg/lists.svg?include')}
-    />
+    <div className={s.name}>{name}</div>
+    <div className={s.title}>{title}</div>
+    {date && <div className={s.date}>{date}</div>}
+    <SvgIcon className={s.icon} icon={image} />
   </div>
 )
 
@@ -37,6 +44,7 @@ const s = css`
   .title {
     margin-bottom: 11px;
 
+    color: var(--black);
     font-weight: var(--bold);
     font-size: 38px;
     line-height: 42px;
@@ -54,9 +62,7 @@ const s = css`
     right: 77px;
     width: 109px;
     height: 109px;
-
-    color: var(--blue);
   }
 `
 
-export default ModalSendingListHeader
+export default ModalHeader
