@@ -10,29 +10,24 @@ import { usePopup } from 'src/components/context/PopupContext'
 
 interface Props {
   className?: string
-  name: string
-  image: string
-  description: string
+  name?: string
+  avatar?: string
+  position?: string
 }
 
-const CardLikes: React.FC<Props> = ({
-  className,
-  image,
-  name,
-  description,
-}) => {
+const CardLikes: React.FC<Props> = ({ className, avatar, name, position }) => {
   const { toggleEmailPopup, updatePopupData } = usePopup()
   const buttonHandler = () => {
-    updatePopupData({ name, image })
+    updatePopupData({ name, avatar })
     toggleEmailPopup()
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <Star className={s.star} />
-      <Avatar className={s.avatar} image={image} />
+      <Avatar className={s.avatar} image={avatar} />
       <div className={s.name}>{name}</div>
-      <div className={s.description}>{description}</div>
+      <div>{position}</div>
       <div className={s.buttons}>
         <Likes />
         <PopoverRate

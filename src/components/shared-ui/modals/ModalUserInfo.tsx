@@ -12,10 +12,11 @@ interface Props {
 const ModalUserInfo: React.FC<Props> = ({ className }) => {
   const { state } = usePopup()
   const { data } = state
+
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar image={data.image} />
+        <Avatar image={data.avatar} />
         <div className={s.profileInfo}>
           <div className={s.name}>{data.name || '<unknown>'}</div>
           <div className={s.profileType}>

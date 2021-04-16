@@ -13,13 +13,15 @@ import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalClose from '../ModalClose'
-import ModalSendingListHeader from '../ModalSendingListHeader'
+import ModalHeader from '../ModalHeader'
+import ModalSent from '../ModalSent'
 
 const MultiEmailsModal: React.FC = () => {
   const { toggleMultiEmailsPopup, state, updatePopupData } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
   const { data: usersData } = users
+  const [isSent, setIsSent] = useState(false)
 
   const [contacts, setContacts] = useState(usersData)
 
@@ -43,7 +45,7 @@ const MultiEmailsModal: React.FC = () => {
   }
 
   const selectUser = (user: UserData) => {
-    updatePopupData({ name: user.name, image: user.image })
+    updatePopupData(user)
   }
 
   const removeUser = (user: UserData, e: MouseEvent) => {
@@ -54,11 +56,18 @@ const MultiEmailsModal: React.FC = () => {
     setContacts([...contacts, user])
   }
 
+  const closeHandler = () => {
+    setSelectedContacts([])
+    setContacts(usersData)
+    toggleMultiEmailsPopup()
+    setIsSent(false)
+  }
+
   return (
     <ModalBase
       className={s.container}
       isOpen={multiEmailsIsOpen}
-      onClose={toggleMultiEmailsPopup}
+      onClose={closeHandler}
     >
       <div className={s.sidebar}>
         <div className={s.searchContainer}>
@@ -84,10 +93,10 @@ const MultiEmailsModal: React.FC = () => {
               className={classNames(s.user, s.selectedUser)}
               key={item.name}
             >
-              <Avatar className={s.avatar} image={item.image} />
+              <Avatar className={s.avatar} image={item.avatar} />
               <div className={s.userInfo}>
                 <div className={s.userName}>{item.name}</div>
-                <div className={s.userDescription}>{item.description}</div>
+                <div className={s.userPosition}>{item.position}</div>
               </div>
               <ModalClose
                 className={s.buttonRemove}
@@ -105,10 +114,10 @@ const MultiEmailsModal: React.FC = () => {
         </div>
         {contacts?.map((item) => (
           <div className={s.user} key={item.name}>
-            <Avatar className={s.avatar} image={item.image} />
+            <Avatar className={s.avatar} image={item.avatar} />
             <div className={s.userInfo}>
               <div className={s.userName}>{item.name}</div>
-              <div className={s.userDescription}>{item.description}</div>
+              <div className={s.userPosition}>{item.position}</div>
             </div>
             <Button
               variant="outlined"
@@ -121,17 +130,44 @@ const MultiEmailsModal: React.FC = () => {
         ))}
       </div>
       <div className={s.content}>
-        <ModalSendingListHeader />
+        <ModalHeader
+          className={s.modalHeader}
+          name="Sending List"
+          title="MSG Fund"
+          date="January 12, 2012"
+          image={require('public/svg/lists.svg?include')}
+        />
         <ModalUserInfo className={s.header} />
-        <CardContainer className={s.textContainer}>
-          <ModalEditorHeader name={data.name} />
-          <HtmlEditorModal className={s.editor} name={data.name} />
-          <div className={s.buttons}>
-            <Button variant="contained" size="medium" className={s.buttonSend}>
-              Send
-            </Button>
-          </div>
-        </CardContainer>
+        {!isSent ? (
+          <CardContainer className={s.textContainer}>
+            <ModalEditorHeader name={data.name} />
+            <HtmlEditorModal className={s.editor} name={data.name} />
+            <div className={s.buttons}>
+              <Button
+                variant="contained"
+                size="medium"
+                className={s.buttonSend}
+                handler={() => setIsSent(true)}
+              >
+                Send
+              </Button>
+            </div>
+          </CardContainer>
+        ) : (
+          selectedContacts && (
+            <>
+              <ModalSent names={selectedContacts.map((item) => item.name)} />
+              <Button
+                variant="contained"
+                size="medium"
+                className={s.buttonBack}
+                handler={closeHandler}
+              >
+                Back to home
+              </Button>
+            </>
+          )
+        )}
         <ModalMoreInfo className={s.moreInfo} />
       </div>
     </ModalBase>
@@ -149,6 +185,10 @@ const s = css`
     border-right: 1px solid #d0d0d0;
     padding-top: 36px;
     padding-bottom: 36px;
+  }
+
+  .modalHeader {
+    color: var(--blue);
   }
 
   .searchContainer {
@@ -176,6 +216,10 @@ const s = css`
 
   .sidebarTitle {
     color: #acacac;
+  }
+
+  .selectedQuantity {
+    color: var(--blue);
   }
 
   .user {
@@ -211,7 +255,7 @@ const s = css`
     font-weight: var(--bold);
   }
 
-  .userDescription {
+  .userPosition {
     font-size: 11px;
   }
 
@@ -271,6 +315,13 @@ const s = css`
 
   .moreInfo {
     margin-top: 20px;
+  }
+
+  .buttonBack {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
   }
 `
 

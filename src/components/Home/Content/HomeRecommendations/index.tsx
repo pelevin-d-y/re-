@@ -2,38 +2,20 @@ import React from 'react'
 import { css } from 'astroturf'
 import SmallCard from 'src/components/shared-ui/cards/SmallCard'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import { users } from 'src/testData'
 
-const HomeRecommendations: React.FC = () => {
-  const images = [
-    {
-      id: 1,
-      name: 'Landon Tucker',
-      image: require('public/images/maker.jpeg'),
-    },
-    {
-      id: 2,
-      name: 'Mary Smith',
-      image: require('public/images/mary.jpeg'),
-    },
-    {
-      id: 3,
-      name: 'Gino Mo',
-      image: require('public/images/gino.jpeg'),
-    },
-  ]
-  return (
-    <CardContainer className={s.container}>
-      <div className={s.title}>Your Weekly Recommendations</div>
-      <div className={s.cards}>
-        {images.map((item) => (
-          <div className={s.column} key={item.id}>
-            <SmallCard data={item} />
-          </div>
-        ))}
-      </div>
-    </CardContainer>
-  )
-}
+const HomeRecommendations: React.FC = () => (
+  <CardContainer className={s.container}>
+    <div className={s.title}>Your Weekly Recommendations</div>
+    <div className={s.cards}>
+      {users.slice(0, 3).map((item) => (
+        <div className={s.column} key={item.id}>
+          <SmallCard data={item} />
+        </div>
+      ))}
+    </div>
+  </CardContainer>
+)
 
 const s = css`
   .container {

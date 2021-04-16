@@ -9,55 +9,11 @@ import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
+import { users } from 'src/testData'
 
 interface Props {
   className?: string
 }
-
-const cards = [
-  {
-    id: 1,
-    image: require('public/images/gino.jpeg'),
-    name: 'Landon Tucker',
-    description: 'Founder at Company X',
-    event: 'Landon is traveling in LA',
-  },
-  {
-    id: 2,
-    image: require('public/images/maker.jpeg'),
-    name: 'Taylor Smith',
-    description: 'Founder at Company X',
-    event: 'Taylor is based in LA',
-  },
-  {
-    id: 3,
-    image: require('public/images/mary.jpeg'),
-    name: 'Gino Mo',
-    description: 'Founder at Company X',
-    event: 'Gino took you to dinner',
-  },
-  {
-    id: 4,
-    image: require('public/images/james.png'),
-    name: 'James Malone',
-    description: 'Founder at Company X',
-    event: 'James is based in LA',
-  },
-  {
-    id: 5,
-    image: require('public/images/gino.jpeg'),
-    name: 'Mary Smiqth',
-    description: 'Founder at Company X',
-    event: 'Mary has a startup in LA',
-  },
-  {
-    id: 6,
-    image: require('public/images/maker.jpeg'),
-    name: 'Mary Smith',
-    description: 'Founder at Company X',
-    event: 'Mary has a startup in LA',
-  },
-]
 
 const headerData = {
   month: 'feb',
@@ -70,7 +26,7 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
   const { toggleMultiEmailsPopup } = usePopup()
   const { updateUsersData } = useUsers()
   const followUpWithAllHandler = () => {
-    updateUsersData(cards)
+    updateUsersData(users)
     toggleMultiEmailsPopup()
   }
 
@@ -79,18 +35,15 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {cards.map(
-          (item, index) =>
-            index <= 5 && (
-              <CardLikes
-                key={item.id}
-                className={s.card}
-                name={item.name}
-                image={item.image}
-                description={item.description}
-              />
-            )
-        )}
+        {users.slice(0, 6).map((item) => (
+          <CardLikes
+            key={item.id}
+            className={s.card}
+            name={item.name}
+            avatar={item.avatar}
+            position={item.position}
+          />
+        ))}
       </div>
       <div className={s.buttons}>
         <PopoverDots

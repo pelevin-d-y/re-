@@ -5,19 +5,27 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 interface Props {
   className?: string
+  names: string | (string | undefined)[]
 }
 
-const ModalSent: React.FC<Props> = ({ className }) => (
-  <div className={classNames(className, s.container)}>
-    <SvgIcon
-      className={s.icon}
-      icon={require('public/svg/check.svg?include')}
-    />
-    <div className={s.text}>
-      Nice work on following up w/ Landon. Ready to keep it going?
+const ModalSent: React.FC<Props> = ({ className, names }) => {
+  const messageTemplate =
+    typeof names === 'string'
+      ? `Nice work on following up w/ ${names}. Ready to keep it going?`
+      : `Nice work on sending list to ${names.join(' & ')}`
+
+  return (
+    <div className={classNames(className, s.container)}>
+      <div className={s.check}>
+        <SvgIcon
+          className={s.icon}
+          icon={require('public/svg/check.svg?include')}
+        />
+      </div>
+      <div className={s.text}>{messageTemplate}</div>
     </div>
-  </div>
-)
+  )
+}
 
 const s = css`
   .container {
@@ -36,6 +44,9 @@ const s = css`
   }
 
   .icon {
+    position: absolute;
+    left: 12px;
+    bottom: 5px;
     width: 84px;
     height: 84px;
     color: var(--green);
@@ -49,6 +60,14 @@ const s = css`
     font-size: 26px;
     line-height: 32px;
     text-align: center;
+  }
+
+  .check {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: #c0ffeb;
   }
 `
 

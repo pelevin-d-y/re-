@@ -8,28 +8,23 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import CardContainer from '../CardContainer'
 
-interface dataProps {
-  id: number
-  name: string
-  image: string
-}
 interface Props {
   className?: string
-  data: dataProps
+  data: UserData
 }
 
 const SmallCard: React.FC<Props> = ({ className, data }) => {
   const { toggleEmailPopup, updatePopupData } = usePopup()
-  const { name, image } = data
+  const { name, avatar } = data
 
   const buttonHandler = () => {
-    updatePopupData({ name, image })
+    updatePopupData({ name, avatar })
     toggleEmailPopup()
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Avatar image={image} width={44} height={44} className={s.avatar} />
+      <Avatar image={avatar} width={44} height={44} className={s.avatar} />
       <div className={s.name}>{name}</div>
       <div className={s.actionType}>
         <ColorfulCircle />

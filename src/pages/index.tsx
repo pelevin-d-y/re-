@@ -5,6 +5,7 @@ import EmailModal from 'src/components/shared-ui/modals/EmailModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { UsersProvider } from 'src/components/context/UsersContext'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import RecommendationsModal from 'src/components/shared-ui/modals/RecommendationsModal'
 import 'react-quill/dist/quill.snow.css'
 
 const Home: React.FC = () => (
@@ -13,6 +14,7 @@ const Home: React.FC = () => (
       value={{
         emailModalIsOpen: false,
         multiEmailsIsOpen: false,
+        recommendationsIsOpen: false,
         data: {},
       }}
     >
@@ -21,6 +23,7 @@ const Home: React.FC = () => (
         <ContentSidebar />
         <EmailModal />
         <MultiEmailsModal />
+        <RecommendationsModal />
       </UsersProvider>
     </PopupProvider>
   </Layout>

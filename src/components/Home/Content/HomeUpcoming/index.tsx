@@ -9,43 +9,11 @@ import Button from 'src/components/shared-ui/Button'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
+import { users } from 'src/testData'
 
 interface Props {
   className?: string
 }
-
-const users = [
-  {
-    image: require('public/images/gino.jpeg'),
-    name: 'Landon Tucker',
-    position: 'Founder at Company X',
-    event: 'Landon is traveling in LA',
-  },
-  {
-    image: require('public/images/maker.jpeg'),
-    name: 'Taylor Smith',
-    position: 'Founder at Company X',
-    event: 'Taylor is based in LA',
-  },
-  {
-    image: require('public/images/mary.jpeg'),
-    name: 'Gino Mo',
-    position: 'Founder at Company X',
-    event: 'Gino took you to dinner',
-  },
-  {
-    image: require('public/images/james.png'),
-    name: 'James Malone',
-    position: 'Founder at Company X',
-    event: 'James is based in LA',
-  },
-  {
-    image: require('public/images/gino.jpeg'),
-    name: 'Mary Smith',
-    position: 'Founder at Company X',
-    event: 'Mary has a startup in LA',
-  },
-]
 
 const headerData = {
   month: 'feb',
@@ -69,8 +37,8 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {users.map((item) => (
-          <LongCard data={item} key={item.name} />
+        {users.slice(0, 6).map((item) => (
+          <LongCard data={item} key={item.id} />
         ))}
       </div>
       <div className={s.buttons}>

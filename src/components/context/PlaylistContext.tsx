@@ -5,7 +5,7 @@ type Action = { type: 'UPDATE_DATA'; payload: Users }
 type State = { data: Users }
 type Dispatch = (action: Action) => void
 
-const UsersContext = React.createContext<[State, Dispatch] | undefined>(
+const PlaylistContext = React.createContext<[State, Dispatch] | undefined>(
   undefined
 )
 
@@ -36,7 +36,7 @@ const UsersProvider = (
     state,
   ])
 
-  return <UsersContext.Provider {...props} value={value} />
+  return <PlaylistContext.Provider {...props} value={value} />
 }
 
 interface UseUsers {
@@ -46,9 +46,9 @@ interface UseUsers {
 }
 
 const useUsers = (): UseUsers => {
-  const context = React.useContext(UsersContext)
+  const context = React.useContext(PlaylistContext)
   if (context === undefined) {
-    throw new Error('usePopup must be used within a UsersProvider')
+    throw new Error('usePopup must be used within a CountProvider')
   }
   const [state, dispatch] = context
   const updateUsersData = (payload: Users) =>
