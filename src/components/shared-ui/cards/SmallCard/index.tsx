@@ -8,11 +8,6 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import CardContainer from '../CardContainer'
 
-interface dataProps {
-  id: number
-  name: string
-  avatar: string
-}
 interface Props {
   className?: string
   data: UserData

@@ -58,6 +58,7 @@ const MultiEmailsModal: React.FC = () => {
 
   const closeHandler = () => {
     setSelectedContacts([])
+    setContacts(usersData)
     toggleMultiEmailsPopup()
     setIsSent(false)
   }

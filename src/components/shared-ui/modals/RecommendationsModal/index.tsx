@@ -1,16 +1,13 @@
-import React, { useState, useEffect, MouseEvent } from 'react'
+import React, { useState, useEffect } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import { useUsers } from 'src/components/context/UsersContext'
 import Search from 'src/components/shared-ui/Search'
-import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import classNames from 'classnames'
 import { users as testUsers, playlists } from 'src/testData'
-import { chunk } from 'lodash'
 import ModalBase from '../ModalBase'
 import ModalClose from '../ModalClose'
 import ModalSendingListHeader from '../ModalHeader'
@@ -18,18 +15,10 @@ import ModalSendingListHeader from '../ModalHeader'
 const MultiEmailsModal: React.FC = () => {
   const { toggleRecommendationPopup, state } = usePopup()
   const { recommendationsIsOpen } = state
-  const { state: users } = useUsers()
-  const { data: usersData } = users
   const [subscribedPlaylist, setSubscribedPlaylist] = useState<Playlists>([])
-  const [joinPlaylist, setJoinPlaylist] = useState<Playlists>([])
 
   useEffect(() => {
-    const [testPlaylists, testJoinPlaylists] = chunk(
-      playlists,
-      playlists.length / 2
-    ) // test
-    setSubscribedPlaylist(testPlaylists)
-    setJoinPlaylist(testJoinPlaylists)
+    setSubscribedPlaylist(playlists)
   }, [])
   const closeHandler = () => {
     toggleRecommendationPopup()
@@ -58,20 +47,6 @@ const MultiEmailsModal: React.FC = () => {
                 <button className={s.playlistButton} type="button">
                   {item}
                 </button>
-              </li>
-            ))}
-          </ul>
-          <div className={s.playlistTitle}>Join Other Playlists</div>
-          <ul className={s.playlists}>
-            {joinPlaylist.map((item) => (
-              <li
-                key={item}
-                className={classNames(s.playlistButton, s.playlistJoin)}
-              >
-                {item}
-                <Button variant="outlined" className={s.joinButton}>
-                  Join
-                </Button>
               </li>
             ))}
           </ul>
