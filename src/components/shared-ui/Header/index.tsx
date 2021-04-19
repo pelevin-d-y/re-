@@ -8,7 +8,7 @@ import HeaderToDos from './HeaderToDos'
 import HeaderProfile from './HeaderProfile'
 import HeaderTheme from './HeaderTheme'
 
-interface Props {
+type Props = {
   toggleMenu: () => void
 }
 

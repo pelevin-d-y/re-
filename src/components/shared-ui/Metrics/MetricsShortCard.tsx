@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 
-interface Props {
+type Props = {
   className?: string
   number: number
   days: number

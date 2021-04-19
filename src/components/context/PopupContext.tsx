@@ -55,9 +55,7 @@ const popupReducer = (state: State, action: Action): State => {
   }
 }
 
-const PopupProvider = (
-  props: JSX.IntrinsicAttributes & React.ProviderProps<State | undefined>
-): JSX.Element => {
+const PopupProvider: React.FC = ({ children, ...props }): JSX.Element => {
   const [state, dispatch] = React.useReducer(popupReducer, {
     emailModalIsOpen: false,
     multiEmailsIsOpen: false,
@@ -69,10 +67,14 @@ const PopupProvider = (
     state,
   ])
 
-  return <PopupContext.Provider {...props} value={value} />
+  return (
+    <PopupContext.Provider {...props} value={value}>
+      {children}
+    </PopupContext.Provider>
+  )
 }
 
-interface UsePopup {
+type UsePopup = {
   toggleEmailPopup: () => void
   toggleMultiEmailsPopup: () => void
   toggleRecommendationPopup: () => void

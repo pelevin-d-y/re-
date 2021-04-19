@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
-interface Props {
+type Props = {
   className?: string
   icon: string
 }

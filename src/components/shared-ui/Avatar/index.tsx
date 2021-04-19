@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 
-interface Props {
+type Props = {
   className?: string
   width?: number
   height?: number

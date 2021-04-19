@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
+import CardShare from 'src/components/shared-ui/cards/CardShare'
 import classNames from 'classnames'
 import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
@@ -14,6 +15,7 @@ const Content: React.FC = () => (
       <CardItsBeen />
     </div>
     <HomeUpcoming className={s.cards} />
+    <CardShare />
     <HomeMeeting className={s.cards} />
   </div>
 )

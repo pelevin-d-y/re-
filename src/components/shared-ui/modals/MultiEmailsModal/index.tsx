@@ -8,7 +8,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
 import classNames from 'classnames'
 import ModalMoreInfo from '../ModalMoreInfo'
-import HtmlEditorModal from '../ModalHtmlEditor'
+import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
@@ -58,6 +58,7 @@ const MultiEmailsModal: React.FC = () => {
 
   const closeHandler = () => {
     setSelectedContacts([])
+    updatePopupData({})
     setContacts(usersData)
     toggleMultiEmailsPopup()
     setIsSent(false)
@@ -141,7 +142,11 @@ const MultiEmailsModal: React.FC = () => {
         {!isSent ? (
           <CardContainer className={s.textContainer}>
             <ModalEditorHeader name={data.name} />
-            <HtmlEditorModal className={s.editor} name={data.name} />
+            <ModalHtmlEditor
+              className={s.editor}
+              name={data.name}
+              event={data.event}
+            />
             <div className={s.buttons}>
               <Button
                 variant="contained"

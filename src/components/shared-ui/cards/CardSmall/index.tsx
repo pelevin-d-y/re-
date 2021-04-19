@@ -8,17 +8,17 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import CardContainer from '../CardContainer'
 
-interface Props {
+type Props = {
   className?: string
   data: UserData
 }
 
 const SmallCard: React.FC<Props> = ({ className, data }) => {
   const { toggleEmailPopup, updatePopupData } = usePopup()
-  const { name, avatar } = data
+  const { name, avatar, event } = data
 
   const buttonHandler = () => {
-    updatePopupData({ name, avatar })
+    updatePopupData({ name, avatar, event })
     toggleEmailPopup()
   }
 
@@ -74,8 +74,8 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 13px;
-    right: 13px;
+    top: 6px;
+    right: 6px;
   }
 `
 

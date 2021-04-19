@@ -6,7 +6,7 @@ import Button from 'src/components/shared-ui/Button'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import PopoverContent from 'src/components/shared-ui/popover/PopoverBase/PopoverContent'
 
-interface Props {
+type Props = {
   className?: string
   buttonClickHandler: () => void
   variant: 'outlined' | 'contained'

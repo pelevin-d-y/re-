@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
-interface Props {
+type Props = {
   className?: string
 }
 
@@ -29,11 +29,6 @@ const s = css`
     height: 16px;
 
     color: var(--grey);
-    cursor: pointer;
-
-    &:hover {
-      color: var(--ginger);
-    }
   }
 
   .icon.active {
@@ -41,10 +36,18 @@ const s = css`
   }
 
   .button {
-    padding: 0;
+    padding: 7px;
+    background: var(--white);
     border: none;
     background: none;
     outline: none;
+    cursor: pointer;
+
+    &:hover {
+      .icon {
+        color: var(--ginger);
+      }
+    }
   }
 `
 

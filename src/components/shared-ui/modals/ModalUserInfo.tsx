@@ -5,7 +5,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import { css } from 'astroturf'
 
-interface Props {
+type Props = {
   className?: string
 }
 

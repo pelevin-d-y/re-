@@ -10,7 +10,7 @@ import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
 import CardContainer from '../CardContainer'
 
-interface Props {
+type Props = {
   className?: string
 }
 
@@ -70,8 +70,8 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 21px;
-    right: 24px;
+    top: 14px;
+    right: 17px;
     z-index: 10;
   }
 

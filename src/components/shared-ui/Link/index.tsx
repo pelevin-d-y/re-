@@ -3,7 +3,7 @@ import NextLink from 'next/link'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+type Props = {
   className?: string
   size?: 'small' | 'medium' | 'large' | undefined
   variant?: 'outlined' | 'contained'

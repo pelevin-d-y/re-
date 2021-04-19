@@ -4,7 +4,7 @@ import Link from 'next/link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import classNames from 'classnames'
 
-interface Props {
+type Props = {
   className?: string
 }
 

@@ -6,7 +6,7 @@ import Avatar from '../Avatar'
 import ColorfulCircle from '../ColorfulCircle'
 import Star from '../Star'
 
-interface Props {
+type Props = {
   className?: string
   name: string
   image: string

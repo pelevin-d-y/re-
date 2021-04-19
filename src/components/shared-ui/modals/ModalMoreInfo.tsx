@@ -5,7 +5,7 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import ModalLastMessage from './ModalLastMessage'
 import ModalAdditionInfo from './ModalAdditionInfo'
 
-interface Props {
+type Props = {
   className?: string
 }
 

@@ -10,9 +10,7 @@ type Playlists = (
   | 'Holidays'
   | 'Share Strata'
   | 'Checking Emails'
-  | 'Follow Ups'
   | 'Intros received'
-  | 'New Roles'
   | 'Network Engagement'
   | 'Network Maintenance'
 )[]

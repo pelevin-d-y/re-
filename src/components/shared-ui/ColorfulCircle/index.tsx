@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { random } from 'lodash'
 
-interface Props {
+type Props = {
   className?: string
   color?:
     | 'black'

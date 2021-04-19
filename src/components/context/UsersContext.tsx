@@ -1,3 +1,4 @@
+import { type } from 'node:os'
 import * as React from 'react'
 
 type Users = UserData[]
@@ -9,7 +10,7 @@ const UsersContext = React.createContext<[State, Dispatch] | undefined>(
   undefined
 )
 
-const popupReducer = (state: State, action: Action): State => {
+const usersReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'UPDATE_DATA': {
       return {
@@ -25,10 +26,8 @@ const popupReducer = (state: State, action: Action): State => {
   }
 }
 
-const UsersProvider = (
-  props: JSX.IntrinsicAttributes & React.ProviderProps<State | undefined>
-): JSX.Element => {
-  const [state, dispatch] = React.useReducer(popupReducer, {
+const UsersProvider: React.FC = ({ children, ...props }) => {
+  const [state, dispatch] = React.useReducer(usersReducer, {
     data: [],
   })
 
@@ -36,10 +35,14 @@ const UsersProvider = (
     state,
   ])
 
-  return <UsersContext.Provider {...props} value={value} />
+  return (
+    <UsersContext.Provider {...props} value={value}>
+      {children}
+    </UsersContext.Provider>
+  )
 }
 
-interface UseUsers {
+type UseUsers = {
   updateUsersData: (payload: Users) => void
   dispatch: Dispatch
   state: State
@@ -48,7 +51,7 @@ interface UseUsers {
 const useUsers = (): UseUsers => {
   const context = React.useContext(UsersContext)
   if (context === undefined) {
-    throw new Error('usePopup must be used within a UsersProvider')
+    throw new Error('useUsers must be used within a UsersProvider')
   }
   const [state, dispatch] = context
   const updateUsersData = (payload: Users) =>

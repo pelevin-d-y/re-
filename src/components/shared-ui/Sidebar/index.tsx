@@ -5,7 +5,7 @@ import Logo from 'src/components/shared-ui/Logo'
 import Link from 'src/components/shared-ui/Link'
 import SidebarList from './SidebarList'
 
-interface Props {
+type Props = {
   className?: string
 }
 

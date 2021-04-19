@@ -25,9 +25,7 @@ const popupReducer = (state: State, action: Action): State => {
   }
 }
 
-const UsersProvider = (
-  props: JSX.IntrinsicAttributes & React.ProviderProps<State | undefined>
-): JSX.Element => {
+const PlaylistProvider: React.FC = (props): JSX.Element => {
   const [state, dispatch] = React.useReducer(popupReducer, {
     data: [],
   })
@@ -39,7 +37,7 @@ const UsersProvider = (
   return <PlaylistContext.Provider {...props} value={value} />
 }
 
-interface UseUsers {
+type UseUsers = {
   updateUsersData: (payload: Users) => void
   dispatch: Dispatch
   state: State
@@ -61,4 +59,4 @@ const useUsers = (): UseUsers => {
   }
 }
 
-export { UsersProvider, useUsers }
+export { PlaylistProvider, useUsers }

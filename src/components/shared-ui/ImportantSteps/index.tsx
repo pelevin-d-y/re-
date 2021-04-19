@@ -5,7 +5,7 @@ import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import ImportantCard from './ImportantCard'
 
-interface Props {
+type Props = {
   className?: string
 }
 

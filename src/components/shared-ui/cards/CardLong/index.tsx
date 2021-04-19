@@ -7,7 +7,7 @@ import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from '../CardContainer'
 
-interface Props {
+type Props = {
   className?: string
   data: UserData
 }
@@ -16,7 +16,7 @@ const LongCard: React.FC<Props> = ({ data, className }) => {
   const { avatar, name, position, event } = data
   const { toggleEmailPopup, updatePopupData } = usePopup()
   const buttonHandler = () => {
-    updatePopupData({ name, avatar })
+    updatePopupData({ name, avatar, event })
     toggleEmailPopup()
   }
 

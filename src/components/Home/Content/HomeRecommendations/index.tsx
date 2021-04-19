@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'astroturf'
-import SmallCard from 'src/components/shared-ui/cards/SmallCard'
+import SmallCard from 'src/components/shared-ui/cards/CardSmall'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { users } from 'src/testData'
 

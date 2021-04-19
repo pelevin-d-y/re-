@@ -11,7 +11,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
 
-interface Props {
+type Props = {
   className?: string
 }
 
@@ -42,6 +42,7 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
             name={item.name}
             avatar={item.avatar}
             position={item.position}
+            event={item.event}
           />
         ))}
       </div>
@@ -70,8 +71,8 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 26px;
-    right: 19px;
+    top: 19px;
+    right: 13px;
     z-index: 10;
   }
 

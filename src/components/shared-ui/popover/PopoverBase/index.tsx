@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 
 const DynamicPopup = dynamic(() => import('reactjs-popup'), { ssr: false })
 
-interface Props {
+type Props = {
   triggerElement: JSX.Element
   popupContent: JSX.Element
 }

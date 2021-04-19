@@ -1,7 +1,7 @@
 import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
-import LongCard from 'src/components/shared-ui/cards/LongCard'
+import LongCard from 'src/components/shared-ui/cards/CardLong'
 import Star from 'src/components/shared-ui/Star'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -11,7 +11,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
 
-interface Props {
+type Props = {
   className?: string
 }
 
@@ -66,8 +66,8 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 26px;
-    right: 19px;
+    top: 19px;
+    right: 13px;
     z-index: 10;
   }
 

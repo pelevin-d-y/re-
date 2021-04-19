@@ -10,15 +10,8 @@ import 'react-quill/dist/quill.snow.css'
 
 const Home: React.FC = () => (
   <Layout>
-    <PopupProvider
-      value={{
-        emailModalIsOpen: false,
-        multiEmailsIsOpen: false,
-        recommendationsIsOpen: false,
-        data: {},
-      }}
-    >
-      <UsersProvider value={{ data: [] }}>
+    <PopupProvider>
+      <UsersProvider>
         <Content />
         <ContentSidebar />
         <EmailModal />
