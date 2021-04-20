@@ -41,6 +41,7 @@ const MultiEmailsModal: React.FC = () => {
     if (!isInclude) {
       setSelectedContacts([...selectedContacts, user])
       setContacts(contacts.filter((item) => item.name !== user.name))
+      updatePopupData(user)
     }
   }
 

@@ -54,7 +54,7 @@ const CardShare: React.FC<Props> = ({ className }) => {
           </Button>
         </div>
         <div className={s.shareLink}>
-          <Link href="bit.ly/new-mention/techcrunch">
+          <Link href="https://www.google.ru/">
             <a>bit.ly/new-mention/techcrunch</a>
           </Link>
         </div>

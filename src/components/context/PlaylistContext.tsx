@@ -25,7 +25,7 @@ const popupReducer = (state: State, action: Action): State => {
   }
 }
 
-const PlaylistProvider: React.FC = (props): JSX.Element => {
+const PlaylistProvider: React.FC = (): JSX.Element => {
   const [state, dispatch] = React.useReducer(popupReducer, {
     data: [],
   })
@@ -34,7 +34,7 @@ const PlaylistProvider: React.FC = (props): JSX.Element => {
     state,
   ])
 
-  return <PlaylistContext.Provider {...props} value={value} />
+  return <PlaylistContext.Provider value={value} />
 }
 
 type UseUsers = {
