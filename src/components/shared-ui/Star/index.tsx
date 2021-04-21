@@ -37,11 +37,15 @@ const s = css`
 
   .button {
     padding: 7px;
+
+    line-height: 0;
     background: var(--white);
     border: none;
+    border-radius: 50%;
     background: none;
     outline: none;
     cursor: pointer;
+    background: var(--white);
 
     &:hover {
       .icon {

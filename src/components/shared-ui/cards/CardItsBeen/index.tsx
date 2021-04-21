@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
@@ -33,17 +33,7 @@ const CardItsBeen: React.FC<Props> = ({ className }) => {
           icon={require('public/svg/clock.svg?include')}
         />
       </div>
-      <div className={s.avatars}>
-        {users.map((item, index) => (
-          <div
-            className={s.avatar}
-            key={item.id}
-            style={{ transform: `translateX(-${index * 10}px)` }}
-          >
-            <Avatar image={item.avatar} />
-          </div>
-        ))}
-      </div>
+      <AvatarsList className={s.avatars} users={users.slice(0, 7)} />
       <div className={s.buttons}>
         <PopoverDots
           className={classNames(className, s.buttonDots)}

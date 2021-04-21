@@ -1,4 +1,3 @@
-import { type } from 'node:os'
 import * as React from 'react'
 
 type Users = UserData[]

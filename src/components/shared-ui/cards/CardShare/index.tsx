@@ -9,13 +9,26 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Star from 'src/components/shared-ui/Star'
 import Button from 'src/components/shared-ui/Button'
-import Link from 'next/link'
+import Socials from 'src/components/shared-ui/Socials'
+import ShareLink from 'src/components/shared-ui/ShareLink'
 
 type Props = {
   className?: string
+  variant: 'dark' | 'light'
+  image: string
+  title: string
+  event: string
+  link?: string
 }
 
-const CardShare: React.FC<Props> = ({ className }) => {
+const CardShare: React.FC<Props> = ({
+  className,
+  variant,
+  image,
+  title,
+  event,
+  link,
+}) => {
   const { toggleRecommendationPopup } = usePopup()
   const { updateUsersData } = useUsers()
   const openModalHandler = () => {
@@ -24,39 +37,36 @@ const CardShare: React.FC<Props> = ({ className }) => {
   }
 
   return (
-    <CardContainer className={classNames(s.container, className)}>
+    <CardContainer
+      className={classNames(
+        s.container,
+        variant === 'dark' ? s.dark : s.light,
+        className
+      )}
+    >
       <Star className={s.star} />
-      <div className={s.header}>
-        <div className={s.cardEvent}>James was mentioned on Techcrunch</div>
-        <div className={s.title}>Fintech Startup get acquired</div>
-        <img
-          alt=""
-          className={s.cardImage}
-          src={require('public/images/fintech.png')}
-        />
+      <div className={s.info}>
+        <div className={s.cardEvent}>{event}</div>
+        <div className={s.title}>{title}</div>
+        <img alt="fintech" className={s.cardImage} src={image} />
       </div>
-      <div className={s.line}>
-        <AvatarsList className={s.avatars} users={users} />
-
-      </div>
-      <div className={s.line}>
-        <div className={s.buttons}>
-          <PopoverDots
-            className={classNames(className, s.buttonDots)}
-            variant="outlined"
-          />
-          <Button
-            className={classNames(s.buttonList, s.button)}
-            variant="contained"
-            handler={openModalHandler}
-          >
-            View List
-          </Button>
+      <div className={s.actions}>
+        <div className={classNames(s.topLine, s.line)}>
+          <AvatarsList className={s.avatars} users={users.slice(0, 7)} />
+          <Socials />
         </div>
-        <div className={s.shareLink}>
-          <Link href="https://www.google.ru/">
-            <a>bit.ly/new-mention/techcrunch</a>
-          </Link>
+        <div className={s.line}>
+          <div className={s.buttons}>
+            <PopoverDots className={s.buttonDots} variant="outlined" />
+            <Button
+              className={classNames(s.buttonList, s.button)}
+              variant="contained"
+              handler={openModalHandler}
+            >
+              View List
+            </Button>
+          </div>
+          {link && <ShareLink link={link} />}
         </div>
       </div>
     </CardContainer>
@@ -67,7 +77,6 @@ const s = css`
   .container {
     overflow: hidden;
     position: relative;
-    padding: 26px 24px 26px 15px;
   }
 
   .star {
@@ -77,9 +86,10 @@ const s = css`
     z-index: 10;
   }
 
-  .header {
+  .info {
     position: relative;
-    margin-bottom: 44px;
+    padding: 26px 24px 75px 15px;
+    margin-bottom: -29px;
   }
 
   .cardImage {
@@ -120,16 +130,12 @@ const s = css`
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    align-items: center;
   }
 
-  .shareLink {
-    padding: 13px;
-    background: #f3f3f3;
-    color: var(--blue);
-
-    a {
-      color: var(--blue);
-    }
+  .topLine {
+    margin-bottom: 16px;
+    align-items: flex-end;
   }
 
   .buttonDots {
@@ -137,8 +143,22 @@ const s = css`
     width: 100%;
   }
 
-  .avatars {
-    margin-bottom: 15px;
+  .actions {
+    padding: 0 24px 17px 15px;
+  }
+
+  .dark {
+    .info {
+      color: var(--white);
+      background: #171d23;
+    }
+  }
+
+  .light {
+    .info {
+      color: var(--black);
+      background: var(--white);
+    }
   }
 `
 

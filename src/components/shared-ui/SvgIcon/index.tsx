@@ -20,6 +20,7 @@ const SvgIcon: React.FC<Props> = ({ className, icon }) => (
 const s = css`
   .container {
     display: inline-block;
+    line-height: 0;
   }
 `
 

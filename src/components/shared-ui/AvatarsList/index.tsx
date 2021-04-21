@@ -9,23 +9,27 @@ type Props = {
 }
 
 const name: React.FC<Props> = ({ className, users }) => (
-  <div className={classNames(className, s.avatars)}>
+  <div className={classNames(className, s.container)}>
     {users.map((item, index) => (
       <div
         className={s.avatar}
         key={item.id}
         style={{ transform: `translateX(-${index * 10}px)` }}
       >
-        <Avatar image={item.avatar} />
+        <Avatar className={s.avatarImage} image={item.avatar} />
       </div>
     ))}
   </div>
 )
 
 const s = css`
-  .avatars {
+  .container {
     display: flex;
     flex-flow: row nowrap;
+  }
+
+  .avatarImage {
+    border: 2px solid var(--white);
   }
 `
 

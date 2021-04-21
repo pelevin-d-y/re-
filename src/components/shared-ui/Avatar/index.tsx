@@ -1,5 +1,6 @@
 import React from 'react'
 import { css } from 'astroturf'
+import classNames from 'classnames'
 
 type Props = {
   className?: string
@@ -10,7 +11,7 @@ type Props = {
 
 const Avatar: React.FC<Props> = ({ className, image, width, height }) => (
   <div
-    className={className}
+    className={classNames(className, s.container)}
     style={{ width: width || 47, height: height || 47 }}
   >
     <img
@@ -22,9 +23,12 @@ const Avatar: React.FC<Props> = ({ className, image, width, height }) => (
 )
 
 const s = css`
-  .avatar {
+  .container {
     overflow: hidden;
     border-radius: 50%;
+  }
+
+  .avatar {
     width: 100%;
     height: 100%;
     object-fit: cover;
