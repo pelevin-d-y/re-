@@ -1,14 +1,14 @@
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
 import CardContainer from '../CardContainer'
+import CardActions from '../CardActions'
 
 type Props = {
   className?: string
@@ -34,19 +34,11 @@ const CardItsBeen: React.FC<Props> = ({ className }) => {
         />
       </div>
       <AvatarsList className={s.avatars} users={users.slice(0, 7)} />
-      <div className={s.buttons}>
-        <PopoverDots
-          className={classNames(className, s.buttonDots)}
-          variant="outlined"
-        />
-        <Button
-          className={classNames(s.buttonList, s.button)}
-          variant="contained"
-          handler={openModalHandler}
-        >
-          View List
-        </Button>
-      </div>
+      <CardActions
+        className={s.actions}
+        mainAction={openModalHandler}
+        mainText="View List"
+      />
     </CardContainer>
   )
 }
@@ -97,9 +89,8 @@ const s = css`
     margin-bottom: 18px;
   }
 
-  .buttons {
-    display: flex;
-    flex-flow: row nowrap;
+  .actions {
+    max-width: 100%;
   }
 
   .button {

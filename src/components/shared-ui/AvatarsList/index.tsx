@@ -8,7 +8,7 @@ type Props = {
   users: UserData[]
 }
 
-const name: React.FC<Props> = ({ className, users }) => (
+const AvatarList: React.FC<Props> = ({ className, users }) => (
   <div className={classNames(className, s.container)}>
     {users.map((item, index) => (
       <div
@@ -33,4 +33,4 @@ const s = css`
   }
 `
 
-export default name
+export default AvatarList

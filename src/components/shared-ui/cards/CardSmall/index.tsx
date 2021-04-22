@@ -3,9 +3,9 @@ import { css } from 'astroturf'
 import classNames from 'classnames'
 import Star from 'src/components/shared-ui/Star'
 import Avatar from 'src/components/shared-ui/Avatar'
-import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import UserEvent from 'src/components/shared-ui/UserEvent'
 import CardContainer from '../CardContainer'
 
 type Props = {
@@ -24,12 +24,10 @@ const SmallCard: React.FC<Props> = ({ className, data }) => {
 
   return (
     <CardContainer className={classNames(className, s.container)}>
+      <Star className={s.star} />
       <Avatar image={avatar} width={44} height={44} className={s.avatar} />
       <div className={s.name}>{name}</div>
-      <div className={s.actionType}>
-        <ColorfulCircle />
-        Follow up on Meetings
-      </div>
+      <UserEvent className={s.actionType} text={event as string} />
       <PopoverRate
         buttonClickHandler={buttonHandler}
         className={s.button}
@@ -37,7 +35,6 @@ const SmallCard: React.FC<Props> = ({ className, data }) => {
       >
         Follow Up
       </PopoverRate>
-      <Star className={s.star} />
     </CardContainer>
   )
 }

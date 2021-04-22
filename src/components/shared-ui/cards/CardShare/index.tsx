@@ -2,15 +2,14 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { users } from 'src/testData'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Star from 'src/components/shared-ui/Star'
-import Button from 'src/components/shared-ui/Button'
 import Socials from 'src/components/shared-ui/Socials'
 import ShareLink from 'src/components/shared-ui/ShareLink'
+import CardActions from '../CardActions'
 
 type Props = {
   className?: string
@@ -56,17 +55,11 @@ const CardShare: React.FC<Props> = ({
           <Socials />
         </div>
         <div className={s.line}>
-          <div className={s.buttons}>
-            <PopoverDots className={s.buttonDots} variant="outlined" />
-            <Button
-              className={classNames(s.buttonList, s.button)}
-              variant="contained"
-              handler={openModalHandler}
-            >
-              View List
-            </Button>
-          </div>
-          {link && <ShareLink link={link} />}
+          <CardActions
+            mainAction={openModalHandler}
+            mainText="Follow up with all"
+          />
+          <ShareLink link={link as string} />
         </div>
       </div>
     </CardContainer>
@@ -108,13 +101,6 @@ const s = css`
     font-size: 32px;
     line-height: 42px;
     font-weight: var(--bold);
-  }
-
-  .buttons {
-    max-width: 300px;
-    width: 100%;
-    display: flex;
-    flex-flow: row nowrap;
   }
 
   .button {

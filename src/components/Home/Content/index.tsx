@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
 import HomeMeeting from './HomeMeeting'
+import HomeTripleCards from './HomeTripleCards'
 
 const Content: React.FC = () => (
   <div className={s.container}>
@@ -32,6 +33,7 @@ const Content: React.FC = () => (
       title="Fintech Startup get acquired"
       link="https://slack.com/"
     />
+    <HomeTripleCards className={s.cards} />
   </div>
 )
 

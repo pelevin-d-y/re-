@@ -3,13 +3,12 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Star from 'src/components/shared-ui/Star'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import Button from 'src/components/shared-ui/Button'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
+import CardActions from 'src/components/shared-ui/cards/CardActions'
 
 type Props = {
   className?: string
@@ -46,19 +45,11 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
           />
         ))}
       </div>
-      <div className={s.buttons}>
-        <PopoverDots
-          className={classNames(s.buttonDots, s.button)}
-          variant="outlined"
-        />
-        <Button
-          className={classNames(s.buttonFollow, s.button)}
-          variant="contained"
-          handler={followUpWithAllHandler}
-        >
-          Follow up with all
-        </Button>
-      </div>
+      <CardActions
+        className={s.actions}
+        mainAction={followUpWithAllHandler}
+        mainText="Follow up with all"
+      />
     </CardContainer>
   )
 }
@@ -84,14 +75,8 @@ const s = css`
     margin-top: 18px;
   }
 
-  .buttons {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 9px 18px;
-
-    max-width: 300px;
-    width: 100%;
-    margin-top: 27px;
+  .actions {
+    margin-top: 26px;
     margin-left: auto;
   }
 `

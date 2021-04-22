@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import UserEvent from 'src/components/shared-ui/UserEvent'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
-import ColorfulCircle from '../ColorfulCircle'
 import Star from '../Star'
 
 type Props = {
@@ -18,8 +18,7 @@ const ImportantCard: React.FC<Props> = ({ className, name, image, event }) => (
     <Avatar className={s.avatar} width={38} height={38} image={image} />
     <div className={s.info}>
       <div className={s.name}>{name}</div>
-      <ColorfulCircle />
-      {event}
+      <UserEvent text={event} />
     </div>
     <Star className={s.star} />
   </CardContainer>
