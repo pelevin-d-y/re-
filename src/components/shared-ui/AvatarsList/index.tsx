@@ -13,10 +13,15 @@ const AvatarList: React.FC<Props> = ({ className, users }) => (
     {users.map((item, index) => (
       <div
         className={s.avatar}
-        key={item.id}
+        key={item.id || index}
         style={{ transform: `translateX(-${index * 10}px)` }}
       >
-        <Avatar className={s.avatarImage} image={item.avatar} />
+        <Avatar
+          className={s.avatarImage}
+          width={52}
+          height={52}
+          image={item.avatar}
+        />
       </div>
     ))}
   </div>
@@ -29,6 +34,8 @@ const s = css`
   }
 
   .avatarImage {
+    width: 52px;
+    height: 52px;
     border: 2px solid var(--white);
   }
 `

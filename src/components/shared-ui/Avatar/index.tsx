@@ -11,7 +11,7 @@ type Props = {
 
 const Avatar: React.FC<Props> = ({ className, image, width, height }) => (
   <div
-    className={classNames(className, s.container)}
+    className={classNames(s.container, className)}
     style={{ width: width || 47, height: height || 47 }}
   >
     <img

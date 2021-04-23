@@ -80,6 +80,8 @@ const s = css`
   }
 
   .event {
+    margin-bottom: 25px;
+
     font-size: 16px;
     line-height: 19px;
   }

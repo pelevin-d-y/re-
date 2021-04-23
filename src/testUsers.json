@@ -1,5 +1,6 @@
 [
   {
+    "avatar": "gino.jpeg",
     "address": "dbm070@gmail.com",
     "name": "David Moon",
     "template": "Anniversary",
@@ -67,6 +68,7 @@
     "client_reply_prob": "0,8571428571"
   },
   {
+    "avatar": "maker.jpeg",
     "address": "matthewhooper23@gmail.com",
     "name": "Matt Hooper",
     "template": "1 Year",
@@ -134,6 +136,7 @@
     "client_reply_prob": "0,7198067633"
   },
   {
+    "avatar": "maker.jpeg",
     "address": "sctt311@gmail.com",
     "name": "Scott Freedman",
     "template": "Intermediate",
@@ -201,6 +204,7 @@
     "client_reply_prob": "0,6484375"
   },
   {
+    "avatar": "mary.jpeg",
     "address": "nisfrome@gmail.com",
     "name": "Nis Frome",
     "template": "3 Months",
@@ -268,6 +272,7 @@
     "client_reply_prob": "0,5217391304"
   },
   {
+    "avatar": "james.png",
     "address": "tb@xnlp.com",
     "name": "Tim Brown",
     "template": "New Contact",
@@ -335,6 +340,7 @@
     "client_reply_prob": "nan"
   },
   {
+    "avatar": "phil.jpeg",
     "address": "smcnamara1066@gmail.com",
     "name": "Stephanie Mcnamara",
     "template": "Anniversary",
@@ -402,6 +408,7 @@
     "client_reply_prob": "0,5555555556"
   },
   {
+    "avatar": "steve.jpeg",
     "address": "ardyk@yahoo.com",
     "name": "Ardy Khazaei",
     "template": "1 Year",
@@ -469,6 +476,7 @@
     "client_reply_prob": "0,686746988"
   },
   {
+    "avatar": "steve.jpeg",
     "address": "marvinavilez@gmail.com",
     "name": "Marvin Avilez",
     "template": "Intermediate",
@@ -536,6 +544,7 @@
     "client_reply_prob": "0,5119047619"
   },
   {
+    "avatar": "maker.jpeg",
     "address": "harsh@hmehta.com",
     "name": "Harsh Mehta",
     "template": "3 Months",
@@ -603,6 +612,7 @@
     "client_reply_prob": "0,9029126214"
   },
   {
+    "avatar": "gino.jpeg",
     "address": "phil@corner3.vc",
     "name": "Philip Fogel",
     "template": "New Contact",
@@ -670,6 +680,7 @@
     "client_reply_prob": 1
   },
   {
+    "avatar": "maker.jpeg",
     "address": "robert@schlaff.com",
     "name": "Robert Schlaff",
     "template": "Anniversary",
@@ -737,6 +748,7 @@
     "client_reply_prob": "0,9166666667"
   },
   {
+    "avatar": "mary.jpeg",
     "address": "michaelmarkell1@gmail.com",
     "name": "Michael Markell",
     "template": "1 Year",
@@ -804,6 +816,7 @@
     "client_reply_prob": "0,7142857143"
   },
   {
+    "avatar": "james.png",
     "address": "alex@medstartr.com",
     "name": "Alex Ventures",
     "template": "Intermediate",
@@ -871,6 +884,7 @@
     "client_reply_prob": "0,776119403"
   },
   {
+    "avatar": "phil.jpeg",
     "address": "patriciaju@gmail.com",
     "name": "P. Ju",
     "template": "3 Months",
@@ -938,6 +952,7 @@
     "client_reply_prob": "0,8161764706"
   },
   {
+    "avatar": "steve.jpeg",
     "address": "drewpmoffitt@gmail.com",
     "name": "Drew Moffitt",
     "template": "New Contact",
@@ -1005,6 +1020,7 @@
     "client_reply_prob": 1
   },
   {
+    "avatar": "maker.jpeg",
     "address": "mattturck@gmail.com",
     "name": "Matt Turck",
     "template": "Anniversary",
@@ -1072,6 +1088,7 @@
     "client_reply_prob": 1
   },
   {
+    "avatar": "gino.jpeg",
     "address": "schecter@highconcept.com",
     "name": "Marty Schecter",
     "template": "1 Year",
@@ -1139,6 +1156,7 @@
     "client_reply_prob": 1
   },
   {
+    "avatar": "maker.jpeg",
     "address": "lidialsalgado@gmail.com",
     "name": "Lidia Salgado",
     "template": "Intermediate",
