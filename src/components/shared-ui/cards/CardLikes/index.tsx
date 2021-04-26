@@ -23,10 +23,10 @@ const CardLikes: React.FC<Props> = ({
   position,
   event,
 }) => {
-  const { toggleEmailPopup, updatePopupData } = usePopup()
+  const { dispatch } = usePopup()
   const buttonHandler = () => {
-    updatePopupData({ name, avatar, event })
-    toggleEmailPopup()
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: { name, avatar, event } })
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (

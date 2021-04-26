@@ -22,11 +22,11 @@ const headerData = {
 }
 
 const HomeMeeting: React.FC<Props> = ({ className }) => {
-  const { toggleMultiEmailsPopup } = usePopup()
+  const { dispatch } = usePopup()
   const { updateUsersData } = useUsers()
   const followUpWithAllHandler = () => {
     updateUsersData(users)
-    toggleMultiEmailsPopup()
+    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 
   return (

@@ -11,21 +11,27 @@ import CardContainer from '../CardContainer'
 type Props = {
   className?: string
   data: UserData
+  template: any
 }
 
 const SmallCard: React.FC<Props> = ({ className, data }) => {
-  const { toggleEmailPopup, updatePopupData } = usePopup()
+  const { dispatch } = usePopup()
   const { name, avatar, event } = data
 
   const buttonHandler = () => {
-    updatePopupData({ name, avatar, event })
-    toggleEmailPopup()
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: { name, avatar, event } })
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
       <Star className={s.star} />
-      <Avatar image={avatar} width={44} height={44} className={s.avatar} />
+      <Avatar
+        image={require(`public/images/${avatar}`)}
+        width={44}
+        height={44}
+        className={s.avatar}
+      />
       <div className={s.name}>{name}</div>
       <UserEvent className={s.actionType} text={event as string} />
       <PopoverRate

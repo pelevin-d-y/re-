@@ -17,7 +17,7 @@ import ModalHeader from '../ModalHeader'
 import ModalSent from '../ModalSent'
 
 const MultiEmailsModal: React.FC = () => {
-  const { toggleMultiEmailsPopup, state, updatePopupData } = usePopup()
+  const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
   const { data: usersData } = users
@@ -41,12 +41,12 @@ const MultiEmailsModal: React.FC = () => {
     if (!isInclude) {
       setSelectedContacts([...selectedContacts, user])
       setContacts(contacts.filter((item) => item.name !== user.name))
-      updatePopupData(user)
+      dispatch({ type: 'UPDATE_POPUP_DATA', payload: user })
     }
   }
 
   const selectUser = (user: UserData) => {
-    updatePopupData(user)
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: user })
   }
 
   const removeUser = (user: UserData, e: MouseEvent) => {
@@ -59,9 +59,9 @@ const MultiEmailsModal: React.FC = () => {
 
   const closeHandler = () => {
     setSelectedContacts([])
-    updatePopupData({})
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
     setContacts(usersData)
-    toggleMultiEmailsPopup()
+    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
     setIsSent(false)
   }
 

@@ -25,12 +25,12 @@ const headerData = {
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className }) => {
-  const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
+  const { dispatch } = usePopup()
   const { updateUsersData } = useUsers()
   const followUpWithAllHandler = () => {
-    updatePopupData({})
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
     updateUsersData(users)
-    toggleMultiEmailsPopup()
+    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 
   return (

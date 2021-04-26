@@ -28,11 +28,11 @@ const CardShare: React.FC<Props> = ({
   event,
   link,
 }) => {
-  const { toggleRecommendationPopup } = usePopup()
+  const { dispatch } = usePopup()
   const { updateUsersData } = useUsers()
   const openModalHandler = () => {
     updateUsersData(users)
-    toggleRecommendationPopup()
+    dispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
   return (
