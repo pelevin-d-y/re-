@@ -54,7 +54,7 @@ const s = css`
   }
 
   .arrowOpen {
-    transform: rotate(180deg) translateY(-12px);
+    transform: rotate(180deg);
   }
 
   .content {

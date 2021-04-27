@@ -4,7 +4,7 @@ type Action =
   | { type: 'TOGGLE_EMAIL_POPUP' }
   | { type: 'TOGGLE_MULTI_EMAILS_POPUP' }
   | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
-  | { type: 'UPDATE_DATA'; payload: UserData }
+  | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
 
 type State = {
   emailModalIsOpen: boolean
@@ -12,11 +12,13 @@ type State = {
   recommendationsIsOpen: boolean
   data: UserData
 }
-type Dispatch = (action: Action) => void
 
-const PopupContext = React.createContext<[State, Dispatch] | undefined>(
-  undefined
-)
+type ContextType = {
+  state: State
+  dispatch: React.Dispatch<Action>
+}
+
+const PopupContext = React.createContext<ContextType | null>(null)
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -38,7 +40,7 @@ const popupReducer = (state: State, action: Action): State => {
         recommendationsIsOpen: !state.recommendationsIsOpen,
       }
     }
-    case 'UPDATE_DATA': {
+    case 'UPDATE_POPUP_DATA': {
       return {
         ...state,
         data: action.payload,
@@ -55,7 +57,7 @@ const popupReducer = (state: State, action: Action): State => {
   }
 }
 
-const PopupProvider: React.FC = ({ children, ...props }): JSX.Element => {
+const PopupProvider: React.FC = ({ children }): JSX.Element => {
   const [state, dispatch] = React.useReducer(popupReducer, {
     emailModalIsOpen: false,
     multiEmailsIsOpen: false,
@@ -63,48 +65,23 @@ const PopupProvider: React.FC = ({ children, ...props }): JSX.Element => {
     data: {},
   })
 
-  const value: [State, Dispatch] = React.useMemo(() => [state, dispatch], [
-    state,
-  ])
-
-  return (
-    <PopupContext.Provider {...props} value={value}>
-      {children}
-    </PopupContext.Provider>
+  const value: ContextType = React.useMemo(
+    () => ({
+      state,
+      dispatch,
+    }),
+    [state]
   )
+
+  return <PopupContext.Provider value={value}>{children}</PopupContext.Provider>
 }
 
-type UsePopup = {
-  toggleEmailPopup: () => void
-  toggleMultiEmailsPopup: () => void
-  toggleRecommendationPopup: () => void
-  updatePopupData: (payload: UserData) => void
-  dispatch: Dispatch
-  state: State
-}
-
-const usePopup = (): UsePopup => {
+const usePopup = (): ContextType => {
   const context = React.useContext(PopupContext)
-  if (context === undefined) {
+  if (context === null) {
     throw new Error('usePopup must be used within a PopupProvider')
   }
-  const [state, dispatch] = context
-  const toggleEmailPopup = () => dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
-  const toggleRecommendationPopup = () =>
-    dispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
-  const toggleMultiEmailsPopup = () =>
-    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
-  const updatePopupData = (payload: UserData) =>
-    dispatch({ type: 'UPDATE_DATA', payload })
-
-  return {
-    toggleEmailPopup,
-    toggleMultiEmailsPopup,
-    toggleRecommendationPopup,
-    updatePopupData,
-    dispatch,
-    state,
-  }
+  return context
 }
 
 export { PopupProvider, usePopup }

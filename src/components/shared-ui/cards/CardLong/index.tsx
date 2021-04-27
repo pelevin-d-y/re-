@@ -14,10 +14,10 @@ type Props = {
 
 const LongCard: React.FC<Props> = ({ data, className }) => {
   const { avatar, name, position, event } = data
-  const { toggleEmailPopup, updatePopupData } = usePopup()
+  const { dispatch } = usePopup()
   const buttonHandler = () => {
-    updatePopupData({ name, avatar, event })
-    toggleEmailPopup()
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: { name, avatar, event } })
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (

@@ -13,7 +13,7 @@ import ModalClose from '../ModalClose'
 import ModalSendingListHeader from '../ModalHeader'
 
 const RecommendationsModal: React.FC = () => {
-  const { toggleRecommendationPopup, state } = usePopup()
+  const { dispatch, state } = usePopup()
   const { recommendationsIsOpen } = state
   const [subscribedPlaylist, setSubscribedPlaylist] = useState<Playlists>([])
 
@@ -21,7 +21,7 @@ const RecommendationsModal: React.FC = () => {
     setSubscribedPlaylist(playlists)
   }, [])
   const closeHandler = () => {
-    toggleRecommendationPopup()
+    dispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
   return (

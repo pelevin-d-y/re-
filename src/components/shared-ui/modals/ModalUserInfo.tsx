@@ -16,7 +16,7 @@ const ModalUserInfo: React.FC<Props> = ({ className }) => {
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar image={data.avatar} />
+        <Avatar image={require(`public/images/${data.avatar}`)} />
         <div className={s.profileInfo}>
           <div className={s.name}>{data.name || '<unknown>'}</div>
           <div className={s.profileType}>

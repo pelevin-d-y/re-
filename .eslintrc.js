@@ -32,6 +32,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     'jsx-a11y/anchor-is-valid': 'off',
     'react/jsx-props-no-spreading': "off",
+    "@typescript-eslint/no-explicit-any": "off",
     'prettier/prettier': [
       'error',
       { singleQuote: true, jsxSingleQuote: false, semi: false },

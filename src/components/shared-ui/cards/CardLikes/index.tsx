@@ -14,6 +14,7 @@ type Props = {
   avatar?: string
   position?: string
   event?: string
+  template: any
 }
 
 const CardLikes: React.FC<Props> = ({
@@ -21,18 +22,22 @@ const CardLikes: React.FC<Props> = ({
   avatar,
   name,
   position,
-  event,
+  template,
 }) => {
-  const { toggleEmailPopup, updatePopupData } = usePopup()
+  const { dispatch } = usePopup()
+  const { Subject, Message } = template
   const buttonHandler = () => {
-    updatePopupData({ name, avatar, event })
-    toggleEmailPopup()
+    dispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: { name, avatar, event: Subject, emailMessage: Message },
+    })
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <Star className={s.star} />
-      <Avatar className={s.avatar} image={avatar} />
+      <Avatar className={s.avatar} image={require(`public/images/${avatar}`)} />
       <div className={s.name}>{name}</div>
       <div>{position}</div>
       <div className={s.buttons}>

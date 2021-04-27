@@ -1,17 +1,20 @@
 import * as React from 'react'
+import testUsers from 'src/testUsers.json'
 
 type Users = UserData[]
-type Action = { type: 'UPDATE_DATA'; payload: Users }
+type Action = { type: 'UPDATE_USERS_DATA'; payload: Users }
 type State = { data: Users }
-type Dispatch = (action: Action) => void
+type Dispatch = React.Dispatch<Action>
+type ContextType = {
+  state: State
+  dispatch: Dispatch
+}
 
-const UsersContext = React.createContext<[State, Dispatch] | undefined>(
-  undefined
-)
+const UsersContext = React.createContext<ContextType | null>(null)
 
 const usersReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'UPDATE_DATA': {
+    case 'UPDATE_USERS_DATA': {
       return {
         ...state,
         data: action.payload,
@@ -25,42 +28,28 @@ const usersReducer = (state: State, action: Action): State => {
   }
 }
 
-const UsersProvider: React.FC = ({ children, ...props }) => {
+const UsersProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(usersReducer, {
-    data: [],
+    data: testUsers,
   })
 
-  const value: [State, Dispatch] = React.useMemo(() => [state, dispatch], [
-    state,
-  ])
-
-  return (
-    <UsersContext.Provider {...props} value={value}>
-      {children}
-    </UsersContext.Provider>
+  const value: ContextType = React.useMemo(
+    () => ({
+      state,
+      dispatch,
+    }),
+    [state]
   )
+
+  return <UsersContext.Provider value={value}>{children}</UsersContext.Provider>
 }
 
-type UseUsers = {
-  updateUsersData: (payload: Users) => void
-  dispatch: Dispatch
-  state: State
-}
-
-const useUsers = (): UseUsers => {
+const useUsers = (): ContextType => {
   const context = React.useContext(UsersContext)
-  if (context === undefined) {
+  if (context === null) {
     throw new Error('useUsers must be used within a UsersProvider')
   }
-  const [state, dispatch] = context
-  const updateUsersData = (payload: Users) =>
-    dispatch({ type: 'UPDATE_DATA', payload })
-
-  return {
-    updateUsersData,
-    dispatch,
-    state,
-  }
+  return context
 }
 
 export { UsersProvider, useUsers }

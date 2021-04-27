@@ -12,13 +12,14 @@ import ModalBase from '../ModalBase'
 import ModalSent from '../ModalSent'
 
 const EmailModal: React.FC = () => {
-  const { toggleEmailPopup, state } = usePopup()
+  const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
   const { name, event } = data
+
   const [isSent, setIsSent] = useState(false)
 
   const closeHandler = () => {
-    toggleEmailPopup()
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
     setIsSent(false)
   }
 
