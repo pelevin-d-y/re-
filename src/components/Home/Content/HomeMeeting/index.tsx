@@ -7,8 +7,9 @@ import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import { users } from 'src/testData'
+import { useTemplates } from 'src/components/context/TemplatesContext'
 import CardActions from 'src/components/shared-ui/cards/CardActions'
+import findTemplate from 'src/helpers/utils/find-template'
 
 type Props = {
   className?: string
@@ -22,11 +23,13 @@ const headerData = {
 }
 
 const HomeMeeting: React.FC<Props> = ({ className }) => {
-  const { dispatch } = usePopup()
-  const { updateUsersData } = useUsers()
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch, state: usersState } = useUsers()
+  const users = usersState.data.slice(0, 6)
+  const { state: templatesState } = useTemplates()
   const followUpWithAllHandler = () => {
-    updateUsersData(users)
-    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 
   return (
@@ -34,14 +37,15 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {users.slice(0, 6).map((item) => (
+        {users.map((item) => (
           <CardLikes
-            key={item.id}
+            key={item.first_message_id}
             className={s.card}
             name={item.name}
             avatar={item.avatar}
             position={item.position}
             event={item.event}
+            template={findTemplate(templatesState.data, item.template)}
           />
         ))}
       </div>

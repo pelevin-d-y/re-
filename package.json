@@ -34,7 +34,8 @@
     "react-select": "^4.3.0",
     "react-stars": "^2.2.5",
     "reactjs-popup": "^2.0.4",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "ts-replace-all": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",

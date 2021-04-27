@@ -5,8 +5,6 @@ import LongCard from 'src/components/shared-ui/cards/CardLong'
 import Star from 'src/components/shared-ui/Star'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Button from 'src/components/shared-ui/Button'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import CardActions from 'src/components/shared-ui/cards/CardActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
@@ -25,12 +23,12 @@ const headerData = {
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className }) => {
-  const { dispatch } = usePopup()
-  const { updateUsersData } = useUsers()
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch } = useUsers()
   const followUpWithAllHandler = () => {
-    dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
-    updateUsersData(users)
-    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 
   return (

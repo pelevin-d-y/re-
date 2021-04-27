@@ -14,12 +14,16 @@ type Props = {
   template: any
 }
 
-const SmallCard: React.FC<Props> = ({ className, data }) => {
+const SmallCard: React.FC<Props> = ({ className, data, template }) => {
   const { dispatch } = usePopup()
-  const { name, avatar, event } = data
+  const { name, avatar } = data
+  const { Subject, Message } = template
 
   const buttonHandler = () => {
-    dispatch({ type: 'UPDATE_POPUP_DATA', payload: { name, avatar, event } })
+    dispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: { name, avatar, event: Subject, emailMessage: Message },
+    })
     dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
@@ -33,7 +37,7 @@ const SmallCard: React.FC<Props> = ({ className, data }) => {
         className={s.avatar}
       />
       <div className={s.name}>{name}</div>
-      <UserEvent className={s.actionType} text={event as string} />
+      <UserEvent className={s.actionType} text={Subject} />
       <PopoverRate
         buttonClickHandler={buttonHandler}
         className={s.button}

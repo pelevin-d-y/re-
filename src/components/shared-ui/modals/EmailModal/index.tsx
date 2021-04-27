@@ -15,6 +15,7 @@ const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
   const { name, event } = data
+
   const [isSent, setIsSent] = useState(false)
 
   const closeHandler = () => {

@@ -15,11 +15,11 @@ type Props = {
 }
 
 const CardItsBeen: React.FC<Props> = ({ className }) => {
-  const { dispatch } = usePopup()
-  const { updateUsersData } = useUsers()
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch } = useUsers()
   const openModalHandler = () => {
-    updateUsersData(users)
-    dispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
   return (
