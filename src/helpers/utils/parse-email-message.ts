@@ -9,10 +9,11 @@ const parseEmailMessage = (
   comparator.set(/(\r\n|\r|\n)/g, '<br />')
 
   let newString = string
-
-  comparator.forEach((value, key) => {
-    newString = newString.replaceAll(key, value)
-  })
+  if (newString) {
+    comparator.forEach((value, key) => {
+      newString = newString.replaceAll(key, value)
+    })
+  }
   return newString
 }
 

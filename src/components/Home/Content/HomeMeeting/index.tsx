@@ -28,7 +28,7 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
   const users = usersState.data.slice(0, 6)
   const { state: templatesState } = useTemplates()
   const followUpWithAllHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: usersState.data })
     popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 

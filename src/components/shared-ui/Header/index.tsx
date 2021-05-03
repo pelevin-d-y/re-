@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
+import { useClient } from 'src/components/context/ClientContext'
 
 import HeaderToDos from './HeaderToDos'
 import HeaderProfile from './HeaderProfile'
@@ -12,23 +13,28 @@ type Props = {
   toggleMenu: () => void
 }
 
-const Header: React.FC<Props> = ({ toggleMenu }) => (
-  <header className={classNames(s.header)}>
-    <div className={classNames('container', s.container)}>
-      <button type="button" className={s.menu} onClick={toggleMenu}>
-        <SvgIcon icon={require('public/svg/menu.svg?include')} />
-      </button>
-      <div className={s.text}>
-        <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
-        Hailey
+const Header: React.FC<Props> = ({ toggleMenu }) => {
+  const {
+    state: { data },
+  } = useClient()
+  return (
+    <header className={classNames(s.header)}>
+      <div className={classNames('container', s.container)}>
+        <button type="button" className={s.menu} onClick={toggleMenu}>
+          <SvgIcon icon={require('public/svg/menu.svg?include')} />
+        </button>
+        <div className={s.text}>
+          <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
+          {data.name}
+        </div>
+        <Search className={s.search} inputPlaceholder="Search..." />
+        <HeaderTheme />
+        <HeaderToDos />
+        <HeaderProfile address={data.address as string} avatar={data.avatar} />
       </div>
-      <Search className={s.search} inputPlaceholder="Search..." />
-      <HeaderTheme />
-      <HeaderToDos />
-      <HeaderProfile />
-    </div>
-  </header>
-)
+    </header>
+  )
+}
 
 const s = css`
   .header {
