@@ -27,6 +27,7 @@ type UserData = {
   position?: string
   event?: string
   emailMessage?: string
+  address?: string
   lastMessage?: string
   playlists?: Playlists
 }

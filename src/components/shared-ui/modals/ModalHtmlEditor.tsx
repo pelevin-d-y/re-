@@ -22,7 +22,7 @@ const HtmlEditorModal: React.FC<Props> = ({ className, name, event }) => {
     const parsedMessage = parseEmailMessage(
       state.data.emailMessage as string,
       name as string,
-      client.name
+      client.name as string
     )
     const template =
       parsedMessage ||

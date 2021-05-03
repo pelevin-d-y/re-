@@ -11,17 +11,17 @@ import 'react-quill/dist/quill.snow.css'
 
 const Home: React.FC = () => (
   <Layout>
-    <PopupProvider>
-      <UsersProvider>
-        <TemplatesProvider>
+    <UsersProvider>
+      <TemplatesProvider>
+        <PopupProvider>
           <Content />
           <ContentSidebar />
           <EmailModal />
           <MultiEmailsModal />
           <RecommendationsModal />
-        </TemplatesProvider>
-      </UsersProvider>
-    </PopupProvider>
+        </PopupProvider>
+      </TemplatesProvider>
+    </UsersProvider>
   </Layout>
 )
 
