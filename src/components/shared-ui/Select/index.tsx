@@ -6,12 +6,12 @@ import SelectComp, {
 } from 'react-select'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
-interface Option {
+type Option = {
   value: string
   label: string
 }
 
-interface Props {
+type Props = {
   options: Option[]
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactStars from 'react-stars'
 
-interface Props {
+type Props = {
   className: string
 }
 

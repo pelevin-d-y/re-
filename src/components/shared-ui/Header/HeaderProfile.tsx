@@ -2,10 +2,15 @@ import React from 'react'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
 
-const HeaderProfile: React.FC = () => (
+type Props = {
+  address: string
+  avatar?: string
+}
+
+const HeaderProfile: React.FC<Props> = ({ address, avatar }) => (
   <div className={s.container}>
-    <div className={s.email}>hailey@strata.cc</div>
-    <Avatar />
+    <div className={s.email}>{address}</div>
+    <Avatar image={require(`public/images/${avatar}`)} />
   </div>
 )
 

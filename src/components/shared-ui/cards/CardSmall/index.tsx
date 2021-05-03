@@ -3,33 +3,41 @@ import { css } from 'astroturf'
 import classNames from 'classnames'
 import Star from 'src/components/shared-ui/Star'
 import Avatar from 'src/components/shared-ui/Avatar'
-import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import UserEvent from 'src/components/shared-ui/UserEvent'
 import CardContainer from '../CardContainer'
 
-interface Props {
+type Props = {
   className?: string
   data: UserData
+  template: any
 }
 
-const SmallCard: React.FC<Props> = ({ className, data }) => {
-  const { toggleEmailPopup, updatePopupData } = usePopup()
+const SmallCard: React.FC<Props> = ({ className, data, template }) => {
+  const { dispatch } = usePopup()
   const { name, avatar } = data
+  const { Subject, Message } = template
 
   const buttonHandler = () => {
-    updatePopupData({ name, avatar })
-    toggleEmailPopup()
+    dispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: { name, avatar, event: Subject, emailMessage: Message },
+    })
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Avatar image={avatar} width={44} height={44} className={s.avatar} />
+      <Star className={s.star} />
+      <Avatar
+        image={require(`public/images/${avatar}`)}
+        width={44}
+        height={44}
+        className={s.avatar}
+      />
       <div className={s.name}>{name}</div>
-      <div className={s.actionType}>
-        <ColorfulCircle />
-        Follow up on Meetings
-      </div>
+      <UserEvent className={s.actionType} text={Subject} />
       <PopoverRate
         buttonClickHandler={buttonHandler}
         className={s.button}
@@ -37,7 +45,6 @@ const SmallCard: React.FC<Props> = ({ className, data }) => {
       >
         Follow Up
       </PopoverRate>
-      <Star className={s.star} />
     </CardContainer>
   )
 }
@@ -74,8 +81,8 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 13px;
-    right: 13px;
+    top: 6px;
+    right: 6px;
   }
 `
 

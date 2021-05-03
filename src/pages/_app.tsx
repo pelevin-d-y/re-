@@ -6,6 +6,7 @@ import { Hydrate } from 'react-query/hydration'
 import type { AppProps } from 'next/app'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import 'ts-replace-all'
 
 config.autoAddCss = false
 

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Bar from '../Bar'
 
-interface Props {
+type Props = {
   className?: string
   period: string
   number?: number

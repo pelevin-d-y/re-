@@ -4,11 +4,13 @@ import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import { useUsers } from 'src/components/context/UsersContext'
+import { useTemplates } from 'src/components/context/TemplatesContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
+import findTemplate from 'src/helpers/utils/find-template'
 import classNames from 'classnames'
 import ModalMoreInfo from '../ModalMoreInfo'
-import HtmlEditorModal from '../ModalHtmlEditor'
+import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
@@ -17,9 +19,10 @@ import ModalHeader from '../ModalHeader'
 import ModalSent from '../ModalSent'
 
 const MultiEmailsModal: React.FC = () => {
-  const { toggleMultiEmailsPopup, state, updatePopupData } = usePopup()
+  const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
+  const { state: templatesState } = useTemplates()
   const { data: usersData } = users
   const [isSent, setIsSent] = useState(false)
 
@@ -36,16 +39,30 @@ const MultiEmailsModal: React.FC = () => {
     }
   }, [setContacts, usersData])
 
+  const selectUser = (user: UserData) => {
+    const template = findTemplate(templatesState.data, user.template)
+
+    if (template) {
+      const { Subject, Message } = template
+      dispatch({
+        type: 'UPDATE_POPUP_DATA',
+        payload: {
+          name: user.name,
+          avatar: user.avatar,
+          event: Subject,
+          emailMessage: Message,
+        },
+      })
+    }
+  }
+
   const addUserHandler = (user: UserData) => {
     const isInclude = selectedContacts.find((item) => item.name === user.name)
     if (!isInclude) {
       setSelectedContacts([...selectedContacts, user])
       setContacts(contacts.filter((item) => item.name !== user.name))
+      selectUser(user)
     }
-  }
-
-  const selectUser = (user: UserData) => {
-    updatePopupData(user)
   }
 
   const removeUser = (user: UserData, e: MouseEvent) => {
@@ -58,8 +75,9 @@ const MultiEmailsModal: React.FC = () => {
 
   const closeHandler = () => {
     setSelectedContacts([])
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
     setContacts(usersData)
-    toggleMultiEmailsPopup()
+    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
     setIsSent(false)
   }
 
@@ -93,7 +111,12 @@ const MultiEmailsModal: React.FC = () => {
               className={classNames(s.user, s.selectedUser)}
               key={item.name}
             >
-              <Avatar className={s.avatar} image={item.avatar} />
+              <Avatar
+                className={s.avatar}
+                image={
+                  item.avatar ? require(`public/images/${item.avatar}`) : null
+                }
+              />
               <div className={s.userInfo}>
                 <div className={s.userName}>{item.name}</div>
                 <div className={s.userPosition}>{item.position}</div>
@@ -114,7 +137,12 @@ const MultiEmailsModal: React.FC = () => {
         </div>
         {contacts?.map((item) => (
           <div className={s.user} key={item.name}>
-            <Avatar className={s.avatar} image={item.avatar} />
+            <Avatar
+              className={s.avatar}
+              image={
+                item.avatar ? require(`public/images/${item.avatar}`) : null
+              }
+            />
             <div className={s.userInfo}>
               <div className={s.userName}>{item.name}</div>
               <div className={s.userPosition}>{item.position}</div>
@@ -137,11 +165,19 @@ const MultiEmailsModal: React.FC = () => {
           date="January 12, 2012"
           image={require('public/svg/lists.svg?include')}
         />
-        <ModalUserInfo className={s.header} />
+        <ModalUserInfo
+          className={s.header}
+          name={data.name}
+          avatar={data.avatar}
+        />
         {!isSent ? (
           <CardContainer className={s.textContainer}>
             <ModalEditorHeader name={data.name} />
-            <HtmlEditorModal className={s.editor} name={data.name} />
+            <ModalHtmlEditor
+              className={s.editor}
+              name={data.name}
+              event={data.event}
+            />
             <div className={s.buttons}>
               <Button
                 variant="contained"

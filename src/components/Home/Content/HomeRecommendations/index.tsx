@@ -1,21 +1,34 @@
 import React from 'react'
 import { css } from 'astroturf'
-import SmallCard from 'src/components/shared-ui/cards/SmallCard'
+import SmallCard from 'src/components/shared-ui/cards/CardSmall'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { users } from 'src/testData'
 
-const HomeRecommendations: React.FC = () => (
-  <CardContainer className={s.container}>
-    <div className={s.title}>Your Weekly Recommendations</div>
-    <div className={s.cards}>
-      {users.slice(0, 3).map((item) => (
-        <div className={s.column} key={item.id}>
-          <SmallCard data={item} />
-        </div>
-      ))}
-    </div>
-  </CardContainer>
-)
+import { useUsers } from 'src/components/context/UsersContext'
+import { useTemplates } from 'src/components/context/TemplatesContext'
+import findTemplate from 'src/helpers/utils/find-template'
+
+const HomeRecommendations: React.FC = () => {
+  const { state: usersState } = useUsers()
+  const { state: templatesState } = useTemplates()
+
+  const contacts = usersState.data?.slice(0, 3)
+
+  return (
+    <CardContainer className={s.container}>
+      <div className={s.title}>Your Weekly Recommendations</div>
+      <div className={s.cards}>
+        {contacts.slice(0, 3).map((contactItem) => (
+          <div className={s.column} key={contactItem.first_message_id}>
+            <SmallCard
+              data={contactItem}
+              template={findTemplate(templatesState.data, contactItem.template)}
+            />
+          </div>
+        ))}
+      </div>
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {

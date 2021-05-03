@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
-interface Props {
+type Props = {
   className?: string
   icon: string
 }
@@ -20,6 +20,7 @@ const SvgIcon: React.FC<Props> = ({ className, icon }) => (
 const s = css`
   .container {
     display: inline-block;
+    line-height: 0;
   }
 `
 

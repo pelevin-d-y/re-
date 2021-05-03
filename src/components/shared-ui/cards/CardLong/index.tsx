@@ -2,22 +2,22 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
-import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import { usePopup } from 'src/components/context/PopupContext'
+import UserEvent from 'src/components/shared-ui/UserEvent'
 import CardContainer from '../CardContainer'
 
-interface Props {
+type Props = {
   className?: string
   data: UserData
 }
 
 const LongCard: React.FC<Props> = ({ data, className }) => {
   const { avatar, name, position, event } = data
-  const { toggleEmailPopup, updatePopupData } = usePopup()
+  const { dispatch } = usePopup()
   const buttonHandler = () => {
-    updatePopupData({ name, avatar })
-    toggleEmailPopup()
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: { name, avatar, event } })
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (
@@ -29,10 +29,11 @@ const LongCard: React.FC<Props> = ({ data, className }) => {
           <div className={s.position}>{position}</div>
         </div>
       </div>
-      <div className={s.event}>
-        <ColorfulCircle color="black" />
-        {event}
-      </div>
+      <UserEvent
+        className={s.event}
+        circleColor="black"
+        text={event as string}
+      />
       <PopoverRate
         className={s.button}
         buttonClickHandler={buttonHandler}
@@ -77,6 +78,10 @@ const s = css`
     margin-bottom: 4px;
     font-weight: var(--bold);
     line-height: 16px;
+  }
+
+  .position {
+    font-size: 12px;
   }
 
   .button {

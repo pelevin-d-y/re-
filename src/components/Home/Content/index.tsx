@@ -1,10 +1,12 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
+import CardShare from 'src/components/shared-ui/cards/CardShare'
 import classNames from 'classnames'
 import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
 import HomeMeeting from './HomeMeeting'
+import HomeTripleCards from './HomeTripleCards'
 
 const Content: React.FC = () => (
   <div className={s.container}>
@@ -14,7 +16,24 @@ const Content: React.FC = () => (
       <CardItsBeen />
     </div>
     <HomeUpcoming className={s.cards} />
+    <CardShare
+      className={s.cards}
+      variant="light"
+      image={require('public/images/fintech.png')}
+      event="Celebrate this crazy holiday!"
+      title="Share with your friends"
+      link="https://www.google.com/"
+    />
     <HomeMeeting className={s.cards} />
+    <CardShare
+      className={s.cards}
+      variant="dark"
+      image={require('public/images/fintech.png')}
+      event="James was mentioned on Techcrunch"
+      title="Fintech Startup get acquired"
+      link="https://slack.com/"
+    />
+    <HomeTripleCards className={s.cards} />
   </div>
 )
 
@@ -29,7 +48,6 @@ const s = css`
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
     width: 100%;
-    margin-top: 12px;
   }
 
   .cards {

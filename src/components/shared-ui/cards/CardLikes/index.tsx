@@ -8,24 +8,36 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import Likes from 'src/components/shared-ui/Likes'
 import { usePopup } from 'src/components/context/PopupContext'
 
-interface Props {
+type Props = {
   className?: string
   name?: string
   avatar?: string
   position?: string
+  event?: string
+  template: any
 }
 
-const CardLikes: React.FC<Props> = ({ className, avatar, name, position }) => {
-  const { toggleEmailPopup, updatePopupData } = usePopup()
+const CardLikes: React.FC<Props> = ({
+  className,
+  avatar,
+  name,
+  position,
+  template,
+}) => {
+  const { dispatch } = usePopup()
+  const { Subject, Message } = template
   const buttonHandler = () => {
-    updatePopupData({ name, avatar })
-    toggleEmailPopup()
+    dispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: { name, avatar, event: Subject, emailMessage: Message },
+    })
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <Star className={s.star} />
-      <Avatar className={s.avatar} image={avatar} />
+      <Avatar className={s.avatar} image={require(`public/images/${avatar}`)} />
       <div className={s.name}>{name}</div>
       <div>{position}</div>
       <div className={s.buttons}>
@@ -55,8 +67,8 @@ const s = css`
 
   .star {
     position: absolute;
-    right: 13px;
-    top: 13px;
+    right: 6px;
+    top: 6px;
   }
 
   .avatar {

@@ -1,0 +1,450 @@
+[
+  {
+    "Template": "Referral",
+    "Header": "Refer <Contact Name> to Strata",
+    "Summary": "Stay in touch and help <Contact Name> reconnect with their network.",
+    "Subject": "Reconnect Invite",
+    "Message": "Hi <Contact Name>,\n\nI've been using Reconnect to build stronger relationships, and I thought you'd be interested in trying it too. \n\nYou can sign up at https://www.strata.cc/reconnect.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Referral V2",
+    "Header": "Invite <Contact Name> to Strata and Reconnect",
+    "Summary": "Encourage <Contact Name> to reconnect with their network.",
+    "Subject": "Reconnect Invite",
+    "Message": "Hey there <Contact Name>,\n\nReconnect has been a great platform to strengthen my professional network, and I encourage you to check it out too. \n\nCheck it out at https://www.strata.cc/reconnect.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "3 months",
+    "Header": "You're looking to keep in touch.",
+    "Summary": "Check in to see how things have been going for <Contact Name>.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nHope you are doing well. It's crazy that it's been a year since the pandemic lockdown started. I wanted to check in to see how the last few months have been for you? \n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "3 months V2",
+    "Header": "Keep in touch with <Contact Name>.",
+    "Summary": "Check in with <Contact Name> to see how things have been going.",
+    "Subject": "Touching base",
+    "Message": "Hi <Contact Name>,\n\nIt's been a little while since we last talked, so I wanted to reach out. How have things been on your end? \n\nI have been...\n\nBest wishes,\n<Client Name>"
+  },
+  {
+    "Template": "Intermediate",
+    "Header": "It's been several months since you've talked.",
+    "Summary": "Check in to see how things have been going for <Contact Name>.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nI thought of you today and wanted to see what you've been up to. It's been hectic since lockdown started a year ago this week, but I hope still that all has been well with you.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Intermediate V2",
+    "Header": "It's been a few months, check in with <Contact Name>.",
+    "Summary": "Check in to see how things have been going for <Contact Name>.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nI wanted to reach out since its been a while. How have things been going on your end?\n\nI have been...\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "1 year",
+    "Header": "You last connected before COVID",
+    "Summary": "Check in to see how things have been going for <Contact Name>.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nWe last connected around a year ago, so I wanted to reach out. It's crazy to think lockdown is having its one year anniversary this week! Any exciting news on your end? \n\nBest, \n<Client Name>"
+  },
+  {
+    "Template": "1 year V2",
+    "Header": "It's been a while since you've talked.",
+    "Summary": "Check in to see how things have been going for <Contact Name>.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nIt's obviously been a crazy year since lockdown started, but I wanted to see what the news was with you. Any updates?\n\nOn my end...\n\nBest, \n<Client Name>"
+  },
+  {
+    "Template": "Anniversary",
+    "Header": "See how the last year has gone for <Contact Name>.",
+    "Summary": "Get back in touch, now that it has been year since the pandemic started.",
+    "Subject": "Wild year",
+    "Message": "Hi <Contact Name>,\n\nWhat a crazy year it's been. I can't believe it's been so long since we've talked. How have you been doing?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Anniversary V2",
+    "Header": "Get back in touch.",
+    "Summary": "It's been a really long time since you connected, see if there are ways to work together now.",
+    "Subject": "What's new?",
+    "Message": "Hi <Contact Name>,\n\nWow, I can't believe that it's been a year since lockdown started. I know it's been a while since we last chatted, but how have you been since then? Do you have time to get something on the calendar this week or next?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Out Of Office",
+    "Header": "Try to connect again.",
+    "Summary": "Last response was OOO. Check in now.",
+    "Subject": "Following up",
+    "Message": "Hi <Contact Name>,\n\nI got your out of office response last time I tried to connect with you, so I hope this is more convenient.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "New contact",
+    "Header": "<Contact Name> is a new contact",
+    "Summary": "Keep the conversation going to build a relationship",
+    "Subject": "Staying in touch",
+    "Message": "Hi <Contact Name>,\n\nGreat to catch up the other day. Looking forward to staying in touch.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "New Contact V2",
+    "Header": "Connect with new contacts.",
+    "Summary": "Continue the conversation.",
+    "Subject": "Reaching out",
+    "Message": "Hi <Contact Name>,\n\nI hope you had a great weekend. \n\nI wanted to check in to see how you were doing.\n\nHere'a quick update on...\n\nBest wishes,\n<Client Name>"
+  },
+  {
+    "Template": "Contact introduced to client by",
+    "Header": "Follow up on introductions.",
+    "Summary": "<Contact Name> was recently introduced to you by <Intro Name>.",
+    "Subject": "Nice to meet you",
+    "Message": "Hi <Contact Name>,\n\nIt's great to meet you...\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Contact introduced to client by V2",
+    "Header": "Follow up on introductions.",
+    "Summary": "You were introduced to <Intro Name> by <Contact Name>.",
+    "Subject": "Great to meet you",
+    "Message": "Hi <Contact Name>,\n\nI'm glad we got the chance to connect...\n\nTake care,\n<Client Name>"
+  },
+  {
+    "Template": "Unanswered Question",
+    "Header": "Close the loop.",
+    "Summary": "Looks like there are some unanswered questions in your last emails. Nudge <Contact Name>.",
+    "Subject": "Following up on our conversation",
+    "Message": "Hi <Contact Name>,\n\nI hope you are having a great start to the week. I wanted to check back in regarding... \n\nAll my best,\n<Client Name>"
+  },
+  {
+    "Template": "Birthday",
+    "Header": "Wish <Contact Name> a happy birthday",
+    "Summary": "You previously wished <Contact Name> a happy birthday on <Date>",
+    "Subject": "Happy Birthday!",
+    "Message": "Hi <Contact Name>,\n\nWishing you all the best on your birthday,\n\n<Client Name>"
+  },
+  {
+    "Template": "Celebrate",
+    "Header": "Check in on the celebration!",
+    "Summary": "<Contact Name> recently was celebrating. Follow up.",
+    "Subject": "How did it go?",
+    "Message": "Hi <Contact Name>,\n\nWanted to see how the celebration went! How did it go?\n\nAll the best,\n<Client Name>"
+  },
+  {
+    "Template": "Visit",
+    "Header": "Check in on <Contact Name>'s recent travels.",
+    "Summary": "You recently discussed a visit.",
+    "Subject": "How was it?",
+    "Message": "Hi <Contact Name>,\n\nHow was your visit?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Move",
+    "Header": "<Contact Name> recently discussed a move.",
+    "Summary": "Check in on how it went.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nHave you settled in yet? How's the new place?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Forever",
+    "Header": "It's been a really long time",
+    "Summary": "See how <Contact Name> is doing",
+    "Subject": "Been a while...",
+    "Message": "Hi <Contact Name>,\n\nIt's been a really long time (especially with COVID, 2020, etc) so I figured I'd check in to see how things are going. Hope all's well.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Year Since You Met",
+    "Header": "You met in person a year ago.",
+    "Summary": "Reminince on how crazy it is that it's been a year since you met in person",
+    "Subject": "A year ago!",
+    "Message": "Hi <Contact Name>,\n\nI can't believe how long its been since we met in person. So much has happened since then! It's crazy to think lockdown is having its one year anniversary this week!\n\nI hope that 2021 is treating you well, and I look forward to connecting in person soon.\n\n<Client Name>"
+  },
+  {
+    "Template": "Top Contact",
+    "Header": "This is one of your top contacts.",
+    "Summary": "Let them know!",
+    "Subject": "Thanks for being my email buddy.",
+    "Message": "Hi <Contact Name>,\n\nStrata (strata.cc) let me know that you are one of the people I've emailed the most this year. I'm glad that we've kept in touch, and I hope we keep this ball rolling into the future!\n\nAll the best,\n<Client Name>"
+  },
+  {
+    "Template": "Contact introduced client to",
+    "Header": "You received an introduction.",
+    "Summary": "Follow up with <Contact Name> about your conversation with <Intro Name>.",
+    "Subject": "Thank you for the introduction to <Intro Name>",
+    "Message": "Hi <Contact Name>, \n\nThanks again for the awesome introduction with <Intro Name>!\n\n<Intro Name> and I had a great conversation about...\n\nHow are things with you?\n\nBest,\n\n<Client Name>"
+  },
+  {
+    "Template": "Contact introduced client to V2",
+    "Header": "You received an introduction.",
+    "Summary": "Follow up with <Contact Name> about your conversation with <Intro Name>.",
+    "Subject": "Thanks for introducing me to <Intro Name>",
+    "Message": "Hi <Contact Name>, \n\nThanks for suggesting I reach out to <Intro Name>. It was great to get to know them, and I appreciate you keeping me in your thoughts.\n\nHow are you doing?\n\nLooking forward to hearing from you,\n\n<Client Name>"
+  },
+  {
+    "Template": "Client introduced contact to",
+    "Header": "You made an introduction.",
+    "Summary": "Ask <Contact Name> how their conversation with <Intro Name> went.",
+    "Subject": "Following up on the introduction with <Intro Name>",
+    "Message": "Hi <Contact Name>, \n\nHow are things going with you? I wanted to touch base to ask if you got the chance to connect with <Intro Name>? Hope the introduction was helpful! \n\nI hope all is well with you! \n\nBest, \n<Client Name>"
+  },
+  {
+    "Template": "Client introduced contact to V2",
+    "Header": "You made an introduction.",
+    "Summary": "Reach out to <Contact Name> about their conversation with <Intro Name>.",
+    "Subject": "Checking in after the introduction with <Intro Name>.",
+    "Message": "Hi <Contact Name>, \n\nI hope all is well with you. I'm checking in to see how your conversation went with <Intro Name>. I hope it was valuable! \n\nHow are things going? \n\nBest, \n<Client Name>"
+  },
+  {
+    "Template": "Response to Introduction",
+    "Header": "Keep the conversation going.",
+    "Summary": "Conversation may need a nudge.",
+    "Subject": "Following up",
+    "Message": "Hi <Contact Name>, \n\nHoping all is well with you. Thank you so much for connecting me with <Intro name>, I'll make sure to reach out.\n\nTake care, \n<Client Name>"
+  },
+  {
+    "Template": "Never accepted offer for an introduction",
+    "Header": "Get an introduction.",
+    "Summary": "<Contact Name> offered to connect you with <Intro Name>. Follow up to let them know you still want the introduction.",
+    "Subject": "Offer for intro to <Intro Name>",
+    "Message": "Hi <Contact Name>,\n\nThanks for offering the introduction with <Intro Name>...\n\nWhat's new with you?\n\nI have been...\n\nAll the best,\n<Client Name>"
+  },
+  {
+    "Template": "Never accepted offer for an introduction V2",
+    "Header": "Get an introduction.",
+    "Summary": "Reach out to <Contact Name> about the introduction to <Intro Name>.",
+    "Subject": "Your kind offer for the introduction",
+    "Message": "Hi <Contact Name>,\n\nI appreciate you offering to introduce me to <Intro Name>...\n\nHow are you doing? It's crazy to think that it's been a year since COVID lockdown started, but I hope you have been doing well!\n\nBest wishes,\n<Client Name>"
+  },
+  {
+    "Template": "Ask for intros",
+    "Header": "Ask <Contact Name> for introductions.",
+    "Summary": "<Contact Name> may know others who can help.",
+    "Subject": "A quick request",
+    "Message": "Hi <Contact Name>,\n\nHopefully you're doing well and staying safe. I wanted to check in and give you an update...\n\nI am looking for an introduction with...\n\nThanks for keeping me in mind!\n<Client Name>"
+  },
+  {
+    "Template": "Ask for intros V2",
+    "Header": "Ask <Contact Name> for an introduction.",
+    "Summary": "",
+    "Subject": "Request for introduction",
+    "Message": "Hi <Contact Name>,\n\nI wanted to check in and give an update on what I have been up to...\n\nI was wondering if you knew anyone who...\n\nThanks for your help!\n<Client Name>"
+  },
+  {
+    "Template": "You never responded",
+    "Header": "You never responded to <Contact Name>.",
+    "Summary": "Keep your conversation with <Contact Name> going.",
+    "Subject": "A delayed follow-up",
+    "Message": "Hi <Contact Name>, \n\nSorry, for the delayed response, it's been a hectic few weeks...\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "They never responded",
+    "Header": "They didn't respond.",
+    "Summary": "Nudge <Contact Name>.",
+    "Subject": "Following up",
+    "Message": "Hi <Contact Name>, \n\nJust following up on my last email. Hope all is well with you. Let me know if...\n\nHoping your week is off to a great start!\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "New role- dont have personal email",
+    "Header": "Congratulate <Contact Name> on new role.",
+    "Summary": "<Contact Name> recently started a new job. You may need to find an updated email address or try to reach out on LinkedIn to congratulate them.",
+    "Subject": "Congratulations!",
+    "Message": "Hi <Contact Name>,\n\nI saw that you took on a new role at <Company name> recently. That's awesome, congratulations. How has it been so far?\n\nI would love to catch up with you soon to hear about it. What does your schedule look like?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "New role- have personal email",
+    "Header": "Congratulate <Contact Name> on their new role!",
+    "Summary": "<Contact Name> recently started a new job.",
+    "Subject": "Congratulations on the new job!",
+    "Message": "Hi <Contact Name>,\n\nI saw that you took on a new role at <Company name> recently. That's great news! I hope it has been awesome so far.\n\nI would love to catch up with you soon to hear about it. What does your schedule look like?\n\nBest,\n<Client Name"
+  },
+  {
+    "Template": "New role- have personal email V2",
+    "Header": "Make sure to congratulate <Contact Name> on their new role!",
+    "Summary": "<Contact Name> recently started a new job.",
+    "Subject": "Congratulations!",
+    "Message": "Hi <Contact Name>,\n\nCongrats on the new role at <Company name>. I'm very happy for you! How do you like it so far?\n\nLet's get a time on calendar to chat about it. What does your schedule look like?\n\nBest,\n<Client Name"
+  },
+  {
+    "Template": "Update on new role",
+    "Header": "Touch base with <Contact Name> to disucss their new job.",
+    "Summary": "<Contact Name> started a new role a few months ago. See how it's going.",
+    "Subject": "How's your new job?",
+    "Message": "Hi <Contact Name>,\n\nHow are things going with you? It's crazy that it's been a year since lockdown started. I wanted to check in to see how your new job has been so far! Are you enjoying it?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Attended same event",
+    "Header": "Keep the conversation going.",
+    "Summary": "Follow up after the event to stay in touch with <Contact Name>.",
+    "Subject": "Following up after <Event Name>",
+    "Message": "Hi <Contact Name>, \n\nI hope you're doing well.\n\nI wanted to reach out to discuss <Event Name>. What did you think?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Attended same event V2",
+    "Header": "Keep in touch with <Contact Name>.",
+    "Summary": "Touch base after the event.",
+    "Subject": "Following up after <Event Name>",
+    "Message": "Hi <Contact Name>, \n\nHow are you doing?\n\nI wanted to recap <Event Name> with you. How did you like it?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Had a meeting recently",
+    "Header": "Keep the conversation going.",
+    "Summary": "Follow up with <Contact Name>.",
+    "Subject": "Following up",
+    "Message": "Hi <Contact Name>, \n\nIt was awesome catching up with you the other day. \n\nI hope you're doing well.\n\nTake care!\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Had a meeting recently V2",
+    "Header": "Keep the conversation going.",
+    "Summary": "Make sure to follow up after your meeting.",
+    "Subject": "Following up after the meeting.",
+    "Message": "Hi <Contact Name>, \n\nI enjoyed catching up with you the other day and wanted to quickly recap the meeting... \n\nI hope your week is going well.\n\nTake care!\n\nBest wishes,\n<Client Name>"
+  },
+  {
+    "Template": "Had a meeting - few months ago",
+    "Header": "Keep the conversation going.",
+    "Summary": "Follow up with <Contact Name>.",
+    "Subject": "Following up",
+    "Message": "Hi <Contact Name>, \n\nIt was great catching up a few months ago. How have you been doing? It's crazy to think that COVID lockdown started a year ago to the week! \n\nI hope you're doing well.\n\nTake care!\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Had a meeting - few months ago V2",
+    "Header": "Keep the conversation going.",
+    "Summary": "Follow up with <Contact Name>. Its been a while.",
+    "Subject": "Follow up from a while back",
+    "Message": "Hi <Contact Name>, \n\nIt was great catching up a while back! I wanted to reach out to see how you've been since we met last. Any updates?\n\nWishing you the best!\n\n<Client Name>"
+  },
+  {
+    "Template": "Check in - between meetings",
+    "Header": "Quick interim check-in",
+    "Summary": "You have a future meeting scheduled, but send a quick note to strengthen the relationship.",
+    "Subject": "Quick note before our meeting",
+    "Message": "Hi <Contact Name>,\n\nI hope you're doing well. I wanted to touch base with you before our meeting to see how things were going with you.\n\nLooking forward to catching up.\n\nAll my best,\n<Client Name>"
+  },
+  {
+    "Template": "Never met",
+    "Header": "You never met.",
+    "Summary": "You were supposed to meet, but never got time on the calendar.",
+    "Subject": "Getting a time on the calendar",
+    "Message": "Hi <Contact Name>, \n\nI realized we didn't get the chance to meet up. It would be great to schedule something soon. What's your availability like?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Never met V2",
+    "Header": "You didn't end up meeting.",
+    "Summary": "You were supposed to meet, but never got time on the calendar.",
+    "Subject": "Finding a time for a quick catch-up",
+    "Message": "Hi <Contact Name>, \n\nI realized we never got the chance to meet up, but it would be great to reconnect soon! What does your schedule look like?\n\nWishing you the best,\n<Client Name>"
+  },
+  {
+    "Template": "Next steps",
+    "Header": "Check in on next steps.",
+    "Summary": "Keep the conversation going.",
+    "Subject": "Following up",
+    "Message": "Hi <Contact Name>,\n\nI hope all is well with you. I wanted to...\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Stay in touch - general",
+    "Header": "Make sure you're staying in touch!",
+    "Summary": "Send a quick check in to stay in touch.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nI wanted to check in and see how you are doing. Any news on your end? It's crazy to think lockdown is having its one year anniversary this week! With everything going on, I hope you are staying healthy and doing great!\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Stay in touch - general V2",
+    "Header": "Stay in touch with <Contact Name>.",
+    "Summary": "Stay top of mind with a brief check-in.",
+    "Subject": "Touching base",
+    "Message": "Hi <Contact Name>,\n\nI hope your week has been going well. I wanted to briefly check in to see how things were on your end.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Share an update",
+    "Header": "Give an update.",
+    "Summary": "Share any progress or news.",
+    "Subject": "Update",
+    "Message": "Hi <Contact Name>,\n\nAlthough a bit delayed, as promised I wanted to give an update...\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Share an update V2",
+    "Header": "Keep <Contact Name> updated!",
+    "Summary": "Share what you've been up to!",
+    "Subject": "A quick update",
+    "Message": "Hi <Contact Name>,\n\nHope all is well with you! I wanted to give you a brief update on my end...\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Talked about staying in touch",
+    "Header": "You mentioned staying in touch with <Contact Name>.",
+    "Summary": "Reach out to schedule a meeting",
+    "Subject": "A brief check-in",
+    "Message": "Hi <Contact Name>,\n\nI hope you're doing well! How are things going with you? Any big updates?\n\nWe talked about catching up, and I thought I would reach out to get something on the calendar. What does your schedule look like for the next few weeks?\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Monthly Contact",
+    "Header": "You're looking to stay in touch with <Contact Name> regularly.",
+    "Summary": "Keep them in the loop.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nI wanted to check in to see how things are going. Any exciting updates on your end?\n\nIt's crazy to think lockdown is having its one year anniversary this week. Despite the challenges lockdown continues to pose, I hope everything is going well for you.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Stay in touch with founders",
+    "Header": "You're looking to keep in touch with founders.",
+    "Summary": "Get updates on their company news and progress.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nI wanted to check in and see how you are doing. Any updates from January?\n\nTake care!\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Stay in touch with investors",
+    "Header": "You're looking to stay in touch with investors.",
+    "Summary": "Get updates on their deals and news.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nI wanted to check in to see how things were going with you. Any exciting new deals? I hope you're doing well and staying safe.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Want to stay in touch?",
+    "Header": "Do you want to stay in touch with <Contact Name>?",
+    "Summary": "Keep in touch with <Contact name>.",
+    "Subject": "Staying in touch",
+    "Message": "Hi <Contact Name>,\n\nGreat to meet last year. \n\nLooking forward to staying in touch.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Weekly update",
+    "Header": "Give <Contact Name> an update for the week.",
+    "Summary": "Let them know how you're doing.",
+    "Subject": "A quick update",
+    "Message": "Hi <Contact Name>,\n\nHope this email finds you well! I wanted to touch base this week and see how you're doing.\n\nI also wanted to give you a weekly update... Looking forward to staying in touch.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Ask a question",
+    "Header": "Stay connected with <Contact Name> by asking a question.",
+    "Summary": "",
+    "Subject": "A quick question",
+    "Message": "Hi <Contact Name>,\n\nHope this email finds you well! \n\nI wanted to ask you a quick question about...\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Joke of the week",
+    "Header": "Send <Contact Name> something to make them smile.",
+    "Summary": "",
+    "Subject": "",
+    "Message": "Hi <Contact Name>,\n\nI came across this hilarious clip of Sacha Baron Cohen, and I thought of you. Check it out here: https://www.youtube.com/watch?v=TOxjcvi5KIo\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "",
+    "Header": "",
+    "Summary": "",
+    "Subject": "",
+    "Message": ""
+  },
+  {
+    "Template": "End of the year",
+    "Header": "You haven't talked in a while.",
+    "Summary": "See how the year panned out.",
+    "Subject": "Checking in",
+    "Message": "Hi <Contact Name>,\n\nWhat a year. How did it pan out for you? Any updates?\n\nWould be great to catch up in the new year. Should we get something on the calendar for January?\n\nHope you enjoyed the holidays.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "Lunchclub",
+    "Header": "LunchClub connection.",
+    "Summary": "Follow up with <Contact Name> if you want to build the relationship.",
+    "Subject": "Following up after LunchClub",
+    "Message": "Hi <Contact Name>,\n\nGreat to meet via LunchClub.\n\nLooking forward to staying in touch.\n\nHope you enjoyed the holidays.\n\nBest,\n<Client Name>"
+  },
+  {
+    "Template": "OMG Zebras!",
+    "Header": "You like Zebras",
+    "Summary": "<Contact Name> also likes <Topic Link> about zebras",
+    "Subject": "How bout them Zebras?",
+    "Message": "Hi <Contact Name>,\n\nIt seems we share an appreciation of striped ungulates...\n<Topic URL>\n\nBest,\n<Client Name>"
+  }
+]

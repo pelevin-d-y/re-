@@ -12,14 +12,16 @@ import ModalBase from '../ModalBase'
 import ModalSent from '../ModalSent'
 
 const EmailModal: React.FC = () => {
-  const { toggleEmailPopup, state } = usePopup()
+  const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
-  const { name } = data
+  const { name, event, avatar } = data
+
   const [isSent, setIsSent] = useState(false)
 
   const closeHandler = () => {
-    toggleEmailPopup()
+    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
     setIsSent(false)
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
   }
 
   return (
@@ -30,11 +32,11 @@ const EmailModal: React.FC = () => {
     >
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
-        <ModalUserInfo className={s.header} />
+        <ModalUserInfo className={s.header} name={name} avatar={avatar} />
         {!isSent ? (
           <CardContainer className={s.textContainer}>
             <ModalEditorHeader name={name} />
-            <HtmlEditorModal className={s.editor} name={name} />
+            <HtmlEditorModal className={s.editor} name={name} event={event} />
             <div className={s.buttons}>
               <Button variant="outlined" size="medium" className={s.buttonDots}>
                 •••
