@@ -7,7 +7,8 @@
     "build": "next build && next export",
     "start": "next start -p 3001",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "deploy:gh": "push-dir --dir=out --branch=gh-pages --remote=ghpages --cleanup"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -26,6 +27,7 @@
     "next-compose-plugins": "^2.2.1",
     "next-optimized-images": "^2.6.2",
     "normalize.css": "^8.0.1",
+    "push-dir": "^0.4.1",
     "react": "^17.0.1",
     "react-dom": "17.0.1",
     "react-modal": "^3.12.1",
