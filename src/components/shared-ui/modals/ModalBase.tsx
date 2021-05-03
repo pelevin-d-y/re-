@@ -3,7 +3,7 @@ import ReactModal from 'react-modal'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
-interface Props {
+type Props = {
   isOpen: boolean
   onClose: () => void
   className?: string

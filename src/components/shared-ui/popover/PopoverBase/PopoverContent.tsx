@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 
-interface Props {
+type Props = {
   className?: string
   items?: { name: string; handler: () => void }[]
 }

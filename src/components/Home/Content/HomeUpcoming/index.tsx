@@ -1,17 +1,16 @@
 import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
-import LongCard from 'src/components/shared-ui/cards/LongCard'
+import LongCard from 'src/components/shared-ui/cards/CardLong'
 import Star from 'src/components/shared-ui/Star'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Button from 'src/components/shared-ui/Button'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import CardActions from 'src/components/shared-ui/cards/CardActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
 
-interface Props {
+type Props = {
   className?: string
 }
 
@@ -24,12 +23,12 @@ const headerData = {
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className }) => {
-  const { toggleMultiEmailsPopup, updatePopupData } = usePopup()
-  const { updateUsersData } = useUsers()
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch } = useUsers()
   const followUpWithAllHandler = () => {
-    updatePopupData({})
-    updateUsersData(users)
-    toggleMultiEmailsPopup()
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 
   return (
@@ -41,19 +40,11 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
           <LongCard data={item} key={item.id} />
         ))}
       </div>
-      <div className={s.buttons}>
-        <PopoverDots
-          className={classNames(s.buttonDots, s.button)}
-          variant="outlined"
-        />
-        <Button
-          className={classNames(s.buttonFollow, s.button)}
-          variant="contained"
-          handler={followUpWithAllHandler}
-        >
-          Follow up with all
-        </Button>
-      </div>
+      <CardActions
+        className={s.actions}
+        mainAction={followUpWithAllHandler}
+        mainText="Follow up with all"
+      />
     </CardContainer>
   )
 }
@@ -66,18 +57,12 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 26px;
-    right: 19px;
+    top: 19px;
+    right: 13px;
     z-index: 10;
   }
 
-  .buttons {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 9px 18px;
-
-    max-width: 300px;
-    width: 100%;
+  .actions {
     margin-top: 27px;
     margin-left: auto;
   }

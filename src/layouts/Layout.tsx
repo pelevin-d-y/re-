@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Header from 'src/components/shared-ui/Header'
 import Sidebar from 'src/components/shared-ui/Sidebar'
+import { ClientProvider } from 'src/components/context/ClientContext'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
@@ -12,13 +13,15 @@ const HomeLayout: React.FC = ({ children }) => {
   }
 
   return (
-    <div className={classNames(s.root, menuOpen && s.open)}>
-      <Sidebar className={s.sidebar} />
-      <div className={s.main}>
-        <Header toggleMenu={toggleMenu} />
-        <div className={classNames('container', s.content)}>{children}</div>
+    <ClientProvider>
+      <div className={classNames(s.root, menuOpen && s.open)}>
+        <Sidebar className={s.sidebar} />
+        <div className={s.main}>
+          <Header toggleMenu={toggleMenu} />
+          <div className={classNames('container', s.content)}>{children}</div>
+        </div>
       </div>
-    </div>
+    </ClientProvider>
   )
 }
 

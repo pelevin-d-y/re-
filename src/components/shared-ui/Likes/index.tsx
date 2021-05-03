@@ -43,7 +43,6 @@ const s = css`
     width: 15px;
     height: 15px;
     object-fit: contain;
-    // color: var(--grey);
   }
 
   .like {

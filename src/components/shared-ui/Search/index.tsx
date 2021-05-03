@@ -3,7 +3,7 @@ import { css } from 'astroturf'
 import classNames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
-interface Props {
+type Props = {
   className?: string
   inputClassName?: string
   inputPlaceholder: string

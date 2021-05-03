@@ -1,37 +1,33 @@
 import React from 'react'
 import classNames from 'classnames'
-import { usePopup } from 'src/components/context/PopupContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import { css } from 'astroturf'
 
-interface Props {
+type Props = {
   className?: string
+  avatar?: string
+  name?: string
 }
 
-const ModalUserInfo: React.FC<Props> = ({ className }) => {
-  const { state } = usePopup()
-  const { data } = state
-
-  return (
-    <div className={classNames(className, s.container)}>
-      <div className={s.profile}>
-        <Avatar image={data.avatar} />
-        <div className={s.profileInfo}>
-          <div className={s.name}>{data.name || '<unknown>'}</div>
-          <div className={s.profileType}>
-            <ColorfulCircle color="black" />
-            Follow up on Meetings
-          </div>
+const ModalUserInfo: React.FC<Props> = ({ className, avatar, name }) => (
+  <div className={classNames(className, s.container)}>
+    <div className={s.profile}>
+      <Avatar image={avatar ? require(`public/images/${avatar}`) : null} />
+      <div className={s.profileInfo}>
+        <div className={s.name}>{name || '<unknown>'}</div>
+        <div className={s.profileType}>
+          <ColorfulCircle color="black" />
+          Follow up on Meetings
         </div>
       </div>
-      <div className={s.info}>
-        Landon intro-ed <b>Ari Kieth</b> last week, follow up with Landon on
-        meeting went with her.
-      </div>
     </div>
-  )
-}
+    <div className={s.info}>
+      Landon intro-ed <b>Ari Kieth</b> last week, follow up with Landon on
+      meeting went with her.
+    </div>
+  </div>
+)
 
 const s = css`
   .container {

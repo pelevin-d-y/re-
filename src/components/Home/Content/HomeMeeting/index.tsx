@@ -3,15 +3,15 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Star from 'src/components/shared-ui/Star'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import Button from 'src/components/shared-ui/Button'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import { users } from 'src/testData'
+import { useTemplates } from 'src/components/context/TemplatesContext'
+import CardActions from 'src/components/shared-ui/cards/CardActions'
+import findTemplate from 'src/helpers/utils/find-template'
 
-interface Props {
+type Props = {
   className?: string
 }
 
@@ -23,11 +23,13 @@ const headerData = {
 }
 
 const HomeMeeting: React.FC<Props> = ({ className }) => {
-  const { toggleMultiEmailsPopup } = usePopup()
-  const { updateUsersData } = useUsers()
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch, state: usersState } = useUsers()
+  const users = usersState.data.slice(0, 6)
+  const { state: templatesState } = useTemplates()
   const followUpWithAllHandler = () => {
-    updateUsersData(users)
-    toggleMultiEmailsPopup()
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: usersState.data })
+    popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 
   return (
@@ -35,29 +37,23 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {users.slice(0, 6).map((item) => (
+        {users.map((item) => (
           <CardLikes
-            key={item.id}
+            key={item.first_message_id}
             className={s.card}
             name={item.name}
             avatar={item.avatar}
             position={item.position}
+            event={item.event}
+            template={findTemplate(templatesState.data, item.template)}
           />
         ))}
       </div>
-      <div className={s.buttons}>
-        <PopoverDots
-          className={classNames(s.buttonDots, s.button)}
-          variant="outlined"
-        />
-        <Button
-          className={classNames(s.buttonFollow, s.button)}
-          variant="contained"
-          handler={followUpWithAllHandler}
-        >
-          Follow up with all
-        </Button>
-      </div>
+      <CardActions
+        className={s.actions}
+        mainAction={followUpWithAllHandler}
+        mainText="Follow up with all"
+      />
     </CardContainer>
   )
 }
@@ -70,8 +66,8 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 26px;
-    right: 19px;
+    top: 19px;
+    right: 13px;
     z-index: 10;
   }
 
@@ -83,14 +79,8 @@ const s = css`
     margin-top: 18px;
   }
 
-  .buttons {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 9px 18px;
-
-    max-width: 300px;
-    width: 100%;
-    margin-top: 27px;
+  .actions {
+    margin-top: 26px;
     margin-left: auto;
   }
 `

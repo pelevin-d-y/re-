@@ -64,6 +64,14 @@ export const users: UserData[] = [
   },
 ]
 
+type Client = {
+  name: string
+}
+
+export const client: Client = {
+  name: 'Denis Pelevin',
+}
+
 export const playlists: Playlists = [
   'Meetings & Events',
   'Follow Ups',
@@ -76,9 +84,7 @@ export const playlists: Playlists = [
   'Holidays',
   'Share Strata',
   'Checking Emails',
-  'Follow Ups',
   'Intros received',
-  'New Roles',
   'Network Engagement',
   'Network Maintenance',
 ]

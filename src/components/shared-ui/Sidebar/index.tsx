@@ -2,10 +2,10 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Logo from 'src/components/shared-ui/Logo'
-import Link from 'src/components/shared-ui/Link'
+import Button from 'src/components/shared-ui/Button'
 import SidebarList from './SidebarList'
 
-interface Props {
+type Props = {
   className?: string
 }
 
@@ -14,9 +14,9 @@ const Sidebar: React.FC<Props> = ({ className }: Props) => (
     <div className={s.content}>
       <Logo className={s.logo} />
       <SidebarList />
-      <Link className={s.link} variant="outlined" href="/">
+      <Button className={s.link} variant="outlined">
         Log Out
-      </Link>
+      </Button>
     </div>
   </div>
 )

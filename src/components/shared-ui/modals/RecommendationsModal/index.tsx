@@ -12,8 +12,8 @@ import ModalBase from '../ModalBase'
 import ModalClose from '../ModalClose'
 import ModalSendingListHeader from '../ModalHeader'
 
-const MultiEmailsModal: React.FC = () => {
-  const { toggleRecommendationPopup, state } = usePopup()
+const RecommendationsModal: React.FC = () => {
+  const { dispatch, state } = usePopup()
   const { recommendationsIsOpen } = state
   const [subscribedPlaylist, setSubscribedPlaylist] = useState<Playlists>([])
 
@@ -21,7 +21,7 @@ const MultiEmailsModal: React.FC = () => {
     setSubscribedPlaylist(playlists)
   }, [])
   const closeHandler = () => {
-    toggleRecommendationPopup()
+    dispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
   return (
@@ -110,6 +110,7 @@ const s = css`
 
   .close {
     position: absolute;
+    z-index: 20;
     top: 23px;
     right: 24px;
   }
@@ -282,4 +283,4 @@ const s = css`
   }
 `
 
-export default MultiEmailsModal
+export default RecommendationsModal

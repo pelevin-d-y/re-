@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
-interface Props {
+type Props = {
   className?: string
   names: string | (string | undefined)[]
 }

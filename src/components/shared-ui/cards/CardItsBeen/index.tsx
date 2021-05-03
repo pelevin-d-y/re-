@@ -1,25 +1,25 @@
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Avatar from 'src/components/shared-ui/Avatar'
-import Button from 'src/components/shared-ui/Button'
 import Star from 'src/components/shared-ui/Star'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
 import CardContainer from '../CardContainer'
+import CardActions from '../CardActions'
 
-interface Props {
+type Props = {
   className?: string
 }
 
 const CardItsBeen: React.FC<Props> = ({ className }) => {
-  const { toggleRecommendationPopup } = usePopup()
-  const { updateUsersData } = useUsers()
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch } = useUsers()
   const openModalHandler = () => {
-    updateUsersData(users)
-    toggleRecommendationPopup()
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
   return (
@@ -33,30 +33,12 @@ const CardItsBeen: React.FC<Props> = ({ className }) => {
           icon={require('public/svg/clock.svg?include')}
         />
       </div>
-      <div className={s.avatars}>
-        {users.map((item, index) => (
-          <div
-            className={s.avatar}
-            key={item.id}
-            style={{ transform: `translateX(-${index * 10}px)` }}
-          >
-            <Avatar image={item.avatar} />
-          </div>
-        ))}
-      </div>
-      <div className={s.buttons}>
-        <PopoverDots
-          className={classNames(className, s.buttonDots)}
-          variant="outlined"
-        />
-        <Button
-          className={classNames(s.buttonList, s.button)}
-          variant="contained"
-          handler={openModalHandler}
-        >
-          View List
-        </Button>
-      </div>
+      <AvatarsList className={s.avatars} users={users.slice(0, 7)} />
+      <CardActions
+        className={s.actions}
+        mainAction={openModalHandler}
+        mainText="View List"
+      />
     </CardContainer>
   )
 }
@@ -70,8 +52,8 @@ const s = css`
 
   .star {
     position: absolute;
-    top: 21px;
-    right: 24px;
+    top: 14px;
+    right: 17px;
     z-index: 10;
   }
 
@@ -107,9 +89,8 @@ const s = css`
     margin-bottom: 18px;
   }
 
-  .buttons {
-    display: flex;
-    flex-flow: row nowrap;
+  .actions {
+    max-width: 100%;
   }
 
   .button {

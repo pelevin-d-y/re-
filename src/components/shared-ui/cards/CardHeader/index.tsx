@@ -2,13 +2,13 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
-interface Data {
+type Data = {
   month: string
   day: string
   title: string
   description: string
 }
-interface Props {
+type Props = {
   className?: string
   data: Data
 }
