@@ -10,26 +10,18 @@ import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
   className?: string
-  name?: string
-  avatar?: string
-  position?: string
-  event?: string
+  data: UserData
   template: any
 }
 
-const CardLikes: React.FC<Props> = ({
-  className,
-  avatar,
-  name,
-  position,
-  template,
-}) => {
+const CardLikes: React.FC<Props> = ({ className, data, template }) => {
   const { dispatch } = usePopup()
-  const { Subject, Message } = template
+  const { name, avatar } = data
+
   const buttonHandler = () => {
     dispatch({
       type: 'UPDATE_POPUP_DATA',
-      payload: { name, avatar, event: Subject, emailMessage: Message },
+      payload: { name, avatar, templateData: template },
     })
     dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
@@ -39,7 +31,7 @@ const CardLikes: React.FC<Props> = ({
       <Star className={s.star} />
       <Avatar className={s.avatar} image={require(`public/images/${avatar}`)} />
       <div className={s.name}>{name}</div>
-      <div>{position}</div>
+      <div>{template.Subject}</div>
       <div className={s.buttons}>
         <Likes />
         <PopoverRate
