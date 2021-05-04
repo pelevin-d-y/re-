@@ -17,6 +17,14 @@ type Playlists = (
   | 'Network Maintenance'
 )[]
 
+type Template = {
+  Template: string
+  Header: string
+  Summary: string
+  Subject: string
+  Message: string
+}
+
 type UserData = {
   id?: number
   name?: string
@@ -26,16 +34,8 @@ type UserData = {
   description?: string
   position?: string
   event?: string
-  emailMessage?: string
   address?: string
   lastMessage?: string
   playlists?: Playlists
-}
-
-type Template = {
-  Template: string
-  Header: string
-  Summary: string
-  Subject: string
-  Message: string
+  templateData?: Template
 }

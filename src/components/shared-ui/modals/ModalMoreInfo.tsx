@@ -7,9 +7,10 @@ import ModalAdditionInfo from './ModalAdditionInfo'
 
 type Props = {
   className?: string
+  name?: string
 }
 
-const ModalMoreInfo: React.FC<Props> = ({ className }) => {
+const ModalMoreInfo: React.FC<Props> = ({ className, name }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const collapseHandler = () => {
@@ -19,7 +20,7 @@ const ModalMoreInfo: React.FC<Props> = ({ className }) => {
   return (
     <div className={classNames(className, s.container)}>
       <button type="button" onClick={collapseHandler} className={s.trigger}>
-        {isOpen ? 'Less' : 'More'} Info about Landon{' '}
+        {isOpen ? 'Less' : 'More'} Info about {name}{' '}
         <SvgIcon
           className={classNames(s.arrowIcon, isOpen && s.arrowOpen)}
           icon={require('public/svg/inputArrow.svg?include')}
