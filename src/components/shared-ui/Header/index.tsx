@@ -30,7 +30,9 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
         <Search className={s.search} inputPlaceholder="Search..." />
         <HeaderTheme />
         <HeaderToDos />
-        <HeaderProfile address={data.address as string} avatar={data.avatar} />
+        {data.address && (
+          <HeaderProfile address={data.address} avatar={data.avatar} />
+        )}
       </div>
     </header>
   )

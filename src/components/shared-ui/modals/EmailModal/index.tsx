@@ -13,8 +13,9 @@ import ModalSent from '../ModalSent'
 
 const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
+
   const { data, emailModalIsOpen } = state
-  const { name, event, avatar } = data
+  const { name, event, avatar, templateData } = data
 
   const [isSent, setIsSent] = useState(false)
 
@@ -32,10 +33,19 @@ const EmailModal: React.FC = () => {
     >
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
-        <ModalUserInfo className={s.header} name={name} avatar={avatar} />
+        {templateData?.Summary && name && (
+          <ModalUserInfo
+            className={s.header}
+            name={name}
+            avatar={avatar}
+            text={templateData.Summary}
+          />
+        )}
         {!isSent ? (
           <CardContainer className={s.textContainer}>
-            <ModalEditorHeader name={name} />
+            {templateData?.Header && (
+              <ModalEditorHeader text={templateData.Header} name={name} />
+            )}
             <HtmlEditorModal className={s.editor} name={name} event={event} />
             <div className={s.buttons}>
               <Button variant="outlined" size="medium" className={s.buttonDots}>
@@ -55,7 +65,7 @@ const EmailModal: React.FC = () => {
           name && <ModalSent names={name} />
         )}
       </div>
-      {!isSent ? <ModalMoreInfo /> : null}
+      {!isSent ? <ModalMoreInfo name={name} /> : null}
     </ModalBase>
   )
 }

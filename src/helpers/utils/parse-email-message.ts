@@ -1,7 +1,7 @@
 const parseEmailMessage = (
   string: string,
-  contactName: string,
-  clientName: string
+  contactName?: string,
+  clientName?: string
 ): string => {
   const comparator = new Map()
   comparator.set('<Contact Name>', contactName)
