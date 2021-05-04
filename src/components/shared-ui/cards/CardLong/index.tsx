@@ -10,30 +10,39 @@ import CardContainer from '../CardContainer'
 type Props = {
   className?: string
   data: UserData
+  template?: Template
 }
 
-const LongCard: React.FC<Props> = ({ data, className }) => {
-  const { avatar, name, position, event } = data
+const LongCard: React.FC<Props> = ({ data, template, className }) => {
+  const { avatar, name } = data
   const { dispatch } = usePopup()
   const buttonHandler = () => {
-    dispatch({ type: 'UPDATE_POPUP_DATA', payload: { name, avatar, event } })
+    dispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: { name, avatar, templateData: template },
+    })
     dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={avatar} />
+        <Avatar
+          className={s.avatar}
+          image={require(`public/images/${avatar}`)}
+        />
         <div className={s.text}>
           <div className={s.name}>{name}</div>
-          <div className={s.position}>{position}</div>
+          <div className={s.position}>{template?.Subject}</div>
         </div>
       </div>
-      <UserEvent
-        className={s.event}
-        circleColor="black"
-        text={event as string}
-      />
+      {template?.Subject && (
+        <UserEvent
+          className={s.event}
+          circleColor="black"
+          text={template.Subject}
+        />
+      )}
       <PopoverRate
         className={s.button}
         buttonClickHandler={buttonHandler}

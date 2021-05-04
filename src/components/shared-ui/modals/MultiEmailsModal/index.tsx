@@ -43,14 +43,12 @@ const MultiEmailsModal: React.FC = () => {
     const template = findTemplate(templatesState.data, user.template)
 
     if (template) {
-      const { Subject, Message } = template
       dispatch({
         type: 'UPDATE_POPUP_DATA',
         payload: {
           name: user.name,
           avatar: user.avatar,
-          event: Subject,
-          emailMessage: Message,
+          templateData: template,
         },
       })
     }
@@ -165,14 +163,22 @@ const MultiEmailsModal: React.FC = () => {
           date="January 12, 2012"
           image={require('public/svg/lists.svg?include')}
         />
-        <ModalUserInfo
-          className={s.header}
-          name={data.name}
-          avatar={data.avatar}
-        />
+        {data?.templateData?.Summary && (
+          <ModalUserInfo
+            className={s.header}
+            name={data.name}
+            avatar={data.avatar}
+            text={data.templateData.Summary}
+          />
+        )}
         {!isSent ? (
           <CardContainer className={s.textContainer}>
-            <ModalEditorHeader name={data.name} />
+            {data?.templateData && (
+              <ModalEditorHeader
+                text={data.templateData.Header}
+                name={data.name}
+              />
+            )}
             <ModalHtmlEditor
               className={s.editor}
               name={data.name}

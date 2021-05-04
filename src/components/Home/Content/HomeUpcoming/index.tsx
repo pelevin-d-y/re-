@@ -8,7 +8,8 @@ import { css } from 'astroturf'
 import CardActions from 'src/components/shared-ui/cards/CardActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import { users } from 'src/testData'
+import { useTemplates } from 'src/components/context/TemplatesContext'
+import findTemplate from 'src/helpers/utils/find-template'
 
 type Props = {
   className?: string
@@ -23,11 +24,15 @@ const headerData = {
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className }) => {
+  const { state: usersState, dispatch: usersDispatch } = useUsers()
+  const { state: templatesState } = useTemplates()
+
+  const contacts = usersState.data?.slice(0, 6)
+
   const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch } = useUsers()
   const followUpWithAllHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: usersState.data })
     popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
   }
 
@@ -36,8 +41,12 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {users.slice(0, 6).map((item) => (
-          <LongCard data={item} key={item.id} />
+        {contacts.map((item) => (
+          <LongCard
+            data={item}
+            key={item.first_message_id}
+            template={findTemplate(templatesState.data, item.template)}
+          />
         ))}
       </div>
       <CardActions

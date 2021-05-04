@@ -28,13 +28,6 @@ const SidebarList: React.FC<Props> = ({ className }) => (
       <li className={s.item}>
         <SvgIcon
           className={s.icon}
-          icon={require('public/svg/community.svg?include')}
-        />{' '}
-        Recommendations
-      </li>
-      <li className={s.item}>
-        <SvgIcon
-          className={s.icon}
           icon={require('public/svg/contacts.svg?include')}
         />{' '}
         Contacts

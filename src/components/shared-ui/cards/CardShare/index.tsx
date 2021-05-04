@@ -59,7 +59,7 @@ const CardShare: React.FC<Props> = ({
             mainAction={openModalHandler}
             mainText="Follow up with all"
           />
-          <ShareLink link={link as string} />
+          {link && <ShareLink link={link} />}
         </div>
       </div>
     </CardContainer>

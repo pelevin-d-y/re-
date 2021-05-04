@@ -40,11 +40,7 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
         {users.map((item) => (
           <CardLikes
             key={item.first_message_id}
-            className={s.card}
-            name={item.name}
-            avatar={item.avatar}
-            position={item.position}
-            event={item.event}
+            data={item}
             template={findTemplate(templatesState.data, item.template)}
           />
         ))}

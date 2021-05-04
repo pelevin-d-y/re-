@@ -2,32 +2,34 @@ import React from 'react'
 import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
+import parseEmailMessage from 'src/helpers/utils/parse-email-message'
 import { css } from 'astroturf'
 
 type Props = {
   className?: string
   avatar?: string
   name?: string
+  text: string
 }
 
-const ModalUserInfo: React.FC<Props> = ({ className, avatar, name }) => (
-  <div className={classNames(className, s.container)}>
-    <div className={s.profile}>
-      <Avatar image={avatar ? require(`public/images/${avatar}`) : null} />
-      <div className={s.profileInfo}>
-        <div className={s.name}>{name || '<unknown>'}</div>
-        <div className={s.profileType}>
-          <ColorfulCircle color="black" />
-          Follow up on Meetings
+const ModalUserInfo: React.FC<Props> = ({ className, avatar, name, text }) => {
+  const parsedText = parseEmailMessage(text, name)
+  return (
+    <div className={classNames(className, s.container)}>
+      <div className={s.profile}>
+        <Avatar image={avatar ? require(`public/images/${avatar}`) : null} />
+        <div className={s.profileInfo}>
+          <div className={s.name}>{name || '<unknown>'}</div>
+          <div className={s.profileType}>
+            <ColorfulCircle color="black" />
+            Follow up on Meetings
+          </div>
         </div>
       </div>
+      {parsedText && <div className={s.info}>{parsedText}</div>}
     </div>
-    <div className={s.info}>
-      Landon intro-ed <b>Ari Kieth</b> last week, follow up with Landon on
-      meeting went with her.
-    </div>
-  </div>
-)
+  )
+}
 
 const s = css`
   .container {
