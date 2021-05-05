@@ -6,9 +6,16 @@ import Avatar from 'src/components/shared-ui/Avatar'
 type Props = {
   className?: string
   users: UserData[]
+  avatarWidth?: number
+  avatarHeight?: number
 }
 
-const AvatarList: React.FC<Props> = ({ className, users }) => (
+const AvatarList: React.FC<Props> = ({
+  className,
+  users,
+  avatarWidth,
+  avatarHeight,
+}) => (
   <div className={classNames(className, s.container)}>
     {users.map((item, index) => (
       <div
@@ -18,9 +25,9 @@ const AvatarList: React.FC<Props> = ({ className, users }) => (
       >
         <Avatar
           className={s.avatarImage}
-          width={52}
-          height={52}
-          image={item.avatar}
+          width={avatarWidth || 52}
+          height={avatarHeight || 52}
+          image={require(`public/images/${item.avatar}`)}
         />
       </div>
     ))}
