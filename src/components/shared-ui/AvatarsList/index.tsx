@@ -10,40 +10,73 @@ type Props = {
   avatarHeight?: number
 }
 
+const AVATAR_BASE_SIZE = 52
+
 const AvatarList: React.FC<Props> = ({
   className,
   users,
   avatarWidth,
   avatarHeight,
-}) => (
-  <div className={classNames(className, s.container)}>
-    {users.map((item, index) => (
+}) => {
+  const visibleUsers = users.slice(0, 6)
+  const hiddenUsers = users.length - 6
+  const avatarWidthWithBorder = avatarWidth || AVATAR_BASE_SIZE
+  const containerWidth =
+    avatarWidthWithBorder * visibleUsers.length - 10 * (visibleUsers.length - 1)
+
+  return (
+    <div className={classNames(className, s.container)}>
       <div
-        className={s.avatar}
-        key={item.id || index}
-        style={{ transform: `translateX(-${index * 10}px)` }}
+        className={classNames(s.container)}
+        style={{ width: containerWidth }}
       >
-        <Avatar
-          className={s.avatarImage}
-          width={avatarWidth || 52}
-          height={avatarHeight || 52}
-          image={require(`public/images/${item.avatar}`)}
-        />
+        {visibleUsers.map((item, index) => (
+          <div
+            key={item.id || index}
+            style={{ transform: `translateX(-${index * 10}px)` }}
+          >
+            <Avatar
+              className={s.avatarImage}
+              width={avatarWidth || AVATAR_BASE_SIZE}
+              height={avatarHeight || AVATAR_BASE_SIZE}
+              image={require(`public/images/${item.avatar}`)}
+            />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-)
+      {hiddenUsers <= 0 ? null : (
+        <div className={s.hiddenUsers}>{hiddenUsers} +</div>
+      )}
+    </div>
+  )
+}
 
 const s = css`
   .container {
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  .avatars {
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: hidden;
   }
 
   .avatarImage {
     width: 52px;
     height: 52px;
     border: 2px solid var(--white);
+  }
+
+  .hiddenUsers {
+    margin-left: 14px;
+
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: var(--bold);
+    color: var(--blue);
   }
 `
 

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
-import { useUsers } from 'src/components/context/UsersContext'
+import { useLists } from 'src/components/context/ListsContext'
 import SectionsHeader from '../SectionsHeader'
 
 type Props = {
@@ -11,8 +11,8 @@ type Props = {
 }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
-  const { state: usersState } = useUsers()
-  const users = usersState.data.slice(0, 6)
+  const { state: listsState } = useLists()
+
   return (
     <CardContainer className={classNames(s.container, className)}>
       <SectionsHeader
@@ -23,36 +23,15 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
         iconColor="#0DB09D"
       />
       <div className={s.list}>
-        <CardList
-          title="Investors"
-          description="Contacts in the network of investing"
-          image={require('public/images/pens.png')}
-          users={users}
-        />
-        <CardList
-          title="Investors"
-          description="Contacts in the network of investing"
-          image={require('public/images/pens.png')}
-          users={users}
-        />
-        <CardList
-          title="Investors"
-          description="Contacts in the network of investing"
-          image={require('public/images/pens.png')}
-          users={users}
-        />
-        <CardList
-          title="Investors"
-          description="Contacts in the network of investing"
-          image={require('public/images/pens.png')}
-          users={users}
-        />
-        <CardList
-          title="Investors"
-          description="Contacts in the network of investing"
-          image={require('public/images/pens.png')}
-          users={users}
-        />
+        {listsState?.map((item) => (
+          <CardList
+            key={item.id}
+            title={item.title}
+            description={item.description}
+            image={require(`public/images/${item.icon}`)}
+            users={item.users}
+          />
+        ))}
       </div>
     </CardContainer>
   )
@@ -61,9 +40,9 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
 const s = css`
   .list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     grid-gap: 15px;
-    padding: 37px 21px 31px 21px;
+    padding: 6px 21px 31px 21px;
   }
 `
 

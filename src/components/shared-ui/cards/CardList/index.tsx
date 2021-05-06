@@ -37,6 +37,7 @@ const CardList: React.FC<Props> = ({
 const s = css`
   .container {
     position: relative;
+    overflow: hidden;
     padding: 11px 16px 25px 21px;
   }
 
