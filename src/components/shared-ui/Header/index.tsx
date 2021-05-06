@@ -44,6 +44,7 @@ const s = css`
     padding-top: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--grey);
+    background: var(--white);
   }
 
   .container {

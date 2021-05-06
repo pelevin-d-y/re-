@@ -39,3 +39,13 @@ type UserData = {
   playlists?: Playlists
   templateData?: Template
 }
+
+type List = {
+  id: number
+  title: string
+  users: UserData[]
+  description: string
+  icon: string
+}
+
+type Lists = List[]

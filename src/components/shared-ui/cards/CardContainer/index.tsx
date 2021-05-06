@@ -17,6 +17,7 @@ CardContainer.defaultProps = {
 
 const s = css`
   .container {
+    background: var(--white);
     border-radius: 6px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);

@@ -10,7 +10,7 @@ type Props = {
 }
 
 const Sidebar: React.FC<Props> = ({ className }: Props) => (
-  <div className={classNames(className)}>
+  <div className={classNames(s.container, className)}>
     <div className={s.content}>
       <Logo className={s.logo} />
       <SidebarList />
@@ -33,6 +33,10 @@ const s = css`
   .link {
     margin-left: 34px;
     margin-top: 50px;
+  }
+
+  .container {
+    background: var(--white);
   }
 `
 

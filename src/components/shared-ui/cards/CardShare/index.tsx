@@ -5,7 +5,7 @@ import { users } from 'src/testData'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import AvatarsList from 'src/components/shared-ui/AvatarsList'
+// import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Star from 'src/components/shared-ui/Star'
 import Socials from 'src/components/shared-ui/Socials'
 import ShareLink from 'src/components/shared-ui/ShareLink'
@@ -51,7 +51,7 @@ const CardShare: React.FC<Props> = ({
       </div>
       <div className={s.actions}>
         <div className={classNames(s.topLine, s.line)}>
-          <AvatarsList className={s.avatars} users={users.slice(0, 7)} />
+          {/* <AvatarsList className={s.avatars} users={users.slice(0, 7)} /> */}
           <Socials />
         </div>
         <div className={s.line}>
