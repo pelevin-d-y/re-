@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import Link from 'next/link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type Props = {
@@ -11,33 +12,49 @@ const SidebarList: React.FC<Props> = ({ className }) => (
   <div className={classNames(className)}>
     <div className={s.title}>Connect</div>
     <ul className={s.list}>
-      <li className={s.item}>
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/compass.svg?include')}
-        />{' '}
-        Home
+      <li>
+        <Link href="/">
+          <a className={s.item}>
+            <SvgIcon
+              className={s.icon}
+              icon={require('public/svg/compass.svg?include')}
+            />{' '}
+            Home
+          </a>
+        </Link>
       </li>
-      <li className={s.item}>
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/lists.svg?include')}
-        />{' '}
-        List
+      <li>
+        <Link href="/lists">
+          <a className={s.item}>
+            <SvgIcon
+              className={s.icon}
+              icon={require('public/svg/lists.svg?include')}
+            />{' '}
+            Lists
+          </a>
+        </Link>
       </li>
-      <li className={s.item}>
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/contacts.svg?include')}
-        />{' '}
-        Contacts
+      <li>
+        <Link href="/">
+          <a className={s.item}>
+            <SvgIcon
+              className={s.icon}
+              icon={require('public/svg/contacts.svg?include')}
+            />{' '}
+            Contacts
+          </a>
+        </Link>
       </li>
-      <li className={s.item}>
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/templates.svg?include')}
-        />{' '}
-        Templates
+      <li>
+        <Link href="/">
+          <a className={s.item}>
+            <SvgIcon
+              className={s.icon}
+              icon={require('public/svg/templates.svg?include')}
+            />{' '}
+            Templates
+          </a>
+        </Link>
       </li>
     </ul>
   </div>
@@ -53,6 +70,7 @@ const s = css`
     padding-left: 34px;
     margin-bottom: 20px;
     text-transform: uppercase;
+    font-weight: var(--semibold);
   }
 
   .item {
@@ -66,6 +84,7 @@ const s = css`
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: none;
 
     &:hover {
       background: var(--lightBlue);

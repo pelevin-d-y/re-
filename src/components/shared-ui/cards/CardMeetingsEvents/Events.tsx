@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import AvatarsList from 'src/components/shared-ui/AvatarsList'
+// import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Star from 'src/components/shared-ui/Star'
 
 type Props = {
@@ -50,7 +50,7 @@ const Events: React.FC<Props> = ({ className }) => (
           <div className={s.advise}>{item.event1}</div>
           <div className={s.event}>{item.event2}</div>
         </div>
-        <AvatarsList className={s.avatars} users={item.avatars} />
+        {/* <AvatarsList className={s.avatars} users={item.avatars} /> */}
       </li>
     ))}
   </ul>
