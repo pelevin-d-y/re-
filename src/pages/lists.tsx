@@ -7,7 +7,7 @@ import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { ListsProvider } from 'src/components/context/ListsContext'
 import 'react-quill/dist/quill.snow.css'
 
-const Home: React.FC = () => (
+const Lists: React.FC = () => (
   <Layout>
     <UsersProvider>
       <TemplatesProvider>
@@ -22,4 +22,4 @@ const Home: React.FC = () => (
   </Layout>
 )
 
-export default Home
+export default Lists
