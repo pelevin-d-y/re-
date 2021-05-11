@@ -1,5 +1,5 @@
 import * as React from 'react'
-import testLists from 'src/testLists.json'
+import testLists from 'src/testLists'
 
 type State = Lists | null
 type ContextType = {

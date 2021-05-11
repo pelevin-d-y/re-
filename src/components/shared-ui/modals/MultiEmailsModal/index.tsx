@@ -187,7 +187,6 @@ const MultiEmailsModal: React.FC = () => {
             <div className={s.buttons}>
               <Button
                 variant="contained"
-                size="medium"
                 className={s.buttonSend}
                 handler={() => setIsSent(true)}
               >
@@ -201,7 +200,6 @@ const MultiEmailsModal: React.FC = () => {
               <ModalSent names={selectedContacts.map((item) => item.name)} />
               <Button
                 variant="contained"
-                size="medium"
                 className={s.buttonBack}
                 handler={closeHandler}
               >
@@ -361,9 +359,16 @@ const s = css`
 
   .buttonBack {
     display: block;
+    max-width: 182px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 35px;
+  }
+
+  .buttonSend {
+    max-width: 140px;
+    width: 100%;
   }
 `
 

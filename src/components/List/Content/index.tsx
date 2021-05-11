@@ -2,8 +2,9 @@ import React from 'react'
 import { css } from 'astroturf'
 import { useRouter } from 'next/router'
 import { useLists } from 'src/components/context/ListsContext'
-import Search from 'src/components/shared-ui/Search'
-import Button from 'src/components/shared-ui/Button'
+import PreviousPage from 'src/components/shared-ui/PreviousPage'
+import TableHeader from './TableHeader'
+import Table from './Table'
 
 const Content: React.FC = () => {
   const router = useRouter()
@@ -13,32 +14,15 @@ const Content: React.FC = () => {
   )
   return currentList ? (
     <div className={s.container}>
-      <button className={s.back} type="button" onClick={() => router.back()}>
-        Back to list
-      </button>
-      <h2 className={s.title}>{currentList.title}</h2>
-      <div className={s.description}>{currentList.description}</div>
-      <div className={s.userCount}>{currentList.users.length} Contacts</div>
+      <div className={s.header}>
+        <PreviousPage text="Back to list" />
+        <h2 className={s.title}>{currentList.title}</h2>
+        <div className={s.description}>{currentList.description}</div>
+        <div className={s.userCount}>{currentList.users.length} Contacts</div>
+      </div>
       <div className={s.content}>
-        <div className={s.header}>
-          <Search inputPlaceholder="Search contacts…" />
-          <Button variant="outlined">...</Button>
-          <Button variant="outlined">+ Add contact</Button>
-          <Button variant="outlined">Send list</Button>
-        </div>
-        <table className={s.table}>
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Company</td>
-              <td>Last Outreach</td>
-              <td>Tags</td>
-              <td>Notes</td>
-              <td>Playlists</td>
-              <td>Next outreac</td>
-            </tr>
-          </thead>
-        </table>
+        <TableHeader />
+        <Table data={currentList} />
       </div>
     </div>
   ) : null
@@ -48,6 +32,33 @@ const s = css`
   .container {
     display: flex;
     flex-flow: column nowrap;
+    background: var(--white);
+  }
+
+  .header {
+    padding-top: 12px;
+    padding-left: 30px;
+    padding-bottom: 23px;
+  }
+
+  .title {
+    margin-top: 13px;
+    margin-bottom: 0;
+    font-size: 26px;
+    line-height: 42px;
+    font-weight: var(--bold);
+  }
+
+  .description {
+    font-weight: var(--bold);
+    font-size: 16px;
+  }
+
+  .userCount {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: var(--bold);
+    color: var(--blue);
   }
 `
 

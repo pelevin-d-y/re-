@@ -44,6 +44,7 @@ const s = css`
     padding: 11px 22px 12px 49px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
+    width: 100%;
   }
 `
 

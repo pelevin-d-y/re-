@@ -48,12 +48,11 @@ const EmailModal: React.FC = () => {
             )}
             <HtmlEditorModal className={s.editor} name={name} event={event} />
             <div className={s.buttons}>
-              <Button variant="outlined" size="medium" className={s.buttonDots}>
+              <Button variant="outlined" className={s.buttonDots}>
                 •••
               </Button>
               <Button
                 variant="contained"
-                size="medium"
                 className={s.buttonSend}
                 handler={() => setIsSent(true)}
               >
@@ -117,7 +116,14 @@ const s = css`
   }
 
   .buttonDots {
+    max-width: 140px;
+    width: 100%;
     margin-right: 11px;
+  }
+
+  .buttonSend {
+    max-width: 140px;
+    width: 100%;
   }
 `
 
