@@ -19,7 +19,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
   } = useClient()
   return (
     <header className={classNames(s.header)}>
-      <div className={classNames('container', s.container)}>
+      <div className={classNames(s.container)}>
         <button type="button" className={s.menu} onClick={toggleMenu}>
           <SvgIcon icon={require('public/svg/menu.svg?include')} />
         </button>
@@ -52,6 +52,8 @@ const s = css`
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
+    padding-left: 14px;
+    padding-right: 14px;
     margin-left: auto;
     margin-right: auto;
   }

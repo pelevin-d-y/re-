@@ -5,19 +5,16 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type Props = {
   className?: string
-  size?: 'small' | 'medium' | 'large' | undefined
   variant: 'outlined' | 'contained'
   isArrow?: boolean
   handler?: () => void
-  open?: boolean
 }
 
 const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
-  ({ className, children, size, variant, isArrow, handler, ...props }, ref) => (
+  ({ className, children, variant, isArrow, handler, ...props }, ref) => (
     <button
       className={classNames(
         s.button,
-        size && s[size],
         s[variant],
         isArrow && s.arrowButton,
         className
@@ -39,7 +36,6 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
 )
 
 Button.defaultProps = {
-  size: undefined,
   variant: 'contained',
 }
 
@@ -61,18 +57,6 @@ const s = css`
 
   .arrowButton {
     padding-right: 15px;
-  }
-
-  .small {
-    width: 140px;
-  }
-
-  .medium {
-    width: 140px;
-  }
-
-  .large {
-    width: 212px;
   }
 
   .outlined {
