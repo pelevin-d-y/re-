@@ -21,4 +21,20 @@ module.exports = withPlugins([optimizedImages], {
   },
   assetPrefix: '/rec/',
   basePath: '/rec',
+  async exportPathMap() {
+    const pathMap = {
+      '/': { page: '/' },
+      '/lists': { page: '/lists' },
+    }
+
+    const lists = Array.from(Array(5).keys())
+    // eslint-disable-next-line array-callback-return
+    lists.map((list) => {
+      pathMap[`/lists/[id].tsx`] = {
+        page: `/lists/1`,
+        query: { slug: list },
+      }
+    })
+    return pathMap
+  },
 })
