@@ -29,7 +29,11 @@ type UserData = {
   id?: number
   name?: string
   avatar?: string
+  title?: string
+  last_client_text?: string
   first_message_id?: string
+  notes?: string
+  next_outreach?: string
   template?: string
   description?: string
   position?: string
