@@ -2,11 +2,13 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
+import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
 import CardActions from '../CardActions'
 
 type Props = {
   className?: string
+  id: number
   title: string
   description: string
   image: string
@@ -15,24 +17,32 @@ type Props = {
 
 const CardList: React.FC<Props> = ({
   className,
+  id,
   title,
   description,
   users,
   image,
-}) => (
-  <CardContainer className={classNames(s.container, className)}>
-    <img src={image} alt="icon" className={s.image} />
-    <div className={s.title}>{title}</div>
-    <div className={s.description}>{description}</div>
-    <AvatarsList
-      avatarWidth={38}
-      avatarHeight={38}
-      className={s.avatars}
-      users={users}
-    />
-    <CardActions mainText="View List" mainAction={() => null} />
-  </CardContainer>
-)
+}) => {
+  const router = useRouter()
+
+  return (
+    <CardContainer className={classNames(s.container, className)}>
+      <img src={image} alt="icon" className={s.image} />
+      <div className={s.title}>{title}</div>
+      <div className={s.description}>{description}</div>
+      <AvatarsList
+        avatarWidth={38}
+        avatarHeight={38}
+        className={s.avatars}
+        users={users}
+      />
+      <CardActions
+        mainText="View List"
+        mainAction={() => router.push(`/list/${id}`)}
+      />
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {

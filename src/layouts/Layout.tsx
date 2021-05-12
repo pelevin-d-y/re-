@@ -18,7 +18,7 @@ const HomeLayout: React.FC = ({ children }) => {
         <Sidebar className={s.sidebar} />
         <div className={s.main}>
           <Header toggleMenu={toggleMenu} />
-          <div className={classNames('container', s.content)}>{children}</div>
+          <div className={classNames(s.content)}>{children}</div>
         </div>
       </div>
     </ClientProvider>
@@ -66,13 +66,10 @@ const s = css`
   }
 
   .content {
-    display: flex;
-    flex-flow: row nowrap;
     max-width: 1400px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 10px;
   }
 `
 

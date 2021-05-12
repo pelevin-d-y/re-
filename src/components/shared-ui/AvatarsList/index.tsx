@@ -11,6 +11,8 @@ type Props = {
 }
 
 const AVATAR_BASE_SIZE = 52
+const MAX_VISIBLE_USERS = 6
+const AVATAR_TRANSITION = 10
 
 const AvatarList: React.FC<Props> = ({
   className,
@@ -18,11 +20,12 @@ const AvatarList: React.FC<Props> = ({
   avatarWidth,
   avatarHeight,
 }) => {
-  const visibleUsers = users.slice(0, 6)
-  const hiddenUsers = users.length - 6
+  const visibleUsers = users.slice(0, MAX_VISIBLE_USERS)
+  const hiddenUsers = users.length - MAX_VISIBLE_USERS
   const avatarWidthWithBorder = avatarWidth || AVATAR_BASE_SIZE
   const containerWidth =
-    avatarWidthWithBorder * visibleUsers.length - 10 * (visibleUsers.length - 1)
+    avatarWidthWithBorder * visibleUsers.length -
+    AVATAR_TRANSITION * (visibleUsers.length - 1)
 
   return (
     <div className={classNames(className, s.container)}>
@@ -33,7 +36,7 @@ const AvatarList: React.FC<Props> = ({
         {visibleUsers.map((item, index) => (
           <div
             key={item.id || index}
-            style={{ transform: `translateX(-${index * 10}px)` }}
+            style={{ transform: `translateX(-${index * AVATAR_TRANSITION}px)` }}
           >
             <Avatar
               className={s.avatarImage}

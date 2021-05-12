@@ -1,5 +1,5 @@
 import * as React from 'react'
-import testUsers from 'src/testUsers.json'
+import testUsers from 'src/testUsersWithPlaceholderFields.js'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
 

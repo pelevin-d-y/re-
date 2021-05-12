@@ -5,16 +5,19 @@ import { PopupProvider } from 'src/components/context/PopupContext'
 import { UsersProvider } from 'src/components/context/UsersContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { ListsProvider } from 'src/components/context/ListsContext'
+import { css } from 'astroturf'
 import 'react-quill/dist/quill.snow.css'
 
-const Home: React.FC = () => (
+const Lists: React.FC = () => (
   <Layout>
     <UsersProvider>
       <TemplatesProvider>
         <PopupProvider>
           <ListsProvider>
-            <Content />
-            <ContentSidebar />
+            <div className={s.container}>
+              <Content />
+              <ContentSidebar />
+            </div>
           </ListsProvider>
         </PopupProvider>
       </TemplatesProvider>
@@ -22,4 +25,12 @@ const Home: React.FC = () => (
   </Layout>
 )
 
-export default Home
+const s = css`
+  .container {
+    flex-flow: row nowrap;
+    display: flex;
+    padding: 10px 14px 14px;
+  }
+`
+
+export default Lists

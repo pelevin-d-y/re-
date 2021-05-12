@@ -26,6 +26,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
         {listsState?.map((item) => (
           <CardList
             key={item.id}
+            id={item.id}
             title={item.title}
             description={item.description}
             image={require(`public/images/${item.icon}`)}
