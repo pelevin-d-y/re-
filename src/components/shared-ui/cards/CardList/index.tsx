@@ -38,7 +38,7 @@ const CardList: React.FC<Props> = ({
       />
       <CardActions
         mainText="View List"
-        mainAction={() => router.push(`/lists/${id}`)}
+        mainAction={() => router.push(`/list/${id}`)}
       />
     </CardContainer>
   )
