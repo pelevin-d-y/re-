@@ -19,7 +19,7 @@ export async function getStaticPaths() {
       id: `${list.id}`,
     },
   }))
-  console.log('paths', paths)
+
   return {
     paths,
     fallback: false,

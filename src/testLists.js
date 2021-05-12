@@ -10,6 +10,13 @@ export default [
     "users": testUsers.slice(0, 3)
   },
   {
+    "id": 1,
+    "title": "New Yorkers",  
+    "description": "CEO administrators",
+    "icon": "people.png",
+    "users": testUsers.slice(5, 9),
+  },
+  {
     "id": 2,
     "title": "New Yorkers",  
     "description": "CEO administrators",
