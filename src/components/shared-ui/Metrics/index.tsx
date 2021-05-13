@@ -2,11 +2,16 @@ import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Link from 'next/link'
+import classnames from 'classnames'
 import MetricsShortCard from './MetricsShortCard'
 import MetricsLongCard from './MetricsLongCard'
 
-const Metrics: React.FC = () => (
-  <CardContainer className={s.container}>
+type Props = {
+  className?: string
+}
+
+const Metrics: React.FC<Props> = ({ className }) => (
+  <CardContainer className={classnames(className, s.container)}>
     <div className={s.header}>
       <div className={s.title}>Metrics</div>
       <Link href="/">

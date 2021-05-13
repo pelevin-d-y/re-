@@ -9,7 +9,7 @@ import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import classNames from 'classnames'
 import { users as testUsers, playlists } from 'src/testData'
 import ModalBase from '../ModalBase'
-import ModalClose from '../ModalClose'
+import ModalClose from '../../Close'
 import ModalSendingListHeader from '../ModalHeader'
 
 const RecommendationsModal: React.FC = () => {

@@ -39,6 +39,8 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .header {
     width: 100%;
     padding-top: 16px;
@@ -56,6 +58,10 @@ const s = css`
     padding-right: 14px;
     margin-left: auto;
     margin-right: auto;
+
+    @include small-desktop {
+      flex-flow: row wrap;
+    }
   }
 
   .search {

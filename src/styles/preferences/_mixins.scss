@@ -7,3 +7,15 @@
     font-display: swap;
   }
 }
+
+@mixin small-desktop {
+  @media (max-width: 1200px) { @content; }
+}
+
+@mixin tablet {
+  @media (max-width: 900px) { @content; }
+}
+
+@mixin mobile {
+  @media (max-width: 768px) { @content; }
+}
