@@ -1,4 +1,4 @@
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import Layout from 'src/layouts/Layout'
 import Content from 'src/components/List/Content'
 import { ListsProvider } from 'src/components/context/ListsContext'
@@ -13,13 +13,13 @@ const List: React.FC = () => (
   </Layout>
 )
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = testList.map((list) => ({
     params: {
       id: `${list.id}`,
     },
   }))
-  console.log('paths', paths)
+
   return {
     paths,
     fallback: false,
