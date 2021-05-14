@@ -5,7 +5,7 @@ import { users } from 'src/testData'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-// import AvatarsList from 'src/components/shared-ui/AvatarsList'
+import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Star from 'src/components/shared-ui/Star'
 import Socials from 'src/components/shared-ui/Socials'
 import ShareLink from 'src/components/shared-ui/ShareLink'
@@ -29,7 +29,7 @@ const CardShare: React.FC<Props> = ({
   link,
 }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch } = useUsers()
+  const { state: userState, dispatch: usersDispatch } = useUsers()
   const openModalHandler = () => {
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
     popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
@@ -51,13 +51,14 @@ const CardShare: React.FC<Props> = ({
       </div>
       <div className={s.actions}>
         <div className={classNames(s.topLine, s.line)}>
-          {/* <AvatarsList className={s.avatars} users={users.slice(0, 7)} /> */}
+          <AvatarsList className={s.avatars} users={userState.data} />
           <Socials />
         </div>
-        <div className={s.line}>
+        <div className={classNames(s.bottomLine, s.line)}>
           <CardActions
             mainAction={openModalHandler}
             mainText="Follow up with all"
+            className={s.buttons}
           />
           {link && <ShareLink link={link} />}
         </div>
@@ -67,6 +68,8 @@ const CardShare: React.FC<Props> = ({
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     overflow: hidden;
     position: relative;
@@ -90,6 +93,10 @@ const s = css`
     top: 50%;
     transform: translateY(-50%);
     right: 24px;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   .cardEvent {
@@ -117,11 +124,34 @@ const s = css`
     flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      align-items: flex-start;
+    }
   }
 
   .topLine {
     margin-bottom: 16px;
     align-items: flex-end;
+
+    @include mobile {
+      align-items: flex-start;
+    }
+  }
+
+  .bottomLine {
+    @include mobile {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .avatars {
+    margin-bottom: 8px;
+  }
+
+  .buttons {
+    margin-top: 20px;
   }
 
   .buttonDots {

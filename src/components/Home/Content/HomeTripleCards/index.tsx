@@ -31,10 +31,17 @@ const HomeTripleCards: React.FC<Props> = ({ className }) => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 13px;
+
+    @include mobile {
+      // display: block;
+      grid-template-columns: auto;
+    }
   }
 
   .left {

@@ -35,6 +35,7 @@ const CardList: React.FC<Props> = ({
         avatarHeight={38}
         className={s.avatars}
         users={users}
+        showHiddenUsers
       />
       <CardActions
         mainText="View List"

@@ -1,10 +1,15 @@
 import React from 'react'
+import classNames from 'classnames'
 import { css } from 'astroturf'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const HeaderToDos: React.FC = () => (
-  <div className={s.container}>
+type Props = {
+  className?: string
+}
+
+const HeaderToDos: React.FC<Props> = ({ className }) => (
+  <div className={classNames(className, s.container)}>
     <FontAwesomeIcon icon={faList} className={s.icon} />
     <div className={s.text}>TO-DOs</div>
     <div className={s.number}>

@@ -28,8 +28,8 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
           {data.name}
         </div>
         <Search className={s.search} inputPlaceholder="Search..." />
-        <HeaderTheme />
-        <HeaderToDos />
+        <HeaderTheme className={s.theme} />
+        <HeaderToDos className={s.toDos} />
         {data.address && (
           <HeaderProfile address={data.address} avatar={data.avatar} />
         )}
@@ -39,6 +39,8 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .header {
     width: 100%;
     padding-top: 16px;
@@ -56,15 +58,37 @@ const s = css`
     padding-right: 14px;
     margin-left: auto;
     margin-right: auto;
+
+    @include small-desktop {
+      flex-flow: row wrap;
+    }
   }
 
   .search {
     max-width: 202px;
     width: 100%;
+    @include tablet {
+      display: none;
+    }
+  }
+
+  .theme {
+    @include tablet {
+      display: none;
+    }
+  }
+
+  .toDos {
+    @include tablet {
+      display: none;
+    }
   }
 
   .text {
     font-weight: var(--semibold);
+    @include tablet {
+      display: none;
+    }
   }
 
   .menu {

@@ -31,26 +31,49 @@ const HomeRecommendations: React.FC = () => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     padding: 22px 35px 44px 35px;
     background: url('/svg/circles-background.svg') no-repeat center/cover;
+
+    @include mobile {
+      padding: 22px;
+    }
   }
 
   .title {
     margin-bottom: 18px;
     font-size: 26px;
     font-weight: var(--bold);
+
+    @include tablet {
+      text-align: center;
+    }
   }
 
   .cards {
     display: flex;
     flex-flow: row nowrap;
     margin-left: -17px;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      margin-left: 0;
+    }
   }
 
   .column {
     width: 33.3%;
     margin-left: 17px;
+
+    @include mobile {
+      max-width: 300px;
+      width: 100%;
+      margin-right: auto;
+      margin-left: auto;
+      margin-bottom: 13px;
+    }
   }
 `
 

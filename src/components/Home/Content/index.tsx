@@ -38,9 +38,16 @@ const Content: React.FC = () => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     width: 70%;
     padding: 0 12px 12px 0;
+
+    @include tablet {
+      padding-right: 0;
+      width: 100%;
+    }
   }
 
   .been {
@@ -48,6 +55,10 @@ const s = css`
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
     width: 100%;
+
+    @include mobile {
+      grid-template-columns: auto;
+    }
   }
 
   .cards {

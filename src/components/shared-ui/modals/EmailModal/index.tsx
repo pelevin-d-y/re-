@@ -3,7 +3,7 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
-import CloseModal from '../ModalClose'
+import CloseModal from '../../Close'
 import ModalMoreInfo from '../ModalMoreInfo'
 import HtmlEditorModal from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
@@ -70,6 +70,8 @@ const EmailModal: React.FC = () => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     max-width: 900px;
   }
@@ -85,10 +87,18 @@ const s = css`
 
   .header {
     padding-right: 46px;
+
+    @include mobile {
+      margin-bottom: 10px;
+    }
   }
 
   .content {
     padding: 29px 30px;
+
+    @include mobile {
+      padding: 29px 16px;
+    }
   }
 
   .close {
@@ -113,6 +123,11 @@ const s = css`
     padding-left: 23px;
     padding-right: 25px;
     text-align: right;
+
+    @include mobile {
+      display: flex;
+      flex-flow: row nowrap;
+    }
   }
 
   .buttonDots {

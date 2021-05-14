@@ -49,6 +49,8 @@ const SmallCard: React.FC<Props> = ({ className, data, template }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
     display: flex;

@@ -32,15 +32,25 @@ const ModalUserInfo: React.FC<Props> = ({ className, avatar, name, text }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+
+    @include mobile {
+      flex-flow: column nowrap;
+    }
   }
 
   .profile {
     display: flex;
     flex-flow: row nowrap;
+
+    @include mobile {
+      margin-bottom: 10px;
+    }
   }
 
   .profileInfo {
@@ -62,6 +72,10 @@ const s = css`
     font-size: 12px;
 
     background: #f8f8f8;
+
+    @include mobile {
+      max-width: 300px;
+    }
   }
 `
 
