@@ -5,7 +5,11 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type TType = 'light' | 'dark' | 'grey'
 
-const HeaderTheme: React.FC = () => {
+type Props = {
+  className?: string
+}
+
+const HeaderTheme: React.FC<Props> = ({ className }) => {
   const [theme, setTheme] = useState<TType>('light')
 
   const activeThemeHandler = (type: React.SetStateAction<TType>) => {
@@ -13,7 +17,7 @@ const HeaderTheme: React.FC = () => {
   }
 
   return (
-    <div className={s.container}>
+    <div className={classNames(s.container, className)}>
       <button
         type="button"
         className={classNames(s.item, theme === 'dark' && s.active)}

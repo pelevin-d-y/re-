@@ -55,6 +55,8 @@ const LongCard: React.FC<Props> = ({ data, template, className }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row nowrap;
@@ -63,6 +65,11 @@ const s = css`
 
     padding: 10px 22px 14px 17px;
     margin-bottom: 8px;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      padding: 14px 24px 18px 24px;
+    }
   }
 
   .profile {
@@ -73,10 +80,20 @@ const s = css`
     width: 100%;
 
     margin-right: 9%;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      margin-right: 0;
+    }
   }
 
   .avatar {
     margin-right: 26px;
+
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
   }
 
   .event {
@@ -91,11 +108,18 @@ const s = css`
 
   .position {
     font-size: 12px;
+    @include mobile {
+      display: none;
+    }
   }
 
   .button {
     max-width: 119px;
     width: 100%;
+
+    @include mobile {
+      margin-top: 12px;
+    }
   }
 `
 

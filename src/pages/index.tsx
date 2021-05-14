@@ -17,7 +17,7 @@ const Home: React.FC = () => (
         <PopupProvider>
           <div className={s.container}>
             <Content />
-            <ContentSidebar />
+            <ContentSidebar className={s.sidebar} />
           </div>
           <EmailModal />
           <MultiEmailsModal />
@@ -29,10 +29,17 @@ const Home: React.FC = () => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
   .container {
     flex-flow: row nowrap;
     display: flex;
     padding: 10px 14px 14px;
+  }
+
+  .sidebar {
+    @include tablet {
+      display: none;
+    }
   }
 `
 

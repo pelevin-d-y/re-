@@ -55,6 +55,8 @@ const HomeMeeting: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
     padding: 16px 16px 32px 18px;
@@ -73,6 +75,10 @@ const s = css`
     grid-auto-rows: auto;
     grid-gap: 17px;
     margin-top: 18px;
+
+    @include mobile {
+      grid-template-columns: auto;
+    }
   }
 
   .actions {

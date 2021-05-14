@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Star from 'src/components/shared-ui/Star'
-// import AvatarsList from 'src/components/shared-ui/AvatarsList'
+import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { users } from 'src/testData'
@@ -16,7 +16,7 @@ type Props = {
 
 const CardItsBeen: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch } = useUsers()
+  const { state: usersState, dispatch: usersDispatch } = useUsers()
   const openModalHandler = () => {
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
     popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
@@ -33,7 +33,7 @@ const CardItsBeen: React.FC<Props> = ({ className }) => {
           icon={require('public/svg/clock.svg?include')}
         />
       </div>
-      {/* <AvatarsList className={s.avatars} users={users.slice(0, 7)} /> */}
+      <AvatarsList className={s.avatars} users={usersState.data} />
       <CardActions
         className={s.actions}
         mainAction={openModalHandler}

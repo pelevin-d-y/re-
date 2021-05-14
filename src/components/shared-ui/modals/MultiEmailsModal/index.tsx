@@ -14,7 +14,7 @@ import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
-import ModalClose from '../ModalClose'
+import ModalClose from '../../Close'
 import ModalHeader from '../ModalHeader'
 import ModalSent from '../ModalSent'
 
