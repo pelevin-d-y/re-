@@ -26,6 +26,8 @@ const CardMeetingsEvents: React.FC<Props> = ({ className }) => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
     padding: 24px 21px 25px 9px;
@@ -51,6 +53,10 @@ const s = css`
     font-size: 38px;
     line-height: 42px;
     font-weight: var(--bold);
+
+    @include mobile {
+      font-size: 34px;
+    }
   }
 
   .star {

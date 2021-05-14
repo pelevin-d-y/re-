@@ -28,8 +28,8 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
           {data.name}
         </div>
         <Search className={s.search} inputPlaceholder="Search..." />
-        <HeaderTheme />
-        <HeaderToDos />
+        <HeaderTheme className={s.theme} />
+        <HeaderToDos className={s.toDos} />
         {data.address && (
           <HeaderProfile address={data.address} avatar={data.avatar} />
         )}
@@ -67,10 +67,28 @@ const s = css`
   .search {
     max-width: 202px;
     width: 100%;
+    @include tablet {
+      display: none;
+    }
+  }
+
+  .theme {
+    @include tablet {
+      display: none;
+    }
+  }
+
+  .toDos {
+    @include tablet {
+      display: none;
+    }
   }
 
   .text {
     font-weight: var(--semibold);
+    @include tablet {
+      display: none;
+    }
   }
 
   .menu {

@@ -54,10 +54,11 @@ const CardShare: React.FC<Props> = ({
           <AvatarsList className={s.avatars} users={userState.data} />
           <Socials />
         </div>
-        <div className={s.line}>
+        <div className={classNames(s.bottomLine, s.line)}>
           <CardActions
             mainAction={openModalHandler}
             mainText="Follow up with all"
+            className={s.buttons}
           />
           {link && <ShareLink link={link} />}
         </div>
@@ -67,6 +68,8 @@ const CardShare: React.FC<Props> = ({
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     overflow: hidden;
     position: relative;
@@ -90,6 +93,10 @@ const s = css`
     top: 50%;
     transform: translateY(-50%);
     right: 24px;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   .cardEvent {
@@ -117,11 +124,34 @@ const s = css`
     flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      align-items: flex-start;
+    }
   }
 
   .topLine {
     margin-bottom: 16px;
     align-items: flex-end;
+
+    @include mobile {
+      align-items: flex-start;
+    }
+  }
+
+  .bottomLine {
+    @include mobile {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .avatars {
+    margin-bottom: 8px;
+  }
+
+  .buttons {
+    margin-top: 20px;
   }
 
   .buttonDots {

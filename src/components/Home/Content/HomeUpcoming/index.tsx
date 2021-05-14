@@ -61,7 +61,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
 const s = css`
   .container {
     position: relative;
-    padding: 16px 16px 32px 18px;
+    padding: 16px 16px 32px 16px;
   }
 
   .star {

@@ -36,6 +36,10 @@ const s = css`
   .container {
     padding: 22px 35px 44px 35px;
     background: url('/svg/circles-background.svg') no-repeat center/cover;
+
+    @include mobile {
+      padding: 22px;
+    }
   }
 
   .title {
@@ -52,8 +56,10 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     margin-left: -17px;
+
     @include mobile {
       flex-flow: column nowrap;
+      margin-left: 0;
     }
   }
 
@@ -61,7 +67,7 @@ const s = css`
     width: 33.3%;
     margin-left: 17px;
 
-    @include tablet {
+    @include mobile {
       max-width: 300px;
       width: 100%;
       margin-right: auto;
