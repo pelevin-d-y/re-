@@ -1,24 +1,29 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import { formatDistance } from 'date-fns'
 
 type Props = {
   className?: string
+  lastContactTime?: string
+  lastContactText?: string
 }
 
-const ModalLastMessage: React.FC<Props> = ({ className }) => (
+const ModalLastMessage: React.FC<Props> = ({
+  className,
+  lastContactTime,
+  lastContactText,
+}) => (
   <div className={classNames(s.container, className)}>
     <div className={s.header}>
       <div className={s.headerText}>Last Message</div>
-      <div className={s.date}>2 weeks ago</div>
+      {lastContactTime && (
+        <div className={s.date}>
+          {formatDistance(new Date(), new Date(lastContactTime))}
+        </div>
+      )}
     </div>
-    <div className={s.content}>
-      Hi Hailey, <br />
-      Hope all is well. <br />
-      Below is a link to our presentation: <br />
-      https://docsend.com/view/8zryc9243hgeu8eq <br />
-      password is speedoftrust
-    </div>
+    <div className={s.content}>{lastContactText}</div>
   </div>
 )
 

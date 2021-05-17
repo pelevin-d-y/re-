@@ -21,7 +21,7 @@ const CardLikes: React.FC<Props> = ({ className, data, template }) => {
   const buttonHandler = () => {
     dispatch({
       type: 'UPDATE_POPUP_DATA',
-      payload: { name, avatar, templateData: template },
+      payload: { ...data, templateData: template },
     })
     dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
   }

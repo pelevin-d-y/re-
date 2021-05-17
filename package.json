@@ -19,6 +19,7 @@
     "astroturf": "^0.10.5",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
+    "date-fns": "^2.21.3",
     "eslint-import-resolver-typescript": "^2.4.0",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-optipng": "^8.0.0",

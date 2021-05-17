@@ -64,7 +64,7 @@ const EmailModal: React.FC = () => {
           name && <ModalSent names={name} />
         )}
       </div>
-      {!isSent ? <ModalMoreInfo name={name} /> : null}
+      {!isSent ? <ModalMoreInfo /> : null}
     </ModalBase>
   )
 }
