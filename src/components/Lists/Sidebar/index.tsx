@@ -1,9 +1,14 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import classNames from 'classnames'
 
-const ListsSidebar: React.FC = () => (
-  <CardContainer className={s.container}>
+type Props = {
+  className?: string
+}
+
+const ListsSidebar: React.FC<Props> = ({ className }) => (
+  <CardContainer className={classNames(s.container, className)}>
     <div className={s.header}>
       Important <span>Lists</span>
     </div>

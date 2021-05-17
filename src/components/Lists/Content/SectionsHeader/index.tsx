@@ -39,6 +39,8 @@ const SectionHeader: React.FC<Props> = ({
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row nowrap;
@@ -46,6 +48,11 @@ const s = css`
     padding: 22px 21px 22px 25px;
 
     width: 100%;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      padding: 16px;
+    }
   }
 
   .icon {
@@ -58,6 +65,10 @@ const s = css`
     width: 53px;
     height: 53px;
 
+    @include mobile {
+      margin-bottom: 16px;
+    }
+
     svg {
       width: 24px;
       height: 24px;
@@ -69,10 +80,19 @@ const s = css`
     flex-flow: column nowrap;
     justify-content: center;
     margin-left: 30px;
+
+    @include mobile {
+      margin-left: 0;
+      margin-bottom: 16px;
+      text-align: center;
+    }
   }
 
   .search {
     margin-left: auto;
+    @include mobile {
+      margin-left: 0;
+    }
   }
 
   .title {

@@ -1,11 +1,16 @@
 import React from 'react'
 import { css } from 'astroturf'
+import classNames from 'classnames'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import SectionsHeader from './SectionsHeader'
 import ListsCatalog from './ListsCatalog'
 
-const ListsContent: React.FC = () => (
-  <div className={s.container}>
+type Props = {
+  className?: string
+}
+
+const ListsContent: React.FC<Props> = ({ className }) => (
+  <div className={classNames(s.container, className)}>
     <CardContainer className={s.section}>
       <SectionsHeader
         title="Contacts"
@@ -20,9 +25,15 @@ const ListsContent: React.FC = () => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     width: 70%;
     padding: 0 12px 12px 0;
+
+    @include tablet {
+      padding-right: 0;
+    }
   }
 
   .section {

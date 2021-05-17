@@ -11,24 +11,46 @@ type Props = {
 const TableHeader: React.FC<Props> = ({ className }) => (
   <div className={classNames(className, s.container)}>
     <Search className={s.search} inputPlaceholder="Search contacts…" />
-    <Button className={s.dots} variant="outlined">
-      •••
-    </Button>
-    <Button className={s.contacts} variant="outlined">
-      + Add contact
-    </Button>
-    <Button className={s.send} variant="outlined">
-      Send list
-    </Button>
+    <div className={s.actions}>
+      <Button className={s.dots} variant="outlined">
+        •••
+      </Button>
+      <Button className={s.contacts} variant="outlined">
+        + Add contact
+      </Button>
+      <Button className={s.send} variant="outlined">
+        Send list
+      </Button>
+    </div>
   </div>
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     align-items: center;
     padding: 21px 23px 23px 30px;
+
+    @include mobile {
+      padding: 16px 12px;
+
+      flex-flow: column nowrap;
+      align-items: flex-start;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 1 0 auto;
+
+    @include mobile {
+      width: 100%;
+      margin-top: 20px;
+    }
   }
 
   .search {
@@ -40,18 +62,30 @@ const s = css`
     margin-left: auto;
     max-width: 61px;
     width: 100%;
+
+    @include mobile {
+      margin-left: 0;
+    }
   }
 
   .contacts {
     max-width: 136px;
     width: 100%;
     margin-left: 14px;
+
+    @include mobile {
+      margin-left: 3px;
+    }
   }
 
   .send {
     max-width: 136px;
     width: 100%;
     margin-left: 14px;
+
+    @include mobile {
+      margin-left: 3px;
+    }
   }
 `
 

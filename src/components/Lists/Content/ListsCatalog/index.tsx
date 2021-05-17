@@ -39,11 +39,19 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 15px;
     padding: 6px 21px 31px 21px;
+
+    @include mobile {
+      grid-template-columns: none;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
   }
 `
 

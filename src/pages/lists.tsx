@@ -15,8 +15,8 @@ const Lists: React.FC = () => (
         <PopupProvider>
           <ListsProvider>
             <div className={s.container}>
-              <Content />
-              <ContentSidebar />
+              <Content className={s.content} />
+              <ContentSidebar className={s.sidebar} />
             </div>
           </ListsProvider>
         </PopupProvider>
@@ -26,10 +26,24 @@ const Lists: React.FC = () => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     flex-flow: row nowrap;
     display: flex;
     padding: 10px 14px 14px;
+  }
+
+  .content {
+    @include tablet {
+      width: 100%;
+    }
+  }
+
+  .sidebar {
+    @include tablet {
+      display: none;
+    }
   }
 `
 
