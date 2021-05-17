@@ -4,14 +4,22 @@ import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import ModalLastMessage from './ModalLastMessage'
 import ModalAdditionInfo from './ModalAdditionInfo'
+import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
   className?: string
-  name?: string
 }
 
-const ModalMoreInfo: React.FC<Props> = ({ className, name }) => {
+const ModalMoreInfo: React.FC<Props> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const {
+    state: { data },
+  } = usePopup()
+  const {
+    name,
+    last_contact_time: lastContactTime,
+    last_contact_text: lastContactText,
+  } = data
 
   const collapseHandler = () => {
     setIsOpen(!isOpen)
@@ -28,7 +36,11 @@ const ModalMoreInfo: React.FC<Props> = ({ className, name }) => {
       </button>
       {isOpen && (
         <div className={s.content}>
-          <ModalLastMessage className={s.contentItem} />
+          <ModalLastMessage
+            className={s.contentItem}
+            lastContactTime={lastContactTime}
+            lastContactText={lastContactText}
+          />
           <ModalAdditionInfo className={s.contentItem} />
         </div>
       )}

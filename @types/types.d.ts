@@ -40,6 +40,8 @@ type UserData = {
   event?: string
   address?: string
   lastMessage?: string
+  last_contact_text?: string
+  last_contact_time?: string
   playlists?: Playlists
   templateData?: Template
 }

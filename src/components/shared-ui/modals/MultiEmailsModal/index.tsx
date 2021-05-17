@@ -46,8 +46,7 @@ const MultiEmailsModal: React.FC = () => {
       dispatch({
         type: 'UPDATE_POPUP_DATA',
         payload: {
-          name: user.name,
-          avatar: user.avatar,
+          ...user,
           templateData: template,
         },
       })
