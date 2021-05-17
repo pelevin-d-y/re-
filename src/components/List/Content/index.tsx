@@ -29,6 +29,8 @@ const Content: React.FC = () => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: column nowrap;
@@ -39,6 +41,10 @@ const s = css`
     padding-top: 12px;
     padding-left: 30px;
     padding-bottom: 23px;
+
+    @include mobile {
+      padding-left: 16px;
+    }
   }
 
   .title {
