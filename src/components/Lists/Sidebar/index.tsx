@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import classNames from "classnames"
+import classNames from 'classnames'
 
 type Props = {
   className?: string
