@@ -3,21 +3,24 @@ import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
 import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
+import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 
 type Props = {
   className?: string
+  listUsers: UserData[]
 }
 
-const TableHeader: React.FC<Props> = ({ className }) => (
+const TableHeader: React.FC<Props> = ({ className, listUsers }) => (
   <div className={classNames(className, s.container)}>
-    <Search className={s.search} inputPlaceholder="Search contacts…" />
+    <Search
+      classes={{ container: s.search }}
+      inputPlaceholder="Search contacts…"
+    />
     <div className={s.actions}>
       <Button className={s.dots} variant="outlined">
         •••
       </Button>
-      <Button className={s.contacts} variant="outlined">
-        + Add contact
-      </Button>
+      <PopoverAddContact className={s.contacts} listUsers={listUsers} />
       <Button className={s.send} variant="outlined">
         Send list
       </Button>

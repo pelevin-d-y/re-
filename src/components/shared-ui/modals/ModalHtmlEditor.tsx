@@ -25,10 +25,10 @@ const HtmlEditorModal: React.FC<Props> = ({ className, name, event }) => {
 
   useEffect(() => {
     let parsedMessage
-    if (data.templateData?.Message && clientData.name) {
+    if (data.templateData?.Message && clientData.name && name) {
       parsedMessage = parseEmailMessage(
         data.templateData.Message,
-        name,
+        name.split(' ')[0],
         clientData.name
       )
     }
