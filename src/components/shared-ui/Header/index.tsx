@@ -27,7 +27,10 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
           {data.name}
         </div>
-        <Search className={s.search} inputPlaceholder="Search..." />
+        <Search
+          classes={{ container: s.search }}
+          inputPlaceholder="Search..."
+        />
         <HeaderTheme className={s.theme} />
         <HeaderToDos className={s.toDos} />
         {data.address && (

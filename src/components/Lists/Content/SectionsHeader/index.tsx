@@ -34,7 +34,10 @@ const SectionHeader: React.FC<Props> = ({
       </div>
       <div className={s.description}>{description}</div>
     </div>
-    <Search className={s.search} inputPlaceholder="Search contacts…" />
+    <Search
+      classes={{ container: s.search }}
+      inputPlaceholder="Search contacts…"
+    />
   </div>
 )
 

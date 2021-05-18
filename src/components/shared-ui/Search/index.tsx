@@ -4,25 +4,25 @@ import classNames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type Props = {
-  className?: string
-  inputClassName?: string
+  classes?: {
+    container?: string
+    input?: string
+  }
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   inputPlaceholder: string
 }
 
-const Search: React.FC<Props> = ({
-  className,
-  inputPlaceholder,
-  inputClassName,
-}) => (
-  <div className={classNames(className, s.search)}>
+const Search: React.FC<Props> = ({ inputPlaceholder, classes, onChange }) => (
+  <div className={classNames(classes?.container, s.search)}>
     <SvgIcon
       className={s.icon}
       icon={require('public/svg/search.svg?include')}
     />
     <input
-      className={classNames(s.input, inputClassName)}
+      className={classNames(s.input, classes?.input)}
       type="text"
       placeholder={inputPlaceholder}
+      onChange={onChange}
     />
   </div>
 )

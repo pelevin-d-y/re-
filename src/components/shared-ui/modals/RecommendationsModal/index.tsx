@@ -34,8 +34,7 @@ const RecommendationsModal: React.FC = () => {
       <div className={s.sidebar}>
         <div className={s.searchContainer}>
           <Search
-            className={s.search}
-            inputClassName={s.searchInput}
+            classes={{ container: s.search, input: s.searchInput }}
             inputPlaceholder="Search playlists…"
           />
         </div>

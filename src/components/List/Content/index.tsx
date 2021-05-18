@@ -21,7 +21,7 @@ const Content: React.FC = () => {
         <div className={s.userCount}>{currentList.users.length} Contacts</div>
       </div>
       <div className={s.content}>
-        <TableHeader />
+        <TableHeader listUsers={currentList.users} />
         <Table data={currentList} />
       </div>
     </div>
