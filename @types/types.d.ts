@@ -95,6 +95,10 @@ type UserData = {
   title?: string
   notes?: string
   next_outreach?: string
+  id?: string | number
+  event?: string
+  position?: string
+  lastMessage?: string
   playlists?: Playlists
   templateData?: Template
 }
