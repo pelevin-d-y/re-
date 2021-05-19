@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Hydrate } from 'react-query/hydration'
 import type { AppProps } from 'next/app'
 import { config } from '@fortawesome/fontawesome-svg-core'
+import { ListsProvider } from 'src/components/context/ListsContext'
+import { UsersProvider } from 'src/components/context/UsersContext'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'ts-replace-all'
 
@@ -16,7 +18,11 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
+        <ListsProvider>
+          <UsersProvider>
+            <Component {...pageProps} />
+          </UsersProvider>
+        </ListsProvider>
       </Hydrate>
     </QueryClientProvider>
   )
