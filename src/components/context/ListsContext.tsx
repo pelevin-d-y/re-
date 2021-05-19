@@ -4,12 +4,13 @@ import testLists from 'src/testLists'
 type State = Lists | null
 type ContextType = {
   state: State
+  setState: React.Dispatch<React.SetStateAction<State>>
 }
 
 const ListsContext = React.createContext<ContextType | null>(null)
 
 const ListsProvider: React.FC = ({ children }) => {
-  const [state, setState] = React.useState(testLists)
+  const [state, setState] = React.useState<State>(testLists)
 
   const value: ContextType = React.useMemo(
     () => ({

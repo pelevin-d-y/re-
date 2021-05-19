@@ -7,10 +7,10 @@ import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContac
 
 type Props = {
   className?: string
-  listUsers: UserData[]
+  list: List
 }
 
-const TableHeader: React.FC<Props> = ({ className, listUsers }) => (
+const TableHeader: React.FC<Props> = ({ className, list }) => (
   <div className={classNames(className, s.container)}>
     <Search
       classes={{ container: s.search }}
@@ -20,7 +20,7 @@ const TableHeader: React.FC<Props> = ({ className, listUsers }) => (
       <Button className={s.dots} variant="outlined">
         •••
       </Button>
-      <PopoverAddContact className={s.contacts} listUsers={listUsers} />
+      <PopoverAddContact className={s.contacts} list={list} />
       <Button className={s.send} variant="outlined">
         Send list
       </Button>

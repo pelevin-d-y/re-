@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
@@ -6,32 +6,61 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useUsers } from 'src/components/context/UsersContext'
+import { useLists } from 'src/components/context/ListsContext'
 import { useDebounce } from 'use-debounce'
 import Popover from '../PopoverBase'
 
 type Props = {
-  listUsers?: UserData[]
+  list?: List
   className?: string
 }
 
-const PopoverAddContact: React.FC<Props> = ({ listUsers, className }) => {
+const PopoverAddContact: React.FC<Props> = ({ list, className }) => {
+  const { state: listsData, setState: setLists } = useLists()
   const {
     state: { data: users },
   } = useUsers()
 
-  const filteredUsers = useMemo(
+  const [searchState, setSearchState] = useState('')
+  const [searchValue] = useDebounce(searchState, 700)
+
+  const initUsers = useMemo(
     () =>
       users.filter(
         (item) =>
-          !listUsers?.find((listUser) => listUser.address === item.address)
+          !list?.users?.find((listUser) => listUser.address === item.address)
       ),
-    [users, listUsers]
+    [users, list]
   )
 
-  const [searchState, setSearchState] = useState('')
-  const [searchValue] = useDebounce(searchState, 700)
+  const [filteredUsers, setFilteredUsers] = useState(initUsers)
+
+  useEffect(() => {
+    setFilteredUsers(
+      initUsers.filter(
+        (user) =>
+          user.name?.toLowerCase().search(searchValue.toLowerCase()) !== -1
+      )
+    )
+  }, [searchValue, initUsers])
+
   const searchHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setSearchState(evt.target.value)
+  }
+
+  const addUserHandler = (user: UserData) => {
+    if (list?.id && listsData) {
+      const newLists = listsData.map((item) => {
+        if (item.id === list.id) {
+          return {
+            ...item,
+            users: [...item.users, user],
+          }
+        }
+        return item
+      })
+      setLists(newLists)
+    }
   }
 
   return (
@@ -61,7 +90,11 @@ const PopoverAddContact: React.FC<Props> = ({ listUsers, className }) => {
                   />
                   <span className={s.name}>{item.name}</span>
                 </div>
-                <Button className={s.button} variant="outlined">
+                <Button
+                  className={s.button}
+                  variant="outlined"
+                  handler={() => addUserHandler(item)}
+                >
                   add
                 </Button>
               </li>
