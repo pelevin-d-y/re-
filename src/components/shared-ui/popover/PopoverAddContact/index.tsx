@@ -8,6 +8,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { useUsers } from 'src/components/context/UsersContext'
 import { useLists } from 'src/components/context/ListsContext'
 import { useDebounce } from 'use-debounce'
+import { isNil } from 'lodash'
 import Popover from '../PopoverBase'
 
 type Props = {
@@ -49,9 +50,9 @@ const PopoverAddContact: React.FC<Props> = ({ list, className }) => {
   }
 
   const addUserHandler = (user: UserData) => {
-    if (list?.id && listsData) {
-      const newLists = listsData.map((item) => {
-        if (item.id === list.id) {
+    if ((list?.id && listsData) !== undefined) {
+      const newLists = listsData?.map((item) => {
+        if (item.id === list?.id) {
           return {
             ...item,
             users: [...item.users, user],
@@ -59,7 +60,7 @@ const PopoverAddContact: React.FC<Props> = ({ list, className }) => {
         }
         return item
       })
-      setLists(newLists)
+      if (newLists) setLists(newLists)
     }
   }
 
