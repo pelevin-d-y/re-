@@ -20,6 +20,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.21.3",
     "eslint-import-resolver-typescript": "^2.4.0",
+    "formik": "^2.2.7",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-optipng": "^8.0.0",
     "imagemin-svgo": "^9.0.0",

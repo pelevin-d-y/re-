@@ -8,7 +8,6 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { useUsers } from 'src/components/context/UsersContext'
 import { useLists } from 'src/components/context/ListsContext'
 import { useDebounce } from 'use-debounce'
-import { isNil } from 'lodash'
 import Popover from '../PopoverBase'
 
 type Props = {
@@ -64,12 +63,17 @@ const PopoverAddContact: React.FC<Props> = ({ list, className }) => {
     }
   }
 
+  const togglePopupHandler = () => {
+    console.log('aaaaa')
+  }
+
   return (
     <Popover
       triggerElement={
         <Button
           className={classNames(className, s.contacts)}
           variant="outlined"
+          handler={togglePopupHandler}
         >
           + Add contact
         </Button>

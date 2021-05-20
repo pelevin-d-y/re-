@@ -1,6 +1,9 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
+import AvatarIcon from './AvatarIcon'
+import SvgIcon from '../SvgIcon'
+
 
 type Props = {
   className?: string
@@ -14,11 +17,11 @@ const Avatar: React.FC<Props> = ({ className, image, width, height }) => (
     className={classNames(s.container, className)}
     style={{ width: width || 47, height: height || 47 }}
   >
-    <img
-      alt=""
-      className={s.avatar}
-      src={image || require('public/svg/avatar-placeholder.svg')}
-    />
+    {image ? (
+      <img alt="avatar" className={s.avatar} src={image} />
+    ) : (
+      <SvgIcon icon={require('public/svg/avatar-placeholder.svg?include')} />
+    )}
   </div>
 )
 
