@@ -19,6 +19,6 @@ module.exports = withPlugins([optimizedImages], {
 
     return config
   },
-  assetPrefix: '/rec/',
-  basePath: '/rec',
+  assetPrefix: '/rec-mgt/',
+  basePath: '/rec-mgt',
 })
