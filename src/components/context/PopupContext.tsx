@@ -71,6 +71,7 @@ const PopupProvider: React.FC = ({ children }): JSX.Element => {
     emailModalIsOpen: false,
     multiEmailsIsOpen: false,
     recommendationsIsOpen: false,
+    addContactModalIsOpen: false,
     data: {},
   })
 
