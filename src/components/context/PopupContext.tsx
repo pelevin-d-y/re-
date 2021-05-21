@@ -4,12 +4,14 @@ type Action =
   | { type: 'TOGGLE_EMAIL_POPUP' }
   | { type: 'TOGGLE_MULTI_EMAILS_POPUP' }
   | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
+  | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
 
 type State = {
   emailModalIsOpen: boolean
   multiEmailsIsOpen: boolean
   recommendationsIsOpen: boolean
+  addContactModalIsOpen: boolean
   data: UserData
 }
 
@@ -40,6 +42,12 @@ const popupReducer = (state: State, action: Action): State => {
         recommendationsIsOpen: !state.recommendationsIsOpen,
       }
     }
+    case 'TOGGLE_ADD_CONTACT_POPUP': {
+      return {
+        ...state,
+        addContactModalIsOpen: !state.addContactModalIsOpen,
+      }
+    }
     case 'UPDATE_POPUP_DATA': {
       return {
         ...state,
@@ -51,6 +59,7 @@ const popupReducer = (state: State, action: Action): State => {
         emailModalIsOpen: false,
         multiEmailsIsOpen: false,
         recommendationsIsOpen: false,
+        addContactModalIsOpen: false,
         data: {},
       }
     }

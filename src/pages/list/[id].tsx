@@ -3,11 +3,17 @@ import Layout from 'src/layouts/Layout'
 import Content from 'src/components/List/Content'
 import 'react-quill/dist/quill.snow.css'
 import testList from 'src/testLists'
+import AddUserModal from 'src/components/shared-ui/modals/AddUserModal'
+import { PopupProvider } from 'src/components/context/PopupContext'
+import { css } from 'astroturf'
 
 const List: React.FC = () => (
-  <Layout>
-    <Content />
-  </Layout>
+  <PopupProvider>
+    <Layout className={s.layout}>
+      <Content />
+      <AddUserModal />
+    </Layout>
+  </PopupProvider>
 )
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -33,5 +39,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   }
 }
+
+const s = css`
+  .layout {
+    background: var(--white);
+  }
+`
 
 export default List
