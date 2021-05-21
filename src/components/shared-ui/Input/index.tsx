@@ -10,7 +10,7 @@ type Props = {
 
 const Input: React.FC<Props> = ({ className, type, placeholder }) => (
   <div className={classNames(className, s.container)}>
-    <input className={} type={type} placeholder={placeholder} />
+    <input type={type} placeholder={placeholder} />
   </div>
 )
 

@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { Column, useFlexLayout, useTable } from 'react-table'
+import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
 import Avatar from 'src/components/shared-ui/Avatar'
+import Checkbox from 'src/components/shared-ui/Checkbox'
 
 type Props = {
   className?: string
@@ -11,6 +12,19 @@ type Props = {
 
 const Table: React.FC<Props> = ({ className, data }) => {
   const tableData = useMemo(() => data.users, [data.users])
+  const [checkedUsers, setCheckedUsers] = useState<UserData[]>([])
+
+  const checkboxHandler = (user: UserData, isChecked: boolean) => {
+    if (isChecked) {
+      setCheckedUsers([...checkedUsers, user])
+    } else {
+      setCheckedUsers(
+        checkedUsers.filter(
+          (item) => item.first_message_id !== user.first_message_id
+        )
+      )
+    }
+  }
 
   const columns: Column<UserData>[] = useMemo(
     () => [
@@ -57,8 +71,29 @@ const Table: React.FC<Props> = ({ className, data }) => {
     []
   )
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: tableData }, useFlexLayout)
-
+    useTable(
+      { columns, data: tableData },
+      useFlexLayout,
+      useRowSelect,
+      (hooks) => {
+        hooks.visibleColumns.push((hookColumns) => [
+          {
+            id: 'selection',
+            Header: 'All',
+            Cell: ({ row }: any) => (
+              <div className={s.cellHeaderAll}>
+                <Checkbox
+                  handler={(isChecked) =>
+                    checkboxHandler(row.original, isChecked)
+                  }
+                />{' '}
+              </div>
+            ),
+          },
+          ...hookColumns,
+        ])
+      }
+    )
   return (
     <div className={s.container}>
       <table className={classNames(className, s.table)} {...getTableProps()}>
@@ -73,7 +108,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
                     column.getHeaderProps()
                   return (
                     <th
-                      className={s.columnHeader}
+                      className={classNames(s.columnHeader, s[keyHeader])}
                       {...restHeaderProps}
                       key={keyHeader}
                     >
@@ -85,7 +120,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             )
           })}
         </thead>
-        <tbody {...getTableBodyProps()}>
+        <tbody className={s.tbody} {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
@@ -112,6 +147,9 @@ const s = css`
   .container {
     width: 100%;
     overflow: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
   }
 
   .table {
@@ -119,19 +157,26 @@ const s = css`
     width: 100%;
   }
 
-  .thead {
-    border-bottom: 2px solid #dbe7ff;
-  }
-
   .columnHeader {
     text-align: left;
     padding: 18px 19px;
+
+    &:first-child {
+      width: 40px !important;
+    }
+  }
+
+  .header_All {
+    color: var(--blue);
   }
 
   .cell {
     display: table-cell;
     padding: 28px 19px;
-    border: 1px solid #efefef;
+
+    &:first-child {
+      width: 40px !important;
+    }
   }
 
   .cellName {
@@ -148,9 +193,25 @@ const s = css`
 
   .cellContent {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .cellHeaderAll {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  .tbody tr {
+    margin-bottom: 5px;
+
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
+      0px 1px 1px rgba(34, 34, 34, 0.0989128);
+    border-radius: 6px;
   }
 `
 

@@ -5,7 +5,11 @@ import { ClientProvider } from 'src/components/context/ClientContext'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
-const HomeLayout: React.FC = ({ children }) => {
+type Props = {
+  className?: string
+}
+
+const HomeLayout: React.FC<Props> = ({ children, className }) => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -14,7 +18,7 @@ const HomeLayout: React.FC = ({ children }) => {
 
   return (
     <ClientProvider>
-      <div className={classNames(s.root, menuOpen && s.open)}>
+      <div className={classNames(s.root, className, menuOpen && s.open)}>
         <Sidebar className={s.sidebar} toggleMenu={toggleMenu} />
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
         <div
