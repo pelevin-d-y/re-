@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import AvatarIcon from './AvatarIcon'
 import SvgIcon from '../SvgIcon'
 
 
