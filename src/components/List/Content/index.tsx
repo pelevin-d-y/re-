@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import { useRouter } from 'next/router'
 import { useLists } from 'src/components/context/ListsContext'
+import { TableProvider } from 'src/components/context/TableContext'
 import PreviousPage from 'src/components/shared-ui/PreviousPage'
 import TableHeader from './TableHeader'
 import Table from './Table'
@@ -21,8 +22,10 @@ const Content: React.FC = () => {
         <div className={s.userCount}>{currentList.users.length} Contacts</div>
       </div>
       <div className={s.content}>
-        <TableHeader list={currentList} />
-        <Table data={currentList} />
+        <TableProvider>
+          <TableHeader list={currentList} />
+          <Table data={currentList} />
+        </TableProvider>
       </div>
     </div>
   ) : null

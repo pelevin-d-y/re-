@@ -4,29 +4,79 @@ import Button from 'src/components/shared-ui/Button'
 import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
+import { useTable } from 'src/components/context/TableContext'
+import { useLists } from 'src/components/context/ListsContext'
 
 type Props = {
   className?: string
   list: List
 }
 
-const TableHeader: React.FC<Props> = ({ className, list }) => (
-  <div className={classNames(className, s.container)}>
-    <Search
-      classes={{ container: s.search }}
-      inputPlaceholder="Search contacts…"
-    />
-    <div className={s.actions}>
-      <Button className={s.dots} variant="outlined">
-        •••
-      </Button>
-      <PopoverAddContact className={s.contacts} list={list} />
-      <Button className={s.send} variant="outlined">
-        Send list
-      </Button>
+const TableHeader: React.FC<Props> = ({ className, list }) => {
+  const {
+    state: { data: selectedUsers },
+  } = useTable()
+
+  const { state: listsData, setState: setLists } = useLists()
+
+  const removeUsersHandler = () => {
+    const newLists = listsData?.map((item) => {
+      if (item.id === list?.id) {
+        const listUsers = item.users.filter(
+          (user) =>
+            !selectedUsers.find(
+              (selectedUser) => selectedUser.address === user.address
+            )
+        )
+
+        return {
+          ...item,
+          users: listUsers,
+        }
+      }
+      return item
+    })
+
+    if (newLists) {
+      setLists(newLists)
+    }
+  }
+
+  return (
+    <div className={classNames(className, s.container)}>
+      <Search
+        classes={{ container: s.search }}
+        inputPlaceholder="Search contacts…"
+      />
+      <div className={s.actions}>
+        <Button className={classNames(s.dots, s.button)} variant="outlined">
+          •••
+        </Button>
+        <PopoverAddContact
+          className={classNames(s.contacts, s.button)}
+          list={list}
+        />
+        <Button
+          className={classNames(s.button, s.remove)}
+          handler={removeUsersHandler}
+          variant="outlined"
+        >
+          Remove
+        </Button>
+        <Button
+          className={classNames(s.button, s.filter)}
+          variant="outlined"
+          isArrow
+        >
+          Filter
+        </Button>
+        <Button className={classNames(s.contact, s.button)} variant="contained">
+          Contact
+        </Button>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
@@ -52,23 +102,14 @@ const s = css`
 
     @include mobile {
       width: 100%;
-      margin-top: 20px;
+      flex-flow: row wrap;
+      margin-top: 14px;
     }
   }
 
   .search {
     max-width: 291px;
     width: 100%;
-  }
-
-  .dots {
-    margin-left: auto;
-    max-width: 61px;
-    width: 100%;
-
-    @include mobile {
-      margin-left: 0;
-    }
   }
 
   .contacts {
@@ -81,10 +122,28 @@ const s = css`
     }
   }
 
-  .send {
-    max-width: 136px;
+  .button {
+    margin-left: 8px;
+    @include mobile {
+      margin-top: 6px;
+    }
+  }
+
+  .dots {
+    margin-left: auto;
+    max-width: 61px;
     width: 100%;
-    margin-left: 14px;
+
+    @include mobile {
+      margin-left: 0;
+    }
+  }
+
+  .contact,
+  .remove,
+  .filter {
+    max-width: 97px;
+    width: 100%;
 
     @include mobile {
       margin-left: 3px;
