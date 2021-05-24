@@ -42,23 +42,18 @@ const s = css`
     align-items: center;
     width: 18px;
     height: 18px;
-
     border: 1px solid #cbcbcb;
     border-radius: 2px;
   }
-
   .input {
     display: none;
   }
-
   .input:checked ~ .icon {
     opacity: 1;
   }
-
   .input ~ .icon {
     opacity: 0;
   }
-
   .icon {
     width: 90%;
     transition: all 0.2s linear;

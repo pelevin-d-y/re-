@@ -1,9 +1,11 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
+
 import Avatar from 'src/components/shared-ui/Avatar'
-import Checkbox from 'src/components/shared-ui/Checkbox'
+import { useTable as useTableContext } from 'src/components/context/TableContext'
+import Checkbox from './Checkbox'
 
 type Props = {
   className?: string
@@ -11,20 +13,9 @@ type Props = {
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
-  const tableData = useMemo(() => data.users, [data.users])
-  const [checkedUsers, setCheckedUsers] = useState<UserData[]>([])
+  const { dispatch } = useTableContext()
 
-  const checkboxHandler = (user: UserData, isChecked: boolean) => {
-    if (isChecked) {
-      setCheckedUsers([...checkedUsers, user])
-    } else {
-      setCheckedUsers(
-        checkedUsers.filter(
-          (item) => item.first_message_id !== user.first_message_id
-        )
-      )
-    }
-  }
+  const tableData = useMemo(() => data.users, [data.users])
 
   const columns: Column<UserData>[] = useMemo(
     () => [
@@ -70,30 +61,42 @@ const Table: React.FC<Props> = ({ className, data }) => {
     ],
     []
   )
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      { columns, data: tableData },
-      useFlexLayout,
-      useRowSelect,
-      (hooks) => {
-        hooks.visibleColumns.push((hookColumns) => [
-          {
-            id: 'selection',
-            Header: 'All',
-            Cell: ({ row }: any) => (
-              <div className={s.cellHeaderAll}>
-                <Checkbox
-                  handler={(isChecked) =>
-                    checkboxHandler(row.original, isChecked)
-                  }
-                />{' '}
-              </div>
-            ),
-          },
-          ...hookColumns,
-        ])
-      }
-    )
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    selectedFlatRows,
+  } = useTable(
+    { columns, data: tableData },
+    useFlexLayout,
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((hookColumns) => [
+        {
+          id: 'selection',
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <Checkbox {...getToggleAllRowsSelectedProps()} />
+          ),
+          Cell: ({ row }: any) => (
+            <div className={s.cellCheckbox}>
+              <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
+            </div>
+          ),
+        },
+        ...hookColumns,
+      ])
+    }
+  )
+  useEffect(() => {
+    dispatch({
+      type: 'UPDATE_SELECTED_USERS',
+      payload: selectedFlatRows.map((item) => item.original),
+    })
+  }, [selectedFlatRows, dispatch])
+
   return (
     <div className={s.container}>
       <table className={classNames(className, s.table)} {...getTableProps()}>
@@ -199,6 +202,10 @@ const s = css`
   }
 
   .cellHeaderAll {
+    color: var(--blue);
+  }
+
+  .cellCheckbox {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
