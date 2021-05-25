@@ -5,6 +5,7 @@ import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
+import Button from 'src/components/shared-ui/Button'
 import Checkbox from './Checkbox'
 
 type Props = {
@@ -78,7 +79,10 @@ const Table: React.FC<Props> = ({ className, data }) => {
         {
           id: 'selection',
           Header: ({ getToggleAllRowsSelectedProps }) => (
-            <Checkbox {...getToggleAllRowsSelectedProps()} />
+            <Checkbox
+              className={s.headerCheckbox}
+              {...getToggleAllRowsSelectedProps()}
+            />
           ),
           Cell: ({ row }: any) => (
             <div className={s.cellCheckbox}>
@@ -87,6 +91,28 @@ const Table: React.FC<Props> = ({ className, data }) => {
           ),
         },
         ...hookColumns,
+        {
+          Header: () => (
+            <Button
+              className={s.headerButton}
+              variant="contained"
+              handler={() => null}
+            >
+              Contact
+            </Button>
+          ),
+          id: 'row-button',
+          width: 'auto',
+          Cell: ({ row }: any) => (
+            <Button
+              className={s.rowButton}
+              variant="contained"
+              handler={() => null}
+            >
+              Contact
+            </Button>
+          ),
+        },
       ])
     }
   )
@@ -128,7 +154,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
             return (
-              <tr {...restProps} key={key}>
+              <tr className={s.row} {...restProps} key={key}>
                 {row.cells.map((cell) => {
                   const { key: cellKey, ...restCellProps } = cell.getCellProps()
                   return (
@@ -167,6 +193,26 @@ const s = css`
     &:first-child {
       width: 40px !important;
     }
+  }
+
+  .row {
+    position: relative;
+  }
+
+  .headerButton {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .headerCheckbox {
+    width: 40px;
+  }
+
+  .rowButton {
+  }
+
+  .row:hover {
+    background: var(--lightBlue);
   }
 
   .header_All {

@@ -42,6 +42,7 @@ const s = css`
     align-items: center;
     width: 18px;
     height: 18px;
+    cursor: pointer;
     border: 1px solid #cbcbcb;
     border-radius: 2px;
   }

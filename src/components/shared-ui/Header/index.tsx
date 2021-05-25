@@ -33,9 +33,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
         />
         <HeaderTheme className={s.theme} />
         <HeaderToDos className={s.toDos} />
-        {data.address && (
-          <HeaderProfile address={data.address} avatar={data.avatar} />
-        )}
+        {data.address && <HeaderProfile />}
       </div>
     </header>
   )

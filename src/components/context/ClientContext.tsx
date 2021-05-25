@@ -32,7 +32,7 @@ const clientReducer = (state: State, action: Action): State => {
 
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
   const [state, dispatch] = React.useReducer(clientReducer, {
-    data: testUsers[0],
+    data: testUsers[1],
   })
 
   const value: ContextType = React.useMemo(
