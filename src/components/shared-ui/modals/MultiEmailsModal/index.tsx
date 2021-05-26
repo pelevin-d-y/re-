@@ -74,7 +74,7 @@ const MultiEmailsModal: React.FC = () => {
     setSelectedContacts([])
     dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
     setContacts(usersData)
-    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
+    dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
     setIsSent(false)
   }
 

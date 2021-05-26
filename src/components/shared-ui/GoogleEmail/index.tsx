@@ -36,6 +36,8 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     flex: 0 0 auto;
+    justify-content: center;
+    align-items: center;
 
     width: 43px;
     height: 43px;
@@ -43,6 +45,10 @@ const s = css`
 
     border: 1px solid #e4e4e4;
     border-radius: 50%;
+
+    svg {
+      width: 50%;
+    }
   }
 
   .status {

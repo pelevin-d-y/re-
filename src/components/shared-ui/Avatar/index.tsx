@@ -3,7 +3,6 @@ import { css } from 'astroturf'
 import classNames from 'classnames'
 import SvgIcon from '../SvgIcon'
 
-
 type Props = {
   className?: string
   width?: number

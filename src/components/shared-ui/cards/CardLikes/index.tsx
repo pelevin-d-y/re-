@@ -15,15 +15,11 @@ type Props = {
 }
 
 const CardLikes: React.FC<Props> = ({ className, data, template }) => {
-  const { dispatch } = usePopup()
+  const { toggleContactModal } = usePopup()
   const { name, avatar } = data
 
   const buttonHandler = () => {
-    dispatch({
-      type: 'UPDATE_POPUP_DATA',
-      payload: { ...data, templateData: template },
-    })
-    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
+    toggleContactModal(data)
   }
 
   return (

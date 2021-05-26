@@ -16,7 +16,6 @@ const Input: React.FC<Props> = ({ className, type, placeholder }) => (
 
 const s = css`
   .container {
-    
   }
 `
 

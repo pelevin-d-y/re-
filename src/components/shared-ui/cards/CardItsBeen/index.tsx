@@ -6,19 +6,19 @@ import Star from 'src/components/shared-ui/Star'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import { users } from 'src/testData'
 import CardContainer from '../CardContainer'
 import CardActions from '../CardActions'
 
 type Props = {
   className?: string
+  data?: List
 }
 
-const CardItsBeen: React.FC<Props> = ({ className }) => {
+const CardItsBeen: React.FC<Props> = ({ className, data }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { state: usersState, dispatch: usersDispatch } = useUsers()
+  const { dispatch: usersDispatch } = useUsers()
   const openModalHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: data?.users || [] })
     popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
@@ -26,14 +26,14 @@ const CardItsBeen: React.FC<Props> = ({ className }) => {
     <CardContainer className={classNames(s.container, className)}>
       <Star className={s.star} />
       <div className={s.header}>
-        <div className={s.cardName}>It’s been</div>
-        <div className={s.title}>90 Days…</div>
+        <div className={s.cardName}>{data?.description}</div>
+        <div className={s.title}>{data?.title}</div>
         <SvgIcon
           className={s.clock}
           icon={require('public/svg/clock.svg?include')}
         />
       </div>
-      <AvatarsList className={s.avatars} users={usersState.data} />
+      {data?.users && <AvatarsList className={s.avatars} users={data.users} />}
       <CardActions
         className={s.actions}
         mainAction={openModalHandler}

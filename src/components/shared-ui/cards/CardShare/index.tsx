@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { users } from 'src/testData'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -9,6 +8,7 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Star from 'src/components/shared-ui/Star'
 import Socials from 'src/components/shared-ui/Socials'
 import ShareLink from 'src/components/shared-ui/ShareLink'
+import testUsers from 'src/testUsersWithPlaceholderFields.js'
 import CardActions from '../CardActions'
 
 type Props = {
@@ -29,9 +29,9 @@ const CardShare: React.FC<Props> = ({
   link,
 }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { state: userState, dispatch: usersDispatch } = useUsers()
+  const { dispatch: usersDispatch } = useUsers()
   const openModalHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: testUsers })
     popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
@@ -51,7 +51,7 @@ const CardShare: React.FC<Props> = ({
       </div>
       <div className={s.actions}>
         <div className={classNames(s.topLine, s.line)}>
-          <AvatarsList className={s.avatars} users={userState.data} />
+          <AvatarsList className={s.avatars} users={testUsers} />
           <Socials />
         </div>
         <div className={classNames(s.bottomLine, s.line)}>

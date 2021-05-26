@@ -3,9 +3,9 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
+import { Formik } from 'formik'
 import CloseModal from '../../Close'
 import ModalBase from '../ModalBase'
-import { Formik } from 'formik'
 
 const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -47,7 +47,6 @@ const EmailModal: React.FC = () => {
           // }}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
               setSubmitting(false)
             }, 400)
           }}

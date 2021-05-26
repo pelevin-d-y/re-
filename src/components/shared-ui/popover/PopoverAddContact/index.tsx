@@ -63,17 +63,12 @@ const PopoverAddContact: React.FC<Props> = ({ list, className }) => {
     }
   }
 
-  const togglePopupHandler = () => {
-    console.log('aaaaa')
-  }
-
   return (
     <Popover
       triggerElement={
         <Button
           className={classNames(className, s.contacts)}
           variant="outlined"
-          handler={togglePopupHandler}
         >
           + Add contact
         </Button>

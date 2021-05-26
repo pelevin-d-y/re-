@@ -3,15 +3,14 @@ import { css } from 'astroturf'
 import SmallCard from 'src/components/shared-ui/cards/CardSmall'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 
-import { useUsers } from 'src/components/context/UsersContext'
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import findTemplate from 'src/helpers/utils/find-template'
+import testUsers from 'src/testUsersWithPlaceholderFields'
 
 const HomeRecommendations: React.FC = () => {
-  const { state: usersState } = useUsers()
   const { state: templatesState } = useTemplates()
 
-  const contacts = usersState.data?.slice(0, 3)
+  const contacts = testUsers.slice(0, 3)
 
   return (
     <CardContainer className={s.container}>
