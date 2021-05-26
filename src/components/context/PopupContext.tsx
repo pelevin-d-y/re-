@@ -1,8 +1,10 @@
 import * as React from 'react'
+import testTemplates from 'src/testTemplates.json'
+import findTemplate from 'src/helpers/utils/find-template'
 
 type Action =
-  | { type: 'TOGGLE_EMAIL_POPUP' }
-  | { type: 'TOGGLE_MULTI_EMAILS_POPUP' }
+  | { type: 'TOGGLE_CONTACT_POPUP' }
+  | { type: 'TOGGLE_CONTACTS_POPUP' }
   | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
@@ -18,19 +20,21 @@ type State = {
 type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
+  toggleContactModal: (data: UserData) => void
+  toggleContactsModal: () => void
 }
 
 const PopupContext = React.createContext<ContextType | null>(null)
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'TOGGLE_EMAIL_POPUP': {
+    case 'TOGGLE_CONTACT_POPUP': {
       return {
         ...state,
         emailModalIsOpen: !state.emailModalIsOpen,
       }
     }
-    case 'TOGGLE_MULTI_EMAILS_POPUP': {
+    case 'TOGGLE_CONTACTS_POPUP': {
       return {
         ...state,
         multiEmailsIsOpen: !state.multiEmailsIsOpen,
@@ -75,10 +79,22 @@ const PopupProvider: React.FC = ({ children }): JSX.Element => {
     data: {},
   })
 
+  const toggleContactModal = (data: UserData) => {
+    const templateData = findTemplate(testTemplates, data.template)
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: { ...data, templateData } })
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP' })
+  }
+
+  const toggleContactsModal = () => {
+    dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+  }
+
   const value: ContextType = React.useMemo(
     () => ({
       state,
       dispatch,
+      toggleContactModal,
+      toggleContactsModal,
     }),
     [state]
   )

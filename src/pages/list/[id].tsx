@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css'
 import testList from 'src/testLists'
 import AddUserModal from 'src/components/shared-ui/modals/AddUserModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
+import EmailModal from 'src/components/shared-ui/modals/ContactModal'
 import { css } from 'astroturf'
 
 const List: React.FC = () => (
@@ -12,6 +13,7 @@ const List: React.FC = () => (
     <Layout className={s.layout}>
       <Content />
       <AddUserModal />
+      <EmailModal />
     </Layout>
   </PopupProvider>
 )

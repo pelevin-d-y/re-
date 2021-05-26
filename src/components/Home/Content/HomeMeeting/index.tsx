@@ -13,31 +13,32 @@ import findTemplate from 'src/helpers/utils/find-template'
 
 type Props = {
   className?: string
+  data?: List
 }
 
-const headerData = {
-  month: 'feb',
-  day: '18',
-  title: 'Your meeting with Company X ',
-  description: 'February 12, 2021 - Frontend Round table',
-}
-
-const HomeMeeting: React.FC<Props> = ({ className }) => {
+const HomeMeeting: React.FC<Props> = ({ className, data }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch, state: usersState } = useUsers()
-  const users = usersState.data.slice(0, 6)
+  const { dispatch: usersDispatch } = useUsers()
+  const users = data?.users.slice(0, 6)
   const { state: templatesState } = useTemplates()
   const followUpWithAllHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: usersState.data })
-    popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+  }
+
+  const headerData = {
+    month: 'feb',
+    day: '18',
+    title: data?.title as string,
+    description: data?.description as string,
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
       <Star className={s.star} />
-      <CardHeader data={headerData} />
+      {headerData && <CardHeader data={headerData} />}
       <div className={s.cards}>
-        {users.map((item) => (
+        {users?.map((item) => (
           <CardLikes
             key={item.first_message_id}
             data={item}

@@ -5,7 +5,9 @@ import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
-import Button from 'src/components/shared-ui/Button'
+import { useLists } from 'src/components/context/ListsContext'
+import { usePopup } from 'src/components/context/PopupContext'
+import Close from 'src/components/shared-ui/Close'
 import Checkbox from './Checkbox'
 
 type Props = {
@@ -15,6 +17,17 @@ type Props = {
 
 const Table: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = useTableContext()
+  const { toggleContactModal } = usePopup()
+  const { state: listState, setState: setLists } = useLists()
+
+  const contactHandler = (contactData: UserData) => {
+    toggleContactModal(contactData)
+  }
+
+  const removeUser = (e: React.MouseEvent<HTMLElement>, userData: UserData) => {
+    e.stopPropagation()
+    console.log('userData', userData)
+  }
 
   const tableData = useMemo(() => data.users, [data.users])
 
@@ -93,24 +106,15 @@ const Table: React.FC<Props> = ({ className, data }) => {
         ...hookColumns,
         {
           Header: () => (
-            <Button
-              className={s.headerButton}
-              variant="contained"
-              handler={() => null}
-            >
-              Contact
-            </Button>
+            <Close className={s.headerButton} handler={() => null} />
           ),
           id: 'row-button',
           width: 'auto',
           Cell: ({ row }: any) => (
-            <Button
+            <Close
               className={s.rowButton}
-              variant="contained"
-              handler={() => null}
-            >
-              Contact
-            </Button>
+              handler={(e) => removeUser(e, row.original)}
+            />
           ),
         },
       ])
@@ -154,7 +158,12 @@ const Table: React.FC<Props> = ({ className, data }) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
             return (
-              <tr className={s.row} {...restProps} key={key}>
+              <tr
+                onClick={() => contactHandler(row.original)}
+                className={s.row}
+                {...restProps}
+                key={key}
+              >
                 {row.cells.map((cell) => {
                   const { key: cellKey, ...restCellProps } = cell.getCellProps()
                   return (
@@ -197,6 +206,7 @@ const s = css`
 
   .row {
     position: relative;
+    cursor: pointer;
   }
 
   .headerButton {
@@ -206,9 +216,6 @@ const s = css`
 
   .headerCheckbox {
     width: 40px;
-  }
-
-  .rowButton {
   }
 
   .row:hover {

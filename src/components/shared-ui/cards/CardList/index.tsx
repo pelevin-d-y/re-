@@ -38,6 +38,7 @@ const CardList: React.FC<Props> = ({
         showHiddenUsers
       />
       <CardActions
+        className={s.actions}
         mainText="View List"
         mainAction={() => router.push(`/list/${id}`)}
       />
@@ -49,6 +50,9 @@ const s = css`
   .container {
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-flow: column nowrap;
+
     padding: 11px 16px 25px 21px;
   }
 
@@ -63,12 +67,16 @@ const s = css`
   }
 
   .title {
+    padding-right: 50px;
+    margin-bottom: 10px;
+
     font-size: 24px;
-    line-height: 42px;
     font-weight: var(--bold);
   }
 
   .description {
+    padding-right: 50px;
+
     font-size: 12px;
     line-height: 22px;
   }
@@ -76,6 +84,10 @@ const s = css`
   .avatars {
     margin-top: 17px;
     margin-bottom: 20px;
+  }
+
+  .actions {
+    margin-top: auto;
   }
 `
 

@@ -13,27 +13,27 @@ import findTemplate from 'src/helpers/utils/find-template'
 
 type Props = {
   className?: string
+  data?: List
 }
 
-const headerData = {
-  month: 'feb',
-  day: '20',
-  title: 'Your Upcoming Trip to Los Angeles',
-  description:
-    'Plan your trip ahead but scheduling meetings with contacts in LA',
-}
-
-const HomeUpcoming: React.FC<Props> = ({ className }) => {
-  const { state: usersState, dispatch: usersDispatch } = useUsers()
+const HomeUpcoming: React.FC<Props> = ({ className, data }) => {
+  const { dispatch: usersDispatch } = useUsers()
   const { state: templatesState } = useTemplates()
 
-  const contacts = usersState.data?.slice(0, 6)
+  const contacts = data?.users.slice(0, 6)
 
   const { dispatch: popupDispatch } = usePopup()
   const followUpWithAllHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: usersState.data })
-    popupDispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: data?.users || [] })
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+  }
+
+  const headerData = {
+    month: 'feb',
+    day: '20',
+    title: data?.title as string,
+    description: data?.description as string,
   }
 
   return (
@@ -41,13 +41,14 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
       <Star className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
-        {contacts.map((item) => (
-          <LongCard
-            data={item}
-            key={item.first_message_id}
-            template={findTemplate(templatesState.data, item.template)}
-          />
-        ))}
+        {contacts &&
+          contacts.map((item) => (
+            <LongCard
+              data={item}
+              key={item.first_message_id}
+              template={findTemplate(templatesState.data, item.template)}
+            />
+          ))}
       </div>
       <CardActions
         className={s.actions}
