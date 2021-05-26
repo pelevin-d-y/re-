@@ -24,7 +24,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
     toggleContactModal(contactData)
   }
 
-  const removeUser = (e: React.MouseEvent<HTMLElement>, userData: UserData) => {
+  const removeUser = (e: React.MouseEvent, userData: UserData) => {
     e.stopPropagation()
     console.log('userData', userData)
   }
@@ -113,7 +113,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
           Cell: ({ row }: any) => (
             <Close
               className={s.rowButton}
-              handler={(e) => removeUser(e, row.original)}
+              handler={(e: React.MouseEvent) => removeUser(e, row.original)}
             />
           ),
         },
