@@ -6,6 +6,8 @@ import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
 import { useLists } from 'src/components/context/ListsContext'
+import { usePopup } from 'src/components/context/PopupContext'
+import { useUsers } from 'src/components/context/UsersContext'
 
 type Props = {
   className?: string
@@ -16,6 +18,8 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
   const {
     state: { data: selectedUsers },
   } = useTable()
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch } = useUsers()
 
   const { state: listsData, setState: setLists } = useLists()
 
@@ -40,6 +44,11 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
     if (newLists) {
       setLists(newLists)
     }
+  }
+
+  const contactHandler = () => {
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list.users || [] })
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
   return (
@@ -70,7 +79,11 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         >
           Filter
         </Button>
-        <Button className={classNames(s.contact, s.button)} variant="contained">
+        <Button
+          handler={contactHandler}
+          className={classNames(s.contact, s.button)}
+          variant="contained"
+        >
           Contact
         </Button>
       </div>

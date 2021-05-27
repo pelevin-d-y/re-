@@ -95,9 +95,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         Cell: ({ row }: any) => (
           <Close
             className={s.removeButton}
-            handler={(e: React.MouseEvent) => {
-              removeUser(e, row.original)
-            }}
+            handler={(e: React.MouseEvent) => removeUser(e, row.original)}
           />
         ),
       },
