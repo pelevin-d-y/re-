@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
@@ -16,20 +16,36 @@ type Props = {
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
-  const { dispatch } = useTableContext()
+  const { dispatch: dispatchTable } = useTableContext()
   const { toggleContactModal } = usePopup()
-  const { state: listState, setState: setLists } = useLists()
 
   const contactHandler = (contactData: UserData) => {
     toggleContactModal(contactData)
   }
 
-  const removeUser = (e: React.MouseEvent, userData: UserData) => {
-    e.stopPropagation()
-    console.log('userData', userData)
-  }
-
   const tableData = useMemo(() => data.users, [data.users])
+
+  const { state: listState, setState: setLists } = useLists()
+
+  const removeUser = useCallback(
+    (e: React.MouseEvent, userData: UserData) => {
+      e.stopPropagation()
+      const newLists = listState?.map((list) => {
+        if (list.id === data.id) {
+          const users = list.users.filter(
+            (user) => user.address !== userData.address
+          )
+          return {
+            ...list,
+            users,
+          }
+        }
+        return list
+      })
+      if (newLists) setLists(newLists)
+    },
+    [data.id, listState, setLists]
+  )
 
   const columns: Column<UserData>[] = useMemo(
     () => [
@@ -72,8 +88,19 @@ const Table: React.FC<Props> = ({ className, data }) => {
         accessor: 'next_outreach',
         Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
       },
+      {
+        Header: () => <Close className={s.headerButton} handler={() => null} />,
+        id: 'row-button',
+        width: 'auto',
+        Cell: ({ row }: any) => (
+          <Close
+            className={s.removeButton}
+            handler={(e: React.MouseEvent) => removeUser(e, row.original)}
+          />
+        ),
+      },
     ],
-    []
+    [removeUser]
   )
 
   const {
@@ -84,7 +111,10 @@ const Table: React.FC<Props> = ({ className, data }) => {
     prepareRow,
     selectedFlatRows,
   } = useTable(
-    { columns, data: tableData },
+    {
+      columns,
+      data: tableData,
+    },
     useFlexLayout,
     useRowSelect,
     (hooks) => {
@@ -104,28 +134,15 @@ const Table: React.FC<Props> = ({ className, data }) => {
           ),
         },
         ...hookColumns,
-        {
-          Header: () => (
-            <Close className={s.headerButton} handler={() => null} />
-          ),
-          id: 'row-button',
-          width: 'auto',
-          Cell: ({ row }: any) => (
-            <Close
-              className={s.rowButton}
-              handler={(e: React.MouseEvent) => removeUser(e, row.original)}
-            />
-          ),
-        },
       ])
     }
   )
   useEffect(() => {
-    dispatch({
+    dispatchTable({
       type: 'UPDATE_SELECTED_USERS',
       payload: selectedFlatRows.map((item) => item.original),
     })
-  }, [selectedFlatRows, dispatch])
+  }, [selectedFlatRows, dispatchTable])
 
   return (
     <div className={s.container}>
@@ -272,6 +289,14 @@ const s = css`
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
+  }
+
+  .removeButton {
+    opacity: 0;
+  }
+
+  tr:hover .removeButton {
+    opacity: 1;
   }
 `
 
