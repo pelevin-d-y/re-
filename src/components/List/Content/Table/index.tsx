@@ -25,26 +25,14 @@ const Table: React.FC<Props> = ({ className, data }) => {
 
   const tableData = useMemo(() => data.users, [data.users])
 
-  const { state: listState, setState: setLists } = useLists()
+  const { removeUsersFromList } = useLists()
 
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
       e.stopPropagation()
-      const newLists = listState?.map((list) => {
-        if (list.id === data.id) {
-          const users = list.users.filter(
-            (user) => user.address !== userData.address
-          )
-          return {
-            ...list,
-            users,
-          }
-        }
-        return list
-      })
-      if (newLists) setLists(newLists)
+      removeUsersFromList(data, [userData])
     },
-    [data.id, listState, setLists]
+    [data, removeUsersFromList]
   )
 
   const columns: Column<UserData>[] = useMemo(

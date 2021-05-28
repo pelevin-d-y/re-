@@ -7,6 +7,7 @@ type Action =
   | { type: 'TOGGLE_CONTACTS_POPUP' }
   | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
+  | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
 
 type State = {
@@ -14,6 +15,7 @@ type State = {
   multiEmailsIsOpen: boolean
   recommendationsIsOpen: boolean
   addContactModalIsOpen: boolean
+  createListModalIsOpen: boolean
   data: UserData
 }
 
@@ -22,6 +24,7 @@ type ContextType = {
   dispatch: React.Dispatch<Action>
   toggleContactModal: (data: UserData) => void
   toggleContactsModal: () => void
+  toggleCreateListModal: () => void
 }
 
 const PopupContext = React.createContext<ContextType | null>(null)
@@ -52,6 +55,12 @@ const popupReducer = (state: State, action: Action): State => {
         addContactModalIsOpen: !state.addContactModalIsOpen,
       }
     }
+    case 'TOGGLE_CREATE_LIST_POPUP': {
+      return {
+        ...state,
+        createListModalIsOpen: !state.createListModalIsOpen,
+      }
+    }
     case 'UPDATE_POPUP_DATA': {
       return {
         ...state,
@@ -64,6 +73,7 @@ const popupReducer = (state: State, action: Action): State => {
         multiEmailsIsOpen: false,
         recommendationsIsOpen: false,
         addContactModalIsOpen: false,
+        createListModalIsOpen: false,
         data: {},
       }
     }
@@ -76,6 +86,7 @@ const PopupProvider: React.FC = ({ children }): JSX.Element => {
     multiEmailsIsOpen: false,
     recommendationsIsOpen: false,
     addContactModalIsOpen: false,
+    createListModalIsOpen: false,
     data: {},
   })
 
@@ -89,12 +100,17 @@ const PopupProvider: React.FC = ({ children }): JSX.Element => {
     dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
+  const toggleCreateListModal = () => {
+    dispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
+  }
+
   const value: ContextType = React.useMemo(
     () => ({
       state,
       dispatch,
       toggleContactModal,
       toggleContactsModal,
+      toggleCreateListModal,
     }),
     [state]
   )
