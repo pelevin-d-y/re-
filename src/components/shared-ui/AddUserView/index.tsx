@@ -5,7 +5,6 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { css } from 'astroturf'
-import { useUsers } from 'src/components/context/UsersContext'
 import { useDebounce } from 'use-debounce'
 
 type Props = {
@@ -65,7 +64,42 @@ const AddUserView: React.FC<Props> = ({ className, handler, users }) => {
 }
 
 const s = css`
-  .container {
+  .search {
+    width: 100%;
+  }
+
+  .searchInput {
+    outline: none;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .item {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid #f6f6f6;
+  }
+
+  .profile {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  .avatar {
+    margin-right: 22px;
+  }
+
+  .name {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: var(--bold);
   }
 `
 
