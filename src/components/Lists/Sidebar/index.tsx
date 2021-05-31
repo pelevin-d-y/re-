@@ -1,19 +1,32 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import Button from 'src/components/shared-ui/Button'
 import classNames from 'classnames'
+import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
   className?: string
 }
 
-const ListsSidebar: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classNames(s.container, className)}>
-    <div className={s.header}>
-      Important <span>Lists</span>
-    </div>
-  </CardContainer>
-)
+const ListsSidebar: React.FC<Props> = ({ className }) => {
+  const { toggleCreateListModal } = usePopup()
+
+  return (
+    <CardContainer className={classNames(s.container, className)}>
+      <div className={s.header}>
+        Important <span>Lists</span>
+      </div>
+      <Button
+        className={s.createList}
+        variant="contained"
+        handler={toggleCreateListModal}
+      >
+        Create New
+      </Button>
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {
@@ -32,6 +45,10 @@ const s = css`
     span {
       color: var(--ginger);
     }
+  }
+
+  .createList {
+    margin-top: 15px;
   }
 `
 

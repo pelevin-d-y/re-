@@ -1,6 +1,7 @@
 import Layout from 'src/layouts/Layout'
 import Content from 'src/components/Lists/Content'
-import ContentSidebar from 'src/components/Lists/Sidebar'
+import ListsSidebar from 'src/components/Lists/Sidebar'
+import CreateListModal from 'src/components/shared-ui/modals/CreateListModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { css } from 'astroturf'
@@ -12,8 +13,9 @@ const Lists: React.FC = () => (
       <PopupProvider>
         <div className={s.container}>
           <Content className={s.content} />
-          <ContentSidebar className={s.sidebar} />
+          <ListsSidebar className={s.sidebar} />
         </div>
+        <CreateListModal />
       </PopupProvider>
     </TemplatesProvider>
   </Layout>
