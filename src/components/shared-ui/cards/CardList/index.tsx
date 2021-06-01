@@ -27,7 +27,7 @@ const CardList: React.FC<Props> = ({
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      <img src={image} alt="icon" className={s.image} />
+      {image && <img src={image} alt="icon" className={s.image} />}
       <div className={s.title}>{title}</div>
       <div className={s.description}>{description}</div>
       <AvatarsList

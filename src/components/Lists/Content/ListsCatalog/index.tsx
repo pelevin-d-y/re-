@@ -16,11 +16,13 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
   return (
     <CardContainer className={classNames(s.container, className)}>
       <SectionsHeader
+        data={listsState}
         title="Your lists"
         description="List of people with a common themes"
         icon="lists"
         iconBackground="#ECFFFD"
         iconColor="#0DB09D"
+        link={{ text: 'Create New', href: '/create-list' }}
       />
       <div className={s.list}>
         {listsState?.map((item) => (
@@ -29,7 +31,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
             id={item.id}
             title={item.title}
             description={item.description}
-            image={require(`public/images/${item.icon}`)}
+            image={item.icon ? require(`public/images/${item.icon}`) : null}
             users={item.users}
           />
         ))}

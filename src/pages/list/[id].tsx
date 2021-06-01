@@ -9,6 +9,7 @@ import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import EmailModal from 'src/components/shared-ui/modals/ContactModal'
 import { css } from 'astroturf'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import { useLists } from 'src/components/context/ListsContext'
 
 const List: React.FC = () => (
   <TemplatesProvider>
@@ -29,7 +30,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
       id: `${list.id}`,
     },
   }))
-
   return {
     paths,
     fallback: false,
@@ -40,9 +40,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postData = testList.find(
     (list) => Number(list.id) === Number(params?.id)
   )
+
   return {
     props: {
-      postData,
+      postData: postData === undefined ? null : postData,
     },
   }
 }
