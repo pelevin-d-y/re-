@@ -82,12 +82,14 @@ const CreateListHeader: React.FC<Props> = ({ className }) => {
       <input
         className={s.title}
         name="title"
+        placeholder="Enter name..."
         onChange={handleTitleChange}
         onBlur={handleRequest}
       />
       <input
         className={s.description}
         name="description"
+        placeholder="Enter description..."
         onChange={handleDescChange}
         onBlur={handleRequest}
       />
@@ -97,7 +99,34 @@ const CreateListHeader: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
+    padding-top: 12px;
+    padding-left: 30px;
+    padding-bottom: 23px;
+
+    @include mobile {
+      padding-left: 16px;
+    }
+  }
+  .title {
+    display: block;
+    margin-top: 13px;
+    margin-bottom: 0;
+
+    border: none;
+    font-size: 26px;
+    line-height: 42px;
+    font-weight: var(--bold);
+  }
+
+  .description {
+    display: block;
+
+    border: none;
+    font-weight: var(--bold);
+    font-size: 16px;
   }
 `
 

@@ -40,7 +40,7 @@ const CardList: React.FC<Props> = ({
       <CardActions
         className={s.actions}
         mainText="View List"
-        mainAction={() => router.push(`/list/${id}`)}
+        mainAction={() => router.push(`/list?id=${id}`)}
       />
     </CardContainer>
   )
