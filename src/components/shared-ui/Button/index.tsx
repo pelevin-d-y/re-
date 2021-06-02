@@ -13,7 +13,19 @@ type Props = {
 }
 
 const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
-  ({ className, children, variant, isArrow, type, handler, disabled }, ref) => (
+  (
+    {
+      className,
+      children,
+      variant,
+      isArrow,
+      type,
+      handler,
+      disabled,
+      ...props
+    },
+    ref
+  ) => (
     <button
       className={classNames(
         s.button,
@@ -26,6 +38,7 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
       ref={ref}
       onClick={handler}
       disabled={disabled}
+      {...props}
     >
       <span className={s.text}>{children}</span>
       {isArrow && (

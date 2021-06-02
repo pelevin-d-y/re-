@@ -3,23 +3,31 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
+import Link from 'src/components/shared-ui/Link'
 
 type Props = {
+  data: UserData[] | Lists | null
   className?: string
   icon: string
   iconBackground: string
   iconColor: string
   title: string
   description: string
+  link?: {
+    href: string
+    text: string
+  }
 }
 
 const SectionHeader: React.FC<Props> = ({
   className,
+  data,
   icon,
   iconBackground,
   iconColor,
   title,
   description,
+  link,
 }) => (
   <div className={classNames(s.container, className)}>
     <div
@@ -30,7 +38,16 @@ const SectionHeader: React.FC<Props> = ({
     </div>
     <div className={s.content}>
       <div className={s.title}>
-        <span>{title}</span> (520)
+        <span>{title}</span> ({data?.length}){' '}
+        {link && (
+          <Link className={s.link} href={link.href}>
+            {link.text}
+            <SvgIcon
+              className={s.linkIcon}
+              icon={require(`public/svg/back.svg?include`)}
+            />
+          </Link>
+        )}
       </div>
       <div className={s.description}>{description}</div>
     </div>
@@ -112,6 +129,26 @@ const s = css`
   .description {
     font-size: 12px;
     line-height: 22px;
+  }
+
+  .link {
+    position: relative;
+    margin-left: 16px;
+
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: var(--bold);
+    color: var(--blue);
+  }
+
+  .linkIcon {
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+
+    color: var(--blue);
+    transform: rotate(180deg);
   }
 `
 

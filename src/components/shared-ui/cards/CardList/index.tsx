@@ -27,7 +27,7 @@ const CardList: React.FC<Props> = ({
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      <img src={image} alt="icon" className={s.image} />
+      {image && <img src={image} alt="icon" className={s.image} />}
       <div className={s.title}>{title}</div>
       <div className={s.description}>{description}</div>
       <AvatarsList
@@ -40,7 +40,7 @@ const CardList: React.FC<Props> = ({
       <CardActions
         className={s.actions}
         mainText="View List"
-        mainAction={() => router.push(`/list/${id}`)}
+        mainAction={() => router.push(`/list?id=${id}`)}
       />
     </CardContainer>
   )
