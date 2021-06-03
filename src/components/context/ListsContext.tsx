@@ -19,6 +19,10 @@ type Action =
       type: 'UPDATE_LIST'
       payload: { list: List }
     }
+  | {
+      type: 'REMOVE_LIST'
+      payload: { list: List }
+    }
 
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
@@ -27,6 +31,7 @@ type ContextType = {
   removeUsersFromList: (list: List, users: UserData[]) => void
   addUsersToList: (list: List, users: UserData[]) => void
   addList: (list: List) => void
+  removeList: (list: List) => void
   updateList: (list: List) => void
 }
 
@@ -37,6 +42,14 @@ const listsReducer = (state: State, action: Action): State => {
     case 'ADD_LIST': {
       const { list } = action.payload
       return [...(state as []), list]
+    }
+
+    case 'REMOVE_LIST': {
+      const { list } = action.payload
+      if (state) {
+        return state?.filter((stateList) => stateList.id !== list.id)
+      }
+      return null
     }
 
     case 'UPDATE_LIST': {
@@ -74,6 +87,7 @@ const listsReducer = (state: State, action: Action): State => {
 
     case 'ADD_USERS_TO_LIST': {
       const { list, users } = action.payload
+
       const newLists = state?.map((item) => {
         if (item.id === list?.id) {
           return {
@@ -98,6 +112,13 @@ const ListsProvider: React.FC = ({ children }) => {
   const addList = (list: List) => {
     dispatch({
       type: 'ADD_LIST',
+      payload: { list },
+    })
+  }
+
+  const removeList = (list: List) => {
+    dispatch({
+      type: 'REMOVE_LIST',
       payload: { list },
     })
   }
@@ -129,6 +150,7 @@ const ListsProvider: React.FC = ({ children }) => {
       dispatch,
       removeUsersFromList,
       addList,
+      removeList,
       updateList,
       addUsersToList,
     }),

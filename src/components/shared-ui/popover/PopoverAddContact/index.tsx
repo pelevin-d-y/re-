@@ -10,9 +10,14 @@ import Popover from '../PopoverBase'
 type Props = {
   list?: List
   className?: string
+  addContactHandler?: (users: UserData[]) => void
 }
 
-const PopoverAddContact: React.FC<Props> = ({ list, className }) => {
+const PopoverAddContact: React.FC<Props> = ({
+  list,
+  className,
+  addContactHandler,
+}) => {
   const { addUsersToList } = useLists()
   const {
     state: { data: users },
@@ -28,6 +33,9 @@ const PopoverAddContact: React.FC<Props> = ({ list, className }) => {
   )
 
   const addUserHandler = (user: UserData) => {
+    if (addContactHandler) {
+      addContactHandler([user])
+    }
     if (list) addUsersToList(list, [user])
   }
 
