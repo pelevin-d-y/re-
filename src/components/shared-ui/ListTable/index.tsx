@@ -13,9 +13,10 @@ import Checkbox from './Checkbox'
 type Props = {
   className?: string
   data: List
+  removeContacts?: (removeContacts: UserData[]) => void
 }
 
-const Table: React.FC<Props> = ({ className, data }) => {
+const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const { dispatch: dispatchTable } = useTableContext()
   const { toggleContactModal } = usePopup()
 
@@ -30,9 +31,13 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
       e.stopPropagation()
-      removeUsersFromList(data, [userData])
+      if (removeContacts) {
+        removeContacts([userData])
+      } else {
+        removeUsersFromList(data, [userData])
+      }
     },
-    [data, removeUsersFromList]
+    [data, removeUsersFromList, removeContacts]
   )
 
   const columns: Column<UserData>[] = useMemo(

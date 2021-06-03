@@ -12,9 +12,16 @@ import { useUsers } from 'src/components/context/UsersContext'
 type Props = {
   className?: string
   list: List
+  addContact?: (users: UserData[]) => void
+  removeContacts?: (users: UserData[]) => void
 }
 
-const TableHeader: React.FC<Props> = ({ className, list }) => {
+const TableHeader: React.FC<Props> = ({
+  className,
+  list,
+  addContact,
+  removeContacts,
+}) => {
   const {
     state: { data: selectedUsers },
   } = useTable()
@@ -24,7 +31,11 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
   const { removeUsersFromList } = useLists()
 
   const removeUsersHandler = () => {
-    removeUsersFromList(list, selectedUsers)
+    if (removeContacts) {
+      removeContacts(selectedUsers)
+    } else {
+      removeUsersFromList(list, selectedUsers)
+    }
   }
 
   const contactHandler = () => {
@@ -44,6 +55,7 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         </Button>
         <PopoverAddContact
           className={classNames(s.contacts, s.button)}
+          addContactHandler={addContact}
           list={list}
         />
         <Button
