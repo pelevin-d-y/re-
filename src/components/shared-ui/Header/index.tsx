@@ -25,7 +25,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
-          {data.name}
+          {data?.name}
         </div>
         <Search
           classes={{ container: s.search }}
@@ -33,7 +33,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
         />
         <HeaderTheme className={s.theme} />
         <HeaderToDos className={s.toDos} />
-        {data.address && <HeaderProfile />}
+        {data?.address && <HeaderProfile />}
       </div>
     </header>
   )
