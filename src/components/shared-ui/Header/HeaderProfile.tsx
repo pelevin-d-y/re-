@@ -16,14 +16,16 @@ const HeaderProfile: React.FC = () => {
       position="bottom right"
       triggerElement={
         <div className={s.container}>
-          <div className={s.email}>{data.address}</div>
-          <Avatar image={require(`public/images/${data.avatar}`)} />
+          <div className={s.email}>{data?.address}</div>
+          {data?.avatar && (
+            <Avatar image={require(`public/images/${data.avatar}`)} />
+          )}
         </div>
       }
       popupContent={
         <CardContainer className={s.popup}>
           <div className={s.title}>Email Sync</div>
-          {data.addresses?.split('; ').map((address) => (
+          {data?.addresses?.split('; ').map((address) => (
             <GoogleEmail key={address} className={s.account} email={address} />
           ))}
           <button className={s.addButton} type="button">

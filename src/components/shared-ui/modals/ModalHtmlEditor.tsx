@@ -25,7 +25,7 @@ const HtmlEditorModal: React.FC<Props> = ({ className, name, event }) => {
 
   useEffect(() => {
     let parsedMessage
-    if (data.templateData?.Message && clientData.name && name) {
+    if (data.templateData?.Message && clientData?.name && name) {
       parsedMessage = parseEmailMessage(
         data.templateData.Message,
         name.split(' ')[0],
@@ -41,10 +41,10 @@ const HtmlEditorModal: React.FC<Props> = ({ className, name, event }) => {
       }" (thanks again!).</p><p> </p><p>"${
         event || '&lt;Intro Name&gt;'
       }" and I spoke about...</p><p> </p> <p>Next steps are...</p><p> </p><p>How's everything with you?</p><p> </p><p>Best,</p><p> </p><p>${
-        clientData.name || '&lt;Client Name&gt;'
+        clientData?.name || '&lt;Client Name&gt;'
       }</p>`
     setValue(template)
-  }, [name, event, data.templateData, clientData.name])
+  }, [name, event, data.templateData, clientData?.name])
 
   return (
     <div className={classNames(className, s.container)}>
