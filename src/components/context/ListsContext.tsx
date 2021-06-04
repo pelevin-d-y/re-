@@ -135,13 +135,14 @@ const ListsProvider: React.FC = ({ children }) => {
     get(DB_STORE_NAME).then((val) => {
       if (val) {
         dispatch({ type: 'SET_LISTS', payload: { lists: val } })
+      } else {
+        set(DB_STORE_NAME, testLists)
+          .then(() => {
+            dispatch({ type: 'SET_LISTS', payload: { lists: testLists } })
+          })
+          // eslint-disable-next-line no-console
+          .catch((err) => console.log('Set lists err', err))
       }
-      set(DB_STORE_NAME, testLists)
-        .then(() => {
-          dispatch({ type: 'SET_LISTS', payload: { lists: testLists } })
-        })
-        // eslint-disable-next-line no-console
-        .catch((err) => console.log('Set lists err', err))
     })
   }, [])
 
