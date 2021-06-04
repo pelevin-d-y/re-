@@ -38,15 +38,16 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     get('client').then((val) => {
       if (val) {
         dispatch({ type: 'UPDATE_USER_DATA', payload: val })
-      }
-      set('client', testUsers[1])
-        .then(() => {
-          dispatch({ type: 'UPDATE_USER_DATA', payload: testUsers[1] })
+      } else {
+        set('client', testUsers[1])
+          .then(() => {
+            dispatch({ type: 'UPDATE_USER_DATA', payload: testUsers[1] })
+            // eslint-disable-next-line no-console
+            console.log('Set client success')
+          })
           // eslint-disable-next-line no-console
-          console.log('Set client success')
-        })
-        // eslint-disable-next-line no-console
-        .catch((err) => console.log('Set client err', err))
+          .catch((err) => console.log('Set client err', err))
+      }
     })
   }, [])
 
