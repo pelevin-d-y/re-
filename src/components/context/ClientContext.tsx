@@ -1,10 +1,11 @@
 import * as React from 'react'
 import testUsers from 'src/testUsersWithPlaceholderFields.js'
+import { get, set } from 'idb-keyval'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
 
 type State = {
-  data: UserData
+  data: UserData | null
 }
 
 type ContextType = {
@@ -31,9 +32,23 @@ const clientReducer = (state: State, action: Action): State => {
 }
 
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
-  const [state, dispatch] = React.useReducer(clientReducer, {
-    data: testUsers[1],
-  })
+  const [state, dispatch] = React.useReducer(clientReducer, { data: null })
+
+  React.useEffect(() => {
+    get('client').then((val) => {
+      if (val) {
+        dispatch({ type: 'UPDATE_USER_DATA', payload: val })
+      }
+      set('client', testUsers[1])
+        .then(() => {
+          dispatch({ type: 'UPDATE_USER_DATA', payload: testUsers[1] })
+          // eslint-disable-next-line no-console
+          console.log('Set client success')
+        })
+        // eslint-disable-next-line no-console
+        .catch((err) => console.log('Set client err', err))
+    })
+  }, [])
 
   const value: ContextType = React.useMemo(
     () => ({

@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import PreviousPage from 'src/components/shared-ui/PreviousPage'
