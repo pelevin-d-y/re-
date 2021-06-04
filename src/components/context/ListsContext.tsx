@@ -138,7 +138,7 @@ const ListsProvider: React.FC = ({ children }) => {
       }
       set(DB_STORE_NAME, testLists)
         .then(() => {
-          dispatch({ type: 'SET_LISTS', payload: { lists: val } })
+          dispatch({ type: 'SET_LISTS', payload: { lists: testLists } })
         })
         // eslint-disable-next-line no-console
         .catch((err) => console.log('Set lists err', err))
