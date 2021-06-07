@@ -34,6 +34,7 @@ const s = css`
     font-weight: var(--semibold);
     border: 1px solid var(--blue);
     border-radius: 16px;
+    text-decoration: none;
 
     transition: all 0.3s linear;
     cursor: pointer;
