@@ -10,7 +10,11 @@ type Props = {
 }
 
 const ListsSidebar: React.FC<Props> = ({ className }) => {
-  const { toggleCreateListModal } = usePopup()
+  const { dispatch } = usePopup()
+
+  const buttonHandler = () => {
+    dispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
+  }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
@@ -20,7 +24,7 @@ const ListsSidebar: React.FC<Props> = ({ className }) => {
       <Button
         className={s.createList}
         variant="contained"
-        handler={toggleCreateListModal}
+        handler={buttonHandler}
       >
         Create New
       </Button>

@@ -18,12 +18,11 @@ const CreateListSchema = Yup.object().shape({
 })
 
 const CreateListModal: React.FC = () => {
-  const { state, toggleCreateListModal } = usePopup()
+  const { state, dispatch: popupDispatch } = usePopup()
   const { createListModalIsOpen } = state
-  // const { name, event, avatar, templateData } = data
 
   const closeHandler = () => {
-    toggleCreateListModal()
+    popupDispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
   }
 
   return (

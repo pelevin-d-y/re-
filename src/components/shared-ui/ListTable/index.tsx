@@ -18,10 +18,10 @@ type Props = {
 
 const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const { dispatch: dispatchTable } = useTableContext()
-  const { toggleContactModal } = usePopup()
+  const { dispatch } = usePopup()
 
   const contactHandler = (contactData: UserData) => {
-    toggleContactModal(contactData)
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
   }
 
   const tableData = useMemo(() => data.users, [data.users])
