@@ -18,7 +18,7 @@ const PopoverAddContact: React.FC<Props> = ({
   className,
   addContactHandler,
 }) => {
-  const { dispatch: dispatchLists } = useLists()
+  const { dispatch: listsDispatch, state: listsState, updateList } = useLists()
   const {
     state: { data: users },
   } = useUsers()
@@ -38,7 +38,7 @@ const PopoverAddContact: React.FC<Props> = ({
     }
     if (list) {
       const updatedList = { ...list, users: [...list.users, user] }
-      dispatchLists({ type: 'UPDATE_LIST', payload: { list: updatedList } })
+      updateList(listsDispatch, listsState, updatedList)
     }
   }
 

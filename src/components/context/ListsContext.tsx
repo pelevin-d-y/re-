@@ -3,32 +3,18 @@ import testLists from 'src/testLists'
 import { get, set } from 'idb-keyval'
 
 type State = Lists | null
-type Action =
-  | {
-      type: 'SET_LISTS'
-      payload: { lists: Lists }
-    }
-  | {
-      type: 'REMOVE_USERS_FROM_LIST'
-      payload: { list: List; users: UserData[] }
-    }
-  | {
-      type: 'ADD_LIST'
-      payload: { list: List }
-    }
-  | {
-      type: 'UPDATE_LIST'
-      payload: { list: List }
-    }
-  | {
-      type: 'REMOVE_LIST'
-      payload: { list: List }
-    }
+type Action = {
+  type: 'SET_LISTS'
+  lists: State
+}
 
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
   dispatch: Dispatch
+  removeList: (dispatch: Dispatch, lists: State, list: List) => void
+  addList: (dispatch: Dispatch, lists: State, list: List) => void
+  updateList: (dispatch: Dispatch, lists: State, list: List) => void
 }
 
 const DB_STORE_NAME = 'lists'
@@ -38,62 +24,7 @@ const ListsContext = React.createContext<ContextType | null>(null)
 const listsReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SET_LISTS': {
-      return action.payload.lists
-    }
-
-    case 'ADD_LIST': {
-      const { list } = action.payload
-      const newState = [...(state as []), list]
-      set(DB_STORE_NAME, newState)
-      return newState
-    }
-
-    case 'REMOVE_LIST': {
-      const { list } = action.payload
-      if (state) {
-        const newState = state?.filter((stateList) => stateList.id !== list.id)
-        set(DB_STORE_NAME, newState)
-        return newState
-      }
-      return null
-    }
-
-    case 'UPDATE_LIST': {
-      const { list } = action.payload
-      const newLists =
-        state?.map((stateList) => {
-          if (stateList.id === list.id) {
-            return list
-          }
-          return stateList
-        }) || null
-
-      set(DB_STORE_NAME, newLists)
-      return newLists
-    }
-
-    case 'REMOVE_USERS_FROM_LIST': {
-      const { list, users } = action.payload
-
-      const newLists =
-        state?.map((item) => {
-          if (item.id === list?.id) {
-            const listUsers = item.users.filter(
-              (user) =>
-                !users.find(
-                  (selectedUser) => selectedUser.address === user.address
-                )
-            )
-            return {
-              ...item,
-              users: listUsers,
-            }
-          }
-          return item
-        }) || null
-
-      set(DB_STORE_NAME, newLists)
-      return newLists
+      return action.lists
     }
 
     default: {
@@ -102,28 +33,74 @@ const listsReducer = (state: State, action: Action): State => {
   }
 }
 
+const setInitialLists = async (dispatch: React.Dispatch<Action>) => {
+  get(DB_STORE_NAME).then((val) => {
+    if (val) {
+      dispatch({ type: 'SET_LISTS', lists: val })
+    } else {
+      set(DB_STORE_NAME, testLists)
+        .then(() => {
+          dispatch({ type: 'SET_LISTS', lists: testLists })
+        })
+        // eslint-disable-next-line no-console
+        .catch((err) => console.log('Set lists err', err))
+    }
+  })
+}
+
+const removeList = async (dispatch: Dispatch, lists: State, list: List) => {
+  const newLists =
+    lists?.filter((stateList) => stateList.id !== list.id) || null
+
+  set(DB_STORE_NAME, newLists)
+    .then(() => {
+      dispatch({ type: 'SET_LISTS', lists: newLists })
+    })
+    // eslint-disable-next-line no-console
+    .catch((err) => console.error(err))
+}
+
+const addList = async (dispatch: Dispatch, lists: State, list: List) => {
+  const newLists = [...(lists as []), list]
+  set(DB_STORE_NAME, newLists)
+    .then(() => {
+      dispatch({ type: 'SET_LISTS', lists: newLists })
+    })
+    // eslint-disable-next-line no-console
+    .catch((err) => console.error(err))
+}
+
+const updateList = async (dispatch: Dispatch, lists: State, list: List) => {
+  const newLists =
+    lists?.map((stateList) => {
+      if (stateList.id === list.id) {
+        return list
+      }
+      return stateList
+    }) || null
+
+  set(DB_STORE_NAME, newLists)
+    .then(() => {
+      dispatch({ type: 'SET_LISTS', lists: newLists })
+    })
+    // eslint-disable-next-line no-console
+    .catch((err) => console.log(err))
+}
+
 const ListsProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(listsReducer, null)
 
   React.useEffect(() => {
-    get(DB_STORE_NAME).then((val) => {
-      if (val) {
-        dispatch({ type: 'SET_LISTS', payload: { lists: val } })
-      } else {
-        set(DB_STORE_NAME, testLists)
-          .then(() => {
-            dispatch({ type: 'SET_LISTS', payload: { lists: testLists } })
-          })
-          // eslint-disable-next-line no-console
-          .catch((err) => console.log('Set lists err', err))
-      }
-    })
+    setInitialLists(dispatch)
   }, [])
 
   const value: ContextType = React.useMemo(
     () => ({
       state,
       dispatch,
+      removeList,
+      addList,
+      updateList,
     }),
     [state]
   )

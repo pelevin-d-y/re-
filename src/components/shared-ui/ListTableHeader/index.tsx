@@ -28,16 +28,23 @@ const TableHeader: React.FC<Props> = ({
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
 
-  const { dispatch: listsDispatch } = useLists()
+  const { dispatch: listsDispatch, state: listsState, updateList } = useLists()
 
   const removeUsersHandler = () => {
     if (removeContacts) {
       removeContacts(selectedUsers)
     } else {
-      listsDispatch({
-        type: 'REMOVE_USERS_FROM_LIST',
-        payload: { list, users: selectedUsers },
-      })
+      const newList = {
+        ...list,
+        users: list.users.filter(
+          (user) =>
+            !selectedUsers.find(
+              (selectedUser) => selectedUser.address === user.address
+            )
+        ),
+      }
+
+      updateList(listsDispatch, listsState, newList)
     }
   }
 
