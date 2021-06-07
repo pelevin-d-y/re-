@@ -46,7 +46,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
             console.log('Set client success')
           })
           // eslint-disable-next-line no-console
-          .catch((err) => console.log('Set client err', err))
+          .catch((err) => console.log('Set client errer', err))
       }
     })
   }, [])

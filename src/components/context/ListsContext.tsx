@@ -13,10 +13,6 @@ type Action =
       payload: { list: List; users: UserData[] }
     }
   | {
-      type: 'ADD_USERS_TO_LIST'
-      payload: { list: List; users: UserData[] }
-    }
-  | {
       type: 'ADD_LIST'
       payload: { list: List }
     }
@@ -33,11 +29,6 @@ type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
   dispatch: Dispatch
-  removeUsersFromList: (list: List, users: UserData[]) => void
-  addUsersToList: (list: List, users: UserData[]) => void
-  addList: (list: List) => void
-  removeList: (list: List) => void
-  updateList: (list: List) => void
 }
 
 const DB_STORE_NAME = 'lists'
@@ -105,23 +96,6 @@ const listsReducer = (state: State, action: Action): State => {
       return newLists
     }
 
-    case 'ADD_USERS_TO_LIST': {
-      const { list, users } = action.payload
-
-      const newLists =
-        state?.map((item) => {
-          if (item.id === list?.id) {
-            return {
-              ...item,
-              users: [...item.users, ...users],
-            }
-          }
-          return item
-        }) || null
-
-      set(DB_STORE_NAME, newLists)
-      return newLists
-    }
     default: {
       return null
     }
@@ -146,50 +120,10 @@ const ListsProvider: React.FC = ({ children }) => {
     })
   }, [])
 
-  const addList = (list: List) => {
-    dispatch({
-      type: 'ADD_LIST',
-      payload: { list },
-    })
-  }
-
-  const removeList = (list: List) => {
-    dispatch({
-      type: 'REMOVE_LIST',
-      payload: { list },
-    })
-  }
-
-  const updateList = (list: List) => {
-    dispatch({
-      type: 'UPDATE_LIST',
-      payload: { list },
-    })
-  }
-
-  const removeUsersFromList = (list: List, users: UserData[]) => {
-    dispatch({
-      type: 'REMOVE_USERS_FROM_LIST',
-      payload: { list, users },
-    })
-  }
-
-  const addUsersToList = (list: List, users: UserData[]) => {
-    dispatch({
-      type: 'ADD_USERS_TO_LIST',
-      payload: { list, users },
-    })
-  }
-
   const value: ContextType = React.useMemo(
     () => ({
       state,
       dispatch,
-      removeUsersFromList,
-      addList,
-      removeList,
-      updateList,
-      addUsersToList,
     }),
     [state]
   )

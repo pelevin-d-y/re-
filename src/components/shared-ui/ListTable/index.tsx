@@ -26,7 +26,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
 
   const tableData = useMemo(() => data.users, [data.users])
 
-  const { removeUsersFromList } = useLists()
+  const { dispatch: listsDispatch } = useLists()
 
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
@@ -34,10 +34,13 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       if (removeContacts) {
         removeContacts([userData])
       } else {
-        removeUsersFromList(data, [userData])
+        listsDispatch({
+          type: 'REMOVE_USERS_FROM_LIST',
+          payload: { list: data, users: [userData] },
+        })
       }
     },
-    [data, removeUsersFromList, removeContacts]
+    [data, listsDispatch, removeContacts]
   )
 
   const columns: Column<UserData>[] = useMemo(
