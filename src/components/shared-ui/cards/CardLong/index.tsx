@@ -15,9 +15,9 @@ type Props = {
 
 const LongCard: React.FC<Props> = ({ data, template, className }) => {
   const { avatar, name } = data
-  const { toggleContactModal } = usePopup()
+  const { dispatch } = usePopup()
   const buttonHandler = () => {
-    toggleContactModal(data)
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
   return (

@@ -18,15 +18,15 @@ type Props = {
 
 const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const { dispatch: dispatchTable } = useTableContext()
-  const { toggleContactModal } = usePopup()
+  const { dispatch } = usePopup()
 
   const contactHandler = (contactData: UserData) => {
-    toggleContactModal(contactData)
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
   }
 
   const tableData = useMemo(() => data.users, [data.users])
 
-  const { removeUsersFromList } = useLists()
+  const { dispatch: listsDispatch, state: listsState, updateList } = useLists()
 
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
@@ -34,10 +34,15 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       if (removeContacts) {
         removeContacts([userData])
       } else {
-        removeUsersFromList(data, [userData])
+        const newList = {
+          ...data,
+          users: data.users.filter((user) => user.address !== userData.address),
+        }
+
+        updateList(listsDispatch, listsState, newList)
       }
     },
-    [data, removeUsersFromList, removeContacts]
+    [removeContacts, data, updateList, listsDispatch, listsState]
   )
 
   const columns: Column<UserData>[] = useMemo(

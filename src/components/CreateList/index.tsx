@@ -9,7 +9,7 @@ import CreateListHeader from './CreateListHeader'
 
 const Content: React.FC = () => {
   const router = useRouter()
-  const { state: listsState, addList } = useLists()
+  const { state: listsState, dispatch: listsDispatch, addList } = useLists()
   const [list, setLists] = useState<List>({
     id: (listsState?.length as number) + 1,
     title: '',
@@ -48,7 +48,7 @@ const Content: React.FC = () => {
   useEffect(() => {
     const handleRouteChange = () => {
       if (list.title) {
-        addList(list)
+        addList(listsDispatch, listsState, list)
       }
     }
     router.events.on('routeChangeStart', handleRouteChange)

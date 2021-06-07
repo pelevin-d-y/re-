@@ -1,32 +1,23 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Button from 'src/components/shared-ui/Button'
 import classNames from 'classnames'
-import { usePopup } from 'src/components/context/PopupContext'
+import Link from 'src/components/shared-ui/Link'
 
 type Props = {
   className?: string
 }
 
-const ListsSidebar: React.FC<Props> = ({ className }) => {
-  const { toggleCreateListModal } = usePopup()
-
-  return (
-    <CardContainer className={classNames(s.container, className)}>
-      <div className={s.header}>
-        Important <span>Lists</span>
-      </div>
-      <Button
-        className={s.createList}
-        variant="contained"
-        handler={toggleCreateListModal}
-      >
-        Create New
-      </Button>
-    </CardContainer>
-  )
-}
+const ListsSidebar: React.FC<Props> = ({ className }) => (
+  <CardContainer className={classNames(s.container, className)}>
+    <div className={s.header}>
+      Important <span>Lists</span>
+    </div>
+    <Link className={s.createList} href="/create-list" variant="contained">
+      Create New
+    </Link>
+  </CardContainer>
+)
 
 const s = css`
   .container {
