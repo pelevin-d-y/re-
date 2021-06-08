@@ -1,7 +1,5 @@
 import React from 'react'
-import dynamic from 'next/dynamic'
-
-const DynamicPopup = dynamic(() => import('reactjs-popup'), { ssr: false })
+import Popup from 'reactjs-popup'
 
 type Props = {
   triggerElement: JSX.Element
@@ -25,14 +23,14 @@ const Popover: React.FC<Props> = ({
   showPopupEvent,
   position,
 }) => (
-  <DynamicPopup
+  <Popup
     trigger={triggerElement}
     position={position || 'bottom center'}
     closeOnDocumentClick
     on={showPopupEvent || 'hover'}
   >
     {popupContent}
-  </DynamicPopup>
+  </Popup>
 )
 
 export default Popover

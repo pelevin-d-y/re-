@@ -5,12 +5,12 @@ import Table from 'src/components/shared-ui/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import { useLists } from 'src/components/context/ListsContext'
 import { useRouter } from 'next/router'
-import CreateListHeader from './CreateListHeader'
+import ListHeader from 'src/components/shared-ui/ListHeader'
 
 const Content: React.FC = () => {
   const router = useRouter()
-  const { state: listsState, dispatch: listsDispatch, addList } = useLists()
-  const [list, setLists] = useState<List>({
+  const { state: listsState, addList } = useLists()
+  const [list, setList] = useState<List>({
     id: (listsState?.length as number) + 1,
     title: '',
     description: '',
@@ -23,18 +23,18 @@ const Content: React.FC = () => {
       ...list,
       [type]: text,
     }
-    setLists(newList)
+    setList(newList)
   }
 
   const addContact = (users: UserData[]) => {
-    setLists({
+    setList({
       ...list,
       users: [...list.users, ...users],
     })
   }
 
   const removeContacts = (users: UserData[]) => {
-    setLists({
+    setList({
       ...list,
       users: list.users.filter(
         (listUser) =>
@@ -48,7 +48,7 @@ const Content: React.FC = () => {
   useEffect(() => {
     const handleRouteChange = () => {
       if (list.title) {
-        addList(listsDispatch, listsState, list)
+        addList(list)
       }
     }
     router.events.on('routeChangeStart', handleRouteChange)
@@ -59,7 +59,7 @@ const Content: React.FC = () => {
 
   return (
     <div className={s.container}>
-      <CreateListHeader updateField={updateField} data={list} />
+      <ListHeader data={list} updateNewList={updateField} />
       <div className={s.content}>
         <TableProvider>
           <TableHeader

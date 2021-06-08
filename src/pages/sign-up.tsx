@@ -18,10 +18,10 @@ const SignUp: React.FC = () => {
   }
   return (
     <Layout>
-      {data.results.map((item: { name: string }) => (
+      {data?.results.map((item: { name: string }) => (
         <div key={item.name}>{item.name}</div>
       ))}
-      {dataPlanets.results.map((item: { name: string }) => (
+      {dataPlanets?.results.map((item: { name: string }) => (
         <div key={item.name}>{item.name}</div>
       ))}
     </Layout>

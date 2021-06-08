@@ -28,7 +28,7 @@ const TableHeader: React.FC<Props> = ({
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
 
-  const { dispatch: listsDispatch, state: listsState, updateList } = useLists()
+  const { updateList } = useLists()
 
   const removeUsersHandler = () => {
     if (removeContacts) {
@@ -44,7 +44,7 @@ const TableHeader: React.FC<Props> = ({
         ),
       }
 
-      updateList(listsDispatch, listsState, newList)
+      updateList(newList)
     }
   }
 

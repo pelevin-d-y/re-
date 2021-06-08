@@ -12,9 +12,9 @@ type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
   dispatch: Dispatch
-  removeList: (dispatch: Dispatch, lists: State, list: List) => void
-  addList: (dispatch: Dispatch, lists: State, list: List) => void
-  updateList: (dispatch: Dispatch, lists: State, list: List) => void
+  removeList: (list: List) => void
+  addList: (list: List) => void
+  updateList: (list: List) => void
 }
 
 const DB_STORE_NAME = 'lists'
@@ -48,51 +48,60 @@ const setInitialLists = async (dispatch: React.Dispatch<Action>) => {
   })
 }
 
-const removeList = async (dispatch: Dispatch, lists: State, list: List) => {
-  const newLists =
-    lists?.filter((stateList) => stateList.id !== list.id) || null
-
-  set(DB_STORE_NAME, newLists)
-    .then(() => {
-      dispatch({ type: 'SET_LISTS', lists: newLists })
-    })
-    // eslint-disable-next-line no-console
-    .catch((err) => console.error(err))
-}
-
-const addList = async (dispatch: Dispatch, lists: State, list: List) => {
-  const newLists = [...(lists as []), list]
-  set(DB_STORE_NAME, newLists)
-    .then(() => {
-      dispatch({ type: 'SET_LISTS', lists: newLists })
-    })
-    // eslint-disable-next-line no-console
-    .catch((err) => console.error(err))
-}
-
-const updateList = async (dispatch: Dispatch, lists: State, list: List) => {
-  const newLists =
-    lists?.map((stateList) => {
-      if (stateList.id === list.id) {
-        return list
-      }
-      return stateList
-    }) || null
-
-  set(DB_STORE_NAME, newLists)
-    .then(() => {
-      dispatch({ type: 'SET_LISTS', lists: newLists })
-    })
-    // eslint-disable-next-line no-console
-    .catch((err) => console.log(err))
-}
-
 const ListsProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(listsReducer, null)
 
   React.useEffect(() => {
     setInitialLists(dispatch)
   }, [])
+
+  const updateList = React.useCallback(
+    async (list) => {
+      const newLists =
+        state?.map((stateList) => {
+          if (stateList.id === list.id) {
+            return list
+          }
+          return stateList
+        }) || null
+
+      set(DB_STORE_NAME, newLists)
+        .then(() => {
+          dispatch({ type: 'SET_LISTS', lists: newLists })
+        })
+        // eslint-disable-next-line no-console
+        .catch((err) => console.log(err))
+    },
+    [state]
+  )
+
+  const addList = React.useCallback(
+    async (list: List) => {
+      const newLists = [...(state as []), list]
+      set(DB_STORE_NAME, newLists)
+        .then(() => {
+          dispatch({ type: 'SET_LISTS', lists: newLists })
+        })
+        // eslint-disable-next-line no-console
+        .catch((err) => console.error(err))
+    },
+    [state]
+  )
+
+  const removeList = React.useCallback(
+    async (list: List) => {
+      const newLists =
+        state?.filter((stateList) => stateList.id !== list.id) || null
+
+      set(DB_STORE_NAME, newLists)
+        .then(() => {
+          dispatch({ type: 'SET_LISTS', lists: newLists })
+        })
+        // eslint-disable-next-line no-console
+        .catch((err) => console.error(err))
+    },
+    [state]
+  )
 
   const value: ContextType = React.useMemo(
     () => ({
@@ -102,7 +111,7 @@ const ListsProvider: React.FC = ({ children }) => {
       addList,
       updateList,
     }),
-    [state]
+    [state, updateList, addList, removeList]
   )
 
   return <ListsContext.Provider value={value}>{children}</ListsContext.Provider>
