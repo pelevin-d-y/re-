@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import parseEmailMessage from 'src/helpers/utils/parse-email-message'
+import parseMessage from 'src/helpers/utils/parse-message'
 
 type Props = {
   text: string
@@ -11,7 +11,7 @@ type Props = {
 }
 
 const ModalEditorHeader: React.FC<Props> = ({ className, text, name }) => {
-  const parsedText = parseEmailMessage(text, name)
+  const parsedText = parseMessage(text, name)
   return (
     <div className={classNames(s.container, className)}>
       {parsedText && <span className={s.textTitle}>{parsedText}</span>}

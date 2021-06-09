@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import dynamic from 'next/dynamic'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useClient } from 'src/components/context/ClientContext'
-import parseEmailMessage from 'src/helpers/utils/parse-email-message'
+import parseMessage from 'src/helpers/utils/parse-message'
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -26,7 +26,7 @@ const HtmlEditorModal: React.FC<Props> = ({ className, name, event }) => {
   useEffect(() => {
     let parsedMessage
     if (data.templateData?.Message && clientData?.name && name) {
-      parsedMessage = parseEmailMessage(
+      parsedMessage = parseMessage(
         data.templateData.Message,
         name.split(' ')[0],
         clientData.name
