@@ -162,21 +162,11 @@ const MultiEmailsModal: React.FC = () => {
           image={require('public/svg/lists.svg?include')}
         />
         {data?.templateData?.Summary && (
-          <ModalUserInfo
-            className={s.header}
-            name={data.name}
-            avatar={data.avatar}
-            text={data.templateData.Summary}
-          />
+          <ModalUserInfo className={s.header} data={data} />
         )}
         {!isSent ? (
           <CardContainer className={s.textContainer}>
-            {data?.templateData && (
-              <ModalEditorHeader
-                text={data.templateData.Header}
-                name={data.name}
-              />
-            )}
+            {data && <ModalEditorHeader data={data} />}
             <ModalHtmlEditor
               className={s.editor}
               name={data.name}

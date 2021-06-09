@@ -30,14 +30,10 @@ const EmailModal: React.FC = () => {
     >
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
-        {templateData?.Summary && name && (
-          <ModalUserInfo className={s.header} data={data} />
-        )}
+        {data && <ModalUserInfo className={s.header} data={data} />}
         {!isSent ? (
           <CardContainer className={s.textContainer}>
-            {templateData?.Header && (
-              <ModalEditorHeader text={templateData.Header} name={name} />
-            )}
+            {data && <ModalEditorHeader data={data} />}
             <HtmlEditorModal className={s.editor} name={name} event={event} />
             <div className={s.buttons}>
               <Button variant="outlined" className={s.buttonDots}>
