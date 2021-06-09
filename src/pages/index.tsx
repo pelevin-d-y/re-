@@ -1,4 +1,4 @@
-import Content from 'src/components/Home/Content'
+import MainContent from 'src/components/Home/MainContent'
 import ContentSidebar from 'src/components/Home/Sidebar'
 import Layout from 'src/layouts/Layout'
 import EmailModal from 'src/components/shared-ui/modals/ContactModal'
@@ -14,7 +14,7 @@ const Home: React.FC = () => (
     <TemplatesProvider>
       <PopupProvider>
         <div className={s.container}>
-          <Content />
+          <MainContent />
           <ContentSidebar className={s.sidebar} />
         </div>
         <EmailModal />

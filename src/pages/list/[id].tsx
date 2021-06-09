@@ -1,5 +1,5 @@
 import Layout from 'src/layouts/Layout'
-import Content from 'src/components/List/Content'
+import MainContent from 'src/components/List/MainContent'
 import 'react-quill/dist/quill.snow.css'
 import AddUserModal from 'src/components/shared-ui/modals/AddUserModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
@@ -12,7 +12,7 @@ const List: React.FC = () => (
   <TemplatesProvider>
     <PopupProvider>
       <Layout className={s.layout}>
-        <Content />
+        <MainContent />
         <AddUserModal />
         <EmailModal />
         <MultiEmailsModal />
