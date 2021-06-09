@@ -1,5 +1,5 @@
 import Layout from 'src/layouts/Layout'
-import Content from 'src/components/Lists/Content'
+import Content from 'src/components/Lists/MainContent'
 import ListsSidebar from 'src/components/Lists/Sidebar'
 import CreateListModal from 'src/components/shared-ui/modals/CreateListModal'
 import { PopupProvider } from 'src/components/context/PopupContext'

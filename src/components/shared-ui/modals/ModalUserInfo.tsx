@@ -2,31 +2,46 @@ import React from 'react'
 import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
-import parseEmailMessage from 'src/helpers/utils/parse-email-message'
+import parseMessage from 'src/helpers/utils/parse-message'
 import { css } from 'astroturf'
+import ModalLastMessage from './ModalLastMessage'
 
 type Props = {
   className?: string
-  avatar?: string
-  name?: string
-  text: string
+  data: UserData
 }
 
-const ModalUserInfo: React.FC<Props> = ({ className, avatar, name, text }) => {
-  const parsedText = parseEmailMessage(text, name)
+const ModalUserInfo: React.FC<Props> = ({
+  className,
+  data: {
+    avatar,
+    name,
+    templateData,
+    last_contact_time: lastContactTime,
+    last_contact_text: lastContactText,
+  },
+}) => {
+  const parsedText = templateData && parseMessage(templateData.Summary, name)
   return (
     <div className={classNames(className, s.container)}>
-      <div className={s.profile}>
-        <Avatar image={avatar ? require(`public/images/${avatar}`) : null} />
-        <div className={s.profileInfo}>
-          <div className={s.name}>{name || '<unknown>'}</div>
-          <div className={s.profileType}>
-            <ColorfulCircle color="black" />
-            Follow up on Meetings
+      <div className={s.info}>
+        <div className={s.profile}>
+          <Avatar image={avatar ? require(`public/images/${avatar}`) : null} />
+          <div className={s.profileInfo}>
+            <div className={s.name}>{name || '<unknown>'}</div>
+            <div className={s.profileType}>
+              <ColorfulCircle color="black" />
+              Follow up on Meetings
+            </div>
           </div>
         </div>
+        {parsedText && <div className={s.summary}>{parsedText}</div>}
       </div>
-      {parsedText && <div className={s.info}>{parsedText}</div>}
+      <ModalLastMessage
+        className={s.lastMessage}
+        lastContactTime={lastContactTime}
+        lastContactText={lastContactText}
+      />
     </div>
   )
 }
@@ -65,13 +80,25 @@ const s = css`
     line-height: 21px;
   }
 
-  .info {
-    max-width: 30%;
+  .summary {
+    max-width: 240px;
     width: 100%;
     padding: 11px 17px 13px;
-    font-size: 12px;
+    margin-top: 17px;
 
-    background: #f8f8f8;
+    font-size: 12px;
+    color: var(--blue);
+    background: var(--lightBlue);
+
+    @include mobile {
+      max-width: 300px;
+    }
+  }
+
+  .lastMessage {
+    max-width: 50%;
+    width: 100%;
+    margin-top: 12px;
 
     @include mobile {
       max-width: 300px;

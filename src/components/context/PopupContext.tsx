@@ -80,7 +80,7 @@ const popupReducer = (state: State, action: Action): State => {
   }
 }
 
-const PopupProvider: React.FC = ({ children }): JSX.Element => {
+const PopupProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(popupReducer, {
     emailModalIsOpen: false,
     multiEmailsIsOpen: false,

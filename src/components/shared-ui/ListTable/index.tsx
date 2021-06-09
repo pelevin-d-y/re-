@@ -26,7 +26,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
 
   const tableData = useMemo(() => data.users, [data.users])
 
-  const { dispatch: listsDispatch, state: listsState, updateList } = useLists()
+  const { updateList } = useLists()
 
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
@@ -39,10 +39,10 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           users: data.users.filter((user) => user.address !== userData.address),
         }
 
-        updateList(listsDispatch, listsState, newList)
+        updateList(newList)
       }
     },
-    [removeContacts, data, updateList, listsDispatch, listsState]
+    [removeContacts, data, updateList]
   )
 
   const columns: Column<UserData>[] = useMemo(
