@@ -8,6 +8,7 @@ type Action =
   | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
+  | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
 
 type State = {
@@ -16,6 +17,7 @@ type State = {
   recommendationsIsOpen: boolean
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
+  templatesModalIsOpen: boolean
   data: UserData
 }
 
@@ -61,6 +63,12 @@ const popupReducer = (state: State, action: Action): State => {
         createListModalIsOpen: !state.createListModalIsOpen,
       }
     }
+    case 'TOGGLE_TEMPLATES_POPUP': {
+      return {
+        ...state,
+        templatesModalIsOpen: !state.templatesModalIsOpen,
+      }
+    }
     case 'UPDATE_POPUP_DATA': {
       return {
         ...state,
@@ -74,6 +82,7 @@ const popupReducer = (state: State, action: Action): State => {
         recommendationsIsOpen: false,
         addContactModalIsOpen: false,
         createListModalIsOpen: false,
+        templatesModalIsOpen: false,
         data: {},
       }
     }
@@ -87,6 +96,7 @@ const PopupProvider: React.FC = ({ children }) => {
     recommendationsIsOpen: false,
     addContactModalIsOpen: false,
     createListModalIsOpen: false,
+    templatesModalIsOpen: false,
     data: {},
   })
 

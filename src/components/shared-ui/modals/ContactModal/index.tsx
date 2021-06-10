@@ -3,7 +3,8 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
-import CloseModal from '../../Close'
+import EditorActions from 'src/components/shared-ui/EditorActions'
+import CloseModal from 'src/components/shared-ui/Close'
 import ModalMoreInfo from '../ModalMoreInfo'
 import HtmlEditorModal from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
@@ -14,7 +15,7 @@ import ModalSent from '../ModalSent'
 const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
-  const { name, event, templateData } = data
+  const { name, event } = data
   const [isSent, setIsSent] = useState(false)
 
   const closeHandler = () => {
@@ -36,8 +37,9 @@ const EmailModal: React.FC = () => {
             {data && <ModalEditorHeader data={data} />}
             <HtmlEditorModal className={s.editor} name={name} event={event} />
             <div className={s.buttons}>
+              <EditorActions className={s.editorActions} />
               <Button variant="outlined" className={s.buttonDots}>
-                •••
+                Save Template
               </Button>
               <Button
                 variant="contained"
@@ -112,7 +114,14 @@ const s = css`
     }
   }
 
+  .editorActions {
+    margin-right: auto;
+  }
+
   .buttons {
+    display: flex;
+    flex-flow: row wrap;
+
     padding-left: 23px;
     padding-right: 25px;
     text-align: right;

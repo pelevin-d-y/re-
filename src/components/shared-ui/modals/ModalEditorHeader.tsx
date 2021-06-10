@@ -1,8 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import TextareaAutosize from 'react-textarea-autosize'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
@@ -11,39 +12,78 @@ type Props = {
 
 const ModalEditorHeader: React.FC<Props> = ({
   className,
-  data: { templateData, name },
+  data: { templateData, name, address },
 }) => {
-  const parsedText = templateData && parseMessage(templateData.Header, name)
+  const { state: clientState } = useClient()
+
+  const parsedTextHeader =
+    templateData && parseMessage(templateData.Subject, name)
   return (
     <div className={classNames(s.container, className)}>
-      {parsedText && <span className={s.textTitle}>{parsedText}</span>}
-      <SvgIcon
-        className={s.icon}
-        icon={require('public/svg/templates.svg?include')}
-      />
+      <div className={s.item}>
+        <div className={s.subtitle}>To:</div>
+        <TextareaAutosize
+          className={classNames(s.to, s.textarea)}
+          defaultValue={address}
+          name="to"
+        />
+      </div>
+      <div className={s.item}>
+        <div className={s.subtitle}>Cc:</div>
+        <TextareaAutosize className={classNames(s.textarea, s.cc)} name="cc" />
+      </div>
+      <div className={s.item}>
+        <div className={s.subtitle}>Subject:</div>
+        <TextareaAutosize
+          className={classNames(s.subject, s.textarea)}
+          defaultValue={parsedTextHeader}
+          name="subject"
+        />
+      </div>
+      <div className={s.item}>
+        <div className={s.subtitle}>From:</div>
+        <div className={s.from}>{clientState.data?.name}</div>
+      </div>
     </div>
   )
 }
 
 const s = css`
   .container {
+    display: block;
+  }
+
+  .item {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    padding: 9px 15px 9px 23px;
+    padding: 12px 14px 10px 20px;
 
-    border-bottom: 1px solid #e0e0e0;
-    border-top: 6px solid var(--red);
+    border-bottom: 1px solid #dddddd;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: var(--medium);
   }
 
-  .icon {
-    width: 26px;
-    height: 26px;
+  .subtitle {
+    min-width: 52px;
+    padding-right: 5px;
+    padding-top: 1px;
   }
 
-  .textTitle {
-    font-weight: var(--bold);
+  .textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+    font-weight: var(--medium);
+  }
+
+  .to {
+    color: var(--blue);
+  }
+
+  .from {
+    color: var(--blue);
   }
 `
 

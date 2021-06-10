@@ -6,6 +6,7 @@ import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import EmailModal from 'src/components/shared-ui/modals/ContactModal'
 import { css } from 'astroturf'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import TemplatesModal from 'src/components/shared-ui/modals/TemplatesModal'
 
 const List: React.FC = () => (
   <TemplatesProvider>
@@ -14,6 +15,7 @@ const List: React.FC = () => (
         <MainContent />
         <EmailModal />
         <MultiEmailsModal />
+        <TemplatesModal />
       </Layout>
     </PopupProvider>
   </TemplatesProvider>
