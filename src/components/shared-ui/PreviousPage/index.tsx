@@ -7,15 +7,25 @@ import SvgIcon from '../SvgIcon'
 type Props = {
   className?: string
   text?: string
+  handler?: () => void
 }
 
-const PreviousPage: React.FC<Props> = ({ className, text }) => {
+const PreviousPage: React.FC<Props> = ({ className, text, handler }) => {
   const router = useRouter()
+
+  const buttonHandler = () => {
+    if (handler) {
+      handler()
+    } else {
+      router.back()
+    }
+  }
+
   return (
     <button
       className={classNames(s.button, className)}
       type="button"
-      onClick={() => router.back()}
+      onClick={buttonHandler}
     >
       <SvgIcon
         icon={require('public/svg/back.svg?include')}
