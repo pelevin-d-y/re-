@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { useTemplates } from 'src/components/context/TemplatesContext'
@@ -6,8 +6,9 @@ import { usePopup } from 'src/components/context/PopupContext'
 import CloseModal from 'src/components/shared-ui/Close'
 import PreviousPage from 'src/components/shared-ui/PreviousPage'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import parseMessage from 'src/helpers/utils/parse-message'
+import Button from 'src/components/shared-ui/Button'
 import ModalBase from '../ModalBase'
+import HtmlEditorModal from '../ModalHtmlEditor'
 
 type Props = {
   className?: string
@@ -15,12 +16,16 @@ type Props = {
 
 const ModalTemplates: React.FC<Props> = ({ className }) => {
   const { state: popupState, dispatch: modalDispatch } = usePopup()
-  const { templatesModalIsOpen } = popupState
+  const { templatesModalIsOpen, data } = popupState
   const {
     state: { data: templatesData },
   } = useTemplates()
 
   const [currentTemplate, setCurrentTemplate] = useState<Template>()
+
+  useEffect(() => {
+    setCurrentTemplate(data.templateData)
+  }, [data.templateData])
 
   const closeHandler = () => {
     modalDispatch({ type: 'TOGGLE_TEMPLATES_POPUP' })
@@ -28,6 +33,14 @@ const ModalTemplates: React.FC<Props> = ({ className }) => {
 
   const templateHandler = (template: Template) => {
     setCurrentTemplate(template)
+  }
+
+  const selectTemplate = () => {
+    modalDispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: { ...data, templateData: currentTemplate },
+    })
+    closeHandler()
   }
 
   return (
@@ -67,17 +80,25 @@ const ModalTemplates: React.FC<Props> = ({ className }) => {
           </ul>
         </div>
         {currentTemplate && (
-          <div
-            className={s.template}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: parseMessage(
-                currentTemplate.Message,
-                '«Contact»',
-                '«Client»'
-              ),
-            }}
-          />
+          <div className={s.rightContent}>
+            <HtmlEditorModal
+              className={s.editor}
+              data={{ ...data, templateData: currentTemplate }}
+              toParse={false}
+            />
+            <div className={s.actions}>
+              <Button className={s.dublicate} variant="outlined">
+                Duplicate
+              </Button>
+              <Button
+                className={s.select}
+                handler={selectTemplate}
+                variant="contained"
+              >
+                Select
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </ModalBase>
@@ -121,10 +142,17 @@ const s = css`
   }
 
   .content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 20px;
     overflow: auto;
+    height: 100%;
+    width: 100%;
   }
 
   .sidebar {
+    overflow: auto;
+    height: 100%;
     max-width: 250px;
   }
 
@@ -149,11 +177,6 @@ const s = css`
     }
   }
 
-  .content {
-    display: flex;
-    flex-flow: row nowrap;
-  }
-
   .template {
     width: 100%;
     min-height: 200px;
@@ -161,6 +184,33 @@ const s = css`
 
     border: 1px solid #dddddd;
     border-radius: 4px;
+  }
+
+  .rightContent {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+  .editor {
+    margin-bottom: 20px;
+  }
+
+  .actions {
+    margin-top: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+  }
+
+  .dublicate {
+    max-width: 107px;
+    width: 100%;
+  }
+
+  .select {
+    max-width: 95px;
+    width: 100%;
+    margin-left: 10px;
   }
 `
 

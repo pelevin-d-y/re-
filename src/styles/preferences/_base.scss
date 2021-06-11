@@ -1,8 +1,33 @@
-@include font-face('SFProDisplay', "../../../public/fonts/SFProDisplay-Black", 900, normal);
-@include font-face('SFProDisplay', "../../../public/fonts/SFProDisplay-Bold", bold, normal);
-@include font-face('SFProDisplay', "../../../public/fonts/SFProDisplay-Semibold", 600, normal);
-@include font-face('SFProDisplay', "../../../public/fonts/SFProDisplay-Medium", 500, normal);
-@include font-face('SFProDisplay', "../../../public/fonts/SFProDisplay-Regular", normal, normal);
+@include font-face(
+  'SFProDisplay',
+  '../../../public/fonts/SFProDisplay-Black',
+  900,
+  normal
+);
+@include font-face(
+  'SFProDisplay',
+  '../../../public/fonts/SFProDisplay-Bold',
+  bold,
+  normal
+);
+@include font-face(
+  'SFProDisplay',
+  '../../../public/fonts/SFProDisplay-Semibold',
+  600,
+  normal
+);
+@include font-face(
+  'SFProDisplay',
+  '../../../public/fonts/SFProDisplay-Medium',
+  500,
+  normal
+);
+@include font-face(
+  'SFProDisplay',
+  '../../../public/fonts/SFProDisplay-Regular',
+  normal,
+  normal
+);
 
 * {
   box-sizing: border-box;
@@ -23,4 +48,8 @@ body {
 svg {
   width: 100%;
   height: 100%;
+}
+
+.ql-container {
+  min-height: 250px;
 }
