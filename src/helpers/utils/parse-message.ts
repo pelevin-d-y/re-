@@ -4,8 +4,8 @@ const parseEmailMessage = (
   clientName?: string
 ): string => {
   const comparator = new Map()
-  comparator.set('<Contact Name>', contactName)
-  comparator.set('<Client Name>', clientName)
+  comparator.set('<Contact Name>', contactName || `[Contact name]`)
+  comparator.set('<Client Name>', clientName || `[Client name]`)
   comparator.set(/(\r\n|\r|\n)/g, '<br />')
 
   let newString = string

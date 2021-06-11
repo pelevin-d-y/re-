@@ -167,11 +167,7 @@ const MultiEmailsModal: React.FC = () => {
         {!isSent ? (
           <CardContainer className={s.textContainer}>
             {data && <ModalEditorHeader data={data} />}
-            <ModalHtmlEditor
-              className={s.editor}
-              name={data.name}
-              event={data.event}
-            />
+            <ModalHtmlEditor className={s.editor} data={data} toParse />
             <div className={s.buttons}>
               <Button
                 variant="contained"
