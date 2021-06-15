@@ -19,8 +19,10 @@ const clientReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'UPDATE_USER_DATA': {
       return {
-        ...state,
-        data: action.payload,
+        data: {
+          ...state.data,
+          ...action.payload,
+        },
       }
     }
     default: {

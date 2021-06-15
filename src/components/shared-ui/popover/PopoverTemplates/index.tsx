@@ -4,6 +4,8 @@ import { css } from 'astroturf'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import { usePopup } from 'src/components/context/PopupContext'
+import { useClient } from 'src/components/context/ClientContext'
+import { findIndex } from 'lodash'
 import CardContainer from '../../cards/CardContainer'
 
 type Props = {
@@ -17,11 +19,26 @@ const PopoverTemplates: React.FC<Props> = () => {
   const {
     state: { data: templatesData },
   } = useTemplates()
+  const { state: clientState, dispatch: clientDispatch } = useClient()
 
   const selectTemplate = (template: Template) => {
     modalDispatch({
       type: 'UPDATE_POPUP_DATA',
       payload: { ...data, templateData: template },
+    })
+
+    const contacts = clientState.data?.contacts
+    const clientIndex = findIndex(clientState.data?.contacts, {
+      address: data.address,
+    })
+    contacts?.splice(clientIndex, 1, {
+      ...data,
+      template: template.Template,
+    })
+
+    clientDispatch({
+      type: 'UPDATE_USER_DATA',
+      payload: { contacts },
     })
   }
 

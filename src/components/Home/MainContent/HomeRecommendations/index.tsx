@@ -5,18 +5,21 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import findTemplate from 'src/helpers/utils/find-template'
-import testUsers from 'src/testUsersWithPlaceholderFields'
+import { useClient } from 'src/components/context/ClientContext'
 
 const HomeRecommendations: React.FC = () => {
   const { state: templatesState } = useTemplates()
+  const {
+    state: { data },
+  } = useClient()
 
-  const contacts = testUsers.slice(0, 3)
+  const contacts = data?.contacts?.slice(0, 3)
 
   return (
     <CardContainer className={s.container}>
       <div className={s.title}>Your Weekly Recommendations</div>
       <div className={s.cards}>
-        {contacts.slice(0, 3).map((contactItem) => (
+        {contacts?.slice(0, 3).map((contactItem) => (
           <div className={s.column} key={contactItem.first_message_id}>
             <SmallCard
               data={contactItem}

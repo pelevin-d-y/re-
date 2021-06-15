@@ -8,7 +8,7 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Star from 'src/components/shared-ui/Star'
 import Socials from 'src/components/shared-ui/Socials'
 import ShareLink from 'src/components/shared-ui/ShareLink'
-import testUsers from 'src/testUsersWithPlaceholderFields.js'
+import { useClient } from 'src/components/context/ClientContext'
 import CardActions from '../CardActions'
 
 type Props = {
@@ -30,8 +30,12 @@ const CardShare: React.FC<Props> = ({
 }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
+  const {
+    state: { data },
+  } = useClient()
+
   const openModalHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: testUsers })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: data?.contacts || [] })
     popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
@@ -51,7 +55,9 @@ const CardShare: React.FC<Props> = ({
       </div>
       <div className={s.actions}>
         <div className={classNames(s.topLine, s.line)}>
-          <AvatarsList className={s.avatars} users={testUsers} />
+          {data?.contacts && (
+            <AvatarsList className={s.avatars} users={data.contacts} />
+          )}
           <Socials />
         </div>
         <div className={classNames(s.bottomLine, s.line)}>
