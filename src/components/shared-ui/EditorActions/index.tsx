@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import PopoverTemplates from 'src/components/shared-ui/popover/PopoverTemplates'
 import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
@@ -16,12 +16,7 @@ const EditorActions: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <button onClick={templatesHandler} className={s.button} type="button">
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/templates.svg?include')}
-        />
-      </button>
+      <PopoverTemplates />
     </div>
   )
 }
