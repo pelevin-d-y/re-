@@ -18,14 +18,14 @@ const PopoverAddContact: React.FC<Props> = ({
   className,
   addContactHandler,
 }) => {
-  const { dispatch: listsDispatch, state: listsState, updateList } = useLists()
+  const { updateList } = useLists()
   const {
     state: { data: users },
   } = useUsers()
 
   const initUsers = useMemo(
     () =>
-      users.filter(
+      users?.filter(
         (item) =>
           !list?.users?.find((listUser) => listUser.address === item.address)
       ),

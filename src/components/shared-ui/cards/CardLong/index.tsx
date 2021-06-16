@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import UserEvent from 'src/components/shared-ui/UserEvent'
 import CardContainer from '../CardContainer'
@@ -39,13 +39,13 @@ const LongCard: React.FC<Props> = ({ data, template, className }) => {
           text={template.Subject}
         />
       )}
-      <PopoverRate
+      <PopoverActions
         className={s.button}
         buttonClickHandler={buttonHandler}
         variant="outlined"
       >
         Reach out
-      </PopoverRate>
+      </PopoverActions>
     </CardContainer>
   )
 }

@@ -15,6 +15,7 @@ type Props = {
     | 'top center'
     | 'bottom center'
     | 'center center'
+    | 'right bottom'
 }
 
 const Popover: React.FC<Props> = ({

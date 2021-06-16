@@ -27,6 +27,7 @@ type Template = {
 
 type UserData = {
   avatar?: string
+  contacts?: UserData[]
   address?: string
   name?: string
   template?: string

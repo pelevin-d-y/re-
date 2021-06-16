@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
 import UserEvent from 'src/components/shared-ui/UserEvent'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 import CardContainer from '../CardContainer'
 import CardActions from '../CardActions'
 
@@ -26,7 +26,7 @@ const CardUserEvent: React.FC<Props> = ({
 }) => (
   <CardContainer className={classNames(className, s.container)}>
     <img alt="icon" className={s.icon} src={image} />
-    <Star className={s.start} />
+    <Pin className={s.start} />
     <div className={s.title}>{title}</div>
     <Avatar className={s.avatar} image={avatar} />
     <div className={s.name}>{name}</div>

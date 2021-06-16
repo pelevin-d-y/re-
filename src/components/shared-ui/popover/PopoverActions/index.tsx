@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Stars from 'src/components/shared-ui/Starts'
 import Button from 'src/components/shared-ui/Button'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -14,7 +13,15 @@ type Props = {
 
 const items = [
   {
-    name: 'Schedule Send',
+    name: 'Say Hi',
+    handler: () => null,
+  },
+  {
+    name: 'Send Meme',
+    handler: () => null,
+  },
+  {
+    name: 'Plan a dinner',
     handler: () => null,
   },
   {
@@ -23,13 +30,14 @@ const items = [
   },
 ]
 
-const PopoverRate: React.FC<Props> = ({
+const PopoverActions: React.FC<Props> = ({
   className,
   buttonClickHandler,
   variant,
   children,
 }) => (
   <Popover
+    showPopupEvent="hover"
     triggerElement={
       <Button
         className={classNames(className, s.button)}
@@ -41,11 +49,7 @@ const PopoverRate: React.FC<Props> = ({
       </Button>
     }
     popupContent={
-      <CardContainer className={classNames(className, s.popup)}>
-        <div className={s.rate}>
-          Rate Recommendation
-          <Stars className={s.stars} />
-        </div>
+      <CardContainer className={classNames(s.popup)}>
         <ul className={s.list}>
           {items?.map((item) => (
             <li className={s.item} key={item.name}>
@@ -66,8 +70,7 @@ const PopoverRate: React.FC<Props> = ({
 
 const s = css`
   .popup {
-    max-width: 300px !important;
-    width: auto;
+    width: 175px !important;
   }
 
   .stars {
@@ -104,10 +107,11 @@ const s = css`
     font-weight: var(--bold);
     text-align: left;
     background: var(--white);
+    color: var(--blue);
     border: none;
     border-bottom: 1px solid var(--lightGrey);
     cursor: pointer;
   }
 `
 
-export default PopoverRate
+export default PopoverActions

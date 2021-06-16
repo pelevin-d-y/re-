@@ -31,7 +31,7 @@ const MultiEmailsModal: React.FC = () => {
   const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
   useEffect(() => {
-    if (usersData.length) {
+    if (usersData?.length) {
       setContacts(usersData)
     }
     return () => {
@@ -57,7 +57,9 @@ const MultiEmailsModal: React.FC = () => {
     const isInclude = selectedContacts.find((item) => item.name === user.name)
     if (!isInclude) {
       setSelectedContacts([...selectedContacts, user])
-      setContacts(contacts.filter((item) => item.name !== user.name))
+      if (contacts) {
+        setContacts(contacts.filter((item) => item.name !== user.name))
+      }
       selectUser(user)
     }
   }
@@ -67,7 +69,9 @@ const MultiEmailsModal: React.FC = () => {
     setSelectedContacts(
       selectedContacts.filter((item) => item.name !== user.name)
     )
-    setContacts([...contacts, user])
+    if (contacts) {
+      setContacts([...contacts, user])
+    }
   }
 
   const closeHandler = () => {

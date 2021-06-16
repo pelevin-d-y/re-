@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import UserEvent from 'src/components/shared-ui/UserEvent'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
-import Star from '../Star'
+import Pin from '../Pin'
 
 type Props = {
   className?: string
@@ -20,7 +20,7 @@ const ImportantCard: React.FC<Props> = ({ className, name, image, event }) => (
       <div className={s.name}>{name}</div>
       <UserEvent text={event} />
     </div>
-    <Star className={s.star} />
+    <Pin className={s.star} />
   </CardContainer>
 )
 

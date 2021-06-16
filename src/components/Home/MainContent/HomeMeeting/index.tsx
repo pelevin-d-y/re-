@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
 import { usePopup } from 'src/components/context/PopupContext'
@@ -35,7 +35,7 @@ const HomeMeeting: React.FC<Props> = ({ className, data }) => {
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Star className={s.star} />
+      <Pin className={s.star} />
       {headerData && <CardHeader data={headerData} />}
       <div className={s.cards}>
         {users?.map((item) => (
