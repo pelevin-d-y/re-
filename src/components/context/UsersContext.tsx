@@ -1,9 +1,9 @@
 import * as React from 'react'
-import testUsers from 'src/testUsersWithPlaceholderFields.js'
+import { useClient } from './ClientContext'
 
 type Users = UserData[]
 type Action = { type: 'UPDATE_USERS_DATA'; payload: Users }
-type State = { data: Users }
+type State = { data: Users | null }
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
@@ -29,9 +29,17 @@ const usersReducer = (state: State, action: Action): State => {
 }
 
 const UsersProvider: React.FC = ({ children }) => {
+  const {
+    state: { data },
+  } = useClient()
+
   const [state, dispatch] = React.useReducer(usersReducer, {
-    data: testUsers,
+    data: data?.contacts || null,
   })
+
+  React.useEffect(() => {
+    dispatch({ type: 'UPDATE_USERS_DATA', payload: data?.contacts || [] })
+  }, [data])
 
   const value: ContextType = React.useMemo(
     () => ({
