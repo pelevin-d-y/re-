@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Likes from 'src/components/shared-ui/Likes'
 import { usePopup } from 'src/components/context/PopupContext'
@@ -24,7 +24,7 @@ const CardLikes: React.FC<Props> = ({ className, data, template }) => {
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      <Star className={s.star} />
+      <Pin className={s.star} />
       <Avatar className={s.avatar} image={require(`public/images/${avatar}`)} />
       <div className={s.name}>{name}</div>
       <div>{template.Subject}</div>

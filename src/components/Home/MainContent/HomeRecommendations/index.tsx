@@ -31,12 +31,12 @@ const HomeRecommendations: React.FC = () => {
       </div>
       <div className={s.cards}>
         {contacts?.slice(0, 3).map((contactItem) => (
-          <div className={s.column} key={contactItem.first_message_id}>
-            <SmallCard
-              data={contactItem}
-              template={findTemplate(templatesState.data, contactItem.template)}
-            />
-          </div>
+          <SmallCard
+            data={contactItem}
+            className={s.column}
+            key={contactItem.first_message_id}
+            template={findTemplate(templatesState.data, contactItem.template)}
+          />
         ))}
       </div>
     </CardContainer>

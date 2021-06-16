@@ -2,7 +2,7 @@ import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import LongCard from 'src/components/shared-ui/cards/CardLong'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardActions from 'src/components/shared-ui/cards/CardActions'
@@ -38,7 +38,7 @@ const HomeUpcoming: React.FC<Props> = ({ className, data }) => {
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Star className={s.star} />
+      <Pin className={s.star} />
       <CardHeader data={headerData} />
       <div className={s.cards}>
         {contacts &&

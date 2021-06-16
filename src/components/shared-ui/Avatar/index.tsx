@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import { calculateColorByStraight } from 'src/helpers/utils/calculate-straight'
@@ -19,10 +19,15 @@ const Avatar: React.FC<Props> = ({
   height,
   straight,
 }) => {
-  calculateColorByStraight(straight)
+  const [color, setColor] = useState<'red' | 'green' | 'orange' | null>(null)
+  useEffect(() => {
+    if (straight) {
+      setColor(calculateColorByStraight(straight))
+    }
+  }, [straight])
   return (
     <div
-      className={classNames(s.container, className, straight && s.straight)}
+      className={classNames(s.container, className, color && s[color])}
       style={{ width: width || 47, height: height || 47 }}
     >
       {image ? (
@@ -36,14 +41,48 @@ const Avatar: React.FC<Props> = ({
 
 const s = css`
   .container {
-    overflow: hidden;
+    position: relative;
+    box-sizing: content-box;
     border-radius: 50%;
+    &::after {
+      content: '';
+      z-index: 1;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+    }
   }
 
   .avatar {
     width: 100%;
     height: 100%;
+    border-radius: 50%;
     object-fit: cover;
+  }
+
+  .red {
+    border: 2px solid #ff4949;
+    &::after {
+      background: #ff4949;
+    }
+  }
+
+  .green {
+    border: 2px solid #16bb58;
+    &::after {
+      background: #16bb58;
+    }
+  }
+
+  .orange {
+    border: 2px solid #ff9900;
+    &::after {
+      background: #ff9900;
+    }
   }
 `
 

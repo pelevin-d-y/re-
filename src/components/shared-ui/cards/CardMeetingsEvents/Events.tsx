@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 // import AvatarsList from 'src/components/shared-ui/AvatarsList'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 
 type Props = {
   className?: string
@@ -45,7 +45,7 @@ const Events: React.FC<Props> = ({ className }) => (
   <ul className={classNames(s.container, className)}>
     {data.map((item) => (
       <li className={s.item} key={item.event1}>
-        <Star className={s.star} />
+        <Pin className={s.star} />
         <div className={s.info}>
           <div className={s.advise}>{item.event1}</div>
           <div className={s.event}>{item.event2}</div>

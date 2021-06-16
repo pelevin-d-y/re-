@@ -7,7 +7,7 @@ type Props = {
   className?: string
 }
 
-const Star: React.FC<Props> = ({ className }) => {
+const Pin: React.FC<Props> = ({ className }) => {
   const [isActive, setIsActive] = useState(false)
   return (
     <button
@@ -16,7 +16,7 @@ const Star: React.FC<Props> = ({ className }) => {
       className={classNames(className, s.button)}
     >
       <SvgIcon
-        icon={require('public/svg/star.svg?include')}
+        icon={require('public/svg/pin.svg?include')}
         className={classNames(s.icon, isActive && s.active)}
       />
     </button>
@@ -25,14 +25,14 @@ const Star: React.FC<Props> = ({ className }) => {
 
 const s = css`
   .icon {
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
 
-    color: var(--grey);
+    color: #bfbfbf;
   }
 
   .icon.active {
-    color: var(--ginger);
+    color: var(--blue);
   }
 
   .button {
@@ -49,10 +49,10 @@ const s = css`
 
     &:hover {
       .icon {
-        color: var(--ginger);
+        color: var(--blue);
       }
     }
   }
 `
 
-export default Star
+export default Pin

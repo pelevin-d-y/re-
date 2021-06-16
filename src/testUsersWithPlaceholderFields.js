@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import testUsers from './testUsers.json'
+import parseStringsToNumbers from './helpers/utils/parse-object'
 
 const newTestUsers = testUsers.map((user) => ({
-  ...user,
+  ...parseStringsToNumbers(user),
   title: 'Investors',
   contacts: testUsers,
   notes: 'Plan Dinner',

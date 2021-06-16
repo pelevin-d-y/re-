@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 import CardContainer from '../CardContainer'
 import Events from './Events'
 
@@ -16,7 +16,7 @@ const CardMeetingsEvents: React.FC<Props> = ({ className }) => (
       className={s.icon}
       src={require('public/images/meeting.png')}
     />
-    <Star className={s.star} />
+    <Pin className={s.star} />
     <div className={s.header}>
       <div className={s.subtitle}>Follow Up</div>
       <div className={s.title}>Meetings &&nbsp;Events</div>
