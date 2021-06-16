@@ -1,30 +1,17 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import { usePopup } from 'src/components/context/PopupContext'
+import PopoverTemplates from 'src/components/shared-ui/popover/PopoverTemplates'
 
 type Props = {
   className?: string
 }
 
-const EditorActions: React.FC<Props> = ({ className }) => {
-  const { dispatch } = usePopup()
-  const templatesHandler = () => {
-    dispatch({ type: 'TOGGLE_TEMPLATES_POPUP' })
-  }
-
-  return (
-    <div className={classNames(className, s.container)}>
-      <button onClick={templatesHandler} className={s.button} type="button">
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/templates.svg?include')}
-        />
-      </button>
-    </div>
-  )
-}
+const EditorActions: React.FC<Props> = ({ className }) => (
+  <div className={classNames(className, s.container)}>
+    <PopoverTemplates />
+  </div>
+)
 
 const s = css`
   .container {

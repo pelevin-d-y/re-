@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import type { AppProps } from 'next/app'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import { ListsProvider } from 'src/components/context/ListsContext'
+import { ClientProvider } from 'src/components/context/ClientContext'
 import { UsersProvider } from 'src/components/context/UsersContext'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'ts-replace-all'
@@ -18,11 +19,13 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
     <div suppressHydrationWarning>
       {typeof window === 'undefined' ? null : (
         <QueryClientProvider client={queryClientRef.current}>
-          <ListsProvider>
-            <UsersProvider>
-              <Component {...pageProps} />
-            </UsersProvider>
-          </ListsProvider>
+          <ClientProvider>
+            <ListsProvider>
+              <UsersProvider>
+                <Component {...pageProps} />
+              </UsersProvider>
+            </ListsProvider>
+          </ClientProvider>
         </QueryClientProvider>
       )}
     </div>

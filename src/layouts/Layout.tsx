@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Header from 'src/components/shared-ui/Header'
 import Sidebar from 'src/components/shared-ui/Sidebar'
-import { ClientProvider } from 'src/components/context/ClientContext'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 
@@ -17,23 +16,21 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
   }
 
   return (
-    <ClientProvider>
-      <div className={classNames(s.root, className, menuOpen && s.open)}>
-        <Sidebar className={s.sidebar} toggleMenu={toggleMenu} />
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-        <div
-          className={s.overlay}
-          onClick={toggleMenu}
-          onKeyDown={toggleMenu}
-          role="button"
-          tabIndex={0}
-        />
-        <div className={s.main}>
-          <Header toggleMenu={toggleMenu} />
-          <div className={classNames(s.content)}>{children}</div>
-        </div>
+    <div className={classNames(s.root, className, menuOpen && s.open)}>
+      <Sidebar className={s.sidebar} toggleMenu={toggleMenu} />
+      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+      <div
+        className={s.overlay}
+        onClick={toggleMenu}
+        onKeyDown={toggleMenu}
+        role="button"
+        tabIndex={0}
+      />
+      <div className={s.main}>
+        <Header toggleMenu={toggleMenu} />
+        <div className={classNames(s.content)}>{children}</div>
       </div>
-    </ClientProvider>
+    </div>
   )
 }
 
