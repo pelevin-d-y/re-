@@ -21,7 +21,7 @@ const SmallCard: React.FC<Props> = ({ className, data, template }) => {
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
-
+  console.log('data', data)
   return (
     <CardContainer className={classNames(className, s.container)}>
       <Star className={s.star} />
@@ -30,6 +30,7 @@ const SmallCard: React.FC<Props> = ({ className, data, template }) => {
         width={44}
         height={44}
         className={s.avatar}
+        straight={data.connection_E}
       />
       <div className={s.name}>{name}</div>
       <UserEvent className={s.actionType} text={template.Subject} />
@@ -51,11 +52,10 @@ const s = css`
     position: relative;
     display: flex;
     flex-flow: column nowrap;
-    align-items: center;
     background: var(--white);
 
     width: 100%;
-    padding: 14px 24px 18px 24px;
+    padding: 14px 24px 16px 17px;
   }
 
   .avatar {

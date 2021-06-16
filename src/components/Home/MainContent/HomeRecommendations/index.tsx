@@ -2,6 +2,8 @@ import React from 'react'
 import { css } from 'astroturf'
 import SmallCard from 'src/components/shared-ui/cards/CardSmall'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import Link from 'src/components/shared-ui/Link'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import findTemplate from 'src/helpers/utils/find-template'
@@ -14,7 +16,16 @@ const HomeRecommendations: React.FC = () => {
 
   return (
     <CardContainer className={s.container}>
-      <div className={s.title}>Your Weekly Recommendations</div>
+      <div className={s.title}>
+        Your Weekly Recommendations
+        <Link className={s.link} href="#">
+          View all
+          <SvgIcon
+            className={s.linkIcon}
+            icon={require(`public/svg/back.svg?include`)}
+          />
+        </Link>
+      </div>
       <div className={s.cards}>
         {contacts.slice(0, 3).map((contactItem) => (
           <div className={s.column} key={contactItem.first_message_id}>
@@ -49,6 +60,23 @@ const s = css`
     @include tablet {
       text-align: center;
     }
+  }
+
+  .link {
+    margin-left: 14px;
+    text-decoration: none;
+    color: var(--blue);
+
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .linkIcon {
+    width: 9px;
+    height: 9px;
+    margin-left: 6px;
+
+    transform: rotate(180deg);
   }
 
   .cards {
