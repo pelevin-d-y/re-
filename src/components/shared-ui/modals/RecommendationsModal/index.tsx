@@ -4,7 +4,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import Search from 'src/components/shared-ui/Search'
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import classNames from 'classnames'
 import ModalBase from '../ModalBase'
@@ -161,13 +161,13 @@ const RecommendationsModal: React.FC = () => {
             </div>
             <div className={s.actions}>
               <PopoverDots className={s.actionDots} variant="outlined" />
-              <PopoverRate
+              <PopoverActions
                 className={s.actionRate}
                 variant="contained"
                 buttonClickHandler={() => null}
               >
                 Follow Up
-              </PopoverRate>
+              </PopoverActions>
             </div>
           </div>
         ))}

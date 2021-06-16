@@ -52,7 +52,7 @@ const s = css`
       right: 0;
       width: 8px;
       height: 8px;
-      border: 2px solid #ffffff;
+      border: 2px solid transparent;
       border-radius: 50%;
     }
   }
@@ -68,6 +68,7 @@ const s = css`
     border: 2px solid #ff4949;
     &::after {
       background: #ff4949;
+      border-color: #fff;
     }
   }
 
@@ -75,6 +76,7 @@ const s = css`
     border: 2px solid #16bb58;
     &::after {
       background: #16bb58;
+      border-color: #fff;
     }
   }
 
@@ -82,6 +84,7 @@ const s = css`
     border: 2px solid #ff9900;
     &::after {
       background: #ff9900;
+      border-color: #fff;
     }
   }
 `

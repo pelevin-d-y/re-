@@ -10,7 +10,7 @@ import { useDebounce } from 'use-debounce'
 type Props = {
   className?: string
   handler: (item: UserData) => void
-  users: UserData[]
+  users?: UserData[]
 }
 
 const AddUserView: React.FC<Props> = ({ className, handler, users }) => {
@@ -21,7 +21,7 @@ const AddUserView: React.FC<Props> = ({ className, handler, users }) => {
 
   useEffect(() => {
     setFilteredUsers(
-      users.filter(
+      users?.filter(
         (user) =>
           user.name?.toLowerCase().search(searchValue.toLowerCase()) !== -1
       )

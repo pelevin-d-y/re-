@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Pin from 'src/components/shared-ui/Pin'
 import Avatar from 'src/components/shared-ui/Avatar'
@@ -30,13 +30,13 @@ const CardLikes: React.FC<Props> = ({ className, data, template }) => {
       <div>{template.Subject}</div>
       <div className={s.buttons}>
         <Likes />
-        <PopoverRate
+        <PopoverActions
           className={s.button}
           buttonClickHandler={buttonHandler}
           variant="outlined"
         >
           Followup
-        </PopoverRate>
+        </PopoverActions>
       </div>
     </CardContainer>
   )

@@ -4,7 +4,8 @@ import classNames from 'classnames'
 import Pin from 'src/components/shared-ui/Pin'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import Close from 'src/components/shared-ui/Close'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from '../CardContainer'
@@ -31,19 +32,19 @@ const SmallCard: React.FC<Props> = ({ className, data, template }) => {
         className={s.avatar}
         straight={data.connection_E}
       />
-      <div className={s.name}>{name}</div>
+      <PopoverUserInfo className={s.name} data={data} template={template} />
       <div className={s.description}>
         {parseEmailMessage(template.Header, name)}
       </div>
       <div className={s.actions}>
         <Pin className={s.pin} />
-        <PopoverRate
+        <PopoverActions
           buttonClickHandler={buttonHandler}
           className={s.button}
           variant="contained"
         >
           Follow Up
-        </PopoverRate>
+        </PopoverActions>
       </div>
     </CardContainer>
   )

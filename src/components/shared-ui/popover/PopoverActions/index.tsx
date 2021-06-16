@@ -30,7 +30,7 @@ const items = [
   },
 ]
 
-const PopoverRate: React.FC<Props> = ({
+const PopoverActions: React.FC<Props> = ({
   className,
   buttonClickHandler,
   variant,
@@ -114,4 +114,4 @@ const s = css`
   }
 `
 
-export default PopoverRate
+export default PopoverActions
