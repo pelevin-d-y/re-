@@ -6,17 +6,17 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Pin from 'src/components/shared-ui/Pin'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Likes from 'src/components/shared-ui/Likes'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
   className?: string
   data: UserData
-  template: any
+  template: Template
 }
 
 const CardLikes: React.FC<Props> = ({ className, data, template }) => {
   const { dispatch } = usePopup()
-  const { name, avatar } = data
 
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
@@ -25,8 +25,12 @@ const CardLikes: React.FC<Props> = ({ className, data, template }) => {
   return (
     <CardContainer className={classNames(s.container, className)}>
       <Pin className={s.star} />
-      <Avatar className={s.avatar} image={require(`public/images/${avatar}`)} />
-      <div className={s.name}>{name}</div>
+      <Avatar
+        className={s.avatar}
+        image={require(`public/images/${data.avatar}`)}
+        strength={data.connection_E}
+      />
+      <PopoverUserInfo className={s.name} data={data} template={template} />
       <div>{template.Subject}</div>
       <div className={s.buttons}>
         <Likes />

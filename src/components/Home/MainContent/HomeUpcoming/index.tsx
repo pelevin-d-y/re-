@@ -42,13 +42,18 @@ const HomeUpcoming: React.FC<Props> = ({ className, data }) => {
       <CardHeader data={headerData} />
       <div className={s.cards}>
         {contacts &&
-          contacts.map((item) => (
-            <LongCard
-              data={item}
-              key={item.first_message_id}
-              template={findTemplate(templatesState.data, item.template)}
-            />
-          ))}
+          contacts.map((item) => {
+            const template = findTemplate(templatesState.data, item.template)
+            return (
+              template && (
+                <LongCard
+                  data={item}
+                  key={item.first_message_id}
+                  template={template}
+                />
+              )
+            )
+          })}
       </div>
       <CardActions
         className={s.actions}

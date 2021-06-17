@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import { calculateColorByStraight } from 'src/helpers/utils/calculate-straight'
+import { calculateColorByStraight } from 'src/helpers/utils/calculate-strength'
 import SvgIcon from '../SvgIcon'
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
   width?: number
   height?: number
   image?: string
-  straight?: string | number
+  strength?: string | number
 }
 
 const Avatar: React.FC<Props> = ({
@@ -17,14 +17,14 @@ const Avatar: React.FC<Props> = ({
   image,
   width,
   height,
-  straight,
+  strength,
 }) => {
   const [color, setColor] = useState<'red' | 'green' | 'orange' | null>(null)
   useEffect(() => {
-    if (straight) {
-      setColor(calculateColorByStraight(straight))
+    if (strength) {
+      setColor(calculateColorByStraight(strength))
     }
-  }, [straight])
+  }, [strength])
   return (
     <div
       className={classNames(s.container, className, color && s[color])}

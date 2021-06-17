@@ -1,4 +1,4 @@
-const parseEmailMessage = (
+const parseMessage = (
   string: string,
   contactName?: string,
   clientName?: string
@@ -17,4 +17,4 @@ const parseEmailMessage = (
   return newString
 }
 
-export default parseEmailMessage
+export default parseMessage

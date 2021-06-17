@@ -5,16 +5,16 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import UserEvent from 'src/components/shared-ui/UserEvent'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import CardContainer from '../CardContainer'
 
 type Props = {
   className?: string
   data: UserData
-  template?: Template
+  template: Template
 }
 
 const LongCard: React.FC<Props> = ({ data, template, className }) => {
-  const { avatar, name } = data
   const { dispatch } = usePopup()
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
@@ -25,10 +25,11 @@ const LongCard: React.FC<Props> = ({ data, template, className }) => {
       <div className={s.profile}>
         <Avatar
           className={s.avatar}
-          image={require(`public/images/${avatar}`)}
+          image={require(`public/images/${data.avatar}`)}
+          strength={data.connection_E}
         />
         <div className={s.text}>
-          <div className={s.name}>{name}</div>
+          <PopoverUserInfo className={s.name} data={data} template={template} />
           <div className={s.position}>{template?.Subject}</div>
         </div>
       </div>
