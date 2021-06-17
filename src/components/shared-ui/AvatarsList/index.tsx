@@ -24,7 +24,7 @@ const AvatarList: React.FC<Props> = ({
 }) => {
   const visibleUsers = users.slice(0, MAX_VISIBLE_USERS)
   const hiddenUsers = users.length - MAX_VISIBLE_USERS
-  const avatarWidthWithBorder = avatarWidth || AVATAR_BASE_SIZE
+  const avatarWidthWithBorder = (avatarWidth || AVATAR_BASE_SIZE) + 4 // 4 - border-width
   const containerWidth =
     avatarWidthWithBorder * visibleUsers.length -
     AVATAR_TRANSITION * (visibleUsers.length - 1)

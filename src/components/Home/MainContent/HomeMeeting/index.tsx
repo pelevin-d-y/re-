@@ -38,13 +38,18 @@ const HomeMeeting: React.FC<Props> = ({ className, data }) => {
       <Pin className={s.star} />
       {headerData && <CardHeader data={headerData} />}
       <div className={s.cards}>
-        {users?.map((item) => (
-          <CardLikes
-            key={item.first_message_id}
-            data={item}
-            template={findTemplate(templatesState.data, item.template)}
-          />
-        ))}
+        {users?.map((item) => {
+          const template = findTemplate(templatesState.data, item.template)
+          return (
+            template && (
+              <CardLikes
+                key={item.first_message_id}
+                data={item}
+                template={template}
+              />
+            )
+          )
+        })}
       </div>
       <CardActions
         className={s.actions}

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
-import { useUsers } from 'src/components/context/UsersContext'
+import { useClient } from 'src/components/context/ClientContext'
 import { useLists } from 'src/components/context/ListsContext'
 import AddUserView from 'src/components/shared-ui/AddUserView'
 import Popover from '../PopoverBase'
@@ -20,16 +20,16 @@ const PopoverAddContact: React.FC<Props> = ({
 }) => {
   const { updateList } = useLists()
   const {
-    state: { data: users },
-  } = useUsers()
+    state: { data: clientData },
+  } = useClient()
 
   const initUsers = useMemo(
     () =>
-      users?.filter(
+      clientData?.contacts?.filter(
         (item) =>
           !list?.users?.find((listUser) => listUser.address === item.address)
       ),
-    [users, list]
+    [clientData?.contacts, list]
   )
 
   const addUserHandler = (user: UserData) => {

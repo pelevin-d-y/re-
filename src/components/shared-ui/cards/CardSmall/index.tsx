@@ -30,7 +30,7 @@ const SmallCard: React.FC<Props> = ({ className, data, template }) => {
         width={54}
         height={54}
         className={s.avatar}
-        straight={data.connection_E}
+        strength={data.connection_E}
       />
       <PopoverUserInfo className={s.name} data={data} template={template} />
       <div className={s.description}>
