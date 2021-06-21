@@ -55,6 +55,7 @@ const PopoverTemplates: React.FC<Props> = () => {
       }
       popupContent={
         <CardContainer className={s.popup}>
+          <div className={s.title}>Templates</div>
           <ul className={s.templatesList}>
             {templatesData.map((template) =>
               template.Template ? (
@@ -96,6 +97,14 @@ const s = css`
   .icon {
     width: 24px;
     height: 24px;
+  }
+
+  .title {
+    margin-bottom: 16px;
+
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: var(--bold);
   }
 
   .templatesList {

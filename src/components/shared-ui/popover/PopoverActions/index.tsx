@@ -24,10 +24,6 @@ const items = [
     name: 'Plan a dinner',
     handler: () => null,
   },
-  {
-    name: 'Ignore',
-    handler: () => null,
-  },
 ]
 
 const PopoverActions: React.FC<Props> = ({
@@ -37,7 +33,7 @@ const PopoverActions: React.FC<Props> = ({
   children,
 }) => (
   <Popover
-    showPopupEvent="hover"
+    showPopupEvent="click"
     triggerElement={
       <Button
         className={classNames(className, s.button)}
@@ -62,6 +58,15 @@ const PopoverActions: React.FC<Props> = ({
               </button>
             </li>
           ))}
+          <li className={s.item}>
+            <button
+              type="button"
+              onClick={() => null}
+              className={classNames(s.popupButton, s.ignore)}
+            >
+              Ignore
+            </button>
+          </li>
         </ul>
       </CardContainer>
     }
@@ -111,6 +116,10 @@ const s = css`
     border: none;
     border-bottom: 1px solid var(--lightGrey);
     cursor: pointer;
+  }
+
+  .ignore {
+    color: #000000;
   }
 `
 
