@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
-import Metrics from 'src/components/shared-ui/Metrics'
-import ImportantSteps from 'src/components/shared-ui/ImportantSteps'
+import Spotlight from 'src/components/shared-ui/Spotlight'
+import ImportantSteps from 'src/components/shared-ui/PinnedTasks'
 import classNames from 'classnames'
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 const ContentSidebar: React.FC<Props> = ({ className }) => (
   <div className={classNames(className, s.container)}>
-    <Metrics className={s.metrics} />
+    <Spotlight className={s.spotlight} />
     <ImportantSteps />
   </div>
 )
@@ -23,7 +23,7 @@ const s = css`
     border-radius: 10px;
   }
 
-  .metrics {
+  .spotlight {
     margin-bottom: 10px;
   }
 `

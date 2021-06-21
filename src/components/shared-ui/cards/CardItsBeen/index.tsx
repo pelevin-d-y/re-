@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Pin from 'src/components/shared-ui/Pin'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
@@ -24,7 +23,6 @@ const CardItsBeen: React.FC<Props> = ({ className, data }) => {
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      <Pin className={s.star} />
       <div className={s.header}>
         <div className={s.cardName}>{data?.description}</div>
         <div className={s.title}>{data?.title}</div>

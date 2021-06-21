@@ -4,10 +4,7 @@ import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
 import { useClient } from 'src/components/context/ClientContext'
-
-import HeaderToDos from './HeaderToDos'
 import HeaderProfile from './HeaderProfile'
-import HeaderTheme from './HeaderTheme'
 
 type Props = {
   toggleMenu: () => void
@@ -31,9 +28,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
           classes={{ container: s.search }}
           inputPlaceholder="Search..."
         />
-        <HeaderTheme className={s.theme} />
-        <HeaderToDos className={s.toDos} />
-        {data?.address && <HeaderProfile />}
+        {data?.address && <HeaderProfile className={s.profile} />}
       </div>
     </header>
   )
@@ -53,7 +48,6 @@ const s = css`
   .container {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: center;
     padding-left: 14px;
     padding-right: 14px;
@@ -68,6 +62,8 @@ const s = css`
   .search {
     max-width: 202px;
     width: 100%;
+    margin-left: 18px;
+
     @include tablet {
       display: none;
     }
@@ -86,6 +82,8 @@ const s = css`
   }
 
   .text {
+    margin-left: 18px;
+
     font-weight: var(--semibold);
     @include tablet {
       display: none;
@@ -100,6 +98,10 @@ const s = css`
 
   .greeting {
     color: #c1c1c1;
+  }
+
+  .profile {
+    margin-left: auto;
   }
 `
 
