@@ -29,6 +29,7 @@ const s = css`
     text-align: center;
     font-size: 32px;
     font-weight: var(--bold);
+    color: var(--blue);
   }
 
   .every {

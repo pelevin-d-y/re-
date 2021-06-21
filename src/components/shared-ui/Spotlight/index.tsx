@@ -1,36 +1,39 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Link from 'next/link'
 import classnames from 'classnames'
-import MetricsShortCard from './MetricsShortCard'
-import MetricsLongCard from './MetricsLongCard'
+import SpotlightShortCard from './SpotlightShortCard'
+import SpotlightLongCard from './SpotlightLongCard'
 
 type Props = {
   className?: string
 }
 
-const Metrics: React.FC<Props> = ({ className }) => (
+const Spotlight: React.FC<Props> = ({ className }) => (
   <CardContainer className={classnames(className, s.container)}>
     <div className={s.header}>
-      <div className={s.title}>Metrics</div>
-      <Link href="/">
-        <a className={s.link}>View more</a>
-      </Link>
+      <div className={s.title}>Spotlight</div>
+      <div className={s.avatar}>
+        <img alt="avatar" src={require('public/images/spotlight.png')} />
+      </div>
     </div>
     <div className={s.shortCards}>
-      <MetricsShortCard className={s.shortCard} number={50} days={30} />
-      <MetricsShortCard className={s.shortCard} number={123} days={90} />
+      <SpotlightShortCard className={s.shortCard} number={50} days={30} />
+      <SpotlightShortCard className={s.shortCard} number={123} days={90} />
     </div>
     <div className={s.longCards}>
-      <MetricsLongCard className={s.longCard} number={245} period="6 Months" />
-      <MetricsLongCard
+      <SpotlightLongCard
+        className={s.longCard}
+        number={245}
+        period="6 Months"
+      />
+      <SpotlightLongCard
         className={s.longCard}
         number={60}
         period="2 Weeks"
         bar={76}
       />
-      <MetricsLongCard
+      <SpotlightLongCard
         className={s.longCard}
         number={90}
         period="2 Weeks"
@@ -49,13 +52,15 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     margin-bottom: 7px;
 
     line-height: 31px;
   }
 
   .title {
+    font-size: 24px;
+    line-height: 31px;
     font-weight: var(--bold);
   }
 
@@ -74,11 +79,18 @@ const s = css`
     margin-bottom: 8px;
   }
 
-  .link {
-    font-size: 12px;
-    color: var(--blue);
-    text-decoration: none;
+  .avatar {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+
+    width: 50px;
+    height: 50px;
+
+    border: 1px solid #e4e4e4;
+    border-radius: 50%;
   }
 `
 
-export default Metrics
+export default Spotlight

@@ -3,7 +3,10 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import ImportantCard from './ImportantCard'
+import { useClient } from 'src/components/context/ClientContext'
+import { useTemplates } from 'src/components/context/TemplatesContext'
+import findTemplate from 'src/helpers/utils/find-template'
+import PinnedTasksCard from './PinnedTasksCard'
 
 type Props = {
   className?: string
@@ -32,33 +35,39 @@ const cards = [
   },
 ]
 
-const ImportantSteps: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classNames(className, s.container)}>
-    <div className={s.header}>
-      <div className={s.headerText}>
-        <div className={s.headerImportant}>Important</div>
-        <div className={s.headerNext}>Next Steps</div>
+const PinnedTasks: React.FC<Props> = ({ className }) => {
+  const {
+    state: { data },
+  } = useClient()
+  const { state: templatesState } = useTemplates()
+  const contacts = data?.contacts?.slice(0, 4)
+
+  return (
+    <CardContainer className={classNames(className, s.container)}>
+      <div className={s.header}>
+        <div className={s.headerText}>
+          <div className={s.headerImportant}>Pinned tasks</div>
+        </div>
+        <div className={s.headerStar}>
+          <SvgIcon
+            className={s.headerStarIcon}
+            icon={require('public/svg/pin.svg?include')}
+          />
+        </div>
       </div>
-      <div className={s.headerStar}>
-        <SvgIcon
-          className={s.headerStarIcon}
-          icon={require('public/svg/star.svg?include')}
-        />
+      <div className={s.cards}>
+        {contacts?.map((item) => (
+          <PinnedTasksCard
+            className={s.card}
+            key={item.first_message_id}
+            data={item}
+            template={findTemplate(templatesState.data, item.template)}
+          />
+        ))}
       </div>
-    </div>
-    <div className={s.cards}>
-      {cards.map((item) => (
-        <ImportantCard
-          className={s.card}
-          key={item.event}
-          name={item.name}
-          event={item.event}
-          image={item.image}
-        />
-      ))}
-    </div>
-  </CardContainer>
-)
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {
@@ -69,6 +78,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
+    align-items: center;
   }
 
   .headerText {
@@ -96,7 +106,7 @@ const s = css`
   .headerStarIcon {
     width: 23px;
     height: 23px;
-    color: var(--ginger);
+    color: var(--blue);
   }
 
   .cards {
@@ -108,4 +118,4 @@ const s = css`
   }
 `
 
-export default ImportantSteps
+export default PinnedTasks

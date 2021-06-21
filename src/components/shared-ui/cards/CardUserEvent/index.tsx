@@ -26,7 +26,6 @@ const CardUserEvent: React.FC<Props> = ({
 }) => (
   <CardContainer className={classNames(className, s.container)}>
     <img alt="icon" className={s.icon} src={image} />
-    <Pin className={s.start} />
     <div className={s.title}>{title}</div>
     <Avatar className={s.avatar} image={avatar} />
     <div className={s.name}>{name}</div>

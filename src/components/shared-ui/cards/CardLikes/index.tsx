@@ -24,7 +24,6 @@ const CardLikes: React.FC<Props> = ({ className, data, template }) => {
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      <Pin className={s.star} />
       <Avatar
         className={s.avatar}
         image={require(`public/images/${data.avatar}`)}

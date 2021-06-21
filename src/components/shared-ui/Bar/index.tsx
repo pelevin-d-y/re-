@@ -20,7 +20,7 @@ const s = css`
   .bar {
     position: relative;
     width: 100%;
-    height: 3px;
+    height: 5px;
     margin-top: 10px;
 
     background: #efefef;
@@ -31,7 +31,7 @@ const s = css`
     height: 100%;
     left: 0;
     top: 0;
-    background: var(--ginger);
+    background: var(--yellow);
   }
 
   .barText {

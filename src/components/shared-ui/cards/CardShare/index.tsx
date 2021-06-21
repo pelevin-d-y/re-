@@ -5,7 +5,6 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
-import Pin from 'src/components/shared-ui/Pin'
 import Socials from 'src/components/shared-ui/Socials'
 import ShareLink from 'src/components/shared-ui/ShareLink'
 import { useClient } from 'src/components/context/ClientContext'
@@ -47,7 +46,6 @@ const CardShare: React.FC<Props> = ({
         className
       )}
     >
-      <Pin className={s.star} />
       <div className={s.info}>
         <div className={s.cardEvent}>{event}</div>
         <div className={s.title}>{title}</div>

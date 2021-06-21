@@ -5,8 +5,13 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Avatar from 'src/components/shared-ui/Avatar'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
 import { useClient } from 'src/components/context/ClientContext'
+import classNames from 'classnames'
 
-const HeaderProfile: React.FC = () => {
+type Props = {
+  className?: string
+}
+
+const HeaderProfile: React.FC<Props> = ({ className }) => {
   const {
     state: { data },
   } = useClient()
@@ -15,8 +20,7 @@ const HeaderProfile: React.FC = () => {
     <Popover
       position="bottom right"
       triggerElement={
-        <div className={s.container}>
-          <div className={s.email}>{data?.address}</div>
+        <div className={classNames(s.container, className)}>
           {data?.avatar && (
             <Avatar image={require(`public/images/${data.avatar}`)} />
           )}

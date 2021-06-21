@@ -72,6 +72,7 @@ const s = css`
     font-weight: var(--bold);
     font-size: 26px;
     line-height: 31px;
+    color: var(--blue);
   }
 
   .bar {
