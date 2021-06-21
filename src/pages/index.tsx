@@ -6,7 +6,6 @@ import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
 import RecommendationsModal from 'src/components/shared-ui/modals/RecommendationsModal'
-import TemplatesModal from 'src/components/shared-ui/modals/TemplatesModal'
 import { css } from 'astroturf'
 import 'react-quill/dist/quill.snow.css'
 
@@ -21,7 +20,6 @@ const Home: React.FC = () => (
         <EmailModal />
         <MultiEmailsModal />
         <RecommendationsModal />
-        <TemplatesModal />
       </PopupProvider>
     </TemplatesProvider>
   </Layout>
