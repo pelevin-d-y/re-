@@ -27,7 +27,7 @@ const CardLikes: React.FC<Props> = ({ className, data, template }) => {
       <Avatar
         className={s.avatar}
         image={require(`public/images/${data.avatar}`)}
-        strength={data.connection_E}
+        strength={data.relationshipStrength}
       />
       <PopoverUserInfo className={s.name} data={data} template={template} />
       <div>{template.Subject}</div>

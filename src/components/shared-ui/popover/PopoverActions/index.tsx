@@ -33,7 +33,7 @@ const PopoverActions: React.FC<Props> = ({
   children,
 }) => (
   <Popover
-    showPopupEvent="click"
+    showPopupEvent="hover"
     triggerElement={
       <Button
         className={classNames(className, s.button)}

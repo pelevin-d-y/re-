@@ -18,26 +18,18 @@ const Avatar: React.FC<Props> = ({
   width,
   height,
   strength,
-}) => {
-  const [color, setColor] = useState<'red' | 'green' | 'orange' | null>(null)
-  useEffect(() => {
-    if (strength) {
-      setColor(calculateColorByStraight(strength))
-    }
-  }, [strength])
-  return (
-    <div
-      className={classNames(s.container, className, color && s[color])}
-      style={{ width: width || 47, height: height || 47 }}
-    >
-      {image ? (
-        <img alt="avatar" className={s.avatar} src={image} />
-      ) : (
-        <SvgIcon icon={require('public/svg/avatar-placeholder.svg?include')} />
-      )}
-    </div>
-  )
-}
+}) => (
+  <div
+    className={classNames(s.container, className, strength && s[strength])}
+    style={{ width: width || 47, height: height || 47 }}
+  >
+    {image ? (
+      <img alt="avatar" className={s.avatar} src={image} />
+    ) : (
+      <SvgIcon icon={require('public/svg/avatar-placeholder.svg?include')} />
+    )}
+  </div>
+)
 
 const s = css`
   .container {

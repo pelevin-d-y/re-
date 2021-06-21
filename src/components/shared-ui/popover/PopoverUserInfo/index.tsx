@@ -40,7 +40,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
                 width={54}
                 height={54}
                 className={s.avatar}
-                strength={data.connection_E}
+                strength={data.relationshipStrength}
               />
               <div className={s.headerInfo}>
                 <div className={s.name}>{name}</div>

@@ -26,7 +26,7 @@ const LongCard: React.FC<Props> = ({ data, template, className }) => {
         <Avatar
           className={s.avatar}
           image={require(`public/images/${data.avatar}`)}
-          strength={data.connection_E}
+          strength={data.relationshipStrength}
         />
         <div className={s.text}>
           <PopoverUserInfo className={s.name} data={data} template={template} />
