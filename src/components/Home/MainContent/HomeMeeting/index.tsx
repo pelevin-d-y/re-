@@ -7,9 +7,7 @@ import CardHeader from 'src/components/shared-ui/cards/CardHeader'
 import CardLikes from 'src/components/shared-ui/cards/CardLikes'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import { useTemplates } from 'src/components/context/TemplatesContext'
 import CardActions from 'src/components/shared-ui/cards/CardActions'
-import findTemplate from 'src/helpers/utils/find-template'
 
 type Props = {
   className?: string
@@ -20,7 +18,7 @@ const HomeMeeting: React.FC<Props> = ({ className, data }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
   const users = data?.users.slice(0, 6)
-  const { state: templatesState } = useTemplates()
+
   const followUpWithAllHandler = () => {
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
@@ -38,18 +36,16 @@ const HomeMeeting: React.FC<Props> = ({ className, data }) => {
       <Pin className={s.star} />
       {headerData && <CardHeader data={headerData} />}
       <div className={s.cards}>
-        {users?.map((item) => {
-          const template = findTemplate(templatesState.data, item.template)
-          return (
-            template && (
+        {users?.map(
+          (item) =>
+            item?.templateData && (
               <CardLikes
                 key={item.first_message_id}
                 data={item}
-                template={template}
+                template={item.templateData}
               />
             )
-          )
-        })}
+        )}
       </div>
       <CardActions
         className={s.actions}

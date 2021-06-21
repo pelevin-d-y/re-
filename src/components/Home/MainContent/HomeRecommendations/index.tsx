@@ -4,13 +4,9 @@ import SmallCard from 'src/components/shared-ui/cards/CardSmall'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-
-import { useTemplates } from 'src/components/context/TemplatesContext'
-import findTemplate from 'src/helpers/utils/find-template'
 import { useClient } from 'src/components/context/ClientContext'
 
 const HomeRecommendations: React.FC = () => {
-  const { state: templatesState } = useTemplates()
   const {
     state: { data },
   } = useClient()
@@ -35,7 +31,7 @@ const HomeRecommendations: React.FC = () => {
             data={contactItem}
             className={s.column}
             key={contactItem.first_message_id}
-            template={findTemplate(templatesState.data, contactItem.template)}
+            template={contactItem.templateData}
           />
         ))}
       </div>

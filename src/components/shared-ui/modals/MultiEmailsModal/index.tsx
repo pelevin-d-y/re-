@@ -7,7 +7,6 @@ import { useUsers } from 'src/components/context/UsersContext'
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
-import findTemplate from 'src/helpers/utils/find-template'
 import classNames from 'classnames'
 import ModalMoreInfo from '../ModalMoreInfo'
 import ModalHtmlEditor from '../ModalHtmlEditor'
@@ -40,14 +39,12 @@ const MultiEmailsModal: React.FC = () => {
   }, [setContacts, usersData])
 
   const selectUser = (user: UserData) => {
-    const template = findTemplate(templatesState.data, user.template)
-
-    if (template) {
+    if (user?.templateData) {
       dispatch({
         type: 'UPDATE_POPUP_DATA',
         payload: {
           ...user,
-          templateData: template,
+          templateData: user.templateData,
         },
       })
     }

@@ -8,9 +8,7 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import { useLists } from 'src/components/context/ListsContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import { useTemplates } from 'src/components/context/TemplatesContext'
 import Close from 'src/components/shared-ui/Close'
-import findTemplate from 'src/helpers/utils/find-template'
 import Checkbox from './Checkbox'
 
 type Props = {
@@ -22,9 +20,6 @@ type Props = {
 const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const { dispatch: dispatchTable } = useTableContext()
   const { dispatch } = usePopup()
-  const {
-    state: { data: templatesData },
-  } = useTemplates()
 
   const contactHandler = (contactData: UserData) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
@@ -57,25 +52,22 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         Header: 'Contact',
         accessor: 'name',
         minWidth: 180,
-        Cell: ({ value, row }) => {
-          const template = findTemplate(templatesData, row.original.template)
-          return (
-            <div className={s.cellName}>
-              <Avatar
-                className={s.avatar}
-                image={require(`public/images/${row.original.avatar}`)}
-                strength={row.original.connection_E}
-              />{' '}
-              {template && (
-                <PopoverUserInfo
-                  className={s.name}
-                  data={row.original}
-                  template={template}
-                />
-              )}
-            </div>
-          )
-        },
+        Cell: ({ value, row }) => (
+          <div className={s.cellName}>
+            <Avatar
+              className={s.avatar}
+              image={require(`public/images/${row.original.avatar}`)}
+              strength={row.original.relationshipStrength}
+            />{' '}
+            {row.original?.templateData && (
+              <PopoverUserInfo
+                className={s.name}
+                data={row.original}
+                template={row.original.templateData}
+              />
+            )}
+          </div>
+        ),
       },
       {
         Header: 'Title',

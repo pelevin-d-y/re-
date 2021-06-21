@@ -7,8 +7,6 @@ import { css } from 'astroturf'
 import CardActions from 'src/components/shared-ui/cards/CardActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import { useTemplates } from 'src/components/context/TemplatesContext'
-import findTemplate from 'src/helpers/utils/find-template'
 
 type Props = {
   className?: string
@@ -17,7 +15,6 @@ type Props = {
 
 const HomeUpcoming: React.FC<Props> = ({ className, data }) => {
   const { dispatch: usersDispatch } = useUsers()
-  const { state: templatesState } = useTemplates()
 
   const contacts = data?.users.slice(0, 6)
 
@@ -40,18 +37,16 @@ const HomeUpcoming: React.FC<Props> = ({ className, data }) => {
       <CardHeader data={headerData} />
       <div className={s.cards}>
         {contacts &&
-          contacts.map((item) => {
-            const template = findTemplate(templatesState.data, item.template)
-            return (
-              template && (
+          contacts.map(
+            (item) =>
+              item?.templateData && (
                 <LongCard
                   data={item}
                   key={item.first_message_id}
-                  template={template}
+                  template={item.templateData}
                 />
               )
-            )
-          })}
+          )}
       </div>
       <CardActions
         className={s.actions}
