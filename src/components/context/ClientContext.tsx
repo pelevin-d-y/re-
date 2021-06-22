@@ -1,6 +1,7 @@
 import * as React from 'react'
 import testUsers from 'src/testUsersWithPlaceholderFields.js'
 import { get, set } from 'idb-keyval'
+import { apiGet } from 'src/api'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
 
@@ -41,6 +42,12 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
       if (val) {
         dispatch({ type: 'UPDATE_USER_DATA', payload: val })
       } else {
+        apiGet('/recommendations?client=Thor_Ernstsson&number=20').then(
+          (response) => {
+            console.log('response', response)
+          }
+        )
+
         set('client', testUsers[1])
           .then(() => {
             dispatch({ type: 'UPDATE_USER_DATA', payload: testUsers[1] })
@@ -48,7 +55,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
             console.log('Set client success')
           })
           // eslint-disable-next-line no-console
-          .catch((err) => console.log('Set client errer', err))
+          .catch((err) => console.log('Set client error', err))
       }
     })
   }, [])
