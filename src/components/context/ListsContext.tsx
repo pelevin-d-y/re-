@@ -1,6 +1,7 @@
 import * as React from 'react'
-import testLists from 'src/testLists'
 import { get, set } from 'idb-keyval'
+import createTestLists from 'src/helpers/utils/create-test-lists'
+import { useClient } from './ClientContext'
 
 type State = Lists | null
 type Action = {
@@ -33,27 +34,37 @@ const listsReducer = (state: State, action: Action): State => {
   }
 }
 
-const setInitialLists = async (dispatch: React.Dispatch<Action>) => {
-  get(DB_STORE_NAME).then((val) => {
-    if (val) {
-      dispatch({ type: 'SET_LISTS', lists: val })
+const setInitialLists = async (
+  contacts: UserData[],
+  dispatch: React.Dispatch<Action>
+) => {
+  try {
+    const listsData = await get(DB_STORE_NAME)
+    if (listsData) {
+      dispatch({ type: 'SET_LISTS', lists: listsData })
     } else {
-      set(DB_STORE_NAME, testLists)
-        .then(() => {
-          dispatch({ type: 'SET_LISTS', lists: testLists })
-        })
-        // eslint-disable-next-line no-console
-        .catch((err) => console.log('Set lists err', err))
+      const lists = createTestLists(contacts)
+      await set(DB_STORE_NAME, lists)
+      dispatch({ type: 'SET_LISTS', lists })
     }
-  })
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('err', err)
+  }
 }
 
 const ListsProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(listsReducer, null)
+  const { state: clientState } = useClient()
 
   React.useEffect(() => {
-    setInitialLists(dispatch)
-  }, [])
+    const setData = async () => {
+      if (clientState.data?.contacts) {
+        await setInitialLists(clientState.data?.contacts, dispatch)
+      }
+    }
+    setData()
+  }, [clientState.data?.contacts])
 
   const updateList = React.useCallback(
     async (list) => {
@@ -70,7 +81,7 @@ const ListsProvider: React.FC = ({ children }) => {
           dispatch({ type: 'SET_LISTS', lists: newLists })
         })
         // eslint-disable-next-line no-console
-        .catch((err) => console.log(err))
+        .catch((err) => console.error(err))
     },
     [state]
   )
