@@ -1,11 +1,13 @@
 import * as React from 'react'
-import testUsers from 'src/testUsersWithPlaceholderFields.js'
 import { get, set } from 'idb-keyval'
+import { apiGet } from 'src/api'
+import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
 
 type State = {
   data: UserData | null
+  isLoading: boolean
 }
 
 type ContextType = {
@@ -23,34 +25,42 @@ const clientReducer = (state: State, action: Action): State => {
           ...state.data,
           ...action.payload,
         },
+        isLoading: false,
       }
     }
     default: {
-      return {
-        data: {},
-      }
+      return state
     }
   }
 }
 
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
-  const [state, dispatch] = React.useReducer(clientReducer, { data: null })
+  const [state, dispatch] = React.useReducer(clientReducer, {
+    data: null,
+    isLoading: false,
+  })
 
   React.useEffect(() => {
-    get('client').then((val) => {
-      if (val) {
-        dispatch({ type: 'UPDATE_USER_DATA', payload: val })
-      } else {
-        set('client', testUsers[1])
-          .then(() => {
-            dispatch({ type: 'UPDATE_USER_DATA', payload: testUsers[1] })
-            // eslint-disable-next-line no-console
-            console.log('Set client success')
-          })
-          // eslint-disable-next-line no-console
-          .catch((err) => console.log('Set client errer', err))
+    const setClientData = async () => {
+      try {
+        const clientData = await get('client')
+        if (clientData) {
+          dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
+        } else {
+          const { data: clientRecommendations } = await apiGet(
+            '/recommendations?client=Thor_Ernstsson&number=20'
+          )
+          const extendedUsers = addAdditionFields(clientRecommendations)
+          await set('client', extendedUsers[1])
+          dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[1] })
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log('err', err)
       }
-    })
+    }
+
+    setClientData()
   }, [])
 
   const value: ContextType = React.useMemo(
