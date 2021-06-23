@@ -43,6 +43,10 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
+  .container {
+    width: 100%;
+  }
+
   .list {
     display: grid;
     grid-template-columns: 1fr 1fr;

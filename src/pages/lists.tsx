@@ -1,5 +1,5 @@
 import Layout from 'src/layouts/Layout'
-import Content from 'src/components/Lists/MainContent'
+import Content from 'src/components/Lists/ListsContent'
 import ListsSidebar from 'src/components/Lists/Sidebar'
 import CreateListModal from 'src/components/shared-ui/modals/CreateListModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
@@ -31,6 +31,7 @@ const s = css`
   }
 
   .content {
+    width: 70%;
     @include tablet {
       width: 100%;
     }
