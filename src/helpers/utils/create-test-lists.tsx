@@ -11,7 +11,7 @@ const createTestLists = (users: UserData[]) => [
     title: 'New Yorkers',
     description: 'CEO administrators',
     icon: 'people.png',
-    users: testUsers.slice(5, 9),
+    users: users.slice(5, 9),
   },
   {
     id: 2,
