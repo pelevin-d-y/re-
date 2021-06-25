@@ -37,8 +37,10 @@ const Spotlight: React.FC<Props> = ({ className }) => (
         className={s.longCard}
         from={12}
         to={50}
+        bar={44}
         period="within 30 Days"
         text="Reconnects made"
+        barColor="blue"
       />
       <SpotlightLongCard
         className={s.longCard}
@@ -46,7 +48,8 @@ const Spotlight: React.FC<Props> = ({ className }) => (
         to={20}
         period="within 30 Days"
         text="Intros made"
-        bar={76}
+        bar={86}
+        barColor="green"
       />
       <SpotlightLongCard
         className={s.longCard}
@@ -55,6 +58,7 @@ const Spotlight: React.FC<Props> = ({ className }) => (
         period="made within 30 Days"
         text="Urgent followup"
         bar={21}
+        barColor="red"
       />
     </div>
   </CardContainer>

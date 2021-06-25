@@ -25,19 +25,6 @@ const data = [
       { avatar: require('public/images/phil.jpeg') },
     ],
   },
-  {
-    event1: 'Make an intro',
-    event2: 'View contacts to intro',
-    avatars: [
-      { avatar: require('public/images/james.png') },
-      { avatar: require('public/images/mary.jpeg') },
-    ],
-  },
-  {
-    event1: 'Say Thank you',
-    event2: 'Ask for deck',
-    avatars: [{ avatar: require('public/images/gino.jpeg') }],
-  },
 ]
 
 const Events: React.FC<Props> = ({ className }) => (

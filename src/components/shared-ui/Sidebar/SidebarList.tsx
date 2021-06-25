@@ -9,7 +9,7 @@ type Props = {
 }
 
 const SidebarList: React.FC<Props> = ({ className }) => (
-  <div className={classNames(className)}>
+  <div className={classNames(className, s.container)}>
     <ul className={s.list}>
       <li>
         <Link href="/">

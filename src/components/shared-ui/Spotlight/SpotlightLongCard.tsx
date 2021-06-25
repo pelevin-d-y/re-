@@ -11,6 +11,7 @@ type Props = {
   text: string
   from: number
   to: number
+  barColor: 'blue' | 'green' | 'red'
 }
 
 const SpotlightLongCard: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const SpotlightLongCard: React.FC<Props> = ({
   barClassName,
   from,
   to,
+  barColor,
 }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.wrapper}>
@@ -33,7 +35,13 @@ const SpotlightLongCard: React.FC<Props> = ({
         <span className={s.to}>{to}</span>
       </div>
     </div>
-    {bar && <Bar bar={bar} className={classNames(barClassName, s.bar)} />}
+    {bar && (
+      <Bar
+        bar={bar}
+        barColor={barColor}
+        className={classNames(barClassName, s.bar)}
+      />
+    )}
   </div>
 )
 
