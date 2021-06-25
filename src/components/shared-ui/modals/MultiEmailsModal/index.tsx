@@ -4,7 +4,6 @@ import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import { useUsers } from 'src/components/context/UsersContext'
-import { useTemplates } from 'src/components/context/TemplatesContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
 import classNames from 'classnames'
@@ -21,7 +20,6 @@ const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
-  const { state: templatesState } = useTemplates()
   const { data: usersData } = users
   const [isSent, setIsSent] = useState(false)
 

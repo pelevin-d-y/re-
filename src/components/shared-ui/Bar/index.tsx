@@ -8,12 +8,9 @@ type Props = {
 }
 
 const Bar: React.FC<Props> = ({ bar, className }) => (
-  <>
-    <div className={classNames(s.bar, className)}>
-      <div className={s.fillBar} style={{ width: `${bar}%` }} />
-    </div>
-    <div className={s.barText}>Make 1 more to meet weekly goal</div>
-  </>
+  <div className={classNames(s.bar, className)}>
+    <div className={s.fillBar} style={{ width: `${bar}%` }} />
+  </div>
 )
 
 const s = css`

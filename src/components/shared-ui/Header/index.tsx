@@ -100,8 +100,9 @@ const s = css`
     color: #c1c1c1;
   }
 
-  .profile {
+  .search {
     margin-left: auto;
+    margin-right: 12px;
   }
 `
 

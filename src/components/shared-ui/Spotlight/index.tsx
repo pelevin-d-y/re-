@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
-import SpotlightShortCard from './SpotlightShortCard'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import SpotlightLongCard from './SpotlightLongCard'
 
 type Props = {
@@ -13,30 +13,47 @@ const Spotlight: React.FC<Props> = ({ className }) => (
   <CardContainer className={classnames(className, s.container)}>
     <div className={s.header}>
       <div className={s.title}>Spotlight</div>
-      <div className={s.avatar}>
-        <img alt="avatar" src={require('public/images/spotlight.png')} />
+      <div className={s.imageWrapper}>
+        <img
+          className={s.image}
+          alt="avatar"
+          src={require('public/images/spotlight.png')}
+        />
       </div>
     </div>
-    <div className={s.shortCards}>
-      <SpotlightShortCard className={s.shortCard} number={50} days={30} />
-      <SpotlightShortCard className={s.shortCard} number={123} days={90} />
+    <div className={s.score}>
+      <div className={s.left}>
+        <div className={s.scoreTitle}>Network Score</div>
+        <span className={s.rating}>Good</span>
+      </div>
+      <div className={s.right}>
+        <div className={s.radar}>
+          <SvgIcon icon={require('public/svg/radar.svg?include')} />
+        </div>
+      </div>
     </div>
     <div className={s.longCards}>
       <SpotlightLongCard
         className={s.longCard}
-        number={245}
-        period="6 Months"
+        from={12}
+        to={50}
+        period="within 30 Days"
+        text="Reconnects made"
       />
       <SpotlightLongCard
         className={s.longCard}
-        number={60}
-        period="2 Weeks"
+        from={19}
+        to={20}
+        period="within 30 Days"
+        text="Intros made"
         bar={76}
       />
       <SpotlightLongCard
         className={s.longCard}
-        number={90}
-        period="2 Weeks"
+        from={9}
+        to={12}
+        period="made within 30 Days"
+        text="Urgent followup"
         bar={21}
       />
     </div>
@@ -53,7 +70,7 @@ const s = css`
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 7px;
+    margin-bottom: 27px;
 
     line-height: 31px;
   }
@@ -64,22 +81,37 @@ const s = css`
     font-weight: var(--bold);
   }
 
-  .shortCards {
+  .score {
     display: flex;
     flex-flow: row nowrap;
-    margin-left: -11px;
-    margin-bottom: 8px;
+    justify-content: space-between;
+    margin-bottom: 30px;
   }
 
-  .shortCard {
-    margin-left: 11px;
+  .scoreTitle {
+    margin-bottom: 12px;
+
+    font-size: 18px;
+    font-weight: var(--bold);
+  }
+
+  .right {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+  }
+
+  .rating {
+    font-size: 38px;
+    font-weight: var(--bold);
+    color: var(--blue);
   }
 
   .longCard {
     margin-bottom: 8px;
   }
 
-  .avatar {
+  .imageWrapper {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -90,6 +122,12 @@ const s = css`
 
     border: 1px solid #e4e4e4;
     border-radius: 50%;
+  }
+
+  .image {
+    width: 40px;
+    height: 34px;
+    object-fit: contain;
   }
 `
 
