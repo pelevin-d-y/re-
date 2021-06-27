@@ -14,27 +14,33 @@ type Props = {
   className?: string
   data: UserData
   template: any
+  isRow?: boolean
 }
 
-const SmallCard: React.FC<Props> = ({ className, data, template }) => {
+const CardSmall: React.FC<Props> = ({ className, data, template, isRow }) => {
   const { dispatch } = usePopup()
   const { name, avatar } = data
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
       <Close className={s.remove} handler={() => null} />
-      <Avatar
-        image={require(`public/images/${avatar}`)}
-        width={54}
-        height={54}
-        className={s.avatar}
-        strength={data.relationshipStrength}
-      />
-      <PopoverUserInfo className={s.name} data={data} template={template} />
-      <div className={s.description}>
-        {parseEmailMessage(template.Header, name)}
+      <div className={classNames(isRow && s.rowUserInfo)}>
+        <Avatar
+          image={require(`public/images/${avatar}`)}
+          width={54}
+          height={54}
+          className={s.avatar}
+          strength={data.relationshipStrength}
+        />
+        <div className={classNames(isRow && s.userText)}>
+          <PopoverUserInfo className={s.name} data={data} template={template} />
+          <div className={s.description}>
+            {parseEmailMessage(template.Header, name)}
+          </div>
+        </div>
       </div>
       <div className={s.actions}>
         <Pin className={s.pin} />
@@ -78,7 +84,6 @@ const s = css`
   }
 
   .button {
-    max-width: 140px;
     width: 100%;
   }
 
@@ -99,6 +104,18 @@ const s = css`
     background: var(--white);
     color: #bfbfbf;
   }
+
+  .rowUserInfo {
+    display: flex;
+    flex-flow: row nowrap;
+    padding-top: 6px;
+  }
+
+  .userText {
+    padding-top: 6px;
+    margin-left: 18px;
+    padding-right: 20px;
+  }
 `
 
-export default SmallCard
+export default CardSmall

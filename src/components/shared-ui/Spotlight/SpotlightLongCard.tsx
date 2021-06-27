@@ -5,48 +5,58 @@ import Bar from '../Bar'
 
 type Props = {
   className?: string
+  barClassName?: string
   period: string
-  number?: number
   bar?: number
+  text: string
+  from: number
+  to: number
+  barColor: 'blue' | 'green' | 'red'
 }
 
-const MetricsLongCard: React.FC<Props> = ({
+const SpotlightLongCard: React.FC<Props> = ({
   className,
   period,
-  number,
+  text,
   bar,
-}) => {
-  const renderNumber = () => number || '-'
-  const renderSlider = () => {
-    if (bar) {
-      return <Bar bar={bar} className={s.bar} />
-    }
-
-    return <div className={s.connection}>1 Connection Overdue</div>
-  }
-
-  return (
-    <div className={classNames(s.container, className)}>
+  barClassName,
+  from,
+  to,
+  barColor,
+}) => (
+  <div className={classNames(s.container, className)}>
+    <div className={s.wrapper}>
       <div className={s.text}>
-        <div className={s.follow}>
-          Follow ups every <span className={s.period}>{period}</span>
-        </div>
-        {renderSlider()}
+        <div className={s.subtitle}>{text}</div>
+        <div className={s.time}>{period}</div>
       </div>
-      <div className={s.number}>{renderNumber()}</div>
+      <div className={s.period}>
+        <span className={s.from}>{from}</span> of{' '}
+        <span className={s.to}>{to}</span>
+      </div>
     </div>
-  )
-}
+    {bar && (
+      <Bar
+        bar={bar}
+        barColor={barColor}
+        className={classNames(barClassName, s.bar)}
+      />
+    )}
+  </div>
+)
 
 const s = css`
   .container {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
     padding: 16px 20px 11px 20px;
 
     background: #fbfbfb;
+  }
+
+  .wrapper {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
   }
 
   .connection {
@@ -55,29 +65,25 @@ const s = css`
   }
 
   .text {
+    line-height: 16px;
     font-size: 12px;
   }
 
-  .follow {
-    line-height: 16px;
-  }
-
   .period {
-    font-weight: var(--bold);
-  }
-
-  .number {
     padding-bottom: 8px;
 
     font-weight: var(--bold);
-    font-size: 26px;
-    line-height: 31px;
-    color: var(--blue);
+    font-size: 12px;
+  }
+
+  .from {
+    margin-right: 2px;
+    font-size: 32px;
   }
 
   .bar {
-    max-width: 148px;
+    width: 100%;
   }
 `
 
-export default MetricsLongCard
+export default SpotlightLongCard

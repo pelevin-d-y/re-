@@ -39,7 +39,7 @@ const HtmlEditorModal: React.FC<Props> = ({
 
   return (
     <div className={classNames(className, s.container)}>
-      <ReactQuill theme="snow" value={value} onChange={setValue} />
+      <ReactQuill theme="snow" value={value || ''} onChange={setValue} />
     </div>
   )
 }

@@ -1,34 +1,37 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import CardUserEvent from 'src/components/shared-ui/cards/CardUserEvent'
 import CardMeetingsEvents from 'src/components/shared-ui/cards/CardMeetingsEvents'
+import CardSmall from 'src/components/shared-ui/cards/CardSmall'
+import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
 }
 
-const HomeTripleCards: React.FC<Props> = ({ className }) => (
-  <div className={classNames(className, s.container)}>
-    <div className={s.left}>
-      <CardUserEvent
-        title="Mary’s move?"
-        event="Moved to Austin, Texas"
-        name="Mary Smith"
-        avatar={require('public/images/mary.jpeg')}
-        image={require('public/images/pathIcon.png')}
-      />
-      <CardUserEvent
-        title="Birthday Wishes!"
-        event="It’s Taylor’s Birthday"
-        name="Taylor Smith"
-        avatar={require('public/images/gino.jpeg')}
-        image={require('public/images/birthdayIcon.png')}
-      />
+const HomeTripleCards: React.FC<Props> = ({ className }) => {
+  const {
+    state: { data },
+  } = useClient()
+
+  const contacts = data?.contacts?.slice(0, 2)
+
+  return (
+    <div className={classNames(className, s.container)}>
+      <div className={s.left}>
+        {contacts?.map((item) => (
+          <CardSmall
+            data={item}
+            key={item.first_message_id}
+            template={item.templateData}
+            isRow
+          />
+        ))}
+      </div>
+      <CardMeetingsEvents />
     </div>
-    <CardMeetingsEvents />
-  </div>
-)
+  )
+}
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
@@ -39,7 +42,6 @@ const s = css`
     grid-gap: 13px;
 
     @include mobile {
-      // display: block;
       grid-template-columns: auto;
     }
   }
@@ -48,6 +50,11 @@ const s = css`
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-gap: 10px;
+  }
+
+  .userInfo {
+    display: flex;
+    flex-flow: row nowrap;
   }
 `
 
