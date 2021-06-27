@@ -8,9 +8,10 @@ import ModalAdditionInfo from './ModalAdditionInfo'
 
 type Props = {
   className?: string
+  classes?: { content: string }
 }
 
-const ModalMoreInfo: React.FC<Props> = ({ className }) => {
+const ModalMoreInfo: React.FC<Props> = ({ className, classes }) => {
   const [isOpen, setIsOpen] = useState(false)
   const {
     state: { data },
@@ -35,7 +36,7 @@ const ModalMoreInfo: React.FC<Props> = ({ className }) => {
         />
       </button>
       {isOpen && (
-        <div className={s.content}>
+        <div className={classNames(s.content, classes?.content)}>
           <ModalLastMessage
             className={s.contentItem}
             lastContactTime={lastContactTime}
@@ -76,6 +77,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    margin-left: -25px;
 
     padding: 35px 34px 40px;
     margin-left: -25px;

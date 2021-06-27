@@ -6,13 +6,13 @@ import Button from 'src/components/shared-ui/Button'
 import { useUsers } from 'src/components/context/UsersContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
+import ModalClose from 'src/components/shared-ui/Close'
 import classNames from 'classnames'
 import ModalMoreInfo from '../ModalMoreInfo'
 import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
-import ModalClose from '../../Close'
 import ModalHeader from '../ModalHeader'
 import ModalSent from '../ModalSent'
 
@@ -83,6 +83,7 @@ const MultiEmailsModal: React.FC = () => {
       isOpen={multiEmailsIsOpen}
       onClose={closeHandler}
     >
+      <ModalClose handler={closeHandler} className={s.close} />
       <div className={s.sidebar}>
         <div className={s.searchContainer}>
           <Search
@@ -153,13 +154,6 @@ const MultiEmailsModal: React.FC = () => {
         ))}
       </div>
       <div className={s.content}>
-        <ModalHeader
-          className={s.modalHeader}
-          name="Sending List"
-          title="MSG Fund"
-          date="January 12, 2012"
-          image={require('public/svg/lists.svg?include')}
-        />
         {data?.templateData?.Summary && (
           <ModalUserInfo className={s.header} data={data} />
         )}
@@ -191,7 +185,6 @@ const MultiEmailsModal: React.FC = () => {
             </>
           )
         )}
-        <ModalMoreInfo className={s.moreInfo} />
       </div>
     </ModalBase>
   )
@@ -202,6 +195,12 @@ const s = css`
     max-width: 1055px;
     display: grid;
     grid-template-columns: 2fr 4fr;
+  }
+
+  .close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
   }
 
   .sidebar {
@@ -303,6 +302,10 @@ const s = css`
     padding: 29px 30px 0;
   }
 
+  .header {
+    padding-right: 33px;
+  }
+
   .editor {
     width: 100%;
     min-height: 220px;
@@ -334,10 +337,6 @@ const s = css`
     margin-left: auto;
     background: #dae6ff;
     border-radius: 3px;
-  }
-
-  .moreInfo {
-    margin-top: 20px;
   }
 
   .buttonBack {
