@@ -7,7 +7,6 @@ type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
 
 type State = {
   data: UserData | null
-  isLoading: boolean
 }
 
 type ContextType = {
@@ -25,7 +24,6 @@ const clientReducer = (state: State, action: Action): State => {
           ...state.data,
           ...action.payload,
         },
-        isLoading: false,
       }
     }
     default: {
@@ -37,7 +35,6 @@ const clientReducer = (state: State, action: Action): State => {
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
   const [state, dispatch] = React.useReducer(clientReducer, {
     data: null,
-    isLoading: false,
   })
 
   React.useEffect(() => {
