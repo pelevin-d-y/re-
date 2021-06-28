@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import Link from 'next/link'
 import classNames from 'classnames'
+import SvgIcon from '../SvgIcon'
 
 type Props = {
   className?: string
@@ -10,11 +11,7 @@ type Props = {
 const Logo: React.FC<Props> = ({ className }) => (
   <Link href="/">
     <a className={classNames(s.link, className)}>
-      <img
-        className={s.image}
-        src={require('public/images/logo.png')}
-        alt="logo"
-      />
+      <SvgIcon icon={require('public/svg/logo.svg?include')} />
     </a>
   </Link>
 )

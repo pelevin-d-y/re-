@@ -10,15 +10,12 @@ const defaultOptions = {
 // Create instance
 const instance: AxiosInstance = axios.create(defaultOptions)
 
-const setToken = (): void => {
-  instance.interceptors.request.use(
-    (config: AxiosRequestConfig): AxiosRequestConfig => {
-      const newConfig = config
-      const token = localStorage.getItem('token')
-      newConfig.headers.Authorization = token ? `Bearer ${token}` : ''
-      return newConfig
-    }
-  )
+const setToken = (token: string | null): void => {
+  if (!token) {
+    instance.defaults.headers.Authorization = undefined
+  } else {
+    instance.defaults.headers.Authorization = `Bearer ${token}`
+  }
 }
 
 type Params = {
