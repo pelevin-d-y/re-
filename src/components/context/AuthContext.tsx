@@ -37,9 +37,9 @@ const authReducer = (state: State, action: Action): State => {
 }
 
 const initialState = () => {
-  const accessToken = localStorage.getItem(LS_ACCESS_TOKEN)
-  setToken(accessToken)
-  return accessToken
+  const idToken = localStorage.getItem(LS_ID_TOKEN)
+  setToken(LS_ID_TOKEN ?? null)
+  return idToken
     ? {
         isLogin: true,
       }
@@ -53,9 +53,9 @@ const AuthProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     const tokens = getTokensUrl(window.location.hash.substr(1))
-    if (tokens.access_token) {
-      localStorage.setItem(LS_ACCESS_TOKEN, tokens.access_token)
-      setToken(tokens.access_token)
+    if (tokens.id_token) {
+      localStorage.setItem(LS_ID_TOKEN, tokens.id_token)
+      setToken(tokens.id_token)
     }
   }, [])
 
