@@ -51,7 +51,7 @@ const SidebarList: React.FC<Props> = ({ className }) => (
               className={s.icon}
               icon={require('public/svg/templates.svg?include')}
             />{' '}
-            Templates
+            Snippets
           </a>
         </Link>
       </li>

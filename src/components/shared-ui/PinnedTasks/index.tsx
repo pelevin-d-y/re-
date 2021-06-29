@@ -20,7 +20,7 @@ const PinnedTasks: React.FC<Props> = ({ className }) => {
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.headerText}>
-          <div className={s.headerImportant}>Pinned tasks</div>
+          <div className={s.headerImportant}>Pinned</div>
         </div>
         <div className={s.headerStar}>
           <SvgIcon

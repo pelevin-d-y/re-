@@ -54,7 +54,12 @@ const CardShare: React.FC<Props> = ({
       <div className={s.actions}>
         <div className={classNames(s.topLine, s.line)}>
           {data?.contacts && (
-            <AvatarsList className={s.avatars} users={data.contacts} />
+            <AvatarsList
+              avatarHeight={47}
+              avatarWidth={47}
+              className={s.avatars}
+              users={data.contacts}
+            />
           )}
           <Socials />
         </div>
@@ -89,7 +94,7 @@ const s = css`
   .info {
     position: relative;
     padding: 26px 24px 75px 15px;
-    margin-bottom: -29px;
+    margin-bottom: -37px;
   }
 
   .cardImage {
