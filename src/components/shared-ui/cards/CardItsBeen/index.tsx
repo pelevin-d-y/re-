@@ -1,51 +1,67 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
+import Button from 'src/components/shared-ui/Button'
+import Pin from 'src/components/shared-ui/Pin'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
+import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from '../CardContainer'
-import CardActions from '../CardActions'
 
 type Props = {
   className?: string
-  data?: List
 }
 
-const CardItsBeen: React.FC<Props> = ({ className, data }) => {
+const CardItsBeen: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
+  const {
+    state: { data },
+  } = useClient()
+  const contacts = useMemo(() => data?.contacts?.slice(0, 4), [data])
+
   const openModalHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: data?.users || [] })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
     popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
-        <div className={s.cardName}>{data?.description}</div>
-        <div className={s.title}>{data?.title}</div>
-        <SvgIcon
-          className={s.clock}
-          icon={require('public/svg/clock.svg?include')}
-        />
+        <div className={s.cardName}>It’s been</div>
+        <div className={s.title}>Awhile...</div>
+        <div className={s.description}>
+          It’s been awhile since you talked to these people. Check in on how
+          they’re doing!
+        </div>
       </div>
-      {data?.users && <AvatarsList className={s.avatars} users={data.users} />}
-      <CardActions
-        className={s.actions}
-        mainAction={openModalHandler}
-        mainText="View List"
-      />
+      {contacts && (
+        <AvatarsList
+          className={s.avatars}
+          avatarWidth={37}
+          avatarHeight={37}
+          users={contacts}
+        />
+      )}
+      <div className={s.actions}>
+        <Pin />
+        <Button variant="outlined" handler={openModalHandler}>
+          View List
+        </Button>
+      </div>
     </CardContainer>
   )
 }
 
 const s = css`
   .container {
+    display: flex;
+    flex-flow: column nowrap;
+
     overflow: hidden;
     position: relative;
-    padding: 26px 24px 26px 15px;
+    padding: 10px 19px 24px 28px;
   }
 
   .star {
@@ -57,14 +73,10 @@ const s = css`
 
   .header {
     position: relative;
-    margin-bottom: 44px;
+    margin-bottom: 20px;
   }
 
   .clock {
-    position: absolute;
-    right: 16px;
-    top: 11px;
-
     width: 66px;
     height: 66px;
     color: #4da9ff;
@@ -73,10 +85,13 @@ const s = css`
   .cardName {
     font-size: 24px;
     line-height: 42px;
-    font-weight: var(--semiBold);
+    font-weight: var(--bold);
   }
+
   .title {
-    font-size: 38px;
+    margin-bottom: 15px;
+
+    font-size: 36px;
     line-height: 42px;
     font-weight: var(--bold);
   }
@@ -88,7 +103,12 @@ const s = css`
   }
 
   .actions {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-gap: 9px 18px;
     max-width: 100%;
+
+    margin-top: auto;
   }
 
   .button {

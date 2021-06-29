@@ -3,6 +3,7 @@ import { css } from 'astroturf'
 import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
 import CardShare from 'src/components/shared-ui/cards/CardShare'
 import { useLists } from 'src/components/context/ListsContext'
+import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import classNames from 'classnames'
 import HomeRecommendations from './HomeRecommendations'
@@ -19,12 +20,8 @@ const Content: React.FC = () => {
         <>
           <HomeRecommendations />
           <div className={classNames(s.been, s.cards)}>
-            <CardItsBeen
-              data={lists.find((list) => list.title === '90 Days…')}
-            />
-            <CardItsBeen
-              data={lists.find((list) => list.title === '1 Year…')}
-            />
+            <CardItsBeen />
+            <CardShareSmall />
           </div>
           <HomeUpcoming
             data={lists?.find((list) => list.id === 6)}
