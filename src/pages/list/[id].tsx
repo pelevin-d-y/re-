@@ -1,40 +1,30 @@
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 import Layout from 'src/layouts/Layout'
-import Content from 'src/components/List/Content'
-import { ListsProvider } from 'src/components/context/ListsContext'
+import MainContent from 'src/components/List/MainContent'
 import 'react-quill/dist/quill.snow.css'
-import testList from 'src/testLists'
+import AddUserModal from 'src/components/shared-ui/modals/AddUserModal'
+import { PopupProvider } from 'src/components/context/PopupContext'
+import { TemplatesProvider } from 'src/components/context/TemplatesContext'
+import EmailModal from 'src/components/shared-ui/modals/ContactModal'
+import { css } from 'astroturf'
+import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
 
 const List: React.FC = () => (
-  <Layout>
-    <ListsProvider>
-      <Content />
-    </ListsProvider>
-  </Layout>
+  <TemplatesProvider>
+    <PopupProvider>
+      <Layout className={s.layout}>
+        <MainContent />
+        <AddUserModal />
+        <EmailModal />
+        <MultiEmailsModal />
+      </Layout>
+    </PopupProvider>
+  </TemplatesProvider>
 )
 
-export async function getStaticPaths() {
-  const paths = testList.map((list) => ({
-    params: {
-      id: `${list.id}`,
-    },
-  }))
-  console.log('paths', paths)
-  return {
-    paths,
-    fallback: false,
+const s = css`
+  .layout {
+    background: var(--white);
   }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const postData = testList.find(
-    (list) => Number(list.id) === Number(params?.id)
-  )
-  return {
-    props: {
-      postData,
-    },
-  }
-}
+`
 
 export default List

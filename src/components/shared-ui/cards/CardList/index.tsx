@@ -27,7 +27,7 @@ const CardList: React.FC<Props> = ({
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      <img src={image} alt="icon" className={s.image} />
+      {image && <img src={image} alt="icon" className={s.image} />}
       <div className={s.title}>{title}</div>
       <div className={s.description}>{description}</div>
       <AvatarsList
@@ -35,10 +35,12 @@ const CardList: React.FC<Props> = ({
         avatarHeight={38}
         className={s.avatars}
         users={users}
+        showHiddenUsers
       />
       <CardActions
+        className={s.actions}
         mainText="View List"
-        mainAction={() => router.push(`/list/${id}`)}
+        mainAction={() => router.push(`/list?id=${id}`)}
       />
     </CardContainer>
   )
@@ -48,6 +50,9 @@ const s = css`
   .container {
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-flow: column nowrap;
+
     padding: 11px 16px 25px 21px;
   }
 
@@ -62,12 +67,16 @@ const s = css`
   }
 
   .title {
+    padding-right: 50px;
+    margin-bottom: 10px;
+
     font-size: 24px;
-    line-height: 42px;
     font-weight: var(--bold);
   }
 
   .description {
+    padding-right: 50px;
+
     font-size: 12px;
     line-height: 22px;
   }
@@ -75,6 +84,10 @@ const s = css`
   .avatars {
     margin-top: 17px;
     margin-bottom: 20px;
+  }
+
+  .actions {
+    margin-top: auto;
   }
 `
 

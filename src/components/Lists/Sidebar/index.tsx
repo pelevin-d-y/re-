@@ -1,12 +1,21 @@
 import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import classNames from 'classnames'
+import Link from 'src/components/shared-ui/Link'
 
-const ListsSidebar: React.FC = () => (
-  <CardContainer className={s.container}>
+type Props = {
+  className?: string
+}
+
+const ListsSidebar: React.FC<Props> = ({ className }) => (
+  <CardContainer className={classNames(s.container, className)}>
     <div className={s.header}>
       Important <span>Lists</span>
     </div>
+    <Link className={s.createList} href="/create-list" variant="contained">
+      Create New
+    </Link>
   </CardContainer>
 )
 
@@ -27,6 +36,10 @@ const s = css`
     span {
       color: var(--ginger);
     }
+  }
+
+  .createList {
+    margin-top: 15px;
   }
 `
 

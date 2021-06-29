@@ -2,16 +2,25 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import { usePopup } from 'src/components/context/PopupContext'
 import ModalLastMessage from './ModalLastMessage'
 import ModalAdditionInfo from './ModalAdditionInfo'
 
 type Props = {
   className?: string
-  name?: string
+  classes?: { content: string }
 }
 
-const ModalMoreInfo: React.FC<Props> = ({ className, name }) => {
+const ModalMoreInfo: React.FC<Props> = ({ className, classes }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const {
+    state: { data },
+  } = usePopup()
+  const {
+    name,
+    last_contact_time: lastContactTime,
+    last_contact_text: lastContactText,
+  } = data
 
   const collapseHandler = () => {
     setIsOpen(!isOpen)
@@ -27,8 +36,12 @@ const ModalMoreInfo: React.FC<Props> = ({ className, name }) => {
         />
       </button>
       {isOpen && (
-        <div className={s.content}>
-          <ModalLastMessage className={s.contentItem} />
+        <div className={classNames(s.content, classes?.content)}>
+          <ModalLastMessage
+            className={s.contentItem}
+            lastContactTime={lastContactTime}
+            lastContactText={lastContactText}
+          />
           <ModalAdditionInfo className={s.contentItem} />
         </div>
       )}
@@ -37,6 +50,8 @@ const ModalMoreInfo: React.FC<Props> = ({ className, name }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .trigger {
     width: 100%;
     background: #fbfbfb;
@@ -62,14 +77,27 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    margin-left: -25px;
 
     padding: 35px 34px 40px;
     margin-left: -25px;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      padding: 16px;
+      margin-left: 0;
+    }
   }
 
   .contentItem {
     width: 50%;
     margin-left: 25px;
+
+    @include mobile {
+      width: auto;
+      margin-left: 0;
+      margin-bottom: 12px;
+    }
   }
 `
 

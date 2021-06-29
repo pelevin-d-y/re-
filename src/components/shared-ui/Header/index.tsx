@@ -4,10 +4,7 @@ import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
 import { useClient } from 'src/components/context/ClientContext'
-
-import HeaderToDos from './HeaderToDos'
 import HeaderProfile from './HeaderProfile'
-import HeaderTheme from './HeaderTheme'
 
 type Props = {
   toggleMenu: () => void
@@ -25,20 +22,21 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
-          {data.name}
+          {data?.name}
         </div>
-        <Search className={s.search} inputPlaceholder="Search..." />
-        <HeaderTheme />
-        <HeaderToDos />
-        {data.address && (
-          <HeaderProfile address={data.address} avatar={data.avatar} />
-        )}
+        <Search
+          classes={{ container: s.search }}
+          inputPlaceholder="Search..."
+        />
+        {data?.address && <HeaderProfile className={s.profile} />}
       </div>
     </header>
   )
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .header {
     width: 100%;
     padding-top: 16px;
@@ -50,21 +48,46 @@ const s = css`
   .container {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: center;
     padding-left: 14px;
     padding-right: 14px;
     margin-left: auto;
     margin-right: auto;
+
+    @include small-desktop {
+      flex-flow: row wrap;
+    }
   }
 
   .search {
     max-width: 202px;
     width: 100%;
+    margin-left: 18px;
+
+    @include tablet {
+      display: none;
+    }
+  }
+
+  .theme {
+    @include tablet {
+      display: none;
+    }
+  }
+
+  .toDos {
+    @include tablet {
+      display: none;
+    }
   }
 
   .text {
+    margin-left: 18px;
+
     font-weight: var(--semibold);
+    @include tablet {
+      display: none;
+    }
   }
 
   .menu {
@@ -75,6 +98,11 @@ const s = css`
 
   .greeting {
     color: #c1c1c1;
+  }
+
+  .search {
+    margin-left: auto;
+    margin-right: 12px;
   }
 `
 

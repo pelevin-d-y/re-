@@ -1,15 +1,23 @@
 import * as React from 'react'
+import testTemplates from 'src/testTemplates.json'
+import findTemplate from 'src/helpers/utils/find-template'
 
 type Action =
-  | { type: 'TOGGLE_EMAIL_POPUP' }
-  | { type: 'TOGGLE_MULTI_EMAILS_POPUP' }
+  | { type: 'TOGGLE_CONTACT_POPUP'; payload: UserData }
+  | { type: 'TOGGLE_CONTACTS_POPUP' }
   | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
+  | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
+  | { type: 'TOGGLE_CREATE_LIST_POPUP' }
+  | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
 
 type State = {
   emailModalIsOpen: boolean
   multiEmailsIsOpen: boolean
   recommendationsIsOpen: boolean
+  addContactModalIsOpen: boolean
+  createListModalIsOpen: boolean
+  templatesModalIsOpen: boolean
   data: UserData
 }
 
@@ -22,13 +30,16 @@ const PopupContext = React.createContext<ContextType | null>(null)
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'TOGGLE_EMAIL_POPUP': {
+    case 'TOGGLE_CONTACT_POPUP': {
+      const templateData = findTemplate(testTemplates, action.payload?.template)
+
       return {
         ...state,
+        data: { ...action.payload, templateData },
         emailModalIsOpen: !state.emailModalIsOpen,
       }
     }
-    case 'TOGGLE_MULTI_EMAILS_POPUP': {
+    case 'TOGGLE_CONTACTS_POPUP': {
       return {
         ...state,
         multiEmailsIsOpen: !state.multiEmailsIsOpen,
@@ -38,6 +49,24 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         ...state,
         recommendationsIsOpen: !state.recommendationsIsOpen,
+      }
+    }
+    case 'TOGGLE_ADD_CONTACT_POPUP': {
+      return {
+        ...state,
+        addContactModalIsOpen: !state.addContactModalIsOpen,
+      }
+    }
+    case 'TOGGLE_CREATE_LIST_POPUP': {
+      return {
+        ...state,
+        createListModalIsOpen: !state.createListModalIsOpen,
+      }
+    }
+    case 'TOGGLE_TEMPLATES_POPUP': {
+      return {
+        ...state,
+        templatesModalIsOpen: !state.templatesModalIsOpen,
       }
     }
     case 'UPDATE_POPUP_DATA': {
@@ -51,17 +80,23 @@ const popupReducer = (state: State, action: Action): State => {
         emailModalIsOpen: false,
         multiEmailsIsOpen: false,
         recommendationsIsOpen: false,
+        addContactModalIsOpen: false,
+        createListModalIsOpen: false,
+        templatesModalIsOpen: false,
         data: {},
       }
     }
   }
 }
 
-const PopupProvider: React.FC = ({ children }): JSX.Element => {
+const PopupProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(popupReducer, {
     emailModalIsOpen: false,
     multiEmailsIsOpen: false,
     recommendationsIsOpen: false,
+    addContactModalIsOpen: false,
+    createListModalIsOpen: false,
+    templatesModalIsOpen: false,
     data: {},
   })
 

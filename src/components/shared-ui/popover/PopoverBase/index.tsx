@@ -1,22 +1,37 @@
 import React from 'react'
-import dynamic from 'next/dynamic'
-
-const DynamicPopup = dynamic(() => import('reactjs-popup'), { ssr: false })
+import Popup from 'reactjs-popup'
 
 type Props = {
   triggerElement: JSX.Element
   popupContent: JSX.Element
+  showPopupEvent?: 'hover' | 'click'
+  position?:
+    | 'top left'
+    | 'top right'
+    | 'bottom right'
+    | 'bottom left'
+    | 'right center'
+    | 'left center'
+    | 'top center'
+    | 'bottom center'
+    | 'center center'
+    | 'right bottom'
 }
 
-const Popover: React.FC<Props> = ({ triggerElement, popupContent }) => (
-  <DynamicPopup
+const Popover: React.FC<Props> = ({
+  triggerElement,
+  popupContent,
+  showPopupEvent,
+  position,
+}) => (
+  <Popup
     trigger={triggerElement}
-    position="bottom center"
+    position={position || 'bottom center'}
     closeOnDocumentClick
-    on="hover"
+    on={showPopupEvent || 'hover'}
   >
     {popupContent}
-  </DynamicPopup>
+  </Popup>
 )
 
 export default Popover

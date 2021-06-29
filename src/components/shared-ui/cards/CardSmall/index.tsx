@@ -1,75 +1,89 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
-import UserEvent from 'src/components/shared-ui/UserEvent'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
+import Close from 'src/components/shared-ui/Close'
+import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from '../CardContainer'
 
 type Props = {
   className?: string
   data: UserData
   template: any
+  isRow?: boolean
 }
 
-const SmallCard: React.FC<Props> = ({ className, data, template }) => {
+const CardSmall: React.FC<Props> = ({ className, data, template, isRow }) => {
   const { dispatch } = usePopup()
   const { name, avatar } = data
-
   const buttonHandler = () => {
-    dispatch({
-      type: 'UPDATE_POPUP_DATA',
-      payload: { name, avatar, templateData: template },
-    })
-    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Star className={s.star} />
-      <Avatar
-        image={require(`public/images/${avatar}`)}
-        width={44}
-        height={44}
-        className={s.avatar}
-      />
-      <div className={s.name}>{name}</div>
-      <UserEvent className={s.actionType} text={template.Subject} />
-      <PopoverRate
-        buttonClickHandler={buttonHandler}
-        className={s.button}
-        variant="contained"
-      >
-        Follow Up
-      </PopoverRate>
+      <Close className={s.remove} handler={() => null} />
+      <div className={classNames(isRow && s.rowUserInfo)}>
+        <Avatar
+          image={require(`public/images/${avatar}`)}
+          width={54}
+          height={54}
+          className={s.avatar}
+          strength={data.relationshipStrength}
+        />
+        <div className={classNames(isRow && s.userText)}>
+          <PopoverUserInfo className={s.name} data={data} template={template} />
+          <div className={s.description}>
+            {parseEmailMessage(template.Header, name)}
+          </div>
+        </div>
+      </div>
+      <div className={s.actions}>
+        <Pin className={s.pin} />
+        <PopoverActions
+          buttonClickHandler={buttonHandler}
+          className={s.button}
+          variant="contained"
+        >
+          Follow Up
+        </PopoverActions>
+      </div>
     </CardContainer>
   )
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
     display: flex;
     flex-flow: column nowrap;
-    align-items: center;
     background: var(--white);
 
     width: 100%;
-    padding: 14px 24px 18px 24px;
+    padding: 14px 24px 16px 17px;
   }
 
   .avatar {
-    margin-bottom: 15px;
+    margin-bottom: 7px;
   }
 
-  .actionType {
-    margin-bottom: 12px;
+  .description {
+    margin-bottom: 14px;
+  }
+
+  .actions {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: auto;
   }
 
   .button {
-    max-width: 140px;
     width: 100%;
   }
 
@@ -78,11 +92,30 @@ const s = css`
     font-weight: var(--bold);
   }
 
-  .star {
+  .pin {
+    margin-right: 11px;
+  }
+
+  .remove {
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 5px;
+    right: 5px;
+
+    background: var(--white);
+    color: #bfbfbf;
+  }
+
+  .rowUserInfo {
+    display: flex;
+    flex-flow: row nowrap;
+    padding-top: 6px;
+  }
+
+  .userText {
+    padding-top: 6px;
+    margin-left: 18px;
+    padding-right: 20px;
   }
 `
 
-export default SmallCard
+export default CardSmall

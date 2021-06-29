@@ -8,6 +8,7 @@ type Props = {
   users: UserData[]
   avatarWidth?: number
   avatarHeight?: number
+  showHiddenUsers?: boolean
 }
 
 const AVATAR_BASE_SIZE = 52
@@ -19,10 +20,11 @@ const AvatarList: React.FC<Props> = ({
   users,
   avatarWidth,
   avatarHeight,
+  showHiddenUsers,
 }) => {
   const visibleUsers = users.slice(0, MAX_VISIBLE_USERS)
   const hiddenUsers = users.length - MAX_VISIBLE_USERS
-  const avatarWidthWithBorder = avatarWidth || AVATAR_BASE_SIZE
+  const avatarWidthWithBorder = (avatarWidth || AVATAR_BASE_SIZE) + 4 // 4 - border-width
   const containerWidth =
     avatarWidthWithBorder * visibleUsers.length -
     AVATAR_TRANSITION * (visibleUsers.length - 1)
@@ -47,7 +49,7 @@ const AvatarList: React.FC<Props> = ({
           </div>
         ))}
       </div>
-      {hiddenUsers <= 0 ? null : (
+      {hiddenUsers <= 0 || !showHiddenUsers ? null : (
         <div className={s.hiddenUsers}>{hiddenUsers} +</div>
       )}
     </div>

@@ -31,6 +31,8 @@ const CardHeader: React.FC<Props> = ({ className, data }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
 
@@ -38,6 +40,10 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     padding: 12px 16px 10px 16px;
+
+    @include mobile {
+      flex-flow: column nowrap;
+    }
   }
 
   .date {
@@ -51,6 +57,17 @@ const s = css`
     border-radius: 6px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
+
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  .text {
+    @include mobile {
+      text-align: center;
+    }
   }
 
   .month {

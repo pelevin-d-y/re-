@@ -1,56 +1,61 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import format from 'date-fns/format'
 
 type Props = {
   className?: string
+  lastContactTime?: string
+  lastContactText?: string
 }
 
-const ModalLastMessage: React.FC<Props> = ({ className }) => (
+const ModalLastMessage: React.FC<Props> = ({
+  className,
+  lastContactTime,
+  lastContactText,
+}) => (
   <div className={classNames(s.container, className)}>
     <div className={s.header}>
-      <div className={s.headerText}>Last Message</div>
-      <div className={s.date}>2 weeks ago</div>
+      <div className={s.headerText}>Last Message:</div>
+      {lastContactTime && (
+        <div className={s.date}>
+          {format(new Date(lastContactTime), 'MMMM dd, yyyy')}
+        </div>
+      )}
     </div>
-    <div className={s.content}>
-      Hi Hailey, <br />
-      Hope all is well. <br />
-      Below is a link to our presentation: <br />
-      https://docsend.com/view/8zryc9243hgeu8eq <br />
-      password is speedoftrust
-    </div>
+    <div className={s.content}>{lastContactText}</div>
   </div>
 )
 
 const s = css`
   .container {
     width: 100%;
+
+    border: 1px solid #dddddd;
+    border-radius: 4px;
   }
 
   .header {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
-    margin-bottom: 9px;
-  }
+    padding: 9px 14px;
 
-  .headerText {
-    font-size: 12px;
-    font-weight: var(--bold);
+    border-bottom: 1px solid #dddddd;
+    font-size: 11px;
+    font-weight: var(--medium);
   }
 
   .date {
-    font-size: 11px;
-    line-height: 13px;
-    color: #979797;
+    margin-left: 5px;
   }
 
   .content {
-    padding: 13px;
-    border: 1px solid #dcdcdc;
+    padding: 11px 14px;
+    overflow: auto;
+    max-height: 117px;
 
     font-size: 11px;
-    line-height: 18px;
+    line-height: 12px;
   }
 `
 

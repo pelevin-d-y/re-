@@ -1,9 +1,8 @@
-import Content from 'src/components/Home/Content'
+import MainContent from 'src/components/Home/MainContent'
 import ContentSidebar from 'src/components/Home/Sidebar'
 import Layout from 'src/layouts/Layout'
-import EmailModal from 'src/components/shared-ui/modals/EmailModal'
+import EmailModal from 'src/components/shared-ui/modals/ContactModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
-import { UsersProvider } from 'src/components/context/UsersContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
 import RecommendationsModal from 'src/components/shared-ui/modals/RecommendationsModal'
@@ -12,27 +11,32 @@ import 'react-quill/dist/quill.snow.css'
 
 const Home: React.FC = () => (
   <Layout>
-    <UsersProvider>
-      <TemplatesProvider>
-        <PopupProvider>
-          <div className={s.container}>
-            <Content />
-            <ContentSidebar />
-          </div>
-          <EmailModal />
-          <MultiEmailsModal />
-          <RecommendationsModal />
-        </PopupProvider>
-      </TemplatesProvider>
-    </UsersProvider>
+    <TemplatesProvider>
+      <PopupProvider>
+        <div className={s.container}>
+          <MainContent />
+          <ContentSidebar className={s.sidebar} />
+        </div>
+        <EmailModal />
+        <MultiEmailsModal />
+        <RecommendationsModal />
+      </PopupProvider>
+    </TemplatesProvider>
   </Layout>
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
   .container {
     flex-flow: row nowrap;
     display: flex;
     padding: 10px 14px 14px;
+  }
+
+  .sidebar {
+    @include tablet {
+      display: none;
+    }
   }
 `
 

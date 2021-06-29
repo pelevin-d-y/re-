@@ -4,17 +4,15 @@ import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import { useUsers } from 'src/components/context/UsersContext'
-import { useTemplates } from 'src/components/context/TemplatesContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
-import findTemplate from 'src/helpers/utils/find-template'
+import ModalClose from 'src/components/shared-ui/Close'
 import classNames from 'classnames'
 import ModalMoreInfo from '../ModalMoreInfo'
 import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
-import ModalClose from '../ModalClose'
 import ModalHeader from '../ModalHeader'
 import ModalSent from '../ModalSent'
 
@@ -22,7 +20,6 @@ const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
-  const { state: templatesState } = useTemplates()
   const { data: usersData } = users
   const [isSent, setIsSent] = useState(false)
 
@@ -31,7 +28,7 @@ const MultiEmailsModal: React.FC = () => {
   const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
   useEffect(() => {
-    if (usersData.length) {
+    if (usersData?.length) {
       setContacts(usersData)
     }
     return () => {
@@ -40,15 +37,12 @@ const MultiEmailsModal: React.FC = () => {
   }, [setContacts, usersData])
 
   const selectUser = (user: UserData) => {
-    const template = findTemplate(templatesState.data, user.template)
-
-    if (template) {
+    if (user?.templateData) {
       dispatch({
         type: 'UPDATE_POPUP_DATA',
         payload: {
-          name: user.name,
-          avatar: user.avatar,
-          templateData: template,
+          ...user,
+          templateData: user.templateData,
         },
       })
     }
@@ -58,7 +52,9 @@ const MultiEmailsModal: React.FC = () => {
     const isInclude = selectedContacts.find((item) => item.name === user.name)
     if (!isInclude) {
       setSelectedContacts([...selectedContacts, user])
-      setContacts(contacts.filter((item) => item.name !== user.name))
+      if (contacts) {
+        setContacts(contacts.filter((item) => item.name !== user.name))
+      }
       selectUser(user)
     }
   }
@@ -68,14 +64,16 @@ const MultiEmailsModal: React.FC = () => {
     setSelectedContacts(
       selectedContacts.filter((item) => item.name !== user.name)
     )
-    setContacts([...contacts, user])
+    if (contacts) {
+      setContacts([...contacts, user])
+    }
   }
 
   const closeHandler = () => {
     setSelectedContacts([])
     dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
     setContacts(usersData)
-    dispatch({ type: 'TOGGLE_MULTI_EMAILS_POPUP' })
+    dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
     setIsSent(false)
   }
 
@@ -85,11 +83,11 @@ const MultiEmailsModal: React.FC = () => {
       isOpen={multiEmailsIsOpen}
       onClose={closeHandler}
     >
+      <ModalClose handler={closeHandler} className={s.close} />
       <div className={s.sidebar}>
         <div className={s.searchContainer}>
           <Search
-            className={s.search}
-            inputClassName={s.searchInput}
+            classes={{ container: s.search, input: s.searchInput }}
             inputPlaceholder="Search contacts to add…"
           />
         </div>
@@ -156,34 +154,13 @@ const MultiEmailsModal: React.FC = () => {
         ))}
       </div>
       <div className={s.content}>
-        <ModalHeader
-          className={s.modalHeader}
-          name="Sending List"
-          title="MSG Fund"
-          date="January 12, 2012"
-          image={require('public/svg/lists.svg?include')}
-        />
         {data?.templateData?.Summary && (
-          <ModalUserInfo
-            className={s.header}
-            name={data.name}
-            avatar={data.avatar}
-            text={data.templateData.Summary}
-          />
+          <ModalUserInfo className={s.header} data={data} />
         )}
         {!isSent ? (
           <CardContainer className={s.textContainer}>
-            {data?.templateData && (
-              <ModalEditorHeader
-                text={data.templateData.Header}
-                name={data.name}
-              />
-            )}
-            <ModalHtmlEditor
-              className={s.editor}
-              name={data.name}
-              event={data.event}
-            />
+            {data && <ModalEditorHeader data={data} />}
+            <ModalHtmlEditor className={s.editor} data={data} toParse />
             <div className={s.buttons}>
               <Button
                 variant="contained"
@@ -208,7 +185,6 @@ const MultiEmailsModal: React.FC = () => {
             </>
           )
         )}
-        <ModalMoreInfo className={s.moreInfo} />
       </div>
     </ModalBase>
   )
@@ -219,6 +195,12 @@ const s = css`
     max-width: 1055px;
     display: grid;
     grid-template-columns: 2fr 4fr;
+  }
+
+  .close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
   }
 
   .sidebar {
@@ -320,6 +302,10 @@ const s = css`
     padding: 29px 30px 0;
   }
 
+  .header {
+    padding-right: 33px;
+  }
+
   .editor {
     width: 100%;
     min-height: 220px;
@@ -351,10 +337,6 @@ const s = css`
     margin-left: auto;
     background: #dae6ff;
     border-radius: 3px;
-  }
-
-  .moreInfo {
-    margin-top: 20px;
   }
 
   .buttonBack {

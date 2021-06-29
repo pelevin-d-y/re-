@@ -2,26 +2,22 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import UserEvent from 'src/components/shared-ui/UserEvent'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import CardContainer from '../CardContainer'
 
 type Props = {
   className?: string
   data: UserData
-  template?: Template
+  template: Template
 }
 
 const LongCard: React.FC<Props> = ({ data, template, className }) => {
-  const { avatar, name } = data
   const { dispatch } = usePopup()
   const buttonHandler = () => {
-    dispatch({
-      type: 'UPDATE_POPUP_DATA',
-      payload: { name, avatar, templateData: template },
-    })
-    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
   return (
@@ -29,10 +25,11 @@ const LongCard: React.FC<Props> = ({ data, template, className }) => {
       <div className={s.profile}>
         <Avatar
           className={s.avatar}
-          image={require(`public/images/${avatar}`)}
+          image={require(`public/images/${data.avatar}`)}
+          strength={data.relationshipStrength}
         />
         <div className={s.text}>
-          <div className={s.name}>{name}</div>
+          <PopoverUserInfo className={s.name} data={data} template={template} />
           <div className={s.position}>{template?.Subject}</div>
         </div>
       </div>
@@ -43,18 +40,20 @@ const LongCard: React.FC<Props> = ({ data, template, className }) => {
           text={template.Subject}
         />
       )}
-      <PopoverRate
+      <PopoverActions
         className={s.button}
         buttonClickHandler={buttonHandler}
         variant="outlined"
       >
         Reach out
-      </PopoverRate>
+      </PopoverActions>
     </CardContainer>
   )
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row nowrap;
@@ -63,6 +62,11 @@ const s = css`
 
     padding: 10px 22px 14px 17px;
     margin-bottom: 8px;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      padding: 14px 24px 18px 24px;
+    }
   }
 
   .profile {
@@ -73,10 +77,20 @@ const s = css`
     width: 100%;
 
     margin-right: 9%;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      margin-right: 0;
+    }
   }
 
   .avatar {
     margin-right: 26px;
+
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
   }
 
   .event {
@@ -91,11 +105,18 @@ const s = css`
 
   .position {
     font-size: 12px;
+    @include mobile {
+      display: none;
+    }
   }
 
   .button {
     max-width: 119px;
     width: 100%;
+
+    @include mobile {
+      margin-top: 12px;
+    }
   }
 `
 

@@ -4,13 +4,95 @@ import { usePopup } from 'src/components/context/PopupContext'
 import Search from 'src/components/shared-ui/Search'
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import ColorfulCircle from 'src/components/shared-ui/ColorfulCircle'
 import classNames from 'classnames'
-import { users as testUsers, playlists } from 'src/testData'
 import ModalBase from '../ModalBase'
-import ModalClose from '../ModalClose'
+import ModalClose from '../../Close'
 import ModalSendingListHeader from '../ModalHeader'
+
+const playlists: Playlists = [
+  'Meetings & Events',
+  'Follow Ups',
+  'Birthdays',
+  'New Roles',
+  'Time Lapsed: 90 Days',
+  'Time Lapsed: 1 Year',
+  'Travel: Who to Meet',
+  'Relocation',
+  'Holidays',
+  'Share Strata',
+  'Checking Emails',
+  'Intros received',
+  'Network Engagement',
+  'Network Maintenance',
+]
+
+const testUsers: UserData[] = [
+  {
+    id: 1,
+    avatar: require('public/images/gino.jpeg'),
+    name: 'Landon Tucker',
+    position: 'Founder at Company X',
+    event: 'Asked a question',
+    lastMessage:
+      'Landon intro-ed Ari Kieth last week, follow up with Landon on how the meeting went with her.',
+  },
+  {
+    id: 2,
+    avatar: require('public/images/maker.jpeg'),
+    name: 'Taylor Smith',
+    position: 'Founder at Company X',
+    event: 'Taylor is based in LA',
+    lastMessage:
+      'Mary asked you for the All Hands presentation from last week’s Town Hall. Send it over!',
+  },
+  {
+    id: 3,
+    avatar: require('public/images/mary.jpeg'),
+    name: 'Gino Mo',
+    position: 'Founder at Company X',
+    event: 'Gino took you to dinner',
+    lastMessage:
+      'Gino asked if you’re free next week to grab dinner in the east village. Set a date!',
+  },
+  {
+    id: 4,
+    avatar: require('public/images/james.png'),
+    name: 'James Malone',
+    position: 'Founder at Company X',
+    event: 'James is based in LA',
+    lastMessage:
+      'Question: “What is the valuation of company X if they were to raise another round at $X?”',
+  },
+  {
+    id: 5,
+    avatar: require('public/images/phil.jpeg'),
+    name: 'Mary Smith',
+    position: 'Founder at Company X',
+    event: 'Mary has a startup in LA',
+    lastMessage:
+      'Gino asked if you’re free next week to grab dinner in the east village. Set a date!',
+  },
+  {
+    id: 6,
+    avatar: require('public/images/steve.jpeg'),
+    name: 'Steve Lee',
+    position: 'Founder at Company X',
+    event: 'Requested deck',
+    lastMessage:
+      'Thank Steve for sharing his works during the Creative Soundable last Wednesday.',
+  },
+  {
+    id: 7,
+    avatar: require('public/images/maker.jpeg'),
+    name: 'Phil Hoyt',
+    position: 'Founder at Company X',
+    event: 'Asked for Dinner',
+    lastMessage:
+      'Thank Steve for sharing his works during the Creative Soundable last Wednesday.',
+  },
+]
 
 const RecommendationsModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -34,8 +116,7 @@ const RecommendationsModal: React.FC = () => {
       <div className={s.sidebar}>
         <div className={s.searchContainer}>
           <Search
-            className={s.search}
-            inputClassName={s.searchInput}
+            classes={{ container: s.search, input: s.searchInput }}
             inputPlaceholder="Search playlists…"
           />
         </div>
@@ -80,13 +161,13 @@ const RecommendationsModal: React.FC = () => {
             </div>
             <div className={s.actions}>
               <PopoverDots className={s.actionDots} variant="outlined" />
-              <PopoverRate
+              <PopoverActions
                 className={s.actionRate}
                 variant="contained"
                 buttonClickHandler={() => null}
               >
                 Follow Up
-              </PopoverRate>
+              </PopoverActions>
             </div>
           </div>
         ))}

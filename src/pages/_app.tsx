@@ -2,9 +2,12 @@ import 'normalize.css'
 import 'src/styles/global.scss'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { Hydrate } from 'react-query/hydration'
 import type { AppProps } from 'next/app'
 import { config } from '@fortawesome/fontawesome-svg-core'
+import { AuthProvider } from 'src/components/context/AuthContext'
+import { ListsProvider } from 'src/components/context/ListsContext'
+import { ClientProvider } from 'src/components/context/ClientContext'
+import { UsersProvider } from 'src/components/context/UsersContext'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'ts-replace-all'
 
@@ -14,11 +17,21 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   const queryClientRef = React.useRef(new QueryClient())
 
   return (
-    <QueryClientProvider client={queryClientRef.current}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
-      </Hydrate>
-    </QueryClientProvider>
+    <div suppressHydrationWarning>
+      {typeof window === 'undefined' ? null : (
+        <QueryClientProvider client={queryClientRef.current}>
+          <AuthProvider>
+            <ClientProvider>
+              <ListsProvider>
+                <UsersProvider>
+                  <Component {...pageProps} />
+                </UsersProvider>
+              </ListsProvider>
+            </ClientProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      )}
+    </div>
   )
 }
 

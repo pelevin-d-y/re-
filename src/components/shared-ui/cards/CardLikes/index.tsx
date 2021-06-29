@@ -1,46 +1,45 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Star from 'src/components/shared-ui/Star'
+import Pin from 'src/components/shared-ui/Pin'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Likes from 'src/components/shared-ui/Likes'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
   className?: string
   data: UserData
-  template: any
+  template: Template
 }
 
 const CardLikes: React.FC<Props> = ({ className, data, template }) => {
   const { dispatch } = usePopup()
-  const { name, avatar } = data
 
   const buttonHandler = () => {
-    dispatch({
-      type: 'UPDATE_POPUP_DATA',
-      payload: { name, avatar, templateData: template },
-    })
-    dispatch({ type: 'TOGGLE_EMAIL_POPUP' })
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      <Star className={s.star} />
-      <Avatar className={s.avatar} image={require(`public/images/${avatar}`)} />
-      <div className={s.name}>{name}</div>
+      <Avatar
+        className={s.avatar}
+        image={require(`public/images/${data.avatar}`)}
+        strength={data.relationshipStrength}
+      />
+      <PopoverUserInfo className={s.name} data={data} template={template} />
       <div>{template.Subject}</div>
       <div className={s.buttons}>
         <Likes />
-        <PopoverRate
+        <PopoverActions
           className={s.button}
           buttonClickHandler={buttonHandler}
           variant="outlined"
         >
           Followup
-        </PopoverRate>
+        </PopoverActions>
       </div>
     </CardContainer>
   )

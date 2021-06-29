@@ -7,11 +7,25 @@ type Props = {
   className?: string
   variant: 'outlined' | 'contained'
   isArrow?: boolean
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
   handler?: () => void
 }
 
 const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
-  ({ className, children, variant, isArrow, handler, ...props }, ref) => (
+  (
+    {
+      className,
+      children,
+      variant,
+      isArrow,
+      type,
+      handler,
+      disabled,
+      ...props
+    },
+    ref
+  ) => (
     <button
       className={classNames(
         s.button,
@@ -19,9 +33,11 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
         isArrow && s.arrowButton,
         className
       )}
-      type="button"
+      // eslint-disable-next-line react/button-has-type
+      type={type || 'button'}
       ref={ref}
       onClick={handler}
+      disabled={disabled}
       {...props}
     >
       <span className={s.text}>{children}</span>
@@ -34,10 +50,6 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
     </button>
   )
 )
-
-Button.defaultProps = {
-  variant: 'contained',
-}
 
 const s = css`
   .button {
@@ -53,6 +65,11 @@ const s = css`
 
     transition: all 0.3s linear;
     cursor: pointer;
+  }
+
+  .button:disabled {
+    pointer-events: none;
+    opacity: 0.6;
   }
 
   .arrowButton {

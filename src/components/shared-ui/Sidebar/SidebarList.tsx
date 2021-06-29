@@ -9,8 +9,7 @@ type Props = {
 }
 
 const SidebarList: React.FC<Props> = ({ className }) => (
-  <div className={classNames(className)}>
-    <div className={s.title}>Connect</div>
+  <div className={classNames(className, s.container)}>
     <ul className={s.list}>
       <li>
         <Link href="/">
@@ -66,13 +65,6 @@ const s = css`
     list-style: none;
   }
 
-  .title {
-    padding-left: 34px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-weight: var(--semibold);
-  }
-
   .item {
     position: relative;
 
@@ -80,8 +72,8 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     padding: 12px 5px 12px 73px;
+    color: var(--black);
 
-    text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
     text-decoration: none;

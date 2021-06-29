@@ -1,19 +1,20 @@
 :root {
   --black: #000000;
   --white: #ffffff;
-  --blue: #1966FF;
+  --blue: #1966ff;
   --lightBlue: #f0f5ff;
-  --green: #00A48B;
-  --red: #FF4949;
-  --ginger: #FF9C19;
-  --grey: #DDDDDD;
-  --lightGrey: #F6F6F6;
-  
+  --green: #00a48b;
+  --red: #ff4949;
+  --ginger: #ff9c19;
+  --yellow: #f9d144;
+  --grey: #dddddd;
+  --lightGrey: #f6f6f6;
+
   // fonts
   --font-display: SFProDisplay;
   --font-playfair: Playfair;
   --fallback-font: Arial, Helvetica, sans-serif;
-  
+
   --thin: 300;
   --light: 400;
   --regular: normal;
@@ -21,7 +22,7 @@
   --semibold: 600;
   --bold: bold;
   --fontBlack: 900;
-  
+
   // breakpoints
   --laptop: 1279px;
   --tablet: 1023px;
