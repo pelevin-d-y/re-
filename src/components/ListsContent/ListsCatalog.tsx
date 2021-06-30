@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { useLists } from 'src/components/context/ListsContext'
-import SectionsHeader from '../SectionsHeader'
+import SectionsHeader from './ListsSectionsHeader'
 
 type Props = {
   className?: string

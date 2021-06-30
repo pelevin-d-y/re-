@@ -8,12 +8,10 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
 import ModalClose from 'src/components/shared-ui/Close'
 import classNames from 'classnames'
-import ModalMoreInfo from '../ModalMoreInfo'
 import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
-import ModalHeader from '../ModalHeader'
 import ModalSent from '../ModalSent'
 
 const MultiEmailsModal: React.FC = () => {

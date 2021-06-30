@@ -45,13 +45,13 @@ const SidebarList: React.FC<Props> = ({ className }) => (
         </Link>
       </li>
       <li>
-        <Link href="/">
+        <Link href="/personalization">
           <a className={s.item}>
             <SvgIcon
               className={s.icon}
               icon={require('public/svg/templates.svg?include')}
             />{' '}
-            Snippets
+            Personalization
           </a>
         </Link>
       </li>
@@ -88,7 +88,7 @@ const s = css`
   .icon {
     position: absolute;
     left: 34px;
-    top: 12px;
+    top: 10px;
 
     height: 21px;
     width: 21px;

@@ -29,12 +29,10 @@ const CardShare: React.FC<Props> = ({
 }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
-  const {
-    state: { data },
-  } = useClient()
+  const { state } = useClient()
 
   const openModalHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: data?.contacts || [] })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: state?.contacts || [] })
     popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
   }
 
@@ -53,12 +51,12 @@ const CardShare: React.FC<Props> = ({
       </div>
       <div className={s.actions}>
         <div className={classNames(s.topLine, s.line)}>
-          {data?.contacts && (
+          {state?.contacts && (
             <AvatarsList
               avatarHeight={47}
               avatarWidth={47}
               className={s.avatars}
-              users={data.contacts}
+              users={state.contacts}
             />
           )}
           <Socials />

@@ -20,22 +20,20 @@ const HtmlEditorModal: React.FC<Props> = ({
 }) => {
   const template = templateData?.Message
   const [value, setValue] = useState(template)
-  const {
-    state: { data: clientData },
-  } = useClient()
+  const { state: clientState } = useClient()
 
   useEffect(() => {
     let parsedMessage
-    if (template && clientData?.name && name) {
+    if (template && clientState?.name && name) {
       parsedMessage = parseMessage(
         template,
         toParse ? name.split(' ')[0] : undefined,
-        toParse ? clientData.name : undefined
+        toParse ? clientState.name : undefined
       )
     }
 
     setValue(parsedMessage)
-  }, [name, clientData?.name, template, toParse])
+  }, [name, clientState?.name, template, toParse])
 
   return (
     <div className={classNames(className, s.container)}>

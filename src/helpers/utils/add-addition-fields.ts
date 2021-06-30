@@ -16,9 +16,9 @@ const addAdditionFields = (users: UserData[]): UserData[] => {
   const extendedUsers = users.map((user, i) => ({
     ...parseStringsToNumbers(user),
     avatar: avatars[i % avatars.length],
-    title: 'Investors',
-    notes: 'Plan Dinner',
-    next_outreach: 'Hi Hailey, Did get a chance to view the deck i sent ove...',
+    title: 'Investors', // example for list table
+    notes: 'Plan Dinner', // example for list table
+    next_outreach: 'Hi Hailey, Did get a chance to view the deck i sent ove...', // example for list table
     templateData: findTemplate(testTemplates, user.template),
     relationshipStrength: calculateColorByStraight(user.connection_E),
   }))

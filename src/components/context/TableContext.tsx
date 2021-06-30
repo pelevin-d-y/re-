@@ -46,7 +46,7 @@ const TableProvider: React.FC = ({ children }) => {
 const useTable = (): ContextType => {
   const context = React.useContext(TableContext)
   if (context === null) {
-    throw new Error('useUsers must be used within a UsersProvider')
+    throw new Error('useTable must be used within a UsersProvider')
   }
   return context
 }
