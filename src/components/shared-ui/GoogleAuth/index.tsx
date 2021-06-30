@@ -11,7 +11,7 @@ const GoogleAuth: React.FC<Props> = ({ className }) => (
   <div className={classNames(s.container, className)}>
     <a
       className={s.link}
-      href="https://api.nylas.com/oauth/login?proposal_id=f0gp0mp29ornyqek6b6scdcg4&state=[USERID]"
+      href="https://api.nylas.com/oauth/login?proposal_id=2ix79pthloshsbjd36d0d0z1x&state=USERID"
     >
       <SvgIcon icon={require(`public/svg/google-btn.svg?include`)} />
     </a>
