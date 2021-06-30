@@ -1,5 +1,5 @@
 import Layout from 'src/layouts/Layout'
-import MainContent from 'src/components/List/MainContent'
+import MainContent from 'src/components/ListContent'
 import 'react-quill/dist/quill.snow.css'
 import AddUserModal from 'src/components/shared-ui/modals/AddUserModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
