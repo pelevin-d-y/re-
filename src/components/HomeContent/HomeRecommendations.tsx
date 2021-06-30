@@ -7,11 +7,9 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 
 const HomeRecommendations: React.FC = () => {
-  const {
-    state: { data },
-  } = useClient()
+  const { state } = useClient()
 
-  const contacts = data?.contacts?.slice(0, 3)
+  const contacts = state?.contacts?.slice(0, 3)
 
   return (
     <CardContainer className={s.container}>

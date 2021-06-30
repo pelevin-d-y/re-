@@ -16,10 +16,8 @@ type Props = {
 const CardItsBeen: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
-  const {
-    state: { data },
-  } = useClient()
-  const contacts = useMemo(() => data?.contacts?.slice(0, 4), [data])
+  const { state } = useClient()
+  const contacts = useMemo(() => state?.contacts?.slice(0, 4), [state])
 
   const openModalHandler = () => {
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })

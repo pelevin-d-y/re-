@@ -29,17 +29,18 @@ const usersReducer = (state: State, action: Action): State => {
 }
 
 const UsersProvider: React.FC = ({ children }) => {
-  const {
-    state: { data },
-  } = useClient()
+  const { state: clientState } = useClient()
 
   const [state, dispatch] = React.useReducer(usersReducer, {
-    data: data?.contacts || null,
+    data: clientState?.contacts || null,
   })
 
   React.useEffect(() => {
-    dispatch({ type: 'UPDATE_USERS_DATA', payload: data?.contacts || [] })
-  }, [data])
+    dispatch({
+      type: 'UPDATE_USERS_DATA',
+      payload: clientState?.contacts || [],
+    })
+  }, [clientState])
 
   const value: ContextType = React.useMemo(
     () => ({

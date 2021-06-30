@@ -14,7 +14,7 @@ const ModalEditorHeader: React.FC<Props> = ({
   className,
   data: { templateData, name, address },
 }) => {
-  const { state: clientState } = useClient()
+  const { state } = useClient()
 
   const parsedTextHeader =
     templateData && parseMessage(templateData.Subject, name)
@@ -42,7 +42,7 @@ const ModalEditorHeader: React.FC<Props> = ({
       </div>
       <div className={s.item}>
         <div className={s.subtitle}>From:</div>
-        <div className={s.from}>{clientState.data?.name}</div>
+        <div className={s.from}>{state?.name}</div>
       </div>
     </div>
   )

@@ -98,7 +98,6 @@ const s = css`
   .lastMessage {
     max-width: 50%;
     width: 100%;
-    margin-top: 12px;
 
     @include mobile {
       max-width: 300px;

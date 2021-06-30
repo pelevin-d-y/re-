@@ -16,11 +16,9 @@ type Props = {
 const CardShareSmall: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
-  const {
-    state: { data },
-  } = useClient()
+  const { state } = useClient()
 
-  const contacts = useMemo(() => data?.contacts?.slice(4, 7), [data])
+  const contacts = useMemo(() => state?.contacts?.slice(4, 7), [state])
 
   const openModalHandler = () => {
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })

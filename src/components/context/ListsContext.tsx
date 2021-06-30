@@ -59,12 +59,12 @@ const ListsProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     const setData = async () => {
-      if (clientState.data?.contacts) {
-        await setInitialLists(clientState.data?.contacts, dispatch)
+      if (clientState?.contacts) {
+        await setInitialLists(clientState?.contacts, dispatch)
       }
     }
     setData()
-  }, [clientState.data?.contacts])
+  }, [clientState?.contacts])
 
   const updateList = React.useCallback(
     async (list) => {

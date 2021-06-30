@@ -5,9 +5,7 @@ import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
 
-type State = {
-  data: UserData | null
-}
+type State = UserData | null
 
 type ContextType = {
   state: State
@@ -20,10 +18,8 @@ const clientReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'UPDATE_USER_DATA': {
       return {
-        data: {
-          ...state.data,
-          ...action.payload,
-        },
+        ...state,
+        ...action.payload,
       }
     }
     default: {
@@ -33,9 +29,7 @@ const clientReducer = (state: State, action: Action): State => {
 }
 
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
-  const [state, dispatch] = React.useReducer(clientReducer, {
-    data: null,
-  })
+  const [state, dispatch] = React.useReducer(clientReducer, null)
 
   React.useEffect(() => {
     const setClientData = async () => {
