@@ -10,10 +10,7 @@ type Props = {
 
 const GoogleAuth: React.FC<Props> = ({ className }) => (
   <div className={classNames(s.container, className)}>
-    <a
-      className={s.link}
-      href="https://api.nylas.com/oauth/login?proposal_id=2ix79pthloshsbjd36d0d0z1x&state=USERID"
-    />
+    <a className={s.link} href="http://login.strata.cc" />
   </div>
 )
 
