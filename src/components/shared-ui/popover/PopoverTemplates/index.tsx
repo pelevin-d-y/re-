@@ -27,8 +27,8 @@ const PopoverTemplates: React.FC<Props> = () => {
       payload: { ...data, templateData: template },
     })
 
-    const contacts = clientState.data?.contacts
-    const clientIndex = findIndex(clientState.data?.contacts, {
+    const contacts = clientState?.contacts
+    const clientIndex = findIndex(clientState?.contacts, {
       address: data.address,
     })
     contacts?.splice(clientIndex, 1, {
