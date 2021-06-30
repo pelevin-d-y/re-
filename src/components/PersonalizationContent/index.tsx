@@ -18,7 +18,6 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <GoogleAuth className={s.googleAuth} />
       {clientState ? (
         <div className={s.account}>
           <div className={s.title}>Account</div>
@@ -36,6 +35,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           </ul>
         </div>
       ) : null}
+      <GoogleAuth className={s.googleAuth} />
       {templatesData ? (
         <div className={s.templates}>
           <div className={s.title}>Templates</div>
@@ -58,8 +58,8 @@ const s = css`
   }
 
   .googleAuth {
-    width: 60px;
-    height: 60px;
+    width: 200px;
+    height: 50px;
     margin-bottom: 20px;
   }
 
