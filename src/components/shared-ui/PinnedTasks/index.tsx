@@ -11,10 +11,8 @@ type Props = {
 }
 
 const PinnedTasks: React.FC<Props> = ({ className }) => {
-  const {
-    state: { data },
-  } = useClient()
-  const contacts = data?.contacts?.slice(0, 4)
+  const { state } = useClient()
+  const contacts = state?.contacts?.slice(0, 4)
 
   return (
     <CardContainer className={classNames(className, s.container)}>

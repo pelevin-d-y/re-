@@ -51,7 +51,7 @@ const TemplatesProvider: React.FC = ({ children }) => {
 const useTemplates = (): ContextType => {
   const context = React.useContext(TemplatesContext)
   if (context === null) {
-    throw new Error('usePopup must be used within a CountProvider')
+    throw new Error('useTemplates must be used within a CountProvider')
   }
   return context
 }

@@ -88,7 +88,7 @@ const s = css`
   .icon {
     position: absolute;
     left: 34px;
-    top: 12px;
+    top: 10px;
 
     height: 21px;
     width: 21px;
