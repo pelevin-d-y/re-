@@ -420,13 +420,6 @@
     "Message": "Hi <Contact Name>,\n\nI came across this hilarious clip of Sacha Baron Cohen, and I thought of you. Check it out here: https://www.youtube.com/watch?v=TOxjcvi5KIo\n\nBest,\n<Client Name>"
   },
   {
-    "Template": "",
-    "Header": "",
-    "Summary": "",
-    "Subject": "",
-    "Message": ""
-  },
-  {
     "Template": "End of the year",
     "Header": "You haven't talked in a while.",
     "Summary": "See how the year panned out.",
