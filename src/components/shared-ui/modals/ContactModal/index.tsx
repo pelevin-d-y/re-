@@ -5,7 +5,6 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import EditorActions from 'src/components/shared-ui/EditorActions'
 import CloseModal from 'src/components/shared-ui/Close'
-import ModalMoreInfo from '../ModalMoreInfo'
 import HtmlEditorModal from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
@@ -53,7 +52,6 @@ const EmailModal: React.FC = () => {
           data.name && <ModalSent names={data.name} />
         )}
       </div>
-      {!isSent ? <ModalMoreInfo /> : null}
     </ModalBase>
   )
 }

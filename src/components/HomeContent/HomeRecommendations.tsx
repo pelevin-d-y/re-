@@ -7,11 +7,9 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 
 const HomeRecommendations: React.FC = () => {
-  const {
-    state: { data },
-  } = useClient()
+  const { state } = useClient()
 
-  const contacts = data?.contacts?.slice(0, 3)
+  const contacts = state?.contacts?.slice(0, 3)
 
   return (
     <CardContainer className={s.container}>
@@ -43,7 +41,7 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    padding: 22px 35px 44px 35px;
+    padding: 22px 28px 44px;
     background: url('/svg/circles-background.svg') no-repeat center/cover;
 
     @include mobile {

@@ -11,9 +11,7 @@ type Props = {
 }
 
 const Header: React.FC<Props> = ({ toggleMenu }) => {
-  const {
-    state: { data },
-  } = useClient()
+  const { state } = useClient()
   return (
     <header className={classNames(s.header)}>
       <div className={classNames(s.container)}>
@@ -22,13 +20,13 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
-          {data?.name}
+          {state?.name}
         </div>
         <Search
           classes={{ container: s.search }}
           inputPlaceholder="Search..."
         />
-        {data?.address && <HeaderProfile className={s.profile} />}
+        {state?.address && <HeaderProfile className={s.profile} />}
       </div>
     </header>
   )

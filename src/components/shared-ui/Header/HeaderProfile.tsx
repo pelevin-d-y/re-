@@ -12,18 +12,16 @@ type Props = {
 }
 
 const HeaderProfile: React.FC<Props> = ({ className }) => {
-  const {
-    state: { data },
-  } = useClient()
+  const { state } = useClient()
 
   return (
     <Popover
       position="bottom right"
       triggerElement={
         <div className={classNames(s.container, className)}>
-          {data?.avatar && (
+          {state?.avatar && (
             <a href="https://strata.auth.us-east-1.amazoncognito.com/login?client_id=4i8sdfh90s4gutrec91couh6e5&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://app.strata.cc">
-              <Avatar image={require(`public/images/${data.avatar}`)} />
+              <Avatar image={require(`public/images/${state.avatar}`)} />
             </a>
           )}
         </div>
@@ -31,7 +29,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       popupContent={
         <CardContainer className={s.popup}>
           <div className={s.title}>Email Sync</div>
-          {data?.addresses?.split('; ').map((address) => (
+          {state?.addresses?.split('; ').map((address) => (
             <GoogleEmail key={address} className={s.account} email={address} />
           ))}
           <button className={s.addButton} type="button">

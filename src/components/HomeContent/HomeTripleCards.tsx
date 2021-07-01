@@ -10,11 +10,9 @@ type Props = {
 }
 
 const HomeTripleCards: React.FC<Props> = ({ className }) => {
-  const {
-    state: { data },
-  } = useClient()
+  const { state } = useClient()
 
-  const contacts = data?.contacts?.slice(0, 2)
+  const contacts = state?.contacts?.slice(0, 2)
 
   return (
     <div className={classNames(className, s.container)}>
