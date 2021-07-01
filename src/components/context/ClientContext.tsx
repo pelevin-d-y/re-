@@ -43,7 +43,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
             '/recommendations?client=Thor_Ernstsson&number=20'
           )
           const extendedUsers = addAdditionFields(clientRecommendations)
-          await set('client', extendedUsers[1])
+          await set('client', extendedUsers[0])
           dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[0] })
         }
       } catch (err) {
@@ -52,7 +52,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         // eslint-disable-next-line no-console
         console.log('set testUsers')
         const extendedUsers = addAdditionFields(testUsers)
-        await set('client', extendedUsers[1])
+        await set('client', extendedUsers[0])
         dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[0] })
       }
     }
