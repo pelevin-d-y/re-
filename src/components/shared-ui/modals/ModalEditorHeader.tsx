@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -15,6 +15,8 @@ const ModalEditorHeader: React.FC<Props> = ({
   data: { templateData, name, address },
 }) => {
   const { state } = useClient()
+  const [isCc, setIsCc] = useState(false)
+  const [isBcc, setIsBcc] = useState(false)
 
   const parsedTextHeader =
     templateData && parseMessage(templateData.Subject, name)
@@ -27,11 +29,39 @@ const ModalEditorHeader: React.FC<Props> = ({
           defaultValue={address}
           name="to"
         />
+        <button
+          className={classNames(s.button, isCc && s.btnActive)}
+          type="button"
+          onClick={() => setIsCc(!isCc)}
+        >
+          Cc
+        </button>
+        <button
+          className={classNames(s.button, isBcc && s.btnActive)}
+          type="button"
+          onClick={() => setIsBcc(!isBcc)}
+        >
+          Bcc
+        </button>
       </div>
-      <div className={s.item}>
-        <div className={s.subtitle}>Cc:</div>
-        <TextareaAutosize className={classNames(s.textarea, s.cc)} name="cc" />
-      </div>
+      {isCc && (
+        <div className={s.item}>
+          <div className={s.subtitle}>Cc:</div>
+          <TextareaAutosize
+            className={classNames(s.textarea, s.cc)}
+            name="cc"
+          />
+        </div>
+      )}
+      {isBcc && (
+        <div className={s.item}>
+          <div className={s.subtitle}>Bcc:</div>
+          <TextareaAutosize
+            className={classNames(s.textarea, s.cc)}
+            name="cc"
+          />
+        </div>
+      )}
       <div className={s.item}>
         <div className={s.subtitle}>Subject:</div>
         <TextareaAutosize
@@ -83,6 +113,21 @@ const s = css`
   }
 
   .from {
+    color: var(--blue);
+  }
+
+  .button {
+    color: #a3a3a3;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--blue);
+    }
+  }
+
+  .btnActive {
     color: var(--blue);
   }
 `
