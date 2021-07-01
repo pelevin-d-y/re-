@@ -2,6 +2,7 @@ import * as React from 'react'
 import { get, set } from 'idb-keyval'
 import { apiGet } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
+import testUsers from 'src/testUsers.json'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
 
@@ -43,11 +44,16 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
           )
           const extendedUsers = addAdditionFields(clientRecommendations)
           await set('client', extendedUsers[1])
-          dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[1] })
+          dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[0] })
         }
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('err', err)
+        console.error('setClientData err', err)
+        // eslint-disable-next-line no-console
+        console.log('set testUsers')
+        const extendedUsers = addAdditionFields(testUsers)
+        await set('client', extendedUsers[1])
+        dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[0] })
       }
     }
 
