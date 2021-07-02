@@ -5,14 +5,19 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
+import classNames from 'classnames'
 
-const HomeRecommendations: React.FC = () => {
+type Props = {
+  className?: string
+}
+
+const HomeRecommendations: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
 
   const contacts = state?.contacts?.slice(0, 3)
 
   return (
-    <CardContainer className={s.container}>
+    <CardContainer className={classNames(className, s.container)}>
       <div className={s.title}>
         Your Weekly Recommendations
         <Link className={s.link} href="#">

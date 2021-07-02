@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
 import CardShare from 'src/components/shared-ui/cards/CardShare'
@@ -6,6 +6,9 @@ import { useLists } from 'src/components/context/ListsContext'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import Grid from 'src/components/shared-ui/Grid'
+import { useClient } from 'src/components/context/ClientContext'
+import CardSmall from 'src/components/shared-ui/cards/CardSmall'
 import classNames from 'classnames'
 import HomeRecommendations from './HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
@@ -14,17 +17,46 @@ import HomeTripleCards from './HomeTripleCards'
 
 const Content: React.FC = () => {
   const { state: lists } = useLists()
+  const { state: clientState } = useClient()
+  const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
 
   return (
     <div className={s.container}>
       <div className={s.main}>
         {lists ? (
           <>
-            <HomeRecommendations />
-            <div className={classNames(s.been, s.cards)}>
+            <HomeRecommendations className={s.section} />
+            <Grid className={s.section} division={2}>
               <CardItsBeen />
               <CardShareSmall />
-            </div>
+            </Grid>
+            {contacts && (
+              <Grid className={s.section} division={2}>
+                <CardSmall data={contacts[2]} isRow />
+                <CardSmall data={contacts[3]} isRow />
+              </Grid>
+            )}
+            <CardShare
+              className={s.section}
+              variant="dark"
+              image={require('public/images/fintech.png')}
+              event="James was mentioned on Techcrunch"
+              title="Fintech Startup get acquired"
+              link="https://slack.com/"
+            />
+            <Grid className={s.section} division={2}>
+              <CardItsBeen />
+              <CardShareSmall />
+            </Grid>
+            {contacts && (
+              <Grid className={s.section} division={2}>
+                <Grid division={2} direction="Row">
+                  <CardSmall data={contacts[2]} isRow />
+                  <CardSmall data={contacts[3]} isRow />
+                </Grid>
+                <CardItsBeen />
+              </Grid>
+            )}
             <HomeUpcoming
               data={lists?.find((list) => list.id === 6)}
               className={s.cards}
@@ -40,14 +72,6 @@ const Content: React.FC = () => {
             <HomeMeeting
               data={lists?.find((list) => list.id === 9)}
               className={s.cards}
-            />
-            <CardShare
-              className={s.cards}
-              variant="dark"
-              image={require('public/images/fintech.png')}
-              event="James was mentioned on Techcrunch"
-              title="Fintech Startup get acquired"
-              link="https://slack.com/"
             />
             <HomeTripleCards className={s.cards} />
           </>
@@ -82,20 +106,13 @@ const s = css`
     }
   }
 
+  .section {
+    margin-bottom: 13px;
+  }
+
   .sidebar {
     @include tablet {
       display: none;
-    }
-  }
-
-  .been {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 15px;
-    width: 100%;
-
-    @include mobile {
-      grid-template-columns: auto;
     }
   }
 
