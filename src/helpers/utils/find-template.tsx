@@ -6,6 +6,6 @@ const findTemplate = (
     (templateItem) =>
       templateItem.Template?.toLocaleLowerCase() ===
       templateName?.toLocaleLowerCase()
-  )
+  ) || templates[0]
 
 export default findTemplate

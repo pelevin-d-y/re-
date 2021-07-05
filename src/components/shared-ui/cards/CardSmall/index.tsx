@@ -19,6 +19,7 @@ type Props = {
 const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
   const { dispatch } = usePopup()
   const { name, avatar, templateData, relationshipStrength } = data
+
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
