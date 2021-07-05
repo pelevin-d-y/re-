@@ -1,55 +1,107 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'astroturf'
-import CardItsBeen from 'src/components/shared-ui/cards/CardItsBeen'
+import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
 import CardShare from 'src/components/shared-ui/cards/CardShare'
 import { useLists } from 'src/components/context/ListsContext'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import classNames from 'classnames'
+import Grid from 'src/components/shared-ui/CardGrid'
+import { useClient } from 'src/components/context/ClientContext'
+import CardSmall from 'src/components/shared-ui/cards/CardSmall'
 import HomeRecommendations from './HomeRecommendations'
-import HomeUpcoming from './HomeUpcoming'
-import HomeMeeting from './HomeMeeting'
-import HomeTripleCards from './HomeTripleCards'
 
 const Content: React.FC = () => {
   const { state: lists } = useLists()
+  const { state: clientState } = useClient()
+  const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
 
   return (
     <div className={s.container}>
       <div className={s.main}>
         {lists ? (
           <>
-            <HomeRecommendations />
-            <div className={classNames(s.been, s.cards)}>
-              <CardItsBeen />
-              <CardShareSmall />
-            </div>
-            <HomeUpcoming
-              data={lists?.find((list) => list.id === 6)}
-              className={s.cards}
-            />
+            <HomeRecommendations className={s.section} />
+            <Grid className={s.section} division={2}>
+              <CardTextContent
+                title="It’s been"
+                subtitle="Awhile..."
+                description="It’s been awhile since you talked to these people. Check in on how they’re doing!"
+                users={contacts?.slice(3, 8)}
+              />
+              <CardShareSmall
+                title="Share Holiday"
+                image="share-burger.jpeg"
+                users={contacts?.slice(1, 4)}
+              />
+            </Grid>
             <CardShare
-              className={s.cards}
-              variant="light"
-              image={require('public/images/fintech.png')}
-              event="Celebrate this crazy holiday!"
-              title="Share with your friends"
-              link="https://www.google.com/"
-            />
-            <HomeMeeting
-              data={lists?.find((list) => list.id === 9)}
-              className={s.cards}
-            />
-            <CardShare
-              className={s.cards}
+              className={s.section}
               variant="dark"
-              image={require('public/images/fintech.png')}
-              event="James was mentioned on Techcrunch"
-              title="Fintech Startup get acquired"
-              link="https://slack.com/"
+              image="banner-email@2x.png"
+              event="Share Strata"
+              title="Sharing is Caring"
+              link="bit.ly/share-strata/hailey"
             />
-            <HomeTripleCards className={s.cards} />
+            {contacts && (
+              <Grid className={s.section} division={2}>
+                <CardSmall data={contacts[2]} isRow />
+                <CardSmall data={contacts[3]} isRow />
+              </Grid>
+            )}
+            <Grid className={s.section} division={2}>
+              <CardTextContent
+                title="Network"
+                subtitle="Introductions"
+                description="It’s been awhile since you talked to these people. Check in on how they’re doing!"
+                users={contacts?.slice(1, 4)}
+              />
+              <CardShareSmall
+                title="Share Meme"
+                image="share-meme.jpeg"
+                users={contacts?.slice(1, 4)}
+              />
+            </Grid>
+            {contacts && (
+              <Grid className={s.section} division={2}>
+                <Grid division={2} direction="Row">
+                  <CardSmall data={contacts[6]} isRow />
+                  <CardSmall data={contacts[5]} isRow />
+                </Grid>
+                <CardTextContent
+                  title="Followup"
+                  subtitle="Investors"
+                  description="It’s been awhile since you talked to these people. Check in on how they’re doing!"
+                  users={contacts?.slice(4, 7)}
+                />
+              </Grid>
+            )}
+            {contacts && (
+              <Grid className={s.section} division={2}>
+                <CardTextContent
+                  title="Network"
+                  subtitle="Change Roles"
+                  description="It’s been awhile since you talked to these people. Check in on how they’re doing!"
+                  users={contacts?.slice(7, 12)}
+                />
+                <Grid division={2} direction="Row">
+                  <CardSmall data={contacts[2]} isRow />
+                  <CardSmall data={contacts[3]} isRow />
+                </Grid>
+              </Grid>
+            )}
+            <Grid className={s.section} division={2}>
+              <CardShareSmall
+                title="Share News"
+                image="share-news1.jpeg"
+                users={contacts?.slice(4, 9)}
+              />
+              <CardShareSmall
+                title="Share News"
+                image="share-news2.jpeg"
+                users={contacts?.slice(9, 13)}
+              />
+            </Grid>
           </>
         ) : (
           <SvgIcon
@@ -82,20 +134,13 @@ const s = css`
     }
   }
 
+  .section {
+    margin-bottom: 13px;
+  }
+
   .sidebar {
     @include tablet {
       display: none;
-    }
-  }
-
-  .been {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 15px;
-    width: 100%;
-
-    @include mobile {
-      grid-template-columns: auto;
     }
   }
 

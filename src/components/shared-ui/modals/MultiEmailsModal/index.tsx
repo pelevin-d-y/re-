@@ -105,12 +105,9 @@ const MultiEmailsModal: React.FC = () => {
               className={classNames(s.user, s.selectedUser)}
               key={item.name}
             >
-              <Avatar
-                className={s.avatar}
-                image={
-                  item.avatar ? require(`public/images/${item.avatar}`) : null
-                }
-              />
+              {item.avatar && (
+                <Avatar className={s.avatar} image={item.avatar} />
+              )}
               <div className={s.userInfo}>
                 <div className={s.userName}>{item.name}</div>
                 <div className={s.userPosition}>{item.position}</div>
@@ -131,12 +128,7 @@ const MultiEmailsModal: React.FC = () => {
         </div>
         {contacts?.map((item) => (
           <div className={s.user} key={item.name}>
-            <Avatar
-              className={s.avatar}
-              image={
-                item.avatar ? require(`public/images/${item.avatar}`) : null
-              }
-            />
+            <Avatar className={s.avatar} image={item.avatar} />
             <div className={s.userInfo}>
               <div className={s.userName}>{item.name}</div>
               <div className={s.userPosition}>{item.position}</div>
