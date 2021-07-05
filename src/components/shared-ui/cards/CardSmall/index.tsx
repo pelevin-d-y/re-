@@ -28,7 +28,7 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
       <Close className={s.remove} handler={() => null} />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
-          image={require(`public/images/${avatar}`)}
+          image={avatar}
           width={54}
           height={54}
           className={s.avatar}

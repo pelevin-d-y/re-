@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
+import Img from 'src/components/shared-ui/Img'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
 import CardActions from '../CardActions'
@@ -27,7 +28,7 @@ const CardList: React.FC<Props> = ({
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      {image && <img src={image} alt="icon" className={s.image} />}
+      {image && <Img img={image} alt="icon" className={s.image} />}
       <div className={s.title}>{title}</div>
       <div className={s.description}>{description}</div>
       <AvatarsList

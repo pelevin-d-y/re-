@@ -8,6 +8,7 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Socials from 'src/components/shared-ui/Socials'
 import ShareLink from 'src/components/shared-ui/ShareLink'
 import { useClient } from 'src/components/context/ClientContext'
+import Img from 'src/components/shared-ui/Img'
 import CardActions from '../CardActions'
 
 type Props = {
@@ -47,7 +48,7 @@ const CardShare: React.FC<Props> = ({
       <div className={s.info}>
         <div className={s.cardEvent}>{event}</div>
         <div className={s.title}>{title}</div>
-        <img alt="fintech" className={s.cardImage} src={image} />
+        <Img alt="fintech" className={s.cardImage} img={image} />
       </div>
       <div className={s.actions}>
         <div className={classNames(s.topLine, s.line)}>

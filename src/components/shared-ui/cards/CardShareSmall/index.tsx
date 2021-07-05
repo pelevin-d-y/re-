@@ -7,6 +7,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
+import Img from 'src/components/shared-ui/Img'
 import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
@@ -39,17 +40,9 @@ const CardShareSmall: React.FC<Props> = ({ className }) => {
         )}
       </div>
       <div className={s.content}>
-        <img
-          className={s.hamburger}
-          src={require('public/images/hamburger.jpeg')}
-          alt="hamburger"
-        />
+        <Img className={s.hamburger} img="hamburger.jpeg" alt="hamburger" />
         <div className={s.gradient} />
-        <img
-          className={s.burgerDay}
-          src={require('public/images/burgerDay.png')}
-          alt="burger-day"
-        />
+        <Img className={s.burgerDay} img="burgerDay.png" alt="burger-day" />
       </div>
       <div className={s.actions}>
         <Pin />

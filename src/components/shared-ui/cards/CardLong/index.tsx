@@ -25,7 +25,7 @@ const LongCard: React.FC<Props> = ({ data, template, className }) => {
       <div className={s.profile}>
         <Avatar
           className={s.avatar}
-          image={require(`public/images/${data.avatar}`)}
+          image={data.avatar}
           strength={data.relationshipStrength}
         />
         <div className={s.text}>

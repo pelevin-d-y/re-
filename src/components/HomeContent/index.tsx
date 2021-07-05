@@ -6,7 +6,7 @@ import { useLists } from 'src/components/context/ListsContext'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Grid from 'src/components/shared-ui/Grid'
+import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
 import CardSmall from 'src/components/shared-ui/cards/CardSmall'
 import classNames from 'classnames'
@@ -39,7 +39,7 @@ const Content: React.FC = () => {
             <CardShare
               className={s.section}
               variant="dark"
-              image={require('public/images/fintech.png')}
+              image="fintech.png"
               event="James was mentioned on Techcrunch"
               title="Fintech Startup get acquired"
               link="https://slack.com/"
@@ -64,7 +64,7 @@ const Content: React.FC = () => {
             <CardShare
               className={s.cards}
               variant="light"
-              image={require('public/images/fintech.png')}
+              image="fintech.png"
               event="Celebrate this crazy holiday!"
               title="Share with your friends"
               link="https://www.google.com/"

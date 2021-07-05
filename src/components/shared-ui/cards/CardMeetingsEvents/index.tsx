@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Pin from 'src/components/shared-ui/Pin'
+import Img from 'src/components/shared-ui/Img'
 import CardContainer from '../CardContainer'
 import Events from './Events'
 
@@ -11,11 +12,7 @@ type Props = {
 
 const CardMeetingsEvents: React.FC<Props> = ({ className }) => (
   <CardContainer className={classNames(className, s.container)}>
-    <img
-      alt="icon"
-      className={s.icon}
-      src={require('public/images/meeting.png')}
-    />
+    <Img alt="icon" className={s.icon} img="meeting.png" />
     <Pin className={s.star} />
     <div className={s.header}>
       <div className={s.subtitle}>Follow Up</div>

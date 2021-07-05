@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import { calculateColorByStraight } from 'src/helpers/utils/calculate-strength'
 import SvgIcon from '../SvgIcon'
+import Img from '../Img'
 
 type Props = {
   className?: string
   width?: number
   height?: number
-  image?: string
+  image?: string | null
   strength?: string | number
 }
 
@@ -24,7 +24,7 @@ const Avatar: React.FC<Props> = ({
     style={{ width: width || 47, height: height || 47 }}
   >
     {image ? (
-      <img alt="avatar" className={s.avatar} src={image} />
+      <Img alt="avatar" className={s.avatar} img={image} />
     ) : (
       <SvgIcon icon={require('public/svg/avatar-placeholder.svg?include')} />
     )}

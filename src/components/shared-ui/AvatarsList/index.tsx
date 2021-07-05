@@ -44,7 +44,7 @@ const AvatarList: React.FC<Props> = ({
               className={s.avatarImage}
               width={avatarWidth || AVATAR_BASE_SIZE}
               height={avatarHeight || AVATAR_BASE_SIZE}
-              image={require(`public/images/${item.avatar}`)}
+              image={item.avatar}
             />
           </div>
         ))}
