@@ -35,6 +35,7 @@ const s = css`
   .container {
     position: relative;
     box-sizing: content-box;
+    flex: 0 0 auto;
     border-radius: 50%;
     &::after {
       content: '';
@@ -52,6 +53,7 @@ const s = css`
   .avatar {
     width: 100%;
     height: 100%;
+
     border-radius: 50%;
     object-fit: cover;
   }

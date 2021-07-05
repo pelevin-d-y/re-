@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
@@ -8,46 +8,49 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import Img from 'src/components/shared-ui/Img'
-import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
+  users?: UserData[]
+  image: string
+  title: string
 }
 
-const CardShareSmall: React.FC<Props> = ({ className }) => {
+const CardShareSmall: React.FC<Props> = ({
+  className,
+  users,
+  image,
+  title,
+}) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
-  const { state } = useClient()
-
-  const contacts = useMemo(() => state?.contacts?.slice(4, 7), [state])
 
   const openModalHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
-    popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
-        <div className={s.title}>Share Holiday</div>
-        {contacts && (
+        <div className={s.title}>{title}</div>
+        {users && (
           <AvatarsList
             className={s.avatars}
             avatarWidth={37}
             avatarHeight={37}
-            users={contacts.slice(0, 3)}
+            users={users}
           />
         )}
       </div>
       <div className={s.content}>
-        <Img className={s.hamburger} img="hamburger.jpeg" alt="hamburger" />
-        <div className={s.gradient} />
-        <Img className={s.burgerDay} img="burgerDay.png" alt="burger-day" />
+        <Img className={s.img} img={image} alt="" />
       </div>
       <div className={s.actions}>
         <Pin />
         <Button variant="contained" handler={openModalHandler}>
-          Share Holiday
+          {title}
         </Button>
       </div>
     </CardContainer>
@@ -77,24 +80,17 @@ const s = css`
 
   .content {
     position: relative;
-    min-height: 150px;
+    height: 150px;
 
     margin-right: -19px;
     margin-left: -28px;
-
-    background: #000000;
   }
 
-  .hamburger {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 0;
-
-    width: 70%;
+  .img {
+    width: 100%;
     height: 100%;
 
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .gradient {

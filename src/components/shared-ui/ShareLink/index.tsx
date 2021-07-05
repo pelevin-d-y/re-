@@ -35,11 +35,12 @@ const s = css`
     padding: 13px;
     padding-left: 22px;
 
-    background: #f3f3f3;
-    color: var(--blue);
+    background: #434343;
+    color: var(--white);
+    border-radius: 4px;
 
     a {
-      color: var(--blue);
+      color: var(--white);
       text-decoration: none;
     }
   }

@@ -34,7 +34,6 @@ const HomeRecommendations: React.FC<Props> = ({ className }) => {
             data={contactItem}
             className={s.column}
             key={contactItem.first_message_id}
-            template={contactItem.templateData}
           />
         ))}
       </div>

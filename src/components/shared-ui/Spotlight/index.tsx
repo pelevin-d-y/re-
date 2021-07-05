@@ -3,8 +3,8 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import SpotlightLongCard from './SpotlightLongCard'
 import Img from 'src/components/shared-ui/Img'
+import SpotlightLongCard from './SpotlightLongCard'
 
 type Props = {
   className?: string
