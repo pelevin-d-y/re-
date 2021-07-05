@@ -36,7 +36,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
           <div className={s.wrapper}>
             <div className={s.header}>
               <Avatar
-                image={require(`public/images/${avatar}`)}
+                image={avatar}
                 width={54}
                 height={54}
                 className={s.avatar}

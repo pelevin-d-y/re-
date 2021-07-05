@@ -23,11 +23,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           <div className={s.title}>Account</div>
           <ul className={s.list}>
             <li className={s.item}>
-              Avatar:{' '}
-              <Avatar
-                className={s.avatar}
-                image={require(`public/images/${clientState.avatar}`)}
-              />
+              Avatar: <Avatar className={s.avatar} image={clientState.avatar} />
             </li>
             <li className={s.item}>Name: {clientState.name}</li>
             <li className={s.item}>Address: {clientState.address}</li>

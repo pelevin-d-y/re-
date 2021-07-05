@@ -13,13 +13,12 @@ import CardContainer from '../CardContainer'
 type Props = {
   className?: string
   data: UserData
-  template: any
   isRow?: boolean
 }
 
-const CardSmall: React.FC<Props> = ({ className, data, template, isRow }) => {
+const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
   const { dispatch } = usePopup()
-  const { name, avatar } = data
+  const { name, avatar, templateData, relationshipStrength } = data
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
@@ -29,16 +28,22 @@ const CardSmall: React.FC<Props> = ({ className, data, template, isRow }) => {
       <Close className={s.remove} handler={() => null} />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
-          image={require(`public/images/${avatar}`)}
+          image={avatar}
           width={54}
           height={54}
           className={s.avatar}
-          strength={data.relationshipStrength}
+          strength={relationshipStrength}
         />
         <div className={classNames(isRow && s.userText)}>
-          <PopoverUserInfo className={s.name} data={data} template={template} />
+          {templateData && (
+            <PopoverUserInfo
+              className={s.name}
+              data={data}
+              template={templateData}
+            />
+          )}
           <div className={s.description}>
-            {parseEmailMessage(template.Header, name)}
+            {templateData && parseEmailMessage(templateData.Header, name)}
           </div>
         </div>
       </div>

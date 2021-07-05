@@ -19,7 +19,7 @@ const PinnedTasksCard: React.FC<Props> = ({ className, data, template }) =>
         className={s.avatar}
         width={38}
         height={38}
-        image={require(`public/images/${data.avatar}`)}
+        image={data.avatar}
         strength={data.relationshipStrength}
       />
       <div className={s.info}>

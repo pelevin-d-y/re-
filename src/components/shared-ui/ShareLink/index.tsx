@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { css } from 'astroturf'
+import Img from 'src/components/shared-ui/Img'
 
 type Props = {
   className?: string
@@ -18,11 +19,7 @@ const ShareLink: React.FC<Props> = ({ className, link }) => (
       className={s.button}
       onClick={() => navigator.clipboard.writeText(link)}
     >
-      <img
-        alt="copy"
-        className={s.copyImage}
-        src={require('public/images/copy.png')}
-      />
+      <Img alt="copy" className={s.copyImage} img="copy.png" />
     </button>
   </div>
 )
@@ -38,11 +35,12 @@ const s = css`
     padding: 13px;
     padding-left: 22px;
 
-    background: #f3f3f3;
-    color: var(--blue);
+    background: #434343;
+    color: var(--white);
+    border-radius: 4px;
 
     a {
-      color: var(--blue);
+      color: var(--white);
       text-decoration: none;
     }
   }

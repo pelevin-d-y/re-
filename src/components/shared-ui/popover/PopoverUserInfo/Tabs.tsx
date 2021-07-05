@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import format from 'date-fns/format'
+import Img from 'src/components/shared-ui/Img'
 
 type Props = {
   className?: string
@@ -17,11 +18,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => (
       <li className={s.item}>
         <div className={s.itemTitle}>
           <span>Email</span>
-          <img
-            alt="icon"
-            className={s.pen}
-            src={require('public/images/pen.png')}
-          />
+          <Img alt="icon" className={s.pen} img="pen.png" />
         </div>
         <div className={s.value}>{data.address}</div>
       </li>
@@ -29,11 +26,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => (
         <li className={s.item}>
           <div className={s.itemTitle}>
             <span>Met</span>
-            <img
-              alt="icon"
-              className={s.pen}
-              src={require('public/images/pen.png')}
-            />
+            <Img alt="icon" className={s.pen} img="pen.png" />
           </div>
           <div className={s.value}>
             {format(new Date(data.last_contact_time), 'MMMM dd, yyyy')}
@@ -43,11 +36,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => (
       <li className={s.item}>
         <div className={s.itemTitle}>
           <span>Last Outreach</span>
-          <img
-            alt="icon"
-            className={s.pen}
-            src={require('public/images/pen.png')}
-          />
+          <Img alt="icon" className={s.pen} img="pen.png" />
         </div>
         <div className={classNames(s.value, s.outreach)}>
           {data.last_client_text}

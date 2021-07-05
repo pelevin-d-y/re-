@@ -56,7 +56,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           <div className={s.cellName}>
             <Avatar
               className={s.avatar}
-              image={require(`public/images/${row.original.avatar}`)}
+              image={row.original.avatar}
               strength={row.original.relationshipStrength}
             />{' '}
             {row.original?.templateData && (

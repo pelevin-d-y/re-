@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
@@ -6,40 +6,45 @@ import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from '../CardContainer'
 
 type Props = {
   className?: string
+  title: string
+  subtitle: string
+  description: string
+  users?: UserData[]
 }
 
-const CardItsBeen: React.FC<Props> = ({ className }) => {
+const CardItsBeen: React.FC<Props> = ({
+  className,
+  title,
+  subtitle,
+  description,
+  users,
+}) => {
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
-  const { state } = useClient()
-  const contacts = useMemo(() => state?.contacts?.slice(0, 4), [state])
 
   const openModalHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
-    popupDispatch({ type: 'TOGGLE_RECOMMENDATIONS_POPUP' })
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
-        <div className={s.cardName}>It’s been</div>
-        <div className={s.title}>Awhile...</div>
-        <div className={s.description}>
-          It’s been awhile since you talked to these people. Check in on how
-          they’re doing!
-        </div>
+        <div className={s.cardName}>{title}</div>
+        <div className={s.title}>{subtitle}</div>
+        <div className={s.description}>{description}</div>
       </div>
-      {contacts && (
+      {users && (
         <AvatarsList
           className={s.avatars}
           avatarWidth={37}
           avatarHeight={37}
-          users={contacts}
+          users={users}
         />
       )}
       <div className={s.actions}>

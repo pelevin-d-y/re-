@@ -3,6 +3,7 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import Img from 'src/components/shared-ui/Img'
 import SpotlightLongCard from './SpotlightLongCard'
 
 type Props = {
@@ -14,11 +15,7 @@ const Spotlight: React.FC<Props> = ({ className }) => (
     <div className={s.header}>
       <div className={s.title}>Spotlight</div>
       <div className={s.imageWrapper}>
-        <img
-          className={s.image}
-          alt="avatar"
-          src={require('public/images/spotlight.png')}
-        />
+        <Img className={s.image} alt="avatar" img="spotlight.png" />
       </div>
     </div>
     <div className={s.score}>
