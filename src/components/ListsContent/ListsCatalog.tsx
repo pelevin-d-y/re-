@@ -31,7 +31,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
             id={item.id}
             title={item.title}
             description={item.description}
-            image={item.icon ? require(`public/images/${item.icon}`) : null}
+            image={item.icon}
             users={item.users}
           />
         ))}

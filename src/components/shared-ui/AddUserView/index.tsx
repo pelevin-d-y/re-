@@ -43,10 +43,7 @@ const AddUserView: React.FC<Props> = ({ className, handler, users }) => {
         {filteredUsers?.map((item) => (
           <li className={s.item} key={item.first_message_id}>
             <div className={s.profile}>
-              <Avatar
-                className={s.avatar}
-                image={require(`public/images/${item.avatar}`)}
-              />
+              <Avatar className={s.avatar} image={item.avatar} />
               <span className={s.name}>{item.name}</span>
             </div>
             <Button

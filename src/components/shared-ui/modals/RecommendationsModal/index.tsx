@@ -31,7 +31,7 @@ const playlists: Playlists = [
 const testUsers: UserData[] = [
   {
     id: 1,
-    avatar: require('public/images/gino.jpeg'),
+    avatar: 'gino.jpeg',
     name: 'Landon Tucker',
     position: 'Founder at Company X',
     event: 'Asked a question',
@@ -40,7 +40,7 @@ const testUsers: UserData[] = [
   },
   {
     id: 2,
-    avatar: require('public/images/maker.jpeg'),
+    avatar: 'maker.jpeg',
     name: 'Taylor Smith',
     position: 'Founder at Company X',
     event: 'Taylor is based in LA',
@@ -49,7 +49,7 @@ const testUsers: UserData[] = [
   },
   {
     id: 3,
-    avatar: require('public/images/mary.jpeg'),
+    avatar: 'mary.jpeg',
     name: 'Gino Mo',
     position: 'Founder at Company X',
     event: 'Gino took you to dinner',
@@ -58,7 +58,7 @@ const testUsers: UserData[] = [
   },
   {
     id: 4,
-    avatar: require('public/images/james.png'),
+    avatar: 'james.png',
     name: 'James Malone',
     position: 'Founder at Company X',
     event: 'James is based in LA',
@@ -67,7 +67,7 @@ const testUsers: UserData[] = [
   },
   {
     id: 5,
-    avatar: require('public/images/phil.jpeg'),
+    avatar: 'phil.jpeg',
     name: 'Mary Smith',
     position: 'Founder at Company X',
     event: 'Mary has a startup in LA',
@@ -76,7 +76,7 @@ const testUsers: UserData[] = [
   },
   {
     id: 6,
-    avatar: require('public/images/steve.jpeg'),
+    avatar: 'steve.jpeg',
     name: 'Steve Lee',
     position: 'Founder at Company X',
     event: 'Requested deck',
@@ -85,7 +85,7 @@ const testUsers: UserData[] = [
   },
   {
     id: 7,
-    avatar: require('public/images/maker.jpeg'),
+    avatar: 'maker.jpeg',
     name: 'Phil Hoyt',
     position: 'Founder at Company X',
     event: 'Asked for Dinner',
