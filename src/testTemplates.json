@@ -4,7 +4,7 @@
     "Header": "Refer <Contact Name> to Strata",
     "Summary": "Stay in touch and help <Contact Name> reconnect with their network.",
     "Subject": "Reconnect Invite",
-    "Message": "Hi <Contact Name>,\n\nI've been using Reconnect to build stronger relationships, and I thought you'd be interested in trying it too. \n\nYou can sign up at https://www.strata.cc/reconnect.\n\nBest,\n<Client Name>"
+    "Message": ""
   },
   {
     "Template": "Referral",

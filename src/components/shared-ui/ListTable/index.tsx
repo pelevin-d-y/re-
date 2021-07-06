@@ -128,10 +128,9 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         {
           id: 'selection',
           Header: ({ getToggleAllRowsSelectedProps }) => (
-            <Checkbox
-              className={s.headerCheckbox}
-              {...getToggleAllRowsSelectedProps()}
-            />
+            <div className={s.headerCheckbox}>
+              <Checkbox {...getToggleAllRowsSelectedProps()} />
+            </div>
           ),
           Cell: ({ row }: any) => (
             <div className={s.cellCheckbox}>
@@ -238,7 +237,10 @@ const s = css`
   }
 
   .headerCheckbox {
-    width: 40px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    width: 100%;
   }
 
   .row:hover {
@@ -284,6 +286,7 @@ const s = css`
   .cellCheckbox {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: flex-end;
     align-items: center;
     height: 100%;
     width: 100%;

@@ -79,9 +79,7 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    padding-top: 12px;
-    padding-left: 30px;
-    padding-bottom: 23px;
+    padding: 12px 16px 23px 30px;
 
     @include mobile {
       padding-left: 16px;
@@ -91,6 +89,7 @@ const s = css`
     display: block;
     margin-top: 13px;
     margin-bottom: 0;
+    width: 100%;
 
     border: none;
     font-size: 26px;
@@ -100,7 +99,7 @@ const s = css`
 
   .description {
     display: block;
-    min-width: 276px;
+    width: 100%;
     resize: none;
 
     border: none;
