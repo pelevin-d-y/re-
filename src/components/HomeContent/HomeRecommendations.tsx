@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import SmallCard from 'src/components/shared-ui/cards/CardSmall'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -13,9 +13,7 @@ type Props = {
 
 const HomeRecommendations: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-
-  const contacts = state?.contacts?.slice(0, 3)
-
+  const contacts = useMemo(() => state?.contacts?.slice(0, 3), [state])
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.title}>
@@ -29,7 +27,7 @@ const HomeRecommendations: React.FC<Props> = ({ className }) => {
         </Link>
       </div>
       <div className={s.cards}>
-        {contacts?.slice(0, 3).map((contactItem) => (
+        {contacts?.map((contactItem) => (
           <SmallCard
             data={contactItem}
             className={s.column}
