@@ -5,6 +5,7 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
 import Pin from '../Pin'
+import UserHeader from '../UserHeader'
 
 type Props = {
   className?: string
@@ -24,18 +25,24 @@ const PinnedTasksCard: React.FC<Props> = ({ className, data, template }) =>
       />
       <div className={s.info}>
         <div className={s.name}>{data.name}</div>
-        <div>{parseMessage(template.Header, data.name)}</div>
+        {data.templateData && (
+          <UserHeader
+            text={parseMessage(data.templateData.Header, data.name)}
+          />
+        )}
       </div>
-      <Pin className={s.star} />
+      <Pin className={s.pin} />
     </CardContainer>
   ) : null
 
 const s = css`
   .container {
+    position: relative;
+
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    padding: 18px 40px 20px 20px;
+    padding: 18px 50px 20px 20px;
   }
 
   .avatar {
@@ -44,6 +51,8 @@ const s = css`
   }
 
   .info {
+    width: 100%;
+
     font-size: 12px;
     line-height: 14px;
   }
@@ -53,7 +62,11 @@ const s = css`
     font-weight: var(--bold);
   }
 
-  .star {
+  .pin {
+    position: absolute;
+    top: 17px;
+    right: 9px;
+
     margin-left: auto;
   }
 `

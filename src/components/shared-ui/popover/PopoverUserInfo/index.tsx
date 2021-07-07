@@ -7,6 +7,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import { usePopup } from 'src/components/context/PopupContext'
 import parseMessage from 'src/helpers/utils/parse-message'
+import UserHeader from 'src/components/shared-ui/UserHeader'
 import { css } from 'astroturf'
 import Tabs from './Tabs'
 
@@ -48,12 +49,16 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
                 <div className={s.subject}>{Subject}</div>
               </div>
             </div>
-            <div className={s.summary}>{parseMessage(Summary, name)}</div>
+            <UserHeader
+              className={s.summary}
+              text={parseMessage(Summary, name)}
+            />
             <div className={s.actions}>
               <PopoverDots variant="outlined" />
               <PopoverActions
                 variant="contained"
                 buttonClickHandler={buttonHandler}
+                isArrow
               >
                 Say Hi
               </PopoverActions>

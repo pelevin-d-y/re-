@@ -106,7 +106,7 @@ const Content: React.FC = () => {
         ) : (
           <SvgIcon
             className={s.spinner}
-            icon={require(`public/svg/spinner.svg?include`)}
+            icon={require('public/svg/spinner.svg?include')}
           />
         )}
       </div>
