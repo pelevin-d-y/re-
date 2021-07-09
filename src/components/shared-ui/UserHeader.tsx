@@ -1,8 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import parseEmailMessage from 'src/helpers/utils/parse-message'
-import SvgIcon from './SvgIcon'
+import Img from './Img'
 
 type Props = {
   className?: string
@@ -11,10 +10,7 @@ type Props = {
 
 const UserHeader: React.FC<Props> = ({ className, text }) => (
   <div className={classNames(className, s.container)}>
-    <SvgIcon
-      className={s.icon}
-      icon={require('public/svg/user-header-logo.svg?include')}
-    />
+    <Img className={s.icon} alt="logo" img="logo-user-info.svg" />
     {text}
   </div>
 )
@@ -34,8 +30,8 @@ const s = css`
     position: absolute;
     top: -3px;
     right: -3px;
-    width: 18px;
-    height: 19px;
+    width: 17px;
+    height: 18px;
   }
 `
 

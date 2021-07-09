@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
-import Img from 'src/components/shared-ui/Img'
+import PopoverNotifications from 'src/components/shared-ui/popover/PopoverNotifications'
 import { useClient } from 'src/components/context/ClientContext'
 import HeaderProfile from './HeaderProfile'
 
@@ -28,7 +28,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
           inputPlaceholder="Search..."
         />
         {state?.address && <HeaderProfile className={s.profile} />}
-        <div className={s.notification} />
+        <PopoverNotifications />
       </div>
     </header>
   )
@@ -103,21 +103,6 @@ const s = css`
   .search {
     margin-left: auto;
     margin-right: 12px;
-  }
-
-  .notification {
-    display: block;
-    width: 28px;
-    height: 28px;
-    margin-left: 17px;
-
-    background: url('/images/notification.png') no-repeat center/contain;
-    cursor: pointer;
-
-    &:hover {
-      background: url('/images/notification-active.png') no-repeat
-        center/contain;
-    }
   }
 `
 
