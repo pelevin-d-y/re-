@@ -20,7 +20,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
     <div className={classNames(className, s.container)}>
       {clientState ? (
         <div className={s.account}>
-          <div className={s.title}>Account</div>
+          <div className={s.title}>Profile</div>
           <ul className={s.list}>
             <li className={s.item}>
               Avatar: <Avatar className={s.avatar} image={clientState.avatar} />

@@ -39,7 +39,13 @@ const PopoverNotifications: React.FC<Props> = ({ className }) => {
   return (
     <Popover
       position="bottom right"
-      triggerElement={<div className={s.notification} />}
+      triggerElement={
+        <div className={s.notification}>
+          <div className={s.notificationCounter}>
+            {notificationsItems.length}
+          </div>
+        </div>
+      }
       popupContent={
         <CardContainer className={classNames(className, s.popup)}>
           <div className={s.title}>Notifications</div>
@@ -93,6 +99,8 @@ const PopoverNotifications: React.FC<Props> = ({ className }) => {
 
 const s = css`
   .notification {
+    position: relative;
+
     display: block;
     width: 28px;
     height: 28px;
@@ -105,6 +113,27 @@ const s = css`
       background: url('/images/notification-active.png') no-repeat
         center/contain;
     }
+  }
+
+  .notificationCounter {
+    position: absolute;
+    bottom: -7px;
+    right: -9px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 19px;
+    height: 19px;
+
+    font-size: 11px;
+    line-height: 11px;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    color: var(--white);
+    background: #ff0000;
+    font-weight: bold;
   }
 
   .popup {
