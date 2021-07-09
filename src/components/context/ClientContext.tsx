@@ -40,7 +40,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
           dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
         } else {
           const { data: clientRecommendations } = await apiGet(
-            '/recommendations?client=Thor_Ernstsson&number=20'
+            '/api/recommendations?client=Thor_Ernstsson&number=20'
           )
           const extendedUsers = addAdditionFields(clientRecommendations)
           await set('client', extendedUsers[0])

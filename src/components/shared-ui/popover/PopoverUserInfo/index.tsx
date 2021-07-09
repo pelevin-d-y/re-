@@ -29,7 +29,6 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
 
   return (
     <Popover
-      showPopupEvent="click"
       triggerElement={
         <div className={classNames(className, s.trigger)}>{name}</div>
       }
