@@ -6,6 +6,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
+import UserHeader from 'src/components/shared-ui/UserHeader'
 import Close from 'src/components/shared-ui/Close'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from '../CardContainer'
@@ -19,6 +20,7 @@ type Props = {
 const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
   const { dispatch } = usePopup()
   const { name, avatar, templateData, relationshipStrength } = data
+
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
@@ -42,9 +44,12 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
               template={templateData}
             />
           )}
-          <div className={s.description}>
-            {templateData && parseEmailMessage(templateData.Header, name)}
-          </div>
+          {templateData && (
+            <UserHeader
+              className={s.description}
+              text={parseEmailMessage(templateData.Header, name)}
+            />
+          )}
         </div>
       </div>
       <div className={s.actions}>
@@ -53,6 +58,7 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
           buttonClickHandler={buttonHandler}
           className={s.button}
           variant="contained"
+          isArrow
         >
           Follow Up
         </PopoverActions>
@@ -75,7 +81,7 @@ const s = css`
   }
 
   .avatar {
-    margin-bottom: 7px;
+    margin-bottom: 12px;
   }
 
   .description {
@@ -93,7 +99,7 @@ const s = css`
   }
 
   .name {
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     font-weight: var(--bold);
   }
 
@@ -117,6 +123,7 @@ const s = css`
   }
 
   .userText {
+    width: 100%;
     padding-top: 6px;
     margin-left: 18px;
     padding-right: 20px;

@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 
 const defaultOptions = {
-  baseURL: 'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test',
   headers: {
     'Content-Type': 'application/json',
   },

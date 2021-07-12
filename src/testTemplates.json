@@ -1,5 +1,12 @@
 [
   {
+    "Template": "default",
+    "Header": "Refer <Contact Name> to Strata",
+    "Summary": "Stay in touch and help <Contact Name> reconnect with their network.",
+    "Subject": "Reconnect Invite",
+    "Message": ""
+  },
+  {
     "Template": "Referral",
     "Header": "Refer <Contact Name> to Strata",
     "Summary": "Stay in touch and help <Contact Name> reconnect with their network.",

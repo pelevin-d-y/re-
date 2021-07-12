@@ -61,7 +61,10 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
+    display: flex;
+    flex-flow: column nowrap;
     padding: 10px 19px 24px 28px;
+    justify-content: space-between;
   }
 
   .header {

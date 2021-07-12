@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
+import PopoverNotifications from 'src/components/shared-ui/popover/PopoverNotifications'
 import { useClient } from 'src/components/context/ClientContext'
 import HeaderProfile from './HeaderProfile'
 
@@ -27,6 +28,7 @@ const Header: React.FC<Props> = ({ toggleMenu }) => {
           inputPlaceholder="Search..."
         />
         {state?.address && <HeaderProfile className={s.profile} />}
+        <PopoverNotifications />
       </div>
     </header>
   )
