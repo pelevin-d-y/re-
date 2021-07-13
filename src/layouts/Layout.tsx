@@ -45,9 +45,13 @@ const s = css`
 
   .root {
     min-height: 100vh;
-    padding-left: 50px;
+    padding-left: 39px;
 
     transition: all 0.2s ease-in;
+
+    @include small-desktop {
+      padding-left: 0;
+    }
   }
 
   .root.open {
@@ -80,9 +84,9 @@ const s = css`
     top: 0;
     overflow: hidden;
 
-    width: 50px;
+    width: 39px;
     height: 100%;
-    padding: 28px 0 15px 0;
+    padding: 26px 0 15px 0;
     border-right: 1px solid #e4e0e0;
 
     transition: all 0.2s ease-in;

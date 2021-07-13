@@ -10,7 +10,7 @@ type Props = {
 }
 
 const SidebarList: React.FC<Props> = ({ className, isOpen }) => (
-  <div className={classNames(className, s.container, isOpen && s.active)}>
+  <div className={classNames(className, s.container, isOpen && s.default)}>
     <ul className={s.list}>
       <li>
         <Link href="/">
@@ -88,17 +88,18 @@ const s = css`
 
   .icon {
     position: absolute;
-    left: 16px;
+    left: 34px;
     top: 10px;
 
     height: 21px;
     width: 21px;
-    transition: left 0.2s ease-in;
+    transform: translateX(-25px);
+    transition: transform 0.2s ease-in;
   }
 
-  .active {
+  .default {
     .icon {
-      left: 34px;
+      transform: translateX(0);
     }
   }
 `
