@@ -6,10 +6,11 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type Props = {
   className?: string
+  isOpen: boolean
 }
 
-const SidebarList: React.FC<Props> = ({ className }) => (
-  <div className={classNames(className, s.container)}>
+const SidebarList: React.FC<Props> = ({ className, isOpen }) => (
+  <div className={classNames(className, s.container, isOpen && s.active)}>
     <ul className={s.list}>
       <li>
         <Link href="/">
@@ -87,11 +88,18 @@ const s = css`
 
   .icon {
     position: absolute;
-    left: 34px;
+    left: 16px;
     top: 10px;
 
     height: 21px;
     width: 21px;
+    transition: left 0.2s ease-in;
+  }
+
+  .active {
+    .icon {
+      left: 34px;
+    }
   }
 `
 

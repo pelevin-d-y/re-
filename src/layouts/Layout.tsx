@@ -27,7 +27,11 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
       />
       <Header toggleMenu={toggleMenu} />
       <div className={s.main}>
-        <Sidebar className={s.sidebar} toggleMenu={toggleMenu} />
+        <Sidebar
+          className={s.sidebar}
+          isOpen={menuOpen}
+          toggleMenu={toggleMenu}
+        />
         <div className={classNames(s.content)}>{children}</div>
       </div>
     </div>
@@ -41,7 +45,7 @@ const s = css`
 
   .root {
     min-height: 100vh;
-    padding-left: 0;
+    padding-left: 50px;
 
     transition: all 0.2s ease-in;
   }
@@ -76,7 +80,7 @@ const s = css`
     top: 0;
     overflow: hidden;
 
-    width: 0;
+    width: 50px;
     height: 100%;
     padding: 28px 0 15px 0;
     border-right: 1px solid #e4e0e0;

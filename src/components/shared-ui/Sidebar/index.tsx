@@ -9,16 +9,17 @@ import Close from '../Close'
 type Props = {
   className?: string
   toggleMenu: () => void
+  isOpen: boolean
 }
 
-const Sidebar: React.FC<Props> = ({ className, toggleMenu }) => (
-  <div className={classNames(s.container, className)}>
+const Sidebar: React.FC<Props> = ({ className, toggleMenu, isOpen }) => (
+  <div className={classNames(s.container, className, isOpen && s.active)}>
     <Close className={s.close} handler={toggleMenu} />
     <div className={s.content}>
       <div className={s.logo}>
         <Logo />
       </div>
-      <SidebarList />
+      <SidebarList isOpen={isOpen} />
       <Button className={s.link} variant="outlined">
         Log Out
       </Button>
