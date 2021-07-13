@@ -61,7 +61,7 @@ const s = css`
   .red {
     border: 2px solid #ff4949;
     &::after {
-      background: #ff4949;
+      background: var(--red);
       border-color: #fff;
     }
   }

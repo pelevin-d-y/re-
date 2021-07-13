@@ -90,6 +90,12 @@ const s = css`
     }
   }
 
+  .profile {
+    @include mobile {
+      margin-left: auto;
+    }
+  }
+
   .menu {
     border: none;
     background: none;

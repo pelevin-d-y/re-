@@ -17,17 +17,17 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
 
   return (
     <div className={classNames(s.root, className, menuOpen && s.open)}>
-      <Sidebar className={s.sidebar} toggleMenu={toggleMenu} />
-      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
       <div
         className={s.overlay}
         onClick={toggleMenu}
         onKeyDown={toggleMenu}
         role="button"
         tabIndex={0}
+        aria-label="menu"
       />
+      <Header toggleMenu={toggleMenu} />
       <div className={s.main}>
-        <Header toggleMenu={toggleMenu} />
+        <Sidebar className={s.sidebar} toggleMenu={toggleMenu} />
         <div className={classNames(s.content)}>{children}</div>
       </div>
     </div>
@@ -41,9 +41,6 @@ const s = css`
 
   .root {
     min-height: 100vh;
-
-    display: flex;
-    flex-flow: row nowrap;
     padding-left: 0;
 
     transition: all 0.2s ease-in;
