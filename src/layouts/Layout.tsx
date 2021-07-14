@@ -3,13 +3,16 @@ import Header from 'src/components/shared-ui/Header'
 import Sidebar from 'src/components/shared-ui/Sidebar'
 import { css } from 'astroturf'
 import classNames from 'classnames'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {
   className?: string
 }
 
 const HomeLayout: React.FC<Props> = ({ children, className }) => {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const isDesktop = useMediaQuery({ query: '(min-width: 1201px)' })
+
+  const [menuOpen, setMenuOpen] = useState(isDesktop)
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -25,7 +28,7 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
         tabIndex={0}
         aria-label="menu"
       />
-      <Header toggleMenu={toggleMenu} />
+      <Header className={s.header} toggleMenu={toggleMenu} />
       <div className={s.main}>
         <Sidebar
           className={s.sidebar}
@@ -38,24 +41,43 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
   )
 }
 
-const sidebarWidth = 238
+const sidebarWidthActive = 238
+const sidebarWidth = 39
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .root {
     min-height: 100vh;
-    padding-left: 39px;
+    padding-left: ${sidebarWidth}px;
+    padding-top: 78px;
 
-    transition: all 0.2s ease-in;
+    transition: padding 0.2s ease-in;
 
     @include small-desktop {
       padding-left: 0;
     }
   }
 
+  .header {
+    left: ${sidebarWidth}px;
+    transition: left 0.2s ease-in;
+
+    @include small-desktop {
+      left: 0;
+    }
+  }
+
   .root.open {
-    padding-left: ${sidebarWidth}px;
+    padding-left: ${sidebarWidthActive}px;
+
+    .sidebar {
+      transform: translateX(0);
+    }
+
+    .header {
+      left: ${sidebarWidthActive}px;
+    }
 
     @include small-desktop {
       padding-left: 0;
@@ -63,10 +85,10 @@ const s = css`
       .overlay {
         display: block;
       }
-    }
 
-    .sidebar {
-      transform: translateX(0);
+      .header {
+        left: 0;
+      }
     }
   }
 
@@ -75,7 +97,7 @@ const s = css`
   }
 
   .open .sidebar {
-    width: ${sidebarWidth}px;
+    width: ${sidebarWidthActive}px;
   }
 
   .sidebar {
@@ -84,7 +106,7 @@ const s = css`
     top: 0;
     overflow: hidden;
 
-    width: 39px;
+    width: ${sidebarWidth}px;
     height: 100%;
     padding: 26px 0 15px 0;
     border-right: 1px solid #e4e0e0;
@@ -93,7 +115,7 @@ const s = css`
 
     @include small-desktop {
       z-index: 999;
-      width: ${sidebarWidth}px;
+      width: ${sidebarWidthActive}px;
       transform: translateX(-100%);
     }
   }

@@ -5,11 +5,12 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import EditorActions from 'src/components/shared-ui/EditorActions'
 import CloseModal from 'src/components/shared-ui/Close'
-import HtmlEditorModal from '../ModalHtmlEditor'
+import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalSent from '../ModalSent'
+import ModalEditorToolbar from '../ModalEditorToolbar'
 
 const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -33,9 +34,10 @@ const EmailModal: React.FC = () => {
         {!isSent ? (
           <CardContainer className={s.textContainer}>
             {data && <ModalEditorHeader data={data} />}
-            <HtmlEditorModal className={s.editor} data={data} toParse />
+            <ModalHtmlEditor className={s.editor} data={data} toParse />
             <div className={s.buttons}>
               <EditorActions className={s.editorActions} />
+              {data && <ModalEditorToolbar />}
               <Button variant="outlined" className={s.buttonDots}>
                 Save Template
               </Button>

@@ -15,44 +15,28 @@ const SidebarList: React.FC<Props> = ({ className, isOpen }) => (
       <li>
         <Link href="/">
           <a className={s.item}>
-            <SvgIcon
-              className={s.icon}
-              icon={require('public/svg/compass.svg?include')}
-            />{' '}
-            Home
+            <SvgIcon className={s.icon} icon="compass.svg" /> Home
           </a>
         </Link>
       </li>
       <li>
         <Link href="/lists">
           <a className={s.item}>
-            <SvgIcon
-              className={s.icon}
-              icon={require('public/svg/lists.svg?include')}
-            />{' '}
-            Lists
+            <SvgIcon className={s.icon} icon="lists.svg" /> Lists
           </a>
         </Link>
       </li>
       <li>
         <Link href="/">
           <a className={s.item}>
-            <SvgIcon
-              className={s.icon}
-              icon={require('public/svg/contacts.svg?include')}
-            />{' '}
-            Contacts
+            <SvgIcon className={s.icon} icon="contacts.svg" /> Contacts
           </a>
         </Link>
       </li>
       <li>
         <Link href="/personalization">
           <a className={s.item}>
-            <SvgIcon
-              className={s.icon}
-              icon={require('public/svg/templates.svg?include')}
-            />{' '}
-            Personalization
+            <SvgIcon className={s.icon} icon="templates.svg" /> Personalization
           </a>
         </Link>
       </li>
@@ -75,7 +59,7 @@ const s = css`
     padding: 12px 5px 12px 73px;
     color: var(--black);
 
-    font-weight: bold;
+    font-weight: var(--semibold);
     cursor: pointer;
     text-decoration: none;
 

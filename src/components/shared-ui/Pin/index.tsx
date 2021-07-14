@@ -16,7 +16,7 @@ const Pin: React.FC<Props> = ({ className }) => {
       className={classNames(className, s.button)}
     >
       <SvgIcon
-        icon={require('public/svg/pin.svg?include')}
+        icon="pin.svg"
         className={classNames(s.icon, isActive && s.active)}
       />
     </button>

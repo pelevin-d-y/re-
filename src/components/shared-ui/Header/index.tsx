@@ -9,15 +9,16 @@ import HeaderProfile from './HeaderProfile'
 
 type Props = {
   toggleMenu: () => void
+  className?: string
 }
 
-const Header: React.FC<Props> = ({ toggleMenu }) => {
+const Header: React.FC<Props> = ({ toggleMenu, className }) => {
   const { state } = useClient()
   return (
-    <header className={classNames(s.header)}>
+    <header className={classNames(s.header, className)}>
       <div className={classNames(s.container)}>
         <button type="button" className={s.menu} onClick={toggleMenu}>
-          <SvgIcon icon={require('public/svg/menu.svg?include')} />
+          <SvgIcon icon="menu.svg" />
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
@@ -38,7 +39,11 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .header {
-    width: 100%;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    right: 0;
     padding-top: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--grey);

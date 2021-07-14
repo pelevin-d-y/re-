@@ -138,7 +138,7 @@ const RecommendationsModal: React.FC = () => {
           className={s.modalHeader}
           name="Recommendations"
           title="Meetings & Events"
-          image={require('public/svg/lists.svg?include')}
+          image="lists.svg"
         />
         <div className={s.subheader}>
           <div className={s.filter} />

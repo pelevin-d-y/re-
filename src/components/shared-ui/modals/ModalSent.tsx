@@ -17,10 +17,7 @@ const ModalSent: React.FC<Props> = ({ className, names }) => {
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.check}>
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/check.svg?include')}
-        />
+        <SvgIcon className={s.icon} icon="check.svg" />
       </div>
       <div className={s.text}>{messageTemplate}</div>
     </div>

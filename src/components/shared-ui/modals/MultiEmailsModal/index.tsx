@@ -13,6 +13,7 @@ import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalSent from '../ModalSent'
+import ModalEditorToolbar from '../ModalEditorToolbar'
 
 const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()

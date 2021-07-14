@@ -26,7 +26,7 @@ const Avatar: React.FC<Props> = ({
     {image ? (
       <Img alt="avatar" className={s.avatar} img={image} />
     ) : (
-      <SvgIcon icon={require('public/svg/avatar-placeholder.svg?include')} />
+      <SvgIcon icon="avatar-placeholder.svg" />
     )}
   </div>
 )

@@ -32,13 +32,7 @@ const CardShare: React.FC<Props> = ({
   >
     <div className={s.info}>
       <div className={s.cardEvent}>
-        {
-          <SvgIcon
-            className={s.logo}
-            icon={require(`public/svg/logo-mini.svg?include`)}
-          />
-        }{' '}
-        {event}
+        <SvgIcon className={s.logo} icon="logo-mini.svg" /> {event}
       </div>
       <div className={s.title}>{title}</div>
       <Img alt="fintech" className={s.cardImage} img={image} />

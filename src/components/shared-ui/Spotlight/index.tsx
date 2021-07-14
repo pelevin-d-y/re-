@@ -25,7 +25,7 @@ const Spotlight: React.FC<Props> = ({ className }) => (
       </div>
       <div className={s.right}>
         <div className={s.radar}>
-          <SvgIcon icon={require('public/svg/radar.svg?include')} />
+          <SvgIcon icon="radar.svg" />
         </div>
       </div>
     </div>

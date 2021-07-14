@@ -27,11 +27,7 @@ const PreviousPage: React.FC<Props> = ({ className, text, handler }) => {
       type="button"
       onClick={buttonHandler}
     >
-      <SvgIcon
-        icon={require('public/svg/back.svg?include')}
-        className={s.icon}
-      />{' '}
-      {text || 'Back'}
+      <SvgIcon icon="back.svg" className={s.icon} /> {text || 'Back'}
     </button>
   )
 }

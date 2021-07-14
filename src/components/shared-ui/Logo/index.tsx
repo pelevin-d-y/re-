@@ -11,10 +11,7 @@ type Props = {
 const Logo: React.FC<Props> = ({ className }) => (
   <Link href="/">
     <a className={classNames(s.link, className)}>
-      <SvgIcon
-        className={s.icon}
-        icon={require('public/svg/logo.svg?include')}
-      />
+      <SvgIcon className={s.icon} icon="logo.svg" />
     </a>
   </Link>
 )
