@@ -12,7 +12,7 @@ const SvgIcon: React.FC<Props> = ({ className, icon }) => (
     className={classNames(className, s.container)}
     // eslint-disable-next-line react/no-danger
     dangerouslySetInnerHTML={{
-      __html: icon,
+      __html: require(`public/svg/${icon}?include`),
     }}
   />
 )

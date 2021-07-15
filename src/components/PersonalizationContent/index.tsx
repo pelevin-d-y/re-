@@ -24,6 +24,9 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           <PersonalizationSection className={s.section} title="Accounts">
             <Accounts data={clientState} />
           </PersonalizationSection>
+          <PersonalizationSection className={s.section} title="Subscription">
+            Subscription
+          </PersonalizationSection>
         </>
       ) : null}
       <GoogleAuth className={s.googleAuth} />

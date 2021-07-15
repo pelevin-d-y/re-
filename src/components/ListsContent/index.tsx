@@ -23,10 +23,7 @@ const ListsContent: React.FC<Props> = ({ className }) => {
             <ListsCatalog />
           </>
         ) : (
-          <SvgIcon
-            className={s.spinner}
-            icon={require(`public/svg/spinner.svg?include`)}
-          />
+          <SvgIcon className={s.spinner} icon="spinner.svg" />
         )}
       </div>
       <ListsSidebar className={s.sidebar} />

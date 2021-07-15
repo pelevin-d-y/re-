@@ -7,6 +7,7 @@ import { useUsers } from 'src/components/context/UsersContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
 import ModalClose from 'src/components/shared-ui/Close'
+import EditorActions from 'src/components/shared-ui/EditorActions'
 import classNames from 'classnames'
 import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
@@ -152,6 +153,7 @@ const MultiEmailsModal: React.FC = () => {
             {data && <ModalEditorHeader data={data} />}
             <ModalHtmlEditor className={s.editor} data={data} toParse />
             <div className={s.buttons}>
+              <EditorActions className={s.editorActions} />
               <Button
                 variant="contained"
                 className={s.buttonSend}
@@ -289,7 +291,7 @@ const s = css`
   }
 
   .content {
-    padding: 29px 30px 0;
+    padding: 29px 30px 15px;
   }
 
   .header {
@@ -338,9 +340,16 @@ const s = css`
     margin-top: 35px;
   }
 
+  .buttons {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
   .buttonSend {
     max-width: 140px;
     width: 100%;
+
+    margin-left: auto;
   }
 `
 

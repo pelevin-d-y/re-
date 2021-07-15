@@ -26,14 +26,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
       />
       <div className={s.list}>
         {listsState?.map((item) => (
-          <CardList
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            description={item.description}
-            image={item.icon}
-            users={item.users}
-          />
+          <CardList key={item.id} data={item} />
         ))}
       </div>
     </CardContainer>

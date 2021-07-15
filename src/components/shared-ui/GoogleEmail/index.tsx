@@ -12,10 +12,7 @@ type Props = {
 
 const GoogleEmail: React.FC<Props> = ({ className, email }) => (
   <CardContainer className={classNames(className, s.container)}>
-    <SvgIcon
-      className={s.icon}
-      icon={require('public/svg/google-mail.svg?include')}
-    />
+    <SvgIcon className={s.icon} icon="google-mail.svg" />
     <div className={s.content}>
       <div className={s.email}>{email}</div>
       <div className={s.status}>Synced</div>
@@ -55,6 +52,10 @@ const s = css`
     color: var(--blue);
     font-size: 12px;
     line-height: 14px;
+  }
+
+  .content {
+    margin-right: 10px;
   }
 
   .email {

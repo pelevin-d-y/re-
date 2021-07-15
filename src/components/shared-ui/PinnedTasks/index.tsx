@@ -21,10 +21,7 @@ const PinnedTasks: React.FC<Props> = ({ className }) => {
           <div className={s.headerImportant}>Pinned</div>
         </div>
         <div className={s.headerStar}>
-          <SvgIcon
-            className={s.headerStarIcon}
-            icon={require('public/svg/pin.svg?include')}
-          />
+          <SvgIcon className={s.headerStarIcon} icon="pin.svg" />
         </div>
       </div>
       <div className={s.cards}>

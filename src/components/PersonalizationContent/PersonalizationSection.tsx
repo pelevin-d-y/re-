@@ -23,7 +23,11 @@ const s = css`
   .container {
     width: 100%;
     padding: 34px 28px 49px;
-    border-left: 4px solid #0b5cff;
+    border-left: 4px solid #b7cfff;
+
+    &:hover {
+      border-left: 4px solid #0b5cff;
+    }
   }
 
   .title {

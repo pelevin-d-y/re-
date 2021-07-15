@@ -104,10 +104,7 @@ const Content: React.FC = () => {
             </Grid>
           </>
         ) : (
-          <SvgIcon
-            className={s.spinner}
-            icon={require('public/svg/spinner.svg?include')}
-          />
+          <SvgIcon className={s.spinner} icon="spinner.svg" />
         )}
       </div>
       <HomeSidebar className={s.sidebar} />

@@ -111,6 +111,11 @@ type List = {
   users: UserData[]
   description: string
   icon: string
+  image?: string
+  tasks?: {
+    urgent?: number
+    pinned?: number
+  }
 }
 
 type Lists = List[]

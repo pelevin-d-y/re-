@@ -13,6 +13,14 @@ type Props = {
   toParse: boolean
 }
 
+const modules = {
+  toolbar: {
+    container: '#editorToolbar',
+  },
+}
+
+const formats = ['bold', 'italic', 'link', 'size', 'list']
+
 const HtmlEditorModal: React.FC<Props> = ({
   className,
   data: { name, templateData },
@@ -36,8 +44,14 @@ const HtmlEditorModal: React.FC<Props> = ({
   }, [name, clientState?.name, template, toParse])
 
   return (
-    <div className={classNames(className, s.container)}>
-      <ReactQuill theme="snow" value={value || ''} onChange={setValue} />
+    <div className={classNames(className, s.container, 'modal-editor')}>
+      <ReactQuill
+        theme="snow"
+        value={value || ''}
+        modules={modules}
+        formats={formats}
+        onChange={setValue}
+      />
     </div>
   )
 }

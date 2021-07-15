@@ -5,6 +5,10 @@ const createTestLists = (users: UserData[]) => [
     description: 'Contacts in the network of investing',
     icon: 'birthdayIcon.png',
     users: users.slice(0, 3),
+    tasks: {
+      urgent: 3,
+      pinned: 2,
+    },
   },
   {
     id: 1,
@@ -19,6 +23,9 @@ const createTestLists = (users: UserData[]) => [
     description: 'CEO administrators',
     icon: 'people.png',
     users: users.slice(2, 4),
+    tasks: {
+      pinned: 1,
+    },
   },
   {
     id: 3,
@@ -26,6 +33,7 @@ const createTestLists = (users: UserData[]) => [
     description: 'CEO administrators',
     icon: 'pathIcon.png',
     users: users.slice(4, 16),
+    tasks: {},
   },
   {
     id: 4,
@@ -40,6 +48,9 @@ const createTestLists = (users: UserData[]) => [
     description: 'Strategy contacts',
     icon: 'pens.png',
     users,
+    tasks: {
+      urgent: 1,
+    },
   },
   {
     id: 6,
@@ -48,6 +59,10 @@ const createTestLists = (users: UserData[]) => [
       'Plan your trip ahead but scheduling meetings with contacts in LA',
     icon: 'pens.png',
     users: users.slice(10, 16),
+    tasks: {
+      urgent: 1,
+      pinned: 1,
+    },
   },
   {
     id: 7,
@@ -55,6 +70,10 @@ const createTestLists = (users: UserData[]) => [
     description: 'It’s been',
     icon: 'people.png',
     users: users.filter((user) => user.template === '1 Year'),
+    tasks: {
+      urgent: 2,
+      pinned: 2,
+    },
   },
   {
     id: 8,
@@ -62,6 +81,10 @@ const createTestLists = (users: UserData[]) => [
     description: 'It’s been',
     icon: 'people.png',
     users: users.filter((user) => user.template === '3 Months'),
+    tasks: {
+      urgent: 2,
+      pinned: 2,
+    },
   },
   {
     id: 9,
@@ -69,6 +92,9 @@ const createTestLists = (users: UserData[]) => [
     description: 'February 12, 2021 - Frontend Round table',
     icon: 'people.png',
     users: users.slice(0, 6),
+    tasks: {
+      urgent: 3,
+    },
   },
 ]
 

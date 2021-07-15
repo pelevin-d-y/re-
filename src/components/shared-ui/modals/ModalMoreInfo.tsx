@@ -32,7 +32,7 @@ const ModalMoreInfo: React.FC<Props> = ({ className, classes }) => {
         {isOpen ? 'Less' : 'More'} Info about {name}{' '}
         <SvgIcon
           className={classNames(s.arrowIcon, isOpen && s.arrowOpen)}
-          icon={require('public/svg/inputArrow.svg?include')}
+          icon="inputArrow.svg"
         />
       </button>
       {isOpen && (

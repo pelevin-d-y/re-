@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
+import Socials from './Socials'
 
 type Props = {
   className?: string
@@ -24,6 +25,7 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
       </div>
       <div className={s.socials}>
         <div className={s.subtitle}>Social Accounts</div>
+        <Socials />
       </div>
     </div>
   )
@@ -31,7 +33,7 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
 
 const s = css`
   .subtitle {
-    margin-bottom: 4px;
+    margin-bottom: 18px;
 
     font-weight: var(--semibold);
     line-height: 31px;
@@ -53,6 +55,11 @@ const s = css`
   .account {
     max-width: 256px;
     width: 100%;
+    margin-right: 13px;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
   .socials {

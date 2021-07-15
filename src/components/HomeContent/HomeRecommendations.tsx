@@ -20,10 +20,7 @@ const HomeRecommendations: React.FC<Props> = ({ className }) => {
         Your Weekly Recommendations
         <Link className={s.link} href="#">
           View all
-          <SvgIcon
-            className={s.linkIcon}
-            icon={require(`public/svg/back.svg?include`)}
-          />
+          <SvgIcon className={s.linkIcon} icon="back.svg" />
         </Link>
       </div>
       <div className={s.cards}>

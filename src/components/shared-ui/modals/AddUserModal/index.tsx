@@ -26,10 +26,7 @@ const EmailModal: React.FC = () => {
       <div className={s.header}>
         <div className={s.title}>Create Contact</div>
         <div className={s.description}>Enter your contact’s info</div>
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/avatar-placeholder.svg?include')}
-        />
+        <SvgIcon className={s.icon} icon="avatar-placeholder.svg?include" />
       </div>
       <div className={s.content}>
         <Formik

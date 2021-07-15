@@ -41,12 +41,7 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
       {...props}
     >
       <span className={s.text}>{children}</span>
-      {isArrow && (
-        <SvgIcon
-          className={s.arrow}
-          icon={require('public/svg/inputArrow.svg?include')}
-        />
-      )}
+      {isArrow && <SvgIcon className={s.arrow} icon="inputArrow.svg" />}
     </button>
   )
 )

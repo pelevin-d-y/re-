@@ -6,16 +6,10 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 const Likes: React.FC = () => (
   <>
     <button className={classNames(s.button, s.like)} type="button">
-      <SvgIcon
-        className={s.image}
-        icon={require('public/svg/like.svg?include')}
-      />
+      <SvgIcon className={s.image} icon="like.svg" />
     </button>
     <button className={classNames(s.button, s.dislike)} type="button">
-      <SvgIcon
-        className={s.image}
-        icon={require('public/svg/like.svg?include')}
-      />
+      <SvgIcon className={s.image} icon="like.svg" />
     </button>
   </>
 )

@@ -69,7 +69,7 @@ const Select: React.FC<Props> = ({ options }) => {
   // eslint-disable-next-line
   const DropdownIndicator = (props: IndicatorProps<any, any>) => (
     <components.DropdownIndicator {...props}>
-      <SvgIcon icon={require('public/svg/inputArrow.svg?include')} />
+      <SvgIcon icon="inputArrow.svg" />
     </components.DropdownIndicator>
   )
 
