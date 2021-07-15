@@ -1,11 +1,5 @@
 .modal-editor {
   .quill {
-    .ql-toolbar {
-      border: none;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
     .ql-container {
       border: none;
     }
@@ -14,5 +8,13 @@
       padding-left: 0;
       padding-right: 0;
     }
+  }
+}
+
+#editorToolbar {
+  &.ql-toolbar {
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
   }
 }

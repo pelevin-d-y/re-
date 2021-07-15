@@ -112,7 +112,7 @@ type List = {
   description: string
   icon: string
   image?: string
-  tasks: {
+  tasks?: {
     urgent?: number
     pinned?: number
   }

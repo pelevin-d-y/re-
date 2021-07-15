@@ -10,7 +10,6 @@ import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalSent from '../ModalSent'
-import ModalEditorToolbar from '../ModalEditorToolbar'
 
 const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -36,8 +35,7 @@ const EmailModal: React.FC = () => {
             {data && <ModalEditorHeader data={data} />}
             <ModalHtmlEditor className={s.editor} data={data} toParse />
             <div className={s.buttons}>
-              <EditorActions className={s.editorActions} />
-              {data && <ModalEditorToolbar />}
+              {data && <EditorActions className={s.editorActions} />}
               <Button variant="outlined" className={s.buttonDots}>
                 Save Template
               </Button>
@@ -66,7 +64,6 @@ const s = css`
   }
 
   .textContainer {
-    overflow: hidden;
     margin-top: 22px;
     padding: 0 0 23px;
 

@@ -19,7 +19,7 @@ const modules = {
   },
 }
 
-const formats = ['bold']
+const formats = ['bold', 'italic', 'link', 'size', 'list']
 
 const HtmlEditorModal: React.FC<Props> = ({
   className,

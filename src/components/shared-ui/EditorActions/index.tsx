@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import PopoverTemplates from 'src/components/shared-ui/popover/PopoverTemplates'
+import ModalEditorToolbar from 'src/components/shared-ui/modals/ModalEditorToolbar'
 
 type Props = {
   className?: string
@@ -10,6 +11,7 @@ type Props = {
 const EditorActions: React.FC<Props> = ({ className }) => (
   <div className={classNames(className, s.container)}>
     <PopoverTemplates />
+    <ModalEditorToolbar />
   </div>
 )
 
