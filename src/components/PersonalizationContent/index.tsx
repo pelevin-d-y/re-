@@ -6,6 +6,7 @@ import GoogleAuth from 'src/components/shared-ui/GoogleAuth'
 import Profile from './PersonalizationProfile'
 import PersonalizationSection from './PersonalizationSection'
 import Accounts from './PersonalizationAccounts'
+import Subscription from './Subscription'
 
 type Props = {
   className?: string
@@ -25,7 +26,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
             <Accounts data={clientState} />
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Subscription">
-            Subscription
+            <Subscription />
           </PersonalizationSection>
         </>
       ) : null}

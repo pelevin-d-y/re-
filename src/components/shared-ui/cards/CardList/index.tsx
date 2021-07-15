@@ -6,7 +6,7 @@ import Img from 'src/components/shared-ui/Img'
 import Tasks from 'src/components/shared-ui/Tasks'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
-import CardActions from '../CardActions'
+import CardActions from './CardActions'
 
 type Props = {
   className?: string

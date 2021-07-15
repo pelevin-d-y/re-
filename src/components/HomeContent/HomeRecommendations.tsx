@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { css } from 'astroturf'
-import SmallCard from 'src/components/shared-ui/cards/CardSmall'
+import CardContact from 'src/components/shared-ui/cards/CardContact'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
@@ -25,7 +25,7 @@ const HomeRecommendations: React.FC<Props> = ({ className }) => {
       </div>
       <div className={s.cards}>
         {contacts?.map((contactItem) => (
-          <SmallCard
+          <CardContact
             data={contactItem}
             className={s.column}
             key={contactItem.first_message_id}
