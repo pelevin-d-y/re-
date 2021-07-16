@@ -34,7 +34,7 @@ const Card: React.FC<Props> = ({
         </li>
       ))}
     </ul>
-    <button className={s.button} type="button">
+    <button className={classNames(s.button, classes?.button)} type="button">
       {buttonText}
     </button>
   </div>
@@ -87,6 +87,10 @@ const s = css`
   .button {
     padding: 7px 8px;
     min-width: 174px;
+    color: var(--white);
+    font-weight: var(--semibold);
+
+    cursor: pointer;
     border-radius: 16px;
     border: none;
   }

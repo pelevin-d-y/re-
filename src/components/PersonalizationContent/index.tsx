@@ -30,7 +30,6 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           </PersonalizationSection>
         </>
       ) : null}
-      <GoogleAuth className={s.googleAuth} />
     </div>
   )
 }
@@ -42,12 +41,6 @@ const s = css`
 
   .section {
     margin-bottom: 11px;
-  }
-
-  .googleAuth {
-    width: 200px;
-    height: 50px;
-    margin-bottom: 20px;
   }
 `
 

@@ -102,7 +102,7 @@ type UserData = {
   lastMessage?: string
   playlists?: Playlists
   templateData?: Template
-  relationshipStrength?: 'red' | 'orange' | 'green'
+  relationshipStrength?: 'red' | 'orange' | 'green' | null
 }
 
 type List = {

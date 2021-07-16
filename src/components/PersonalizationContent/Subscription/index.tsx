@@ -11,7 +11,7 @@ type Props = {
 const PersonalizationSubscription: React.FC<Props> = ({ className }) => (
   <Grid division={2} gap="18px" className={classNames(className, s.container)}>
     <Card
-      classes={{ container: s.cardBasic }}
+      classes={{ container: s.cardBasic, button: s.basicButton }}
       description="Free subscription"
       title="Basic"
       img="subscription-basic.png"
@@ -25,7 +25,7 @@ const PersonalizationSubscription: React.FC<Props> = ({ className }) => (
       buttonText="Current Plan"
     />
     <Card
-      classes={{ container: s.cardPremium }}
+      classes={{ container: s.cardPremium, button: s.premiumButton }}
       description="$79.99/Month"
       title="Premium"
       img="subscription-premium.png"
@@ -51,6 +51,14 @@ const s = css`
 
   .cardPremium {
     background: linear-gradient(110.12deg, #0041c2 -4.15%, #6b389e 105.58%);
+  }
+
+  .basicButton {
+    background: var(--bold);
+  }
+
+  .premiumButton {
+    background: var(--blue);
   }
 `
 

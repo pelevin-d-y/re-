@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
+import GoogleAuth from 'src/components/shared-ui/GoogleAuth'
 import Socials from './Socials'
 
 type Props = {
@@ -23,6 +24,7 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
           <GoogleEmail key={address} className={s.account} email={address} />
         ))}
       </div>
+      <GoogleAuth className={s.googleAuth} />
       <div className={s.socials}>
         <div className={s.subtitle}>Social Accounts</div>
         <Socials />
@@ -64,6 +66,12 @@ const s = css`
 
   .socials {
     margin-top: 21px;
+  }
+
+  .googleAuth {
+    width: 200px;
+    height: 50px;
+    margin-top: 18px;
   }
 `
 
