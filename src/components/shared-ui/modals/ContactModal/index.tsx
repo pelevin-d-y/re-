@@ -5,6 +5,8 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import EditorActions from 'src/components/shared-ui/EditorActions'
 import CloseModal from 'src/components/shared-ui/Close'
+import { useAuth } from 'src/components/context/AuthContext'
+import { apiPost } from 'src/api'
 import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalEditorHeader from '../ModalEditorHeader'
@@ -19,6 +21,62 @@ const EmailModal: React.FC = () => {
   const closeHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: {} })
     setIsSent(false)
+  }
+
+  const { state: authState } = useAuth()
+  console.log('🚀 ~ file: index.tsx ~ line 27 ~ authState', authState)
+
+  // 'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test/send' \
+  // --header 'Authorization: ???' \
+  // --header 'Content-Type: application/json' \
+  // --data-raw '{
+  //   "client_id": "Client_Strata_ID",
+  //   "from_address": "gabriel@strata.cc",
+  //   "to_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel to"
+  //     }
+  //   ],
+  //   "cc_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel cc"
+  //     }
+  //   ],
+  //   "bcc_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel bcc"
+  //     }
+  //   ],
+  //   "reply_to_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel reply to"
+  //     }
+  //   ],
+  //   "subject": "Via cURL -> Test/send API -> Nylas",
+  //   "body": "Authentication via Cognito & Nylas"
+
+  const sendEmail = async () => {
+    if (authState?.idToken) {
+      const resp = await apiPost('/api/aws1/send', {
+        client_id: authState.idToken,
+        from_address: 'natpuot1992@gmail.com',
+        to_contact_list: [
+          {
+            address: 'natpuot92@bk.ru',
+            name: 'Denis to',
+          },
+        ],
+        subject: 'Test/send API -> Nylas',
+        body: 'Authentication via Cognito & Nylas',
+      })
+
+      console.log('resp', resp)
+    }
+    console.log('sendEmail', authState)
   }
 
   return (
@@ -42,7 +100,7 @@ const EmailModal: React.FC = () => {
               <Button
                 variant="contained"
                 className={s.buttonSend}
-                handler={() => setIsSent(true)}
+                handler={() => sendEmail()}
               >
                 Send
               </Button>

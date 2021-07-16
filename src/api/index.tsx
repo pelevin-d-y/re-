@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosInstance } from 'axios'
 
 const defaultOptions = {
@@ -26,8 +27,8 @@ const apiGet = (url: string, params?: Params): Promise<any> =>
     params,
   })
 
-const apiPost = (url: string, params: Params): Promise<any> =>
-  instance.get(url, {
+const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
+  instance.post(url, data, {
     params,
   })
 
