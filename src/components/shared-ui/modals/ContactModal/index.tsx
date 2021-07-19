@@ -26,7 +26,7 @@ const EmailModal: React.FC = () => {
   const { state: authState } = useAuth()
   console.log('🚀 ~ file: index.tsx ~ line 27 ~ authState', authState)
 
-  // 'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test/send' \
+  // 'https://7qq5n63vjg.execute-api.us-east-1.amazonaws.com/Test/messages/send' \
   // --header 'Authorization: ???' \
   // --header 'Content-Type: application/json' \
   // --data-raw '{
@@ -61,7 +61,7 @@ const EmailModal: React.FC = () => {
 
   const sendEmail = async () => {
     if (authState?.idToken) {
-      const resp = await apiPost('/api/aws1/send', {
+      const resp = await apiPost('/api/aws2/messages/send', {
         client_id: authState.idToken,
         from_address: 'natpuot1992@gmail.com',
         to_contact_list: [
@@ -75,8 +75,9 @@ const EmailModal: React.FC = () => {
       })
 
       console.log('resp', resp)
+    } else {
+      alert('please log in')
     }
-    console.log('sendEmail', authState)
   }
 
   return (

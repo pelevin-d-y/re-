@@ -34,12 +34,6 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
 
   React.useEffect(() => {
     const setClientData = async () => {
-      // const authResp = await apiGet('/api/aws2/client/authorization')
-      // console.log(
-      //   '🚀 ~ file: ClientContext.tsx ~ line 38 ~ setClientData ~ authResp',
-      //   authResp
-      // )
-
       try {
         const clientData = await get('client')
         if (clientData) {
