@@ -13,7 +13,7 @@ type Props = {
   template?: Template
 }
 
-const PinnedTasksCard: React.FC<Props> = ({ className, data, template }) =>
+const PinnedCard: React.FC<Props> = ({ className, data, template }) =>
   data && template ? (
     <CardContainer className={classNames(className, s.container)}>
       <Avatar
@@ -31,7 +31,7 @@ const PinnedTasksCard: React.FC<Props> = ({ className, data, template }) =>
           />
         )}
       </div>
-      <Pin className={s.pin} />
+      <Pin className={s.pin} data={data} />
     </CardContainer>
   ) : null
 
@@ -71,4 +71,4 @@ const s = css`
   }
 `
 
-export default PinnedTasksCard
+export default PinnedCard

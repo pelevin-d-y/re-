@@ -53,7 +53,7 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
         </div>
       </div>
       <div className={s.actions}>
-        <Pin className={s.pin} />
+        <Pin className={s.pin} data={data} />
         <PopoverActions
           buttonClickHandler={buttonHandler}
           className={s.button}
