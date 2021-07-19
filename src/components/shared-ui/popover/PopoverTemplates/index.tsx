@@ -47,10 +47,7 @@ const PopoverTemplates: React.FC<Props> = () => {
       position="right bottom"
       triggerElement={
         <button className={s.button} type="button">
-          <SvgIcon
-            className={s.icon}
-            icon={require('public/svg/templates.svg?include')}
-          />
+          <SvgIcon className={s.icon} icon="templates.svg" />
         </button>
       }
       popupContent={

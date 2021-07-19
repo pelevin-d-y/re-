@@ -45,10 +45,7 @@ const Checkbox: React.FC<Props> = forwardRef(
           ref={combinedRef}
           {...rest}
         />
-        <SvgIcon
-          className={s.icon}
-          icon={require('public/svg/check.svg?include')}
-        />
+        <SvgIcon className={s.icon} icon="check.svg" />
       </label>
     )
   }

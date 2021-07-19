@@ -9,7 +9,7 @@ type Props = {
   width?: number
   height?: number
   image?: string | null
-  strength?: string | number
+  strength?: string | number | null
 }
 
 const Avatar: React.FC<Props> = ({
@@ -26,7 +26,7 @@ const Avatar: React.FC<Props> = ({
     {image ? (
       <Img alt="avatar" className={s.avatar} img={image} />
     ) : (
-      <SvgIcon icon={require('public/svg/avatar-placeholder.svg?include')} />
+      <SvgIcon icon="avatar-placeholder.svg" />
     )}
   </div>
 )
@@ -61,7 +61,7 @@ const s = css`
   .red {
     border: 2px solid #ff4949;
     &::after {
-      background: #ff4949;
+      background: var(--red);
       border-color: #fff;
     }
   }

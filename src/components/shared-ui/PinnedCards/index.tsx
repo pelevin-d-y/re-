@@ -4,15 +4,16 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
-import PinnedTasksCard from './PinnedTasksCard'
+import { isEmpty } from 'lodash'
+import PinnedCard from './PinnedCard'
 
 type Props = {
   className?: string
 }
 
-const PinnedTasks: React.FC<Props> = ({ className }) => {
+const PinnedCards: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-  const contacts = state?.contacts?.slice(0, 4)
+  const contacts = state?.contacts?.filter((item) => item.pinned)
 
   return (
     <CardContainer className={classNames(className, s.container)}>
@@ -21,21 +22,20 @@ const PinnedTasks: React.FC<Props> = ({ className }) => {
           <div className={s.headerImportant}>Pinned</div>
         </div>
         <div className={s.headerStar}>
-          <SvgIcon
-            className={s.headerStarIcon}
-            icon={require('public/svg/pin.svg?include')}
-          />
+          <SvgIcon className={s.headerStarIcon} icon="pin.svg" />
         </div>
       </div>
       <div className={s.cards}>
-        {contacts?.map((item) => (
-          <PinnedTasksCard
-            className={s.card}
-            key={item.first_message_id}
-            data={item}
-            template={item.templateData}
-          />
-        ))}
+        {isEmpty(contacts)
+          ? 'No pinned contacts'
+          : contacts?.map((item) => (
+              <PinnedCard
+                className={s.card}
+                key={item.first_message_id}
+                data={item}
+                template={item.templateData}
+              />
+            ))}
       </div>
     </CardContainer>
   )
@@ -90,4 +90,4 @@ const s = css`
   }
 `
 
-export default PinnedTasks
+export default PinnedCards

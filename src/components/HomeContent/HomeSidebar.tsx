@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 import Spotlight from 'src/components/shared-ui/Spotlight'
-import ImportantSteps from 'src/components/shared-ui/PinnedTasks'
+import ImportantSteps from 'src/components/shared-ui/PinnedCards'
 import classNames from 'classnames'
 
 type Props = {

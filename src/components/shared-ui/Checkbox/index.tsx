@@ -26,10 +26,7 @@ const Checkbox: React.FC<Props> = ({ className, handler }) => {
         checked={isChecked}
         onChange={handleChange}
       />
-      <SvgIcon
-        className={s.icon}
-        icon={require('public/svg/check.svg?include')}
-      />
+      <SvgIcon className={s.icon} icon="check.svg" />
     </label>
   )
 }

@@ -8,7 +8,7 @@ import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
-import CardSmall from 'src/components/shared-ui/cards/CardSmall'
+import CardContact from 'src/components/shared-ui/cards/CardContact'
 import HomeRecommendations from './HomeRecommendations'
 
 const Content: React.FC = () => {
@@ -45,8 +45,8 @@ const Content: React.FC = () => {
             />
             {contacts && (
               <Grid className={s.section} division={2}>
-                <CardSmall data={contacts[2]} isRow />
-                <CardSmall data={contacts[3]} isRow />
+                <CardContact data={contacts[2]} isRow />
+                <CardContact data={contacts[3]} isRow />
               </Grid>
             )}
             <Grid className={s.section} division={2}>
@@ -65,8 +65,8 @@ const Content: React.FC = () => {
             {contacts && (
               <Grid className={s.section} division={2}>
                 <Grid division={2} direction="Row">
-                  <CardSmall data={contacts[6]} isRow />
-                  <CardSmall data={contacts[5]} isRow />
+                  <CardContact data={contacts[6]} isRow />
+                  <CardContact data={contacts[5]} isRow />
                 </Grid>
                 <CardTextContent
                   title="Followup"
@@ -85,8 +85,8 @@ const Content: React.FC = () => {
                   users={contacts?.slice(7, 12)}
                 />
                 <Grid division={2} direction="Row">
-                  <CardSmall data={contacts[2]} isRow />
-                  <CardSmall data={contacts[3]} isRow />
+                  <CardContact data={contacts[2]} isRow />
+                  <CardContact data={contacts[3]} isRow />
                 </Grid>
               </Grid>
             )}
@@ -104,10 +104,7 @@ const Content: React.FC = () => {
             </Grid>
           </>
         ) : (
-          <SvgIcon
-            className={s.spinner}
-            icon={require('public/svg/spinner.svg?include')}
-          />
+          <SvgIcon className={s.spinner} icon="spinner.svg" />
         )}
       </div>
       <HomeSidebar className={s.sidebar} />

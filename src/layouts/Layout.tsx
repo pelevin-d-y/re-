@@ -3,13 +3,16 @@ import Header from 'src/components/shared-ui/Header'
 import Sidebar from 'src/components/shared-ui/Sidebar'
 import { css } from 'astroturf'
 import classNames from 'classnames'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {
   className?: string
 }
 
 const HomeLayout: React.FC<Props> = ({ children, className }) => {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const isDesktop = useMediaQuery({ query: '(min-width: 1201px)' })
+
+  const [menuOpen, setMenuOpen] = useState(isDesktop)
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -17,40 +20,64 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
 
   return (
     <div className={classNames(s.root, className, menuOpen && s.open)}>
-      <Sidebar className={s.sidebar} toggleMenu={toggleMenu} />
-      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
       <div
         className={s.overlay}
         onClick={toggleMenu}
         onKeyDown={toggleMenu}
         role="button"
         tabIndex={0}
+        aria-label="menu"
       />
+      <Header className={s.header} toggleMenu={toggleMenu} />
       <div className={s.main}>
-        <Header toggleMenu={toggleMenu} />
+        <Sidebar
+          className={s.sidebar}
+          isOpen={menuOpen}
+          toggleMenu={toggleMenu}
+        />
         <div className={classNames(s.content)}>{children}</div>
       </div>
     </div>
   )
 }
 
-const sidebarWidth = 238
+const sidebarWidthActive = 238
+const sidebarWidth = 39
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .root {
     min-height: 100vh;
+    padding-left: ${sidebarWidth}px;
+    padding-top: 78px;
 
-    display: flex;
-    flex-flow: row nowrap;
-    padding-left: 0;
+    transition: padding 0.2s ease-in;
 
-    transition: all 0.2s ease-in;
+    @include small-desktop {
+      padding-left: 0;
+    }
+  }
+
+  .header {
+    left: ${sidebarWidth}px;
+    transition: left 0.2s ease-in;
+
+    @include small-desktop {
+      left: 0;
+    }
   }
 
   .root.open {
-    padding-left: ${sidebarWidth}px;
+    padding-left: ${sidebarWidthActive}px;
+
+    .sidebar {
+      transform: translateX(0);
+    }
+
+    .header {
+      left: ${sidebarWidthActive}px;
+    }
 
     @include small-desktop {
       padding-left: 0;
@@ -58,10 +85,10 @@ const s = css`
       .overlay {
         display: block;
       }
-    }
 
-    .sidebar {
-      transform: translateX(0);
+      .header {
+        left: 0;
+      }
     }
   }
 
@@ -70,7 +97,7 @@ const s = css`
   }
 
   .open .sidebar {
-    width: ${sidebarWidth}px;
+    width: ${sidebarWidthActive}px;
   }
 
   .sidebar {
@@ -79,16 +106,16 @@ const s = css`
     top: 0;
     overflow: hidden;
 
-    width: 0;
+    width: ${sidebarWidth}px;
     height: 100%;
-    padding: 28px 0 15px 0;
+    padding: 26px 0 15px 0;
     border-right: 1px solid #e4e0e0;
 
     transition: all 0.2s ease-in;
 
     @include small-desktop {
       z-index: 999;
-      width: ${sidebarWidth}px;
+      width: ${sidebarWidthActive}px;
       transform: translateX(-100%);
     }
   }

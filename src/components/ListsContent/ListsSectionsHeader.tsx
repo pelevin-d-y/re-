@@ -34,7 +34,7 @@ const SectionHeader: React.FC<Props> = ({
       className={s.icon}
       style={{ background: iconBackground, color: iconColor }}
     >
-      <SvgIcon icon={require(`public/svg/${icon}.svg?include`)} />
+      <SvgIcon icon={`${icon}.svg`} />
     </div>
     <div className={s.content}>
       <div className={s.title}>
@@ -42,10 +42,7 @@ const SectionHeader: React.FC<Props> = ({
         {link && (
           <Link className={s.link} href={link.href}>
             {link.text}
-            <SvgIcon
-              className={s.linkIcon}
-              icon={require(`public/svg/back.svg?include`)}
-            />
+            <SvgIcon className={s.linkIcon} icon="back.svg" />
           </Link>
         )}
       </div>

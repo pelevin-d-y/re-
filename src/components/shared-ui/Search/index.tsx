@@ -14,10 +14,7 @@ type Props = {
 
 const Search: React.FC<Props> = ({ inputPlaceholder, classes, onChange }) => (
   <div className={classNames(classes?.container, s.search)}>
-    <SvgIcon
-      className={s.icon}
-      icon={require('public/svg/search.svg?include')}
-    />
+    <SvgIcon className={s.icon} icon="search.svg" />
     <input
       className={classNames(s.input, classes?.input)}
       type="text"

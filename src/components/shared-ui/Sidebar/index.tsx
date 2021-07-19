@@ -9,16 +9,17 @@ import Close from '../Close'
 type Props = {
   className?: string
   toggleMenu: () => void
+  isOpen: boolean
 }
 
-const Sidebar: React.FC<Props> = ({ className, toggleMenu }) => (
-  <div className={classNames(s.container, className)}>
+const Sidebar: React.FC<Props> = ({ className, toggleMenu, isOpen }) => (
+  <div className={classNames(s.container, className, isOpen && s.default)}>
     <Close className={s.close} handler={toggleMenu} />
     <div className={s.content}>
       <div className={s.logo}>
         <Logo />
       </div>
-      <SidebarList />
+      <SidebarList isOpen={isOpen} />
       <Button className={s.link} variant="outlined">
         Log Out
       </Button>
@@ -34,9 +35,25 @@ const s = css`
   }
 
   .logo {
-    width: calc(107px + 34px);
-    margin-bottom: 20px;
+    width: 141px;
+    margin-bottom: 38px;
     padding-left: 34px;
+    transform: translateX(-29px);
+    transition: transform 0.2s ease-in;
+
+    @include small-desktop {
+      transform: translateX(0);
+    }
+  }
+
+  .default {
+    .logo {
+      transform: translateX(0);
+    }
+
+    .link {
+      opacity: 1;
+    }
   }
 
   .close {
@@ -52,8 +69,14 @@ const s = css`
   }
 
   .link {
+    opacity: 0;
+    min-width: 73px;
     margin-left: 34px;
     margin-top: 50px;
+
+    @include small-desktop {
+      opacity: 1;
+    }
   }
 `
 

@@ -6,6 +6,7 @@ import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
+import Tasks from '../../Tasks'
 import CardContainer from '../CardContainer'
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
   users?: UserData[]
 }
 
-const CardItsBeen: React.FC<Props> = ({
+const CardTextContent: React.FC<Props> = ({
   className,
   title,
   subtitle,
@@ -36,9 +37,10 @@ const CardItsBeen: React.FC<Props> = ({
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
         <div className={s.cardName}>{title}</div>
-        <div className={s.title}>{subtitle}</div>
-        <div className={s.description}>{description}</div>
+        <Tasks data={{ urgent: 3, pinned: 1 }} />
       </div>
+      <div className={s.title}>{subtitle}</div>
+      <div className={s.description}>{description}</div>
       {users && (
         <AvatarsList
           className={s.avatars}
@@ -75,8 +77,12 @@ const s = css`
   }
 
   .header {
-    position: relative;
-    margin-bottom: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 8px;
   }
 
   .clock {
@@ -102,6 +108,7 @@ const s = css`
   .avatars {
     display: flex;
     flex-flow: row nowrap;
+    margin-top: 20px;
     margin-bottom: 18px;
   }
 
@@ -129,4 +136,4 @@ const s = css`
   }
 `
 
-export default CardItsBeen
+export default CardTextContent

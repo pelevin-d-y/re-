@@ -5,7 +5,6 @@ import findTemplate from 'src/helpers/utils/find-template'
 type Action =
   | { type: 'TOGGLE_CONTACT_POPUP'; payload: UserData }
   | { type: 'TOGGLE_CONTACTS_POPUP' }
-  | { type: 'TOGGLE_RECOMMENDATIONS_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
@@ -14,7 +13,6 @@ type Action =
 type State = {
   emailModalIsOpen: boolean
   multiEmailsIsOpen: boolean
-  recommendationsIsOpen: boolean
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
   templatesModalIsOpen: boolean
@@ -45,12 +43,6 @@ const popupReducer = (state: State, action: Action): State => {
         multiEmailsIsOpen: !state.multiEmailsIsOpen,
       }
     }
-    case 'TOGGLE_RECOMMENDATIONS_POPUP': {
-      return {
-        ...state,
-        recommendationsIsOpen: !state.recommendationsIsOpen,
-      }
-    }
     case 'TOGGLE_ADD_CONTACT_POPUP': {
       return {
         ...state,
@@ -79,7 +71,6 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         emailModalIsOpen: false,
         multiEmailsIsOpen: false,
-        recommendationsIsOpen: false,
         addContactModalIsOpen: false,
         createListModalIsOpen: false,
         templatesModalIsOpen: false,
@@ -93,7 +84,6 @@ const PopupProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(popupReducer, {
     emailModalIsOpen: false,
     multiEmailsIsOpen: false,
-    recommendationsIsOpen: false,
     addContactModalIsOpen: false,
     createListModalIsOpen: false,
     templatesModalIsOpen: false,

@@ -14,10 +14,7 @@ const ModalClose: React.FC<Props> = ({ className, handler }) => (
     onClick={handler}
     className={classNames(className, s.close)}
   >
-    <SvgIcon
-      className={s.closeIcon}
-      icon={require('public/svg/close.svg?include')}
-    />
+    <SvgIcon className={s.closeIcon} icon="close.svg" />
   </button>
 )
 

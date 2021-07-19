@@ -2,7 +2,6 @@ import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
-import Link from 'src/components/shared-ui/Link'
 
 type Props = {
   className?: string
@@ -13,18 +12,14 @@ const ListsSidebar: React.FC<Props> = ({ className }) => (
     <div className={s.header}>
       Important <span>Lists</span>
     </div>
-    <Link className={s.createList} href="/create-list" variant="contained">
-      Create New
-    </Link>
   </CardContainer>
 )
 
 const s = css`
   .container {
     width: 30%;
-    height: 100vh;
     padding: 24px 14px 19px;
-
+    align-self: flex-start;
     border-radius: 10px;
   }
 

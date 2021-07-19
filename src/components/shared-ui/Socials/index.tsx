@@ -9,22 +9,10 @@ type Props = {
 
 const Socials: React.FC<Props> = ({ className }) => (
   <div className={classNames(className, s.container)}>
-    <Social
-      className={s.social}
-      icon={require('public/svg/social-ln.svg?include')}
-    />
-    <Social
-      className={s.social}
-      icon={require('public/svg/social-fb.svg?include')}
-    />
-    <Social
-      className={s.social}
-      icon={require('public/svg/social-in.svg?include')}
-    />
-    <Social
-      className={s.social}
-      icon={require('public/svg/social-tw.svg?include')}
-    />
+    <Social className={s.social} icon="social-ln.svg" />
+    <Social className={s.social} icon="social-fb.svg" />
+    <Social className={s.social} icon="social-in.svg" />
+    <Social className={s.social} icon="social-tw.svg" />
   </div>
 )
 
