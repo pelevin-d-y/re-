@@ -222,7 +222,7 @@ const s = css`
     padding: 18px 19px;
 
     &:first-child {
-      width: 40px !important;
+      max-width: 55px !important;
     }
   }
 
@@ -256,7 +256,7 @@ const s = css`
     padding: 28px 19px;
 
     &:first-child {
-      width: 40px !important;
+      max-width: 55px !important;
     }
   }
 

@@ -11,7 +11,10 @@ type State = UserData | null
 type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
+  updateUserData: (data: UserData) => void
 }
+
+const DB_STORE_NAME = 'client'
 
 const ClientContext = React.createContext<ContextType | null>(null)
 
@@ -44,7 +47,10 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
           )
           const extendedUsers = addAdditionFields(clientRecommendations)
           await set('client', extendedUsers[0])
-          dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[0] })
+          dispatch({
+            type: 'UPDATE_USER_DATA',
+            payload: extendedUsers[0],
+          })
         }
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -53,17 +59,30 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         console.log('set testUsers')
         const extendedUsers = addAdditionFields(testUsers)
         await set('client', extendedUsers[0])
-        dispatch({ type: 'UPDATE_USER_DATA', payload: extendedUsers[0] })
+        dispatch({
+          type: 'UPDATE_USER_DATA',
+          payload: extendedUsers[0],
+        })
       }
     }
 
     setClientData()
   }, [])
 
+  const updateUserData = async (data: UserData) => {
+    set(DB_STORE_NAME, data)
+      .then(() => {
+        dispatch({ type: 'UPDATE_USER_DATA', payload: data })
+      })
+      // eslint-disable-next-line no-console
+      .catch((err) => console.error(err))
+  }
+
   const value: ContextType = React.useMemo(
     () => ({
       state,
       dispatch,
+      updateUserData,
     }),
     [state]
   )

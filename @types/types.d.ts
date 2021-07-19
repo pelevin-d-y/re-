@@ -93,15 +93,17 @@ type UserData = {
   contact_reply_prob?: number | string
   client_reply_wait?: number
   client_reply_prob?: string | number
+  position?: string
+  pinned?: boolean
   title?: string
   notes?: string
   next_outreach?: string
   id?: string | number
   event?: string
-  position?: string
   lastMessage?: string
   playlists?: Playlists
   templateData?: Template
+  recommendations?: UserData[]
   relationshipStrength?: 'red' | 'orange' | 'green' | null
 }
 
