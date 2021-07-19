@@ -43,6 +43,12 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     padding: 18px 50px 20px 20px;
+
+    &:hover {
+      .pin {
+        opacity: 1;
+      }
+    }
   }
 
   .avatar {
@@ -68,6 +74,8 @@ const s = css`
     right: 9px;
 
     margin-left: auto;
+
+    opacity: 0;
   }
 `
 

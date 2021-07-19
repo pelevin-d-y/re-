@@ -9,12 +9,19 @@ type Props = {
   className?: string
 }
 
+const checkState = (isDesktop: boolean) => {
+  if (!isDesktop) {
+    return false
+  }
+  return localStorage.getItem('menuOpen') === 'true'
+}
+
 const HomeLayout: React.FC<Props> = ({ children, className }) => {
   const isDesktop = useMediaQuery({ query: '(min-width: 1201px)' })
-
-  const [menuOpen, setMenuOpen] = useState(isDesktop)
+  const [menuOpen, setMenuOpen] = useState(checkState(isDesktop))
 
   const toggleMenu = () => {
+    localStorage.setItem('menuOpen', !menuOpen ? 'true' : 'false')
     setMenuOpen(!menuOpen)
   }
 

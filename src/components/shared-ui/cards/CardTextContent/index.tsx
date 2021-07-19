@@ -50,7 +50,7 @@ const CardTextContent: React.FC<Props> = ({
         />
       )}
       <div className={s.actions}>
-        <Pin />
+        <Pin className={s.pin} />
         <Button variant="outlined" handler={openModalHandler}>
           View List
         </Button>
@@ -67,6 +67,12 @@ const s = css`
     overflow: hidden;
     position: relative;
     padding: 10px 19px 24px 28px;
+
+    &:hover {
+      .pin {
+        opacity: 1;
+      }
+    }
   }
 
   .star {
@@ -133,6 +139,10 @@ const s = css`
   .buttonDots {
     max-width: 30%;
     width: 100%;
+  }
+
+  .pin {
+    opacity: 0;
   }
 `
 
