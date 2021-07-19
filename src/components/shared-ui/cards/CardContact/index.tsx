@@ -15,9 +15,10 @@ type Props = {
   className?: string
   data: UserData
   isRow?: boolean
+  removeCard?: (card: UserData) => void
 }
 
-const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
+const CardSmall: React.FC<Props> = ({ className, data, isRow, removeCard }) => {
   const { dispatch } = usePopup()
   const { name, avatar, templateData, relationshipStrength } = data
 
@@ -25,9 +26,15 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow }) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
+  const removeHandler = () => {
+    if (removeCard) {
+      removeCard(data)
+    }
+  }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Close className={s.remove} handler={() => null} />
+      <Close className={s.remove} handler={() => removeHandler()} />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
           image={avatar}

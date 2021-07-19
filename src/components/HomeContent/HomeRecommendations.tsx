@@ -6,14 +6,34 @@ import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import classNames from 'classnames'
+import { sample } from 'lodash'
 
 type Props = {
   className?: string
 }
 
+// const getRandomItem = (items: UserData[] | undefined): UserData => {
+//   if (items) {
+//     return sample(items.slice(1, items.length)) // item 0 is main now
+//   }
+//   return {}
+// }
+
 const HomeRecommendations: React.FC<Props> = ({ className }) => {
-  const { state } = useClient()
-  const contacts = useMemo(() => state?.contacts?.slice(0, 3), [state])
+  const { state, updateUserData } = useClient()
+
+  const contacts = useMemo(() => state?.recommendations, [state])
+  // const changeRecommendationCard = (card: UserData) => {
+  //   const recommendations = contacts?.filter(
+  //     (item) => item.address !== card.address
+  //   )
+  //   const randomCard = getRandomItem(state?.contacts)
+  //   recommendations?.push(randomCard)
+
+  //   // sample(state?.contacts?.slice(1, state?.contacts.length))
+
+  //   updateUserData({ ...state, recommendations })
+  // }
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.title}>
@@ -29,6 +49,7 @@ const HomeRecommendations: React.FC<Props> = ({ className }) => {
             data={contactItem}
             className={s.column}
             key={contactItem.first_message_id}
+            removeCard={() => null}
           />
         ))}
       </div>

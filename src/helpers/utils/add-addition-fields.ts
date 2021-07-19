@@ -31,6 +31,7 @@ const addAdditionFields = (users: UserData[]): UserData[] => {
         first_message_id: 'qweasd123123asdzxcqw:asdq',
         address: 'thor@casualcorp.com',
         avatar: 'thor.jpeg',
+        recommendations: extendedUsers.slice(0, 3),
       },
     ] as UserData[]
   ).concat(extendedUsers)
