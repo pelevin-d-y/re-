@@ -1,5 +1,4 @@
 import findTemplate from 'src/helpers/utils/find-template'
-import parseStringsToNumbers from 'src/helpers/utils/parse-object'
 import { calculateColorByStraight } from 'src/helpers/utils/calculate-strength'
 import testTemplates from 'src/testTemplates.json'
 
@@ -13,8 +12,8 @@ const avatars = [
 ]
 
 const addAdditionFields = (users: UserData[]): UserData[] => {
-  const extendedUsers = users.map((user, i) => ({
-    ...parseStringsToNumbers(user),
+  const extendedUsers: UserData[] = users.map((user, i) => ({
+    ...user,
     avatar: avatars[i % avatars.length],
     title: 'Investors', // example for list table
     notes: 'Plan Dinner', // example for list table
@@ -23,15 +22,17 @@ const addAdditionFields = (users: UserData[]): UserData[] => {
     relationshipStrength: calculateColorByStraight(user.connection_E),
   }))
 
-  const usersWithAdditionUsers: UserData[] = [
-    {
-      ...extendedUsers[0],
-      name: 'Thor Ernstsson',
-      first_message_id: 'qweasd123123asdzxcqw:asdq',
-      address: 'thor@casualcorp.com',
-      avatar: 'thor.jpeg',
-    },
-  ].concat(extendedUsers)
+  const usersWithAdditionUsers: UserData[] = (
+    [
+      {
+        ...extendedUsers[0],
+        name: 'Thor Ernstsson',
+        first_message_id: 'qweasd123123asdzxcqw:asdq',
+        address: 'thor@casualcorp.com',
+        avatar: 'thor.jpeg',
+      },
+    ] as UserData[]
+  ).concat(extendedUsers)
 
   return usersWithAdditionUsers.map((user) => ({
     ...user,

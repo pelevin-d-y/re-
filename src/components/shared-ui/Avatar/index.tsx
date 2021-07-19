@@ -9,7 +9,7 @@ type Props = {
   width?: number
   height?: number
   image?: string | null
-  strength?: string | number
+  strength?: string | number | null
 }
 
 const Avatar: React.FC<Props> = ({

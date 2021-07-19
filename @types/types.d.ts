@@ -87,11 +87,11 @@ type UserData = {
   direct_threads_count?: number
   thread_mean_addresses?: string | number
   thread_mean_messages?: string | number
-  thread_mean_duration?: string
-  thread_mean_period?: string
-  contact_reply_wait?: string
+  thread_mean_duration?: number
+  thread_mean_period?: number | string
+  contact_reply_wait?: number
   contact_reply_prob?: number | string
-  client_reply_wait?: string
+  client_reply_wait?: number
   client_reply_prob?: string | number
   title?: string
   notes?: string
@@ -102,7 +102,7 @@ type UserData = {
   lastMessage?: string
   playlists?: Playlists
   templateData?: Template
-  relationshipStrength?: 'red' | 'orange' | 'green'
+  relationshipStrength?: 'red' | 'orange' | 'green' | null
 }
 
 type List = {
