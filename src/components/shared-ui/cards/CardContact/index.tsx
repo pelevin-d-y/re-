@@ -85,6 +85,13 @@ const s = css`
 
     width: 100%;
     padding: 14px 24px 16px 17px;
+
+    &:hover {
+      .remove,
+      .pin {
+        opacity: 1;
+      }
+    }
   }
 
   .avatar {
@@ -112,6 +119,7 @@ const s = css`
 
   .pin {
     margin-right: 11px;
+    opacity: 0;
   }
 
   .remove {
@@ -121,6 +129,8 @@ const s = css`
 
     background: var(--white);
     color: #bfbfbf;
+
+    opacity: 0;
   }
 
   .rowUserInfo {
