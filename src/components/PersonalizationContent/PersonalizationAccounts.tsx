@@ -20,9 +20,16 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
         <span className={s.headerAdd}>+ Add account</span>
       </div>
       <div className={s.syncAccounts}>
-        {addresses.map((address) => (
-          <GoogleEmail key={address} className={s.account} email={address} />
-        ))}
+        {addresses?.length > 0 ? (
+          addresses.map((address) => (
+            <GoogleEmail key={address} className={s.account} email={address} />
+          ))
+        ) : (
+          <div className={s.emptyAccounts}>
+            Strata’s recommendation analyze your network and put together
+            recommendations of people to reach out.
+          </div>
+        )}
       </div>
       <GoogleAuth className={s.googleAuth} />
       <div className={s.socials}>
@@ -34,6 +41,8 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .subtitle {
     margin-bottom: 18px;
 
@@ -72,6 +81,17 @@ const s = css`
     width: 200px;
     height: 50px;
     margin-top: 18px;
+  }
+
+  .emptyAccounts {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14px;
+    max-width: 50%;
+
+    @include mobile {
+      max-width: 100%;
+    }
   }
 `
 

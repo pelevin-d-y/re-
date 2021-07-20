@@ -22,6 +22,8 @@ const GoogleEmail: React.FC<Props> = ({ className, email }) => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row nowrap;
@@ -76,6 +78,9 @@ const s = css`
     margin-left: auto;
     background: white;
     visibility: hidden;
+    @include mobile {
+      visibility: visible;
+    }
   }
 `
 
