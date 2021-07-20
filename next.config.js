@@ -6,16 +6,17 @@ module.exports = withPlugins([optimizedImages], {
   cssModules: true,
   async rewrites() {
     /// proxying to dev server
+    // email sending https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test/send
     return [
       {
-        source: '/api/recommendations/:path*',
+        source: '/api/aws1/:path*',
         destination:
-          'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test/recommendations:path*', // Proxy to Backend
+          'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
       },
       {
-        source: '/api/client/:path*',
+        source: '/api/aws2/:path*',
         destination:
-          'https://7qq5n63vjg.execute-api.us-east-1.amazonaws.com/Test/client/:path*', // Proxy to Backend
+          'https://7qq5n63vjg.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
       },
     ]
   },

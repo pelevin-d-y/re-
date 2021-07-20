@@ -5,7 +5,8 @@ import getTokensUrl from 'src/helpers/utils/get-tokens-url'
 type Tokens = {
   idToken?: string
   accessToken?: string
-  isAuth: boolean
+  isAuth?: boolean
+  tokenChecked: boolean
 }
 
 type Action = { type: 'UPDATE_AUTH_DATA'; payload: Tokens }
@@ -39,17 +40,24 @@ const authReducer = (state: State, action: Action): State => {
 const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(authReducer, {
     isAuth: false,
+    tokenChecked: false,
   })
 
   React.useEffect(() => {
     const tokens = getTokensUrl(window.location.hash.substr(1))
+
     if (tokens.id_token) {
       localStorage.setItem(LS_ID_TOKEN, tokens.id_token)
       dispatch({
         type: 'UPDATE_AUTH_DATA',
-        payload: { idToken: tokens.id_token, isAuth: true },
+        payload: { idToken: tokens.id_token, isAuth: true, tokenChecked: true },
       })
       setToken(tokens.id_token)
+    } else {
+      dispatch({
+        type: 'UPDATE_AUTH_DATA',
+        payload: { tokenChecked: true },
+      })
     }
   }, [])
 
@@ -61,7 +69,9 @@ const AuthProvider: React.FC = ({ children }) => {
     [state]
   )
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return state?.tokenChecked ? (
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  ) : null
 }
 
 const useAuth = (): ContextType => {

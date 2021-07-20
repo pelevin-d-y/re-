@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Button from 'src/components/shared-ui/Button'
-import EditorActions from 'src/components/shared-ui/EditorActions'
 import CloseModal from 'src/components/shared-ui/Close'
-import ModalHtmlEditor from '../ModalHtmlEditor'
+import { useAuth } from 'src/components/context/AuthContext'
 import ModalUserInfo from '../ModalUserInfo'
-import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalSent from '../ModalSent'
+import MessageManager from '../MessageManager'
 
 const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -21,6 +18,42 @@ const EmailModal: React.FC = () => {
     setIsSent(false)
   }
 
+  const { state: authState } = useAuth()
+  console.log('🚀 ~ file: index.tsx ~ line 27 ~ authState', authState)
+
+  // 'https://7qq5n63vjg.execute-api.us-east-1.amazonaws.com/Test/messages/send' \
+  // --header 'Authorization: ???' \
+  // --header 'Content-Type: application/json' \
+  // --data-raw '{
+  //   "client_id": "Client_Strata_ID",
+  //   "from_address": "gabriel@strata.cc",
+  //   "to_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel to"
+  //     }
+  //   ],
+  //   "cc_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel cc"
+  //     }
+  //   ],
+  //   "bcc_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel bcc"
+  //     }
+  //   ],
+  //   "reply_to_contact_list": [
+  //     {
+  //       "address": "Gabriel.Archacki.Hare@gmail.com",
+  //       "name": "Gabriel reply to"
+  //     }
+  //   ],
+  //   "subject": "Via cURL -> Test/send API -> Nylas",
+  //   "body": "Authentication via Cognito & Nylas"
+
   return (
     <ModalBase
       className={s.container}
@@ -31,23 +64,7 @@ const EmailModal: React.FC = () => {
       <div className={s.content}>
         {data && <ModalUserInfo className={s.header} data={data} />}
         {!isSent ? (
-          <CardContainer className={s.textContainer}>
-            {data && <ModalEditorHeader data={data} />}
-            <ModalHtmlEditor className={s.editor} data={data} toParse />
-            <div className={s.buttons}>
-              {data && <EditorActions className={s.editorActions} />}
-              <Button variant="outlined" className={s.buttonDots}>
-                Save Template
-              </Button>
-              <Button
-                variant="contained"
-                className={s.buttonSend}
-                handler={() => setIsSent(true)}
-              >
-                Send
-              </Button>
-            </div>
-          </CardContainer>
+          <MessageManager data={data} />
         ) : (
           data.name && <ModalSent names={data.name} />
         )}
@@ -61,14 +78,6 @@ const s = css`
 
   .container {
     max-width: 900px;
-  }
-
-  .textContainer {
-    margin-top: 22px;
-    padding: 0 0 23px;
-
-    border: 1px solid #f1f1f1;
-    border-top: none;
   }
 
   .header {
@@ -91,52 +100,6 @@ const s = css`
     position: absolute;
     right: 23px;
     top: 23px;
-  }
-
-  .editor {
-    width: 100%;
-    min-height: 220px;
-    margin-top: 18px;
-    margin-bottom: 25px;
-    padding-left: 23px;
-    padding-right: 25px;
-    outline: none;
-    border: none;
-    resize: none;
-
-    @include mobile {
-      padding-left: 12px;
-      padding-right: 12px;
-    }
-  }
-
-  .editorActions {
-    margin-right: auto;
-  }
-
-  .buttons {
-    display: flex;
-    flex-flow: row wrap;
-
-    padding-left: 23px;
-    padding-right: 25px;
-    text-align: right;
-
-    @include mobile {
-      display: flex;
-      flex-flow: row nowrap;
-    }
-  }
-
-  .buttonDots {
-    max-width: 140px;
-    width: 100%;
-    margin-right: 11px;
-  }
-
-  .buttonSend {
-    max-width: 140px;
-    width: 100%;
   }
 `
 
