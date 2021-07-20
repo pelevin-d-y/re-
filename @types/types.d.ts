@@ -119,3 +119,35 @@ type List = {
 }
 
 type Lists = List[]
+
+type SendMessageData = {
+  client_id?: string
+  body?: string
+  subject?: string
+  from_address?: string
+  to_contact_list?: {
+    address: string
+    name: string
+  }[]
+  cc_contact_list?: {
+    address: string
+    name: string
+  }[]
+  bcc_contact_list?: {
+    address: string
+    name: string
+  }[]
+  reply_to_contact_list?: {
+    address: string
+    name: string
+  }[]
+}
+
+type SendMessageField =
+  | 'body'
+  | 'subject'
+  | 'to_contact_list'
+  | 'cc_contact_list'
+  | 'bcc_contact_list'
+  | 'reply_to_contact_list'
+  | 'from_address'

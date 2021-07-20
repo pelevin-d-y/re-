@@ -32,4 +32,9 @@ const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
     params,
   })
 
-export { instance, setToken, apiGet, apiPost }
+const sendMessage = async (data: SendMessageData) => {
+  const resp = await apiPost('/api/aws2/messages/send', data)
+  return resp
+}
+
+export { instance, setToken, apiGet, apiPost, sendMessage }
