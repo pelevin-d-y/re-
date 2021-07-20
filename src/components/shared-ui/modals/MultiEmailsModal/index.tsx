@@ -1,19 +1,16 @@
 import React, { useState, useEffect, MouseEvent } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import { useUsers } from 'src/components/context/UsersContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
 import ModalClose from 'src/components/shared-ui/Close'
-import EditorActions from 'src/components/shared-ui/EditorActions'
 import classNames from 'classnames'
-import ModalHtmlEditor from '../ModalHtmlEditor'
 import ModalUserInfo from '../ModalUserInfo'
-import ModalEditorHeader from '../ModalEditorHeader'
 import ModalBase from '../ModalBase'
 import ModalSent from '../ModalSent'
+import MessageManager from '../MessageManager'
 
 const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
@@ -149,20 +146,7 @@ const MultiEmailsModal: React.FC = () => {
           <ModalUserInfo className={s.header} data={data} />
         )}
         {!isSent ? (
-          <CardContainer className={s.textContainer}>
-            {data && <ModalEditorHeader data={data} />}
-            <ModalHtmlEditor className={s.editor} data={data} toParse />
-            <div className={s.buttons}>
-              <EditorActions className={s.editorActions} />
-              <Button
-                variant="contained"
-                className={s.buttonSend}
-                handler={() => setIsSent(true)}
-              >
-                Send
-              </Button>
-            </div>
-          </CardContainer>
+          <MessageManager data={data} />
         ) : (
           selectedContacts && (
             <>
@@ -281,39 +265,12 @@ const s = css`
     padding: 45px 35px 38px 28px;
   }
 
-  .textContainer {
-    overflow: hidden;
-    margin-top: 22px;
-    padding: 0 0 23px;
-
-    border: 1px solid #f1f1f1;
-    border-top: none;
-  }
-
   .content {
     padding: 29px 30px 15px;
   }
 
   .header {
     padding-right: 33px;
-  }
-
-  .editor {
-    width: 100%;
-    min-height: 220px;
-    margin-top: 18px;
-    margin-bottom: 25px;
-    padding-left: 23px;
-    padding-right: 25px;
-    outline: none;
-    border: none;
-    resize: none;
-  }
-
-  .buttons {
-    padding-left: 23px;
-    padding-right: 25px;
-    text-align: right;
   }
 
   .buttonDots {
@@ -338,18 +295,6 @@ const s = css`
     margin-left: auto;
     margin-right: auto;
     margin-top: 35px;
-  }
-
-  .buttons {
-    display: flex;
-    flex-flow: row wrap;
-  }
-
-  .buttonSend {
-    max-width: 140px;
-    width: 100%;
-
-    margin-left: auto;
   }
 `
 
