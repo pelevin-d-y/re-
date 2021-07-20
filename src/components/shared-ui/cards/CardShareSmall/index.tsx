@@ -48,7 +48,7 @@ const CardShareSmall: React.FC<Props> = ({
         <Img className={s.img} img={image} alt="" />
       </div>
       <div className={s.actions}>
-        <Pin />
+        <Pin className={s.pin} />
         <Button variant="contained" handler={openModalHandler}>
           {title}
         </Button>
@@ -65,6 +65,12 @@ const s = css`
     flex-flow: column nowrap;
     padding: 10px 19px 24px 28px;
     justify-content: space-between;
+
+    &:hover {
+      .pin {
+        opacity: 1;
+      }
+    }
   }
 
   .header {
@@ -128,6 +134,10 @@ const s = css`
     grid-gap: 9px 18px;
     max-width: 100%;
     margin-top: 20px;
+  }
+
+  .pin {
+    opacity: 0;
   }
 `
 

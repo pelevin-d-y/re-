@@ -22,11 +22,18 @@ const GoogleEmail: React.FC<Props> = ({ className, email }) => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     padding: 13px 12px 14px 16px;
+    &:hover {
+      .close {
+        visibility: visible;
+      }
+    }
   }
 
   .icon {
@@ -69,6 +76,11 @@ const s = css`
   .close {
     flex: 0 0 auto;
     margin-left: auto;
+    background: white;
+    visibility: hidden;
+    @include mobile {
+      visibility: visible;
+    }
   }
 `
 

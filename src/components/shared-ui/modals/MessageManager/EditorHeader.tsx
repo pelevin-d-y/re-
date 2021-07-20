@@ -1,33 +1,48 @@
+/* eslint-disable camelcase */
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import TextareaAutosize from 'react-textarea-autosize'
-import parseMessage from 'src/helpers/utils/parse-message'
 import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
-  data: UserData
+  data: SendMessageData
+  setValue: (field: SendMessageField, value: any) => void
 }
 
-const ModalEditorHeader: React.FC<Props> = ({
-  className,
-  data: { templateData, name, address },
-}) => {
+const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
   const { state } = useClient()
   const [isCc, setIsCc] = useState(false)
   const [isBcc, setIsBcc] = useState(false)
 
-  const parsedTextHeader =
-    templateData && parseMessage(templateData.Subject, name)
+  const onChangeField = (
+    event: React.FormEvent<HTMLTextAreaElement>,
+    field: SendMessageField
+  ) => {
+    setValue(field, [{ address: event.currentTarget.value }])
+  }
+
+  const onChangeList = (
+    event: React.FormEvent<HTMLTextAreaElement>,
+    field: SendMessageField
+  ) => {
+    setValue(field, [{ address: event.currentTarget.value }])
+  }
+
   return (
     <div className={classNames(s.container, className)}>
       <div className={s.item}>
         <div className={s.subtitle}>To:</div>
         <TextareaAutosize
           className={classNames(s.to, s.textarea)}
-          defaultValue={address}
+          defaultValue={
+            data.to_contact_list ? data.to_contact_list[0]?.address : ''
+          }
           name="to"
+          onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
+            onChangeList(evt, 'to_contact_list')
+          }
         />
         <button
           className={classNames(s.button, isCc && s.btnActive)}
@@ -50,6 +65,9 @@ const ModalEditorHeader: React.FC<Props> = ({
           <TextareaAutosize
             className={classNames(s.textarea, s.cc)}
             name="cc"
+            onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
+              onChangeList(evt, 'cc_contact_list')
+            }
           />
         </div>
       )}
@@ -58,7 +76,10 @@ const ModalEditorHeader: React.FC<Props> = ({
           <div className={s.subtitle}>Bcc:</div>
           <TextareaAutosize
             className={classNames(s.textarea, s.cc)}
-            name="cc"
+            name="bcc"
+            onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
+              onChangeList(evt, 'bcc_contact_list')
+            }
           />
         </div>
       )}
@@ -66,8 +87,11 @@ const ModalEditorHeader: React.FC<Props> = ({
         <div className={s.subtitle}>Subject:</div>
         <TextareaAutosize
           className={classNames(s.subject, s.textarea)}
-          defaultValue={parsedTextHeader}
+          defaultValue={data.subject}
           name="subject"
+          onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
+            onChangeField(evt, 'subject')
+          }
         />
       </div>
       <div className={s.item}>
