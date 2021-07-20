@@ -6,7 +6,6 @@ module.exports = withPlugins([optimizedImages], {
   cssModules: true,
   async rewrites() {
     /// proxying to dev server
-    // email sending https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test/send
     return [
       {
         source: '/api/aws1/:path*',

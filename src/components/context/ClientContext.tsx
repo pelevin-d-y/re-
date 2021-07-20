@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { get, set } from 'idb-keyval'
-import { apiGet } from 'src/api'
+import { getContacts } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 
@@ -42,9 +42,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         if (clientData) {
           dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
         } else {
-          const { data: clientRecommendations } = await apiGet(
-            '/api/aws1/recommendations?client=Thor_Ernstsson&number=20'
-          )
+          const { data: clientRecommendations } = await getContacts()
           const extendedUsers = addAdditionFields(clientRecommendations)
           await set('client', extendedUsers[0])
           dispatch({
