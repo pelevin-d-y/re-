@@ -54,6 +54,8 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   valueContainer: (provided) => ({
     ...provided,
     padding: '17px 18px 19px 18px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
     ...styles?.valueContainer,
   }),
   singleValue: (provided) => ({
@@ -61,6 +63,7 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
     fontWeight: 500,
     fontSize: 14,
     lineHeight: 14,
+    width: 'calc(100% - 60px)',
     ...styles?.singleValue,
   }),
   option: (provided) => ({
@@ -82,7 +85,7 @@ const Selector: React.FC<Props> = ({options, styles, label}) => {
   );
 
   return (
-    <div>
+    <div className={s.container}>
       {label && (
         <label className={s.label}>
           {label}
@@ -101,6 +104,10 @@ const Selector: React.FC<Props> = ({options, styles, label}) => {
 };
 
 const s = css`
+  .container {
+    width: 100%;
+  }
+  
   .arrow {
     width: 11px;
     height: 11px;

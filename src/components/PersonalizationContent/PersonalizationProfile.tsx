@@ -126,37 +126,43 @@ const Profile: React.FC<Props> = ({ className, data }) => {
               <div className={s.recomModule}>
                 <div className={s.recomHeader}>Recommendation</div>
                 <div className={s.recomFields}>
-                  <Field name="Cadence">
-                    {({field, form, meta}: FieldProps) => (
-                      <Selector
-                        styles={{container: {
-                          minWidth: '182px',
-                          marginRight: '15px',
-                        }}} 
-                        options={[
-                          { value: 'one1', label: 'Once per week1' },
-                          { value: 'one2', label: 'Once per week2' },
-                          { value: 'one3', label: 'Once per week3' }
-                        ]}
-                        label='Cadence'
-                      />
-                    )}
-                  </Field>
-                  <Field name="RecommendationsWeekly">
-                    {({field, form, meta}: FieldProps) => (
-                      <Selector
-                        styles={{container: {
-                          minWidth: '229px'
-                        }}} 
-                        options={[
-                          { value: 'rec1', label: '1 recommendations' },
-                          { value: 'rec2', label: '2 recommendations' },
-                          { value: 'rec3', label: '3 recommendations' }
-                        ]}
-                        label='Recommendations weekly'
-                      />
-                    )}
-                  </Field>
+                  <div className={s.recomField}>
+                    <Field name="Cadence">
+                      {({field, form, meta}: FieldProps) => (
+                        <Selector
+                          styles={{container: {
+                            width: '100%',
+                            maxWidth: '182px',
+                            marginRight: '15px',
+                          }}} 
+                          options={[
+                            { value: 'one1', label: 'Once per week1' },
+                            { value: 'one2', label: 'Once per week2' },
+                            { value: 'one3', label: 'Once per week3' }
+                          ]}
+                          label='Cadence'
+                        />
+                      )}
+                    </Field>
+                  </div>
+                  <div className={s.recomField}>
+                    <Field name="RecommendationsWeekly">
+                      {({field, form, meta}: FieldProps) => (
+                        <Selector
+                          styles={{container: {
+                            width: '100%',
+                            maxWidth: '229px',
+                          }}} 
+                          options={[
+                            { value: 'rec1', label: '1 recommendations' },
+                            { value: 'rec2', label: '2 recommendations' },
+                            { value: 'rec3', label: '3 recommendations' }
+                          ]}
+                          label='Recommendations weekly'
+                        />
+                      )}
+                    </Field>
+                  </div>
                 </div>
               </div>
               <Button variant="contained" type="submit" disabled={isSubmitting}>
@@ -171,6 +177,8 @@ const Profile: React.FC<Props> = ({ className, data }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .avatar {
     width: 87px !important;
     height: 87px !important;
@@ -212,6 +220,21 @@ const s = css`
   .recomFields {
     display: flex;
     margin-bottom: 30px;
+    width: 83%;
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+  
+  .recomField {
+    width: 100%;
+    
+    &:first-child {
+      @include mobile {
+        margin-bottom: 15px;
+      }
+    }
   }
 `
 
