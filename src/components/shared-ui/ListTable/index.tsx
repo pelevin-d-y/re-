@@ -9,10 +9,10 @@ import { useLists } from 'src/components/context/ListsContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import Close from 'src/components/shared-ui/Close'
-import Checkbox from './Checkbox'
-import CardContainer from '../cards/CardContainer'
-import Search from '../Search'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import Search from 'src/components/shared-ui/Search'
+import Checkbox from './Checkbox'
 
 type Props = {
   className?: string
@@ -203,20 +203,18 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         </tbody>
       </table>
       <div className={s.emptyCardContainer}>
-        {rows.length === 0 && 
+        {rows.length === 0 && (
           <CardContainer className={classNames(className, s.emptyCard)}>
             <div className={s.cardLogo}>
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
-            <div className={s.cardHeader}>
-              Start creating your list
-            </div>
-            <Search  
-              inputPlaceholder="Search contact to add to list…" 
+            <div className={s.cardHeader}>Start creating your list</div>
+            <Search
+              inputPlaceholder="Search contact to add to list…"
               classes={{ container: s.search }}
-              />
+            />
           </CardContainer>
-        }
+        )}
       </div>
     </div>
   )
@@ -359,12 +357,12 @@ const s = css`
     padding: 54px 0;
     width: 80%;
   }
-  
+
   .cardLogo {
     width: 162px;
     height: 162px;
     border-radius: 50%;
-    background: #F0F5FF;
+    background: #f0f5ff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -375,11 +373,11 @@ const s = css`
       height: 100px;
     }
   }
-  
+
   .logo {
     width: 58px;
     height: 58px;
-    color: #1966FF;
+    color: #1966ff;
 
     @include mobile {
       width: 35px;
