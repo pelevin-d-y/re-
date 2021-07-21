@@ -10,6 +10,9 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import Close from 'src/components/shared-ui/Close'
 import Checkbox from './Checkbox'
+import CardContainer from '../cards/CardContainer'
+import Search from '../Search'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type Props = {
   className?: string
@@ -199,11 +202,29 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           })}
         </tbody>
       </table>
+      <div className={s.emptyCardContainer}>
+        {rows.length === 0 && 
+          <CardContainer className={classNames(className, s.emptyCard)}>
+            <div className={s.cardLogo}>
+              <SvgIcon className={s.logo} icon="contacts.svg" />
+            </div>
+            <div className={s.cardHeader}>
+              Start creating your list
+            </div>
+            <Search  
+              inputPlaceholder="Search contact to add to list…" 
+              classes={{ container: s.search }}
+              />
+          </CardContainer>
+        }
+      </div>
     </div>
   )
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     width: 100%;
     overflow: auto;
@@ -306,6 +327,64 @@ const s = css`
 
   tr:hover .removeButton {
     opacity: 1;
+  }
+
+  .search {
+    max-width: 309px;
+    width: 100%;
+
+    @include mobile {
+      width: 80%;
+    }
+  }
+
+  .cardHeader {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 42px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .emptyCardContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .emptyCard {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 54px 0;
+    width: 80%;
+  }
+  
+  .cardLogo {
+    width: 162px;
+    height: 162px;
+    border-radius: 50%;
+    background: #F0F5FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 13px;
+
+    @include mobile {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  
+  .logo {
+    width: 58px;
+    height: 58px;
+    color: #1966FF;
+
+    @include mobile {
+      width: 35px;
+      height: 35px;
+    }
   }
 `
 
