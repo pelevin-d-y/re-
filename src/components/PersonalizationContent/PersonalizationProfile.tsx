@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
+import Selector from '../shared-ui/Selector'
 
 type Props = {
   className?: string
@@ -122,6 +123,42 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                   />
                 )}
               </Field>
+              <div className={s.recomModule}>
+                <div className={s.recomHeader}>Recommendation</div>
+                <div className={s.recomFields}>
+                  <Field name="Cadence">
+                    {({field, form, meta}: FieldProps) => (
+                      <Selector
+                        styles={{container: {
+                          minWidth: '182px',
+                          marginRight: '15px',
+                        }}} 
+                        options={[
+                          { value: 'one1', label: 'Once per week1' },
+                          { value: 'one2', label: 'Once per week2' },
+                          { value: 'one3', label: 'Once per week3' }
+                        ]}
+                        label='Cadence'
+                      />
+                    )}
+                  </Field>
+                  <Field name="RecommendationsWeekly">
+                    {({field, form, meta}: FieldProps) => (
+                      <Selector
+                        styles={{container: {
+                          minWidth: '229px'
+                        }}} 
+                        options={[
+                          { value: 'rec1', label: '1 recommendations' },
+                          { value: 'rec2', label: '2 recommendations' },
+                          { value: 'rec3', label: '3 recommendations' }
+                        ]}
+                        label='Recommendations weekly'
+                      />
+                    )}
+                  </Field>
+                </div>
+              </div>
               <Button variant="contained" type="submit" disabled={isSubmitting}>
                 Save
               </Button>
@@ -163,6 +200,18 @@ const s = css`
 
   .smallField {
     margin-left: 9px;
+  }
+
+  .recomHeader {
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 22px;
+    margin-bottom: 14px;
+  }
+
+  .recomFields {
+    display: flex;
+    margin-bottom: 30px;
   }
 `
 
