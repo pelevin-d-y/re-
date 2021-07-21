@@ -35,7 +35,7 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
     <div className={classNames(s.container, className)}>
       <div className={s.item}>
         <div className={s.subtitle}>To:</div>
-        <Chips />
+        <Chips setValue={setValue} name="to_contact_list" data={data} />
         {/* <TextareaAutosize
           className={classNames(s.to, s.textarea)}
           defaultValue={
@@ -67,7 +67,7 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
       {isCc && (
         <div className={s.item}>
           <div className={s.subtitle}>Cc:</div>
-          <Chips />
+          <Chips setValue={setValue} name="cc_contact_list" data={data} />
           {/* <TextareaAutosize
             className={classNames(s.textarea, s.cc)}
             name="cc"
@@ -80,7 +80,7 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
       {isBcc && (
         <div className={s.item}>
           <div className={s.subtitle}>Bcc:</div>
-          <Chips />
+          <Chips setValue={setValue} name="bcc_contact_list" data={data} />
           {/* <TextareaAutosize
             className={classNames(s.textarea, s.cc)}
             name="bcc"

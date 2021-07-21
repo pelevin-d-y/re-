@@ -4,12 +4,16 @@ import { css } from 'astroturf'
 
 type Props = {
   className?: string
+  name: SendMessageField
+  setValue: (field: SendMessageField, value: any) => void
+  data: SendMessageData
 }
 
 const isEmail = (email: string) =>
   /[\w\d\.-]+@[\w\d\.-]+\.[\w\d\.-]+/.test(email)
 
-const Chips: React.FC<Props> = ({ className }) => {
+const Chips: React.FC<Props> = ({ className, setValue, name, data }) => {
+  const currentFieldData: MessageList[] = data[name] as MessageList[]
   const [state, setState] = useState<{
     items: string[]
     value: string
@@ -20,7 +24,8 @@ const Chips: React.FC<Props> = ({ className }) => {
     error: null,
   })
 
-  const isInList = (email: string) => state.items.includes(email)
+  const isInList = (email: string) =>
+    currentFieldData.map((i) => i.address).includes(email)
 
   const isValid = (email: string) => {
     let error = null
@@ -49,9 +54,9 @@ const Chips: React.FC<Props> = ({ className }) => {
       const value = state.value.trim()
 
       if (value && isValid(value)) {
+        setValue(name, [...currentFieldData, { address: value }])
         setState({
           ...state,
-          items: [...state.items, state.value],
           value: '',
         })
       }
@@ -67,21 +72,21 @@ const Chips: React.FC<Props> = ({ className }) => {
   }
 
   const handleDelete = (item: any) => {
-    setState({
-      ...state,
-      items: state.items.filter((i) => i !== item),
-    })
+    setValue(
+      name,
+      currentFieldData.filter((i) => i.address !== item)
+    )
   }
 
   return (
     <div className={classNames(s.container)}>
-      {state.items.map((item) => (
-        <div className={s.tagItem} key={item}>
-          {item}
+      {currentFieldData.map((item) => (
+        <div className={s.tagItem} key={item.address}>
+          {item.address}
           <button
             type="button"
             className={s.button}
-            onClick={() => handleDelete(item)}
+            onClick={() => handleDelete(item.address)}
           >
             &times;
           </button>
@@ -91,7 +96,7 @@ const Chips: React.FC<Props> = ({ className }) => {
       <input
         className={classNames(s.input, state.error && s.hasError)}
         value={state.value}
-        placeholder="Type email addresses"
+        placeholder=""
         onKeyDown={handleKeyDown}
         onChange={handleChange}
       />
