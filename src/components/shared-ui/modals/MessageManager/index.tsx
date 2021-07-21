@@ -66,8 +66,8 @@ const MessageManager: React.FC<Props> = ({ className, data }) => {
       type: 'updateData',
       payload: {
         client_id: authState?.idToken,
-        // from_address: clientState?.address,
-        from_address: 'strata.test0@gmail.com',
+        from_address: clientState?.address,
+        // from_address: 'strata.test0@gmail.com',
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, data.name),

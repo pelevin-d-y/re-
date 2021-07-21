@@ -24,28 +24,11 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
     setValue(field, [{ address: event.currentTarget.value }])
   }
 
-  const onChangeList = (
-    event: React.FormEvent<HTMLTextAreaElement>,
-    field: SendMessageField
-  ) => {
-    setValue(field, [{ address: event.currentTarget.value }])
-  }
-
   return (
     <div className={classNames(s.container, className)}>
       <div className={s.item}>
         <div className={s.subtitle}>To:</div>
         <Chips setValue={setValue} name="to_contact_list" data={data} />
-        {/* <TextareaAutosize
-          className={classNames(s.to, s.textarea)}
-          defaultValue={
-            data.to_contact_list ? data.to_contact_list[0]?.address : ''
-          }
-          name="to"
-          onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
-            onChangeList(evt, 'to_contact_list')
-          }
-        /> */}
         <div className={s.buttons}>
           <button
             className={classNames(s.button, isCc && s.btnActive)}
@@ -68,26 +51,12 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
         <div className={s.item}>
           <div className={s.subtitle}>Cc:</div>
           <Chips setValue={setValue} name="cc_contact_list" data={data} />
-          {/* <TextareaAutosize
-            className={classNames(s.textarea, s.cc)}
-            name="cc"
-            onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
-              onChangeList(evt, 'cc_contact_list')
-            }
-          /> */}
         </div>
       )}
       {isBcc && (
         <div className={s.item}>
           <div className={s.subtitle}>Bcc:</div>
           <Chips setValue={setValue} name="bcc_contact_list" data={data} />
-          {/* <TextareaAutosize
-            className={classNames(s.textarea, s.cc)}
-            name="bcc"
-            onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
-              onChangeList(evt, 'bcc_contact_list')
-            }
-          /> */}
         </div>
       )}
 
