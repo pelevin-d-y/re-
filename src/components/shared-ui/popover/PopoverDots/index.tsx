@@ -81,6 +81,10 @@ const s = css`
     border: none;
     border-bottom: 1px solid var(--lightGrey);
     cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
   }
 `
 
