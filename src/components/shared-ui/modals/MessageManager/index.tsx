@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
@@ -66,7 +66,8 @@ const MessageManager: React.FC<Props> = ({ className, data }) => {
       type: 'updateData',
       payload: {
         client_id: authState?.idToken,
-        from_address: clientState?.address,
+        // from_address: clientState?.address,
+        from_address: 'strata.test0@gmail.com',
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, data.name),
