@@ -128,7 +128,8 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
     if (resp.status === 200) {
       dispatch({ type: 'updateRequestStatus', payload: true })
     } else {
-      alert(resp.body.message || 'Error')
+      console.log('aaaa', resp)
+      alert(resp)
     }
   }
 
