@@ -98,13 +98,13 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                               content: '"Synced emails"',
                               fontWeight: 800,
                               fontSize: 14,
-                            }
+                            },
                           },
                           menuList: {
                             marginTop: 30,
                             padding: 0,
-                            overflowY: 'visible'
-                          }
+                            overflowY: 'visible',
+                          },
                         }}
                         options={[
                           { value: 'email1', label: 'thor@casualcorp.com1' },
@@ -202,8 +202,13 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                   </div>
                 </div>
               </div>
-              <Button variant="contained" type="submit" disabled={isSubmitting}>
-                Save
+              <Button
+                className={s.saveChanges}
+                variant="contained"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Save changes
               </Button>
             </form>
           </div>
@@ -226,7 +231,7 @@ const s = css`
     display: flex;
     flex-direction: column;
   }
-  
+
   .changeAvatar {
     color: var(--blue);
     font-size: 12px;
@@ -280,6 +285,11 @@ const s = css`
     @include mobile {
       flex-direction: column;
     }
+  }
+
+  .saveChanges {
+    max-width: 176px;
+    width: 100%;
   }
 
   .recomField {

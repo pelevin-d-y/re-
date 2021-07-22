@@ -279,6 +279,11 @@ const s = css`
     }
   }
 
+  .emptyCardContainer {
+    margin-top: 50px;
+    margin-bottom: 90px;
+  }
+
   .cellName {
     display: flex;
     flex-flow: row nowrap;
