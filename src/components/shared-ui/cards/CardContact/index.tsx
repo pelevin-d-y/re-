@@ -7,8 +7,8 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
-import Close from 'src/components/shared-ui/Close'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
+import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import CardContainer from '../CardContainer'
 
 type Props = {
@@ -34,7 +34,11 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow, removeCard }) => {
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Close className={s.remove} handler={() => removeHandler()} />
+      <PopoverRemoveCard
+        classRemove={s.remove}
+        data={data}
+        removeHandler={removeHandler}
+      />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
           image={avatar}
@@ -94,6 +98,17 @@ const s = css`
     }
   }
 
+  .remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    background: var(--white);
+    color: #bfbfbf;
+
+    opacity: 0;
+  }
+
   .avatar {
     margin-bottom: 12px;
   }
@@ -119,17 +134,6 @@ const s = css`
 
   .pin {
     margin-right: 11px;
-    opacity: 0;
-  }
-
-  .remove {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-
-    background: var(--white);
-    color: #bfbfbf;
-
     opacity: 0;
   }
 
