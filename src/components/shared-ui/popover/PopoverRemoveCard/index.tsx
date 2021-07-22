@@ -7,7 +7,6 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
-import Button from 'src/components/shared-ui/Button'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { css } from 'astroturf'
 
