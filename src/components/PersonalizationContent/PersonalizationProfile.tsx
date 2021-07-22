@@ -39,7 +39,12 @@ const Profile: React.FC<Props> = ({ className, data }) => {
       >
         {({ handleSubmit, isSubmitting }) => (
           <div className={s.content}>
-            <Avatar image={data.avatar} className={s.avatar} />
+            <div className={s.avatarBlock}>
+              <Avatar image={data.avatar} className={s.avatar} />
+              <button className={s.changeAvatar}>
+                {data.avatar ? 'Change Pic' : 'Upload Pic'}
+              </button>
+            </div>
             <form className={s.form} onSubmit={handleSubmit}>
               <div className={s.row}>
                 <Field name="profileFirstName">
@@ -214,7 +219,21 @@ const s = css`
   .avatar {
     width: 87px !important;
     height: 87px !important;
+  }
+
+  .avatarBlock {
     margin-right: 22px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .changeAvatar {
+    color: var(--blue);
+    font-size: 12px;
+    line-height: 26px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
   }
 
   .content {
