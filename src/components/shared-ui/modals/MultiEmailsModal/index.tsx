@@ -6,18 +6,16 @@ import { useUsers } from 'src/components/context/UsersContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Search from 'src/components/shared-ui/Search'
 import ModalClose from 'src/components/shared-ui/Close'
+import MessageManager from 'src/components/shared-ui/modals/MessageManager'
 import classNames from 'classnames'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
-import ModalSent from '../ModalSent'
-import MessageManager from '../MessageManager'
 
 const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
   const { state: users } = useUsers()
   const { data: usersData } = users
-  const [isSent, setIsSent] = useState(false)
 
   const [contacts, setContacts] = useState(usersData)
 
@@ -70,7 +68,6 @@ const MultiEmailsModal: React.FC = () => {
     dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
     setContacts(usersData)
     dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
-    setIsSent(false)
   }
 
   return (
@@ -145,22 +142,8 @@ const MultiEmailsModal: React.FC = () => {
         {data?.templateData?.Summary && (
           <ModalUserInfo className={s.header} data={data} />
         )}
-        {!isSent ? (
-          <MessageManager data={data} />
-        ) : (
-          selectedContacts && (
-            <>
-              <ModalSent names={selectedContacts.map((item) => item.name)} />
-              <Button
-                variant="contained"
-                className={s.buttonBack}
-                handler={closeHandler}
-              >
-                Back to home
-              </Button>
-            </>
-          )
-        )}
+
+        <MessageManager data={data} closeHandler={closeHandler} />
       </div>
     </ModalBase>
   )
@@ -286,15 +269,6 @@ const s = css`
     margin-left: auto;
     background: #dae6ff;
     border-radius: 3px;
-  }
-
-  .buttonBack {
-    display: block;
-    max-width: 182px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 35px;
   }
 `
 

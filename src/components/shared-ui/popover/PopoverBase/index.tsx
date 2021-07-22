@@ -4,6 +4,7 @@ import Popup from 'reactjs-popup'
 type Props = {
   triggerElement: JSX.Element
   popupContent: JSX.Element
+  open?: boolean
   showPopupEvent?: 'hover' | 'click'
   position?:
     | 'top left'
@@ -21,6 +22,7 @@ type Props = {
 const Popover: React.FC<Props> = ({
   triggerElement,
   popupContent,
+  open,
   showPopupEvent,
   position,
 }) => (
@@ -29,6 +31,7 @@ const Popover: React.FC<Props> = ({
     position={position || 'bottom center'}
     closeOnDocumentClick
     on={showPopupEvent || 'hover'}
+    open={open}
   >
     {popupContent}
   </Popup>

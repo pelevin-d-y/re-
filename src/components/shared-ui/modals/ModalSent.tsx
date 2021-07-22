@@ -2,24 +2,36 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import Button from '../Button'
 
 type Props = {
   className?: string
-  names: string | (string | undefined)[]
+  names?: string | (string | undefined)[]
+  handler: () => void
 }
 
-const ModalSent: React.FC<Props> = ({ className, names }) => {
-  const messageTemplate =
-    typeof names === 'string'
-      ? `Nice work on following up w/ ${names}. Ready to keep it going?`
-      : `Nice work on sending list to ${names.join(' & ')}`
+const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
+  const messageTemplate = () => {
+    if (Array.isArray(names)) {
+      return `Nice work on sending list to ${names.join(' & ')}`
+    }
+
+    if (typeof names === 'string') {
+      return `Nice work on following up w/ ${names}. Ready to keep it going?`
+    }
+
+    return 'Message sent'
+  }
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.check}>
         <SvgIcon className={s.icon} icon="check.svg" />
       </div>
-      <div className={s.text}>{messageTemplate}</div>
+      <div className={s.text}>{messageTemplate()}</div>
+      <Button variant="contained" className={s.buttonBack} handler={handler}>
+        Back to home
+      </Button>
     </div>
   )
 }
@@ -65,6 +77,15 @@ const s = css`
     height: 84px;
     border-radius: 50%;
     background: #c0ffeb;
+  }
+
+  .buttonBack {
+    display: block;
+    max-width: 182px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
   }
 `
 

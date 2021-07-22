@@ -2,19 +2,16 @@ import React, { useState } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import CloseModal from 'src/components/shared-ui/Close'
+import MessageManager from 'src/components/shared-ui/modals/MessageManager'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
-import ModalSent from '../ModalSent'
-import MessageManager from '../MessageManager'
 
 const EmailModal: React.FC = () => {
   const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
-  const [isSent, setIsSent] = useState(false)
 
   const closeHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: {} })
-    setIsSent(false)
   }
 
   return (
@@ -26,11 +23,7 @@ const EmailModal: React.FC = () => {
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
         {data && <ModalUserInfo className={s.header} data={data} />}
-        {!isSent ? (
-          <MessageManager data={data} />
-        ) : (
-          data.name && <ModalSent names={data.name} />
-        )}
+        <MessageManager data={data} closeHandler={closeHandler} />
       </div>
     </ModalBase>
   )
