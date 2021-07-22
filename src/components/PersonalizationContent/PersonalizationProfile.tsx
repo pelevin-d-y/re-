@@ -70,19 +70,45 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                 </Field>
               </div>
               <div className={s.row}>
-                <Field name="profileEmail">
-                  {({ field, form, meta }: FieldProps) => (
-                    <Input
-                      className={classNames(s.field, s.smallField)}
-                      type="email"
-                      field={field}
-                      form={form}
-                      meta={meta}
-                      placeholder="email"
-                      label="Email"
-                    />
-                  )}
-                </Field>
+                <div className={classNames(s.field, s.email, s.smallField)}>
+                  <Field name="profileEmail">
+                    {({ field, form, meta }: FieldProps) => (
+                      <Selector
+                        styles={{
+                          valueContainer: {
+                            padding: '16px 21px',
+                          },
+                          option: {
+                            borderRadius: 5,
+                            padding: '12px 18px 15px 18px',
+                            marginBottom: 6,
+                            boxShadow:
+                              '0px 1px 1px 0px rgba(34, 34, 34, 0.0989), 0px 4px 8px 0px rgba(0, 0, 0, 0.1199)',
+                          },
+                          menu: {
+                            width: 275,
+                            padding: '18px 13px 19px 21px',
+                          },
+                        }}
+                        options={[
+                          { value: 'email1', label: 'thor@casualcorp.com1' },
+                          { value: 'email2', label: 'thor@casualcorp.com2' },
+                          { value: 'email3', label: 'thor@casualcorp.com3' },
+                        ]}
+                        label="Email"
+                      />
+                      // <Input
+                      //   className={classNames(s.field, s.smallField)}
+                      //   type="email"
+                      //   field={field}
+                      //   form={form}
+                      //   meta={meta}
+                      //   placeholder="email"
+                      //   label="Email"
+                      // />
+                    )}
+                  </Field>
+                </div>
                 <Field name="profilePhone">
                   {({ field, form, meta }: FieldProps) => (
                     <Input
@@ -128,37 +154,41 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                 <div className={s.recomFields}>
                   <div className={s.recomField}>
                     <Field name="Cadence">
-                      {({field, form, meta}: FieldProps) => (
+                      {({ field, form, meta }: FieldProps) => (
                         <Selector
-                          styles={{container: {
-                            width: '100%',
-                            maxWidth: '182px',
-                            marginRight: '15px',
-                          }}} 
+                          styles={{
+                            container: {
+                              width: '100%',
+                              maxWidth: '182px',
+                              marginRight: '15px',
+                            },
+                          }}
                           options={[
                             { value: 'one1', label: 'Once per week1' },
                             { value: 'one2', label: 'Once per week2' },
-                            { value: 'one3', label: 'Once per week3' }
+                            { value: 'one3', label: 'Once per week3' },
                           ]}
-                          label='Cadence'
+                          label="Cadence"
                         />
                       )}
                     </Field>
                   </div>
                   <div className={s.recomField}>
                     <Field name="RecommendationsWeekly">
-                      {({field, form, meta}: FieldProps) => (
+                      {({ field, form, meta }: FieldProps) => (
                         <Selector
-                          styles={{container: {
-                            width: '100%',
-                            maxWidth: '229px',
-                          }}} 
+                          styles={{
+                            container: {
+                              width: '100%',
+                              maxWidth: '229px',
+                            },
+                          }}
                           options={[
                             { value: 'rec1', label: '1 recommendations' },
                             { value: 'rec2', label: '2 recommendations' },
-                            { value: 'rec3', label: '3 recommendations' }
+                            { value: 'rec3', label: '3 recommendations' },
                           ]}
-                          label='Recommendations weekly'
+                          label="Recommendations weekly"
                         />
                       )}
                     </Field>
@@ -210,6 +240,10 @@ const s = css`
     margin-left: 9px;
   }
 
+  .email {
+    width: 100%;
+  }
+
   .recomHeader {
     font-weight: 800;
     font-size: 18px;
@@ -226,10 +260,10 @@ const s = css`
       flex-direction: column;
     }
   }
-  
+
   .recomField {
     width: 100%;
-    
+
     &:first-child {
       @include mobile {
         margin-bottom: 15px;

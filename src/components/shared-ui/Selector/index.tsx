@@ -72,6 +72,7 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   }),
   menu: (provided) => ({
     ...provided,
+    margin: 0,
     ...styles?.menu,
   }),
 });
