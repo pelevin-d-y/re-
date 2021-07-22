@@ -88,7 +88,18 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                           menu: {
                             width: 275,
                             padding: '18px 13px 19px 21px',
+                            '&:before': {
+                              position: 'absolute',
+                              content: '"Synced emails"',
+                              fontWeight: 800,
+                              fontSize: 14,
+                            }
                           },
+                          menuList: {
+                            marginTop: 30,
+                            padding: 0,
+                            overflowY: 'visible'
+                          }
                         }}
                         options={[
                           { value: 'email1', label: 'thor@casualcorp.com1' },
@@ -97,15 +108,6 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                         ]}
                         label="Email"
                       />
-                      // <Input
-                      //   className={classNames(s.field, s.smallField)}
-                      //   type="email"
-                      //   field={field}
-                      //   form={form}
-                      //   meta={meta}
-                      //   placeholder="email"
-                      //   label="Email"
-                      // />
                     )}
                   </Field>
                 </div>

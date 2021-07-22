@@ -75,6 +75,10 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
     margin: 0,
     ...styles?.menu,
   }),
+  menuList: (provided) => ({
+    ...provided,
+    ...styles?.menuList,
+  })
 });
 
 const Selector: React.FC<Props> = ({options, styles, label}) => {
