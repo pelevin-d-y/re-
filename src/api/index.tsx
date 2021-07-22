@@ -42,8 +42,12 @@ const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
   })
 
 const sendMessage = async (data: SendMessageData) => {
-  const response = await apiPost(`${AWS_API_2}/messages/send`, data)
-  return response
+  try {
+    const response = await apiPost(`${AWS_API_2}/messages/send`, data)
+    return response
+  } catch (e) {
+    return `Error send message. ${e}`
+  }
 }
 
 const getContacts = async () => {
