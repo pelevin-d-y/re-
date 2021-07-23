@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Bar from '../Bar'
+import Period from '../Period'
 
 type Props = {
   className?: string
@@ -30,10 +31,7 @@ const SpotlightLongCard: React.FC<Props> = ({
         <div className={s.subtitle}>{text}</div>
         <div className={s.time}>{period}</div>
       </div>
-      <div className={s.period}>
-        <span className={s.from}>{from}</span> of{' '}
-        <span className={s.to}>{to}</span>
-      </div>
+      <Period className={s.period} from={from} to={to} />
     </div>
     {bar && (
       <Bar
@@ -71,14 +69,6 @@ const s = css`
 
   .period {
     padding-bottom: 8px;
-
-    font-weight: var(--bold);
-    font-size: 12px;
-  }
-
-  .from {
-    margin-right: 2px;
-    font-size: 32px;
   }
 
   .bar {

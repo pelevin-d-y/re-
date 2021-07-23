@@ -2,12 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { useClient } from 'src/components/context/ClientContext'
-import GoogleAuth from 'src/components/shared-ui/GoogleAuth'
 import Profile from './PersonalizationProfile'
 import PersonalizationSection from './PersonalizationSection'
 import Accounts from './PersonalizationAccounts'
 import Subscription from './Subscription'
 import PasswordChangeForm from './PesonalizationPasswordChange'
+import PersonalizationInvites from './PersonalizationInvites'
 
 type Props = {
   className?: string
@@ -27,10 +27,13 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
             <Accounts data={clientState} />
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Password">
-            <PasswordChangeForm  />
+            <PasswordChangeForm />
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Subscription">
             <Subscription />
+          </PersonalizationSection>
+          <PersonalizationSection className={s.section} title="Invites">
+            <PersonalizationInvites />
           </PersonalizationSection>
         </>
       ) : null}
