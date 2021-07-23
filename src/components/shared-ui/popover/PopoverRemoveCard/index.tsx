@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import Close from 'src/components/shared-ui/Close'
-import ModalClose from 'src/components/shared-ui/Close'
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
@@ -49,7 +48,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
         <CardContainer className={classNames(className, s.popup)}>
           <div className={s.title}>
             <div className={s.titleText}>Ignore reason?</div>
-            <ModalClose handler={closeHandler} className={s.close} />
+            <Close handler={closeHandler} className={s.close} />
           </div>
           <Avatar
             image={avatar}
