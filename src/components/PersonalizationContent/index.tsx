@@ -7,6 +7,7 @@ import Profile from './PersonalizationProfile'
 import PersonalizationSection from './PersonalizationSection'
 import Accounts from './PersonalizationAccounts'
 import Subscription from './Subscription'
+import Notification from './PersonalizationNotification'
 
 type Props = {
   className?: string
@@ -27,6 +28,9 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Subscription">
             <Subscription />
+          </PersonalizationSection>
+          <PersonalizationSection className={s.section} title="Notification">
+            <Notification />
           </PersonalizationSection>
         </>
       ) : null}
