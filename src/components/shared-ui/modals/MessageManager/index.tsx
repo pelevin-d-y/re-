@@ -93,7 +93,6 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
   }, [data.name, clientState?.name, template])
 
   useEffect(() => {
-    // console.log('state', state)
     dispatch({
       type: 'updateBody',
       payload: {
@@ -128,7 +127,6 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
     if (resp.status === 200) {
       dispatch({ type: 'updateRequestStatus', payload: true })
     } else {
-      console.log('aaaa', resp)
       alert(resp)
     }
   }

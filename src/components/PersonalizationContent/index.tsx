@@ -8,6 +8,7 @@ import PersonalizationSection from './PersonalizationSection'
 import Accounts from './PersonalizationAccounts'
 import Subscription from './Subscription'
 import Notification from './PersonalizationNotification'
+import PasswordChangeForm from './PesonalizationPasswordChange'
 
 type Props = {
   className?: string
@@ -25,6 +26,9 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Accounts">
             <Accounts data={clientState} />
+          </PersonalizationSection>
+          <PersonalizationSection className={s.section} title="Password">
+            <PasswordChangeForm />
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Subscription">
             <Subscription />

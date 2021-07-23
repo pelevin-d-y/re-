@@ -15,7 +15,7 @@ module.exports = withPlugins([optimizedImages], {
       {
         source: '/api/aws2/:path*',
         destination:
-          'https://7qq5n63vjg.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
+          'https://3t8fpn6j0e.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
       },
     ]
   },
