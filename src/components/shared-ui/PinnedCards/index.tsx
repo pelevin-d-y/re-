@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
-import { isEmpty } from 'lodash'
 import PinnedCard from './PinnedCard'
 
 type Props = {
@@ -89,7 +88,7 @@ const s = css`
   .card {
     margin-bottom: 5px;
   }
-  
+
   .paragraph {
     max-width: 80%;
     font-size: 14px;

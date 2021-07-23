@@ -1,4 +1,3 @@
-import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Pin from 'src/components/shared-ui/Pin'
@@ -15,10 +14,9 @@ type Props = {
   className?: string
   data: UserData
   isRow?: boolean
-  removeCard?: (card: UserData) => void
 }
 
-const CardSmall: React.FC<Props> = ({ className, data, isRow, removeCard }) => {
+const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
   const { dispatch } = usePopup()
   const { name, avatar, templateData, relationshipStrength } = data
 
@@ -26,19 +24,9 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow, removeCard }) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
-  const removeHandler = () => {
-    if (removeCard) {
-      removeCard(data)
-    }
-  }
-
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <PopoverRemoveCard
-        classRemove={s.remove}
-        data={data}
-        removeHandler={removeHandler}
-      />
+      <PopoverRemoveCard classRemove={s.remove} data={data} />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
           image={avatar}
@@ -151,4 +139,4 @@ const s = css`
   }
 `
 
-export default CardSmall
+export default CardContact

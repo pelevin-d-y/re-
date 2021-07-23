@@ -2,32 +2,53 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import Close from 'src/components/shared-ui/Close'
-import ModalClose from 'src/components/shared-ui/Close'
 import Avatar from 'src/components/shared-ui/Avatar'
-import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { css } from 'astroturf'
+import { useClient } from 'src/components/context/ClientContext'
+import { random } from 'lodash'
 
 type Props = {
   className?: string
   classRemove?: string
   data: UserData
-  removeHandler: (card?: UserData) => void
 }
 
 const PopoverRemoveCard: React.FC<Props> = ({
   className,
   classRemove,
   data,
-  removeHandler,
 }) => {
-  const { name, avatar, templateData, relationshipStrength } = data
+  const { state: clientState, updateUserData } = useClient()
+  const { name, avatar, templateData, address, relationshipStrength } = data
   const [isOpen, setIsOpen] = useState(false)
+
+  const getRandomIndex = () =>
+    random(
+      (clientState?.contacts as []).filter(
+        (item: UserData) => item.address !== address
+      ).length - 1
+    )
 
   const closeHandler = () => {
     setIsOpen(false)
+    const contacts: UserData[] = clientState?.contacts as []
+    const prevIndex = contacts.findIndex(
+      (item) => item.address === data.address
+    )
+    const nextIndex = getRandomIndex()
+    const newContacts = contacts.map((item, index) => {
+      if (index === prevIndex) {
+        return contacts[nextIndex]
+      }
+      if (index === nextIndex) {
+        return contacts[prevIndex]
+      }
+      return item
+    })
+    updateUserData({ ...clientState, contacts: newContacts })
   }
 
   return (
@@ -38,7 +59,6 @@ const PopoverRemoveCard: React.FC<Props> = ({
           <Close
             className={classRemove}
             handler={() => {
-              removeHandler()
               setIsOpen(true)
             }}
           />
@@ -49,7 +69,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
         <CardContainer className={classNames(className, s.popup)}>
           <div className={s.title}>
             <div className={s.titleText}>Ignore reason?</div>
-            <ModalClose handler={closeHandler} className={s.close} />
+            <Close handler={closeHandler} className={s.close} />
           </div>
           <Avatar
             image={avatar}
@@ -58,13 +78,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
             className={s.avatar}
             strength={relationshipStrength}
           />
-          {templateData && (
-            <PopoverUserInfo
-              className={s.name}
-              data={data}
-              template={templateData}
-            />
-          )}
+          <div className={s.name}>{data.name}</div>
           {templateData && (
             <UserHeader
               className={s.description}
