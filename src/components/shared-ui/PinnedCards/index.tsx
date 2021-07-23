@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
-import { isEmpty } from 'lodash'
 import PinnedCard from './PinnedCard'
 
 type Props = {
@@ -25,17 +24,18 @@ const PinnedCards: React.FC<Props> = ({ className }) => {
           <SvgIcon className={s.headerStarIcon} icon="pin.svg" />
         </div>
       </div>
+      <div className={s.paragraph}>
+        Pin actions, playlist and people to remember to followup up later.
+      </div>
       <div className={s.cards}>
-        {isEmpty(contacts)
-          ? 'No pinned contacts'
-          : contacts?.map((item) => (
-              <PinnedCard
-                className={s.card}
-                key={item.first_message_id}
-                data={item}
-                template={item.templateData}
-              />
-            ))}
+        {contacts?.map((item) => (
+          <PinnedCard
+            className={s.card}
+            key={item.first_message_id}
+            data={item}
+            template={item.templateData}
+          />
+        ))}
       </div>
     </CardContainer>
   )
@@ -87,6 +87,13 @@ const s = css`
 
   .card {
     margin-bottom: 5px;
+  }
+
+  .paragraph {
+    max-width: 80%;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
   }
 `
 

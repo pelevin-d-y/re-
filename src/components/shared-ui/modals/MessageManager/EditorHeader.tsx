@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useClient } from 'src/components/context/ClientContext'
+import Chips from '../../Chips'
 
 type Props = {
   className?: string
@@ -23,66 +24,42 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
     setValue(field, [{ address: event.currentTarget.value }])
   }
 
-  const onChangeList = (
-    event: React.FormEvent<HTMLTextAreaElement>,
-    field: SendMessageField
-  ) => {
-    setValue(field, [{ address: event.currentTarget.value }])
-  }
-
   return (
     <div className={classNames(s.container, className)}>
       <div className={s.item}>
         <div className={s.subtitle}>To:</div>
-        <TextareaAutosize
-          className={classNames(s.to, s.textarea)}
-          defaultValue={
-            data.to_contact_list ? data.to_contact_list[0]?.address : ''
-          }
-          name="to"
-          onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
-            onChangeList(evt, 'to_contact_list')
-          }
-        />
-        <button
-          className={classNames(s.button, isCc && s.btnActive)}
-          type="button"
-          onClick={() => setIsCc(!isCc)}
-        >
-          Cc
-        </button>
-        <button
-          className={classNames(s.button, isBcc && s.btnActive)}
-          type="button"
-          onClick={() => setIsBcc(!isBcc)}
-        >
-          Bcc
-        </button>
+        <Chips setValue={setValue} name="to_contact_list" data={data} />
+        <div className={s.buttons}>
+          <button
+            className={classNames(s.button, isCc && s.btnActive)}
+            type="button"
+            onClick={() => setIsCc(!isCc)}
+          >
+            Cc
+          </button>
+          <button
+            className={classNames(s.button, isBcc && s.btnActive)}
+            type="button"
+            onClick={() => setIsBcc(!isBcc)}
+          >
+            Bcc
+          </button>
+        </div>
       </div>
+
       {isCc && (
         <div className={s.item}>
           <div className={s.subtitle}>Cc:</div>
-          <TextareaAutosize
-            className={classNames(s.textarea, s.cc)}
-            name="cc"
-            onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
-              onChangeList(evt, 'cc_contact_list')
-            }
-          />
+          <Chips setValue={setValue} name="cc_contact_list" data={data} />
         </div>
       )}
       {isBcc && (
         <div className={s.item}>
           <div className={s.subtitle}>Bcc:</div>
-          <TextareaAutosize
-            className={classNames(s.textarea, s.cc)}
-            name="bcc"
-            onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
-              onChangeList(evt, 'bcc_contact_list')
-            }
-          />
+          <Chips setValue={setValue} name="bcc_contact_list" data={data} />
         </div>
       )}
+
       <div className={s.item}>
         <div className={s.subtitle}>Subject:</div>
         <TextareaAutosize
@@ -108,8 +85,8 @@ const s = css`
   }
 
   .item {
-    display: flex;
-    flex-flow: row nowrap;
+    display: grid;
+    grid-template-columns: 52px auto 58px;
     padding: 12px 14px 10px 20px;
 
     border-bottom: 1px solid #dddddd;
@@ -119,7 +96,6 @@ const s = css`
   }
 
   .subtitle {
-    min-width: 52px;
     padding-right: 5px;
     padding-top: 1px;
   }
@@ -138,6 +114,10 @@ const s = css`
 
   .from {
     color: var(--blue);
+  }
+
+  .buttons {
+    flex: 1 0 auto;
   }
 
   .button {

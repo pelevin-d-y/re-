@@ -8,14 +8,17 @@ type Props = {
   handler: (e: MouseEvent) => void
 }
 
-const ModalClose: React.FC<Props> = ({ className, handler }) => (
-  <button
-    type="button"
-    onClick={handler}
-    className={classNames(className, s.close)}
-  >
-    <SvgIcon className={s.closeIcon} icon="close.svg" />
-  </button>
+const ModalClose: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
+  ({ className, handler }, ref) => (
+    <button
+      type="button"
+      ref={ref}
+      onClick={handler}
+      className={classNames(className, s.close)}
+    >
+      <SvgIcon className={s.closeIcon} icon="close.svg" />
+    </button>
+  )
 )
 
 const s = css`

@@ -64,6 +64,7 @@ const s = css`
     width: 120px;
     height: 120px;
     margin: 0 auto;
+    color: var(--blue);
   }
 `
 

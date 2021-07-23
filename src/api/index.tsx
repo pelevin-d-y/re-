@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosInstance } from 'axios'
 
+const AWS_API_1 =
+  process.env.NODE_ENV === 'development'
+    ? '/api/aws1'
+    : 'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test'
+const AWS_API_2 =
+  process.env.NODE_ENV === 'development'
+    ? '/api/aws2'
+    : 'https://3t8fpn6j0e.execute-api.us-east-1.amazonaws.com/Test'
+
 const defaultOptions = {
   headers: {
     'Content-Type': 'application/json',
@@ -33,8 +42,19 @@ const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
   })
 
 const sendMessage = async (data: SendMessageData) => {
-  const resp = await apiPost('/api/aws2/messages/send', data)
-  return resp
+  try {
+    const response = await apiPost(`${AWS_API_2}/messages/send`, data)
+    return response
+  } catch (e) {
+    return `Error send message. ${e}`
+  }
 }
 
-export { instance, setToken, apiGet, apiPost, sendMessage }
+const getContacts = async () => {
+  const response = await apiGet(
+    `${AWS_API_1}/recommendations?client=Thor_Ernstsson&number=20`
+  )
+  return response
+}
+
+export { instance, setToken, apiGet, apiPost, sendMessage, getContacts }

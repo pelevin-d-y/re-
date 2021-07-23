@@ -1,46 +1,77 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import EditorActions from 'src/components/shared-ui/EditorActions'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { useAuth } from 'src/components/context/AuthContext'
 import { sendMessage } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
+import ModalSent from '../ModalSent'
 
 type Props = {
   className?: string
   data: UserData
+  closeHandler: () => void
 }
 
-type Action = { type: 'updateData'; payload: SendMessageData }
+type Action =
+  | { type: 'updateBody'; payload: SendMessageData }
+  | { type: 'updateSendingStatus' }
+  | { type: 'updateRequestStatus'; payload: boolean }
+
+type State = {
+  bodyData: SendMessageData
+  error: string
+  isSending: boolean
+  isSent: boolean
+}
 
 const initialState = {
-  from_address: '',
-  body: '',
-  to_contact_list: [],
-  cc_contact_list: [],
-  bcc_contact_list: [],
-  reply_to_contact_list: [],
+  bodyData: {
+    from_address: '',
+    body: '',
+    to_contact_list: [],
+    cc_contact_list: [],
+    bcc_contact_list: [],
+    reply_to_contact_list: [],
+  },
+  error: '',
+  isSending: false,
+  isSent: false,
 }
 
-const reducer = (state: SendMessageData, action: Action) => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case 'updateData':
+    case 'updateBody':
       return {
         ...state,
-        ...action.payload,
+        bodyData: {
+          ...state.bodyData,
+          ...action.payload,
+        },
+      }
+    case 'updateSendingStatus':
+      return {
+        ...state,
+        isSending: !state.isSending,
+      }
+    case 'updateRequestStatus':
+      return {
+        ...state,
+        isSent: action.payload,
       }
     default:
       return initialState
   }
 }
 
-const MessageManager: React.FC<Props> = ({ className, data }) => {
+const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
   const template = data.templateData?.Message
 
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -63,19 +94,22 @@ const MessageManager: React.FC<Props> = ({ className, data }) => {
 
   useEffect(() => {
     dispatch({
-      type: 'updateData',
+      type: 'updateBody',
       payload: {
         client_id: authState?.idToken,
         from_address: clientState?.address,
+        // from_address: 'strata.test0@gmail.com',
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, data.name),
-        to_contact_list: [
-          {
-            address: data.address || '',
-            name: data.name || '',
-          },
-        ],
+        to_contact_list: data?.address
+          ? [
+              {
+                address: data.address || '',
+                name: data.name || '',
+              },
+            ]
+          : [],
       },
     })
   }, [
@@ -87,13 +121,19 @@ const MessageManager: React.FC<Props> = ({ className, data }) => {
   ])
 
   const sendEmail = async () => {
-    const resp = await sendMessage(state)
-    console.log('🚀 ~ file: index.tsx ~ line 91 ~ sendEmail ~ resp', resp)
+    dispatch({ type: 'updateSendingStatus' })
+    const resp = await sendMessage(state.bodyData)
+    dispatch({ type: 'updateSendingStatus' })
+    if (resp.status === 200) {
+      dispatch({ type: 'updateRequestStatus', payload: true })
+    } else {
+      alert(resp)
+    }
   }
 
   const setValue = (field: SendMessageField, value: any) => {
     dispatch({
-      type: 'updateData',
+      type: 'updateBody',
       payload: {
         [field]: value,
       },
@@ -102,25 +142,40 @@ const MessageManager: React.FC<Props> = ({ className, data }) => {
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      {data && <ModalEditorHeader data={state} setValue={setValue} />}
-      <ModalHtmlEditor
-        className={s.editor}
-        value={state.body}
-        setEditorValue={setValue}
-      />
-      <div className={s.buttons}>
-        {data && <EditorActions className={s.editorActions} />}
-        <Button variant="outlined" className={s.buttonTemplate}>
-          Save Template
-        </Button>
-        <Button
-          variant="contained"
-          className={s.buttonSend}
-          handler={() => sendEmail()}
-        >
-          Send
-        </Button>
-      </div>
+      {state.isSent ? (
+        <ModalSent names={data.name} handler={closeHandler} />
+      ) : (
+        <>
+          {data && (
+            <ModalEditorHeader data={state.bodyData} setValue={setValue} />
+          )}
+          <ModalHtmlEditor
+            className={s.editor}
+            value={state.bodyData.body}
+            setEditorValue={setValue}
+          />
+          <div className={s.buttons}>
+            {data && <EditorActions className={s.editorActions} />}
+            <Button variant="outlined" className={s.buttonTemplate}>
+              Save Template
+            </Button>
+            <Button
+              variant="contained"
+              className={classNames(
+                s.buttonSend,
+                state.isSending && s.disabled
+              )}
+              handler={() => sendEmail()}
+            >
+              {state.isSending ? (
+                <SvgIcon className={s.spinner} icon="spinner.svg" />
+              ) : (
+                'Send'
+              )}
+            </Button>
+          </div>
+        </>
+      )}
     </CardContainer>
   )
 }
@@ -178,8 +233,27 @@ const s = css`
   }
 
   .buttonSend {
+    position: relative;
     max-width: 140px;
     width: 100%;
+    color: var(--white);
+
+    &:hover {
+      color: var(-blue);
+    }
+  }
+
+  .spinner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .disabled {
+    pointer-events: none;
   }
 `
 

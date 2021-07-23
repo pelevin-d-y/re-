@@ -1,4 +1,3 @@
-import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Pin from 'src/components/shared-ui/Pin'
@@ -7,18 +6,17 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
-import Close from 'src/components/shared-ui/Close'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
+import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import CardContainer from '../CardContainer'
 
 type Props = {
   className?: string
   data: UserData
   isRow?: boolean
-  removeCard?: (card: UserData) => void
 }
 
-const CardSmall: React.FC<Props> = ({ className, data, isRow, removeCard }) => {
+const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
   const { dispatch } = usePopup()
   const { name, avatar, templateData, relationshipStrength } = data
 
@@ -26,15 +24,9 @@ const CardSmall: React.FC<Props> = ({ className, data, isRow, removeCard }) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
-  const removeHandler = () => {
-    if (removeCard) {
-      removeCard(data)
-    }
-  }
-
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Close className={s.remove} handler={() => removeHandler()} />
+      <PopoverRemoveCard classRemove={s.remove} data={data} />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
           image={avatar}
@@ -94,6 +86,17 @@ const s = css`
     }
   }
 
+  .remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    background: var(--white);
+    color: #bfbfbf;
+
+    opacity: 0;
+  }
+
   .avatar {
     margin-bottom: 12px;
   }
@@ -122,17 +125,6 @@ const s = css`
     opacity: 0;
   }
 
-  .remove {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-
-    background: var(--white);
-    color: #bfbfbf;
-
-    opacity: 0;
-  }
-
   .rowUserInfo {
     display: flex;
     flex-flow: row nowrap;
@@ -147,4 +139,4 @@ const s = css`
   }
 `
 
-export default CardSmall
+export default CardContact
