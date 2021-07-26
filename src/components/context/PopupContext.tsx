@@ -9,6 +9,7 @@ type Action =
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
+  | { type: 'UPDATE_MULTI_EMAILS_DATA'; payload: UserData[] }
 
 type State = {
   emailModalIsOpen: boolean
@@ -17,6 +18,7 @@ type State = {
   createListModalIsOpen: boolean
   templatesModalIsOpen: boolean
   data: UserData
+  multiEmailsData: UserData[]
 }
 
 type ContextType = {
@@ -25,6 +27,16 @@ type ContextType = {
 }
 
 const PopupContext = React.createContext<ContextType | null>(null)
+
+const initialState = {
+  emailModalIsOpen: false,
+  multiEmailsIsOpen: false,
+  addContactModalIsOpen: false,
+  createListModalIsOpen: false,
+  templatesModalIsOpen: false,
+  data: {},
+  multiEmailsData: [],
+}
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -67,28 +79,21 @@ const popupReducer = (state: State, action: Action): State => {
         data: action.payload,
       }
     }
-    default: {
+
+    case 'UPDATE_MULTI_EMAILS_DATA': {
       return {
-        emailModalIsOpen: false,
-        multiEmailsIsOpen: false,
-        addContactModalIsOpen: false,
-        createListModalIsOpen: false,
-        templatesModalIsOpen: false,
-        data: {},
+        ...state,
+        multiEmailsData: action.payload,
       }
+    }
+    default: {
+      return initialState
     }
   }
 }
 
 const PopupProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = React.useReducer(popupReducer, {
-    emailModalIsOpen: false,
-    multiEmailsIsOpen: false,
-    addContactModalIsOpen: false,
-    createListModalIsOpen: false,
-    templatesModalIsOpen: false,
-    data: {},
-  })
+  const [state, dispatch] = React.useReducer(popupReducer, initialState)
 
   const value: ContextType = React.useMemo(
     () => ({
