@@ -1,4 +1,8 @@
+// This is auxiliary context to help pass data to MultiEmails modal
+// Need to remove it and pass Users in another way because this is overhead
+
 import * as React from 'react'
+import { intersectionBy } from 'lodash'
 import { useClient } from './ClientContext'
 
 type Users = UserData[]
@@ -36,10 +40,17 @@ const UsersProvider: React.FC = ({ children }) => {
   })
 
   React.useEffect(() => {
+    const newArray = intersectionBy(
+      clientState?.contacts || [],
+      state.data || [],
+      (item) => item.address
+    )
+
     dispatch({
       type: 'UPDATE_USERS_DATA',
-      payload: clientState?.contacts || [],
+      payload: newArray,
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientState])
 
   const value: ContextType = React.useMemo(

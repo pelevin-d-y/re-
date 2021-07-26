@@ -14,6 +14,7 @@ import ModalBase from '../ModalBase'
 const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
+
   const { state: users } = useUsers()
   const { data: usersData } = users
 

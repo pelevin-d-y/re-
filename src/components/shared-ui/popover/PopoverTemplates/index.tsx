@@ -19,27 +19,25 @@ const PopoverTemplates: React.FC<Props> = () => {
   const {
     state: { data: templatesData },
   } = useTemplates()
-  const { state: clientState, dispatch: clientDispatch } = useClient()
+  const { state: clientState, updateUserData } = useClient()
 
   const selectTemplate = (template: Template) => {
     modalDispatch({
       type: 'UPDATE_POPUP_DATA',
-      payload: { ...data, templateData: template },
+      payload: { ...data, templateData: template, template: template.Template },
     })
 
-    const contacts = clientState?.contacts
+    const contacts = clientState?.contacts && [...clientState.contacts] // new array
     const clientIndex = findIndex(clientState?.contacts, {
       address: data.address,
     })
     contacts?.splice(clientIndex, 1, {
       ...data,
       template: template.Template,
+      templateData: template,
     })
 
-    clientDispatch({
-      type: 'UPDATE_USER_DATA',
-      payload: { contacts },
-    })
+    updateUserData({ ...clientState, contacts })
   }
 
   return (

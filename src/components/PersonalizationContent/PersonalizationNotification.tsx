@@ -17,13 +17,25 @@ const Notification: React.FC<Props> = ({ className }) => {
       <div className={s.section}>
         <div className={s.label}>Send my notifications to:</div>
         <div className={s.row}>
-          <Checkbox className={s.checkboxRow} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxRow}
+            id="c-email"
+            handler={checkHandler}
+          >
             <span className={s.text}>Email</span>
           </Checkbox>
-          <Checkbox className={s.checkboxRow} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxRow}
+            id="c-browser"
+            handler={checkHandler}
+          >
             <span className={s.text}>Browser</span>
           </Checkbox>
-          <Checkbox className={s.checkboxRow} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxRow}
+            id="c-mobile"
+            handler={checkHandler}
+          >
             <span className={s.text}>Mobile</span>
           </Checkbox>
         </div>
@@ -31,13 +43,25 @@ const Notification: React.FC<Props> = ({ className }) => {
       <div className={s.section}>
         <div className={s.label}>Alerts & Notifications</div>
         <div className={s.col}>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-recommendations"
+            handler={checkHandler}
+          >
             <span className={s.text}>Recommendations</span>
           </Checkbox>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-account"
+            handler={checkHandler}
+          >
             <span className={s.text}>Account Activity</span>
           </Checkbox>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-communication"
+            handler={checkHandler}
+          >
             <span className={s.text}>Strata Communication</span>
           </Checkbox>
         </div>
@@ -45,23 +69,43 @@ const Notification: React.FC<Props> = ({ className }) => {
       <div className={classNames(s.section, s.lastSection)}>
         <div className={s.label}>Account Activity</div>
         <div className={s.col}>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-recom-is-ready"
+            handler={checkHandler}
+          >
             <span className={s.text}>
               When my weekly recommendations are ready
             </span>
           </Checkbox>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-profile-info"
+            handler={checkHandler}
+          >
             <span className={s.text}>When a contact changes profile info</span>
           </Checkbox>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-urgent-task"
+            handler={checkHandler}
+          >
             <span className={s.text}>When my urgent tasks exceeds 2 weeks</span>
           </Checkbox>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-deadline"
+            handler={checkHandler}
+          >
             <span className={s.text}>
               When my todo tasks come close to deadline
             </span>
           </Checkbox>
-          <Checkbox className={s.checkboxCol} handler={checkHandler}>
+          <Checkbox
+            className={s.checkboxCol}
+            id="c-spotlight"
+            handler={checkHandler}
+          >
             <span className={s.text}>
               When spotlight has an urgent task for me
             </span>
