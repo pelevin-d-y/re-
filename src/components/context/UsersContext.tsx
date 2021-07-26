@@ -35,13 +35,6 @@ const UsersProvider: React.FC = ({ children }) => {
     data: clientState?.contacts || null,
   })
 
-  React.useEffect(() => {
-    dispatch({
-      type: 'UPDATE_USERS_DATA',
-      payload: clientState?.contacts || [],
-    })
-  }, [clientState])
-
   const value: ContextType = React.useMemo(
     () => ({
       state,
