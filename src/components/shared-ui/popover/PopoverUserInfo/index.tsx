@@ -29,6 +29,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
 
   return (
     <Popover
+      showPopupEvent="click"
       triggerElement={
         <div className={classNames(className, s.trigger)}>{name}</div>
       }
@@ -74,6 +75,10 @@ const s = css`
   .popup {
     max-width: 308px;
     width: 100%;
+  }
+
+  .trigger {
+    cursor: pointer;
   }
 
   .wrapper {

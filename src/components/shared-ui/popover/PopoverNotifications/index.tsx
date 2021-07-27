@@ -38,6 +38,7 @@ const PopoverNotifications: React.FC<Props> = ({ className }) => {
   ]
   return (
     <Popover
+      showPopupEvent="click"
       position="bottom right"
       triggerElement={
         <div className={s.notification}>

@@ -79,8 +79,7 @@ const s = css`
     padding: 14px 24px 16px 17px;
 
     &:hover {
-      .remove,
-      .pin {
+      .remove {
         opacity: 1;
       }
     }
@@ -122,7 +121,6 @@ const s = css`
 
   .pin {
     margin-right: 11px;
-    opacity: 0;
   }
 
   .rowUserInfo {
