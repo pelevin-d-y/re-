@@ -1,23 +1,24 @@
-import React, { useMemo } from 'react'
-import { useClient } from 'src/components/context/ClientContext'
+import React, {useMemo} from 'react'
+import {useClient} from 'src/components/context/ClientContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
-import { css } from 'astroturf'
+import {css} from 'astroturf'
 import EmptyRecommendations from './EmptyRecommendations'
 import FullRecommendations from './FullRecommendations'
+
 
 type Props = {
   className?: string
 }
 
-const HomeRecommendations: React.FC<Props> = ({ className }) => {
-  const { state } = useClient()
+const HomeRecommendations: React.FC<Props> = ({className}) => {
+  const {state} = useClient()
 
   const contacts = useMemo(() => state?.contacts?.slice(1, 4), [state])
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      {!contacts ? (
+      {contacts ? (
         <FullRecommendations data={contacts} />
       ) : (
         <EmptyRecommendations />
