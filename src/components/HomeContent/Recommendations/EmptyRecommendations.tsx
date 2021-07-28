@@ -1,14 +1,10 @@
-import React from 'react';
-import {css} from 'astroturf';
-import Img from '../../shared-ui/Img';
-import Button from '../../shared-ui/Button';
-import SvgIcon from '../../shared-ui/SvgIcon';
+import React from 'react'
+import {css} from 'astroturf'
+import Img from '../../shared-ui/Img'
+import Button from '../../shared-ui/Button'
+import SvgIcon from '../../shared-ui/SvgIcon'
 
-type Props = {
-  className?: string;
-};
-
-const EmptyRecommendations: React.FC<Props> = ({className}) => (
+const EmptyRecommendations: React.FC = () => (
   <>
     <div className={s.titles}>
       <div className={s.title}>Weekly Recommendations</div>
@@ -19,25 +15,25 @@ const EmptyRecommendations: React.FC<Props> = ({className}) => (
     </div>
     <div className={s.progress}>
       <div className={s.circle}>
-        <SvgIcon className={s.icon} icon='google-mail.svg' />
+        <SvgIcon className={s.icon} icon="google-mail.svg" />
       </div>
-      <Img className={s.progressImg} alt='' img='progress-bar.png' />
+      <Img className={s.progressImg} alt="" img="progress-bar.png" />
       <div className={s.circle}>
-        <SvgIcon className={s.icon} icon='geometry.svg' />
+        <SvgIcon className={s.icon} icon="geometry.svg" />
       </div>
     </div>
     <div className={s.buttonBlock}>
-      <Button className={s.button} variant='outlined'>
+      <Button className={s.button} variant="outlined">
         + Add another account
       </Button>
     </div>
     <Img
       className={s.image}
-      alt='recommendations cards'
-      img='recommendationsCard.png'
+      alt="recommendations cards"
+      img="recommendationsCard.png"
     />
   </>
-);
+)
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
@@ -122,6 +118,6 @@ const s = css`
     margin-left: 12px;
     margin-right: 12px;
   }
-`;
+`
 
-export default EmptyRecommendations;
+export default EmptyRecommendations

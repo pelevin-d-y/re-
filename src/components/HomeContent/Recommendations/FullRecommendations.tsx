@@ -1,36 +1,33 @@
-import React from 'react';
-import {css} from 'astroturf';
-import CardContact from 'src/components/shared-ui/cards/CardContact';
-import Link from 'src/components/shared-ui/Link';
-import SvgIcon from 'src/components/shared-ui/SvgIcon';
+import React from 'react'
+import {css} from 'astroturf'
+import CardContact from 'src/components/shared-ui/cards/CardContact'
+import Link from 'src/components/shared-ui/Link'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type Props = {
-  className?: string;
-  data?: UserData[];
-};
+  data?: UserData[]
+}
 
-const FullRecommendations: React.FC<Props> = ({className, data}) => {
-  return (
-    <>
-      <div className={s.title}>
-        Your Weekly Recommendations
-        <Link className={s.link} href='#'>
-          View all
-          <SvgIcon className={s.linkIcon} icon='back.svg' />
-        </Link>
-      </div>
-      <div className={s.cards}>
-        {data?.map((contactItem) => (
-          <CardContact
-            data={contactItem}
-            className={s.column}
-            key={contactItem.first_message_id}
-          />
-        ))}
-      </div>
-    </>
-  );
-};
+const FullRecommendations: React.FC<Props> = ({data}) => (
+  <>
+    <div className={s.title}>
+      Your Weekly Recommendations
+      <Link className={s.link} href="#">
+        View all
+        <SvgIcon className={s.linkIcon} icon="back.svg" />
+      </Link>
+    </div>
+    <div className={s.cards}>
+      {data?.map((contactItem) => (
+        <CardContact
+          data={contactItem}
+          className={s.column}
+          key={contactItem.first_message_id}
+        />
+      ))}
+    </div>
+  </>
+)
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
@@ -85,6 +82,6 @@ const s = css`
       margin-bottom: 13px;
     }
   }
-`;
+`
 
-export default FullRecommendations;
+export default FullRecommendations
