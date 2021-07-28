@@ -1,32 +1,26 @@
-import React, { useMemo } from 'react'
-import { css } from 'astroturf'
-import CardContact from 'src/components/shared-ui/cards/CardContact'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Link from 'src/components/shared-ui/Link'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import { useClient } from 'src/components/context/ClientContext'
-import classNames from 'classnames'
+import React from 'react';
+import {css} from 'astroturf';
+import CardContact from 'src/components/shared-ui/cards/CardContact';
+import Link from 'src/components/shared-ui/Link';
+import SvgIcon from 'src/components/shared-ui/SvgIcon';
 
 type Props = {
-  className?: string
-}
+  className?: string;
+  data?: UserData[];
+};
 
-const HomeRecommendations: React.FC<Props> = ({ className }) => {
-  const { state } = useClient()
-
-  const contacts = useMemo(() => state?.contacts?.slice(1, 4), [state])
-
+const FullRecommendations: React.FC<Props> = ({className, data}) => {
   return (
-    <CardContainer className={classNames(className, s.container)}>
+    <>
       <div className={s.title}>
         Your Weekly Recommendations
-        <Link className={s.link} href="#">
+        <Link className={s.link} href='#'>
           View all
-          <SvgIcon className={s.linkIcon} icon="back.svg" />
+          <SvgIcon className={s.linkIcon} icon='back.svg' />
         </Link>
       </div>
       <div className={s.cards}>
-        {contacts?.map((contactItem) => (
+        {data?.map((contactItem) => (
           <CardContact
             data={contactItem}
             className={s.column}
@@ -34,21 +28,12 @@ const HomeRecommendations: React.FC<Props> = ({ className }) => {
           />
         ))}
       </div>
-    </CardContainer>
-  )
-}
+    </>
+  );
+};
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    padding: 22px 28px 44px;
-    background: url('/svg/circles-background.svg') no-repeat center/cover;
-
-    @include mobile {
-      padding: 22px;
-    }
-  }
 
   .title {
     margin-bottom: 18px;
@@ -100,6 +85,6 @@ const s = css`
       margin-bottom: 13px;
     }
   }
-`
+`;
 
-export default HomeRecommendations
+export default FullRecommendations;
