@@ -1,17 +1,15 @@
 import React from 'react';
-import classNames from 'classnames';
 import {css} from 'astroturf';
-import CardContainer from 'src/components/shared-ui/cards/CardContainer';
-import Img from '../../Img';
-import Button from '../../Button';
-import SvgIcon from '../../SvgIcon';
+import Img from '../../shared-ui/Img';
+import Button from '../../shared-ui/Button';
+import SvgIcon from '../../shared-ui/SvgIcon';
 
 type Props = {
   className?: string;
 };
 
-const CardRecommendations: React.FC<Props> = ({className}) => (
-  <CardContainer className={classNames(s.container, className)}>
+const EmptyRecommendations: React.FC<Props> = ({className}) => (
+  <>
     <div className={s.titles}>
       <div className={s.title}>Weekly Recommendations</div>
       <div className={s.subtitle}>
@@ -38,18 +36,11 @@ const CardRecommendations: React.FC<Props> = ({className}) => (
       alt='recommendations cards'
       img='recommendationsCard.png'
     />
-  </CardContainer>
+  </>
 );
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    overflow: hidden;
-    position: relative;
-    padding: 22px 34px 40px 34px;
-    background: url('/svg/circles-background.svg') no-repeat center/cover;
-  }
 
   .title {
     font-size: 26px;
@@ -133,4 +124,4 @@ const s = css`
   }
 `;
 
-export default CardRecommendations;
+export default EmptyRecommendations;
