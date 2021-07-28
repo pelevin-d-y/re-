@@ -2,11 +2,11 @@ import React from 'react'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { css } from 'astroturf'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { findIndex } from 'lodash'
-import CardContainer from '../../cards/CardContainer'
 
 type Props = {
   className?: string

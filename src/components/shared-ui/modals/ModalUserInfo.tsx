@@ -1,9 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
+import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { css } from 'astroturf'
-import ModalLastMessage from './ModalLastMessage'
+import UserHeader from '../UserHeader'
 
 type Props = {
   className?: string
@@ -12,33 +13,22 @@ type Props = {
 
 const ModalUserInfo: React.FC<Props> = ({
   className,
-  data: {
-    avatar,
-    name,
-    templateData,
-    last_contact_time: lastContactTime,
-    last_contact_text: lastContactText,
-    relationshipStrength,
-  },
+  data: { avatar, name, templateData, relationshipStrength },
 }) => {
   const parsedText = templateData && parseMessage(templateData.Summary, name)
   return (
     <div className={classNames(className, s.container)}>
-      <div className={s.info}>
-        <div className={s.profile}>
+      <div className={s.header}>
+        <div className={s.info}>
           <Avatar strength={relationshipStrength} image={avatar || null} />
           <div className={s.profileInfo}>
             <div className={s.name}>{name || '<unknown>'}</div>
             <div className={s.profileType}>Founder at Company X</div>
           </div>
         </div>
-        {parsedText && <div className={s.summary}>{parsedText}</div>}
+        <PopoverThread />
       </div>
-      <ModalLastMessage
-        className={s.lastMessage}
-        lastContactTime={lastContactTime}
-        lastContactText={lastContactText}
-      />
+      {parsedText && <UserHeader className={s.summary} text={parsedText} />}
     </div>
   )
 }
@@ -46,10 +36,11 @@ const ModalUserInfo: React.FC<Props> = ({
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
-  .container {
+  .header {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    align-items: flex-start;
 
     @include mobile {
       flex-flow: column nowrap;
@@ -65,6 +56,11 @@ const s = css`
     }
   }
 
+  .info {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
   .profileInfo {
     margin-left: 19px;
   }
@@ -78,14 +74,12 @@ const s = css`
   }
 
   .summary {
-    max-width: 240px;
-    width: 100%;
+    display: inline-block;
+    width: auto;
     padding: 11px 17px 13px;
     margin-top: 17px;
 
     font-size: 12px;
-    color: var(--blue);
-    background: var(--lightBlue);
 
     @include mobile {
       max-width: 300px;

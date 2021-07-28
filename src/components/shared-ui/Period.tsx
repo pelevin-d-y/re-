@@ -4,13 +4,13 @@ import { css } from 'astroturf'
 
 type Props = {
   className?: string
-  from: number
+  from?: number
   to: number
 }
 
 const Period: React.FC<Props> = ({ className, from, to }) => (
   <div className={classNames(className, s.container)}>
-    <span className={s.from}>{from}</span> of <span className={s.to}>{to}</span>
+    <span className={s.from}>{from ? from : 0}</span> of <span className={s.to}>{to}</span>
   </div>
 )
 

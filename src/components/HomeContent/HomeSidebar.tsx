@@ -8,9 +8,16 @@ type Props = {
   className?: string
 }
 
+const testData = {
+  reconnects: 12,
+  intros: 19,
+  followups: 3,
+}
+
+
 const ContentSidebar: React.FC<Props> = ({ className }) => (
   <div className={classNames(className, s.container)}>
-    <Spotlight className={s.spotlight} />
+    <Spotlight className={s.spotlight} data={testData}/>
     <ImportantSteps />
   </div>
 )
