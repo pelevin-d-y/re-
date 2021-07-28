@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
+import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { css } from 'astroturf'
-import ModalLastMessage from './ModalLastMessage'
 import UserHeader from '../UserHeader'
 
 type Props = {
@@ -13,14 +13,7 @@ type Props = {
 
 const ModalUserInfo: React.FC<Props> = ({
   className,
-  data: {
-    avatar,
-    name,
-    templateData,
-    last_contact_time: lastContactTime,
-    last_contact_text: lastContactText,
-    relationshipStrength,
-  },
+  data: { avatar, name, templateData, relationshipStrength },
 }) => {
   const parsedText = templateData && parseMessage(templateData.Summary, name)
   return (
@@ -33,11 +26,7 @@ const ModalUserInfo: React.FC<Props> = ({
             <div className={s.profileType}>Founder at Company X</div>
           </div>
         </div>
-        <ModalLastMessage
-          className={s.lastMessage}
-          lastContactTime={lastContactTime}
-          lastContactText={lastContactText}
-        />
+        <PopoverThread />
       </div>
       {parsedText && <UserHeader className={s.summary} text={parsedText} />}
     </div>
@@ -47,13 +36,11 @@ const ModalUserInfo: React.FC<Props> = ({
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
-  .container {
-  }
-
   .header {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    align-items: flex-start;
 
     @include mobile {
       flex-flow: column nowrap;
@@ -67,6 +54,11 @@ const s = css`
     @include mobile {
       margin-bottom: 10px;
     }
+  }
+
+  .info {
+    display: flex;
+    flex-flow: row nowrap;
   }
 
   .profileInfo {

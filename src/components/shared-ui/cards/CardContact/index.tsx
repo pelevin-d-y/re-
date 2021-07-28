@@ -115,7 +115,7 @@ const s = css`
   }
 
   .name {
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     font-weight: var(--bold);
   }
 
