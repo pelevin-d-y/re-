@@ -4,7 +4,6 @@ import {css} from 'astroturf';
 import CardContainer from 'src/components/shared-ui/cards/CardContainer';
 import Img from 'src/components/shared-ui/Img';
 import Bar from '../../Bar';
-import SvgIcon from '../../SvgIcon';
 
 type Props = {
   className?: string;

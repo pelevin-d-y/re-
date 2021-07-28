@@ -11,6 +11,7 @@ import CardGuide from 'src/components/shared-ui/cards/CardGuide'
 import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import HomeRecommendations from './HomeRecommendations'
+import CardRecommendations from '../shared-ui/cards/CardRecommendations'
 
 const Content: React.FC = () => {
   const { state: lists } = useLists()
@@ -37,6 +38,9 @@ const Content: React.FC = () => {
               />
             </Grid>
             {/* <CardGuide className={s.section} /> */}
+            <CardRecommendations 
+              className={s.section}
+            />
             <CardShare
               className={s.section}
               variant="dark"
