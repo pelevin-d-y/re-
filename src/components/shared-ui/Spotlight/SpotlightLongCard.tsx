@@ -8,9 +8,8 @@ type Props = {
   className?: string
   barClassName?: string
   period: string
-  bar?: number
   text: string
-  from: number
+  from?: number
   to: number
   barColor: 'blue' | 'green' | 'red'
 }
@@ -19,29 +18,30 @@ const SpotlightLongCard: React.FC<Props> = ({
   className,
   period,
   text,
-  bar,
   barClassName,
   from,
   to,
   barColor,
-}) => (
-  <div className={classNames(s.container, className)}>
-    <div className={s.wrapper}>
-      <div className={s.text}>
-        <div className={s.subtitle}>{text}</div>
-        <div className={s.time}>{period}</div>
+}) => {
+  const barPercent = from ? from / to * 100 : 0
+
+  return (
+    <div className={classNames(s.container, className)}>
+      <div className={s.wrapper}>
+        <div className={s.text}>
+          <div className={s.subtitle}>{text}</div>
+          <div className={s.time}>{period}</div>
+        </div>
+        <Period className={s.period} from={from} to={to} />
       </div>
-      <Period className={s.period} from={from} to={to} />
-    </div>
-    {bar && (
       <Bar
-        bar={bar}
+        bar={barPercent}
         barColor={barColor}
         className={classNames(barClassName, s.bar)}
       />
-    )}
-  </div>
-)
+    </div>
+  )
+}
 
 const s = css`
   .container {
