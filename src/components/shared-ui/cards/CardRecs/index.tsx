@@ -4,14 +4,22 @@ import {css} from 'astroturf'
 import CardContainer from '../CardContainer'
 import Button from '../../Button'
 import Avatar from '../../Avatar'
+import parseMessage from 'src/helpers/utils/parse-message'
+import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
   data: UserData
+  addUsers?: (user: UserData) => void
 }
 
-const CardRecs: React.FC<Props> = ({className, data}) => {
-  console.log(data)
+const CardRecs: React.FC<Props> = ({className, data, addUsers}) => {
+  const addUsersHandler = () => {
+    if (addUsers) {
+      addUsers(data)
+    }
+  }
+
   return (
     <CardContainer className={s.container}>
       <div className={s.header}>
@@ -20,13 +28,14 @@ const CardRecs: React.FC<Props> = ({className, data}) => {
           <div className={s.name}>{data.name}</div>
           <div className={s.job}>Fund Manager @ JPM</div>
         </div>
-        <Button className={s.button} type='button' variant='outlined'>
+        <Button className={s.button} handler={addUsersHandler} type='button' variant='outlined'>
           +
         </Button>
       </div>
       <div className={s.footer}>
-        <div className={s.text}>
-          You’ve exchanged emails about Alpha fundraising 2 years ago
+      <div className={s.text}>
+          {data.templateData?.Summary &&
+            parseMessage(data.templateData?.Summary, data.name)}
         </div>
       </div>
     </CardContainer>

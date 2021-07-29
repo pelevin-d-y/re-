@@ -22,9 +22,9 @@ const Content: React.FC = () => {
   return currentList ? (
     <div className={s.container}>
       <ListHeader data={currentList} />
-      <ListRecs data={contacts}/>
       <div className={s.content}>
         <TableProvider>
+          <ListRecs list={currentList} contacts={contacts}/> 
           <TableHeader list={currentList} />
           <Table data={currentList} />
         </TableProvider>
