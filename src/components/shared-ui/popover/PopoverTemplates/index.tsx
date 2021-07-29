@@ -43,6 +43,7 @@ const PopoverTemplates: React.FC<Props> = () => {
   return (
     <Popover
       position="right bottom"
+      showPopupEvent="click"
       triggerElement={
         <button className={s.button} type="button">
           <SvgIcon className={s.icon} icon="templates.svg" />

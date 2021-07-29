@@ -1,3 +1,4 @@
+import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Pin from 'src/components/shared-ui/Pin'
@@ -7,8 +8,8 @@ import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
-import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
-import CardContainer from '../CardContainer'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import Close from 'src/components/shared-ui/Close'
 
 type Props = {
   className?: string
@@ -24,9 +25,13 @@ const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
+  const closeHandler = () => {
+    dispatch({ type: 'TOGGLE_IGNORE_POPUP', payload: data })
+  }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <PopoverRemoveCard classRemove={s.remove} data={data} />
+      <Close className={s.remove} handler={closeHandler} />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
           image={avatar}
