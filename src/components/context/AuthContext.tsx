@@ -37,6 +37,21 @@ const authReducer = (state: State, action: Action): State => {
   }
 }
 
+const getIdToken = () => {
+  const urlTokens = getTokensUrl(window.location.hash.substr(1))
+  if (urlTokens.id_token) {
+    localStorage.setItem(LS_ID_TOKEN, urlTokens.id_token)
+    return urlTokens.id_token
+  }
+
+  const lsIdToken = localStorage.getItem(LS_ID_TOKEN)
+  if (lsIdToken) {
+    return lsIdToken
+  }
+
+  return null
+}
+
 const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(authReducer, {
     isAuth: false,
@@ -44,15 +59,14 @@ const AuthProvider: React.FC = ({ children }) => {
   })
 
   React.useEffect(() => {
-    const tokens = getTokensUrl(window.location.hash.substr(1))
+    const token = getIdToken()
 
-    if (tokens.id_token) {
-      localStorage.setItem(LS_ID_TOKEN, tokens.id_token)
+    if (token) {
       dispatch({
         type: 'UPDATE_AUTH_DATA',
-        payload: { idToken: tokens.id_token, isAuth: true, tokenChecked: true },
+        payload: { idToken: token, isAuth: true, tokenChecked: true },
       })
-      setToken(tokens.id_token)
+      setToken(token)
     } else {
       dispatch({
         type: 'UPDATE_AUTH_DATA',

@@ -41,20 +41,24 @@ const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
     params,
   })
 
-const sendMessage = async (data: SendMessageData) => {
-  try {
-    const response = await apiPost(`${AWS_API_2}/messages/send`, data)
-    return response
-  } catch (e) {
-    return `Error send message. ${e}`
-  }
-}
+const getMetrics = () =>
+  apiGet(`${AWS_API_2}/dash/metrics`)
+    .then((res) => res)
+    .catch((err) => err)
 
-const getContacts = async () => {
-  const response = await apiGet(
-    `${AWS_API_1}/recommendations?client=Thor_Ernstsson&number=20`
-  )
-  return response
-}
+const getAuth = () =>
+  apiGet(`${AWS_API_2}/client/authorization`)
+    .then((res) => res)
+    .catch((err) => err)
 
-export { instance, setToken, apiGet, apiPost, sendMessage, getContacts }
+const sendMessage = (data: SendMessageData) =>
+  apiPost(`${AWS_API_2}/messages/send`, data)
+    .then((res) => res)
+    .catch((err) => err)
+
+const getContacts = () =>
+  apiGet(`${AWS_API_1}/recommendations?client=Thor_Ernstsson&number=20`)
+    .then((res) => res)
+    .catch((err) => err)
+
+export { instance, setToken, sendMessage, getContacts, getAuth, getMetrics }
