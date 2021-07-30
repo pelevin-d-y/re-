@@ -8,7 +8,7 @@ import Search from 'src/components/shared-ui/Search'
 import ModalClose from 'src/components/shared-ui/Close'
 import MessageManager from 'src/components/shared-ui/modals/MessageManager'
 import classNames from 'classnames'
-import { differenceWith, isEqual } from 'lodash'
+import { differenceWith } from 'lodash'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
 
@@ -32,9 +32,6 @@ const MultiEmailsModal: React.FC = () => {
         setSelectedContacts(filteredUsers)
       }
     }
-    // return () => {
-    //   setSelectedContacts([])
-    // }
   }, [contacts, setContacts, usersData])
 
   useEffect(() => {
