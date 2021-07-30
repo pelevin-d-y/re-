@@ -8,28 +8,43 @@ import Search from 'src/components/shared-ui/Search'
 import ModalClose from 'src/components/shared-ui/Close'
 import MessageManager from 'src/components/shared-ui/modals/MessageManager'
 import classNames from 'classnames'
+import { differenceWith, isEqual } from 'lodash'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
+
+const comparator = (a: UserData, b: UserData) => a.address === b.address
 
 const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
 
-  const { state: users } = useUsers()
+  const { state: users, dispatch: usersDispatch } = useUsers()
   const { data: usersData } = users
 
-  const [contacts, setContacts] = useState(usersData)
+  const [contacts, setContacts] = useState<UserData[] | null>([])
 
   const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
   useEffect(() => {
     if (usersData?.length) {
-      setContacts(usersData)
+      if (contacts) {
+        const filteredUsers = differenceWith(usersData, contacts, comparator)
+        setSelectedContacts(filteredUsers)
+      }
     }
-    return () => {
-      setSelectedContacts([])
+    // return () => {
+    //   setSelectedContacts([])
+    // }
+  }, [contacts, setContacts, usersData])
+
+  useEffect(() => {
+    if (selectedContacts?.length) {
+      dispatch({
+        type: 'UPDATE_POPUP_DATA',
+        payload: selectedContacts[0],
+      })
     }
-  }, [setContacts, usersData])
+  }, [dispatch, selectedContacts])
 
   const selectUser = (user: UserData) => {
     if (user?.templateData) {
@@ -67,7 +82,7 @@ const MultiEmailsModal: React.FC = () => {
   const closeHandler = () => {
     setSelectedContacts([])
     dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
-    setContacts(usersData)
+    setContacts([])
     dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 

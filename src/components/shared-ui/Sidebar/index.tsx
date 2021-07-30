@@ -17,7 +17,7 @@ const Sidebar: React.FC<Props> = ({ className, toggleMenu, isOpen }) => (
     <Close className={s.close} handler={toggleMenu} />
     <div className={s.content}>
       <div className={s.logo}>
-        <Logo />
+        <Logo isOpen={isOpen} />
       </div>
       <SidebarList isOpen={isOpen} />
       <Button className={s.link} variant="outlined">
@@ -38,19 +38,9 @@ const s = css`
     width: 141px;
     margin-bottom: 38px;
     padding-left: 34px;
-    transform: translateX(-29px);
-    transition: transform 0.2s ease-in;
-
-    @include small-desktop {
-      transform: translateX(0);
-    }
   }
 
   .default {
-    .logo {
-      transform: translateX(0);
-    }
-
     .link {
       opacity: 1;
     }
