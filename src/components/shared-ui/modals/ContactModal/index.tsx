@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import CloseModal from 'src/components/shared-ui/Close'
@@ -37,7 +37,7 @@ const s = css`
   }
 
   .header {
-    padding-right: 46px;
+    padding-right: 53px;
 
     @include mobile {
       margin-bottom: 10px;

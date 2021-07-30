@@ -122,13 +122,16 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
 
   const sendEmail = async () => {
     dispatch({ type: 'updateSendingStatus' })
-    const resp = await sendMessage(state.bodyData)
-    dispatch({ type: 'updateSendingStatus' })
-    if (resp.status === 200) {
-      dispatch({ type: 'updateRequestStatus', payload: true })
-    } else {
-      alert(resp)
-    }
+    sendMessage(state.bodyData)
+      .then((resp) => {
+        dispatch({ type: 'updateSendingStatus' })
+        if (resp.status === 200) {
+          dispatch({ type: 'updateRequestStatus', payload: true })
+        }
+      })
+      .catch((err) => {
+        alert(err)
+      })
   }
 
   const setValue = (field: SendMessageField, value: any) => {

@@ -12,7 +12,7 @@ type Props = {
 const isEmail = (email: string) =>
   /[\w\d\.-]+@[\w\d\.-]+\.[\w\d\.-]+/.test(email)
 
-const Chips: React.FC<Props> = ({ className, setValue, name, data }) => {
+const Chips: React.FC<Props> = ({ setValue, name, data }) => {
   const currentFieldData: MessageList[] = data[name] as MessageList[]
   const [state, setState] = useState<{
     items: string[]
@@ -50,7 +50,6 @@ const Chips: React.FC<Props> = ({ className, setValue, name, data }) => {
   const handleKeyDown = (evt: any) => {
     if (['Enter', ','].includes(evt.key)) {
       evt.preventDefault()
-
       const value = state.value.trim()
 
       if (value && isValid(value)) {
@@ -60,6 +59,10 @@ const Chips: React.FC<Props> = ({ className, setValue, name, data }) => {
           value: '',
         })
       }
+    }
+
+    if (['Backspace'].includes(evt.key) && state.value === '') {
+      setValue(name, currentFieldData.slice(0, -1))
     }
   }
 

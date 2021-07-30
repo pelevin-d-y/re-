@@ -49,7 +49,7 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
 }
 
 const sidebarWidthActive = 238
-const sidebarWidth = 39
+const sidebarWidth = 45
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';

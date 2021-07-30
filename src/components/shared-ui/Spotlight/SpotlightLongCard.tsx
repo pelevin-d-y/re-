@@ -2,14 +2,14 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Bar from '../Bar'
+import Period from '../Period'
 
 type Props = {
   className?: string
   barClassName?: string
   period: string
-  bar?: number
   text: string
-  from: number
+  from?: number
   to: number
   barColor: 'blue' | 'green' | 'red'
 }
@@ -18,32 +18,30 @@ const SpotlightLongCard: React.FC<Props> = ({
   className,
   period,
   text,
-  bar,
   barClassName,
   from,
   to,
   barColor,
-}) => (
-  <div className={classNames(s.container, className)}>
-    <div className={s.wrapper}>
-      <div className={s.text}>
-        <div className={s.subtitle}>{text}</div>
-        <div className={s.time}>{period}</div>
+}) => {
+  const barPercent = from ? from / to * 100 : 0
+
+  return (
+    <div className={classNames(s.container, className)}>
+      <div className={s.wrapper}>
+        <div className={s.text}>
+          <div className={s.subtitle}>{text}</div>
+          <div className={s.time}>{period}</div>
+        </div>
+        <Period className={s.period} from={from} to={to} />
       </div>
-      <div className={s.period}>
-        <span className={s.from}>{from}</span> of{' '}
-        <span className={s.to}>{to}</span>
-      </div>
-    </div>
-    {bar && (
       <Bar
-        bar={bar}
+        bar={barPercent}
         barColor={barColor}
         className={classNames(barClassName, s.bar)}
       />
-    )}
-  </div>
-)
+    </div>
+  )
+}
 
 const s = css`
   .container {
@@ -71,14 +69,6 @@ const s = css`
 
   .period {
     padding-bottom: 8px;
-
-    font-weight: var(--bold);
-    font-size: 12px;
-  }
-
-  .from {
-    margin-right: 2px;
-    font-size: 32px;
   }
 
   .bar {

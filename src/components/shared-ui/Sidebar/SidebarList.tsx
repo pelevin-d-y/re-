@@ -29,14 +29,23 @@ const SidebarList: React.FC<Props> = ({ className, isOpen }) => (
       <li>
         <Link href="/">
           <a className={s.item}>
-            <SvgIcon className={s.icon} icon="contacts.svg" /> Contacts
+            <SvgIcon className={s.icon} icon="recs.svg" /> Recommendations
           </a>
         </Link>
       </li>
       <li>
+        <Link href="/">
+          <a className={s.item}>
+            <SvgIcon className={s.icon} icon="templates.svg" /> Snippets
+          </a>
+        </Link>
+      </li>
+
+      <li>
         <Link href="/personalization">
           <a className={s.item}>
-            <SvgIcon className={s.icon} icon="templates.svg" /> Personalization
+            <SvgIcon className={s.icon} icon="personlization.svg" />{' '}
+            Personalization
           </a>
         </Link>
       </li>
@@ -72,7 +81,7 @@ const s = css`
 
   .icon {
     position: absolute;
-    left: 34px;
+    left: 37px;
     top: 10px;
 
     height: 21px;

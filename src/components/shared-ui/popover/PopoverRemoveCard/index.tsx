@@ -143,6 +143,7 @@ const s = css`
   }
 
   .description {
+    max-width: 220px;
     margin-bottom: 14px;
   }
 

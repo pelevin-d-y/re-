@@ -10,20 +10,20 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 type Option = {
   value: string
   label: string
-};
+}
 
 type Props = {
   options: Option[]
   styles?: any
   label?: string
-};
+}
 
 const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   container: (provided) => ({
     ...provided,
     ...styles?.container,
   }),
-  control: (provided, state) => ({
+  control: (provided) => ({
     ...provided,
     minHeight: 50,
     boxShadow: 'none',
@@ -78,16 +78,16 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   menuList: (provided) => ({
     ...provided,
     ...styles?.menuList,
-  })
-});
+  }),
+})
 
 const Selector: React.FC<Props> = ({options, styles, label}) => {
   // eslint-disable-next-line
   const DropdownIndicator = (props: IndicatorProps<any, any>) => (
     <components.DropdownIndicator {...props}>
-      <SvgIcon className={s.arrow} icon='arrow-selector.svg' />
+      <SvgIcon className={s.arrow} icon="arrow-selector.svg" />
     </components.DropdownIndicator>
-  );
+  )
 
   return (
     <div className={s.container}>
@@ -98,21 +98,21 @@ const Selector: React.FC<Props> = ({options, styles, label}) => {
       )}
       <SelectComp
         options={options}
-        instanceId='1'
+        instanceId="1"
         styles={selectStyles(styles)}
         components={{DropdownIndicator}}
         isSearchable={false}
         defaultValue={options[0]}
       />
     </div>
-  );
-};
+  )
+}
 
 const s = css`
   .container {
     width: 100%;
   }
-  
+
   .arrow {
     width: 11px;
     height: 11px;
@@ -125,4 +125,4 @@ const s = css`
     line-height: 18px;
   }
 `
-export default Selector;
+export default Selector

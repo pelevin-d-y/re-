@@ -8,6 +8,7 @@ type Action =
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
+  | { type: 'TOGGLE_IGNORE_POPUP'; payload: UserData }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
 
 type State = {
@@ -16,6 +17,7 @@ type State = {
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
   templatesModalIsOpen: boolean
+  ignoreModalIsOpen: boolean
   data: UserData
 }
 
@@ -25,6 +27,17 @@ type ContextType = {
 }
 
 const PopupContext = React.createContext<ContextType | null>(null)
+
+const initialState = {
+  emailModalIsOpen: false,
+  multiEmailsIsOpen: false,
+  addContactModalIsOpen: false,
+  createListModalIsOpen: false,
+  templatesModalIsOpen: false,
+  ignoreModalIsOpen: false,
+  data: {},
+  multiEmailsData: [],
+}
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -61,34 +74,28 @@ const popupReducer = (state: State, action: Action): State => {
         templatesModalIsOpen: !state.templatesModalIsOpen,
       }
     }
+    case 'TOGGLE_IGNORE_POPUP': {
+      return {
+        ...state,
+        ignoreModalIsOpen: !state.ignoreModalIsOpen,
+        data: action.payload,
+      }
+    }
     case 'UPDATE_POPUP_DATA': {
       return {
         ...state,
         data: action.payload,
       }
     }
+
     default: {
-      return {
-        emailModalIsOpen: false,
-        multiEmailsIsOpen: false,
-        addContactModalIsOpen: false,
-        createListModalIsOpen: false,
-        templatesModalIsOpen: false,
-        data: {},
-      }
+      return initialState
     }
   }
 }
 
 const PopupProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = React.useReducer(popupReducer, {
-    emailModalIsOpen: false,
-    multiEmailsIsOpen: false,
-    addContactModalIsOpen: false,
-    createListModalIsOpen: false,
-    templatesModalIsOpen: false,
-    data: {},
-  })
+  const [state, dispatch] = React.useReducer(popupReducer, initialState)
 
   const value: ContextType = React.useMemo(
     () => ({

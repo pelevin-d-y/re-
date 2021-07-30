@@ -7,9 +7,10 @@ import SvgIcon from '../SvgIcon'
 type Props = {
   className?: string
   handler: (isChecked: boolean) => void
+  id: string
 }
 
-const Checkbox: React.FC<Props> = ({ className, handler }) => {
+const Checkbox: React.FC<Props> = ({ children, className, handler, id }) => {
   const [isChecked, setIsChecked] = useState(false)
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,21 +19,29 @@ const Checkbox: React.FC<Props> = ({ className, handler }) => {
   }
 
   return (
-    <label className={classNames(className, s.container)}>
-      <input
-        className={s.input}
-        type="checkbox"
-        id="checkbox"
-        checked={isChecked}
-        onChange={handleChange}
-      />
-      <SvgIcon className={s.icon} icon="check.svg" />
-    </label>
+    <div className={classNames(className, s.container)}>
+      <label className={s.box} htmlFor={id}>
+        <input
+          className={s.input}
+          type="checkbox"
+          id={id}
+          checked={isChecked}
+          onChange={handleChange}
+        />
+        <SvgIcon className={s.icon} icon="check.svg" />
+      </label>
+      <label className={s.label} htmlFor={id}>
+        {children}
+      </label>
+    </div>
   )
 }
 
 const s = css`
-  .container {
+  s.container {
+    display: flex;
+  }
+  .box {
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -56,6 +65,9 @@ const s = css`
     width: 90%;
     transition: all 0.2s linear;
     color: var(--blue);
+  }
+  .label {
+    cursor: pointer;
   }
 `
 

@@ -9,7 +9,8 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
-import HomeRecommendations from './HomeRecommendations'
+import HomeRecommendations from './Recommendations/HomeRecommendations'
+import HomeUpcoming from './HomeUpcoming'
 
 const Content: React.FC = () => {
   const { state: lists } = useLists()
@@ -22,6 +23,7 @@ const Content: React.FC = () => {
         {lists ? (
           <>
             <HomeRecommendations className={s.section} />
+            <HomeUpcoming className={s.section} />
             <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
@@ -35,6 +37,7 @@ const Content: React.FC = () => {
                 users={contacts?.slice(1, 4)}
               />
             </Grid>
+            {/* <CardGuide className={s.section} /> */}
             <CardShare
               className={s.section}
               variant="dark"
