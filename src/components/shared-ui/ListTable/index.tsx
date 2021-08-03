@@ -32,6 +32,23 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
 
   const { updateList } = useLists()
 
+  const updateUser = useCallback(
+    (e: React.MouseEvent, userData: UserData) => {
+      e.stopPropagation();
+
+      const ind = data?.users.findIndex((u) => u.address === userData.address);
+      if (ind !== -1) {
+        data.users[ind] = {...userData};
+        updateList({
+          ...data,
+          users: [...data?.users],
+        });
+      }
+    },
+    [data]
+  );
+
+ 
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
       e.stopPropagation()
@@ -85,7 +102,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       {
         Header: 'Notes',
         accessor: 'notes',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
+        Cell: ({ value, row }) => <span onClick={(e) => updateUser(e, row.original)} className={s.cellContent}>{value}</span>,
       },
       {
         Header: 'Playlists',
