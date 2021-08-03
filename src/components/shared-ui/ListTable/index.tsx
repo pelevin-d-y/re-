@@ -13,6 +13,7 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
 import Checkbox from './Checkbox'
+import EasyEdit from 'react-easy-edit';
 
 type Props = {
   className?: string
@@ -33,9 +34,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const { updateList } = useLists()
 
   const updateUser = useCallback(
-    (e: React.MouseEvent, userData: UserData) => {
-      e.stopPropagation();
-
+    (userData: UserData) => {
       const ind = data?.users.findIndex((u) => u.address === userData.address);
       if (ind !== -1) {
         data.users[ind] = {...userData};
@@ -47,7 +46,6 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
     },
     [data]
   );
-
  
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
@@ -102,7 +100,24 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       {
         Header: 'Notes',
         accessor: 'notes',
-        Cell: ({ value, row }) => <span onClick={(e) => updateUser(e, row.original)} className={s.cellContent}>{value}</span>,
+        Cell: ({value, row}) => (
+          <div className={s.wrapperEdit} onClick={(e) => e.stopPropagation()}>
+            <EasyEdit
+              type='text'
+              className={s.cellContent}
+              value={value}
+              placeholder={value}
+              onSave={(value: string) =>
+                updateUser({
+                  ...row.original,
+                  notes: value ? value : 'Plan Dinner',
+                })
+              }
+              saveButtonLabel='Save'
+              cancelButtonLabel='Cancel'
+            />
+          </div>
+        ),
       },
       {
         Header: 'Playlists',
@@ -406,6 +421,17 @@ const s = css`
       height: 35px;
     }
   }
+
+  // .easy-edit-component-wrapper input {
+  //   display: block;
+  //   width: 100%;
+  //   padding: 16px 21px;
+
+  //   font-size: 14px;
+  //   line-height: 17px;
+  //   border-radius: 4px;
+  //   border: 1px solid #d8d8d8;
+  // }
 `
 
 export default Table
