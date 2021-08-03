@@ -67,7 +67,10 @@ const Content: React.FC = () => {
             addContact={addContact}
             removeContacts={removeContacts}
           />
-          <Table data={list} removeContacts={removeContacts} />
+          <Table 
+            data={list}
+            removeContacts={removeContacts} 
+          />
         </TableProvider>
       </div>
     </div>
