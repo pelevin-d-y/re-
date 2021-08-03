@@ -12,8 +12,8 @@ import Close from 'src/components/shared-ui/Close'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
+import EasyEdit from 'react-easy-edit'
 import Checkbox from './Checkbox'
-import EasyEdit from 'react-easy-edit';
 
 type Props = {
   className?: string
@@ -35,18 +35,18 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
 
   const updateUser = useCallback(
     (userData: UserData) => {
-      const ind = data?.users.findIndex((u) => u.address === userData.address);
+      const ind = data?.users.findIndex((u) => u.address === userData.address)
       if (ind !== -1) {
-        data.users[ind] = {...userData};
+        data.users[ind] = { ...userData }
         updateList({
           ...data,
           users: [...data?.users],
-        });
+        })
       }
     },
-    [data]
-  );
- 
+    [data, updateList]
+  )
+
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
       e.stopPropagation()
@@ -70,7 +70,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         Header: 'Contact',
         accessor: 'name',
         minWidth: 180,
-        Cell: ({ value, row }) => (
+        Cell: ({ row }) => (
           <div className={s.cellName}>
             <Avatar
               className={s.avatar}
@@ -100,24 +100,30 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       {
         Header: 'Notes',
         accessor: 'notes',
-        Cell: ({value, row}) => (
-          <div className={s.wrapperEdit} onClick={(e) => e.stopPropagation()}>
-            <EasyEdit
-              type='text'
+        Cell: ({ value, row }) => {
+          const restValue = value
+          return (
+            <div
               className={s.cellContent}
-              value={value}
-              placeholder={value}
-              onSave={(value: string) =>
-                updateUser({
-                  ...row.original,
-                  notes: value ? value : 'Plan Dinner',
-                })
-              }
-              saveButtonLabel='Save'
-              cancelButtonLabel='Cancel'
-            />
-          </div>
-        ),
+              onClick={(e) => e.stopPropagation()}
+              aria-hidden="true"
+            >
+              <EasyEdit
+                type="text"
+                value={value || restValue}
+                placeholder={value}
+                onSave={(val: string) =>
+                  updateUser({
+                    ...row.original,
+                    notes: val || restValue,
+                  })
+                }
+                saveButtonLabel="Save"
+                cancelButtonLabel="Cancel"
+              />
+            </div>
+          )
+        },
       },
       {
         Header: 'Playlists',
@@ -421,17 +427,6 @@ const s = css`
       height: 35px;
     }
   }
-
-  // .easy-edit-component-wrapper input {
-  //   display: block;
-  //   width: 100%;
-  //   padding: 16px 21px;
-
-  //   font-size: 14px;
-  //   line-height: 17px;
-  //   border-radius: 4px;
-  //   border: 1px solid #d8d8d8;
-  // }
 `
 
 export default Table
