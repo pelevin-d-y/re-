@@ -6,19 +6,27 @@ import { Field, FieldProps, Formik } from 'formik'
 import Input from 'src/components/shared-ui/Input'
 import Link from 'next/link'
 import Button from 'src/components/shared-ui/Button'
+import * as Yup from 'yup'
 
 type Props = {
   className?: string
 }
 
 const Auth: React.FC<Props> = ({ className }) => {
-  const [isSignIn, setIsSignIn] = useState(true)
+  const [isSignIn, setIsSignIn] = useState(false)
+
+  const CreateListSchema = Yup.object().shape({
+    email: Yup.string(),
+    password: Yup.string(),
+  })
+
   return (
     <div className={classNames(s.container, className)}>
       <Logo isOpen className={s.logo} />
       <div className={s.formContainer}>
         <Formik
-          initialValues={{}}
+          initialValues={{ email: '', password: ''}}
+          validationSchema= {CreateListSchema}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               setSubmitting(false)
@@ -61,6 +69,7 @@ const Auth: React.FC<Props> = ({ className }) => {
               <div className={s.buttonContainer}>
                 <Button
                   className={s.button}
+                  type="submit"
                   variant="contained"
                   disabled={isSubmitting}
                 >
@@ -80,7 +89,7 @@ const Auth: React.FC<Props> = ({ className }) => {
                     onClick={() => setIsSignIn(!isSignIn)}
                   >
                     Sign
-                    {isSignIn ? <span> In </span> : <span> Up </span>}
+                    {isSignIn ? <span> Up </span> : <span> In </span>}
                   </button>
                 </div>
               </div>

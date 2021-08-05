@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import Auth from 'src/components/shared-ui/Auth'
 
