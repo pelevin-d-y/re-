@@ -53,36 +53,40 @@ const Auth: React.FC<Props> = ({ className }) => {
                   />
                 )}
               </Field>
+              {isSignIn && (
+                <Link href="#">
+                  <a className={s.link}>Forgot your password?</a>
+                </Link>
+              )}
+              <div className={s.buttonContainer}>
+                <Button
+                  className={s.button}
+                  variant="contained"
+                  disabled={isSubmitting}
+                >
+                  <span className={s.textSignIn}>
+                    Sign {isSignIn ? <span> In </span> : <span> Up </span>}
+                  </span>
+                </Button>
+                <div>
+                  {isSignIn ? (
+                    <span className={s.text}>Need an account? </span>
+                  ) : (
+                    <span className={s.text}>Already have an account? </span>
+                  )}
+                  <button
+                    className={s.textBlue}
+                    type="button"
+                    onClick={() => setIsSignIn(!isSignIn)}
+                  >
+                    Sign
+                    {isSignIn ? <span> In </span> : <span> Up </span>}
+                  </button>
+                </div>
+              </div>
             </form>
           )}
         </Formik>
-        {isSignIn && (
-          <Link href="#">
-            <a className={s.link}>Forgot your password?</a>
-          </Link>
-        )}
-      </div>
-      <div className={s.buttonContainer}>
-        <Button className={s.button} variant="contained">
-          <span className={s.textSignIn}>
-            Sign {isSignIn ? <span> In </span> : <span> Up </span>}
-          </span>
-        </Button>
-        <div>
-          {isSignIn ? (
-            <span className={s.text}>Need an account? </span>
-          ) : (
-            <span className={s.text}>Already have an account? </span>
-          )}
-          <button
-            className={s.textBlue}
-            type="button"
-            onClick={() => setIsSignIn(!isSignIn)}
-          >
-            Sign
-            {isSignIn ? <span> In </span> : <span> Up </span>}
-          </button>
-        </div>
       </div>
     </div>
   )
@@ -105,7 +109,6 @@ const s = css`
   .formContainer {
     max-width: 406px;
     margin: auto;
-    margin-bottom: 43px;
   }
   .form {
     width: 100%;
@@ -115,6 +118,9 @@ const s = css`
   }
   .lastField {
     margin-bottom: 9px;
+  }
+  .linkContainer {
+    margin-bottom: 43px;
   }
   .link {
     cursor: pointer;
@@ -127,6 +133,7 @@ const s = css`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 43px;
   }
   .button {
     width: 211px;
