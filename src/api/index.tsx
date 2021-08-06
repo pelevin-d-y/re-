@@ -1,5 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosInstance } from 'axios'
+import AmazonCognitoIdentity, {
+  CognitoUserPool,
+} from 'amazon-cognito-identity-js'
+
+const poolData = {
+  UserPoolId: 'us-east-2_UfsyVD7w1',
+  ClientId: '50tujmqcoioitsokbof77a3qfu',
+}
+
+const userPool = new CognitoUserPool(poolData)
 
 const AWS_API_1 =
   process.env.NODE_ENV === 'development'
@@ -61,4 +71,12 @@ const getContacts = () =>
     .then((res) => res)
     .catch((err) => err)
 
-export { instance, setToken, sendMessage, getContacts, getAuth, getMetrics }
+export {
+  userPool,
+  instance,
+  setToken,
+  sendMessage,
+  getContacts,
+  getAuth,
+  getMetrics,
+}

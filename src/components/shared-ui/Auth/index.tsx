@@ -7,6 +7,7 @@ import Input from 'src/components/shared-ui/Input'
 import Link from 'next/link'
 import Button from 'src/components/shared-ui/Button'
 import * as Yup from 'yup'
+import { userPool } from 'src/api'
 
 type Props = {
   className?: string
@@ -25,12 +26,19 @@ const Auth: React.FC<Props> = ({ className }) => {
       <Logo isOpen className={s.logo} />
       <div className={s.formContainer}>
         <Formik
-          initialValues={{ email: '', password: ''}}
-          validationSchema= {CreateListSchema}
+          initialValues={{ email: '', password: '' }}
+          validationSchema={CreateListSchema}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              setSubmitting(false)
-            }, 1000)
+            userPool.signUp(
+              values.email,
+              values.password,
+              [],
+              [],
+              (err, data) => {
+                if (err) console.log(err)
+                console.log(data)
+              }
+            )
           }}
         >
           {({ handleSubmit, isSubmitting }) => (
@@ -127,9 +135,6 @@ const s = css`
   }
   .lastField {
     margin-bottom: 9px;
-  }
-  .linkContainer {
-    margin-bottom: 43px;
   }
   .link {
     cursor: pointer;
