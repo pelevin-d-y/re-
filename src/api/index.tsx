@@ -2,14 +2,51 @@
 import axios, { AxiosInstance } from 'axios'
 import AmazonCognitoIdentity, {
   CognitoUserPool,
+  CognitoUser,
+  AuthenticationDetails,
 } from 'amazon-cognito-identity-js'
+import * as AWS from 'aws-sdk/global'
 
 const poolData = {
   UserPoolId: 'us-east-2_UfsyVD7w1',
   ClientId: '50tujmqcoioitsokbof77a3qfu',
 }
-
 const userPool = new CognitoUserPool(poolData)
+
+const auth = (username: string, password: string) => {
+  const userData = {
+    Username: username,
+    Pool: userPool,
+  }
+  const cognitoUser = new CognitoUser(userData)
+  return cognitoUser.authenticateUser(
+    new AuthenticationDetails({ Username: username, Password: password }),
+    {
+      onSuccess(result) {
+        let accessToken = result.getAccessToken().getJwtToken()
+
+        // POTENTIAL: Region needs to be set if not already set previously elsewhere.
+        AWS.config.region = '<region>'
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: '...', // your identity pool id here
+          Logins: {
+            // Change the key below according to the specific region your user pool is in.
+            'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>': result
+              .getIdToken()
+              .getJwtToken(),
+          },
+        })
+
+        // refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
+      },
+
+      onFailure(err) {
+        alert(err.message || JSON.stringify(err))
+      },
+    }
+  )
+}
 
 const AWS_API_1 =
   process.env.NODE_ENV === 'development'
@@ -73,6 +110,7 @@ const getContacts = () =>
 
 export {
   userPool,
+  auth,
   instance,
   setToken,
   sendMessage,

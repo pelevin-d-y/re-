@@ -7,7 +7,7 @@ import Input from 'src/components/shared-ui/Input'
 import Link from 'next/link'
 import Button from 'src/components/shared-ui/Button'
 import * as Yup from 'yup'
-import { userPool } from 'src/api'
+import { userPool, auth } from 'src/api'
 
 type Props = {
   className?: string
@@ -29,16 +29,20 @@ const Auth: React.FC<Props> = ({ className }) => {
           initialValues={{ email: '', password: '' }}
           validationSchema={CreateListSchema}
           onSubmit={(values, { setSubmitting }) => {
-            userPool.signUp(
-              values.email,
-              values.password,
-              [],
-              [],
-              (err, data) => {
-                if (err) console.log(err)
-                console.log(data)
-              }
-            )
+            if (isSignIn) {
+              auth(values.email, values.password)
+            } else {
+              userPool.signUp(
+                values.email,
+                values.password,
+                [],
+                [],
+                (err, data) => {
+                  if (err) console.log(err)
+                  console.log(data)
+                }
+              )
+            }
           }}
         >
           {({ handleSubmit, isSubmitting }) => (
