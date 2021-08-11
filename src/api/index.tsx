@@ -57,7 +57,7 @@ const sendMessage = (data: SendMessageData) =>
     .catch((err) => err)
 
 const getContacts = () =>
-  apiGet(`${AWS_API_1}/recommendations?client=Thor_Ernstsson&number=20`)
+  apiGet(`${AWS_API_1}/dash/recommendations`, { number: '1' })
     .then((res) => res)
     .catch((err) => err)
 

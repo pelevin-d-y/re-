@@ -4,6 +4,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Img from 'src/components/shared-ui/Img'
+import { getContacts } from 'src/api'
 import SpotlightLongCard from './SpotlightLongCard'
 
 type Сategories = {
@@ -17,8 +18,11 @@ type Props = {
   data?: Сategories
 }
 
-const Spotlight: React.FC<Props> = ({ className, data}) => {
-
+const Spotlight: React.FC<Props> = ({ className, data }) => {
+  // eslint-disable-next-line no-shadow
+  getContacts().then((data) =>
+    console.log(JSON.parse(data.data.replaceAll("'", '"')))
+  )
   return (
     <CardContainer className={classnames(className, s.container)}>
       <div className={s.header}>
