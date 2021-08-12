@@ -20,9 +20,7 @@ type Props = {
 
 const Spotlight: React.FC<Props> = ({ className, data }) => {
   // eslint-disable-next-line no-shadow
-  getContacts().then((data) =>
-    console.log(JSON.parse(data.data.replaceAll("'", '"')))
-  )
+  getContacts().then((data) => console.log(data))
   return (
     <CardContainer className={classnames(className, s.container)}>
       <div className={s.header}>
