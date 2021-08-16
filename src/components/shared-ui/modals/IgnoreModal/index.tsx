@@ -10,6 +10,7 @@ import { useClient } from 'src/components/context/ClientContext'
 import ModalBase from 'src/components/shared-ui/modals/ModalBase'
 import { random } from 'lodash'
 import { usePopup } from 'src/components/context/PopupContext'
+import ModalListActions from '../ModalListActions'
 
 type Props = {
   className?: string
@@ -76,27 +77,30 @@ const Ignore: React.FC<Props> = ({ className }) => {
             text={parseEmailMessage(templateData.Header, name)}
           />
         )}
-        <div className={s.buttons}>
-          <button className={s.button} type="button" onClick={removeCard}>
-            Not relevant
-          </button>
-          <button className={s.button} type="button" onClick={removeCard}>
-            Not a good time
-          </button>
-          <button className={s.button} type="button" onClick={removeCard}>
-            We spoke offline
-          </button>
-          <button className={s.button} type="button" onClick={removeCard}>
-            Will reach out later
-          </button>
-          <button
-            className={classNames(s.button, s.buttonWithoutBorder)}
-            type="button"
-            onClick={removeCard}
-          >
-            Never will contact
-          </button>
-        </div>
+        <ModalListActions
+          items={[
+            {
+              text: 'Not relevant',
+              action: () => null,
+            },
+            {
+              text: 'Not a good time',
+              action: () => null,
+            },
+            {
+              text: 'We spoke offline',
+              action: () => null,
+            },
+            {
+              text: 'Will reach out later',
+              action: () => null,
+            },
+            {
+              text: 'Never will contact',
+              action: removeCard,
+            },
+          ]}
+        />
       </CardContainer>
     </ModalBase>
   )
@@ -140,33 +144,6 @@ const s = css`
   .description {
     max-width: 220px;
     margin-bottom: 14px;
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .button {
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 14px;
-
-    background-color: white;
-    border: none;
-    border-bottom: 1px solid #f6f6f6;
-    margin-bottom: 7px;
-    padding: 0 0 9px 0;
-    text-align: start;
-
-    &:hover {
-      color: var(--blue);
-    }
-  }
-
-  .buttonWithoutBorder {
-    border-bottom: none;
   }
 `
 

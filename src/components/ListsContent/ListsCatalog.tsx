@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -10,8 +10,25 @@ type Props = {
   className?: string
 }
 
+type CardsStructure = { firstColumn: Lists; secondColumn: Lists }
+
 const ListsCatalog: React.FC<Props> = ({ className }) => {
   const { state: listsState } = useLists()
+  const cardsStructure: CardsStructure = useMemo(() => {
+    const value: CardsStructure = {
+      firstColumn: [],
+      secondColumn: [],
+    }
+    listsState?.map((item, index) => {
+      const remainder = (index + 1) % 2
+      if (remainder) {
+        return value.firstColumn.push(item)
+      }
+
+      return value.secondColumn.push(item)
+    })
+    return value
+  }, [listsState])
 
   return (
     <CardContainer className={classNames(s.container, className)}>
@@ -25,9 +42,16 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
         link={{ text: 'Create New', href: '/create-list' }}
       />
       <div className={s.list}>
-        {listsState?.map((item) => (
-          <CardList key={item.id} data={item} />
-        ))}
+        <div className={s.column}>
+          {cardsStructure.firstColumn.map((item) => (
+            <CardList className={s.card} key={item.id} data={item} />
+          ))}
+        </div>
+        <div className={s.column}>
+          {cardsStructure.secondColumn.map((item) => (
+            <CardList className={s.card} key={item.id} data={item} />
+          ))}
+        </div>
       </div>
     </CardContainer>
   )
@@ -51,6 +75,10 @@ const s = css`
       padding-left: 16px;
       padding-right: 16px;
     }
+  }
+
+  .card {
+    margin-bottom: 15px;
   }
 `
 

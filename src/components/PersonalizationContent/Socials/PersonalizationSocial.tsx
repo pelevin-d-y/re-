@@ -13,13 +13,14 @@ type Props = {
 }
 
 const PersonalizationSocial: React.FC<Props> = ({ className, data }) => (
-  <div
+  <a
     className={classNames(className, s.container)}
     style={{ background: data.background }}
+    href="#"
   >
     <SvgIcon icon={data.icon} className={s.icon} />
     <span>{data.text}</span>
-  </div>
+  </a>
 )
 
 const s = css`
@@ -30,8 +31,10 @@ const s = css`
     padding: 5px 23px;
 
     font-weight: var(--semibold);
+    text-decoration: none;
     color: var(--white);
     border-radius: 16px;
+    cursor: pointer;
   }
 
   .icon {

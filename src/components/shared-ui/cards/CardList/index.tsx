@@ -1,12 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import { usePopup } from 'src/components/context/PopupContext'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Img from 'src/components/shared-ui/Img'
 import Tasks from 'src/components/shared-ui/Tasks'
+import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
-import CardActions from './CardActions'
 
 type Props = {
   className?: string
@@ -18,6 +20,11 @@ const CardList: React.FC<Props> = ({
   data: { id, title, description, users, image, tasks },
 }) => {
   const router = useRouter()
+
+  const { dispatch: popupDispatch } = usePopup()
+  const openDeletePopup = () => {
+    popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
+  }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
@@ -32,11 +39,31 @@ const CardList: React.FC<Props> = ({
         users={users}
         showHiddenUsers
       />
-      <CardActions
-        className={s.actions}
-        mainText="View List"
-        mainAction={() => router.push(`/list?id=${id}`)}
-      />
+      <div className={classNames(s.actions)}>
+        <PopoverDots
+          variant="outlined"
+          items={[
+            {
+              name: 'Edit',
+              handler: () => null,
+            },
+            {
+              name: 'Duplicate',
+              handler: () => null,
+            },
+            {
+              name: 'Delete',
+              handler: openDeletePopup,
+            },
+          ]}
+        />
+        <Button
+          variant="contained"
+          handler={() => router.push(`/list?id=${id}`)}
+        >
+          View List
+        </Button>
+      </div>
     </CardContainer>
   )
 }
@@ -86,6 +113,11 @@ const s = css`
   }
 
   .actions {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 9px 18px;
+
+    width: 100%;
     margin-top: auto;
   }
 `

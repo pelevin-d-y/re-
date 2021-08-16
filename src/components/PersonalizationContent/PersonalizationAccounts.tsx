@@ -64,9 +64,8 @@ const s = css`
   }
 
   .account {
-    max-width: 256px;
-    width: 100%;
     margin-right: 13px;
+    margin-bottom: 13px;
 
     &:last-child {
       margin-right: 0;
@@ -80,7 +79,7 @@ const s = css`
   .googleAuth {
     width: 200px;
     height: 50px;
-    margin-top: 18px;
+    margin-top: 5px;
   }
 
   .emptyAccounts {

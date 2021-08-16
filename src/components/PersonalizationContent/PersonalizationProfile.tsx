@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Field, FieldProps, Formik } from 'formik'
@@ -6,7 +6,6 @@ import * as Yup from 'yup'
 import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
-import { getAuth } from 'src/api'
 import Selector from '../shared-ui/Selector'
 
 type Props = {
@@ -272,7 +271,7 @@ const s = css`
   }
 
   .recomHeader {
-    font-weight: 800;
+    font-weight: var(--semibold);
     font-size: 18px;
     line-height: 22px;
     margin-bottom: 14px;

@@ -7,9 +7,13 @@ import { css } from 'astroturf'
 type Props = {
   className?: string
   variant: 'outlined' | 'contained'
+  items?: {
+    name: string
+    handler: () => void
+  }[]
 }
 
-const items = [
+const defaultItems = [
   {
     name: 'Manage',
     handler: () => null,
@@ -20,32 +24,36 @@ const items = [
   },
 ]
 
-const PopoverDots: React.FC<Props> = ({ className, variant }) => (
-  <Popover
-    triggerElement={
-      <Button className={className} variant={variant}>
-        •••
-      </Button>
-    }
-    popupContent={
-      <CardContainer className={classNames(className, s.popup)}>
-        <ul className={s.list}>
-          {items?.map((item) => (
-            <li className={s.item} key={item.name}>
-              <button
-                type="button"
-                onClick={() => item.handler()}
-                className={s.popupButton}
-              >
-                {item.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </CardContainer>
-    }
-  />
-)
+const PopoverDots: React.FC<Props> = ({ className, variant, items }) => {
+  const popoverItems = items || defaultItems
+
+  return (
+    <Popover
+      triggerElement={
+        <Button className={className} variant={variant}>
+          •••
+        </Button>
+      }
+      popupContent={
+        <CardContainer className={classNames(className, s.popup)}>
+          <ul className={s.list}>
+            {popoverItems?.map((item) => (
+              <li className={s.item} key={item.name}>
+                <button
+                  type="button"
+                  onClick={() => item.handler()}
+                  className={s.popupButton}
+                >
+                  {item.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </CardContainer>
+      }
+    />
+  )
+}
 
 const s = css`
   .popup {

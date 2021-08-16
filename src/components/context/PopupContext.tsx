@@ -7,6 +7,7 @@ type Action =
   | { type: 'TOGGLE_CONTACTS_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
+  | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_IGNORE_POPUP'; payload: UserData }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
@@ -16,6 +17,7 @@ type State = {
   multiEmailsIsOpen: boolean
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
+  deleteListModalIsOpen: boolean
   templatesModalIsOpen: boolean
   ignoreModalIsOpen: boolean
   data: UserData
@@ -35,6 +37,7 @@ const initialState = {
   createListModalIsOpen: false,
   templatesModalIsOpen: false,
   ignoreModalIsOpen: false,
+  deleteListModalIsOpen: false,
   data: {},
   multiEmailsData: [],
 }
@@ -66,6 +69,12 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         ...state,
         createListModalIsOpen: !state.createListModalIsOpen,
+      }
+    }
+    case 'TOGGLE_DELETE_LIST_POPUP': {
+      return {
+        ...state,
+        deleteListModalIsOpen: !state.deleteListModalIsOpen,
       }
     }
     case 'TOGGLE_TEMPLATES_POPUP': {
