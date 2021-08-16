@@ -23,24 +23,13 @@ const Profile: React.FC<Props> = ({ className, data }) => {
   const { name } = data
   const names = name?.split(' ')
 
-  const [email, setEmail] = useState<string | null>(null)
-  useEffect(() => {
-    getAuth()
-      .then(
-        // eslint-disable-next-line no-shadow
-        (data) =>
-          setEmail(Object.keys(JSON.parse(data.data.replaceAll("'", '"')))[0])
-      )
-      .catch((err) => err)
-  })
-
   return (
     <div className={classNames(className, s.container)}>
       <Formik
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: email,
+          profileEmail: data.address,
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -53,7 +42,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
           <div className={s.content}>
             <div className={s.avatarBlock}>
               <Avatar image={data.avatar} className={s.avatar} />
-              <button className={s.changeAvatar}>
+              <button type="button" className={s.changeAvatar}>
                 {data.avatar ? 'Change Pic' : 'Upload Pic'}
               </button>
             </div>
@@ -119,7 +108,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                           },
                         }}
                         options={[
-                          { value: 'email1', label: email },
+                          { value: 'email1', label: 'thor@casualcorp.com1' },
                           { value: 'email2', label: 'thor@casualcorp.com2' },
                           { value: 'email3', label: 'thor@casualcorp.com3' },
                         ]}
