@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Field, FieldProps, Formik } from 'formik'
@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
+import { getAuth } from 'src/api'
 import Selector from '../shared-ui/Selector'
 
 type Props = {
@@ -22,13 +23,24 @@ const Profile: React.FC<Props> = ({ className, data }) => {
   const { name } = data
   const names = name?.split(' ')
 
+  const [email, setEmail] = useState<string | null>(null)
+  useEffect(() => {
+    getAuth()
+      .then(
+        // eslint-disable-next-line no-shadow
+        (data) =>
+          setEmail(Object.keys(JSON.parse(data.data.replaceAll("'", '"')))[0])
+      )
+      .catch((err) => err)
+  })
+
   return (
     <div className={classNames(className, s.container)}>
       <Formik
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data.address,
+          profileEmail: email,
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -107,7 +119,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                           },
                         }}
                         options={[
-                          { value: 'email1', label: 'thor@casualcorp.com1' },
+                          { value: 'email1', label: email },
                           { value: 'email2', label: 'thor@casualcorp.com2' },
                           { value: 'email3', label: 'thor@casualcorp.com3' },
                         ]}

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Img from 'src/components/shared-ui/Img'
+import { getRecommendations, getContact, getMetrics } from 'src/api'
 import SpotlightLongCard from './SpotlightLongCard'
 
 type Сategories = {
@@ -17,7 +18,14 @@ type Props = {
   data?: Сategories
 }
 
-const Spotlight: React.FC<Props> = ({ className, data}) => {
+const Spotlight: React.FC<Props> = ({ className, data }) => {
+  useEffect(() => {
+    getContact().then((res) => console.log('Get contact response -->', res))
+    getMetrics().then((res) => console.log('Get metrics response -->', res))
+    getRecommendations().then((res) =>
+      console.log('Get recommendations response -->', res)
+    )
+  }, [])
 
   return (
     <CardContainer className={classnames(className, s.container)}>

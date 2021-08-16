@@ -5,6 +5,7 @@ const AWS_API_1 =
   process.env.NODE_ENV === 'development'
     ? '/api/aws1'
     : 'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test'
+
 const AWS_API_2 =
   process.env.NODE_ENV === 'development'
     ? '/api/aws2'
@@ -56,9 +57,22 @@ const sendMessage = (data: SendMessageData) =>
     .then((res) => res)
     .catch((err) => err)
 
-const getContacts = () =>
-  apiGet(`${AWS_API_1}/recommendations?client=Thor_Ernstsson&number=20`)
+const getContact = () =>
+  apiGet(`${AWS_API_2}/client/contact`)
     .then((res) => res)
     .catch((err) => err)
 
-export { instance, setToken, sendMessage, getContacts, getAuth, getMetrics }
+const getRecommendations = () =>
+  apiGet(`${AWS_API_2}/dash/recommendations`, { number: '2' })
+    .then((res) => res)
+    .catch((err) => err)
+
+export {
+  instance,
+  setToken,
+  sendMessage,
+  getRecommendations,
+  getAuth,
+  getMetrics,
+  getContact,
+}
