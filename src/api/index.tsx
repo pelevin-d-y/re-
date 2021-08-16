@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosInstance } from 'axios'
+import { logInLink } from 'src/helpers/variables'
 
 const AWS_API_1 =
   process.env.NODE_ENV === 'development'
@@ -19,6 +20,16 @@ const defaultOptions = {
 
 // Create instance
 const instance: AxiosInstance = axios.create(defaultOptions)
+
+instance.interceptors.response.use(
+  (config) => config,
+  (error) => {
+    if (error.response.status === 401) {
+      document.location.href = logInLink
+    }
+    return error
+  }
+)
 
 const setToken = (token: string | null): void => {
   if (!token) {
