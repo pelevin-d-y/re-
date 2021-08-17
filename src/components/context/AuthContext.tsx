@@ -4,9 +4,7 @@ import getTokensUrl from 'src/helpers/utils/get-tokens-url'
 import { LS_ID_TOKEN } from 'src/helpers/variables'
 
 type Tokens = {
-  idToken?: string
-  accessToken?: string
-  isAuth?: boolean
+  isSignedIn?: boolean
   tokenChecked: boolean
 }
 
@@ -38,6 +36,7 @@ const authReducer = (state: State, action: Action): State => {
 const getIdToken = () => {
   const urlTokens = getTokensUrl(window.location.hash.substr(1))
   if (urlTokens.id_token) {
+    // window.history.replaceState(null, '', window.location.pathname)
     localStorage.setItem(LS_ID_TOKEN, urlTokens.id_token)
     return urlTokens.id_token
   }
@@ -52,7 +51,7 @@ const getIdToken = () => {
 
 const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(authReducer, {
-    isAuth: false,
+    isSignedIn: false,
     tokenChecked: false,
   })
 
@@ -62,7 +61,7 @@ const AuthProvider: React.FC = ({ children }) => {
     if (token) {
       dispatch({
         type: 'UPDATE_AUTH_DATA',
-        payload: { idToken: token, isAuth: true, tokenChecked: true },
+        payload: { isSignedIn: true, tokenChecked: true },
       })
       setToken(token)
     } else {

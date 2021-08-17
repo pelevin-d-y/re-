@@ -9,6 +9,7 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { useAuth } from 'src/components/context/AuthContext'
+import { LS_ID_TOKEN } from 'src/helpers/variables'
 import { sendMessage } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
@@ -96,9 +97,8 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
     dispatch({
       type: 'updateBody',
       payload: {
-        client_id: authState?.idToken,
+        client_id: localStorage.getItem(LS_ID_TOKEN) || undefined,
         from_address: clientState?.address,
-        // from_address: 'strata.test0@gmail.com',
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, data.name),
@@ -112,13 +112,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
           : [],
       },
     })
-  }, [
-    authState?.idToken,
-    clientState?.address,
-    data.address,
-    data.name,
-    data.templateData,
-  ])
+  }, [clientState?.address, data.address, data.name, data.templateData])
 
   const sendEmail = async () => {
     dispatch({ type: 'updateSendingStatus' })
