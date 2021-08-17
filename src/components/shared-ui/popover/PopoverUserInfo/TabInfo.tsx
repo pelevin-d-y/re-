@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import React from 'react'
@@ -27,7 +28,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => (
             <Img alt="icon" className={s.pen} img="pen.png" />
           </div>
           <div className={s.value}>
-            {format(new Date(data.last_contact_time), 'MMMM dd, yyyy')}
+            {format(parseISO(data.last_contact_time), 'MMMM dd, yyyy')}
           </div>
         </li>
       )}
