@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { setToken } from 'src/api'
 import getTokensUrl from 'src/helpers/utils/get-tokens-url'
+import { LS_ID_TOKEN } from 'src/helpers/variables'
 
 type Tokens = {
   idToken?: string
@@ -17,9 +18,6 @@ type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
 }
-
-const LS_ID_TOKEN = 'strata_id_token'
-const LS_ACCESS_TOKEN = 'strata_access_token'
 
 const AuthContext = React.createContext<ContextType | null>(null)
 

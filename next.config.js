@@ -8,12 +8,7 @@ module.exports = withPlugins([optimizedImages], {
     /// proxying to dev server
     return [
       {
-        source: '/api/aws1/:path*',
-        destination:
-          'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
-      },
-      {
-        source: '/api/aws2/:path*',
+        source: '/api/aws/:path*',
         destination:
           'https://3t8fpn6j0e.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
       },
