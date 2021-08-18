@@ -5,11 +5,11 @@ import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 
 type MainUserData = {
-  emails: string[]
-  shortName: string
-  fullName: string
+  emails?: string[]
+  shortName?: string
+  fullName?: string
   avatar?: string
-  contacts: UserData[]
+  contacts?: UserData[]
 }
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }

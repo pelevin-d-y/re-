@@ -96,7 +96,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
       type: 'updateBody',
       payload: {
         client_id: localStorage.getItem(LS_ID_TOKEN) || undefined,
-        from_address: clientState?.emails[0],
+        from_address: clientState?.emails && clientState?.emails[0],
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, data.name),

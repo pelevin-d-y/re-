@@ -30,7 +30,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       popupContent={
         <CardContainer className={s.popup}>
           <div className={s.title}>Email Sync</div>
-          {state?.emails.map((address) => (
+          {state?.emails?.map((address) => (
             <GoogleEmail key={address} className={s.account} email={address} />
           ))}
           <button className={s.addButton} type="button">

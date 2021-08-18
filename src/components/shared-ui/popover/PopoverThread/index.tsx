@@ -42,7 +42,7 @@ const PopoverThread: React.FC<Props> = ({ className }) => {
               {state?.contacts &&
                 state.contacts.map((item) => (
                   <li className={s.item} key={item.address}>
-                    <ThreadItem data={item} clientName={state.name} />
+                    <ThreadItem data={item} clientName={state.fullName} />
                   </li>
                 ))}
             </ul>
