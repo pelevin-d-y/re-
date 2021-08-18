@@ -9,8 +9,7 @@ type Props = {
   data: SendMessageData
 }
 
-const isEmail = (email: string) =>
-  /[\w\d\.-]+@[\w\d\.-]+\.[\w\d\.-]+/.test(email)
+const isEmail = (email: string) => /[\w\d.-]+@[\w\d.-]+\.[\w\d.-]+/.test(email)
 
 const Chips: React.FC<Props> = ({ setValue, name, data }) => {
   const currentFieldData: MessageList[] = data[name] as MessageList[]

@@ -20,17 +20,17 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       position="bottom right"
       triggerElement={
         <div className={classNames(s.container, className)}>
-          {state?.avatar && (
-            <a href={logInLink}>
-              <Avatar image={state.avatar} />
-            </a>
-          )}
+          {/* {state?.avatar && ( */}
+          <a href={logInLink}>
+            <Avatar image="thor.jpeg" />
+          </a>
+          {/* )} */}
         </div>
       }
       popupContent={
         <CardContainer className={s.popup}>
           <div className={s.title}>Email Sync</div>
-          {state?.addresses?.split('; ').map((address) => (
+          {state?.emails.map((address) => (
             <GoogleEmail key={address} className={s.account} email={address} />
           ))}
           <button className={s.addButton} type="button">

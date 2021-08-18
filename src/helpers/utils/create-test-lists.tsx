@@ -58,7 +58,7 @@ const createTestLists = (users: UserData[]) => [
     description:
       'Plan your trip ahead but scheduling meetings with contacts in LA',
     icon: 'pens.png',
-    users: users.slice(10, 16),
+    users: users.slice(2, 10),
     tasks: {
       urgent: 1,
       pinned: 1,

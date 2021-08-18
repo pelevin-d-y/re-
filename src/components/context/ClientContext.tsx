@@ -1,17 +1,25 @@
 import * as React from 'react'
 import { get, set } from 'idb-keyval'
-import { getRecommendations } from 'src/api'
+import { getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 
-type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
+type MainUserData = {
+  emails: string[]
+  shortName: string
+  fullName: string
+  avatar?: string
+  contacts: UserData[]
+}
 
-type State = UserData | null
+type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
+
+type State = MainUserData | null
 
 type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
-  updateUserData: (data: UserData) => void
+  updateUserData: (data: MainUserData) => void
 }
 
 const DB_STORE_NAME = 'client'
@@ -42,12 +50,29 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         if (clientData) {
           dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
         } else {
-          const { data: clientRecommendations } = await getRecommendations()
+          const {
+            data: { recommendations: clientRecommendations },
+          } = await getRecommendations()
+          const { data: contactData } = await getContact()
+
           const extendedUsers = addAdditionFields(clientRecommendations)
-          await set('client', extendedUsers[0])
+          const mainUserData = {
+            emails: contactData.flatMap((item: any) =>
+              item.type === 'email' ? item.data : []
+            ),
+            shortName: contactData.flatMap((item: any) =>
+              item.type === 'name_short' ? item.data : []
+            )[0],
+            fullName: contactData.flatMap((item: any) =>
+              item.type === 'name' ? item.data.join(' ') : []
+            )[0],
+            avatar: undefined,
+            contacts: extendedUsers,
+          }
+          await set('client', mainUserData)
           dispatch({
             type: 'UPDATE_USER_DATA',
-            payload: extendedUsers[0],
+            payload: mainUserData,
           })
         }
       } catch (err) {
@@ -56,10 +81,23 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         // eslint-disable-next-line no-console
         console.log('set testUsers')
         const extendedUsers = addAdditionFields(testUsers)
-        await set('client', extendedUsers[0])
+        const mainUserData = {
+          avatar: undefined,
+          emails: [
+            'thor@casualcorp.com',
+            'thor@alphahq.com',
+            'thor@strata.cc',
+            'thor@alpha-ux.co',
+          ],
+          fullName: 'Thor Ernstsson',
+          shortName: 'Thor',
+          contacts: extendedUsers,
+        }
+
+        await set('client', mainUserData)
         dispatch({
           type: 'UPDATE_USER_DATA',
-          payload: extendedUsers[0],
+          payload: mainUserData,
         })
       }
     }
@@ -67,7 +105,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     setClientData()
   }, [])
 
-  const updateUserData = async (data: UserData) => {
+  const updateUserData = async (data: MainUserData) => {
     set(DB_STORE_NAME, data)
       .then(() => {
         dispatch({ type: 'UPDATE_USER_DATA', payload: data })

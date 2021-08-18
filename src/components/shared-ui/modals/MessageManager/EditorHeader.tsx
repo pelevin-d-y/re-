@@ -73,7 +73,7 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
       </div>
       <div className={s.item}>
         <div className={s.subtitle}>From:</div>
-        <div className={s.from}>{state?.name}</div>
+        <div className={s.from}>{state?.fullName}</div>
       </div>
     </div>
   )

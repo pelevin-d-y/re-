@@ -58,24 +58,19 @@ const getAuth = () =>
     .then((res) => res)
     .catch((err) => err)
 
-const sendMessage = (data: SendMessageData) =>
-  apiPost(`${AWS_API}/messages/send`, data)
-    .then((res) => res)
-    .catch((err) => err)
-
 const getContact = () =>
   apiGet(`${AWS_API}/client/contact`)
     .then((res) => res)
     .catch((err) => err)
 
 const getRecommendations = () =>
-  apiGet(`${AWS_API}/dash/recommendations`, { number: '2' })
+  apiGet(`${AWS_API}/dash/recommendations`, { number: '20' })
     .then((res) => res)
     .catch((err) => err)
 
 const getContactsMutable = () =>
   apiGet(`${AWS_API}/contacts/mutable`, {
-    id: localStorage.getItem(LS_ID_TOKEN) || '',
+    id: '00000000-0000-0000-0000-000000000000',
   })
     .then((res) => res)
     .catch((err) => err)
@@ -90,6 +85,16 @@ const getMessagesRead = (id: string) =>
     .then((res) => res)
     .catch((err) => err)
 
+const sendMessage = (data: SendMessageData) =>
+  apiPost(`${AWS_API}/messages/send`, data)
+    .then((res) => res)
+    .catch((err) => err)
+
+const postClientContact = (data: any) =>
+  apiPost(`${AWS_API}/contacts/mutable`, data)
+    .then((res) => res)
+    .catch((err) => err)
+
 export {
   instance,
   setToken,
@@ -101,4 +106,5 @@ export {
   getContactsMutable,
   getContactsSearch,
   getMessagesRead,
+  postClientContact,
 }

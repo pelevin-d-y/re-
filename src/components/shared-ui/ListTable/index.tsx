@@ -147,7 +147,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         ),
       },
     ],
-    [removeUser]
+    [removeUser, updateUser]
   )
 
   const {

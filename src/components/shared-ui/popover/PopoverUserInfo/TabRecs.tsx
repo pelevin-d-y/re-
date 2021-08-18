@@ -5,9 +5,9 @@ import { useClient } from 'src/components/context/ClientContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import UserHeader from 'src/components/shared-ui/UserHeader'
+import parseMessage from 'src/helpers/utils/parse-message'
 import PopoverBase from '../PopoverBase'
 import PopoverActionsContent from '../PopoverActionsContent'
-import parseMessage from 'src/helpers/utils/parse-message'
 
 type Props = {
   className?: string

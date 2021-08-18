@@ -23,22 +23,19 @@ const addAdditionFields = (users: UserData[]): UserData[] => {
     relationshipStrength: calculateColorByStraight(user.connection_E),
   }))
 
-  const usersWithAdditionUsers: UserData[] = (
-    [
-      {
-        ...extendedUsers[0],
-        name: 'Thor Ernstsson',
-        first_message_id: 'qweasd123123asdzxcqw:asdq',
-        address: 'thor@casualcorp.com',
-        avatar: 'thor.jpeg',
-      },
-    ] as UserData[]
-  ).concat(extendedUsers)
+  // const usersWithAdditionUsers: UserData[] = (
+  //   [
+  //     {
+  //       ...extendedUsers[0],
+  //       name: 'Thor Ernstsson',
+  //       first_message_id: 'qweasd123123asdzxcqw:asdq',
+  //       address: 'thor@casualcorp.com',
+  //       avatar: 'thor.jpeg',
+  //     },
+  //   ] as UserData[]
+  // ).concat(extendedUsers)
 
-  return usersWithAdditionUsers.map((user) => ({
-    ...user,
-    contacts: extendedUsers,
-  }))
+  return extendedUsers
 }
 
 export default addAdditionFields

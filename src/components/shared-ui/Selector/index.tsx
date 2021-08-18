@@ -81,7 +81,7 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   }),
 })
 
-const Selector: React.FC<Props> = ({options, styles, label}) => {
+const Selector: React.FC<Props> = ({ options, styles, label }) => {
   // eslint-disable-next-line
   const DropdownIndicator = (props: IndicatorProps<any, any>) => (
     <components.DropdownIndicator {...props}>
@@ -91,16 +91,12 @@ const Selector: React.FC<Props> = ({options, styles, label}) => {
 
   return (
     <div className={s.container}>
-      {label && (
-        <label className={s.label}>
-          {label}
-        </label>
-      )}
+      {label && <label className={s.label}>{label}</label>}
       <SelectComp
         options={options}
         instanceId="1"
         styles={selectStyles(styles)}
-        components={{DropdownIndicator}}
+        components={{ DropdownIndicator }}
         isSearchable={false}
         defaultValue={options[0]}
       />

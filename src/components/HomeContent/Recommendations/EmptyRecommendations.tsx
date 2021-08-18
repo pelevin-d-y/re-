@@ -1,5 +1,5 @@
 import React from 'react'
-import {css} from 'astroturf'
+import { css } from 'astroturf'
 import Img from '../../shared-ui/Img'
 import Button from '../../shared-ui/Button'
 import SvgIcon from '../../shared-ui/SvgIcon'

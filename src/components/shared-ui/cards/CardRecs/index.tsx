@@ -1,11 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
-import {css} from 'astroturf'
+import { css } from 'astroturf'
+import parseMessage from 'src/helpers/utils/parse-message'
+import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from '../CardContainer'
 import Button from '../../Button'
 import Avatar from '../../Avatar'
-import parseMessage from 'src/helpers/utils/parse-message'
-import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
@@ -13,7 +13,7 @@ type Props = {
   addUsers?: (user: UserData) => void
 }
 
-const CardRecs: React.FC<Props> = ({className, data, addUsers}) => {
+const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
   const addUsersHandler = () => {
     if (addUsers) {
       addUsers(data)
@@ -23,17 +23,22 @@ const CardRecs: React.FC<Props> = ({className, data, addUsers}) => {
   return (
     <CardContainer className={s.container}>
       <div className={s.header}>
-       <Avatar image={data?.avatar} className={s.avatar} /> 
+        <Avatar image={data?.avatar} className={s.avatar} />
         <div className={s.info}>
           <div className={s.name}>{data.name}</div>
           <div className={s.job}>Fund Manager @ JPM</div>
         </div>
-        <Button className={s.button} handler={addUsersHandler} type='button' variant='outlined'>
+        <Button
+          className={s.button}
+          handler={addUsersHandler}
+          type="button"
+          variant="outlined"
+        >
           +
         </Button>
       </div>
       <div className={s.footer}>
-      <div className={s.text}>
+        <div className={s.text}>
           {data.templateData?.Summary &&
             parseMessage(data.templateData?.Summary, data.name)}
         </div>
@@ -45,7 +50,7 @@ const CardRecs: React.FC<Props> = ({className, data, addUsers}) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
   .container {
-    background: #F0F5FF;
+    background: #f0f5ff;
     margin-right: 13px;
     height: auto;
   }
@@ -64,14 +69,14 @@ const s = css`
   .info {
     margin-right: 21px;
   }
-  
+
   .name {
     font-size: 12px;
     font-weight: 800;
     line-height: 14px;
     white-space: nowrap;
   }
-  
+
   .job {
     font-size: 12px;
     font-weight: 500;
@@ -87,8 +92,8 @@ const s = css`
     font-size: 12px;
     font-weight: 500;
     line-height: 16px;
-    color: #1966FF;
+    color: #1966ff;
   }
-`;
+`
 
 export default CardRecs
