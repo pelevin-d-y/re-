@@ -11,7 +11,7 @@ const EmailModal: React.FC = () => {
   const { data, emailModalIsOpen } = state
 
   const closeHandler = () => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: {} })
+    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: null })
   }
 
   return (
@@ -23,7 +23,7 @@ const EmailModal: React.FC = () => {
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
         {data && <ModalUserInfo className={s.header} data={data} />}
-        <MessageManager data={data} closeHandler={closeHandler} />
+        {data && <MessageManager data={data} closeHandler={closeHandler} />}
       </div>
     </ModalBase>
   )

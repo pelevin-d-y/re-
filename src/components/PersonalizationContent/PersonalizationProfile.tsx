@@ -10,7 +10,7 @@ import Selector from '../shared-ui/Selector'
 
 type Props = {
   className?: string
-  data: UserData
+  data: MainUserData
 }
 
 const Profile: React.FC<Props> = ({ className, data }) => {
@@ -19,8 +19,8 @@ const Profile: React.FC<Props> = ({ className, data }) => {
     profileLastName: Yup.string().max(100, 'Too Long!'),
   })
 
-  const { name } = data
-  const names = name?.split(' ')
+  const { fullName } = data
+  const names = fullName?.split(' ')
 
   return (
     <div className={classNames(className, s.container)}>
@@ -28,7 +28,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data.address,
+          profileEmail: data.emails && data.emails[0],
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {

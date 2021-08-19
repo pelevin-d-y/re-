@@ -11,7 +11,7 @@ const avatars = [
   'steve.jpeg',
 ]
 
-const addAdditionFields = (users: UserData[]): UserData[] => {
+const addAdditionFields = (users: RecommendationUser[]): UserData[] => {
   const extendedUsers: UserData[] = users.map((user, i) => ({
     ...user,
     avatar: avatars[i % avatars.length],
@@ -22,18 +22,6 @@ const addAdditionFields = (users: UserData[]): UserData[] => {
     templateData: findTemplate(testTemplates, user.template),
     relationshipStrength: calculateColorByStraight(user.connection_E),
   }))
-
-  // const usersWithAdditionUsers: UserData[] = (
-  //   [
-  //     {
-  //       ...extendedUsers[0],
-  //       name: 'Thor Ernstsson',
-  //       first_message_id: 'qweasd123123asdzxcqw:asdq',
-  //       address: 'thor@casualcorp.com',
-  //       avatar: 'thor.jpeg',
-  //     },
-  //   ] as UserData[]
-  // ).concat(extendedUsers)
 
   return extendedUsers
 }

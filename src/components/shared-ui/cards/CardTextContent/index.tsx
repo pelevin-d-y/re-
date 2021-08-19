@@ -28,7 +28,7 @@ const CardTextContent: React.FC<Props> = ({
   const { dispatch: usersDispatch } = useUsers()
 
   const openModalHandler = () => {
-    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }

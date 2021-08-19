@@ -20,7 +20,7 @@ const Ignore: React.FC<Props> = ({ className }) => {
   const { state: popupState, dispatch: popupDispatch } = usePopup()
   const { state: clientState, updateUserData } = useClient()
   const { name, avatar, templateData, address, relationshipStrength } =
-    popupState.data
+    popupState.data || {}
 
   const getRandomIndex = () =>
     random(
@@ -30,14 +30,14 @@ const Ignore: React.FC<Props> = ({ className }) => {
     )
 
   const closeHandler = () => {
-    popupDispatch({ type: 'TOGGLE_IGNORE_POPUP', payload: {} })
+    popupDispatch({ type: 'TOGGLE_IGNORE_POPUP', payload: null })
   }
 
   const removeCard = () => {
-    popupDispatch({ type: 'TOGGLE_IGNORE_POPUP', payload: {} })
+    popupDispatch({ type: 'TOGGLE_IGNORE_POPUP', payload: null })
     const contacts: UserData[] = clientState?.contacts as []
     const prevIndex = contacts.findIndex(
-      (item) => item.address === popupState.data.address
+      (item) => item.address === popupState.data?.address
     )
     const nextIndex = getRandomIndex()
     const newContacts = contacts.map((item, index) => {

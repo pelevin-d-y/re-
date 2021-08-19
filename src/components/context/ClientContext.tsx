@@ -4,14 +4,6 @@ import { getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 
-type MainUserData = {
-  emails?: string[]
-  shortName?: string
-  fullName?: string
-  avatar?: string
-  contacts?: UserData[]
-}
-
 type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
 
 type State = MainUserData | null
@@ -50,23 +42,24 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         if (clientData) {
           dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
         } else {
-          const {
-            data: { recommendations: clientRecommendations },
-          } = await getRecommendations()
-          const { data: contactData } = await getContact()
+          const requests = await Promise.all([
+            getRecommendations(),
+            getContact(),
+          ])
+          const [recommendations, contactResponse] = requests
+          const extendedUsers = addAdditionFields(recommendations)
 
-          const extendedUsers = addAdditionFields(clientRecommendations)
           const mainUserData = {
-            emails: contactData.flatMap((item: any) =>
+            emails: contactResponse.data.flatMap((item: any) =>
               item.type === 'email' ? item.data : []
             ),
-            shortName: contactData.flatMap((item: any) =>
+            shortName: contactResponse.data.flatMap((item: any) =>
               item.type === 'name_short' ? item.data : []
             )[0],
-            fullName: contactData.flatMap((item: any) =>
+            fullName: contactResponse.data.flatMap((item: any) =>
               item.type === 'name' ? item.data.join(' ') : []
             )[0],
-            avatar: undefined,
+            avatar: 'thor.jpeg',
             contacts: extendedUsers,
           }
           await set('client', mainUserData)
@@ -82,7 +75,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         console.log('set testUsers')
         const extendedUsers = addAdditionFields(testUsers)
         const mainUserData = {
-          avatar: undefined,
+          avatar: 'thor.jpeg',
           emails: [
             'thor@casualcorp.com',
             'thor@alphahq.com',

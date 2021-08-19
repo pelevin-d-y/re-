@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosInstance } from 'axios'
-import { logInLink, LS_ID_TOKEN } from 'src/helpers/variables'
+import { logInLink } from 'src/helpers/variables'
 
 const AWS_API =
   process.env.NODE_ENV === 'development'
@@ -65,7 +65,7 @@ const getContact = () =>
 
 const getRecommendations = () =>
   apiGet(`${AWS_API}/dash/recommendations`, { number: '20' })
-    .then((res) => res)
+    .then((res: RecsResponse) => res.data.recommendations)
     .catch((err) => err)
 
 const getContactsMutable = () =>

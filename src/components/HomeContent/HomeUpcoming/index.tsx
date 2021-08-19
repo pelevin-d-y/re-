@@ -24,7 +24,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
 
   const followUpWithAllHandler = () => {
-    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list?.users || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }

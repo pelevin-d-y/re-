@@ -7,21 +7,21 @@ import Socials from './Socials'
 
 type Props = {
   className?: string
-  data: UserData
+  data: MainUserData
 }
 
 const Accounts: React.FC<Props> = ({ className, data }) => {
-  const addresses = data?.addresses?.split('; ') || []
+  const addresses = data?.emails
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <span className={s.subtitle}>Email Sync ({addresses.length})</span>
+        <span className={s.subtitle}>Email Sync ({addresses?.length})</span>
         <span className={s.headerAdd}>+ Add account</span>
       </div>
       <div className={s.syncAccounts}>
-        {addresses?.length > 0 ? (
-          addresses.map((address) => (
+        {addresses && addresses.length > 0 ? (
+          addresses?.map((address) => (
             <GoogleEmail key={address} className={s.account} email={address} />
           ))
         ) : (
