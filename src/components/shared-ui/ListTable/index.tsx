@@ -112,14 +112,15 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
                 type="text"
                 value={value || restValue}
                 placeholder={value}
+                hideCancelButton
+                hideSaveButton
+                saveOnBlur
                 onSave={(val: string) =>
                   updateUser({
                     ...row.original,
                     notes: val || restValue,
                   })
                 }
-                saveButtonLabel="Save"
-                cancelButtonLabel="Cancel"
               />
             </div>
           )
