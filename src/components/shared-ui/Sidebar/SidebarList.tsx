@@ -34,14 +34,6 @@ const SidebarList: React.FC<Props> = ({ className, isOpen }) => (
         </Link>
       </li>
       <li>
-        <Link href="/">
-          <a className={s.item}>
-            <SvgIcon className={s.icon} icon="templates.svg" /> Snippets
-          </a>
-        </Link>
-      </li>
-
-      <li>
         <Link href="/personalization">
           <a className={s.item}>
             <SvgIcon className={s.icon} icon="personlization.svg" />{' '}
