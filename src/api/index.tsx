@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance } from 'axios'
 import { logInLink } from 'src/helpers/variables'
 
 const AWS_API =
@@ -19,10 +19,15 @@ const instance: AxiosInstance = axios.create(defaultOptions)
 instance.interceptors.response.use(
   (config) => config,
   (error) => {
-    if (error.response.status === 401) {
-      document.location.href = logInLink
+    if (error.isAxiosError) {
+      const ae = error as AxiosError
+      if (ae.response?.status === 401) {
+        document.location.href = logInLink
+        return Promise.reject(error)
+      }
     }
-    return error
+
+    return Promise.reject(error)
   }
 )
 
@@ -51,49 +56,49 @@ const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
 const getMetrics = () =>
   apiGet(`${AWS_API}/dash/metrics`)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const getAuth = () =>
   apiGet(`${AWS_API}/client/authorization`)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const getContact = () =>
   apiGet(`${AWS_API}/client/contact`)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const getRecommendations = () =>
   apiGet(`${AWS_API}/dash/recommendations`, { number: '20' })
     .then((res: RecsResponse) => res.data.recommendations)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const getContactsMutable = () =>
   apiGet(`${AWS_API}/contacts/mutable`, {
     id: '00000000-0000-0000-0000-000000000000',
   })
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const getContactsSearch = (email: string, name?: string) =>
   apiGet(`${AWS_API}/contacts/search`, { email: email || '', name: name || '' })
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const getMessagesRead = (id: string) =>
   apiGet(`${AWS_API}/messages/read`, { id })
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const sendMessage = (data: SendMessageData) =>
   apiPost(`${AWS_API}/messages/send`, data)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const postClientContact = (data: any) =>
   apiPost(`${AWS_API}/contacts/mutable`, data)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 export {
   instance,

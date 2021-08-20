@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { get, set } from 'idb-keyval'
-import { getContact, getRecommendations } from 'src/api'
+import { getAuth, getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 
@@ -32,6 +32,34 @@ const clientReducer = (state: State, action: Action): State => {
   }
 }
 
+const getMainUserData = async () => {
+  const requests = await Promise.all([
+    getRecommendations(),
+    getContact(),
+    getAuth(),
+  ])
+
+  const [recommendations, contactResponse, authResponse] = requests
+  const extendedUsers = addAdditionFields(recommendations)
+
+  const mainUserData = {
+    emails: contactResponse.data.flatMap((item: any) =>
+      item.type === 'email' ? item.data : []
+    ),
+    shortName: contactResponse.data.flatMap((item: any) =>
+      item.type === 'name_short' ? item.data : []
+    )[0],
+    fullName: contactResponse.data.flatMap((item: any) =>
+      item.type === 'name' ? item.data.join(' ') : []
+    )[0],
+    avatar: 'thor.jpeg',
+    contacts: extendedUsers,
+    strataEmail: Object.keys(authResponse.data)[0],
+  }
+
+  return mainUserData
+}
+
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
   const [state, dispatch] = React.useReducer(clientReducer, null)
 
@@ -42,26 +70,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         if (clientData) {
           dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
         } else {
-          const requests = await Promise.all([
-            getRecommendations(),
-            getContact(),
-          ])
-          const [recommendations, contactResponse] = requests
-          const extendedUsers = addAdditionFields(recommendations)
-
-          const mainUserData = {
-            emails: contactResponse.data.flatMap((item: any) =>
-              item.type === 'email' ? item.data : []
-            ),
-            shortName: contactResponse.data.flatMap((item: any) =>
-              item.type === 'name_short' ? item.data : []
-            )[0],
-            fullName: contactResponse.data.flatMap((item: any) =>
-              item.type === 'name' ? item.data.join(' ') : []
-            )[0],
-            avatar: 'thor.jpeg',
-            contacts: extendedUsers,
-          }
+          const mainUserData = await getMainUserData()
           await set('client', mainUserData)
           dispatch({
             type: 'UPDATE_USER_DATA',
@@ -85,6 +94,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
           fullName: 'Thor Ernstsson',
           shortName: 'Thor',
           contacts: extendedUsers,
+          strataEmail: 'strata.test0@gmail.com',
         }
 
         await set('client', mainUserData)

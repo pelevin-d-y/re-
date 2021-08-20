@@ -57,7 +57,6 @@ const AuthProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     const token = getIdToken()
-
     if (token) {
       dispatch({
         type: 'UPDATE_AUTH_DATA',

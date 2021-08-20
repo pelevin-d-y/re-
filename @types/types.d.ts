@@ -49,7 +49,7 @@ type SendMessageData = {
   client_id?: string
   body?: string
   subject?: string
-  from_address?: string
+  from_contact?: string
   to_contact_list?: MessageList[]
   cc_contact_list?: MessageList[]
   bcc_contact_list?: MessageList[]
@@ -63,7 +63,7 @@ type SendMessageField =
   | 'cc_contact_list'
   | 'bcc_contact_list'
   | 'reply_to_contact_list'
-  | 'from_address'
+  | 'from_contact'
 
 type RecommendationUser = {
   first_client_to: string
@@ -233,7 +233,7 @@ interface UserData extends RecommendationUser {
 
 type RecsResponse = {
   data: {
-    recommendations: RecommendationUser
+    recommendations: RecommendationUser[]
   }
 }
 
@@ -241,6 +241,7 @@ type MainUserData = {
   emails?: string[]
   shortName?: string
   fullName?: string
+  strataEmail?: string
   avatar?: string
   contacts?: UserData[]
 }

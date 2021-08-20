@@ -34,7 +34,7 @@ type State = {
 
 const initialState = {
   bodyData: {
-    from_address: '',
+    from_contact: '',
     body: '',
     to_contact_list: [],
     cc_contact_list: [],
@@ -96,7 +96,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
       type: 'updateBody',
       payload: {
         client_id: localStorage.getItem(LS_ID_TOKEN) || undefined,
-        from_address: clientState?.emails && clientState?.emails[0],
+        from_contact: clientState?.strataEmail,
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, data.name),
@@ -110,7 +110,13 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
           : [],
       },
     })
-  }, [clientState?.emails, data.address, data.name, data.templateData])
+  }, [
+    clientState?.emails,
+    clientState?.strataEmail,
+    data.address,
+    data.name,
+    data.templateData,
+  ])
 
   const sendEmail = async () => {
     dispatch({ type: 'updateSendingStatus' })
@@ -122,6 +128,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
         }
       })
       .catch((err) => {
+        dispatch({ type: 'updateSendingStatus' })
         alert(err)
       })
   }
