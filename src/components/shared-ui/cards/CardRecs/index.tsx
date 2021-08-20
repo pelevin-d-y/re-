@@ -1,11 +1,10 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from '../CardContainer'
 import Button from '../../Button'
 import Avatar from '../../Avatar'
+import UserHeader from '../../UserHeader'
 
 type Props = {
   className?: string
@@ -38,9 +37,10 @@ const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
         </Button>
       </div>
       <div className={s.footer}>
-        <div className={s.text}>
-          {data.templateData?.Summary &&
-            parseMessage(data.templateData?.Summary, data.name)}
+        <div className={s.message}>
+          {data?.templateData?.Summary && (
+            <UserHeader text={parseMessage(data.templateData?.Summary, data.name)} />
+          )}
         </div>
       </div>
     </CardContainer>
@@ -50,7 +50,9 @@ const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
   .container {
-    background: #f0f5ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-right: 13px;
     height: auto;
   }
@@ -85,14 +87,8 @@ const s = css`
   }
 
   .footer {
-    padding: 8px 16px 12px 22px;
-  }
-
-  .text {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 16px;
-    color: #1966ff;
+    max-width: 90%;
+    margin-bottom: 18px;
   }
 `
 

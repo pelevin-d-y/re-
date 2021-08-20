@@ -69,13 +69,6 @@ const s = css`
     padding: 10px 19px 24px 28px;
   }
 
-  .star {
-    position: absolute;
-    top: 14px;
-    right: 17px;
-    z-index: 10;
-  }
-
   .header {
     display: flex;
     flex-flow: row wrap;

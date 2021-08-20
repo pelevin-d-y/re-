@@ -5,6 +5,8 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
+import UserHeader from 'src/components/shared-ui/UserHeader'
+import parseMessage from 'src/helpers/utils/parse-message'
 
 type Props = {
   className?: string
@@ -18,7 +20,6 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
-
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
@@ -28,7 +29,11 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
           <div className={s.position}>{template?.Subject}</div>
         </div>
       </div>
-      {template?.Subject && <div className={s.event}>{template.Subject}</div>}
+      <div className={s.message}>
+        {template?.Message && (
+          <UserHeader text={parseMessage(template.Header, data.name)} />
+        )}
+      </div>
       <PopoverRate
         className={s.button}
         buttonClickHandler={buttonHandler}
@@ -93,6 +98,10 @@ const s = css`
     @include mobile {
       margin-top: 12px;
     }
+  }
+
+  .message {
+    min-width: 35%;
   }
 `
 
