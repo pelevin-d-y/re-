@@ -50,13 +50,6 @@ const s = css`
     padding: 25px 24px 33px 29px;
   }
 
-  .star {
-    position: absolute;
-    top: 14px;
-    right: 17px;
-    z-index: 10;
-  }
-
   .info {
     margin-bottom: 32px;
   }

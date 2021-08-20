@@ -4,6 +4,7 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import CardContainer from '../CardContainer'
 import Button from '../../Button'
 import Avatar from '../../Avatar'
+import UserHeader from '../../UserHeader'
 
 type Props = {
   className?: string
@@ -36,9 +37,10 @@ const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
         </Button>
       </div>
       <div className={s.footer}>
-        <div className={s.text}>
-          {data.templateData?.Summary &&
-            parseMessage(data.templateData?.Summary, data.name)}
+        <div className={s.message}>
+          {data?.templateData?.Summary && (
+            <UserHeader text={parseMessage(data.templateData?.Summary, data.name)} />
+          )}
         </div>
       </div>
     </CardContainer>
@@ -85,30 +87,8 @@ const s = css`
   }
 
   .footer {
-    padding: 8px 22px 12px 22px;
-    margin: 0 0 17px 0;
-    background: #F0F5FF;
     max-width: 90%;
-    border-radius: 6px;
-    position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      z-index: 2;
-      height: 20px;
-      width: 20px;
-      top: -5px;
-      right: -5px;
-      background-image: url(/svg/logo-icon.svg);
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-  }
-
-  .text {
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 13px;
+    margin-bottom: 18px;
   }
 `
 

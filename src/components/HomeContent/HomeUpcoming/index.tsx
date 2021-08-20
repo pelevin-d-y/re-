@@ -9,6 +9,7 @@ import Button from 'src/components/shared-ui/Button'
 import { useLists } from 'src/components/context/ListsContext'
 import UpcomingHeader from './UpcomingHeader'
 import UpcomingItem from './UpcomingItem'
+import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 
 type Props = {
   className?: string
@@ -38,7 +39,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <UpcomingHeader data={headerData} />
+      <UpcomingHeader className={s.header} data={headerData} />
       <div className={s.cards}>
         {list?.users &&
           list.users.map((item) => (
@@ -49,13 +50,19 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
             />
           ))}
       </div>
-      <Button
-        className={s.button}
-        variant="contained"
-        handler={followUpWithAllHandler}
-      >
-        Follow up with all
-      </Button>
+      <div className={s.actions}>
+        <PopoverDots
+          className={s.dots}
+          variant="outlined"
+        />
+        <Button
+          className={s.button}
+          variant="contained"
+          handler={followUpWithAllHandler}
+        >
+          Follow up with all
+        </Button>
+      </div>
     </CardContainer>
   )
 }
@@ -65,18 +72,23 @@ const s = css`
     position: relative;
     padding: 16px 16px 32px 16px;
   }
-  .star {
-    position: absolute;
-    top: 19px;
-    right: 13px;
-    z-index: 10;
-  }
+
+  .header {
+    margin-bottom: 27px;
+  }  
 
   .button {
     min-width: 212px;
-    display: block;
+  }
+  
+  .dots {
+    margin-right: 17px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 26px;
-    margin-left: auto;
   }
 `
 
