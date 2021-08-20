@@ -1,8 +1,6 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from '../CardContainer'
 import Button from '../../Button'
 import Avatar from '../../Avatar'
@@ -50,7 +48,9 @@ const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
   .container {
-    background: #f0f5ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-right: 13px;
     height: auto;
   }
@@ -85,14 +85,30 @@ const s = css`
   }
 
   .footer {
-    padding: 8px 16px 12px 22px;
+    padding: 8px 22px 12px 22px;
+    margin: 0 0 17px 0;
+    background: #F0F5FF;
+    max-width: 90%;
+    border-radius: 6px;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      height: 20px;
+      width: 20px;
+      top: -5px;
+      right: -5px;
+      background-image: url(/svg/logo-icon.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
   }
 
   .text {
-    font-size: 12px;
     font-weight: 500;
-    line-height: 16px;
-    color: #1966ff;
+    font-size: 13px;
+    line-height: 13px;
   }
 `
 

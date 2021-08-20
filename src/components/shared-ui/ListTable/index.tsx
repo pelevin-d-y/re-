@@ -286,6 +286,7 @@ const s = css`
   .row {
     position: relative;
     cursor: pointer;
+    align-items: center;
   }
 
   .headerButton {
