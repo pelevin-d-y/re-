@@ -224,7 +224,6 @@ type RecommendationUser = {
 interface UserData extends RecommendationUser {
   avatar?: string
   title?: string
-  notes: string
   next_outreach: string
   pinned: boolean
   templateData?: Template

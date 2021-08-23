@@ -95,6 +95,11 @@ const sendMessage = (data: SendMessageData) =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
+// const postRecommendations = (data: any) =>
+//   apiPost(`${AWS_API}/dash/recommendations`, data)
+//     .then((res) => res)
+//     .catch((err) => Promise.reject(err))
+
 const postClientContact = (data: any) =>
   apiPost(`${AWS_API}/contacts/mutable`, data)
     .then((res) => res)

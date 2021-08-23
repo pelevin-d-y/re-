@@ -42,7 +42,7 @@ const getMainUserData = async () => {
   const [recommendations, contactResponse, authResponse] = requests
   const extendedUsers = addAdditionFields(recommendations)
 
-  const mainUserData = {
+  const mainUserData: MainUserData = {
     emails: contactResponse.data.flatMap((item: any) =>
       item.type === 'email' ? item.data : []
     ),

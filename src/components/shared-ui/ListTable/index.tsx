@@ -37,7 +37,8 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
     (userData: UserData) => {
       const ind = data?.users.findIndex((u) => u.address === userData.address)
       if (ind !== -1) {
-        data.users[ind] = { ...userData }
+        const newData = data
+        newData.users[ind] = { ...userData }
         updateList({
           ...data,
           users: [...data?.users],
@@ -99,7 +100,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       },
       {
         Header: 'Notes',
-        accessor: 'notes',
+        accessor: 'Notes',
         Cell: ({ value, row }) => {
           const restValue = value
           return (
@@ -110,7 +111,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             >
               <EasyEdit
                 type="text"
-                value={value || restValue}
+                value={value || restValue || 'Note'}
                 placeholder={value}
                 hideCancelButton
                 hideSaveButton
@@ -118,7 +119,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
                 onSave={(val: string) =>
                   updateUser({
                     ...row.original,
-                    notes: val || restValue,
+                    Notes: val || restValue,
                   })
                 }
               />
