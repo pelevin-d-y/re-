@@ -28,7 +28,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data.emails && data.emails[0],
+          profileEmail: data.emails,
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -106,11 +106,10 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                             overflowY: 'visible',
                           },
                         }}
-                        options={[
-                          { value: 'email1', label: 'thor@casualcorp.com1' },
-                          { value: 'email2', label: 'thor@casualcorp.com2' },
-                          { value: 'email3', label: 'thor@casualcorp.com3' },
-                        ]}
+                        options={field.value.map((item: string) => ({
+                          value: item,
+                          label: item,
+                        }))}
                         label="Email"
                       />
                     )}

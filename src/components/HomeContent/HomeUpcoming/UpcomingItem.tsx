@@ -20,6 +20,7 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
@@ -102,6 +103,7 @@ const s = css`
 
   .message {
     min-width: 35%;
+    margin-right: 12px;
   }
 `
 
