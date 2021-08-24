@@ -16,7 +16,6 @@ const addAdditionFields = (users: RecommendationUser[]): UserData[] => {
     ...user, // random avatar from avatars list
     avatar: avatars[i % avatars.length],
     title: 'Investors', // field used in the list table
-    next_outreach: 'Hi Hailey, Did get a chance to view the deck i sent ove...', // field used in the list table
     pinned: false,
     templateData: findTemplate(testTemplates, user.template),
     relationshipStrength: calculateColorByStraight(user.connection_E),

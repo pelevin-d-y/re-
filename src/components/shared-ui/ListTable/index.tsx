@@ -12,6 +12,8 @@ import Close from 'src/components/shared-ui/Close'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
 import Checkbox from './Checkbox'
 
@@ -96,7 +98,14 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
+        Cell: ({ value, row }) => (
+          <div className={s.cellContent}>
+            <div className={s.lastData}>
+              {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')}
+            </div>
+            <div>{value}</div>
+          </div>
+        ),
       },
       {
         Header: 'Notes',
@@ -126,16 +135,6 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             </div>
           )
         },
-      },
-      {
-        Header: 'Playlists',
-        accessor: 'template',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
-      },
-      {
-        Header: 'Next outreach',
-        accessor: 'next_outreach',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
       },
       {
         Header: () => <Close className={s.headerButton} handler={() => null} />,
@@ -222,6 +221,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           {rows.map((row) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
+            restProps.style = { ...restProps.style, borderColor: 'red' }
             return (
               <tr
                 onClick={() => contactHandler(row.original)}
@@ -289,6 +289,8 @@ const s = css`
     position: relative;
     cursor: pointer;
     align-items: center;
+
+    border-left: 4px;
   }
 
   .headerButton {
@@ -339,7 +341,7 @@ const s = css`
 
   .cellContent {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -380,6 +382,14 @@ const s = css`
     @include mobile {
       width: 80%;
     }
+  }
+
+  .lastData {
+    margin-bottom: 6px;
+
+    font-size: 12px;
+    line-height: 14px;
+    color: #adadad;
   }
 
   .cardHeader {

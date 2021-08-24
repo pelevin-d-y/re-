@@ -77,7 +77,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
               <div className={s.row}>
                 <div className={classNames(s.field, s.email, s.smallField)}>
                   <Field name="profileEmail">
-                    {({ field, form, meta }: FieldProps) => (
+                    {({ field }: FieldProps) => (
                       <Selector
                         styles={{
                           valueContainer: {
