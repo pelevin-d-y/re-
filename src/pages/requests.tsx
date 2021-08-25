@@ -5,18 +5,25 @@ import Layout from 'src/layouts/Layout'
 import { css } from 'astroturf'
 import {
   getRecommendations,
+  postRecommendations,
   getContact,
   getMetrics,
   getAuth,
   getContactsMutable,
   getContactsSearch,
   getMessagesRead,
-  postClientContact,
+  getPlaylists,
 } from 'src/api'
 
 const Requests: React.FC = () => {
   const recommendationsRequest = () => {
     getRecommendations().then((res) =>
+      console.log('Get recommendations response -->', res)
+    )
+  }
+
+  const recommendationsRequestPost = () => {
+    postRecommendations().then((res) =>
       console.log('Get recommendations response -->', res)
     )
   }
@@ -45,53 +52,16 @@ const Requests: React.FC = () => {
     )
   }
 
-  const messagesReadRequest = () => {
-    getMessagesRead('20rdy2g0n3k312gbzni5g5rt7:cf8bv53sf7jkl29ddrt7296vk').then(
-      (res) => console.log('Get contacts mutable response -->', res)
+  const playlistsRequest = () => {
+    getPlaylists('c238a5e3-04b1-11ec-b7c5-40e2303c218c').then((res) =>
+      console.log('Get playlist response -->', res)
     )
   }
 
-  const postClientContactRequest = () => {
-    postClientContact({
-      body: [
-        {
-          type: 'email',
-          data: 'thor@casualcorp.comtesttest',
-          meta: {},
-          review: 1,
-        },
-        {
-          type: 'name',
-          data: ['Thor', 'Ernstsson'],
-          meta: {},
-          review: 0,
-        },
-        {
-          type: 'name_short',
-          data: 'Thor',
-          meta: {},
-          review: 0,
-        },
-        {
-          type: 'email',
-          data: 'thor@alphahq.com',
-          meta: {},
-          review: 1,
-        },
-        {
-          type: 'email',
-          data: 'thor@strata.cc',
-          meta: {},
-          review: 1,
-        },
-        {
-          type: 'email',
-          data: 'thor@alpha-ux.co',
-          meta: {},
-          review: 1,
-        },
-      ],
-    }).then((res) => console.log('Get contacts mutable response -->', res))
+  const messagesReadRequest = () => {
+    getMessagesRead('20rdy2g0n3k312gbzni5g5rt7:cf8bv53sf7jkl29ddrt7296vk').then(
+      (res) => console.log('Get message read response -->', res)
+    )
   }
 
   return (
@@ -104,6 +74,14 @@ const Requests: React.FC = () => {
             </Button>
           </div>
           <div className={s.right}>GET: /dash/recommendations?number=2</div>
+        </li>
+        <li className={s.item}>
+          <div className={s.left}>
+            <Button variant="contained" handler={recommendationsRequestPost}>
+              Post recommendations request
+            </Button>
+          </div>
+          <div className={s.right}>Post: /dash/recommendations</div>
         </li>
         <li className={s.item}>
           <div className={s.left}>
@@ -161,11 +139,11 @@ const Requests: React.FC = () => {
         </li>
         <li className={s.item}>
           <div className={s.left}>
-            <Button variant="contained" handler={postClientContactRequest}>
-              Post contacts mutable
+            <Button variant="contained" handler={playlistsRequest}>
+              Get playlists
             </Button>
           </div>
-          <div className={s.right}>POST: /contacts/mutable</div>
+          <div className={s.right}>GET: /playlists</div>
         </li>
       </ul>
     </Layout>

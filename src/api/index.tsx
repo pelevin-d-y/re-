@@ -48,7 +48,7 @@ const apiGet = (url: string, params?: Params): Promise<any> =>
     params,
   })
 
-const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
+const apiPost = (url: string, data?: any, params?: Params): Promise<any> =>
   instance.post(url, data, {
     params,
   })
@@ -90,18 +90,18 @@ const getMessagesRead = (id: string) =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
+const getPlaylists = (id: string) =>
+  apiGet(`${AWS_API}/playlists`, { id })
+    .then((res: any) => res)
+    .catch((err) => Promise.reject(err))
+
 const sendMessage = (data: SendMessageData) =>
   apiPost(`${AWS_API}/messages/send`, data)
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
-// const postRecommendations = (data: any) =>
-//   apiPost(`${AWS_API}/dash/recommendations`, data)
-//     .then((res) => res)
-//     .catch((err) => Promise.reject(err))
-
-const postClientContact = (data: any) =>
-  apiPost(`${AWS_API}/contacts/mutable`, data)
+const postRecommendations = () =>
+  apiPost(`${AWS_API}/dash/recommendations`)
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
@@ -116,5 +116,6 @@ export {
   getContactsMutable,
   getContactsSearch,
   getMessagesRead,
-  postClientContact,
+  getPlaylists,
+  postRecommendations,
 }
