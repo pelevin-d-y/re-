@@ -53,7 +53,8 @@ const getMainUserData = async () => {
       item.type === 'name' ? item.data.join(' ') : []
     )[0],
     avatar: 'thor.jpeg',
-    contacts: extendedUsers,
+    contacts:
+      extendedUsers.length < 10 ? addAdditionFields(testUsers) : extendedUsers, // have to remove when API is fixed
     strataEmail: Object.keys(authResponse.data)[0],
   }
 
