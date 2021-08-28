@@ -5,7 +5,6 @@ import EmailModal from 'src/components/shared-ui/modals/ContactModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
-import IgnoreModal from 'src/components/shared-ui/modals/IgnoreModal'
 import 'react-quill/dist/quill.snow.css'
 
 const Home: React.FC = () => (
@@ -15,7 +14,6 @@ const Home: React.FC = () => (
         <MainContent />
         <EmailModal />
         <MultiEmailsModal />
-        <IgnoreModal />
       </PopupProvider>
     </TemplatesProvider>
   </Layout>

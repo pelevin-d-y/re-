@@ -6,12 +6,15 @@ import parseISO from 'date-fns/parseISO'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
+import * as yup from 'yup'
 import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
   data: UserData
 }
+
+const schema = yup.string().email()
 
 const TabInfo: React.FC<Props> = ({ className, data }) => {
   const { state: clientState, updateUserData } = useClient()
@@ -44,12 +47,16 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
             value={data.address}
             placeholder={data.address}
             hideCancelButton
+            validationMessage="Please provide a valid email"
             hideSaveButton
             saveOnBlur
             onValidate={(value: string) => {
-              const re =
-                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-              return re.test(value)
+              try {
+                schema.validateSync(value)
+                return true
+              } catch {
+                return false
+              }
             }}
             cssClassPrefix="profile-card-"
             onSave={(val: string) => onSave(val, 'address')}
