@@ -90,10 +90,12 @@ const getMessagesRead = (id: string) =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
-const getPlaylists = (id: string) =>
-  apiGet(`${AWS_API}/playlists`, { id })
+const getPlaylists = (id?: string) => {
+  const params = id ? { id } : undefined
+  return apiGet(`${AWS_API}/playlists`, params)
     .then((res: any) => res)
     .catch((err) => Promise.reject(err))
+}
 
 const sendMessage = (data: SendMessageData) =>
   apiPost(`${AWS_API}/messages/send`, data)

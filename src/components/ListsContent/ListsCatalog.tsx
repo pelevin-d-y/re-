@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { useLists } from 'src/components/context/ListsContext'
+import { getPlaylists } from 'src/api'
 import SectionsHeader from './ListsSectionsHeader'
 
 type Props = {
@@ -14,6 +15,16 @@ type CardsStructure = { firstColumn: Lists; secondColumn: Lists }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
   const { state: listsState } = useLists()
+  useEffect(() => {
+    getPlaylists().then((res) => {
+      res.data.map((item: string) =>
+        getPlaylists(item).then((itemRes) =>
+          console.log('getPlaylists(item)', itemRes)
+        )
+      )
+    })
+  }, [])
+
   const cardsStructure: CardsStructure = useMemo(() => {
     const value: CardsStructure = {
       firstColumn: [],
