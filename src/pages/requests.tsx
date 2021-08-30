@@ -41,7 +41,7 @@ const Requests: React.FC = () => {
   }
 
   const contactsMutableRequest = () => {
-    getContactsMutable().then((res) =>
+    getContactsMutable('00000000-0000-0000-0000-000000000000').then((res) =>
       console.log('Get contacts mutable response -->', res)
     )
   }
@@ -53,9 +53,7 @@ const Requests: React.FC = () => {
   }
 
   const playlistsRequest = () => {
-    getPlaylists('c238a5e3-04b1-11ec-b7c5-40e2303c218c').then((res) =>
-      console.log('Get playlist response -->', res)
-    )
+    getPlaylists().then((res) => console.log('Get playlist response -->', res))
   }
 
   const messagesReadRequest = () => {
@@ -144,6 +142,14 @@ const Requests: React.FC = () => {
             </Button>
           </div>
           <div className={s.right}>GET: /playlists</div>
+        </li>
+        <li className={s.item}>
+          <div className={s.left}>
+            <img
+              src="https://api.nylas.com/contacts/dlcr4ee37iy3w97tf5j801i8f/picture"
+              alt="nylas img"
+            />
+          </div>
         </li>
       </ul>
     </Layout>

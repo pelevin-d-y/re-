@@ -73,9 +73,9 @@ const getRecommendations = () =>
     .then((res: RecsResponse) => res.data.recommendations)
     .catch((err) => Promise.reject(err))
 
-const getContactsMutable = () =>
+const getContactsMutable = (id: string) =>
   apiGet(`${AWS_API}/contacts/mutable`, {
-    id: '00000000-0000-0000-0000-000000000000',
+    id,
   })
     .then((res) => res)
     .catch((err) => Promise.reject(err))
@@ -90,12 +90,15 @@ const getMessagesRead = (id: string) =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
-const getPlaylists = (id?: string) => {
-  const params = id ? { id } : undefined
-  return apiGet(`${AWS_API}/playlists`, params)
-    .then((res: any) => res)
+const getPlaylists = () =>
+  apiGet(`${AWS_API}/playlists`)
+    .then((res: ListsRequest) => res)
     .catch((err) => Promise.reject(err))
-}
+
+const getPlaylist = (id: string) =>
+  apiGet(`${AWS_API}/playlists`, { id })
+    .then((res: ListRequest) => res)
+    .catch((err) => Promise.reject(err))
 
 const sendMessage = (data: SendMessageData) =>
   apiPost(`${AWS_API}/messages/send`, data)
@@ -119,5 +122,6 @@ export {
   getContactsSearch,
   getMessagesRead,
   getPlaylists,
+  getPlaylist,
   postRecommendations,
 }

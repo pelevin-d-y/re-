@@ -1,26 +1,29 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { useLists } from 'src/components/context/ListsContext'
-import { getPlaylists } from 'src/api'
+import { getPlaylist, getPlaylists } from 'src/api'
 import SectionsHeader from './ListsSectionsHeader'
 
 type Props = {
   className?: string
 }
 
-type CardsStructure = { firstColumn: Lists; secondColumn: Lists }
+type CardsStructure = {
+  firstColumn: any
+  secondColumn: any
+}
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
   const { state: listsState } = useLists()
+  const [lists, setLists] = useState<ListRequest[]>([])
+
   useEffect(() => {
-    getPlaylists().then((res) => {
-      res.data.map((item: string) =>
-        getPlaylists(item).then((itemRes) =>
-          console.log('getPlaylists(item)', itemRes)
-        )
+    getPlaylists().then((res: ListsRequest) => {
+      Promise.all(res.data.map((item: string) => getPlaylist(item))).then(
+        (resAll) => setLists(resAll)
       )
     })
   }, [])
@@ -30,21 +33,23 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
       firstColumn: [],
       secondColumn: [],
     }
-    listsState?.map((item, index) => {
+    lists?.map((item, index) => {
       const remainder = (index + 1) % 2
       if (remainder) {
-        return value.firstColumn.push(item)
+        return value.firstColumn.push(item.data[0])
       }
 
-      return value.secondColumn.push(item)
+      return value.secondColumn.push(item.data[0])
     })
     return value
-  }, [listsState])
+  }, [lists])
+
+  // console.log('cardsStructure', cardsStructure)
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <SectionsHeader
-        data={listsState}
+        data={lists}
         title="Your lists"
         description="List of people with a common themes"
         icon="lists"
@@ -54,12 +59,12 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
       />
       <div className={s.list}>
         <div className={s.column}>
-          {cardsStructure.firstColumn.map((item) => (
+          {cardsStructure.firstColumn.map((item: any) => (
             <CardList className={s.card} key={item.id} data={item} />
           ))}
         </div>
         <div className={s.column}>
-          {cardsStructure.secondColumn.map((item) => (
+          {cardsStructure.secondColumn.map((item: any) => (
             <CardList className={s.card} key={item.id} data={item} />
           ))}
         </div>

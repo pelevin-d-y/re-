@@ -40,6 +40,28 @@ type List = {
 
 type Lists = List[]
 
+type ListRequest = {
+  data: string
+  actions: any
+  contacts: {
+    contact_id: string
+    review: number
+    scores: any
+  }[]
+  id: string
+  inclusions: any
+  info: { name: string }
+}
+
+type ListsRequest = {
+  config: any
+  data: string[]
+  status: number
+  request: any
+  headers: any
+  statusText: any
+}
+
 type MessageList = {
   address: string
   name: string

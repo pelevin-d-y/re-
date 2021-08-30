@@ -19,7 +19,7 @@ import Checkbox from './Checkbox'
 
 type Props = {
   className?: string
-  data: List
+  data: any
   removeContacts?: (removeContacts: UserData[]) => void
 }
 
@@ -31,13 +31,15 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
   }
 
-  const tableData = useMemo(() => data.users, [data.users])
+  const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const { updateList } = useLists()
 
   const updateUser = useCallback(
     (userData: UserData) => {
-      const ind = data?.users.findIndex((u) => u.address === userData.address)
+      const ind = data?.users.findIndex(
+        (u: any) => u.address === userData.address
+      )
       if (ind !== -1) {
         const newData = data
         newData.users[ind] = { ...userData }
@@ -58,7 +60,9 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       } else {
         const newList = {
           ...data,
-          users: data.users.filter((user) => user.address !== userData.address),
+          users: data.users.filter(
+            (user: any) => user.address !== userData.address
+          ),
         }
 
         updateList(newList)

@@ -12,12 +12,12 @@ import CardContainer from '../CardContainer'
 
 type Props = {
   className?: string
-  data: List
+  data: any
 }
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { id, title, description, users, image, tasks },
+  data: { info, id, contacts, image, tasks },
 }) => {
   const router = useRouter()
 
@@ -29,16 +29,19 @@ const CardList: React.FC<Props> = ({
   return (
     <CardContainer className={classNames(s.container, className)}>
       {image && <Img img={image} alt="icon" className={s.image} />}
-      <div className={s.title}>{title}</div>
-      <div className={s.description}>{description}</div>
-      <Tasks className={s.tasks} data={tasks} />
-      <AvatarsList
+      <div className={s.title}>{info.name}</div>
+      {info?.description && (
+        <div className={s.description}>{info.description}</div>
+      )}
+      <div className={s.usersCount}>Contacts count: {contacts.length}</div>
+      {/* <Tasks className={s.tasks} data={tasks} /> */}
+      {/* <AvatarsList
         avatarWidth={38}
         avatarHeight={38}
         className={s.avatars}
-        users={users}
+        users={contacts}
         showHiddenUsers
-      />
+      /> */}
       <div className={classNames(s.actions)}>
         <PopoverDots
           variant="outlined"
@@ -69,6 +72,14 @@ const CardList: React.FC<Props> = ({
 }
 
 const s = css`
+  .usersCount {
+    margin-top: 20px;
+    margin-bottom: 16px;
+
+    font-size: 18px;
+    font-weight: var(--bold);
+  }
+
   .container {
     position: relative;
     overflow: hidden;

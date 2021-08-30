@@ -3,36 +3,45 @@ import classNames from 'classnames'
 import PreviousPage from 'src/components/shared-ui/PreviousPage'
 import TextareaAutosize from 'react-textarea-autosize'
 import { css } from 'astroturf'
-import { useLists } from 'src/components/context/ListsContext'
 import { useDebounce } from 'use-debounce/lib'
+import { getContactsMutable } from 'src/api'
 
 type Props = {
   className?: string
-  data: List
+  data: any
   updateNewList?: (type: 'title' | 'description', text: string) => void
 }
 
 const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
-  const { updateList } = useLists()
   const [fields, setFields] = useState({
-    title: data.title,
-    description: data.description,
+    title: data.info?.name,
+    description: data.info?.description,
   })
 
+  const [contacts, setContacts] = useState<null | any[]>(null)
+
   const [debounceFields] = useDebounce(fields, 1000)
+
+  useEffect(() => {
+    setFields({ title: data.info?.name, description: data.info?.description })
+
+    if (data.contacts) {
+      Promise.all(
+        data?.contacts.map((item: any) => getContactsMutable(item.contact_id))
+      ).then((res) =>
+        setContacts(res.map((item: any) => Object.values(item.data)[0]))
+      )
+    }
+  }, [data.contacts, data.info?.description, data.info?.name])
 
   useEffect(() => {
     if (
       debounceFields.title !== data.title ||
       debounceFields.description !== data.description
     ) {
-      updateList({
-        ...data,
-        title: debounceFields.title,
-        description: debounceFields.description,
-      })
+      // console.log('request to update')
     }
-  }, [data, debounceFields, updateList])
+  }, [data, debounceFields])
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (updateNewList) {
@@ -53,6 +62,8 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
     }
   }
 
+  console.log('contacts', contacts)
+
   return (
     <div className={classNames(className, s.container)}>
       <PreviousPage text="Back to list" />
@@ -70,7 +81,9 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         defaultValue={fields.description || ''}
         onChange={handleDescChange}
       />
-      <div className={s.userCount}>{data.users.length} Contacts</div>
+      {contacts && (
+        <div className={s.userCount}>{contacts.length} Contacts</div>
+      )}
     </div>
   )
 }
