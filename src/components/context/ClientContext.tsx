@@ -1,17 +1,17 @@
 import * as React from 'react'
 import { get, set } from 'idb-keyval'
-import { getContacts } from 'src/api'
+import { getAuth, getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 
-type Action = { type: 'UPDATE_USER_DATA'; payload: UserData }
+type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
 
-type State = UserData | null
+type State = MainUserData | null
 
 type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
-  updateUserData: (data: UserData) => void
+  updateUserData: (data: MainUserData) => void
 }
 
 const DB_STORE_NAME = 'client'
@@ -32,6 +32,35 @@ const clientReducer = (state: State, action: Action): State => {
   }
 }
 
+const getMainUserData = async () => {
+  const requests = await Promise.all([
+    getRecommendations(),
+    getContact(),
+    getAuth(),
+  ])
+
+  const [recommendations, contactResponse, authResponse] = requests
+  const extendedUsers = addAdditionFields(recommendations)
+
+  const mainUserData: MainUserData = {
+    emails: contactResponse.data.flatMap((item: any) =>
+      item.type === 'email' ? item.data : []
+    ),
+    shortName: contactResponse.data.flatMap((item: any) =>
+      item.type === 'name_short' ? item.data : []
+    )[0],
+    fullName: contactResponse.data.flatMap((item: any) =>
+      item.type === 'name' ? item.data.join(' ') : []
+    )[0],
+    avatar: 'thor.jpeg',
+    contacts:
+      extendedUsers.length < 10 ? addAdditionFields(testUsers) : extendedUsers, // have to remove when API is fixed
+    strataEmail: Object.keys(authResponse.data)[0],
+  }
+
+  return mainUserData
+}
+
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
   const [state, dispatch] = React.useReducer(clientReducer, null)
 
@@ -42,12 +71,11 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         if (clientData) {
           dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
         } else {
-          const { data: clientRecommendations } = await getContacts()
-          const extendedUsers = addAdditionFields(clientRecommendations)
-          await set('client', extendedUsers[0])
+          const mainUserData = await getMainUserData()
+          await set('client', mainUserData)
           dispatch({
             type: 'UPDATE_USER_DATA',
-            payload: extendedUsers[0],
+            payload: mainUserData,
           })
         }
       } catch (err) {
@@ -56,10 +84,24 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
         // eslint-disable-next-line no-console
         console.log('set testUsers')
         const extendedUsers = addAdditionFields(testUsers)
-        await set('client', extendedUsers[0])
+        const mainUserData = {
+          avatar: 'thor.jpeg',
+          emails: [
+            'thor@casualcorp.com',
+            'thor@alphahq.com',
+            'thor@strata.cc',
+            'thor@alpha-ux.co',
+          ],
+          fullName: 'Thor Ernstsson',
+          shortName: 'Thor',
+          contacts: extendedUsers,
+          strataEmail: 'strata.test0@gmail.com',
+        }
+
+        await set('client', mainUserData)
         dispatch({
           type: 'UPDATE_USER_DATA',
-          payload: extendedUsers[0],
+          payload: mainUserData,
         })
       }
     }
@@ -67,7 +109,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     setClientData()
   }, [])
 
-  const updateUserData = async (data: UserData) => {
+  const updateUserData = async (data: MainUserData) => {
     set(DB_STORE_NAME, data)
       .then(() => {
         dispatch({ type: 'UPDATE_USER_DATA', payload: data })

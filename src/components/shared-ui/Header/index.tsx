@@ -14,6 +14,7 @@ type Props = {
 
 const Header: React.FC<Props> = ({ toggleMenu, className }) => {
   const { state } = useClient()
+
   return (
     <header className={classNames(s.header, className)}>
       <div className={classNames(s.container)}>
@@ -22,13 +23,13 @@ const Header: React.FC<Props> = ({ toggleMenu, className }) => {
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
-          {state?.name}
+          {state?.fullName}
         </div>
         <Search
           classes={{ container: s.search }}
           inputPlaceholder="Search..."
         />
-        {state?.address && <HeaderProfile className={s.profile} />}
+        {state?.emails && <HeaderProfile className={s.profile} />}
         <PopoverNotifications />
       </div>
     </header>

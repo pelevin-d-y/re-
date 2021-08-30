@@ -1,5 +1,5 @@
 import React from 'react'
-import {css} from 'astroturf'
+import { css } from 'astroturf'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
@@ -8,7 +8,7 @@ type Props = {
   data?: UserData[]
 }
 
-const FullRecommendations: React.FC<Props> = ({data}) => (
+const FullRecommendations: React.FC<Props> = ({ data }) => (
   <>
     <div className={s.title}>
       Your Weekly Recommendations

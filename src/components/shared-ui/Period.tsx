@@ -10,7 +10,8 @@ type Props = {
 
 const Period: React.FC<Props> = ({ className, from, to }) => (
   <div className={classNames(className, s.container)}>
-    <span className={s.from}>{from ? from : 0}</span> of <span className={s.to}>{to}</span>
+    <span className={s.from}>{from || 0}</span> of{' '}
+    <span className={s.to}>{to}</span>
   </div>
 )
 

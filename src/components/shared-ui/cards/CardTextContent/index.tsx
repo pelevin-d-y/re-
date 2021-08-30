@@ -28,7 +28,7 @@ const CardTextContent: React.FC<Props> = ({
   const { dispatch: usersDispatch } = useUsers()
 
   const openModalHandler = () => {
-    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
@@ -67,13 +67,6 @@ const s = css`
     overflow: hidden;
     position: relative;
     padding: 10px 19px 24px 28px;
-  }
-
-  .star {
-    position: absolute;
-    top: 14px;
-    right: 17px;
-    z-index: 10;
   }
 
   .header {

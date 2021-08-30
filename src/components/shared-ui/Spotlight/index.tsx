@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
@@ -17,56 +17,53 @@ type Props = {
   data?: Сategories
 }
 
-const Spotlight: React.FC<Props> = ({ className, data}) => {
-
-  return (
-    <CardContainer className={classnames(className, s.container)}>
-      <div className={s.header}>
-        <div className={s.title}>Spotlight</div>
-        <div className={s.imageWrapper}>
-          <Img className={s.image} alt="avatar" img="spotlight.png" />
+const Spotlight: React.FC<Props> = ({ className, data }) => (
+  <CardContainer className={classnames(className, s.container)}>
+    <div className={s.header}>
+      <div className={s.title}>Spotlight</div>
+      <div className={s.imageWrapper}>
+        <Img className={s.image} alt="avatar" img="spotlight.png" />
+      </div>
+    </div>
+    <div className={s.score}>
+      <div className={s.left}>
+        <div className={s.scoreTitle}>Network Score</div>
+        <span className={s.rating}>Good</span>
+      </div>
+      <div className={s.right}>
+        <div className={s.radar}>
+          <SvgIcon icon="radar.svg" />
         </div>
       </div>
-      <div className={s.score}>
-        <div className={s.left}>
-          <div className={s.scoreTitle}>Network Score</div>
-          <span className={s.rating}>Good</span>
-        </div>
-        <div className={s.right}>
-          <div className={s.radar}>
-            <SvgIcon icon="radar.svg" />
-          </div>
-        </div>
-      </div>
-      <div className={s.longCards}>
-        <SpotlightLongCard
-          className={s.longCard}
-          from={data?.reconnects}
-          to={50}
-          period="within 30 Days"
-          text="Reconnects made"
-          barColor="blue"
-        />
-        <SpotlightLongCard
-          className={s.longCard}
-          from={data?.intros}
-          to={20}
-          period="within 30 Days"
-          text="Intros made"
-          barColor="green"
-        />
-        <SpotlightLongCard
-          className={s.longCard}
-          from={data?.followups}
-          to={12}
-          period="made within 30 Days"
-          text="Urgent followup"
-          barColor="red"
-        />
-      </div>
-    </CardContainer>
-  )
-}
+    </div>
+    <div className={s.longCards}>
+      <SpotlightLongCard
+        className={s.longCard}
+        from={data?.reconnects}
+        to={50}
+        period="within 30 Days"
+        text="Reconnects made"
+        barColor="blue"
+      />
+      <SpotlightLongCard
+        className={s.longCard}
+        from={data?.intros}
+        to={20}
+        period="within 30 Days"
+        text="Intros made"
+        barColor="green"
+      />
+      <SpotlightLongCard
+        className={s.longCard}
+        from={data?.followups}
+        to={12}
+        period="made within 30 Days"
+        text="Urgent followup"
+        barColor="red"
+      />
+    </div>
+  </CardContainer>
+)
 
 const s = css`
   .container {

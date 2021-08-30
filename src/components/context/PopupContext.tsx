@@ -3,22 +3,22 @@ import testTemplates from 'src/testTemplates.json'
 import findTemplate from 'src/helpers/utils/find-template'
 
 type Action =
-  | { type: 'TOGGLE_CONTACT_POPUP'; payload: UserData }
+  | { type: 'TOGGLE_CONTACT_POPUP'; payload: UserData | null }
   | { type: 'TOGGLE_CONTACTS_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
+  | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
-  | { type: 'TOGGLE_IGNORE_POPUP'; payload: UserData }
-  | { type: 'UPDATE_POPUP_DATA'; payload: UserData }
+  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | null }
 
 type State = {
   emailModalIsOpen: boolean
   multiEmailsIsOpen: boolean
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
+  deleteListModalIsOpen: boolean
   templatesModalIsOpen: boolean
-  ignoreModalIsOpen: boolean
-  data: UserData
+  data: UserData | null
 }
 
 type ContextType = {
@@ -34,19 +34,28 @@ const initialState = {
   addContactModalIsOpen: false,
   createListModalIsOpen: false,
   templatesModalIsOpen: false,
-  ignoreModalIsOpen: false,
-  data: {},
+  deleteListModalIsOpen: false,
+  data: null,
   multiEmailsData: [],
 }
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'TOGGLE_CONTACT_POPUP': {
-      const templateData = findTemplate(testTemplates, action.payload?.template)
+      if (action.payload) {
+        const templateData = findTemplate(
+          testTemplates,
+          action.payload?.template
+        )
 
+        return {
+          ...state,
+          data: { ...action.payload, templateData },
+          emailModalIsOpen: !state.emailModalIsOpen,
+        }
+      }
       return {
         ...state,
-        data: { ...action.payload, templateData },
         emailModalIsOpen: !state.emailModalIsOpen,
       }
     }
@@ -68,17 +77,16 @@ const popupReducer = (state: State, action: Action): State => {
         createListModalIsOpen: !state.createListModalIsOpen,
       }
     }
+    case 'TOGGLE_DELETE_LIST_POPUP': {
+      return {
+        ...state,
+        deleteListModalIsOpen: !state.deleteListModalIsOpen,
+      }
+    }
     case 'TOGGLE_TEMPLATES_POPUP': {
       return {
         ...state,
         templatesModalIsOpen: !state.templatesModalIsOpen,
-      }
-    }
-    case 'TOGGLE_IGNORE_POPUP': {
-      return {
-        ...state,
-        ignoreModalIsOpen: !state.ignoreModalIsOpen,
-        data: action.payload,
       }
     }
     case 'UPDATE_POPUP_DATA': {

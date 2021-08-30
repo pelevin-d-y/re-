@@ -6,6 +6,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
 import { useClient } from 'src/components/context/ClientContext'
 import classNames from 'classnames'
+import { logInLink } from 'src/helpers/variables'
 
 type Props = {
   className?: string
@@ -20,8 +21,8 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       triggerElement={
         <div className={classNames(s.container, className)}>
           {state?.avatar && (
-            <a href="https://strata.auth.us-east-1.amazoncognito.com/login?client_id=4i8sdfh90s4gutrec91couh6e5&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://app.strata.cc">
-              <Avatar image={state.avatar} />
+            <a href={logInLink}>
+              <Avatar image={state?.avatar} />
             </a>
           )}
         </div>
@@ -29,7 +30,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       popupContent={
         <CardContainer className={s.popup}>
           <div className={s.title}>Email Sync</div>
-          {state?.addresses?.split('; ').map((address) => (
+          {state?.emails?.map((address) => (
             <GoogleEmail key={address} className={s.account} email={address} />
           ))}
           <button className={s.addButton} type="button">

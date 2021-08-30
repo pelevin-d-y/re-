@@ -23,7 +23,7 @@ const SpotlightLongCard: React.FC<Props> = ({
   to,
   barColor,
 }) => {
-  const barPercent = from ? from / to * 100 : 0
+  const barPercent = from ? (from / to) * 100 : 0
 
   return (
     <div className={classNames(s.container, className)}>

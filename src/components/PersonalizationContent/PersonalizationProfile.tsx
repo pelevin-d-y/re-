@@ -10,7 +10,7 @@ import Selector from '../shared-ui/Selector'
 
 type Props = {
   className?: string
-  data: UserData
+  data: MainUserData
 }
 
 const Profile: React.FC<Props> = ({ className, data }) => {
@@ -19,8 +19,8 @@ const Profile: React.FC<Props> = ({ className, data }) => {
     profileLastName: Yup.string().max(100, 'Too Long!'),
   })
 
-  const { name } = data
-  const names = name?.split(' ')
+  const { fullName } = data
+  const names = fullName?.split(' ')
 
   return (
     <div className={classNames(className, s.container)}>
@@ -28,7 +28,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data.address,
+          profileEmail: data.emails,
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -41,7 +41,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
           <div className={s.content}>
             <div className={s.avatarBlock}>
               <Avatar image={data.avatar} className={s.avatar} />
-              <button className={s.changeAvatar}>
+              <button type="button" className={s.changeAvatar}>
                 {data.avatar ? 'Change Pic' : 'Upload Pic'}
               </button>
             </div>
@@ -77,7 +77,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
               <div className={s.row}>
                 <div className={classNames(s.field, s.email, s.smallField)}>
                   <Field name="profileEmail">
-                    {({ field, form, meta }: FieldProps) => (
+                    {({ field }: FieldProps) => (
                       <Selector
                         styles={{
                           valueContainer: {
@@ -106,11 +106,10 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                             overflowY: 'visible',
                           },
                         }}
-                        options={[
-                          { value: 'email1', label: 'thor@casualcorp.com1' },
-                          { value: 'email2', label: 'thor@casualcorp.com2' },
-                          { value: 'email3', label: 'thor@casualcorp.com3' },
-                        ]}
+                        options={field.value.map((item: string) => ({
+                          value: item,
+                          label: item,
+                        }))}
                         label="Email"
                       />
                     )}
@@ -271,7 +270,7 @@ const s = css`
   }
 
   .recomHeader {
-    font-weight: 800;
+    font-weight: var(--semibold);
     font-size: 18px;
     line-height: 22px;
     margin-bottom: 14px;

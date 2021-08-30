@@ -2,9 +2,6 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import Close from 'src/components/shared-ui/Close'
-import Avatar from 'src/components/shared-ui/Avatar'
-import UserHeader from 'src/components/shared-ui/UserHeader'
-import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { css } from 'astroturf'
 import { useClient } from 'src/components/context/ClientContext'
@@ -16,13 +13,31 @@ type Props = {
   data: UserData
 }
 
+const reasons = [
+  {
+    text: 'Not relevant',
+  },
+  {
+    text: 'Not a good time',
+  },
+  {
+    text: 'We spoke offline',
+  },
+  {
+    text: 'Will reach out later',
+  },
+  {
+    text: 'Never will contact',
+  },
+]
+
 const PopoverRemoveCard: React.FC<Props> = ({
   className,
   classRemove,
   data,
 }) => {
   const { state: clientState, updateUserData } = useClient()
-  const { name, avatar, templateData, address, relationshipStrength } = data
+  const { address } = data
   const [isOpen, setIsOpen] = useState(false)
 
   const getRandomIndex = () =>
@@ -69,24 +84,21 @@ const PopoverRemoveCard: React.FC<Props> = ({
         <CardContainer className={classNames(className, s.popup)}>
           <div className={s.title}>
             <div className={s.titleText}>Ignore reason?</div>
-            <Close handler={closeHandler} className={s.close} />
+            <Close handler={() => setIsOpen(false)} className={s.close} />
           </div>
-          <Avatar
-            image={avatar}
-            width={54}
-            height={54}
-            className={s.avatar}
-            strength={relationshipStrength}
-          />
-          <div className={s.name}>{data.name}</div>
-          {templateData && (
-            <UserHeader
-              className={s.description}
-              text={parseEmailMessage(templateData.Header, name)}
-            />
-          )}
           <div className={s.buttons}>
-            <button className={s.button} type="button" onClick={closeHandler}>
+            {reasons.map((item) => (
+              <button
+                className={s.button}
+                key={item.text}
+                type="button"
+                onClick={closeHandler}
+              >
+                {item.text}
+              </button>
+            ))}
+
+            {/* <button className={s.button} type="button" onClick={closeHandler}>
               Not relevant
             </button>
             <button className={s.button} type="button" onClick={closeHandler}>
@@ -97,14 +109,14 @@ const PopoverRemoveCard: React.FC<Props> = ({
             </button>
             <button className={s.button} type="button" onClick={closeHandler}>
               Will reach out later
-            </button>
-            <button
+            </button> */}
+            {/* <button
               className={classNames(s.button, s.buttonWithoutBorder)}
               type="button"
               onClick={closeHandler}
             >
               Never will contact
-            </button>
+            </button> */}
           </div>
         </CardContainer>
       }

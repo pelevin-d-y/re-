@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {css} from 'astroturf'
+import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Img from 'src/components/shared-ui/Img'
 import Bar from '../../Bar'
@@ -9,7 +9,7 @@ type Props = {
   className?: string
 }
 
-const CardGuide: React.FC<Props> = ({className}) => (
+const CardGuide: React.FC<Props> = ({ className }) => (
   <CardContainer className={classNames(s.container, className)}>
     <div className={s.header}>
       <div className={s.left}>
@@ -38,7 +38,9 @@ const CardGuide: React.FC<Props> = ({className}) => (
           <div className={s.cardDescription}>
             Build a bigger network effect.
           </div>
-          <button type="button" className={s.button}>Add</button>
+          <button type="button" className={s.button}>
+            Add
+          </button>
         </div>
         <div className={s.card}>
           <div className={s.cardLogo}>
@@ -46,7 +48,9 @@ const CardGuide: React.FC<Props> = ({className}) => (
           </div>
           <div className={s.cardTitle}>Build List</div>
           <div className={s.cardDescription}>Organize your contacts.</div>
-          <button type="button" className={s.button}>Create</button>
+          <button type="button" className={s.button}>
+            Create
+          </button>
         </div>
         <div className={s.card}>
           <div className={s.cardLogo}>
@@ -56,7 +60,9 @@ const CardGuide: React.FC<Props> = ({className}) => (
           <div className={s.cardDescription}>
             Prioritize tasks and outreach.
           </div>
-          <button type="button" className={s.button}>Manage</button>
+          <button type="button" className={s.button}>
+            Manage
+          </button>
         </div>
         <div className={s.card}>
           <div className={s.cardLogo}>
@@ -64,7 +70,9 @@ const CardGuide: React.FC<Props> = ({className}) => (
           </div>
           <div className={s.cardTitle}>Templates</div>
           <div className={s.cardDescription}>Customize your templates.</div>
-          <button type="button" className={s.button}>Customize</button>
+          <button type="button" className={s.button}>
+            Customize
+          </button>
         </div>
         <div className={classNames(s.card, s.cardPremium)}>
           <div className={classNames(s.cardLogo, s.cardLogoPremium)}>
@@ -74,7 +82,9 @@ const CardGuide: React.FC<Props> = ({className}) => (
             Premium
           </div>
           <div className={s.cardDescription}>Get more out of Strata.</div>
-          <button type="button" className={s.button}>Upgrade</button>
+          <button type="button" className={s.button}>
+            Upgrade
+          </button>
         </div>
       </div>
     </div>

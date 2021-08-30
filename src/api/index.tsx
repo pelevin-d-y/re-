@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance } from 'axios'
+import { logInLink } from 'src/helpers/variables'
 
-const AWS_API_1 =
+const AWS_API =
   process.env.NODE_ENV === 'development'
-    ? '/api/aws1'
-    : 'https://6zdopblbig.execute-api.us-east-1.amazonaws.com/Test'
-const AWS_API_2 =
-  process.env.NODE_ENV === 'development'
-    ? '/api/aws2'
+    ? '/api/aws'
     : 'https://3t8fpn6j0e.execute-api.us-east-1.amazonaws.com/Test'
 
 const defaultOptions = {
@@ -18,6 +15,21 @@ const defaultOptions = {
 
 // Create instance
 const instance: AxiosInstance = axios.create(defaultOptions)
+
+instance.interceptors.response.use(
+  (config) => config,
+  (error) => {
+    if (error.isAxiosError) {
+      const ae = error as AxiosError
+      if (ae.response?.status === 401) {
+        document.location.href = logInLink
+        return Promise.reject(error)
+      }
+    }
+
+    return Promise.reject(error)
+  }
+)
 
 const setToken = (token: string | null): void => {
   if (!token) {
@@ -36,29 +48,74 @@ const apiGet = (url: string, params?: Params): Promise<any> =>
     params,
   })
 
-const apiPost = (url: string, data: any, params?: Params): Promise<any> =>
+const apiPost = (url: string, data?: any, params?: Params): Promise<any> =>
   instance.post(url, data, {
     params,
   })
 
 const getMetrics = () =>
-  apiGet(`${AWS_API_2}/dash/metrics`)
+  apiGet(`${AWS_API}/dash/metrics`)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
 const getAuth = () =>
-  apiGet(`${AWS_API_2}/client/authorization`)
+  apiGet(`${AWS_API}/client/authorization`)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
+
+const getContact = () =>
+  apiGet(`${AWS_API}/client/contact`)
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
+const getRecommendations = () =>
+  apiGet(`${AWS_API}/dash/recommendations`, { number: '20' })
+    .then((res: RecsResponse) => res.data.recommendations)
+    .catch((err) => Promise.reject(err))
+
+const getContactsMutable = () =>
+  apiGet(`${AWS_API}/contacts/mutable`, {
+    id: '00000000-0000-0000-0000-000000000000',
+  })
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
+const getContactsSearch = (email: string, name?: string) =>
+  apiGet(`${AWS_API}/contacts/search`, { email: email || '', name: name || '' })
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
+const getMessagesRead = (id: string) =>
+  apiGet(`${AWS_API}/messages/read`, { id })
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
+const getPlaylists = (id: string) =>
+  apiGet(`${AWS_API}/playlists`, { id })
+    .then((res: any) => res)
+    .catch((err) => Promise.reject(err))
 
 const sendMessage = (data: SendMessageData) =>
-  apiPost(`${AWS_API_2}/messages/send`, data)
+  apiPost(`${AWS_API}/messages/send`, data)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
-const getContacts = () =>
-  apiGet(`${AWS_API_1}/recommendations?client=Thor_Ernstsson&number=20`)
+const postRecommendations = () =>
+  apiPost(`${AWS_API}/dash/recommendations`)
     .then((res) => res)
-    .catch((err) => err)
+    .catch((err) => Promise.reject(err))
 
-export { instance, setToken, sendMessage, getContacts, getAuth, getMetrics }
+export {
+  instance,
+  setToken,
+  sendMessage,
+  getRecommendations,
+  getAuth,
+  getMetrics,
+  getContact,
+  getContactsMutable,
+  getContactsSearch,
+  getMessagesRead,
+  getPlaylists,
+  postRecommendations,
+}

@@ -14,10 +14,9 @@ const testData = {
   followups: 3,
 }
 
-
 const ContentSidebar: React.FC<Props> = ({ className }) => (
   <div className={classNames(className, s.container)}>
-    <Spotlight className={s.spotlight} data={testData}/>
+    <Spotlight className={s.spotlight} data={testData} />
     <ImportantSteps />
   </div>
 )

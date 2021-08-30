@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
 import parseMessage from 'src/helpers/utils/parse-message'
 import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 
 type Props = {
   className?: string
@@ -24,7 +25,7 @@ const ThreadItem: React.FC<Props> = ({ className, data, clientName }) => (
       </div>
       <div className={s.date}>
         {data.last_contact_time &&
-          format(new Date(data.last_contact_time), 'MMMM dd, yyyy')}
+          format(parseISO(data.last_contact_time), 'MMMM dd, yyyy')}
       </div>
     </div>
     {data.templateData?.Message ? (

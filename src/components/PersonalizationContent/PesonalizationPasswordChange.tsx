@@ -13,7 +13,10 @@ type Props = {
 const PasswordChangeForm: React.FC<Props> = ({ className }) => {
   const CreateProfileSchema = Yup.object().shape({
     lastPassword: Yup.string().required('Required'),
-    newPassword: Yup.string().min(6, 'min 6 char').max(100, 'Too Long!').required('Required'),
+    newPassword: Yup.string()
+      .min(6, 'min 6 char')
+      .max(100, 'Too Long!')
+      .required('Required'),
   })
 
   return (

@@ -17,7 +17,7 @@ const ListsSidebar: React.FC<Props> = ({ className }) => (
       Save lists with important task here. You can drag and drop them into this
       module.
     </div>
-    <Button className={s.button} variant='outlined'>
+    <Button className={s.button} variant="outlined">
       Create a new list
     </Button>
   </CardContainer>
@@ -45,14 +45,14 @@ const s = css`
   .createList {
     margin-top: 15px;
   }
-  
+
   .paragraph {
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
     margin-bottom: 19px;
   }
-  
+
   .button {
     width: 100%;
   }

@@ -78,7 +78,7 @@ const MultiEmailsModal: React.FC = () => {
 
   const closeHandler = () => {
     setSelectedContacts([])
-    dispatch({ type: 'UPDATE_POPUP_DATA', payload: {} })
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
     setContacts([])
     dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
@@ -118,7 +118,6 @@ const MultiEmailsModal: React.FC = () => {
               )}
               <div className={s.userInfo}>
                 <div className={s.userName}>{item.name}</div>
-                <div className={s.userPosition}>{item.position}</div>
               </div>
               <ModalClose
                 className={s.buttonRemove}
@@ -139,7 +138,6 @@ const MultiEmailsModal: React.FC = () => {
             <Avatar className={s.avatar} image={item.avatar} />
             <div className={s.userInfo}>
               <div className={s.userName}>{item.name}</div>
-              <div className={s.userPosition}>{item.position}</div>
             </div>
             <Button
               variant="outlined"
@@ -156,7 +154,7 @@ const MultiEmailsModal: React.FC = () => {
           <ModalUserInfo className={s.header} data={data} />
         )}
 
-        <MessageManager data={data} closeHandler={closeHandler} />
+        {data && <MessageManager data={data} closeHandler={closeHandler} />}
       </div>
     </ModalBase>
   )

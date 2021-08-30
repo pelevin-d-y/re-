@@ -12,6 +12,9 @@ import Close from 'src/components/shared-ui/Close'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
+import EasyEdit from 'react-easy-edit'
 import Checkbox from './Checkbox'
 
 type Props = {
@@ -31,6 +34,21 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const tableData = useMemo(() => data.users, [data.users])
 
   const { updateList } = useLists()
+
+  const updateUser = useCallback(
+    (userData: UserData) => {
+      const ind = data?.users.findIndex((u) => u.address === userData.address)
+      if (ind !== -1) {
+        const newData = data
+        newData.users[ind] = { ...userData }
+        updateList({
+          ...data,
+          users: [...data?.users],
+        })
+      }
+    },
+    [data, updateList]
+  )
 
   const removeUser = useCallback(
     (e: React.MouseEvent, userData: UserData) => {
@@ -55,7 +73,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         Header: 'Contact',
         accessor: 'name',
         minWidth: 180,
-        Cell: ({ value, row }) => (
+        Cell: ({ row }) => (
           <div className={s.cellName}>
             <Avatar
               className={s.avatar}
@@ -80,22 +98,43 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
+        Cell: ({ value, row }) => (
+          <div className={s.cellContent}>
+            <div className={s.lastData}>
+              {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')}
+            </div>
+            <div>{value}</div>
+          </div>
+        ),
       },
       {
         Header: 'Notes',
-        accessor: 'notes',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
-      },
-      {
-        Header: 'Playlists',
-        accessor: 'template',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
-      },
-      {
-        Header: 'Next outreach',
-        accessor: 'next_outreach',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
+        accessor: 'Notes',
+        Cell: ({ value, row }) => {
+          const restValue = value
+          return (
+            <div
+              className={s.cellContent}
+              onClick={(e) => e.stopPropagation()}
+              aria-hidden="true"
+            >
+              <EasyEdit
+                type="text"
+                value={value || restValue || 'Note'}
+                placeholder={value}
+                hideCancelButton
+                hideSaveButton
+                saveOnBlur
+                onSave={(val: string) =>
+                  updateUser({
+                    ...row.original,
+                    Notes: val || restValue,
+                  })
+                }
+              />
+            </div>
+          )
+        },
       },
       {
         Header: () => <Close className={s.headerButton} handler={() => null} />,
@@ -109,7 +148,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         ),
       },
     ],
-    [removeUser]
+    [removeUser, updateUser]
   )
 
   const {
@@ -182,6 +221,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           {rows.map((row) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
+            restProps.style = { ...restProps.style, borderColor: 'red' }
             return (
               <tr
                 onClick={() => contactHandler(row.original)}
@@ -248,6 +288,9 @@ const s = css`
   .row {
     position: relative;
     cursor: pointer;
+    align-items: center;
+
+    border-left: 4px;
   }
 
   .headerButton {
@@ -298,7 +341,7 @@ const s = css`
 
   .cellContent {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -339,6 +382,14 @@ const s = css`
     @include mobile {
       width: 80%;
     }
+  }
+
+  .lastData {
+    margin-bottom: 6px;
+
+    font-size: 12px;
+    line-height: 14px;
+    color: #adadad;
   }
 
   .cardHeader {

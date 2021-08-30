@@ -7,6 +7,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
+import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Close from 'src/components/shared-ui/Close'
@@ -25,13 +26,9 @@ const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
 
-  const closeHandler = () => {
-    dispatch({ type: 'TOGGLE_IGNORE_POPUP', payload: data })
-  }
-
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Close className={s.remove} handler={closeHandler} />
+      <PopoverRemoveCard classRemove={s.remove} data={data} />
       <div className={classNames(isRow && s.rowUserInfo)}>
         <Avatar
           image={avatar}

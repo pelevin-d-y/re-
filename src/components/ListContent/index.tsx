@@ -6,7 +6,7 @@ import { TableProvider } from 'src/components/context/TableContext'
 import Table from 'src/components/shared-ui/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import ListHeader from 'src/components/shared-ui/ListHeader'
-import ListRecs from '../shared-ui/ListRecs';
+import ListRecs from '../shared-ui/ListRecs'
 import { useClient } from '../context/ClientContext'
 
 const Content: React.FC = () => {
@@ -24,7 +24,7 @@ const Content: React.FC = () => {
       <ListHeader data={currentList} />
       <div className={s.content}>
         <TableProvider>
-          <ListRecs list={currentList} contacts={contacts}/> 
+          <ListRecs list={currentList} contacts={contacts} />
           <TableHeader list={currentList} />
           <Table data={currentList} />
         </TableProvider>
