@@ -3,8 +3,8 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
-import { useLists } from 'src/components/context/ListsContext'
-import { getPlaylist, getPlaylists } from 'src/api'
+import { getContactsMutable, getPlaylist, getPlaylists } from 'src/api'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 import SectionsHeader from './ListsSectionsHeader'
 
 type Props = {
@@ -17,15 +17,37 @@ type CardsStructure = {
 }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
-  const { state: listsState } = useLists()
   const [lists, setLists] = useState<ListRequest[]>([])
 
   useEffect(() => {
-    getPlaylists().then((res: ListsRequest) => {
-      Promise.all(res.data.map((item: string) => getPlaylist(item))).then(
-        (resAll) => setLists(resAll)
+    const getPlaylistsData = async () => {
+      const playlistsIds = await getPlaylists()
+      const playlistsData = await Promise.all(
+        playlistsIds.data.map((item: string) => getPlaylist(item))
       )
-    })
+
+      const contacts: any = await Promise.all(
+        playlistsData.map((playlist: any) =>
+          Promise.all(
+            playlist.data[0].contacts.map((item: any) =>
+              getContactsMutable(item.contact_id)
+            )
+          )
+        )
+      )
+      const playlistsWithContacts = playlistsData.map((item: any, index) => {
+        let newItem = item
+        newItem.data[0].contacts = contacts[index].map((contact: any) =>
+          formatContactData(Object.values(contact.data)[0] as any)
+        )
+
+        return newItem
+      })
+
+      setLists(playlistsWithContacts)
+    }
+
+    getPlaylistsData()
   }, [])
 
   const cardsStructure: CardsStructure = useMemo(() => {
@@ -33,6 +55,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
       firstColumn: [],
       secondColumn: [],
     }
+
     lists?.map((item, index) => {
       const remainder = (index + 1) % 2
       if (remainder) {
@@ -41,10 +64,9 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
 
       return value.secondColumn.push(item.data[0])
     })
+
     return value
   }, [lists])
-
-  // console.log('cardsStructure', cardsStructure)
 
   return (
     <CardContainer className={classNames(s.container, className)}>

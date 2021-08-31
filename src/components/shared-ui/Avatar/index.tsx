@@ -26,7 +26,7 @@ const Avatar: React.FC<Props> = ({
     {image ? (
       <Img alt="avatar" className={s.avatar} img={image} />
     ) : (
-      <SvgIcon icon="avatar-placeholder.svg" />
+      <SvgIcon icon="avatar-placeholder.svg" className={s.svgIcon} />
     )}
   </div>
 )
@@ -56,6 +56,11 @@ const s = css`
 
     border-radius: 50%;
     object-fit: cover;
+  }
+
+  .svgIcon {
+    width: 100%;
+    height: 100%;
   }
 
   .red {

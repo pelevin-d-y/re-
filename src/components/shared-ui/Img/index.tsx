@@ -7,7 +7,11 @@ type Props = {
 }
 
 const Img: React.FC<Props> = ({ className, alt, img }) => (
-  <img className={className} alt={alt} src={require(`public/images/${img}`)} />
+  <img
+    className={className}
+    alt={alt}
+    src={img.includes('https') ? img : require(`public/images/${img}`)}
+  />
 )
 
 export default Img

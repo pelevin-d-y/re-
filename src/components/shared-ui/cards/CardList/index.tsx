@@ -35,13 +35,13 @@ const CardList: React.FC<Props> = ({
       )}
       <div className={s.usersCount}>Contacts count: {contacts.length}</div>
       {/* <Tasks className={s.tasks} data={tasks} /> */}
-      {/* <AvatarsList
+      <AvatarsList
         avatarWidth={38}
         avatarHeight={38}
         className={s.avatars}
         users={contacts}
         showHiddenUsers
-      /> */}
+      />
       <div className={classNames(s.actions)}>
         <PopoverDots
           variant="outlined"

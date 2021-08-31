@@ -3,6 +3,7 @@ import { get, set } from 'idb-keyval'
 import { getAuth, getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
 
@@ -41,17 +42,8 @@ const getMainUserData = async () => {
 
   const [recommendations, contactResponse, authResponse] = requests
   const extendedUsers = addAdditionFields(recommendations)
-
   const mainUserData: MainUserData = {
-    emails: contactResponse.data.flatMap((item: any) =>
-      item.type === 'email' ? item.data : []
-    ),
-    shortName: contactResponse.data.flatMap((item: any) =>
-      item.type === 'name_short' ? item.data : []
-    )[0],
-    fullName: contactResponse.data.flatMap((item: any) =>
-      item.type === 'name' ? item.data.join(' ') : []
-    )[0],
+    ...formatContactData(contactResponse.data),
     avatar: 'thor.jpeg',
     contacts:
       extendedUsers.length < 10 ? addAdditionFields(testUsers) : extendedUsers, // have to remove when API is fixed

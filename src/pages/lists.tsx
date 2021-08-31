@@ -1,7 +1,6 @@
 import React from 'react'
 import Layout from 'src/layouts/Layout'
 import ListsContent from 'src/components/ListsContent'
-import CreateListModal from 'src/components/shared-ui/modals/CreateListModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import DeleteListModal from 'src/components/shared-ui/modals/DeleteListModal'
@@ -12,7 +11,6 @@ const Lists: React.FC = () => (
     <TemplatesProvider>
       <PopupProvider>
         <ListsContent />
-        <CreateListModal />
         <DeleteListModal />
       </PopupProvider>
     </TemplatesProvider>
