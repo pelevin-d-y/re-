@@ -110,6 +110,11 @@ const postRecommendations = () =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
+const postPlaylists = (data: Playlists) =>
+  apiPost(`${AWS_API}/playlists`, data)
+    .then((res: ListRequest) => res)
+    .catch((err) => Promise.reject(err))
+
 export {
   instance,
   setToken,
@@ -123,5 +128,6 @@ export {
   getMessagesRead,
   getPlaylists,
   getPlaylist,
+  postPlaylists,
   postRecommendations,
 }

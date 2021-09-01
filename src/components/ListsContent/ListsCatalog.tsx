@@ -38,7 +38,10 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
       const playlistsWithContacts = playlistsData.map((item: any, index) => {
         let newItem = item
         newItem.data[0].contacts = contacts[index].map((contact: any) =>
-          formatContactData(Object.values(contact.data)[0] as any)
+          formatContactData(
+            Object.values(contact.data)[0] as any,
+            Object.keys(contact.data)[0]
+          )
         )
 
         return newItem

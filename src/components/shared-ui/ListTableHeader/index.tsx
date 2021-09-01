@@ -11,7 +11,7 @@ import { useUsers } from 'src/components/context/UsersContext'
 
 type Props = {
   className?: string
-  list: List
+  list: Playlist
   addContact?: (users: UserData[]) => void
   removeContacts?: (users: UserData[]) => void
 }
@@ -23,33 +23,23 @@ const TableHeader: React.FC<Props> = ({
   removeContacts,
 }) => {
   const {
-    state: { data: selectedUsers },
+    state: { selected: selectedUsers },
+    removeUsers,
   } = useTable()
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
-
-  const { updateList } = useLists()
 
   const removeUsersHandler = () => {
     if (removeContacts) {
       removeContacts(selectedUsers)
     } else {
-      const newList = {
-        ...list,
-        users: list.users.filter(
-          (user) =>
-            !selectedUsers.find(
-              (selectedUser) => selectedUser.address === user.address
-            )
-        ),
-      }
-
-      updateList(newList)
+      removeUsers(selectedUsers)
+      console.log('data', selectedUsers)
     }
   }
 
   const contactHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list.users || [] })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list.contacts || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
@@ -63,11 +53,11 @@ const TableHeader: React.FC<Props> = ({
         <Button className={classNames(s.dots, s.button)} variant="outlined">
           •••
         </Button>
-        <PopoverAddContact
+        {/* <PopoverAddContact
           className={classNames(s.contacts, s.button)}
           addContactHandler={addContact}
           list={list}
-        />
+        /> */}
         <Button
           className={classNames(s.button, s.remove)}
           handler={removeUsersHandler}

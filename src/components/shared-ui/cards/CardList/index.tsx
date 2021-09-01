@@ -33,7 +33,6 @@ const CardList: React.FC<Props> = ({
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
-      <div className={s.usersCount}>Contacts count: {contacts.length}</div>
       {/* <Tasks className={s.tasks} data={tasks} /> */}
       <AvatarsList
         avatarWidth={38}

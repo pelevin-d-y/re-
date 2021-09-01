@@ -3,8 +3,8 @@ type Data = {
   data: string | any[]
 }[]
 
-const formatContactData = (data: Data): any => {
-  const parsedContact = {
+const formatContactData = (data: Data, id?: string): any => {
+  const parsedContact: any = {
     emails: data.flatMap((item: any) =>
       item.type === 'email' ? item.data : []
     ),
@@ -17,6 +17,10 @@ const formatContactData = (data: Data): any => {
     avatar: data.flatMap((item: any) =>
       item.type === 'image' ? item.meta.source : []
     )[0],
+  }
+
+  if (id) {
+    parsedContact.id = id
   }
 
   return parsedContact

@@ -4,7 +4,7 @@ import PreviousPage from 'src/components/shared-ui/PreviousPage'
 import TextareaAutosize from 'react-textarea-autosize'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
-import { getContactsMutable } from 'src/api'
+import { getContactsMutable, postPlaylists } from 'src/api'
 
 type Props = {
   className?: string
@@ -24,14 +24,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
 
   useEffect(() => {
     setFields({ title: data.info?.name, description: data.info?.description })
-
-    if (data.contacts) {
-      Promise.all(
-        data?.contacts.map((item: any) => getContactsMutable(item.contact_id))
-      ).then((res) =>
-        setContacts(res.map((item: any) => Object.values(item.data)[0]))
-      )
-    }
   }, [data.contacts, data.info?.description, data.info?.name])
 
   useEffect(() => {
@@ -39,7 +31,15 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
       debounceFields.title !== data.title ||
       debounceFields.description !== data.description
     ) {
-      // console.log('request to update')
+      postPlaylists([
+        {
+          id: data.id,
+          info: {
+            name: debounceFields.title,
+            description: debounceFields.description,
+          },
+        },
+      ]).catch((err) => console.log('ListHeader err =>', err))
     }
   }, [data, debounceFields])
 
@@ -61,8 +61,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
       setFields({ title: debounceFields.title, description: e.target.value })
     }
   }
-
-  console.log('contacts', contacts)
 
   return (
     <div className={classNames(className, s.container)}>

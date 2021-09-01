@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import SvgIcon from '../SvgIcon'
@@ -18,18 +18,31 @@ const Avatar: React.FC<Props> = ({
   width,
   height,
   strength,
-}) => (
-  <div
-    className={classNames(s.container, className, strength && s[strength])}
-    style={{ width: width || 47, height: height || 47 }}
-  >
-    {image ? (
-      <Img alt="avatar" className={s.avatar} img={image} />
-    ) : (
-      <SvgIcon icon="avatar-placeholder.svg" className={s.svgIcon} />
-    )}
-  </div>
-)
+}) => {
+  const [isError, setIsError] = useState(false)
+
+  const errorLoad = (status: boolean) => {
+    setIsError(status)
+  }
+
+  return (
+    <div
+      className={classNames(s.container, className, strength && s[strength])}
+      style={{ width: width || 47, height: height || 47 }}
+    >
+      {!isError && image ? (
+        <Img
+          alt="avatar"
+          className={s.avatar}
+          img={image}
+          errorLoad={errorLoad}
+        />
+      ) : (
+        <SvgIcon icon="avatar-placeholder.svg" className={s.svgIcon} />
+      )}
+    </div>
+  )
+}
 
 const s = css`
   .container {

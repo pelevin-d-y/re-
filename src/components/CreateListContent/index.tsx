@@ -62,11 +62,11 @@ const Content: React.FC = () => {
       <ListHeader data={list} updateNewList={updateField} />
       <div className={s.content}>
         <TableProvider>
-          <TableHeader
+          {/* <TableHeader
             list={list}
             addContact={addContact}
             removeContacts={removeContacts}
-          />
+          /> */}
           {/* <Table data={list} removeContacts={removeContacts} /> */}
         </TableProvider>
       </div>

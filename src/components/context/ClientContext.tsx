@@ -41,6 +41,10 @@ const getMainUserData = async () => {
   ])
 
   const [recommendations, contactResponse, authResponse] = requests
+  console.log(
+    '🚀 ~ file: ClientContext.tsx ~ line 44 ~ getMainUserData ~ contactResponse',
+    contactResponse
+  )
   const extendedUsers = addAdditionFields(recommendations)
   const mainUserData: MainUserData = {
     ...formatContactData(contactResponse.data),

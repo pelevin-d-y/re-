@@ -5,7 +5,6 @@ import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
-import { useLists } from 'src/components/context/ListsContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import Close from 'src/components/shared-ui/Close'
@@ -15,63 +14,39 @@ import Search from 'src/components/shared-ui/Search'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
+import { postPlaylists } from 'src/api'
 import Checkbox from './Checkbox'
 
 type Props = {
   className?: string
-  data: any
-  removeContacts?: (removeContacts: UserData[]) => void
+  data: Playlist
+  removeContacts?: (removeContacts: any) => void
 }
 
 const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
-  const { dispatch: dispatchTable } = useTableContext()
+  const { getPlaylistData, updateSelectedUsers, removeUsers } =
+    useTableContext()
   const { dispatch } = usePopup()
 
-  const contactHandler = (contactData: UserData) => {
+  const contactHandler = (contactData: any) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
   }
 
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
-  const { updateList } = useLists()
-
-  const updateUser = useCallback(
-    (userData: UserData) => {
-      const ind = data?.users.findIndex(
-        (u: any) => u.address === userData.address
-      )
-      if (ind !== -1) {
-        const newData = data
-        newData.users[ind] = { ...userData }
-        updateList({
-          ...data,
-          users: [...data?.users],
-        })
-      }
-    },
-    [data, updateList]
-  )
+  const updateUser = useCallback((userData: any) => {
+    console.log('userData', userData)
+  }, [])
 
   const removeUser = useCallback(
-    (e: React.MouseEvent, userData: UserData) => {
+    (e: React.MouseEvent, userData: any[]) => {
       e.stopPropagation()
-      if (removeContacts) {
-        removeContacts([userData])
-      } else {
-        const newList = {
-          ...data,
-          users: data.users.filter(
-            (user: any) => user.address !== userData.address
-          ),
-        }
-
-        updateList(newList)
-      }
+      removeUsers([userData])
     },
-    [removeContacts, data, updateList]
+    [removeUsers]
   )
 
-  const columns: Column<UserData>[] = useMemo(
+  const columns: Column<any>[] = useMemo(
     () => [
       {
         Header: 'Contact',
@@ -84,20 +59,18 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
               image={row.original.avatar}
               strength={row.original.relationshipStrength}
             />{' '}
-            {row.original?.templateData && (
-              <PopoverUserInfo
-                className={s.name}
-                data={row.original}
-                template={row.original.templateData}
-              />
-            )}
+            <PopoverUserInfo
+              className={s.name}
+              data={row.original}
+              template={row.original.templateData}
+            />
           </div>
         ),
       },
       {
         Header: 'Title',
-        accessor: 'title',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
+        accessor: 'fullName',
+        Cell: ({ value }) => <span className={s.cellContent}>investor</span>,
       },
       {
         Header: 'Last outreach',
@@ -105,9 +78,13 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
             <div className={s.lastData}>
-              {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')}
+              {/* {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')} */}
+              January 12, 2021
             </div>
-            <div>{value}</div>
+            {/* <div>{value}</div> */}
+            <div>
+              Hi Hailey, Did get a chance to view the deck i sent ove...
+            </div>
           </div>
         ),
       },
@@ -165,7 +142,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   } = useTable(
     {
       columns,
-      data: tableData,
+      data: tableData || [],
     },
     useFlexLayout,
     useRowSelect,
@@ -188,12 +165,11 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       ])
     }
   )
+
   useEffect(() => {
-    dispatchTable({
-      type: 'UPDATE_SELECTED_USERS',
-      payload: selectedFlatRows.map((item) => item.original),
-    })
-  }, [selectedFlatRows, dispatchTable])
+    updateSelectedUsers(selectedFlatRows.map((item) => item.original))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFlatRows])
 
   return (
     <div className={s.container}>

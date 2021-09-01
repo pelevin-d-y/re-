@@ -1,21 +1,21 @@
 /* eslint-disable camelcase */
 
-type Playlists = (
-  | 'Meetings & Events'
-  | 'Follow Ups'
-  | 'Birthdays'
-  | 'New Roles'
-  | 'Time Lapsed: 90 Days'
-  | 'Time Lapsed: 1 Year'
-  | 'Travel: Who to Meet'
-  | 'Relocation'
-  | 'Holidays'
-  | 'Share Strata'
-  | 'Checking Emails'
-  | 'Intros received'
-  | 'Network Engagement'
-  | 'Network Maintenance'
-)[]
+// type Playlists = (
+//   | 'Meetings & Events'
+//   | 'Follow Ups'
+//   | 'Birthdays'
+//   | 'New Roles'
+//   | 'Time Lapsed: 90 Days'
+//   | 'Time Lapsed: 1 Year'
+//   | 'Travel: Who to Meet'
+//   | 'Relocation'
+//   | 'Holidays'
+//   | 'Share Strata'
+//   | 'Checking Emails'
+//   | 'Intros received'
+//   | 'Network Engagement'
+//   | 'Network Maintenance'
+// )[]
 
 type Template = {
   Template: string
@@ -265,3 +265,14 @@ type MainUserData = {
   avatar?: string
   contacts?: UserData[]
 }
+
+type Playlist = {
+  id: string
+  actions?: []
+  contacts?: any[]
+  inclusions?: []
+  info?: { name: string; description?: string }
+  triggers?: []
+}
+
+type Playlists = Playlist[]
