@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -6,50 +6,86 @@ import Search from 'src/components/shared-ui/Search'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce'
+import { getContactsMutable, postContactsSearch } from 'src/api'
+import formatContactData from 'src/helpers/utils/format-contact-data'
+import { useTable } from 'src/components/context/TableContext'
+import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
 
 type Props = {
   className?: string
-  handler: (item: UserData) => void
-  users?: UserData[]
 }
 
-const AddUserView: React.FC<Props> = ({ className, handler, users }) => {
+const AddUserView: React.FC<Props> = ({ className }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
+  const [contacts, setContacts] = useState<any[]>([])
+  const { addUser: addUserToPlaylist } = useTable()
 
-  const [filteredUsers, setFilteredUsers] = useState(users)
+  const ref = useRef(null)
 
   useEffect(() => {
-    setFilteredUsers(
-      users?.filter(
-        (user) =>
-          user.name?.toLowerCase().search(searchValue.toLowerCase()) !== -1
-      )
-    )
-  }, [searchValue, users])
+    if (searchValue) {
+      const search = async () => {
+        const searchResponse = await postContactsSearch(searchValue)
+        const contactsResp = await Promise.all(
+          searchResponse.data.flatMap((item: string, index: number) => {
+            if (index < 20) {
+              return getContactsMutable(item)
+            }
+            return []
+          })
+        )
+        const formattedContacts = contactsResp.map((contact: any) =>
+          formatContactData(
+            Object.values(contact.data)[0] as any,
+            Object.keys(contact.data)[0]
+          )
+        )
+        setContacts(formattedContacts)
+      }
+      search()
+    } else {
+      setContacts([])
+    }
+  }, [searchValue])
+
+  useOnClickOutside(ref, () => {
+    setContacts([])
+  })
 
   const searchHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setSearchState(evt.target.value)
   }
 
+  const addUser = (user: any) => {
+    addUserToPlaylist(user)
+  }
+
   return (
-    <CardContainer className={classNames(s.container, className)}>
+    <CardContainer
+      className={classNames(
+        s.container,
+        className,
+        contacts.length > 0 && s.active
+      )}
+      ref={ref}
+    >
       <Search
         classes={{ input: s.searchInput }}
         inputPlaceholder="Search contacts…"
         onChange={searchHandler}
       />
       <ul className={s.list}>
-        {filteredUsers?.map((item) => (
-          <li className={s.item} key={item.first_message_id}>
+        {contacts?.map((item) => (
+          <li className={s.item} key={item.id}>
             <div className={s.profile}>
               <Avatar className={s.avatar} image={item.avatar} />
-              <span className={s.name}>{item.name}</span>
+              <span className={s.name}>{item.fullName}</span>
             </div>
             <Button
               className={s.button}
               variant="outlined"
-              handler={() => handler(item)}
+              handler={() => addUser(item)}
             >
               add
             </Button>
@@ -97,6 +133,10 @@ const s = css`
     font-size: 14px;
     line-height: 17px;
     font-weight: var(--bold);
+  }
+
+  .container.active {
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 12%), 0px 1px 1px rgb(34 34 34 / 10%);
   }
 `
 

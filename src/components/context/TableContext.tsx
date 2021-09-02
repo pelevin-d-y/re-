@@ -18,6 +18,7 @@ type ContextType = {
   updateList: (list: any) => void
   updateSelectedUsers: (users: any[]) => void
   removeUsers: (userData: any) => void
+  addUser: (user: any) => void
 }
 
 const TableContext = React.createContext<ContextType | null>(null)
@@ -98,6 +99,27 @@ const TableProvider: React.FC = ({ children }) => {
     [state.data?.id, getPlaylistData]
   )
 
+  const addUser = React.useCallback(
+    (user) => {
+      if (state.data?.id) {
+        postPlaylists([
+          {
+            id: state.data.id,
+            contacts: [
+              {
+                contact_id: user.id,
+                review: 1,
+              },
+            ],
+          },
+        ])
+          .then(() => getPlaylistData())
+          .catch((err: any) => console.log('addUser err =>', err))
+      }
+    },
+    [state.data?.id, getPlaylistData]
+  )
+
   React.useEffect(() => {
     if (router.query.id && !state.data) {
       getPlaylistData()
@@ -111,10 +133,11 @@ const TableProvider: React.FC = ({ children }) => {
       dispatch,
       updateList,
       getPlaylistData,
+      addUser,
       updateSelectedUsers,
       removeUsers,
     }),
-    [getPlaylistData, state, removeUsers]
+    [state, getPlaylistData, addUser, removeUsers]
   )
 
   return <TableContext.Provider value={value}>{children}</TableContext.Provider>

@@ -5,7 +5,6 @@ import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
-import { useLists } from 'src/components/context/ListsContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 
@@ -53,11 +52,10 @@ const TableHeader: React.FC<Props> = ({
         <Button className={classNames(s.dots, s.button)} variant="outlined">
           •••
         </Button>
-        {/* <PopoverAddContact
+        <PopoverAddContact
           className={classNames(s.contacts, s.button)}
           addContactHandler={addContact}
-          list={list}
-        /> */}
+        />
         <Button
           className={classNames(s.button, s.remove)}
           handler={removeUsersHandler}

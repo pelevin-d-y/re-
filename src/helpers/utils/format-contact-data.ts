@@ -14,9 +14,12 @@ const formatContactData = (data: Data, id?: string): any => {
     fullName: data.flatMap((item: any) =>
       item.type === 'name' ? item.data.join(' ') : []
     )[0],
-    avatar: data.flatMap((item: any) =>
-      item.type === 'image' ? item.meta.source : []
-    )[0],
+    avatar: data.flatMap((item: any) => {
+      if (item.type === 'image' && item.meta.cached.includes('https')) {
+        return item.meta.cached
+      }
+      return null
+    })[0],
   }
 
   if (id) {

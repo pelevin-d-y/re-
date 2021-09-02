@@ -16,6 +16,7 @@ import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
 import { postPlaylists } from 'src/api'
 import Checkbox from './Checkbox'
+import AddUserView from '../AddUserView'
 
 type Props = {
   className?: string
@@ -229,10 +230,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
             <div className={s.cardHeader}>Start creating your list</div>
-            <Search
-              inputPlaceholder="Search contact to add to list…"
-              classes={{ container: s.search }}
-            />
+            <AddUserView className={s.addUserView} />
           </CardContainer>
         )}
       </div>
@@ -419,6 +417,15 @@ const s = css`
       width: 35px;
       height: 35px;
     }
+  }
+
+  .addUserView {
+    overflow: auto;
+    max-width: 326px;
+    width: 100%;
+    box-shadow: none;
+    max-height: 300px;
+    padding: 8px;
   }
 `
 

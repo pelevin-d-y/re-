@@ -51,10 +51,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
           ))}
       </div>
       <div className={s.actions}>
-        <PopoverDots
-          className={s.dots}
-          variant="outlined"
-        />
+        <PopoverDots className={s.dots} variant="outlined" />
         <Button
           className={s.button}
           variant="contained"
@@ -75,12 +72,12 @@ const s = css`
 
   .header {
     margin-bottom: 27px;
-  }  
+  }
 
   .button {
     min-width: 212px;
   }
-  
+
   .dots {
     margin-right: 17px;
   }

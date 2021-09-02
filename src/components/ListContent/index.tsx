@@ -13,7 +13,6 @@ const Content: React.FC = () => {
   const {
     state: { data },
   } = useTable()
-  console.log('🚀 ~ file: index.tsx ~ line 16 ~ data', data)
 
   return data ? (
     <div className={s.container}>
