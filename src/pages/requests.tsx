@@ -10,7 +10,6 @@ import {
   getMetrics,
   getAuth,
   getContactsMutable,
-  getContactsSearch,
   getMessagesRead,
   getPlaylists,
 } from 'src/api'
@@ -42,12 +41,6 @@ const Requests: React.FC = () => {
 
   const contactsMutableRequest = () => {
     getContactsMutable('00000000-0000-0000-0000-000000000000').then((res) =>
-      console.log('Get contacts mutable response -->', res)
-    )
-  }
-
-  const contactsSearchRequest = () => {
-    getContactsSearch('matt@work.example.com', 'Matthew').then((res) =>
       console.log('Get contacts mutable response -->', res)
     )
   }
@@ -112,17 +105,6 @@ const Requests: React.FC = () => {
             </Button>
           </div>
           <div className={s.right}>GET: /contacts/mutable</div>
-        </li>
-        <li className={s.item}>
-          <div className={s.left}>
-            <Button variant="contained" handler={contactsSearchRequest}>
-              Get contacts search request
-            </Button>
-          </div>
-          <div className={s.right}>
-            GET: /contacts/search. Query: email=matt@work.example.com ;
-            name=Matthew
-          </div>
         </li>
         <li className={s.item}>
           <div className={s.left}>
