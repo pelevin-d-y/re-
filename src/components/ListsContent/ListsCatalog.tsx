@@ -41,7 +41,6 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
 
       const playlistsWithContacts = playlistsData.data.map(
         (item: any, index) => {
-          console.log('item', item)
           let newItem = item
           newItem.contacts = contacts[index]
             ? Object.entries(contacts[index]).map(([id, contact]) =>

@@ -40,7 +40,7 @@ const Requests: React.FC = () => {
   }
 
   const contactsMutableRequest = () => {
-    getContactsMutable('00000000-0000-0000-0000-000000000000').then((res) =>
+    getContactsMutable(['00000000-0000-0000-0000-000000000000']).then((res) =>
       console.log('Get contacts mutable response -->', res)
     )
   }

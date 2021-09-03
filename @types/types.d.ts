@@ -267,7 +267,7 @@ type MainUserData = {
 }
 
 type Playlist = {
-  id: string
+  id?: string
   actions?: []
   contacts?: any[]
   inclusions?: []

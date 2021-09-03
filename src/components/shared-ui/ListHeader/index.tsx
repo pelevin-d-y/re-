@@ -5,6 +5,9 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
 import { postPlaylists } from 'src/api'
+import { useRouter } from 'next/router'
+import SvgIcon from '../SvgIcon'
+import Button from '../Button'
 
 type Props = {
   className?: string
@@ -13,6 +16,8 @@ type Props = {
 }
 
 const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
   const [fields, setFields] = useState({
     title: data.info?.name,
     description: data.info?.description,
@@ -24,21 +29,53 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
     setFields({ title: data.info?.name, description: data.info?.description })
   }, [data.contacts, data.info?.description, data.info?.name])
 
-  useEffect(() => {
-    if (
-      debounceFields.title !== data.title ||
-      debounceFields.description !== data.description
-    ) {
+  const createList = () => {
+    if (fields.title || fields.description) {
+      setIsLoading(true)
       postPlaylists([
         {
-          id: data.id,
           info: {
             name: debounceFields.title,
             description: debounceFields.description,
           },
         },
-      ]).catch((err) => console.log('ListHeader err =>', err))
+      ])
+        .then(() => {
+          setIsLoading(false)
+          router.push('/lists')
+        })
+        .catch((err) => {
+          setIsLoading(false)
+          console.log('ListHeader err =>', err)
+        })
     }
+  }
+
+  useEffect(() => {
+    const updatePlaylist = async () => {
+      if (
+        debounceFields.title !== data.title ||
+        debounceFields.description !== data.description
+      ) {
+        if (data.id) {
+          await postPlaylists([
+            {
+              id: data.id,
+              info: {
+                name: debounceFields.title,
+                description: debounceFields.description,
+              },
+            },
+          ]).catch((err) => {
+            setIsLoading(false)
+            console.log('ListHeader err =>', err)
+          })
+        }
+      }
+    }
+
+    updatePlaylist()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, debounceFields])
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +100,7 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   return (
     <div className={classNames(className, s.container)}>
       <PreviousPage text="Back to list" />
+
       <input
         className={s.title}
         name="title"
@@ -77,6 +115,16 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         defaultValue={fields.description || ''}
         onChange={handleDescChange}
       />
+
+      {!data.id && (
+        <Button
+          className={classNames(s.button, isLoading && s.disabled)}
+          variant="contained"
+          handler={() => createList()}
+        >
+          Save list
+        </Button>
+      )}
     </div>
   )
 }
@@ -118,6 +166,20 @@ const s = css`
     font-size: 14px;
     font-weight: var(--bold);
     color: var(--blue);
+  }
+
+  .inputWrapper {
+    position: relative;
+  }
+
+  .button {
+    max-width: 200px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .disabled {
+    pointer-events: none;
   }
 `
 
