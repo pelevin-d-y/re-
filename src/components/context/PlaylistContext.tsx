@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getContactsMutable, getPlaylist, postPlaylists } from 'src/api'
+import { getContactsMutable, getPlaylistsData, postPlaylists } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { useRouter } from 'next/router'
 
@@ -41,7 +41,9 @@ const PlaylistProvider: React.FC = ({ children }) => {
 
   const getPlaylistData = React.useCallback(async () => {
     try {
-      const playlist: any = await getPlaylist(router.query.id as string)
+      const playlist: any = await getPlaylistsData([
+        router.query.id,
+      ] as string[])
       const newPlaylist = playlist.data[0]
 
       if (newPlaylist.contacts.length > 0) {

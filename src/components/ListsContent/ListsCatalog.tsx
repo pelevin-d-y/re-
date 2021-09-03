@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
-import { getContactsMutable, getPlaylist, getPlaylists } from 'src/api'
+import { getContactsMutable, getPlaylistsData, getPlaylists } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import SectionsHeader from './ListsSectionsHeader'
 
@@ -20,15 +20,15 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
   const [lists, setLists] = useState<ListRequest[]>([])
 
   useEffect(() => {
-    const getPlaylistsData = async () => {
+    const getPlaylistsAsync = async () => {
       const playlistsIds = await getPlaylists()
-      const playlistsData = await Promise.all(
-        playlistsIds.data.map((item: string) => getPlaylist(item))
+      const playlistsData = await getPlaylistsData(
+        playlistsIds.data.map((item: string) => item)
       )
 
       const contactsResp: any = await Promise.all(
-        playlistsData.map((playlist: any) => {
-          const { contacts: playlistContacts } = playlist.data[0]
+        playlistsData.data.map((playlist: any) => {
+          const { contacts: playlistContacts } = playlist
           return playlistContacts.length > 0
             ? getContactsMutable(
                 playlistContacts.map((item: any) => item.contact_id)
@@ -39,21 +39,24 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
 
       const contacts = contactsResp.map((item: any) => item && item.data)
 
-      const playlistsWithContacts = playlistsData.map((item: any, index) => {
-        let newItem = item
-        newItem.data[0].contacts = contacts[index]
-          ? Object.entries(contacts[index]).map(([id, contact]) =>
-              formatContactData(contact as any, id)
-            )
-          : []
+      const playlistsWithContacts = playlistsData.data.map(
+        (item: any, index) => {
+          console.log('item', item)
+          let newItem = item
+          newItem.contacts = contacts[index]
+            ? Object.entries(contacts[index]).map(([id, contact]) =>
+                formatContactData(contact as any, id)
+              )
+            : []
 
-        return newItem
-      })
+          return newItem
+        }
+      )
 
       setLists(playlistsWithContacts)
     }
 
-    getPlaylistsData()
+    getPlaylistsAsync()
   }, [])
 
   const cardsStructure: CardsStructure = useMemo(() => {
@@ -65,10 +68,10 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
     lists?.map((item, index) => {
       const remainder = (index + 1) % 2
       if (remainder) {
-        return value.firstColumn.push(item.data[0])
+        return value.firstColumn.push(item)
       }
 
-      return value.secondColumn.push(item.data[0])
+      return value.secondColumn.push(item)
     })
 
     return value

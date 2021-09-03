@@ -94,10 +94,14 @@ const getPlaylists = () =>
     .then((res: ListsRequest) => res)
     .catch((err) => Promise.reject(err))
 
-const getPlaylist = (id: string) =>
-  apiGet(`${AWS_API}/playlists`, { id })
-    .then((res: ListRequest) => res)
+const getPlaylistsData = (ids: string[]) => {
+  const params = new URLSearchParams()
+  ids.forEach((id) => params.append('id', id))
+
+  return apiGet(`${AWS_API}/playlists`, params)
+    .then((res: { data: Lists }) => res)
     .catch((err) => Promise.reject(err))
+}
 
 const sendMessage = (data: SendMessageData) =>
   apiPost(`${AWS_API}/messages/send`, data)
@@ -134,7 +138,7 @@ export {
   postContactsSearch,
   getMessagesRead,
   getPlaylists,
-  getPlaylist,
+  getPlaylistsData,
   postPlaylists,
   postRecommendations,
 }
