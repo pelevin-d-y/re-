@@ -26,23 +26,26 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
         playlistsIds.data.map((item: string) => getPlaylist(item))
       )
 
-      const contacts: any = await Promise.all(
-        playlistsData.map((playlist: any) =>
-          Promise.all(
-            playlist.data[0].contacts.map((item: any) =>
-              getContactsMutable(item.contact_id)
-            )
-          )
-        )
+      const contactsResp: any = await Promise.all(
+        playlistsData.map((playlist: any) => {
+          const { contacts: playlistContacts } = playlist.data[0]
+          return playlistContacts.length > 0
+            ? getContactsMutable(
+                playlistContacts.map((item: any) => item.contact_id)
+              )
+            : null
+        })
       )
+
+      const contacts = contactsResp.map((item: any) => item && item.data)
+
       const playlistsWithContacts = playlistsData.map((item: any, index) => {
         let newItem = item
-        newItem.data[0].contacts = contacts[index].map((contact: any) =>
-          formatContactData(
-            Object.values(contact.data)[0] as any,
-            Object.keys(contact.data)[0]
-          )
-        )
+        newItem.data[0].contacts = contacts[index]
+          ? Object.entries(contacts[index]).map(([id, contact]) =>
+              formatContactData(contact as any, id)
+            )
+          : []
 
         return newItem
       })

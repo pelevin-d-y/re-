@@ -6,6 +6,7 @@ import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import Close from 'src/components/shared-ui/Close'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
@@ -25,14 +26,13 @@ type Props = {
 }
 
 const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
-  const { getPlaylistData, updateSelectedUsers, removeUsers } =
-    useTableContext()
+  const { setState: setSelectedUsers } = useTableContext()
+  const { removeUsers } = usePlaylist()
   const { dispatch } = usePopup()
 
   const contactHandler = (contactData: any) => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
   }
-
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
@@ -168,7 +168,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   )
 
   useEffect(() => {
-    updateSelectedUsers(selectedFlatRows.map((item) => item.original))
+    setSelectedUsers(selectedFlatRows.map((item) => item.original))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

@@ -39,9 +39,11 @@ const setToken = (token: string | null): void => {
   }
 }
 
-type Params = {
-  [key: string]: string
-}
+type Params =
+  | {
+      [key: string]: string
+    }
+  | URLSearchParams
 
 const apiGet = (url: string, params?: Params): Promise<any> =>
   instance.get(url, {
@@ -73,12 +75,14 @@ const getRecommendations = () =>
     .then((res: RecsResponse) => res.data.recommendations)
     .catch((err) => Promise.reject(err))
 
-const getContactsMutable = (id: string) =>
-  apiGet(`${AWS_API}/contacts/mutable`, {
-    id,
-  })
+const getContactsMutable = (ids: string[]) => {
+  const params = new URLSearchParams()
+  ids.forEach((id) => params.append('id', id))
+
+  return apiGet(`${AWS_API}/contacts/mutable`, params)
     .then((res) => res)
     .catch((err) => Promise.reject(err))
+}
 
 const getMessagesRead = (id: string) =>
   apiGet(`${AWS_API}/messages/read`, { id })

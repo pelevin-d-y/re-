@@ -4,7 +4,7 @@ import PreviousPage from 'src/components/shared-ui/PreviousPage'
 import TextareaAutosize from 'react-textarea-autosize'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
-import { getContactsMutable, postPlaylists } from 'src/api'
+import { postPlaylists } from 'src/api'
 
 type Props = {
   className?: string
@@ -17,8 +17,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
     title: data.info?.name,
     description: data.info?.description,
   })
-
-  const [contacts, setContacts] = useState<null | any[]>(null)
 
   const [debounceFields] = useDebounce(fields, 1000)
 
@@ -79,9 +77,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         defaultValue={fields.description || ''}
         onChange={handleDescChange}
       />
-      {contacts && (
-        <div className={s.userCount}>{contacts.length} Contacts</div>
-      )}
     </div>
   )
 }

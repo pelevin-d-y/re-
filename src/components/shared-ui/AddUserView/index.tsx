@@ -8,8 +8,8 @@ import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce'
 import { getContactsMutable, postContactsSearch } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
-import { useTable } from 'src/components/context/TableContext'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
 
 type Props = {
   className?: string
@@ -19,7 +19,7 @@ const AddUserView: React.FC<Props> = ({ className }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
   const [contacts, setContacts] = useState<any[]>([])
-  const { addUser: addUserToPlaylist } = useTable()
+  const { addUser: addUserToPlaylist } = usePlaylist()
 
   const ref = useRef(null)
 
@@ -30,7 +30,7 @@ const AddUserView: React.FC<Props> = ({ className }) => {
         const contactsResp = await Promise.all(
           searchResponse.data.flatMap((item: string, index: number) => {
             if (index < 20) {
-              return getContactsMutable(item)
+              return getContactsMutable([item])
             }
             return []
           })

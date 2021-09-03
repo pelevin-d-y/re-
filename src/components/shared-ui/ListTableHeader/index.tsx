@@ -7,6 +7,7 @@ import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContac
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
 
 type Props = {
   className?: string
@@ -21,19 +22,16 @@ const TableHeader: React.FC<Props> = ({
   addContact,
   removeContacts,
 }) => {
-  const {
-    state: { selected: selectedUsers },
-    removeUsers,
-  } = useTable()
+  const { state: selectedUsers } = useTable()
+  const { removeUsers } = usePlaylist()
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
 
   const removeUsersHandler = () => {
     if (removeContacts) {
-      removeContacts(selectedUsers)
+      removeContacts(selectedUsers as any)
     } else {
       removeUsers(selectedUsers)
-      console.log('data', selectedUsers)
     }
   }
 

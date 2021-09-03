@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
-import { useRouter } from 'next/router'
 import Table from 'src/components/shared-ui/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import ListHeader from 'src/components/shared-ui/ListHeader'
-import { getContactsMutable, getPlaylist } from 'src/api'
-import formatContactData from 'src/helpers/utils/format-contact-data'
-import { useTable } from 'src/components/context/TableContext'
-import ListRecs from '../shared-ui/ListRecs'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { TableProvider } from 'src/components/context/TableContext'
 
 const Content: React.FC = () => {
-  const {
-    state: { data },
-  } = useTable()
+  const { state: data } = usePlaylist()
 
   return data ? (
     <div className={s.container}>
       {data && <ListHeader data={data} />}
       <div className={s.content}>
-        {/* <ListRecs list={currentList} contacts={contacts} /> */}
-        {data && <TableHeader list={data} />}
-        {data && <Table data={data} />}
+        <TableProvider>
+          {/* <ListRecs list={currentList} contacts={contacts} /> */}
+          {data && <TableHeader list={data} />}
+          {data && <Table data={data} />}
+        </TableProvider>
       </div>
     </div>
   ) : null
