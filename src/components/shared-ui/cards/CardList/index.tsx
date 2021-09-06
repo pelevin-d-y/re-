@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
@@ -9,6 +9,7 @@ import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
+import Loader from '../../Loader'
 
 type Props = {
   className?: string
@@ -21,9 +22,16 @@ const CardList: React.FC<Props> = ({
 }) => {
   const router = useRouter()
   const { deletePlaylists } = usePlaylists()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const deleteHandler = () => {
-    deletePlaylists([id])
+  const deleteHandler = async () => {
+    try {
+      setIsLoading(true)
+      await deletePlaylists([id])
+      setIsLoading(false)
+    } catch (err) {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -66,6 +74,7 @@ const CardList: React.FC<Props> = ({
           View List
         </Button>
       </div>
+      {isLoading && <Loader />}
     </CardContainer>
   )
 }

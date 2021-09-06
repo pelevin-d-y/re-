@@ -49,6 +49,7 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
 const s = css`
   .button {
     position: relative;
+    overflow: hidden;
     display: inline-block;
     padding: 7px 11px;
     height: 32px;
