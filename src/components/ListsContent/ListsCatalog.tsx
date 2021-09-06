@@ -5,6 +5,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { usePlaylists } from 'src/components//context/PlaylistsContext'
 import SectionsHeader from './ListsSectionsHeader'
+import SvgIcon from '../shared-ui/SvgIcon'
 
 type Props = {
   className?: string
@@ -16,7 +17,9 @@ type CardsStructure = {
 }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
-  const { state: lists } = usePlaylists()
+  const {
+    state: { data: lists, isLoading },
+  } = usePlaylists()
 
   const cardsStructure: CardsStructure = useMemo(() => {
     const value: CardsStructure = {
@@ -47,6 +50,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
         iconColor="#0DB09D"
         link={{ text: 'Create New', href: '/create-list' }}
       />
+      {isLoading && <SvgIcon className={s.spinner} icon="spinner.svg" />}
       <div className={s.list}>
         <div className={s.column}>
           {cardsStructure.firstColumn.map((item: any) => (
@@ -85,6 +89,15 @@ const s = css`
 
   .card {
     margin-bottom: 15px;
+  }
+
+  .spinner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 100px;
+    color: var(--blue);
   }
 `
 
