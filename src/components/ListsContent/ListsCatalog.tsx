@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
-import { getContactsMutable, getPlaylistsData, getPlaylists } from 'src/api'
-import formatContactData from 'src/helpers/utils/format-contact-data'
+import { usePlaylists } from 'src/components//context/PlaylistsContext'
 import SectionsHeader from './ListsSectionsHeader'
 
 type Props = {
@@ -17,46 +16,7 @@ type CardsStructure = {
 }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
-  const [lists, setLists] = useState<ListRequest[]>([])
-
-  useEffect(() => {
-    const getPlaylistsAsync = async () => {
-      const playlistsIds = await getPlaylists()
-      const playlistsData = await getPlaylistsData(
-        playlistsIds.data.map((item: string) => item)
-      )
-
-      const contactsResp: any = await Promise.all(
-        playlistsData.data.map((playlist: any) => {
-          const { contacts: playlistContacts } = playlist
-          return playlistContacts.length > 0
-            ? getContactsMutable(
-                playlistContacts.map((item: any) => item.contact_id)
-              )
-            : null
-        })
-      )
-
-      const contacts = contactsResp.map((item: any) => item && item.data)
-
-      const playlistsWithContacts = playlistsData.data.map(
-        (item: any, index) => {
-          let newItem = item
-          newItem.contacts = contacts[index]
-            ? Object.entries(contacts[index]).map(([id, contact]) =>
-                formatContactData(contact as any, id)
-              )
-            : []
-
-          return newItem
-        }
-      )
-
-      setLists(playlistsWithContacts)
-    }
-
-    getPlaylistsAsync()
-  }, [])
+  const { state: lists } = usePlaylists()
 
   const cardsStructure: CardsStructure = useMemo(() => {
     const value: CardsStructure = {

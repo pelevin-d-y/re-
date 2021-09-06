@@ -1,11 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePopup } from 'src/components/context/PopupContext'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Img from 'src/components/shared-ui/Img'
 import Tasks from 'src/components/shared-ui/Tasks'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
@@ -20,10 +20,10 @@ const CardList: React.FC<Props> = ({
   data: { info, id, contacts, image, tasks },
 }) => {
   const router = useRouter()
+  const { deletePlaylists } = usePlaylists()
 
-  const { dispatch: popupDispatch } = usePopup()
-  const openDeletePopup = () => {
-    popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
+  const deleteHandler = () => {
+    deletePlaylists([id])
   }
 
   return (
@@ -55,7 +55,7 @@ const CardList: React.FC<Props> = ({
             },
             {
               name: 'Delete',
-              handler: openDeletePopup,
+              handler: deleteHandler,
             },
           ]}
         />

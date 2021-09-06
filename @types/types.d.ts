@@ -41,7 +41,7 @@ type List = {
 type Lists = List[]
 
 type ListRequest = {
-  data: string
+  data: any[]
   actions: any
   contacts: {
     contact_id: string

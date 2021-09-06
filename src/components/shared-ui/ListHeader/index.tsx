@@ -6,8 +6,8 @@ import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
 import { postPlaylists } from 'src/api'
 import { useRouter } from 'next/router'
-import SvgIcon from '../SvgIcon'
 import Button from '../Button'
+import Loader from '../Loader'
 
 type Props = {
   className?: string
@@ -40,9 +40,9 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
           },
         },
       ])
-        .then(() => {
+        .then((res) => {
           setIsLoading(false)
-          router.push('/lists')
+          router.push(`/list?id=${res.data[0].id}`)
         })
         .catch((err) => {
           setIsLoading(false)
@@ -97,9 +97,15 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
     }
   }
 
+  const isButtonActive = () =>
+    (!fields.title && !fields.description) || isLoading
+
   return (
     <div className={classNames(className, s.container)}>
-      <PreviousPage text="Back to list" />
+      <PreviousPage
+        text="Back to lists"
+        handler={() => router.push('/lists')}
+      />
 
       <input
         className={s.title}
@@ -115,14 +121,14 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         defaultValue={fields.description || ''}
         onChange={handleDescChange}
       />
-
       {!data.id && (
         <Button
-          className={classNames(s.button, isLoading && s.disabled)}
+          className={classNames(s.button)}
+          disabled={isButtonActive()}
           variant="contained"
           handler={() => createList()}
         >
-          Save list
+          {isLoading ? <Loader /> : 'Save list'}
         </Button>
       )}
     </div>
@@ -175,11 +181,12 @@ const s = css`
   .button {
     max-width: 200px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
-  .disabled {
-    pointer-events: none;
+  .loader {
+    width: 100%;
+    height: 100%;
   }
 `
 
