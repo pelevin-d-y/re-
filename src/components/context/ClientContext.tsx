@@ -73,28 +73,6 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('setClientData err', err)
-        // eslint-disable-next-line no-console
-        console.log('set testUsers')
-        const extendedUsers = addAdditionFields(testUsers)
-        const mainUserData = {
-          avatar: 'thor.jpeg',
-          emails: [
-            'thor@casualcorp.com',
-            'thor@alphahq.com',
-            'thor@strata.cc',
-            'thor@alpha-ux.co',
-          ],
-          fullName: 'Thor Ernstsson',
-          shortName: 'Thor',
-          contacts: extendedUsers,
-          strataEmail: 'strata.test0@gmail.com',
-        }
-
-        await set('client', mainUserData)
-        dispatch({
-          type: 'UPDATE_USER_DATA',
-          payload: mainUserData,
-        })
       }
     }
 

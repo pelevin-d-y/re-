@@ -87,7 +87,7 @@ const s = css`
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    padding: 21px 23px 23px 30px;
+    padding: 21px 23px 23px 20px;
 
     @include mobile {
       padding: 16px 12px;

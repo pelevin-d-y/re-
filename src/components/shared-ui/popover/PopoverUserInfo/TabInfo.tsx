@@ -33,10 +33,12 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
     updateUserData({ ...clientState, contacts: updatedContacts })
   }
 
+  const emails: string[] = data.emails ? data.emails : [data.address]
+
   return (
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
-        {data.emails.length > 0 && (
+        {emails.length > 0 && (
           <li className={s.item}>
             <div className={s.itemTitle}>
               <span>Email</span>
@@ -45,8 +47,8 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
             <EasyEdit
               type="text"
               className={s.valueInput}
-              value={data.emails[0]}
-              placeholder={data.emails[0]}
+              value={emails[0]}
+              placeholder={emails[0]}
               hideCancelButton
               validationMessage="Please provide a valid email"
               hideSaveButton
