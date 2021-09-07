@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -19,7 +19,19 @@ type CardsStructure = {
 const ListsCatalog: React.FC<Props> = ({ className }) => {
   const {
     state: { data: lists, isLoading },
+    getPlaylistsAsync,
+    dispatch,
   } = usePlaylists()
+
+  useEffect(() => {
+    const getPlaylists = async () => {
+      dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
+      await getPlaylistsAsync()
+      dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
+    }
+
+    getPlaylists()
+  }, [dispatch, getPlaylistsAsync])
 
   const cardsStructure: CardsStructure = useMemo(() => {
     const value: CardsStructure = {

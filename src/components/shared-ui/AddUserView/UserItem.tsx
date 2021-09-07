@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
@@ -27,6 +27,13 @@ const UserItem: React.FC<Props> = ({ className, data }) => {
         setIsLoading(false)
       })
   }
+
+  useEffect(
+    () => () => {
+      setIsLoading(false)
+    },
+    []
+  )
 
   return (
     <li className={classNames(s.container, className)}>

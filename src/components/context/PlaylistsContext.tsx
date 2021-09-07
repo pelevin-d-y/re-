@@ -17,6 +17,7 @@ type ContextType = {
   state: State
   dispatch: Dispatch
   deletePlaylists: (ids: string[]) => Promise<any>
+  getPlaylistsAsync: () => Promise<any>
 }
 
 const PlaylistsContext = React.createContext<ContextType | null>(null)
@@ -48,7 +49,6 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   })
 
   const getPlaylistsAsync = React.useCallback(async () => {
-    dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
     try {
       const playlistsIds = await getPlaylists()
       const playlistsData = await getPlaylistsData(
@@ -65,40 +65,42 @@ const PlaylistsProvider: React.FC = ({ children }) => {
             : null
         })
       )
+      return new Promise((resolve) => {
+        const contacts = contactsResp.map((item: any) => item && item.data)
 
-      const contacts = contactsResp.map((item: any) => item && item.data)
+        const playlistsWithContacts = playlistsData.data.map(
+          (item: any, index) => {
+            let newItem = item
+            newItem.contacts = contacts[index]
+              ? Object.entries(contacts[index]).map(([id, contact]) =>
+                  formatContactData(contact as any, id)
+                )
+              : []
 
-      const playlistsWithContacts = playlistsData.data.map(
-        (item: any, index) => {
-          let newItem = item
-          newItem.contacts = contacts[index]
-            ? Object.entries(contacts[index]).map(([id, contact]) =>
-                formatContactData(contact as any, id)
-              )
-            : []
+            return newItem
+          }
+        )
 
-          return newItem
-        }
-      )
-
-      dispatch({
-        type: 'UPDATE_PLAYLISTS_DATA',
-        payload: playlistsWithContacts,
+        dispatch({
+          type: 'UPDATE_PLAYLISTS_DATA',
+          payload: playlistsWithContacts,
+        })
+        resolve(playlistsWithContacts)
       })
     } catch (err) {
-      console.log('getPlaylistsAsync err ==>', err)
+      return new Promise((_, reject) => {
+        // eslint-disable-next-line no-console
+        console.log('getPlaylistsAsync err ==>', err)
+        reject(new Error(err))
+      })
     }
-    dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
   }, [])
-
-  React.useEffect(() => {
-    getPlaylistsAsync()
-  }, [getPlaylistsAsync])
 
   const deletePlaylists = React.useCallback(
     (ids: string[]) =>
       postPlaylists(ids.map((item) => ({ id: item })))
         .then(() => getPlaylistsAsync())
+        // eslint-disable-next-line no-console
         .catch((err) => console.log('deletePlaylists err', err)),
     [getPlaylistsAsync]
   )
@@ -108,8 +110,9 @@ const PlaylistsProvider: React.FC = ({ children }) => {
       state,
       dispatch,
       deletePlaylists,
+      getPlaylistsAsync,
     }),
-    [deletePlaylists, state]
+    [deletePlaylists, getPlaylistsAsync, state]
   )
 
   return (

@@ -51,11 +51,17 @@ const Row: React.FC<Props> = ({ className, row, ...restProps }) => {
           </td>
         )
       })}
-      <Close
-        className={s.removeButton}
-        handler={(e: React.MouseEvent) => removeUser(e, row.original)}
-      />
-      {isLoading && <Loader />}
+      <td>
+        <Close
+          className={s.removeButton}
+          handler={(e: React.MouseEvent) => removeUser(e, row.original)}
+        />
+      </td>
+      {isLoading && (
+        <td>
+          <Loader />
+        </td>
+      )}
     </tr>
   )
 }

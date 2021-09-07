@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import ListsSidebar from 'src/components/ListsContent/ListsSidebar'
 import ListsCatalog from './ListsCatalog'
 import ListsContacts from './ListsContacts'
