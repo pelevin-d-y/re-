@@ -266,6 +266,15 @@ type MainUserData = {
   contacts?: UserData[]
 }
 
+type FormattedContacts = {
+  emails?: string[]
+  shortName?: string
+  fullName?: string
+  strataEmail?: string
+  avatar?: string
+  id: string
+}
+
 type Playlist = {
   id?: string
   actions?: []

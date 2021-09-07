@@ -14,8 +14,8 @@ type ContextType = {
   dispatch: Dispatch
   getPlaylistData: () => void
   updatePlaylist: (list: any) => void
-  removeUsers: (userData: any) => void
-  addUser: (user: any) => void
+  removeUsers: (userData: any) => Promise<any>
+  addUser: (user: any) => Promise<any>
 }
 
 const PlaylistContext = React.createContext<ContextType | null>(null)
@@ -64,7 +64,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const removeUsers = React.useCallback(
     (users: any[]) => {
       if (state?.id) {
-        postPlaylists([
+        return postPlaylists([
           {
             id: state.id,
             contacts: users.map((item) => ({
@@ -76,6 +76,9 @@ const PlaylistProvider: React.FC = ({ children }) => {
           .then(() => getPlaylistData())
           .catch((err: any) => console.log('removeUser err =>', err))
       }
+      return new Promise((resolve, reject) =>
+        reject(new Error('List id is undefined'))
+      )
     },
     [state?.id, getPlaylistData]
   )
@@ -83,7 +86,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const addUser = React.useCallback(
     (user) => {
       if (state?.id) {
-        postPlaylists([
+        return postPlaylists([
           {
             id: state.id,
             contacts: [
@@ -97,6 +100,10 @@ const PlaylistProvider: React.FC = ({ children }) => {
           .then(() => getPlaylistData())
           .catch((err: any) => console.log('addUser err =>', err))
       }
+
+      return new Promise((resolve, reject) =>
+        reject(new Error('List id is undefined'))
+      )
     },
     [state?.id, getPlaylistData]
   )

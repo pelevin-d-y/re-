@@ -5,6 +5,7 @@ import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { TableProvider } from 'src/components/context/TableContext'
+import Loader from '../shared-ui/Loader'
 
 const Content: React.FC = () => {
   const { state: data } = usePlaylist()
@@ -20,7 +21,11 @@ const Content: React.FC = () => {
         </TableProvider>
       </div>
     </div>
-  ) : null
+  ) : (
+    <div className={s.loader}>
+      <Loader />
+    </div>
+  )
 }
 
 const s = css`
@@ -30,6 +35,11 @@ const s = css`
     display: flex;
     flex-flow: column nowrap;
     background: var(--white);
+  }
+
+  .loader {
+    position: relative;
+    height: 100px;
   }
 `
 

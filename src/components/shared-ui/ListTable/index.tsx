@@ -5,19 +5,15 @@ import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
-import { usePopup } from 'src/components/context/PopupContext'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import Close from 'src/components/shared-ui/Close'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Search from 'src/components/shared-ui/Search'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
-import { postPlaylists } from 'src/api'
 import Checkbox from './Checkbox'
 import AddUserView from '../AddUserView'
+import Row from './Row'
 
 type Props = {
   className?: string
@@ -27,25 +23,11 @@ type Props = {
 
 const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const { setState: setSelectedUsers } = useTableContext()
-  const { removeUsers } = usePlaylist()
-  const { dispatch } = usePopup()
-
-  const contactHandler = (contactData: any) => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
-  }
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
     console.log('userData', userData)
   }, [])
-
-  const removeUser = useCallback(
-    (e: React.MouseEvent, userData: any[]) => {
-      e.stopPropagation()
-      removeUsers([userData])
-    },
-    [removeUsers]
-  )
 
   const columns: Column<any>[] = useMemo(
     () => [
@@ -118,19 +100,8 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           )
         },
       },
-      {
-        Header: () => <Close className={s.headerButton} handler={() => null} />,
-        id: 'row-button',
-        width: 'auto',
-        Cell: ({ row }: any) => (
-          <Close
-            className={s.removeButton}
-            handler={(e: React.MouseEvent) => removeUser(e, row.original)}
-          />
-        ),
-      },
     ],
-    [removeUser, updateUser]
+    [updateUser]
   )
 
   const {
@@ -180,7 +151,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             const { key, ...restHeaderGroupProps } =
               headerGroup.getHeaderGroupProps()
             return (
-              <tr {...restHeaderGroupProps} key={key}>
+              <tr {...restHeaderGroupProps} className={s.tableRow} key={key}>
                 {headerGroup.headers.map((column) => {
                   const { key: keyHeader, ...restHeaderProps } =
                     column.getHeaderProps()
@@ -204,21 +175,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             const { key, ...restProps } = row.getRowProps()
             restProps.style = { ...restProps.style, borderColor: 'red' }
             return (
-              <tr
-                onClick={() => contactHandler(row.original)}
-                className={s.row}
-                {...restProps}
-                key={key}
-              >
-                {row.cells.map((cell) => {
-                  const { key: cellKey, ...restCellProps } = cell.getCellProps()
-                  return (
-                    <td className={s.cell} {...restCellProps} key={cellKey}>
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
-              </tr>
+              <Row row={row} className={s.tableRow} key={key} {...restProps} />
             )
           })}
         </tbody>
@@ -263,12 +220,8 @@ const s = css`
     }
   }
 
-  .row {
-    position: relative;
-    cursor: pointer;
-    align-items: center;
-
-    border-left: 4px;
+  .tableRow {
+    padding-right: 50px;
   }
 
   .headerButton {
@@ -289,15 +242,6 @@ const s = css`
 
   .header_All {
     color: var(--blue);
-  }
-
-  .cell {
-    display: table-cell;
-    padding: 28px 19px;
-
-    &:first-child {
-      max-width: 55px !important;
-    }
   }
 
   .emptyCardContainer {
@@ -343,23 +287,6 @@ const s = css`
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
-  }
-
-  .removeButton {
-    opacity: 0;
-  }
-
-  tr:hover .removeButton {
-    opacity: 1;
-  }
-
-  .search {
-    max-width: 309px;
-    width: 100%;
-
-    @include mobile {
-      width: 80%;
-    }
   }
 
   .lastData {

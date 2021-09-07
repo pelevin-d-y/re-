@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
-import Button from 'src/components/shared-ui/Button'
+
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
-import Avatar from 'src/components/shared-ui/Avatar'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce'
 import { getContactsMutable, postContactsSearch } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
+import UserItem from './UserItem'
+import Loader from '../Loader'
 
 type Props = {
   className?: string
@@ -18,30 +18,35 @@ type Props = {
 const AddUserView: React.FC<Props> = ({ className }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
-  const [contacts, setContacts] = useState<any[]>([])
-  const { addUser: addUserToPlaylist } = usePlaylist()
+  const [isLoading, setIsLoading] = useState(false)
+  const [contacts, setContacts] = useState<FormattedContacts[]>([])
 
   const ref = useRef(null)
 
   useEffect(() => {
     if (searchValue) {
       const search = async () => {
-        const searchResponse = await postContactsSearch(searchValue)
-        const contactsResp = await Promise.all(
-          searchResponse.data.flatMap((item: string, index: number) => {
-            if (index < 20) {
-              return getContactsMutable([item])
-            }
-            return []
-          })
-        )
-        const formattedContacts = contactsResp.map((contact: any) =>
-          formatContactData(
-            Object.values(contact.data)[0] as any,
-            Object.keys(contact.data)[0]
-          )
-        )
-        setContacts(formattedContacts)
+        setIsLoading(true)
+        try {
+          const searchResponse = await postContactsSearch(searchValue)
+          let formattedContacts: FormattedContacts[] | [] = []
+
+          if (searchResponse.data.length > 0) {
+            const contactsResp = await getContactsMutable(
+              searchResponse.data.map((item: any) => item)
+            )
+            formattedContacts = Object.entries(contactsResp.data).map(
+              ([id, contact]) => formatContactData(contact as any, id)
+            )
+          }
+
+          setIsLoading(false)
+          setContacts(formattedContacts)
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.log('search err ==>', err)
+          setIsLoading(false)
+        }
       }
       search()
     } else {
@@ -55,10 +60,6 @@ const AddUserView: React.FC<Props> = ({ className }) => {
 
   const searchHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setSearchState(evt.target.value)
-  }
-
-  const addUser = (user: any) => {
-    addUserToPlaylist(user)
   }
 
   return (
@@ -76,21 +77,13 @@ const AddUserView: React.FC<Props> = ({ className }) => {
         onChange={searchHandler}
       />
       <ul className={s.list}>
-        {contacts?.map((item) => (
-          <li className={s.item} key={item.id}>
-            <div className={s.profile}>
-              <Avatar className={s.avatar} image={item.avatar} />
-              <span className={s.name}>{item.fullName}</span>
-            </div>
-            <Button
-              className={s.button}
-              variant="outlined"
-              handler={() => addUser(item)}
-            >
-              add
-            </Button>
-          </li>
-        ))}
+        {isLoading ? (
+          <div className={s.loader}>
+            <Loader />
+          </div>
+        ) : (
+          contacts?.map((item) => <UserItem data={item} key={item.id} />)
+        )}
       </ul>
     </CardContainer>
   )
@@ -106,33 +99,14 @@ const s = css`
   }
 
   .list {
+    position: relative;
     list-style: none;
     padding: 0;
   }
 
-  .item {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 0;
-    border-bottom: 1px solid #f6f6f6;
-  }
-
-  .profile {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-  }
-
-  .avatar {
-    margin-right: 22px;
-  }
-
-  .name {
-    font-size: 14px;
-    line-height: 17px;
-    font-weight: var(--bold);
+  .loader {
+    width: 100%;
+    height: 70px;
   }
 
   .container.active {

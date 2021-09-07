@@ -10,9 +10,9 @@ type Props = {
 }
 
 const useCombinedRefs = (...refs: any[]): React.MutableRefObject<any> => {
-  const targetRef = React.useRef()
+  const targetRef = useRef()
 
-  React.useEffect(() => {
+  useEffect(() => {
     refs.forEach((ref) => {
       if (!ref) return
 
