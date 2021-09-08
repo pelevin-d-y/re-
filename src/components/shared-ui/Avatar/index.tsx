@@ -50,7 +50,6 @@ const s = css`
     box-sizing: content-box;
     flex: 0 0 auto;
     border-radius: 50%;
-    overflow: hidden;
     background: var(--white);
     &::after {
       content: '';
@@ -76,6 +75,8 @@ const s = css`
   .svgIcon {
     width: 100%;
     height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
   }
 
   .red {

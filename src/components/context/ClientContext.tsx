@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { get, set } from 'idb-keyval'
 import { getAuth, getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
@@ -14,8 +13,6 @@ type ContextType = {
   dispatch: React.Dispatch<Action>
   updateUserData: (data: MainUserData) => void
 }
-
-const DB_STORE_NAME = 'client'
 
 const ClientContext = React.createContext<ContextType | null>(null)
 
@@ -59,17 +56,11 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
   React.useEffect(() => {
     const setClientData = async () => {
       try {
-        const clientData = await get('client')
-        if (clientData) {
-          dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
-        } else {
-          const mainUserData = await getMainUserData()
-          await set('client', mainUserData)
-          dispatch({
-            type: 'UPDATE_USER_DATA',
-            payload: mainUserData,
-          })
-        }
+        const mainUserData = await getMainUserData()
+        dispatch({
+          type: 'UPDATE_USER_DATA',
+          payload: mainUserData,
+        })
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('setClientData err', err)
@@ -80,12 +71,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
   }, [])
 
   const updateUserData = async (data: MainUserData) => {
-    set(DB_STORE_NAME, data)
-      .then(() => {
-        dispatch({ type: 'UPDATE_USER_DATA', payload: data })
-      })
-      // eslint-disable-next-line no-console
-      .catch((err) => console.error(err))
+    dispatch({ type: 'UPDATE_USER_DATA', payload: data })
   }
 
   const value: ContextType = React.useMemo(

@@ -9,6 +9,7 @@ const AWS_API =
 
 const defaultOptions = {
   headers: {
+    Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 }

@@ -58,11 +58,11 @@ const AuthProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     const token = getIdToken()
     if (token) {
+      setToken(token)
       dispatch({
         type: 'UPDATE_AUTH_DATA',
         payload: { isSignedIn: true, tokenChecked: true },
       })
-      setToken(token)
     } else {
       document.location.href = logInLink
     }

@@ -23,7 +23,7 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
     description: data.info?.description,
   })
 
-  const [debounceFields] = useDebounce(fields, 1000)
+  const [debounceFields] = useDebounce(fields, 500)
 
   useEffect(() => {
     setFields({ title: data.info?.name, description: data.info?.description })
@@ -35,8 +35,8 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
       postPlaylists([
         {
           info: {
-            name: debounceFields.title,
-            description: debounceFields.description,
+            name: fields.title,
+            description: fields.description,
           },
         },
       ])

@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Img from './Img'
+import Img from '../Img'
 
 type Props = {
   className?: string

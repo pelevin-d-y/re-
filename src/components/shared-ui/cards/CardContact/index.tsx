@@ -48,7 +48,7 @@ const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
           {templateData && (
             <UserHeader
               className={s.description}
-              text={parseEmailMessage(templateData.Header, name)}
+              text={parseEmailMessage(templateData.Action, name)}
             />
           )}
         </div>

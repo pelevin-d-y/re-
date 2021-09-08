@@ -7,9 +7,9 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import Button from 'src/components/shared-ui/Button'
 import { useLists } from 'src/components/context/ListsContext'
+import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import UpcomingHeader from './UpcomingHeader'
 import UpcomingItem from './UpcomingItem'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 
 type Props = {
   className?: string

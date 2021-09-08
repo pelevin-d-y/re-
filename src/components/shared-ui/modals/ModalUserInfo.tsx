@@ -8,21 +8,22 @@ import UserHeader from '../UserHeader'
 
 type Props = {
   className?: string
-  data: UserData
+  data: any
 }
 
 const ModalUserInfo: React.FC<Props> = ({
   className,
-  data: { avatar, name, templateData, relationshipStrength },
+  data: { avatar, name, fullName, templateData, relationshipStrength },
 }) => {
-  const parsedText = templateData && parseMessage(templateData.Summary, name)
+  const parsedText = templateData && parseMessage(templateData.Subject, name)
+  const userName = fullName || name
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.info}>
           <Avatar strength={relationshipStrength} image={avatar || null} />
           <div className={s.profileInfo}>
-            <div className={s.name}>{name || '<unknown>'}</div>
+            <div className={s.name}>{userName || '<unknown>'}</div>
             <div className={s.profileType}>Founder at Company X</div>
           </div>
         </div>

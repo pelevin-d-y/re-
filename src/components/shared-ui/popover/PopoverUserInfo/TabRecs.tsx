@@ -41,7 +41,7 @@ const TabRecs: React.FC<Props> = ({ className }) => {
                 <div className={s.description}>
                   {item.templateData && (
                     <UserHeader
-                      text={parseMessage(item.templateData.Header, item.name)}
+                      text={parseMessage(item.templateData.Subject, item.name)}
                     />
                   )}
                 </div>

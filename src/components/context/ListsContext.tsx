@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { get, set } from 'idb-keyval'
 import createTestLists from 'src/helpers/utils/create-test-lists'
 import { useClient } from './ClientContext'
 
@@ -17,8 +16,6 @@ type ContextType = {
   addList: (list: List) => void
   updateList: (list: List) => void
 }
-
-const DB_STORE_NAME = 'lists'
 
 const ListsContext = React.createContext<ContextType | null>(null)
 
@@ -38,19 +35,8 @@ const setInitialLists = async (
   contacts: UserData[],
   dispatch: React.Dispatch<Action>
 ) => {
-  try {
-    const listsData = await get(DB_STORE_NAME)
-    if (listsData) {
-      dispatch({ type: 'SET_LISTS', lists: listsData })
-    } else {
-      const lists = createTestLists(contacts)
-      await set(DB_STORE_NAME, lists)
-      dispatch({ type: 'SET_LISTS', lists })
-    }
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error('err', err)
-  }
+  const lists = createTestLists(contacts)
+  dispatch({ type: 'SET_LISTS', lists })
 }
 
 const ListsProvider: React.FC = ({ children }) => {
@@ -76,12 +62,7 @@ const ListsProvider: React.FC = ({ children }) => {
           return stateList
         }) || null
 
-      set(DB_STORE_NAME, newLists)
-        .then(() => {
-          dispatch({ type: 'SET_LISTS', lists: newLists })
-        })
-        // eslint-disable-next-line no-console
-        .catch((err) => console.error(err))
+      dispatch({ type: 'SET_LISTS', lists: newLists })
     },
     [state]
   )
@@ -89,12 +70,7 @@ const ListsProvider: React.FC = ({ children }) => {
   const addList = React.useCallback(
     async (list: List) => {
       const newLists = [...(state as []), list]
-      set(DB_STORE_NAME, newLists)
-        .then(() => {
-          dispatch({ type: 'SET_LISTS', lists: newLists })
-        })
-        // eslint-disable-next-line no-console
-        .catch((err) => console.error(err))
+      dispatch({ type: 'SET_LISTS', lists: newLists })
     },
     [state]
   )
@@ -104,12 +80,7 @@ const ListsProvider: React.FC = ({ children }) => {
       const newLists =
         state?.filter((stateList) => stateList.id !== list.id) || null
 
-      set(DB_STORE_NAME, newLists)
-        .then(() => {
-          dispatch({ type: 'SET_LISTS', lists: newLists })
-        })
-        // eslint-disable-next-line no-console
-        .catch((err) => console.error(err))
+      dispatch({ type: 'SET_LISTS', lists: newLists })
     },
     [state]
   )

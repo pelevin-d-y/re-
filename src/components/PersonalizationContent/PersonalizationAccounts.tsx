@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
 import GoogleAuth from 'src/components/shared-ui/GoogleAuth'
+import { getAuth } from 'src/api'
+
 import Socials from './Socials'
 
 type Props = {
@@ -12,6 +14,13 @@ type Props = {
 
 const Accounts: React.FC<Props> = ({ className, data }) => {
   const addresses = data?.emails
+
+  useEffect(() => {
+    const getAuthAsync = () => {
+      getAuth().then((res) => console.log('res', res))
+    }
+    getAuthAsync()
+  })
 
   return (
     <div className={classNames(className, s.container)}>
