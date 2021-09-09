@@ -240,7 +240,10 @@ type RecsResponse = {
 }
 
 type MainUserData = {
-  emails?: string[]
+  emails?: any
+  authData?: any[]
+  syncedEmails?: string[]
+  unsyncEmails?: string[]
   shortName?: string
   fullName?: string
   strataEmail?: string

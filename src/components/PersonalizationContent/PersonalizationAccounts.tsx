@@ -13,25 +13,29 @@ type Props = {
 }
 
 const Accounts: React.FC<Props> = ({ className, data }) => {
-  const addresses = data?.emails
-
-  useEffect(() => {
-    const getAuthAsync = () => {
-      getAuth().then((res) => console.log('res', res))
-    }
-    getAuthAsync()
-  })
+  const addresses = data?.authData
+    ? Object.entries(data.authData).map(([key, value]) => ({
+        email: key,
+        status: value as number,
+      }))
+    : []
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <span className={s.subtitle}>Email Sync ({addresses?.length})</span>
+        <span className={s.subtitle}>
+          Email Sync ({data?.syncedEmails?.length})
+        </span>
         <span className={s.headerAdd}>+ Add account</span>
       </div>
       <div className={s.syncAccounts}>
-        {addresses && addresses.length > 0 ? (
+        {addresses ? (
           addresses?.map((address) => (
-            <GoogleEmail key={address} className={s.account} email={address} />
+            <GoogleEmail
+              key={address.email}
+              className={s.account}
+              data={address}
+            />
           ))
         ) : (
           <div className={s.emptyAccounts}>

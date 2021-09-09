@@ -132,6 +132,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
       })
       .catch((err) => {
         dispatch({ type: 'updateSendingStatus' })
+        // eslint-disable-next-line no-alert
         alert(err)
       })
   }

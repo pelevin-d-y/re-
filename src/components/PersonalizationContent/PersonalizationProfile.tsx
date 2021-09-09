@@ -28,7 +28,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data.emails,
+          profileEmail: data.syncedEmails,
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -160,7 +160,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                 <div className={s.recomFields}>
                   <div className={s.recomField}>
                     <Field name="Cadence">
-                      {({ field, form, meta }: FieldProps) => (
+                      {() => (
                         <Selector
                           styles={{
                             container: {
@@ -181,7 +181,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                   </div>
                   <div className={s.recomField}>
                     <Field name="RecommendationsWeekly">
-                      {({ field, form, meta }: FieldProps) => (
+                      {() => (
                         <Selector
                           styles={{
                             container: {

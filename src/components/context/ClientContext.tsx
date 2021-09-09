@@ -30,6 +30,30 @@ const clientReducer = (state: State, action: Action): State => {
   }
 }
 
+const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
+  const data: MainUserData = {
+    ...clientData,
+    authData,
+    syncedEmails: [],
+    unsyncEmails: [],
+  }
+
+  Object.entries(authData).forEach(([email, status]) => {
+    if (status === 2) {
+      if (data.syncedEmails) {
+        data.syncedEmails.push(email)
+      }
+    }
+    if (status === 1) {
+      if (data.unsyncEmails) {
+        data.unsyncEmails.push(email)
+      }
+    }
+  })
+
+  return data
+}
+
 const getMainUserData = async () => {
   const requests = await Promise.all([
     getRecommendations(),
@@ -39,12 +63,12 @@ const getMainUserData = async () => {
 
   const [recommendations, contactResponse, authResponse] = requests
   const extendedUsers = addAdditionFields(recommendations)
+  const formattedClientData = formatContactData(contactResponse.data)
+  const clientData = addAuthData(formattedClientData, authResponse.data)
   const mainUserData: MainUserData = {
-    ...formatContactData(contactResponse.data),
-    avatar: 'thor.jpeg',
+    ...clientData,
     contacts:
       extendedUsers.length < 10 ? addAdditionFields(testUsers) : extendedUsers, // have to remove when API is fixed
-    strataEmail: Object.keys(authResponse.data)[0],
   }
 
   return mainUserData
