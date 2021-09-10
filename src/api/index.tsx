@@ -90,6 +90,11 @@ const getContactsMutable = (ids: string[]) => {
     .catch((err) => Promise.reject(err))
 }
 
+const getContactsMessages = (id: string) =>
+  apiGet(`${AWS_API}/contacts/messages`, { id })
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
 const getMessagesRead = (id: string) =>
   apiGet(`${AWS_API}/messages/read`, { id })
     .then((res) => res)
@@ -142,6 +147,7 @@ export {
   getMetrics,
   getContact,
   getContactsMutable,
+  getContactsMessages,
   postContactsSearch,
   getMessagesRead,
   getPlaylists,

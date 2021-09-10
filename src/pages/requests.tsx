@@ -12,6 +12,7 @@ import {
   getContactsMutable,
   getMessagesRead,
   getPlaylists,
+  getContactsMessages,
 } from 'src/api'
 
 const Requests: React.FC = () => {
@@ -52,6 +53,12 @@ const Requests: React.FC = () => {
   const messagesReadRequest = () => {
     getMessagesRead('20rdy2g0n3k312gbzni5g5rt7:cf8bv53sf7jkl29ddrt7296vk').then(
       (res) => console.log('Get message read response -->', res)
+    )
+  }
+
+  const messagesRequest = () => {
+    getContactsMessages('da4566fc-0499-11ec-8a41-40e2303c218c').then((res) =>
+      console.log('Get messagesRequest response -->', res)
     )
   }
 
@@ -127,11 +134,11 @@ const Requests: React.FC = () => {
         </li>
         <li className={s.item}>
           <div className={s.left}>
-            <img
-              src="https://api.nylas.com/contacts/dlcr4ee37iy3w97tf5j801i8f/picture"
-              alt="nylas img"
-            />
+            <Button variant="contained" handler={messagesRequest}>
+              Get contacts messages
+            </Button>
           </div>
+          <div className={s.right}>GET: /contacts/messages </div>
         </li>
       </ul>
     </Layout>
