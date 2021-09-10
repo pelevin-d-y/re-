@@ -30,7 +30,7 @@ const Header: React.FC<Props> = ({ toggleMenu, className }) => {
           inputPlaceholder="Search..."
         />
         {state?.emails && <HeaderProfile className={s.profile} />}
-        <PopoverNotifications />
+        {/* <PopoverNotifications /> */}
       </div>
     </header>
   )

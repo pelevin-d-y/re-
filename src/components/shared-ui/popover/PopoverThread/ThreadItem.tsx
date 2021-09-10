@@ -12,7 +12,7 @@ type Props = {
   clientName?: string
 }
 
-const ThreadItem: React.FC<Props> = ({ className, data, clientName }) => (
+const ThreadItem: React.FC<Props> = ({ className, data }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.header}>
       <div className={s.profile}>
@@ -28,20 +28,16 @@ const ThreadItem: React.FC<Props> = ({ className, data, clientName }) => (
           format(parseISO(data.last_contact_time), 'MMMM dd, yyyy')}
       </div>
     </div>
-    {data.templateData?.Message ? (
+    {data.last_client_text ? (
       <div
         className={s.message}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: parseMessage(
-            data.templateData?.Message,
-            data.name,
-            clientName
-          ),
+          __html: data.last_client_text,
         }}
       />
     ) : (
-      <div className={s.message}>Empty message</div>
+      <div className={s.message}>last message not found</div>
     )}
   </div>
 )

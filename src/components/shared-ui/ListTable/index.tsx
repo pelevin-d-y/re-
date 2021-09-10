@@ -84,7 +84,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             >
               <EasyEdit
                 type="text"
-                value={value || restValue || 'Note'}
+                value={value || restValue || '...'}
                 placeholder={value}
                 hideCancelButton
                 hideSaveButton

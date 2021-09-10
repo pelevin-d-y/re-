@@ -9,9 +9,10 @@ import ThreadItem from './ThreadItem'
 
 type Props = {
   className?: string
+  data?: UserData
 }
 
-const PopoverThread: React.FC<Props> = ({ className }) => {
+const PopoverThread: React.FC<Props> = ({ className, data }) => {
   const { state } = useClient()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -39,8 +40,9 @@ const PopoverThread: React.FC<Props> = ({ className }) => {
           </div>
           <div className={s.main}>
             <ul className={s.list}>
-              {state?.contacts &&
-                state.contacts.map((item) => (
+              {data &&
+                state &&
+                [data].map((item) => (
                   <li className={s.item} key={item.address}>
                     <ThreadItem data={item} clientName={state.fullName} />
                   </li>

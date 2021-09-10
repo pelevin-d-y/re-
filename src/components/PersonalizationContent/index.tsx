@@ -27,7 +27,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           <PersonalizationSection className={s.section} title="Accounts">
             <Accounts data={clientState} />
           </PersonalizationSection>
-          <PersonalizationSection className={s.section} title="Password">
+          {/* <PersonalizationSection className={s.section} title="Password">
             <PasswordChangeForm />
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Subscription">
@@ -38,7 +38,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
           </PersonalizationSection>
           <PersonalizationSection className={s.section} title="Invites">
             <PersonalizationInvites />
-          </PersonalizationSection>
+          </PersonalizationSection> */}
         </>
       ) : null}
     </div>

@@ -94,7 +94,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
             </div>
           </li>
         )}
-        {data.last_client_text && (
+        {data.last_contact_text && (
           <li className={s.item}>
             <div className={s.itemTitle}>
               <span>Last Outreach</span>

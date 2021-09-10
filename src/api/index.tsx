@@ -66,6 +66,11 @@ const getAuth = () =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
+const getAuthUrl = (ids?: string[]) =>
+  apiGet(`${AWS_API}/client/authorization_url`)
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
 const getContact = () =>
   apiGet(`${AWS_API}/client/contact`)
     .then((res) => res)
@@ -133,6 +138,7 @@ export {
   sendMessage,
   getRecommendations,
   getAuth,
+  getAuthUrl,
   getMetrics,
   getContact,
   getContactsMutable,
