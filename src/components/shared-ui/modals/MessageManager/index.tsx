@@ -8,7 +8,6 @@ import EditorActions from 'src/components/shared-ui/EditorActions'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { LS_ID_TOKEN } from 'src/helpers/variables'
 import { sendMessage } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
@@ -95,11 +94,15 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
   }, [contactName, template, clientState, clientName])
 
   useEffect(() => {
+    const syncedEmail =
+      clientState?.syncedEmails && clientState?.syncedEmails.length > 0
+        ? clientState?.syncedEmails[0]
+        : undefined
+
     dispatch({
       type: 'updateBody',
       payload: {
-        client_id: localStorage.getItem(LS_ID_TOKEN) || undefined,
-        from_contact: clientState?.strataEmail,
+        from_contact: syncedEmail,
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, contactName),
@@ -113,16 +116,11 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
           : [],
       },
     })
-  }, [
-    clientState?.emails,
-    clientState?.strataEmail,
-    addressTo,
-    contactName,
-    data.templateData,
-  ])
+  }, [addressTo, contactName, data.templateData, clientState?.syncedEmails])
 
   const sendEmail = async () => {
     dispatch({ type: 'updateSendingStatus' })
+
     sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
