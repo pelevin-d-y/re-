@@ -3,6 +3,7 @@ import { getAuth, getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import { useQuery } from 'react-query'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
 
@@ -54,6 +55,11 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
   return data
 }
 
+// useQuery({
+//   queryKey: 'getMainUserData',
+//   queryFn: fetchTodo,
+// })
+
 const getMainUserData = async () => {
   const requests = await Promise.all([
     getRecommendations(),
@@ -76,6 +82,11 @@ const getMainUserData = async () => {
 
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
   const [state, dispatch] = React.useReducer(clientReducer, null)
+
+  // useQuery({
+  //   queryKey: 'getMainUserData',
+  //   queryFn: fetchTodo,
+  // })
 
   React.useEffect(() => {
     const setClientData = async () => {
