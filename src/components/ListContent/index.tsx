@@ -1,36 +1,31 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
-import { useRouter } from 'next/router'
-import { useLists } from 'src/components/context/ListsContext'
-import { TableProvider } from 'src/components/context/TableContext'
 import Table from 'src/components/shared-ui/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import ListHeader from 'src/components/shared-ui/ListHeader'
-import ListRecs from '../shared-ui/ListRecs'
-import { useClient } from '../context/ClientContext'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { TableProvider } from 'src/components/context/TableContext'
+import Loader from '../shared-ui/Loader'
 
 const Content: React.FC = () => {
-  const router = useRouter()
-  const { state: listsState } = useLists()
-  const { state: clientState } = useClient()
+  const { state: data } = usePlaylist()
 
-  const currentList = listsState?.find(
-    (list) => Number(list.id) === Number(router.query.id)
-  )
-  const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
-
-  return currentList ? (
+  return data ? (
     <div className={s.container}>
-      <ListHeader data={currentList} />
+      {data && <ListHeader data={data} />}
       <div className={s.content}>
         <TableProvider>
-          <ListRecs list={currentList} contacts={contacts} />
-          <TableHeader list={currentList} />
-          <Table data={currentList} />
+          {/* <ListRecs list={currentList} contacts={contacts} /> */}
+          {data && <TableHeader list={data} />}
+          {data && <Table data={data} />}
         </TableProvider>
       </div>
     </div>
-  ) : null
+  ) : (
+    <div className={s.loader}>
+      <Loader />
+    </div>
+  )
 }
 
 const s = css`
@@ -40,6 +35,11 @@ const s = css`
     display: flex;
     flex-flow: column nowrap;
     background: var(--white);
+  }
+
+  .loader {
+    position: relative;
+    height: 100px;
   }
 `
 

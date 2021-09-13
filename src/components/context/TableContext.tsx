@@ -1,41 +1,20 @@
 import * as React from 'react'
 
-type Users = UserData[]
-type Action = { type: 'UPDATE_SELECTED_USERS'; payload: Users }
-type State = { data: Users }
-type Dispatch = React.Dispatch<Action>
+type State = any[] | null
 type ContextType = {
   state: State
-  dispatch: Dispatch
+  setState: React.Dispatch<React.SetStateAction<State>>
 }
 
 const TableContext = React.createContext<ContextType | null>(null)
 
-const tableReducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'UPDATE_SELECTED_USERS': {
-      return {
-        ...state,
-        data: action.payload,
-      }
-    }
-    default: {
-      return {
-        data: [],
-      }
-    }
-  }
-}
-
 const TableProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = React.useReducer(tableReducer, {
-    data: [],
-  })
+  const [state, setState] = React.useState<State>(null)
 
   const value: ContextType = React.useMemo(
     () => ({
       state,
-      dispatch,
+      setState,
     }),
     [state]
   )
@@ -46,7 +25,7 @@ const TableProvider: React.FC = ({ children }) => {
 const useTable = (): ContextType => {
   const context = React.useContext(TableContext)
   if (context === null) {
-    throw new Error('useTable must be used within a UsersProvider')
+    throw new Error('useTable must be used within a TableProvider')
   }
   return context
 }

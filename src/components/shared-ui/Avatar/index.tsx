@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import SvgIcon from '../SvgIcon'
@@ -18,18 +18,31 @@ const Avatar: React.FC<Props> = ({
   width,
   height,
   strength,
-}) => (
-  <div
-    className={classNames(s.container, className, strength && s[strength])}
-    style={{ width: width || 47, height: height || 47 }}
-  >
-    {image ? (
-      <Img alt="avatar" className={s.avatar} img={image} />
-    ) : (
-      <SvgIcon icon="avatar-placeholder.svg" />
-    )}
-  </div>
-)
+}) => {
+  const [isError, setIsError] = useState(false)
+
+  const errorLoad = (status: boolean) => {
+    setIsError(status)
+  }
+
+  return (
+    <div
+      className={classNames(s.container, className, strength && s[strength])}
+      style={{ width: width || 47, height: height || 47 }}
+    >
+      {!isError && image ? (
+        <Img
+          alt="avatar"
+          className={s.avatar}
+          img={image}
+          errorLoad={errorLoad}
+        />
+      ) : (
+        <SvgIcon icon="avatar-placeholder.svg" className={s.svgIcon} />
+      )}
+    </div>
+  )
+}
 
 const s = css`
   .container {
@@ -37,6 +50,7 @@ const s = css`
     box-sizing: content-box;
     flex: 0 0 auto;
     border-radius: 50%;
+    background: var(--white);
     &::after {
       content: '';
       z-index: 1;
@@ -56,6 +70,13 @@ const s = css`
 
     border-radius: 50%;
     object-fit: cover;
+  }
+
+  .svgIcon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
   }
 
   .red {

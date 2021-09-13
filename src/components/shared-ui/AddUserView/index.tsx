@@ -1,60 +1,89 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
-import Button from 'src/components/shared-ui/Button'
+
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
-import Avatar from 'src/components/shared-ui/Avatar'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce'
+import { getContactsMutable, postContactsSearch } from 'src/api'
+import formatContactData from 'src/helpers/utils/format-contact-data'
+import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
+import UserItem from './UserItem'
+import Loader from '../Loader'
 
 type Props = {
   className?: string
-  handler: (item: UserData) => void
-  users?: UserData[]
 }
 
-const AddUserView: React.FC<Props> = ({ className, handler, users }) => {
+const AddUserView: React.FC<Props> = ({ className }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
+  const [isLoading, setIsLoading] = useState(false)
+  const [contacts, setContacts] = useState<FormattedContacts[]>([])
 
-  const [filteredUsers, setFilteredUsers] = useState(users)
+  const ref = useRef(null)
 
   useEffect(() => {
-    setFilteredUsers(
-      users?.filter(
-        (user) =>
-          user.name?.toLowerCase().search(searchValue.toLowerCase()) !== -1
-      )
-    )
-  }, [searchValue, users])
+    if (searchValue) {
+      const search = async () => {
+        setIsLoading(true)
+        try {
+          const searchResponse = await postContactsSearch(searchValue)
+          let formattedContacts: FormattedContacts[] | [] = []
+
+          if (searchResponse.data.length > 0) {
+            const contactsResp = await getContactsMutable(
+              searchResponse.data.map((item: any) => item)
+            )
+            formattedContacts = Object.entries(contactsResp.data).map(
+              ([id, contact]) => formatContactData(contact as any, id)
+            )
+          }
+
+          setIsLoading(false)
+          setContacts(formattedContacts)
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.log('search err ==>', err)
+          setIsLoading(false)
+        }
+      }
+      search()
+    } else {
+      setContacts([])
+    }
+  }, [searchValue])
+
+  useOnClickOutside(ref, () => {
+    setContacts([])
+  })
 
   const searchHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setSearchState(evt.target.value)
   }
 
   return (
-    <CardContainer className={classNames(s.container, className)}>
+    <CardContainer
+      className={classNames(
+        s.container,
+        className,
+        contacts.length > 0 && s.active
+      )}
+      ref={ref}
+    >
       <Search
         classes={{ input: s.searchInput }}
         inputPlaceholder="Search contacts…"
         onChange={searchHandler}
       />
       <ul className={s.list}>
-        {filteredUsers?.map((item) => (
-          <li className={s.item} key={item.first_message_id}>
-            <div className={s.profile}>
-              <Avatar className={s.avatar} image={item.avatar} />
-              <span className={s.name}>{item.name}</span>
-            </div>
-            <Button
-              className={s.button}
-              variant="outlined"
-              handler={() => handler(item)}
-            >
-              add
-            </Button>
-          </li>
-        ))}
+        {isLoading ? (
+          <div className={s.loader}>
+            <Loader />
+          </div>
+        ) : (
+          contacts?.map((item) => <UserItem data={item} key={item.id} />)
+        )}
       </ul>
     </CardContainer>
   )
@@ -70,33 +99,18 @@ const s = css`
   }
 
   .list {
+    position: relative;
     list-style: none;
     padding: 0;
   }
 
-  .item {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 0;
-    border-bottom: 1px solid #f6f6f6;
+  .loader {
+    width: 100%;
+    height: 70px;
   }
 
-  .profile {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-  }
-
-  .avatar {
-    margin-right: 22px;
-  }
-
-  .name {
-    font-size: 14px;
-    line-height: 17px;
-    font-weight: var(--bold);
+  .container.active {
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 12%), 0px 1px 1px rgb(34 34 34 / 10%);
   }
 `
 

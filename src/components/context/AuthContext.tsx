@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { setToken } from 'src/api'
 import getTokensUrl from 'src/helpers/utils/get-tokens-url'
-import { LS_ID_TOKEN } from 'src/helpers/variables'
+import { logInLink, LS_ID_TOKEN } from 'src/helpers/variables'
 
 type Tokens = {
   isSignedIn?: boolean
@@ -58,16 +58,13 @@ const AuthProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     const token = getIdToken()
     if (token) {
+      setToken(token)
       dispatch({
         type: 'UPDATE_AUTH_DATA',
         payload: { isSignedIn: true, tokenChecked: true },
       })
-      setToken(token)
     } else {
-      dispatch({
-        type: 'UPDATE_AUTH_DATA',
-        payload: { tokenChecked: true },
-      })
+      document.location.href = logInLink
     }
   }, [])
 

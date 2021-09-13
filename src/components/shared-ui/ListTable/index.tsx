@@ -5,69 +5,31 @@ import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
-import { useLists } from 'src/components/context/ListsContext'
-import { usePopup } from 'src/components/context/PopupContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import Close from 'src/components/shared-ui/Close'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Search from 'src/components/shared-ui/Search'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
 import Checkbox from './Checkbox'
+import AddUserView from '../AddUserView'
+import Row from './Row'
 
 type Props = {
   className?: string
-  data: List
-  removeContacts?: (removeContacts: UserData[]) => void
+  data: Playlist
+  removeContacts?: (removeContacts: any) => void
 }
 
 const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
-  const { dispatch: dispatchTable } = useTableContext()
-  const { dispatch } = usePopup()
+  const { setState: setSelectedUsers } = useTableContext()
+  const tableData = useMemo(() => data.contacts, [data.contacts])
 
-  const contactHandler = (contactData: UserData) => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
-  }
+  const updateUser = useCallback((userData: any) => {
+    console.log('userData', userData)
+  }, [])
 
-  const tableData = useMemo(() => data.users, [data.users])
-
-  const { updateList } = useLists()
-
-  const updateUser = useCallback(
-    (userData: UserData) => {
-      const ind = data?.users.findIndex((u) => u.address === userData.address)
-      if (ind !== -1) {
-        const newData = data
-        newData.users[ind] = { ...userData }
-        updateList({
-          ...data,
-          users: [...data?.users],
-        })
-      }
-    },
-    [data, updateList]
-  )
-
-  const removeUser = useCallback(
-    (e: React.MouseEvent, userData: UserData) => {
-      e.stopPropagation()
-      if (removeContacts) {
-        removeContacts([userData])
-      } else {
-        const newList = {
-          ...data,
-          users: data.users.filter((user) => user.address !== userData.address),
-        }
-
-        updateList(newList)
-      }
-    },
-    [removeContacts, data, updateList]
-  )
-
-  const columns: Column<UserData>[] = useMemo(
+  const columns: Column<any>[] = useMemo(
     () => [
       {
         Header: 'Contact',
@@ -80,20 +42,18 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
               image={row.original.avatar}
               strength={row.original.relationshipStrength}
             />{' '}
-            {row.original?.templateData && (
-              <PopoverUserInfo
-                className={s.name}
-                data={row.original}
-                template={row.original.templateData}
-              />
-            )}
+            <PopoverUserInfo
+              className={s.name}
+              data={row.original}
+              template={row.original.templateData}
+            />
           </div>
         ),
       },
       {
         Header: 'Title',
-        accessor: 'title',
-        Cell: ({ value }) => <span className={s.cellContent}>{value}</span>,
+        accessor: 'fullName',
+        Cell: ({ value }) => <span className={s.cellContent}>investor</span>,
       },
       {
         Header: 'Last outreach',
@@ -101,9 +61,13 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
             <div className={s.lastData}>
-              {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')}
+              {/* {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')} */}
+              January 12, 2021
             </div>
-            <div>{value}</div>
+            {/* <div>{value}</div> */}
+            <div>
+              Hi Hailey, Did get a chance to view the deck i sent ove...
+            </div>
           </div>
         ),
       },
@@ -120,7 +84,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             >
               <EasyEdit
                 type="text"
-                value={value || restValue || 'Note'}
+                value={value || restValue || '...'}
                 placeholder={value}
                 hideCancelButton
                 hideSaveButton
@@ -136,19 +100,8 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           )
         },
       },
-      {
-        Header: () => <Close className={s.headerButton} handler={() => null} />,
-        id: 'row-button',
-        width: 'auto',
-        Cell: ({ row }: any) => (
-          <Close
-            className={s.removeButton}
-            handler={(e: React.MouseEvent) => removeUser(e, row.original)}
-          />
-        ),
-      },
     ],
-    [removeUser, updateUser]
+    [updateUser]
   )
 
   const {
@@ -161,7 +114,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   } = useTable(
     {
       columns,
-      data: tableData,
+      data: tableData || [],
     },
     useFlexLayout,
     useRowSelect,
@@ -184,12 +137,11 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       ])
     }
   )
+
   useEffect(() => {
-    dispatchTable({
-      type: 'UPDATE_SELECTED_USERS',
-      payload: selectedFlatRows.map((item) => item.original),
-    })
-  }, [selectedFlatRows, dispatchTable])
+    setSelectedUsers(selectedFlatRows.map((item) => item.original))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFlatRows])
 
   return (
     <div className={s.container}>
@@ -199,7 +151,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             const { key, ...restHeaderGroupProps } =
               headerGroup.getHeaderGroupProps()
             return (
-              <tr {...restHeaderGroupProps} key={key}>
+              <tr {...restHeaderGroupProps} className={s.tableRow} key={key}>
                 {headerGroup.headers.map((column) => {
                   const { key: keyHeader, ...restHeaderProps } =
                     column.getHeaderProps()
@@ -223,21 +175,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             const { key, ...restProps } = row.getRowProps()
             restProps.style = { ...restProps.style, borderColor: 'red' }
             return (
-              <tr
-                onClick={() => contactHandler(row.original)}
-                className={s.row}
-                {...restProps}
-                key={key}
-              >
-                {row.cells.map((cell) => {
-                  const { key: cellKey, ...restCellProps } = cell.getCellProps()
-                  return (
-                    <td className={s.cell} {...restCellProps} key={cellKey}>
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
-              </tr>
+              <Row row={row} className={s.tableRow} key={key} {...restProps} />
             )
           })}
         </tbody>
@@ -249,10 +187,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
             <div className={s.cardHeader}>Start creating your list</div>
-            <Search
-              inputPlaceholder="Search contact to add to list…"
-              classes={{ container: s.search }}
-            />
+            <AddUserView className={s.addUserView} />
           </CardContainer>
         )}
       </div>
@@ -285,12 +220,8 @@ const s = css`
     }
   }
 
-  .row {
-    position: relative;
-    cursor: pointer;
-    align-items: center;
-
-    border-left: 4px;
+  .tableRow {
+    padding-right: 50px;
   }
 
   .headerButton {
@@ -311,15 +242,6 @@ const s = css`
 
   .header_All {
     color: var(--blue);
-  }
-
-  .cell {
-    display: table-cell;
-    padding: 28px 19px;
-
-    &:first-child {
-      max-width: 55px !important;
-    }
   }
 
   .emptyCardContainer {
@@ -365,23 +287,6 @@ const s = css`
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
-  }
-
-  .removeButton {
-    opacity: 0;
-  }
-
-  tr:hover .removeButton {
-    opacity: 1;
-  }
-
-  .search {
-    max-width: 309px;
-    width: 100%;
-
-    @include mobile {
-      width: 80%;
-    }
   }
 
   .lastData {
@@ -439,6 +344,15 @@ const s = css`
       width: 35px;
       height: 35px;
     }
+  }
+
+  .addUserView {
+    overflow: auto;
+    max-width: 326px;
+    width: 100%;
+    box-shadow: none;
+    max-height: 300px;
+    padding: 8px;
   }
 `
 

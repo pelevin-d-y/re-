@@ -11,7 +11,7 @@ import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
-  data: UserData
+  data: any
 }
 
 const schema = yup.string().email()
@@ -33,35 +33,39 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
     updateUserData({ ...clientState, contacts: updatedContacts })
   }
 
+  const emails: string[] = data.emails ? data.emails : [data.address]
+
   return (
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
-        <li className={s.item}>
-          <div className={s.itemTitle}>
-            <span>Email</span>
-            <Img alt="icon" className={s.pen} img="pen.png" />
-          </div>
-          <EasyEdit
-            type="text"
-            className={s.valueInput}
-            value={data.address}
-            placeholder={data.address}
-            hideCancelButton
-            validationMessage="Please provide a valid email"
-            hideSaveButton
-            saveOnBlur
-            onValidate={(value: string) => {
-              try {
-                schema.validateSync(value)
-                return true
-              } catch {
-                return false
-              }
-            }}
-            cssClassPrefix="profile-card-"
-            onSave={(val: string) => onSave(val, 'address')}
-          />
-        </li>
+        {emails.length > 0 && (
+          <li className={s.item}>
+            <div className={s.itemTitle}>
+              <span>Email</span>
+              <Img alt="icon" className={s.pen} img="pen.png" />
+            </div>
+            <EasyEdit
+              type="text"
+              className={s.valueInput}
+              value={emails[0]}
+              placeholder={emails[0]}
+              hideCancelButton
+              validationMessage="Please provide a valid email"
+              hideSaveButton
+              saveOnBlur
+              onValidate={(value: string) => {
+                try {
+                  schema.validateSync(value)
+                  return true
+                } catch {
+                  return false
+                }
+              }}
+              cssClassPrefix="profile-card-"
+              onSave={(val: string) => onSave(val, 'address')}
+            />
+          </li>
+        )}
         <li className={s.item}>
           <div className={s.itemTitle}>
             <span>Name</span>
@@ -70,8 +74,8 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
           <EasyEdit
             type="text"
             className={s.valueInput}
-            value={data.name}
-            placeholder={data.name}
+            value={data.fullName}
+            placeholder={data.fullName}
             hideCancelButton
             hideSaveButton
             saveOnBlur
@@ -90,15 +94,17 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
             </div>
           </li>
         )}
-        <li className={s.item}>
-          <div className={s.itemTitle}>
-            <span>Last Outreach</span>
-            <Img alt="icon" className={s.pen} img="pen.png" />
-          </div>
-          <div className={classNames(s.value, s.outreach)}>
-            {data.last_client_text}
-          </div>
-        </li>
+        {data.last_contact_text && (
+          <li className={s.item}>
+            <div className={s.itemTitle}>
+              <span>Last Outreach</span>
+              <Img alt="icon" className={s.pen} img="pen.png" />
+            </div>
+            <div className={classNames(s.value, s.outreach)}>
+              {data.last_client_text}
+            </div>
+          </li>
+        )}
       </ul>
       <Button className={s.button} variant="outlined">
         Remove from Recommendations

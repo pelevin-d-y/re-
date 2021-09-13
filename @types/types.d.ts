@@ -1,26 +1,8 @@
 /* eslint-disable camelcase */
 
-type Playlists = (
-  | 'Meetings & Events'
-  | 'Follow Ups'
-  | 'Birthdays'
-  | 'New Roles'
-  | 'Time Lapsed: 90 Days'
-  | 'Time Lapsed: 1 Year'
-  | 'Travel: Who to Meet'
-  | 'Relocation'
-  | 'Holidays'
-  | 'Share Strata'
-  | 'Checking Emails'
-  | 'Intros received'
-  | 'Network Engagement'
-  | 'Network Maintenance'
-)[]
-
 type Template = {
   Template: string
-  Header: string
-  Summary: string
+  Action: string
   Subject: string
   Message: string
 }
@@ -39,6 +21,28 @@ type List = {
 }
 
 type Lists = List[]
+
+type ListRequest = {
+  data: any[]
+  actions: any
+  contacts: {
+    contact_id: string
+    review: number
+    scores: any
+  }[]
+  id: string
+  inclusions: any
+  info: { name: string }
+}
+
+type ListsRequest = {
+  config: any
+  data: string[]
+  status: number
+  request: any
+  headers: any
+  statusText: any
+}
 
 type MessageList = {
   address: string
@@ -236,10 +240,33 @@ type RecsResponse = {
 }
 
 type MainUserData = {
-  emails?: string[]
+  emails?: any
+  authData?: any[]
+  syncedEmails?: string[]
+  unsyncEmails?: string[]
   shortName?: string
   fullName?: string
   strataEmail?: string
   avatar?: string
   contacts?: UserData[]
 }
+
+type FormattedContacts = {
+  emails?: string[]
+  shortName?: string
+  fullName?: string
+  strataEmail?: string
+  avatar?: string
+  id: string
+}
+
+type Playlist = {
+  id?: string
+  actions?: []
+  contacts?: any[]
+  inclusions?: []
+  info?: { name: string; description?: string }
+  triggers?: []
+}
+
+type Playlists = Playlist[]

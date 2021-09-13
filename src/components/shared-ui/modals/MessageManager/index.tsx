@@ -8,7 +8,6 @@ import EditorActions from 'src/components/shared-ui/EditorActions'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { LS_ID_TOKEN } from 'src/helpers/variables'
 import { sendMessage } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
@@ -16,7 +15,7 @@ import ModalSent from '../ModalSent'
 
 type Props = {
   className?: string
-  data: UserData
+  data: any
   closeHandler: () => void
 }
 
@@ -73,53 +72,55 @@ const reducer = (state: State, action: Action) => {
 
 const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
   const template = data.templateData?.Message
-
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const { state: clientState } = useClient()
 
+  const clientName = clientState?.shortName || clientState?.fullName
+  const contactName = data.fullName || data.name
+  const addressTo = data?.address || data.emails[0]
+
   useEffect(() => {
     let parsedMessage
-    if (template && clientState?.shortName && data.name) {
+
+    if (template && clientName && contactName) {
       parsedMessage = parseMessage(
         template,
-        data.name.split(' ')[0],
-        clientState.shortName
+        contactName.split(' ')[0],
+        clientName
       )
     }
-
     setValue('body', parsedMessage)
-  }, [data.name, template, clientState?.shortName])
+  }, [contactName, template, clientState, clientName])
 
   useEffect(() => {
+    const syncedEmail =
+      clientState?.syncedEmails && clientState?.syncedEmails.length > 0
+        ? clientState?.syncedEmails[0]
+        : undefined
+
     dispatch({
       type: 'updateBody',
       payload: {
-        client_id: localStorage.getItem(LS_ID_TOKEN) || undefined,
-        from_contact: clientState?.strataEmail,
+        from_contact: syncedEmail,
         subject:
           data?.templateData &&
-          parseMessage(data.templateData.Subject, data.name),
-        to_contact_list: data?.address
+          parseMessage(data.templateData.Subject, contactName),
+        to_contact_list: addressTo
           ? [
               {
-                address: data.address || '',
-                name: data.name || '',
+                address: addressTo || '',
+                name: contactName || '',
               },
             ]
           : [],
       },
     })
-  }, [
-    clientState?.emails,
-    clientState?.strataEmail,
-    data.address,
-    data.name,
-    data.templateData,
-  ])
+  }, [addressTo, contactName, data.templateData, clientState?.syncedEmails])
 
   const sendEmail = async () => {
     dispatch({ type: 'updateSendingStatus' })
+
     sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
@@ -129,6 +130,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
       })
       .catch((err) => {
         dispatch({ type: 'updateSendingStatus' })
+        // eslint-disable-next-line no-alert
         alert(err)
       })
   }
@@ -145,7 +147,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
   return (
     <CardContainer className={classNames(s.container, className)}>
       {state.isSent ? (
-        <ModalSent names={data.name} handler={closeHandler} />
+        <ModalSent names={contactName} handler={closeHandler} />
       ) : (
         <>
           {data && (

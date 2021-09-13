@@ -17,6 +17,10 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
     popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
   }
 
+  const deleteHandler = () => {
+    console.log(popupState)
+  }
+
   return (
     <ModalBase
       className={classNames(className, s.container)}
@@ -32,19 +36,19 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
           items={[
             {
               text: 'Not relevant',
-              action: () => null,
+              action: () => deleteHandler(),
             },
             {
               text: 'Bad recommendations',
-              action: () => null,
+              action: () => deleteHandler(),
             },
             {
               text: 'Not useful',
-              action: () => null,
+              action: () => deleteHandler(),
             },
             {
               text: 'Recommend later',
-              action: () => null,
+              action: () => deleteHandler(),
             },
           ]}
         />

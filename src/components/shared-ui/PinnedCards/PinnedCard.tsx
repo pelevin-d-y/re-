@@ -27,7 +27,7 @@ const PinnedCard: React.FC<Props> = ({ className, data, template }) =>
         <div className={s.name}>{data.name}</div>
         {data.templateData && (
           <UserHeader
-            text={parseMessage(data.templateData.Header, data.name)}
+            text={parseMessage(data.templateData.Action, data.name)}
           />
         )}
       </div>

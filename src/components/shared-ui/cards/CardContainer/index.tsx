@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 
@@ -7,9 +7,13 @@ type Props = {
   className?: string
 }
 
-const CardContainer: React.FC<Props> = ({ className, children }: Props) => (
-  <div className={classNames(s.container, className)}>{children}</div>
-)
+type Ref = any
+
+const CardContainer = forwardRef<Ref, Props>(({ className, children }, ref) => (
+  <div ref={ref} className={classNames(s.container, className)}>
+    {children}
+  </div>
+))
 
 CardContainer.defaultProps = {
   className: undefined,

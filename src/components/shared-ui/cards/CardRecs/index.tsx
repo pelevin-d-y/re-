@@ -38,8 +38,10 @@ const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
       </div>
       <div className={s.footer}>
         <div className={s.message}>
-          {data?.templateData?.Summary && (
-            <UserHeader text={parseMessage(data.templateData?.Summary, data.name)} />
+          {data?.templateData?.Action && (
+            <UserHeader
+              text={parseMessage(data.templateData?.Action, data.name)}
+            />
           )}
         </div>
       </div>

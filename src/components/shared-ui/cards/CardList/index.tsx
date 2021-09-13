@@ -1,42 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePopup } from 'src/components/context/PopupContext'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Img from 'src/components/shared-ui/Img'
 import Tasks from 'src/components/shared-ui/Tasks'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
+import Loader from '../../Loader'
 
 type Props = {
   className?: string
-  data: List
+  data: any
 }
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { id, title, description, users, image, tasks },
+  data: { info, id, contacts, image, tasks },
 }) => {
   const router = useRouter()
+  const { deletePlaylists } = usePlaylists()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { dispatch: popupDispatch } = usePopup()
-  const openDeletePopup = () => {
-    popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
+  const deleteHandler = async () => {
+    try {
+      setIsLoading(true)
+      await deletePlaylists([id])
+      setIsLoading(false)
+    } catch (err) {
+      setIsLoading(false)
+    }
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       {image && <Img img={image} alt="icon" className={s.image} />}
-      <div className={s.title}>{title}</div>
-      <div className={s.description}>{description}</div>
-      <Tasks className={s.tasks} data={tasks} />
+      <div className={s.title}>{info.name}</div>
+      {info?.description && (
+        <div className={s.description}>{info.description}</div>
+      )}
+      {/* <Tasks className={s.tasks} data={tasks} /> */}
       <AvatarsList
         avatarWidth={38}
         avatarHeight={38}
         className={s.avatars}
-        users={users}
+        users={contacts}
         showHiddenUsers
       />
       <div className={classNames(s.actions)}>
@@ -53,7 +63,7 @@ const CardList: React.FC<Props> = ({
             },
             {
               name: 'Delete',
-              handler: openDeletePopup,
+              handler: deleteHandler,
             },
           ]}
         />
@@ -64,11 +74,20 @@ const CardList: React.FC<Props> = ({
           View List
         </Button>
       </div>
+      {isLoading && <Loader />}
     </CardContainer>
   )
 }
 
 const s = css`
+  .usersCount {
+    margin-top: 20px;
+    margin-bottom: 16px;
+
+    font-size: 18px;
+    font-weight: var(--bold);
+  }
+
   .container {
     position: relative;
     overflow: hidden;

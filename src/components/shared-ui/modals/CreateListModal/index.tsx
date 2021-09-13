@@ -70,11 +70,7 @@ const CreateListModal: React.FC = () => {
                   />
                 )}
               </Field>
-              <AddUserView
-                handler={() => null}
-                users={[]}
-                className={s.addUser}
-              />
+              <AddUserView className={s.addUser} />
               <Button variant="contained" type="submit" disabled={isSubmitting}>
                 Create
               </Button>

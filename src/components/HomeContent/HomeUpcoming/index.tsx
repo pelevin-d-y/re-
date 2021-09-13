@@ -7,9 +7,9 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import Button from 'src/components/shared-ui/Button'
 import { useLists } from 'src/components/context/ListsContext'
+import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import UpcomingHeader from './UpcomingHeader'
 import UpcomingItem from './UpcomingItem'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 
 type Props = {
   className?: string
@@ -51,10 +51,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
           ))}
       </div>
       <div className={s.actions}>
-        <PopoverDots
-          className={s.dots}
-          variant="outlined"
-        />
+        <PopoverDots className={s.dots} variant="outlined" />
         <Button
           className={s.button}
           variant="contained"
@@ -75,12 +72,12 @@ const s = css`
 
   .header {
     margin-bottom: 27px;
-  }  
+  }
 
   .button {
     min-width: 212px;
   }
-  
+
   .dots {
     margin-right: 17px;
   }

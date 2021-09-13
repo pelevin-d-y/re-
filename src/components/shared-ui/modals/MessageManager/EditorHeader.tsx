@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useClient } from 'src/components/context/ClientContext'
-import Chips from '../../Chips'
+import Chips from 'src/components/shared-ui/Chips'
 
 type Props = {
   className?: string

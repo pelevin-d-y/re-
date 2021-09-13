@@ -9,6 +9,7 @@ const AWS_API =
 
 const defaultOptions = {
   headers: {
+    Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 }
@@ -39,9 +40,11 @@ const setToken = (token: string | null): void => {
   }
 }
 
-type Params = {
-  [key: string]: string
-}
+type Params =
+  | {
+      [key: string]: string
+    }
+  | URLSearchParams
 
 const apiGet = (url: string, params?: Params): Promise<any> =>
   instance.get(url, {
@@ -63,6 +66,11 @@ const getAuth = () =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
+const getAuthUrl = (ids?: string[]) =>
+  apiGet(`${AWS_API}/client/authorization_url`)
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
 const getContact = () =>
   apiGet(`${AWS_API}/client/contact`)
     .then((res) => res)
@@ -73,15 +81,17 @@ const getRecommendations = () =>
     .then((res: RecsResponse) => res.data.recommendations)
     .catch((err) => Promise.reject(err))
 
-const getContactsMutable = () =>
-  apiGet(`${AWS_API}/contacts/mutable`, {
-    id: '00000000-0000-0000-0000-000000000000',
-  })
+const getContactsMutable = (ids: string[]) => {
+  const params = new URLSearchParams()
+  ids.forEach((id) => params.append('id', id))
+
+  return apiGet(`${AWS_API}/contacts/mutable`, params)
     .then((res) => res)
     .catch((err) => Promise.reject(err))
+}
 
-const getContactsSearch = (email: string, name?: string) =>
-  apiGet(`${AWS_API}/contacts/search`, { email: email || '', name: name || '' })
+const getContactsMessages = (id: string) =>
+  apiGet(`${AWS_API}/contacts/messages`, { id })
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
@@ -90,10 +100,19 @@ const getMessagesRead = (id: string) =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
-const getPlaylists = (id: string) =>
-  apiGet(`${AWS_API}/playlists`, { id })
-    .then((res: any) => res)
+const getPlaylists = () =>
+  apiGet(`${AWS_API}/playlists`)
+    .then((res: ListsRequest) => res)
     .catch((err) => Promise.reject(err))
+
+const getPlaylistsData = (ids: string[]) => {
+  const params = new URLSearchParams()
+  ids.forEach((id) => params.append('id', id))
+
+  return apiGet(`${AWS_API}/playlists`, params)
+    .then((res: { data: Lists }) => res)
+    .catch((err) => Promise.reject(err))
+}
 
 const sendMessage = (data: SendMessageData) =>
   apiPost(`${AWS_API}/messages/send`, data)
@@ -105,17 +124,34 @@ const postRecommendations = () =>
     .then((res) => res)
     .catch((err) => Promise.reject(err))
 
+const postPlaylists = (data: Playlists) =>
+  apiPost(`${AWS_API}/playlists`, data)
+    .then((res: ListRequest) => res)
+    .catch((err) => Promise.reject(err))
+
+const postContactsSearch = (name: string) =>
+  apiPost(`${AWS_API}/contacts/search`, {
+    type: 'name',
+    data: name,
+  })
+    .then((res) => res)
+    .catch((err) => Promise.reject(err))
+
 export {
   instance,
   setToken,
   sendMessage,
   getRecommendations,
   getAuth,
+  getAuthUrl,
   getMetrics,
   getContact,
   getContactsMutable,
-  getContactsSearch,
+  getContactsMessages,
+  postContactsSearch,
   getMessagesRead,
   getPlaylists,
+  getPlaylistsData,
+  postPlaylists,
   postRecommendations,
 }

@@ -5,11 +5,12 @@ import Img from 'src/components/shared-ui/Img'
 
 type Props = {
   className?: string
+  authUrl: string
 }
 
-const GoogleAuth: React.FC<Props> = ({ className }) => (
+const GoogleAuth: React.FC<Props> = ({ className, authUrl }) => (
   <div className={classNames(s.container, className)}>
-    <a className={s.link} href="http://login.strata.cc">
+    <a className={s.link} href={authUrl}>
       <Img
         className={s.image}
         img="btn_google_signin_dark_normal_web@2x.png"

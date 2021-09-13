@@ -14,7 +14,12 @@ type Props = {
 
 const HeaderProfile: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-
+  const addresses = state?.authData
+    ? Object.entries(state.authData).map(([key, value]) => ({
+        email: key,
+        status: value as number,
+      }))
+    : []
   return (
     <Popover
       position="bottom right"
@@ -30,9 +35,14 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       popupContent={
         <CardContainer className={s.popup}>
           <div className={s.title}>Email Sync</div>
-          {state?.emails?.map((address) => (
-            <GoogleEmail key={address} className={s.account} email={address} />
-          ))}
+          {addresses &&
+            addresses?.map((address) => (
+              <GoogleEmail
+                key={address.email}
+                className={s.account}
+                data={address}
+              />
+            ))}
           <button className={s.addButton} type="button">
             + Add another email
           </button>

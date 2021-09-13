@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { get, set } from 'idb-keyval'
 import { getAuth, getContact, getRecommendations } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
 
@@ -13,8 +13,6 @@ type ContextType = {
   dispatch: React.Dispatch<Action>
   updateUserData: (data: MainUserData) => void
 }
-
-const DB_STORE_NAME = 'client'
 
 const ClientContext = React.createContext<ContextType | null>(null)
 
@@ -32,6 +30,30 @@ const clientReducer = (state: State, action: Action): State => {
   }
 }
 
+const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
+  const data: MainUserData = {
+    ...clientData,
+    authData,
+    syncedEmails: [],
+    unsyncEmails: [],
+  }
+
+  Object.entries(authData).forEach(([email, status]) => {
+    if (status === 2) {
+      if (data.syncedEmails) {
+        data.syncedEmails.push(email)
+      }
+    }
+    if (status === 1) {
+      if (data.unsyncEmails) {
+        data.unsyncEmails.push(email)
+      }
+    }
+  })
+
+  return data
+}
+
 const getMainUserData = async () => {
   const requests = await Promise.all([
     getRecommendations(),
@@ -41,21 +63,12 @@ const getMainUserData = async () => {
 
   const [recommendations, contactResponse, authResponse] = requests
   const extendedUsers = addAdditionFields(recommendations)
-
+  const formattedClientData = formatContactData(contactResponse.data)
+  const clientData = addAuthData(formattedClientData, authResponse.data)
   const mainUserData: MainUserData = {
-    emails: contactResponse.data.flatMap((item: any) =>
-      item.type === 'email' ? item.data : []
-    ),
-    shortName: contactResponse.data.flatMap((item: any) =>
-      item.type === 'name_short' ? item.data : []
-    )[0],
-    fullName: contactResponse.data.flatMap((item: any) =>
-      item.type === 'name' ? item.data.join(' ') : []
-    )[0],
-    avatar: 'thor.jpeg',
+    ...clientData,
     contacts:
       extendedUsers.length < 10 ? addAdditionFields(testUsers) : extendedUsers, // have to remove when API is fixed
-    strataEmail: Object.keys(authResponse.data)[0],
   }
 
   return mainUserData
@@ -67,42 +80,14 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
   React.useEffect(() => {
     const setClientData = async () => {
       try {
-        const clientData = await get('client')
-        if (clientData) {
-          dispatch({ type: 'UPDATE_USER_DATA', payload: clientData })
-        } else {
-          const mainUserData = await getMainUserData()
-          await set('client', mainUserData)
-          dispatch({
-            type: 'UPDATE_USER_DATA',
-            payload: mainUserData,
-          })
-        }
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('setClientData err', err)
-        // eslint-disable-next-line no-console
-        console.log('set testUsers')
-        const extendedUsers = addAdditionFields(testUsers)
-        const mainUserData = {
-          avatar: 'thor.jpeg',
-          emails: [
-            'thor@casualcorp.com',
-            'thor@alphahq.com',
-            'thor@strata.cc',
-            'thor@alpha-ux.co',
-          ],
-          fullName: 'Thor Ernstsson',
-          shortName: 'Thor',
-          contacts: extendedUsers,
-          strataEmail: 'strata.test0@gmail.com',
-        }
-
-        await set('client', mainUserData)
+        const mainUserData = await getMainUserData()
         dispatch({
           type: 'UPDATE_USER_DATA',
           payload: mainUserData,
         })
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('setClientData err', err)
       }
     }
 
@@ -110,12 +95,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
   }, [])
 
   const updateUserData = async (data: MainUserData) => {
-    set(DB_STORE_NAME, data)
-      .then(() => {
-        dispatch({ type: 'UPDATE_USER_DATA', payload: data })
-      })
-      // eslint-disable-next-line no-console
-      .catch((err) => console.error(err))
+    dispatch({ type: 'UPDATE_USER_DATA', payload: data })
   }
 
   const value: ContextType = React.useMemo(

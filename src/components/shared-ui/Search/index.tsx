@@ -27,6 +27,7 @@ const Search: React.FC<Props> = ({ inputPlaceholder, classes, onChange }) => (
 const s = css`
   .search {
     position: relative;
+    padding-bottom: 8px;
   }
 
   .icon {

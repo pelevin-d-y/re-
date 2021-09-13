@@ -150,7 +150,7 @@ const MultiEmailsModal: React.FC = () => {
         ))}
       </div>
       <div className={s.content}>
-        {data?.templateData?.Summary && (
+        {data?.templateData?.Subject && (
           <ModalUserInfo className={s.header} data={data} />
         )}
 

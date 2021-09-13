@@ -5,13 +5,13 @@ import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
-import { useLists } from 'src/components/context/ListsContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
 
 type Props = {
   className?: string
-  list: List
+  list: Playlist
   addContact?: (users: UserData[]) => void
   removeContacts?: (users: UserData[]) => void
 }
@@ -22,34 +22,21 @@ const TableHeader: React.FC<Props> = ({
   addContact,
   removeContacts,
 }) => {
-  const {
-    state: { data: selectedUsers },
-  } = useTable()
+  const { state: selectedUsers } = useTable()
+  const { removeUsers } = usePlaylist()
   const { dispatch: popupDispatch } = usePopup()
   const { dispatch: usersDispatch } = useUsers()
 
-  const { updateList } = useLists()
-
   const removeUsersHandler = () => {
     if (removeContacts) {
-      removeContacts(selectedUsers)
+      removeContacts(selectedUsers as any)
     } else {
-      const newList = {
-        ...list,
-        users: list.users.filter(
-          (user) =>
-            !selectedUsers.find(
-              (selectedUser) => selectedUser.address === user.address
-            )
-        ),
-      }
-
-      updateList(newList)
+      removeUsers(selectedUsers)
     }
   }
 
   const contactHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list.users || [] })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list.contacts || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
@@ -66,7 +53,6 @@ const TableHeader: React.FC<Props> = ({
         <PopoverAddContact
           className={classNames(s.contacts, s.button)}
           addContactHandler={addContact}
-          list={list}
         />
         <Button
           className={classNames(s.button, s.remove)}
@@ -101,7 +87,7 @@ const s = css`
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    padding: 21px 23px 23px 30px;
+    padding: 21px 23px 23px 20px;
 
     @include mobile {
       padding: 16px 12px;

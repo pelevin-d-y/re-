@@ -1,25 +1,45 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
-import { useLists } from 'src/components/context/ListsContext'
+import { usePlaylists } from 'src/components//context/PlaylistsContext'
 import SectionsHeader from './ListsSectionsHeader'
+import SvgIcon from '../shared-ui/SvgIcon'
 
 type Props = {
   className?: string
 }
 
-type CardsStructure = { firstColumn: Lists; secondColumn: Lists }
+type CardsStructure = {
+  firstColumn: any
+  secondColumn: any
+}
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
-  const { state: listsState } = useLists()
+  const {
+    state: { data: lists, isLoading },
+    getPlaylistsAsync,
+    dispatch,
+  } = usePlaylists()
+
+  useEffect(() => {
+    const getPlaylists = async () => {
+      dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
+      await getPlaylistsAsync()
+      dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
+    }
+
+    getPlaylists()
+  }, [dispatch, getPlaylistsAsync])
+
   const cardsStructure: CardsStructure = useMemo(() => {
     const value: CardsStructure = {
       firstColumn: [],
       secondColumn: [],
     }
-    listsState?.map((item, index) => {
+
+    lists?.map((item, index) => {
       const remainder = (index + 1) % 2
       if (remainder) {
         return value.firstColumn.push(item)
@@ -27,13 +47,14 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
 
       return value.secondColumn.push(item)
     })
+
     return value
-  }, [listsState])
+  }, [lists])
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <SectionsHeader
-        data={listsState}
+        data={lists}
         title="Your lists"
         description="List of people with a common themes"
         icon="lists"
@@ -41,14 +62,15 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
         iconColor="#0DB09D"
         link={{ text: 'Create New', href: '/create-list' }}
       />
+      {isLoading && <SvgIcon className={s.spinner} icon="spinner.svg" />}
       <div className={s.list}>
         <div className={s.column}>
-          {cardsStructure.firstColumn.map((item) => (
+          {cardsStructure.firstColumn.map((item: any) => (
             <CardList className={s.card} key={item.id} data={item} />
           ))}
         </div>
         <div className={s.column}>
-          {cardsStructure.secondColumn.map((item) => (
+          {cardsStructure.secondColumn.map((item: any) => (
             <CardList className={s.card} key={item.id} data={item} />
           ))}
         </div>
@@ -79,6 +101,15 @@ const s = css`
 
   .card {
     margin-bottom: 15px;
+  }
+
+  .spinner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 100px;
+    color: var(--blue);
   }
 `
 

@@ -3,36 +3,80 @@ import classNames from 'classnames'
 import PreviousPage from 'src/components/shared-ui/PreviousPage'
 import TextareaAutosize from 'react-textarea-autosize'
 import { css } from 'astroturf'
-import { useLists } from 'src/components/context/ListsContext'
 import { useDebounce } from 'use-debounce/lib'
+import { postPlaylists } from 'src/api'
+import { useRouter } from 'next/router'
+import Button from '../Button'
+import Loader from '../Loader'
 
 type Props = {
   className?: string
-  data: List
+  data: any
   updateNewList?: (type: 'title' | 'description', text: string) => void
 }
 
 const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
-  const { updateList } = useLists()
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
   const [fields, setFields] = useState({
-    title: data.title,
-    description: data.description,
+    title: data.info?.name,
+    description: data.info?.description,
   })
 
-  const [debounceFields] = useDebounce(fields, 1000)
+  const [debounceFields] = useDebounce(fields, 500)
 
   useEffect(() => {
-    if (
-      debounceFields.title !== data.title ||
-      debounceFields.description !== data.description
-    ) {
-      updateList({
-        ...data,
-        title: debounceFields.title,
-        description: debounceFields.description,
-      })
+    setFields({ title: data.info?.name, description: data.info?.description })
+  }, [data.contacts, data.info?.description, data.info?.name])
+
+  const createList = () => {
+    if (fields.title || fields.description) {
+      setIsLoading(true)
+      postPlaylists([
+        {
+          info: {
+            name: fields.title,
+            description: fields.description,
+          },
+        },
+      ])
+        .then((res) => {
+          setIsLoading(false)
+          router.push(`/list?id=${res.data[0].id}`)
+        })
+        .catch((err) => {
+          setIsLoading(false)
+          console.log('ListHeader err =>', err)
+        })
     }
-  }, [data, debounceFields, updateList])
+  }
+
+  useEffect(() => {
+    const updatePlaylist = async () => {
+      if (
+        debounceFields.title !== data.title ||
+        debounceFields.description !== data.description
+      ) {
+        if (data.id) {
+          await postPlaylists([
+            {
+              id: data.id,
+              info: {
+                name: debounceFields.title,
+                description: debounceFields.description,
+              },
+            },
+          ]).catch((err) => {
+            setIsLoading(false)
+            console.log('ListHeader err =>', err)
+          })
+        }
+      }
+    }
+
+    updatePlaylist()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, debounceFields])
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (updateNewList) {
@@ -53,9 +97,16 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
     }
   }
 
+  const isButtonActive = () =>
+    (!fields.title && !fields.description) || isLoading
+
   return (
     <div className={classNames(className, s.container)}>
-      <PreviousPage text="Back to list" />
+      <PreviousPage
+        text="Back to lists"
+        handler={() => router.push('/lists')}
+      />
+
       <input
         className={s.title}
         name="title"
@@ -70,7 +121,16 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         defaultValue={fields.description || ''}
         onChange={handleDescChange}
       />
-      <div className={s.userCount}>{data.users.length} Contacts</div>
+      {!data.id && (
+        <Button
+          className={classNames(s.button)}
+          disabled={isButtonActive()}
+          variant="contained"
+          handler={() => createList()}
+        >
+          {isLoading ? <Loader /> : 'Save list'}
+        </Button>
+      )}
     </div>
   )
 }
@@ -112,6 +172,21 @@ const s = css`
     font-size: 14px;
     font-weight: var(--bold);
     color: var(--blue);
+  }
+
+  .inputWrapper {
+    position: relative;
+  }
+
+  .button {
+    max-width: 200px;
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .loader {
+    width: 100%;
+    height: 100%;
   }
 `
 

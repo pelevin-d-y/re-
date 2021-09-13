@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
 import GoogleAuth from 'src/components/shared-ui/GoogleAuth'
+import { getAuthUrl } from 'src/api'
+
 import Socials from './Socials'
 
 type Props = {
@@ -11,18 +13,47 @@ type Props = {
 }
 
 const Accounts: React.FC<Props> = ({ className, data }) => {
-  const addresses = data?.emails
+  const [authUrl, setAuthUrl] = useState('')
+
+  useEffect(() => {
+    const getAuthUrlAsync = async () => {
+      getAuthUrl()
+        .then((res) => {
+          setAuthUrl(Object.values(res.data)[0] as any)
+        })
+        // eslint-disable-next-line no-console
+        .catch((err) => console.error('getAuthUrlAsync ==>', err))
+    }
+    getAuthUrlAsync()
+  })
+
+  const addresses = data?.authData
+    ? Object.entries(data.authData).map(([key, value]) => ({
+        email: key,
+        status: value as number,
+      }))
+    : []
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <span className={s.subtitle}>Email Sync ({addresses?.length})</span>
-        <span className={s.headerAdd}>+ Add account</span>
+        <span className={s.subtitle}>
+          Email Sync ({data?.syncedEmails?.length})
+        </span>
+        {authUrl && (
+          <a href={authUrl} className={s.headerAdd}>
+            + Add account
+          </a>
+        )}
       </div>
       <div className={s.syncAccounts}>
-        {addresses && addresses.length > 0 ? (
+        {addresses ? (
           addresses?.map((address) => (
-            <GoogleEmail key={address} className={s.account} email={address} />
+            <GoogleEmail
+              key={address.email}
+              className={s.account}
+              data={address}
+            />
           ))
         ) : (
           <div className={s.emptyAccounts}>
@@ -31,7 +62,7 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
           </div>
         )}
       </div>
-      <GoogleAuth className={s.googleAuth} />
+      {authUrl && <GoogleAuth className={s.googleAuth} authUrl={authUrl} />}
       <div className={s.socials}>
         <div className={s.subtitle}>Social Accounts</div>
         <Socials />
@@ -56,6 +87,7 @@ const s = css`
     color: var(--blue);
     line-height: 31px;
     cursor: pointer;
+    text-decoration: none;
   }
 
   .syncAccounts {

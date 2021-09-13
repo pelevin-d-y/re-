@@ -7,15 +7,20 @@ import Close from 'src/components/shared-ui/Close'
 
 type Props = {
   className?: string
-  email: string
+  data: { email: string; status: number }
 }
 
-const GoogleEmail: React.FC<Props> = ({ className, email }) => (
+const GoogleEmail: React.FC<Props> = ({ className, data }) => (
   <CardContainer className={classNames(className, s.container)}>
     <SvgIcon className={s.icon} icon="google-mail.svg" />
     <div className={s.content}>
-      <div className={s.email}>{email}</div>
-      <div className={s.status}>Synced</div>
+      <div className={s.email}>{data.email}</div>
+      {data.status === 2 && (
+        <div className={classNames(s.status, s.synced)}>Synced</div>
+      )}
+      {data.status === 1 && (
+        <div className={classNames(s.status, s.unSynced)}>Unsynced</div>
+      )}
     </div>
     <Close className={s.close} handler={() => null} />
   </CardContainer>
@@ -59,6 +64,10 @@ const s = css`
     color: var(--blue);
     font-size: 12px;
     line-height: 14px;
+  }
+
+  .unSynced {
+    color: var(--red);
   }
 
   .content {

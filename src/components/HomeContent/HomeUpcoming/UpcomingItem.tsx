@@ -20,7 +20,6 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
   }
-
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
@@ -31,8 +30,8 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
         </div>
       </div>
       <div className={s.message}>
-        {template?.Message && (
-          <UserHeader text={parseMessage(template.Header, data.name)} />
+        {template?.Action && (
+          <UserHeader text={parseMessage(template.Action, data.name)} />
         )}
       </div>
       <PopoverRate
@@ -52,7 +51,6 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    justify-content: space-between;
     padding: 10px 22px 14px 17px;
     margin-bottom: 8px;
     @include mobile {
@@ -94,6 +92,7 @@ const s = css`
     }
   }
   .button {
+    margin-left: auto;
     max-width: 119px;
     width: 100%;
     @include mobile {
@@ -102,8 +101,9 @@ const s = css`
   }
 
   .message {
-    min-width: 35%;
-    margin-right: 12px;
+    max-width: 40%;
+    width: 100%;
+    margin-right: 20px;
   }
 `
 
