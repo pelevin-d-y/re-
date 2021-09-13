@@ -1,11 +1,12 @@
 import React from 'react'
 import SelectComp, {
-  components,
   StylesConfig,
   IndicatorProps,
+  components,
+  ValueType,
 } from 'react-select'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import DropdownIndicator from './DropdownIndicator'
 
 type Option = {
   value: string
@@ -16,6 +17,11 @@ type Props = {
   options: Option[]
   styles?: any
   label?: string
+  handler?: (e: any) => void
+  value?: ValueType<Option, false>
+  classes?: {
+    arrow?: string
+  }
 }
 
 const selectStyles = (styles: any): StylesConfig<Option, false> => ({
@@ -81,37 +87,40 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   }),
 })
 
-const Selector: React.FC<Props> = ({ options, styles, label }) => {
-  // eslint-disable-next-line
-  const DropdownIndicator = (props: IndicatorProps<any, any>) => (
-    <components.DropdownIndicator {...props}>
-      <SvgIcon className={s.arrow} icon="arrow-selector.svg" />
-    </components.DropdownIndicator>
-  )
-
-  return (
-    <div className={s.container}>
-      {label && <label className={s.label}>{label}</label>}
-      <SelectComp
-        options={options}
-        instanceId="1"
-        styles={selectStyles(styles)}
-        components={{ DropdownIndicator }}
-        isSearchable={false}
-        defaultValue={options[0]}
-      />
-    </div>
-  )
-}
+const Selector: React.FC<Props> = ({
+  options,
+  styles,
+  label,
+  classes,
+  handler,
+}) => (
+  <div className={s.container}>
+    {label && (
+      <label htmlFor={label} className={s.label}>
+        {label}
+      </label>
+    )}
+    <SelectComp
+      options={options}
+      instanceId="1"
+      styles={selectStyles(styles)}
+      onChange={handler}
+      components={{
+        DropdownIndicator: (props: IndicatorProps<any, any>) => (
+          <components.DropdownIndicator {...props}>
+            <DropdownIndicator className={classes?.arrow} />
+          </components.DropdownIndicator>
+        ),
+      }}
+      isSearchable={false}
+      defaultValue={options[0]}
+    />
+  </div>
+)
 
 const s = css`
   .container {
     width: 100%;
-  }
-
-  .arrow {
-    width: 11px;
-    height: 11px;
   }
 
   .label {
