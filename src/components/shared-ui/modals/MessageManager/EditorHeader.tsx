@@ -5,6 +5,7 @@ import { css } from 'astroturf'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useClient } from 'src/components/context/ClientContext'
 import Chips from 'src/components/shared-ui/Chips'
+import Selector from 'src/components/shared-ui/Selector'
 
 type Props = {
   className?: string
@@ -17,11 +18,8 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
   const [isCc, setIsCc] = useState(false)
   const [isBcc, setIsBcc] = useState(false)
 
-  const onChangeField = (
-    event: React.FormEvent<HTMLTextAreaElement>,
-    field: SendMessageField
-  ) => {
-    setValue(field, [{ address: event.currentTarget.value }])
+  const onChangeField = (value: string, field: SendMessageField) => {
+    setValue(field, value)
   }
 
   return (
@@ -67,13 +65,60 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
           defaultValue={data.subject}
           name="subject"
           onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
-            onChangeField(evt, 'subject')
+            onChangeField(evt.currentTarget.value, 'subject')
           }
         />
       </div>
       <div className={s.item}>
         <div className={s.subtitle}>From:</div>
-        <div className={s.from}>{state?.fullName}</div>
+        <div className={s.from}>
+          {state?.syncedEmails && (
+            <Selector
+              handler={(select) => {
+                onChangeField(select.value, 'from_contact')
+              }}
+              value={{
+                value: data.from_contact || '',
+                label: data.from_contact || '',
+              }}
+              options={state.syncedEmails.map((item) => ({
+                label: item,
+                value: item,
+              }))}
+              classes={{ arrow: s.selectArrow }}
+              styles={{
+                container: {
+                  maxWidth: '230px',
+                  width: '100%',
+                },
+                control: {
+                  minHeight: 'auto',
+                  border: 'none !important',
+                },
+                singleValue: {
+                  width: 'calc(100% - 40px)',
+                  fontSize: '12px',
+                  color: '#1966ff',
+                },
+                valueContainer: {
+                  padding: 0,
+                },
+                menu: {
+                  border: 'none',
+                  boxShadow: 0,
+                  color: '#000000',
+                },
+                menuList: {
+                  border: 'none',
+                  boxShadow: 0,
+                },
+                indicatorsContainer: {
+                  padding: '10px',
+                },
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   )
@@ -133,6 +178,11 @@ const s = css`
 
   .btnActive {
     color: var(--blue);
+  }
+
+  .selectArrow {
+    width: 9px;
+    height: 9px;
   }
 `
 
