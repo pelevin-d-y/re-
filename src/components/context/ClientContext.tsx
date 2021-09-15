@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getAuth, getContact, getRecommendations } from 'src/api'
+import { get } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 import formatContactData from 'src/helpers/utils/format-contact-data'
@@ -56,15 +56,16 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
 
 const getMainUserData = async () => {
   const requests = await Promise.all([
-    getRecommendations(),
-    getContact(),
-    getAuth(),
+    get.getRecommendations(),
+    get.getContact(),
+    get.getAuth(),
   ])
 
   const [recommendations, contactResponse, authResponse] = requests
+
   const extendedUsers = addAdditionFields(recommendations)
-  const formattedClientData = formatContactData(contactResponse.data)
-  const clientData = addAuthData(formattedClientData, authResponse.data)
+  const formattedClientData = formatContactData(contactResponse)
+  const clientData = addAuthData(formattedClientData, authResponse)
   const mainUserData: MainUserData = {
     ...clientData,
     contacts:

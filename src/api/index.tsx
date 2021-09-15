@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import { logInLink } from 'src/helpers/variables'
 
 const AWS_API =
@@ -40,118 +40,124 @@ const setToken = (token: string | null): void => {
   }
 }
 
-type Params =
+type GetParams =
   | {
       [key: string]: string
     }
   | URLSearchParams
 
-const apiGet = (url: string, params?: Params): Promise<any> =>
-  instance.get(url, {
-    params,
-  })
+const responseBody = (response: AxiosResponse) => response.data
 
-const apiPost = (url: string, data?: any, params?: Params): Promise<any> =>
-  instance.post(url, data, {
-    params,
-  })
-
-const getMetrics = () =>
-  apiGet(`${AWS_API}/dash/metrics`)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
-
-const getAuth = () =>
-  apiGet(`${AWS_API}/client/authorization`)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
-
-const getAuthUrl = (ids?: string[]) =>
-  apiGet(`${AWS_API}/client/authorization_url`)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
-
-const getContact = () =>
-  apiGet(`${AWS_API}/client/contact`)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
-
-const getRecommendations = () =>
-  apiGet(`${AWS_API}/dash/recommendations`, { number: '20' })
-    .then((res: RecsResponse) => res.data.recommendations)
-    .catch((err) => Promise.reject(err))
-
-const getContactsMutable = (ids: string[]) => {
-  const params = new URLSearchParams()
-  ids.forEach((id) => params.append('id', id))
-
-  return apiGet(`${AWS_API}/contacts/mutable`, params)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
+const requests = {
+  get: (url: string, params?: GetParams) =>
+    instance
+      .get(url, {
+        params,
+      })
+      .then(responseBody),
+  post: (url: string, body: any) => instance.post(url, body).then(responseBody),
+  put: (url: string, body: Record<string, unknown>) =>
+    instance.put(url, body).then(responseBody),
+  delete: (url: string) => instance.delete(url).then(responseBody),
 }
 
-const getContactsMessages = (id: string) =>
-  apiGet(`${AWS_API}/contacts/messages`, { id })
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
+const get = {
+  getMetrics: (): Promise<Record<string, unknown>> =>
+    requests
+      .get(`${AWS_API}/dash/metrics`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 
-const getMessagesRead = (id: string) =>
-  apiGet(`${AWS_API}/messages/read`, { id })
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
+  getAuth: (): Promise<Record<string, unknown>> =>
+    requests
+      .get(`${AWS_API}/client/authorization`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 
-const getPlaylists = () =>
-  apiGet(`${AWS_API}/playlists`)
-    .then((res: ListsRequest) => res)
-    .catch((err) => Promise.reject(err))
+  getAuthUrl: (): Promise<Record<string, string>> =>
+    requests
+      .get(`${AWS_API}/client/authorization_url`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 
-const getPlaylistsData = (ids: string[]) => {
-  const params = new URLSearchParams()
-  ids.forEach((id) => params.append('id', id))
+  getContact: (): Promise<GetContactResp> =>
+    requests
+      .get(`${AWS_API}/client/contact`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 
-  return apiGet(`${AWS_API}/playlists`, params)
-    .then((res: { data: Lists }) => res)
-    .catch((err) => Promise.reject(err))
+  getRecommendations: (): Promise<RecommendationUser[]> =>
+    requests
+      .get(`${AWS_API}/dash/recommendations`, { number: '20' })
+      .then((res) => res.recommendations)
+      .catch((err) => Promise.reject(err)),
+
+  getContactsMutable: (ids: string[]): Promise<GetContactResp[]> => {
+    const params = new URLSearchParams()
+    ids.forEach((id) => params.append('id', id))
+
+    return requests
+      .get(`${AWS_API}/contacts/mutable`, params)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err))
+  },
+
+  getPlaylistsIds: (): Promise<string[]> =>
+    requests
+      .get(`${AWS_API}/playlists`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
+  getPlaylistsData: (ids: string[]): Promise<ListData[]> => {
+    const params = new URLSearchParams()
+    ids.forEach((id) => params.append('id', id))
+
+    return requests
+      .get(`${AWS_API}/playlists`, params)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err))
+  },
+
+  getContactsMessages: (id: string): Promise<any> =>
+    requests
+      .get(`${AWS_API}/contacts/messages`, { id })
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
+  getMessagesRead: (id: string) =>
+    requests
+      .get(`${AWS_API}/messages/read`, { id })
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 }
 
-const sendMessage = (data: SendMessageData) =>
-  apiPost(`${AWS_API}/messages/send`, data)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
+const post = {
+  sendMessage: (data: SendMessageData) =>
+    requests
+      .post(`${AWS_API}/messages/send`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 
-const postRecommendations = () =>
-  apiPost(`${AWS_API}/dash/recommendations`)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
+  postPlaylists: (data: Playlists): Promise<ListData[]> =>
+    requests
+      .post(`${AWS_API}/playlists`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 
-const postPlaylists = (data: Playlists) =>
-  apiPost(`${AWS_API}/playlists`, data)
-    .then((res: ListRequest) => res)
-    .catch((err) => Promise.reject(err))
+  postContactsSearch: (name: string): Promise<string[]> =>
+    requests
+      .post(`${AWS_API}/contacts/search`, {
+        type: 'name',
+        data: name,
+      })
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 
-const postContactsSearch = (name: string) =>
-  apiPost(`${AWS_API}/contacts/search`, {
-    type: 'name',
-    data: name,
-  })
-    .then((res) => res)
-    .catch((err) => Promise.reject(err))
-
-export {
-  instance,
-  setToken,
-  sendMessage,
-  getRecommendations,
-  getAuth,
-  getAuthUrl,
-  getMetrics,
-  getContact,
-  getContactsMutable,
-  getContactsMessages,
-  postContactsSearch,
-  getMessagesRead,
-  getPlaylists,
-  getPlaylistsData,
-  postPlaylists,
-  postRecommendations,
+  postRecommendations: () =>
+    requests
+      .post(`${AWS_API}/dash/recommendations`, {})
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 }
+
+export { instance, setToken, get, post }

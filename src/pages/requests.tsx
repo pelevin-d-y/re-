@@ -3,63 +3,55 @@ import React from 'react'
 import Button from 'src/components/shared-ui/Button'
 import Layout from 'src/layouts/Layout'
 import { css } from 'astroturf'
-import {
-  getRecommendations,
-  postRecommendations,
-  getContact,
-  getMetrics,
-  getAuth,
-  getContactsMutable,
-  getMessagesRead,
-  getPlaylists,
-  getContactsMessages,
-} from 'src/api'
+import { post, get } from 'src/api'
 
 const Requests: React.FC = () => {
   const recommendationsRequest = () => {
-    getRecommendations().then((res) =>
-      console.log('Get recommendations response -->', res)
-    )
+    get
+      .getRecommendations()
+      .then((res) => console.log('Get recommendations response -->', res))
   }
 
   const recommendationsRequestPost = () => {
-    postRecommendations().then((res) =>
-      console.log('Get recommendations response -->', res)
-    )
+    post
+      .postRecommendations()
+      .then((res) => console.log('Get recommendations response -->', res))
   }
 
   const contactRequest = () => {
-    getContact().then((res) => console.log('Get contact response -->', res))
+    get.getContact().then((res) => console.log('Get contact response -->', res))
   }
 
   const metricsRequest = () => {
-    getMetrics().then((res) => console.log('Get metrics response -->', res))
+    get.getMetrics().then((res) => console.log('Get metrics response -->', res))
   }
 
   const authRequest = () => {
-    getAuth().then((res) => console.log('Get auth response -->', res))
+    get.getAuth().then((res) => console.log('Get auth response -->', res))
   }
 
   const contactsMutableRequest = () => {
-    getContactsMutable(['00000000-0000-0000-0000-000000000000']).then((res) =>
-      console.log('Get contacts mutable response -->', res)
-    )
+    get
+      .getContactsMutable(['00000000-0000-0000-0000-000000000000'])
+      .then((res) => console.log('Get contacts mutable response -->', res))
   }
 
   const playlistsRequest = () => {
-    getPlaylists().then((res) => console.log('Get playlist response -->', res))
+    get
+      .getPlaylistsIds()
+      .then((res) => console.log('Get playlist response -->', res))
   }
 
   const messagesReadRequest = () => {
-    getMessagesRead('20rdy2g0n3k312gbzni5g5rt7:cf8bv53sf7jkl29ddrt7296vk').then(
-      (res) => console.log('Get message read response -->', res)
-    )
+    get
+      .getMessagesRead('20rdy2g0n3k312gbzni5g5rt7:cf8bv53sf7jkl29ddrt7296vk')
+      .then((res) => console.log('Get message read response -->', res))
   }
 
   const messagesRequest = () => {
-    getContactsMessages('da4566fc-0499-11ec-8a41-40e2303c218c').then((res) =>
-      console.log('Get messagesRequest response -->', res)
-    )
+    get
+      .getContactsMessages('da4566fc-0499-11ec-8a41-40e2303c218c')
+      .then((res) => console.log('Get messagesRequest response -->', res))
   }
 
   return (
