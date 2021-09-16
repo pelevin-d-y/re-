@@ -7,7 +7,7 @@ import { useQuery } from 'react-query'
 
 type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
 
-type State = MainUserData | null
+type State = MainUserData | undefined
 
 type ContextType = {
   state: State
@@ -55,23 +55,15 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
   return data
 }
 
-// useQuery({
-//   queryKey: 'getMainUserData',
-//   queryFn: fetchTodo,
-// })
-
-const getMainUserData = async () => {
-  const requests = await Promise.all([
-    get.getRecommendations(),
-    get.getContact(),
-    get.getAuth(),
-  ])
-
-  const [recommendations, contactResponse, authResponse] = requests
-
+const getMainUserData = ([recommendations, contact, auth]: [
+  RecommendationUser[],
+  GetContactResp,
+  Record<string, unknown>
+]): MainUserData => {
   const extendedUsers = addAdditionFields(recommendations)
-  const formattedClientData = formatContactData(contactResponse)
-  const clientData = addAuthData(formattedClientData, authResponse)
+  const formattedClientData = formatContactData(contact)
+  const clientData = addAuthData(formattedClientData, auth)
+
   const mainUserData: MainUserData = {
     ...clientData,
     contacts:
@@ -82,29 +74,26 @@ const getMainUserData = async () => {
 }
 
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
-  const [state, dispatch] = React.useReducer(clientReducer, null)
+  const [state, dispatch] = React.useReducer(clientReducer, undefined)
 
-  // useQuery({
-  //   queryKey: 'getMainUserData',
-  //   queryFn: fetchTodo,
-  // })
+  const mainUserData = useQuery({
+    queryKey: ['mainUserData'],
+    queryFn: () =>
+      Promise.all([
+        get.getRecommendations(),
+        get.getContact(),
+        get.getAuth(),
+      ]).then((res) => getMainUserData(res)),
+  })
 
   React.useEffect(() => {
-    const setClientData = async () => {
-      try {
-        const mainUserData = await getMainUserData()
-        dispatch({
-          type: 'UPDATE_USER_DATA',
-          payload: mainUserData,
-        })
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('setClientData err', err)
-      }
+    if (mainUserData.data) {
+      dispatch({
+        type: 'UPDATE_USER_DATA',
+        payload: mainUserData.data,
+      })
     }
-
-    setClientData()
-  }, [])
+  }, [mainUserData.data])
 
   const updateUserData = async (data: MainUserData) => {
     dispatch({ type: 'UPDATE_USER_DATA', payload: data })
@@ -114,9 +103,10 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     () => ({
       state,
       dispatch,
+      query: mainUserData.data,
       updateUserData,
     }),
-    [state]
+    [mainUserData.data, state]
   )
 
   return (

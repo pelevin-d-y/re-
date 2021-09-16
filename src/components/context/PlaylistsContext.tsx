@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useQueries, useQuery } from 'react-query'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
@@ -43,44 +44,88 @@ const PlaylistsProvider: React.FC = ({ children }) => {
     isLoading: false,
   })
 
+  const { data: playlistsIds } = useQuery({
+    queryKey: ['PlaylistsIds'],
+    queryFn: get.getPlaylistsIds,
+  })
+
+  const isPlaylistsIds = playlistsIds && playlistsIds.length > 0
+  const { data: playlistsData } = useQuery({
+    queryKey: ['PlaylistsData', playlistsIds],
+    queryFn: () => {
+      if (isPlaylistsIds) {
+        return get.getPlaylistsData(playlistsIds.map((item: string) => item))
+      }
+      return undefined
+    },
+    enabled: isPlaylistsIds,
+  })
+  console.log('playlistsData', playlistsData)
+  const contacts = useQuery({
+    queryKey: ['PlaylistsContacts', playlistsData],
+    queryFn: () => {
+      if (playlistsData) {
+        return playlistsData.forEach((playlist) => {
+          const { contacts: playlistContacts } = playlist
+          return get.getContactsMutable(
+            playlistContacts.map((item: any) => item.contact_id)
+          )
+        })
+      }
+      return null
+    },
+    enabled: !!playlistsData,
+  })
+
+  console.log('contacts', contacts)
+
+  // playlistsData.map((playlist) => {
+  //   const { contacts: playlistContacts } = playlist
+
+  //   return {
+  //     queryKey: ['playlistsContacts', playlist.id],
+  //     queryFn: () =>
+  //       get.getContactsMutable(
+  //         playlistContacts.map((item: any) => item.contact_id)
+  //       ),
+  //     enabled: playlist.contacts.length > 0,
+  //   }
+  // })
+
   const getPlaylistsAsync = React.useCallback(async () => {
     try {
-      const playlistsIds = await get.getPlaylistsIds()
-      const playlistsData = await get.getPlaylistsData(
-        playlistsIds.map((item: string) => item)
-      )
-
-      const contactsResp = await Promise.all<
-        GetContactResp[] | Record<string, unknown>
-      >(
-        playlistsData.map((playlist) => {
-          const { contacts: playlistContacts } = playlist
-          return playlistContacts.length > 0
-            ? get.getContactsMutable(
-                playlistContacts.map((item: any) => item.contact_id)
-              )
-            : {}
-        })
-      )
-
-      return new Promise((resolve) => {
-        const playlistsWithContacts = playlistsData.map((item: any, index) => {
-          let newItem = item
-          newItem.contacts = contactsResp[index]
-            ? Object.entries(contactsResp[index]).map(([id, contact]) =>
-                formatContactData(contact as any, id)
-              )
-            : []
-
-          return newItem
-        })
-
-        dispatch({
-          type: 'UPDATE_PLAYLISTS_DATA',
-          payload: playlistsWithContacts,
-        })
-        resolve(playlistsWithContacts)
-      })
+      // const playlistsIds = await get.getPlaylistsIds()
+      // const playlistsData = await get.getPlaylistsData(
+      //   playlistsIds.map((item: string) => item)
+      // )
+      // const contactsResp = await Promise.all<
+      //   GetContactResp[] | Record<string, unknown>
+      // >(
+      //   playlistsData.map((playlist) => {
+      //     const { contacts: playlistContacts } = playlist
+      //     return playlistContacts.length > 0
+      //       ? get.getContactsMutable(
+      //           playlistContacts.map((item: any) => item.contact_id)
+      //         )
+      //       : {}
+      //   })
+      // )
+      // return new Promise((resolve) => {
+      //   const playlistsWithContacts = playlistsData.map((item: any, index) => {
+      //     let newItem = item
+      //     newItem.contacts = contactsResp[index]
+      //       ? Object.entries(contactsResp[index]).map(([id, contact]) =>
+      //           formatContactData(contact as any, id)
+      //         )
+      //       : []
+      //     return newItem
+      //   })
+      //   dispatch({
+      //     type: 'UPDATE_PLAYLISTS_DATA',
+      //     payload: playlistsWithContacts,
+      //   })
+      //   resolve(playlistsWithContacts)
+      // })
     } catch (err) {
       return new Promise((_, reject) => {
         // eslint-disable-next-line no-console
