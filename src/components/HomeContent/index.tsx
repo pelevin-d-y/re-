@@ -18,16 +18,16 @@ const Content: React.FC = () => {
   const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
 
   const headerDataLosAngeles = {
-    month: 'feb',
-    day: '20',
+    month: 'oct',
+    day: '23',
     title: 'Your Upcoming Trip to Los Angeles',
     description:
       'Plan your trip ahead but scheduling meetings with contacts in LA',
   }
 
   const headerDataWeek = {
-    month: 'oct',
-    day: '23',
+    month: 'sep',
+    day: '9',
     title: 'Follow up with people you met with last week',
     description: '',
   }
