@@ -22,8 +22,7 @@ type List = {
 
 type Lists = List[]
 
-type ListRequest = {
-  data: any[]
+type ListData = {
   actions: any
   contacts: {
     contact_id: string
@@ -32,17 +31,14 @@ type ListRequest = {
   }[]
   id: string
   inclusions: any
-  info: { name: string }
+  info: { name?: string; description?: string }
 }
 
-type ListsRequest = {
-  config: any
-  data: string[]
-  status: number
-  request: any
-  headers: any
-  statusText: any
-}
+type GetContactResp = {
+  type: 'email' | 'name' | 'short_name' | 'image'
+  data: string | string[]
+  meta: any
+}[]
 
 type MessageList = {
   address: string
@@ -231,12 +227,6 @@ interface UserData extends RecommendationUser {
   pinned: boolean
   templateData?: Template
   relationshipStrength: 'red' | 'orange' | 'green' | null
-}
-
-type RecsResponse = {
-  data: {
-    recommendations: RecommendationUser[]
-  }
 }
 
 type MainUserData = {

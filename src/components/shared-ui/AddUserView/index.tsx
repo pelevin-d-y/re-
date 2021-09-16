@@ -5,7 +5,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce'
-import { getContactsMutable, postContactsSearch } from 'src/api'
+import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
 import UserItem from './UserItem'
@@ -28,15 +28,15 @@ const AddUserView: React.FC<Props> = ({ className }) => {
       const search = async () => {
         setIsLoading(true)
         try {
-          const searchResponse = await postContactsSearch(searchValue)
+          const searchResponse = await post.postContactsSearch(searchValue)
           let formattedContacts: FormattedContacts[] | [] = []
 
-          if (searchResponse.data.length > 0) {
-            const contactsResp = await getContactsMutable(
-              searchResponse.data.map((item: any) => item)
+          if (searchResponse.length > 0) {
+            const contactsResp = await get.getContactsMutable(
+              searchResponse.map((item: any) => item)
             )
-            formattedContacts = Object.entries(contactsResp.data).map(
-              ([id, contact]) => formatContactData(contact as any, id)
+            formattedContacts = Object.entries(contactsResp).map(
+              ([id, contact]) => formatContactData(contact, id)
             )
           }
 

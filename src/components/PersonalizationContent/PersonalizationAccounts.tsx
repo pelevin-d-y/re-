@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
 import GoogleAuth from 'src/components/shared-ui/GoogleAuth'
-import { getAuthUrl } from 'src/api'
+import { get } from 'src/api'
 
 import Socials from './Socials'
 
@@ -17,7 +17,8 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
 
   useEffect(() => {
     const getAuthUrlAsync = async () => {
-      getAuthUrl()
+      get
+        .getAuthUrl()
         .then((res) => {
           setAuthUrl(Object.values(res.data)[0] as any)
         })

@@ -6,7 +6,7 @@ import Search from 'src/components/shared-ui/Search'
 import Link from 'src/components/shared-ui/Link'
 
 type Props = {
-  data: UserData[] | ListRequest[] | null
+  data: UserData[] | ListData[] | null
   className?: string
   icon: string
   iconBackground: string
