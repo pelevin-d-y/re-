@@ -13,28 +13,26 @@ import UpcomingItem from './UpcomingItem'
 
 type Props = {
   className?: string
+  title: string
+  headerData: {
+    month: string
+    day: string
+    title: string
+    description: string
+  }
 }
 
-const HomeUpcoming: React.FC<Props> = ({ className }) => {
+const HomeUpcoming: React.FC<Props> = ({ className, title, headerData }) => {
   const { state: stateLists } = useLists()
   const { dispatch: usersDispatch } = useUsers()
+  const list = stateLists?.find((item) => item.title === title)
 
-  const list = stateLists?.find(
-    (item) => item.title === 'Your Upcoming Trip to Los Angeles'
-  )
   const { dispatch: popupDispatch } = usePopup()
 
   const followUpWithAllHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
     usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list?.users || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
-  }
-
-  const headerData = {
-    month: 'feb',
-    day: '20',
-    title: list?.title as string,
-    description: list?.description as string,
   }
 
   return (

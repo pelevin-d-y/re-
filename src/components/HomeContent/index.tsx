@@ -17,13 +17,37 @@ const Content: React.FC = () => {
   const { state: clientState } = useClient()
   const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
 
+  const headerDataLosAngeles = {
+    month: 'oct',
+    day: '23',
+    title: 'Your Upcoming Trip to Los Angeles',
+    description:
+      'Plan your trip ahead but scheduling meetings with contacts in LA',
+  }
+
+  const headerDataWeek = {
+    month: 'sep',
+    day: '9',
+    title: 'Follow up with people you met with last week',
+    description: '',
+  }
+
   return (
     <div className={s.container}>
       <div className={s.main}>
         {lists ? (
           <>
             <HomeRecommendations className={s.section} />
-            <HomeUpcoming className={s.section} />
+            <HomeUpcoming
+              className={s.section}
+              title="Follow up with people you met with last week"
+              headerData={headerDataWeek}
+            />
+            <HomeUpcoming
+              className={s.section}
+              title="Your Upcoming Trip to Los Angeles"
+              headerData={headerDataLosAngeles}
+            />
             <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
