@@ -12,34 +12,24 @@ type Props = {
 }
 
 type CardsStructure = {
-  firstColumn: any
-  secondColumn: any
+  firstColumn: ListData[]
+  secondColumn: ListData[]
 }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
   const {
-    state: { data: lists, isLoading },
-    getPlaylistsAsync,
-    dispatch,
+    state: { data: lists },
+    query,
   } = usePlaylists()
 
-  useEffect(() => {
-    const getPlaylists = async () => {
-      dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
-      await getPlaylistsAsync()
-      dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
-    }
-
-    getPlaylists()
-  }, [dispatch, getPlaylistsAsync])
-
+  const { isLoading, data } = query
   const cardsStructure: CardsStructure = useMemo(() => {
     const value: CardsStructure = {
       firstColumn: [],
       secondColumn: [],
     }
 
-    lists?.map((item, index) => {
+    data?.map((item, index) => {
       const remainder = (index + 1) % 2
       if (remainder) {
         return value.firstColumn.push(item)
@@ -49,7 +39,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
     })
 
     return value
-  }, [lists])
+  }, [data])
 
   return (
     <CardContainer className={classNames(s.container, className)}>
@@ -65,12 +55,12 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
       {isLoading && <SvgIcon className={s.spinner} icon="spinner.svg" />}
       <div className={s.list}>
         <div className={s.column}>
-          {cardsStructure.firstColumn.map((item: any) => (
+          {cardsStructure.firstColumn.map((item) => (
             <CardList className={s.card} key={item.id} data={item} />
           ))}
         </div>
         <div className={s.column}>
-          {cardsStructure.secondColumn.map((item: any) => (
+          {cardsStructure.secondColumn.map((item) => (
             <CardList className={s.card} key={item.id} data={item} />
           ))}
         </div>

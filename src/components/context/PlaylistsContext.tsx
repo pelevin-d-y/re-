@@ -1,19 +1,21 @@
 import * as React from 'react'
-import { useQueries, useQuery } from 'react-query'
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseQueryResult,
+} from 'react-query'
 import { get, post } from 'src/api'
-import formatContactData from 'src/helpers/utils/format-contact-data'
 
-type State = { data: any[]; isLoading: boolean }
-type Action =
-  | { type: 'UPDATE_PLAYLISTS_DATA'; payload: any[] }
-  | { type: 'UPDATE_IS_LOADING'; payload: boolean }
+type State = { data: any[] }
+type Action = { type: 'UPDATE_PLAYLISTS_DATA'; payload: any[] }
 type Dispatch = React.Dispatch<Action>
 
 type ContextType = {
   state: State
   dispatch: Dispatch
-  deletePlaylists: (ids: string[]) => Promise<any>
-  getPlaylistsAsync: () => Promise<any>
+  deletePlaylists: (ids: string[]) => void
+  query: UseQueryResult<ListData[] | undefined, unknown>
 }
 
 const PlaylistsContext = React.createContext<ContextType | null>(null)
@@ -26,12 +28,6 @@ const playlistsReducer = (state: State, action: Action): State => {
         data: action.payload,
       }
     }
-    case 'UPDATE_IS_LOADING': {
-      return {
-        ...state,
-        isLoading: action.payload,
-      }
-    }
     default: {
       return state
     }
@@ -41,17 +37,18 @@ const playlistsReducer = (state: State, action: Action): State => {
 const PlaylistsProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(playlistsReducer, {
     data: [],
-    isLoading: false,
   })
+  const queryClient = useQueryClient()
 
   const { data: playlistsIds } = useQuery({
     queryKey: ['PlaylistsIds'],
     queryFn: get.getPlaylistsIds,
   })
 
-  const isPlaylistsIds = playlistsIds && playlistsIds.length > 0
-  const { data: playlistsData } = useQuery({
-    queryKey: ['PlaylistsData', playlistsIds],
+  const isPlaylistsIds = !!(playlistsIds && playlistsIds.length > 0)
+
+  const playlistsQuery = useQuery({
+    queryKey: ['PlaylistsData', { ids: playlistsIds }],
     queryFn: () => {
       if (isPlaylistsIds) {
         return get.getPlaylistsData(playlistsIds.map((item: string) => item))
@@ -60,89 +57,18 @@ const PlaylistsProvider: React.FC = ({ children }) => {
     },
     enabled: isPlaylistsIds,
   })
-  console.log('playlistsData', playlistsData)
-  const contacts = useQuery({
-    queryKey: ['PlaylistsContacts', playlistsData],
-    queryFn: () => {
-      if (playlistsData) {
-        return playlistsData.forEach((playlist) => {
-          const { contacts: playlistContacts } = playlist
-          return get.getContactsMutable(
-            playlistContacts.map((item: any) => item.contact_id)
-          )
-        })
-      }
-      return null
+
+  const deletePlaylistMutation = useMutation({
+    mutationFn: (ids: string[]) =>
+      post.postPlaylists(ids.map((item) => ({ id: item }))),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['PlaylistsData', { ids: playlistsIds }])
     },
-    enabled: !!playlistsData,
   })
 
-  console.log('contacts', contacts)
-
-  // playlistsData.map((playlist) => {
-  //   const { contacts: playlistContacts } = playlist
-
-  //   return {
-  //     queryKey: ['playlistsContacts', playlist.id],
-  //     queryFn: () =>
-  //       get.getContactsMutable(
-  //         playlistContacts.map((item: any) => item.contact_id)
-  //       ),
-  //     enabled: playlist.contacts.length > 0,
-  //   }
-  // })
-
-  const getPlaylistsAsync = React.useCallback(async () => {
-    try {
-      // const playlistsIds = await get.getPlaylistsIds()
-      // const playlistsData = await get.getPlaylistsData(
-      //   playlistsIds.map((item: string) => item)
-      // )
-      // const contactsResp = await Promise.all<
-      //   GetContactResp[] | Record<string, unknown>
-      // >(
-      //   playlistsData.map((playlist) => {
-      //     const { contacts: playlistContacts } = playlist
-      //     return playlistContacts.length > 0
-      //       ? get.getContactsMutable(
-      //           playlistContacts.map((item: any) => item.contact_id)
-      //         )
-      //       : {}
-      //   })
-      // )
-      // return new Promise((resolve) => {
-      //   const playlistsWithContacts = playlistsData.map((item: any, index) => {
-      //     let newItem = item
-      //     newItem.contacts = contactsResp[index]
-      //       ? Object.entries(contactsResp[index]).map(([id, contact]) =>
-      //           formatContactData(contact as any, id)
-      //         )
-      //       : []
-      //     return newItem
-      //   })
-      //   dispatch({
-      //     type: 'UPDATE_PLAYLISTS_DATA',
-      //     payload: playlistsWithContacts,
-      //   })
-      //   resolve(playlistsWithContacts)
-      // })
-    } catch (err) {
-      return new Promise((_, reject) => {
-        // eslint-disable-next-line no-console
-        console.log('getPlaylistsAsync err ==>', err)
-        reject(new Error(err as any))
-      })
-    }
-  }, [])
-
   const deletePlaylists = React.useCallback(
-    (ids: string[]) =>
-      post
-        .postPlaylists(ids.map((item) => ({ id: item })))
-        .then(() => getPlaylistsAsync())
-        // eslint-disable-next-line no-console
-        .catch((err) => console.log('deletePlaylists err', err)),
-    [getPlaylistsAsync]
+    (ids) => deletePlaylistMutation.mutate(ids),
+    [deletePlaylistMutation]
   )
 
   const value: ContextType = React.useMemo(
@@ -150,9 +76,9 @@ const PlaylistsProvider: React.FC = ({ children }) => {
       state,
       dispatch,
       deletePlaylists,
-      getPlaylistsAsync,
+      query: playlistsQuery,
     }),
-    [deletePlaylists, getPlaylistsAsync, state]
+    [deletePlaylists, playlistsQuery, state]
   )
 
   return (

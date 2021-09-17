@@ -5,7 +5,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 
 type Props = {
   className?: string
-  users: UserData[]
+  users: UserData[] | FormattedContacts[]
   avatarWidth?: number
   avatarHeight?: number
   showHiddenUsers?: boolean

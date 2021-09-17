@@ -1,54 +1,67 @@
-import React, { useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
-import Img from 'src/components/shared-ui/Img'
-import Tasks from 'src/components/shared-ui/Tasks'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
+import { get, post } from 'src/api'
+import { useQuery, UseQueryResult } from 'react-query'
+import formatContactData from 'src/helpers/utils/format-contact-data'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import CardContainer from '../CardContainer'
 import Loader from '../../Loader'
 
 type Props = {
   className?: string
-  data: any
+  data: ListData
 }
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { info, id, contacts, image, tasks },
+  data: { info, id, contacts },
 }) => {
   const router = useRouter()
   const { deletePlaylists } = usePlaylists()
-  const [isLoading, setIsLoading] = useState(false)
 
-  const deleteHandler = async () => {
-    try {
-      setIsLoading(true)
-      await deletePlaylists([id])
-      setIsLoading(false)
-    } catch (err) {
-      setIsLoading(false)
-    }
+  const contactsQuery: UseQueryResult<FormattedContacts[], unknown> = useQuery({
+    queryKey: ['PlaylistContacts', id],
+    queryFn: () => {
+      if (contacts.length > 0) {
+        return get
+          .getContactsMutable(contacts.map((item) => item.contact_id))
+          .then((res) =>
+            Object.entries(res).map(([contactId, contact]) =>
+              formatContactData(contact, contactId)
+            )
+          )
+      }
+      return undefined
+    },
+  })
+  const { isLoading, data } = contactsQuery
+
+  const deleteHandler = () => {
+    deletePlaylists([id])
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      {image && <Img img={image} alt="icon" className={s.image} />}
+      {/* {image && <Img img={image} alt="icon" className={s.image} />} */}
       <div className={s.title}>{info.name}</div>
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
       {/* <Tasks className={s.tasks} data={tasks} /> */}
-      <AvatarsList
-        avatarWidth={38}
-        avatarHeight={38}
-        className={s.avatars}
-        users={contacts}
-        showHiddenUsers
-      />
+      {data && (
+        <AvatarsList
+          avatarWidth={38}
+          avatarHeight={38}
+          className={s.avatars}
+          users={data}
+          showHiddenUsers
+        />
+      )}
       <div className={classNames(s.actions)}>
         <PopoverDots
           variant="outlined"
