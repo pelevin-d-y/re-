@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {
   useMutation,
+  UseMutationResult,
   useQuery,
   useQueryClient,
   UseQueryResult,
@@ -15,6 +16,12 @@ type ContextType = {
   state: State
   dispatch: Dispatch
   deletePlaylists: (ids: string[]) => void
+  deletePlaylistMutation: UseMutationResult<
+    ListData[],
+    unknown,
+    string[],
+    unknown
+  >
   query: UseQueryResult<ListData[] | undefined, unknown>
 }
 
@@ -51,7 +58,9 @@ const PlaylistsProvider: React.FC = ({ children }) => {
     queryKey: ['PlaylistsData', { ids: playlistsIds }],
     queryFn: () => {
       if (isPlaylistsIds) {
-        return get.getPlaylistsData(playlistsIds.map((item: string) => item))
+        return get.getPlaylistsData(
+          (playlistsIds as string[]).map((item: string) => item)
+        )
       }
       return undefined
     },
@@ -61,13 +70,12 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   const deletePlaylistMutation = useMutation({
     mutationFn: (ids: string[]) =>
       post.postPlaylists(ids.map((item) => ({ id: item }))),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['PlaylistsData', { ids: playlistsIds }])
-    },
+    onSuccess: () =>
+      queryClient.invalidateQueries(['PlaylistsData', { ids: playlistsIds }]),
   })
 
   const deletePlaylists = React.useCallback(
-    (ids) => deletePlaylistMutation.mutate(ids),
+    (ids) => deletePlaylistMutation.mutateAsync(ids),
     [deletePlaylistMutation]
   )
 
@@ -76,9 +84,10 @@ const PlaylistsProvider: React.FC = ({ children }) => {
       state,
       dispatch,
       deletePlaylists,
+      deletePlaylistMutation,
       query: playlistsQuery,
     }),
-    [deletePlaylists, playlistsQuery, state]
+    [deletePlaylistMutation, deletePlaylists, playlistsQuery, state]
   )
 
   return (

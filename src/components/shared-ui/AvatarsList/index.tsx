@@ -37,8 +37,10 @@ const AvatarList: React.FC<Props> = ({
       >
         {visibleUsers.map((item, index) => (
           <div
-            key={item.key || index}
-            style={{ transform: `translateX(-${index * AVATAR_TRANSITION}px)` }}
+            key={(item as any).key || index}
+            style={{
+              transform: `translateX(-${index * AVATAR_TRANSITION}px)`,
+            }}
           >
             <Avatar
               className={s.avatarImage}

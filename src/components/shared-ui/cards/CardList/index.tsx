@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
-import { get, post } from 'src/api'
+import { get } from 'src/api'
 import { useQuery, UseQueryResult } from 'react-query'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
@@ -23,6 +23,7 @@ const CardList: React.FC<Props> = ({
 }) => {
   const router = useRouter()
   const { deletePlaylists } = usePlaylists()
+  const [isLoading, setIsLoading] = useState(false)
 
   const contactsQuery: UseQueryResult<FormattedContacts[], unknown> = useQuery({
     queryKey: ['PlaylistContacts', id],
@@ -39,10 +40,12 @@ const CardList: React.FC<Props> = ({
       return undefined
     },
   })
-  const { isLoading, data } = contactsQuery
+  const { data } = contactsQuery
 
-  const deleteHandler = () => {
-    deletePlaylists([id])
+  const deleteHandler = async () => {
+    setIsLoading(true)
+    await deletePlaylists([id])
+    setIsLoading(false)
   }
 
   return (
