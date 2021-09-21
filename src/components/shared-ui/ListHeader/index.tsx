@@ -6,6 +6,7 @@ import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
 import { post } from 'src/api'
 import { useRouter } from 'next/router'
+import { useQueryClient } from 'react-query'
 import Button from '../Button'
 import Loader from '../Loader'
 
@@ -22,6 +23,8 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
     title: data.info?.name,
     description: data.info?.description,
   })
+
+  const queryClient = useQueryClient()
 
   const [debounceFields] = useDebounce(fields, 500)
 
@@ -43,10 +46,12 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         ])
         .then((res) => {
           setIsLoading(false)
+          queryClient.removeQueries('PlaylistsIds')
           router.push(`/list?id=${res[0].id}`)
         })
         .catch((err) => {
           setIsLoading(false)
+          queryClient.removeQueries('PlaylistsIds')
           console.log('ListHeader err =>', err)
         })
     }
@@ -69,6 +74,12 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
                 },
               },
             ])
+            .then(() => {
+              queryClient.invalidateQueries([
+                'list/PlaylistData',
+                { id: router.query.id },
+              ])
+            })
             .catch((err) => {
               setIsLoading(false)
               console.log('ListHeader err =>', err)

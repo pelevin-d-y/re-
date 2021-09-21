@@ -34,7 +34,7 @@ instance.interceptors.response.use(
 
 const setToken = (token: string | null): void => {
   if (!token) {
-    instance.defaults.headers.Authorization = undefined
+    delete instance.defaults.headers.Authorization
   } else {
     instance.defaults.headers.Authorization = `Bearer ${token}`
   }

@@ -2,6 +2,12 @@ import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { useRouter } from 'next/router'
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseQueryResult,
+} from 'react-query'
 
 type Action =
   | { type: 'UPDATE_LIST'; payload: any }
@@ -12,7 +18,7 @@ type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
   dispatch: Dispatch
-  getPlaylistData: () => void
+  playlistQuery: UseQueryResult<ListData, unknown>
   updatePlaylist: (list: any) => void
   removeUsers: (userData: any) => Promise<any>
   addUser: (user: any) => Promise<any>
@@ -39,93 +45,96 @@ const PlaylistProvider: React.FC = ({ children }) => {
     dispatch({ type: 'UPDATE_LIST', payload: list })
   }
 
-  const getPlaylistData = React.useCallback(async () => {
-    try {
-      const playlist = await get.getPlaylistsData([router.query.id] as string[])
-      const newPlaylist = playlist[0]
+  const queryClient = useQueryClient()
+  const playlistQuery = useQuery({
+    queryKey: ['list/PlaylistData', { id: router.query.id }],
+    queryFn: async () => {
+      const [playlist] = await get.getPlaylistsData([
+        router.query.id,
+      ] as string[])
 
-      if (newPlaylist.contacts.length > 0) {
-        const contactsResp = await get.getContactsMutable(
-          newPlaylist.contacts.map((item: any) => item.contact_id)
+      const contacts = await get
+        .getContactsMutable(playlist.contacts.map((item) => item.contact_id))
+        .then((res) =>
+          Object.entries(res).map(([id, contact]) =>
+            formatContactData(contact, id)
+          )
         )
-
-        newPlaylist.contacts = Object.entries(contactsResp).map(
-          ([id, contact]) => formatContactData(contact as any, id)
-        )
+      return {
+        ...playlist,
+        contacts,
       }
-      updatePlaylist(newPlaylist)
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('getPlaylistData err =>', err)
-    }
-  }, [router.query.id])
+    },
+    enabled: !!router.query.id,
+  })
+
+  const deleteContactsMutation = useMutation({
+    mutationFn: (users: any[]) =>
+      post.postPlaylists([
+        {
+          id: router.query.id as string,
+          contacts: users.map((item) => ({
+            contact_id: item.id,
+            review: 2,
+          })),
+        },
+      ]),
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        'list/PlaylistData',
+        { id: router.query.id },
+      ])
+    },
+  })
 
   const removeUsers = React.useCallback(
-    (users: any[]) => {
-      if (state?.id) {
-        return post
-          .postPlaylists([
-            {
-              id: state.id,
-              contacts: users.map((item) => ({
-                contact_id: item.id,
-                review: 2,
-              })),
-            },
-          ])
-          .then(() => getPlaylistData())
-          .catch((err: any) => console.log('removeUser err =>', err))
-      }
-      return new Promise((resolve, reject) =>
-        reject(new Error('List id is undefined'))
-      )
-    },
-    [state?.id, getPlaylistData]
+    (users: any[]) =>
+      deleteContactsMutation
+        .mutateAsync(users)
+        .catch((err: any) => console.log('removeUser err =>', err)),
+    [deleteContactsMutation]
   )
+
+  const addContactsMutation = useMutation({
+    mutationFn: (user: any) =>
+      post.postPlaylists([
+        {
+          id: router.query.id as string,
+          contacts: [
+            {
+              contact_id: user.id,
+              review: 1,
+            },
+          ],
+        },
+      ]),
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        'list/PlaylistData',
+        { id: router.query.id },
+      ])
+    },
+  })
 
   const addUser = React.useCallback(
-    (user) => {
-      if (state?.id) {
-        return post
-          .postPlaylists([
-            {
-              id: state.id,
-              contacts: [
-                {
-                  contact_id: user.id,
-                  review: 1,
-                },
-              ],
-            },
-          ])
-          .then(() => getPlaylistData())
-          .catch((err: any) => console.log('addUser err =>', err))
-      }
-
-      return new Promise((resolve, reject) =>
-        reject(new Error('List id is undefined'))
-      )
-    },
-    [state?.id, getPlaylistData]
+    (user) =>
+      addContactsMutation
+        .mutateAsync(user)
+        .then(() => null)
+        .catch((err: any) => console.log('addUser err =>', err)),
+    [addContactsMutation]
   )
-
-  React.useEffect(() => {
-    if (router.query.id && !state) {
-      getPlaylistData()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.id])
 
   const value: ContextType = React.useMemo(
     () => ({
       state,
+      playlistQuery,
       dispatch,
       updatePlaylist,
-      getPlaylistData,
       addUser,
       removeUsers,
     }),
-    [state, getPlaylistData, addUser, removeUsers]
+    [state, playlistQuery, addUser, removeUsers]
   )
 
   return (

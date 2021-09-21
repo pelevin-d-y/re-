@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'

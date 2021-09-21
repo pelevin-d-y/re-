@@ -8,8 +8,9 @@ import { TableProvider } from 'src/components/context/TableContext'
 import Loader from '../shared-ui/Loader'
 
 const Content: React.FC = () => {
-  const { state: data } = usePlaylist()
-
+  const {
+    playlistQuery: { data },
+  } = usePlaylist()
   return data ? (
     <div className={s.container}>
       {data && <ListHeader data={data} />}
@@ -17,7 +18,7 @@ const Content: React.FC = () => {
         <TableProvider>
           {/* <ListRecs list={currentList} contacts={contacts} /> */}
           {data && <TableHeader list={data} />}
-          {data && <Table data={data} />}
+          {data.contacts && <Table data={data.contacts} />}
         </TableProvider>
       </div>
     </div>

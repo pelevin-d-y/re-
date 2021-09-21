@@ -11,7 +11,7 @@ import { usePlaylist } from 'src/components/context/PlaylistContext'
 
 type Props = {
   className?: string
-  list: Playlist
+  list: ListData
   addContact?: (users: UserData[]) => void
   removeContacts?: (users: UserData[]) => void
 }

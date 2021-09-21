@@ -49,18 +49,19 @@ const PlaylistsProvider: React.FC = ({ children }) => {
 
   const { data: playlistsIds } = useQuery({
     queryKey: ['PlaylistsIds'],
-    queryFn: get.getPlaylistsIds,
+    queryFn: () => {
+      console.log('get.getPlaylistsIds')
+      return get.getPlaylistsIds()
+    },
   })
 
   const isPlaylistsIds = !!(playlistsIds && playlistsIds.length > 0)
 
   const playlistsQuery = useQuery({
-    queryKey: ['PlaylistsData', { ids: playlistsIds }],
+    queryKey: ['PlaylistsData'],
     queryFn: () => {
       if (isPlaylistsIds) {
-        return get.getPlaylistsData(
-          (playlistsIds as string[]).map((item: string) => item)
-        )
+        return get.getPlaylistsData(playlistsIds.map((item) => item))
       }
       return undefined
     },
@@ -70,8 +71,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   const deletePlaylistMutation = useMutation({
     mutationFn: (ids: string[]) =>
       post.postPlaylists(ids.map((item) => ({ id: item }))),
-    onSuccess: () =>
-      queryClient.invalidateQueries(['PlaylistsData', { ids: playlistsIds }]),
+    onSuccess: () => queryClient.invalidateQueries(['PlaylistsData']),
   })
 
   const deletePlaylists = React.useCallback(

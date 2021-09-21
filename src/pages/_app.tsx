@@ -8,6 +8,7 @@ import { ListsProvider } from 'src/components/context/ListsContext'
 import { ClientProvider } from 'src/components/context/ClientContext'
 import { UsersProvider } from 'src/components/context/UsersContext'
 import 'ts-replace-all'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   const [queryClient] = React.useState(() => new QueryClient())
@@ -25,6 +26,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
               </ListsProvider>
             </ClientProvider>
           </AuthProvider>
+          <ReactQueryDevtools />
         </QueryClientProvider>
       )}
     </div>
