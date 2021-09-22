@@ -9,17 +9,21 @@ import {
   UseQueryResult,
 } from 'react-query'
 
-type Action =
-  | { type: 'UPDATE_LIST'; payload: any }
-  | { type: 'UPDATE_SELECTED_USERS'; payload: any[] }
+type Action = { type: 'UPDATE_SELECTED_USERS'; payload: any[] }
 type State = Playlist | null
 
 type Dispatch = React.Dispatch<Action>
+
+type PlaylistData = {
+  playlist: ListData
+  contacts?: FormattedContacts[]
+}
+
 type ContextType = {
   state: State
   dispatch: Dispatch
-  playlistQuery: UseQueryResult<ListData, unknown>
-  updatePlaylist: (list: any) => void
+  playlistQuery: UseQueryResult<PlaylistData, unknown>
+  contacts?: FormattedContacts[]
   removeUsers: (userData: any) => Promise<any>
   addUser: (user: any) => Promise<any>
 }
@@ -28,9 +32,6 @@ const PlaylistContext = React.createContext<ContextType | null>(null)
 
 const playlistReducer = (state: State, action: any): State => {
   switch (action.type) {
-    case 'UPDATE_LIST': {
-      return action.payload
-    }
     default: {
       return state
     }
@@ -41,33 +42,33 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const router = useRouter()
   const [state, dispatch] = React.useReducer(playlistReducer, null)
 
-  const updatePlaylist = (list: any) => {
-    dispatch({ type: 'UPDATE_LIST', payload: list })
-  }
-
   const queryClient = useQueryClient()
   const playlistQuery = useQuery({
     queryKey: ['list/PlaylistData', { id: router.query.id }],
     queryFn: async () => {
-      const [playlist] = await get.getPlaylistsData([
-        router.query.id,
-      ] as string[])
+      try {
+        const [playlist] = await get.getPlaylistsData([
+          router.query.id,
+        ] as string[])
 
-      const contacts = await get
-        .getContactsMutable(playlist.contacts.map((item) => item.contact_id))
-        .then((res) =>
-          Object.entries(res).map(([id, contact]) =>
-            formatContactData(contact, id)
+        const contacts: FormattedContacts[] = await get
+          .getContactsMutable(playlist.contacts.map((item) => item.contact_id))
+          .then((res) =>
+            Object.entries(res).map(([id, contact]) =>
+              formatContactData(contact, id)
+            )
           )
-        )
-      return {
-        ...playlist,
-        contacts,
+        return {
+          playlist,
+          contacts,
+        }
+      } catch (err) {
+        Promise.reject(new Error(`playlistQuery error ==> ${err}`))
       }
     },
     enabled: !!router.query.id,
   })
-
+  console.log('playlistQuery', playlistQuery)
   const deleteContactsMutation = useMutation({
     mutationFn: (users: any[]) =>
       post.postPlaylists([
@@ -129,8 +130,8 @@ const PlaylistProvider: React.FC = ({ children }) => {
     () => ({
       state,
       playlistQuery,
+      contacts: playlistQuery.data?.contacts,
       dispatch,
-      updatePlaylist,
       addUser,
       removeUsers,
     }),

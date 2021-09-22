@@ -11,13 +11,14 @@ const Content: React.FC = () => {
   const {
     playlistQuery: { data },
   } = usePlaylist()
+
   return data ? (
     <div className={s.container}>
-      {data && <ListHeader data={data} />}
+      {data && <ListHeader data={data.playlist} />}
       <div className={s.content}>
         <TableProvider>
           {/* <ListRecs list={currentList} contacts={contacts} /> */}
-          {data && <TableHeader list={data} />}
+          {data.playlist && <TableHeader list={data.playlist} />}
           {data.contacts && <Table data={data.contacts} />}
         </TableProvider>
       </div>

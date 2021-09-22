@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {
   useMutation,
-  UseMutationResult,
   useQuery,
   useQueryClient,
   UseQueryResult,
@@ -16,12 +15,6 @@ type ContextType = {
   state: State
   dispatch: Dispatch
   deletePlaylists: (ids: string[]) => void
-  deletePlaylistMutation: UseMutationResult<
-    ListData[],
-    unknown,
-    string[],
-    unknown
-  >
   query: UseQueryResult<ListData[] | undefined, unknown>
 }
 
@@ -49,10 +42,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
 
   const { data: playlistsIds } = useQuery({
     queryKey: ['PlaylistsIds'],
-    queryFn: () => {
-      console.log('get.getPlaylistsIds')
-      return get.getPlaylistsIds()
-    },
+    queryFn: () => get.getPlaylistsIds(),
   })
 
   const isPlaylistsIds = !!(playlistsIds && playlistsIds.length > 0)
@@ -84,10 +74,9 @@ const PlaylistsProvider: React.FC = ({ children }) => {
       state,
       dispatch,
       deletePlaylists,
-      deletePlaylistMutation,
       query: playlistsQuery,
     }),
-    [deletePlaylistMutation, deletePlaylists, playlistsQuery, state]
+    [deletePlaylists, playlistsQuery, state]
   )
 
   return (

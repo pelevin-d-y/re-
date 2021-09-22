@@ -24,11 +24,12 @@ type Lists = List[]
 
 type ListData = {
   actions: any
-  contacts: {
-    contact_id: string
-    review: number
-    scores: any
-  }[]
+  contacts:
+    | {
+        contact_id: string
+        review: number
+        scores: any
+      }[]
   id: string
   inclusions: any
   info: { name?: string; description?: string }
@@ -247,7 +248,7 @@ type FormattedContacts = {
   fullName?: string
   strataEmail?: string
   avatar?: string
-  id: string
+  id?: string
 }
 
 type Playlist = {

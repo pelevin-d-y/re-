@@ -8,7 +8,6 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
@@ -18,11 +17,11 @@ import Row from './Row'
 
 type Props = {
   className?: string
-  data?: FormattedContacts[]
+  data: FormattedContacts[]
   removeContacts?: (removeContacts: any) => void
 }
 
-const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
+const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
 
   const tableData = useMemo(() => data, [data])
