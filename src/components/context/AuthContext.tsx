@@ -36,7 +36,6 @@ const authReducer = (state: State, action: Action): State => {
 const getIdToken = () => {
   const urlTokens = getTokensUrl(window.location.hash.substr(1))
   if (urlTokens.id_token) {
-    // window.history.replaceState(null, '', window.location.pathname)
     localStorage.setItem(LS_ID_TOKEN, urlTokens.id_token)
     return urlTokens.id_token
   }

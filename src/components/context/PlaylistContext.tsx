@@ -14,10 +14,12 @@ type State = Playlist | null
 
 type Dispatch = React.Dispatch<Action>
 
-type PlaylistData = {
-  playlist: ListData
-  contacts?: FormattedContacts[]
-}
+type PlaylistData =
+  | {
+      playlist: ListData
+      contacts?: FormattedContacts[]
+    }
+  | undefined
 
 type ContextType = {
   state: State
@@ -51,24 +53,31 @@ const PlaylistProvider: React.FC = ({ children }) => {
           router.query.id,
         ] as string[])
 
-        const contacts: FormattedContacts[] = await get
-          .getContactsMutable(playlist.contacts.map((item) => item.contact_id))
-          .then((res) =>
-            Object.entries(res).map(([id, contact]) =>
-              formatContactData(contact, id)
+        let contacts: FormattedContacts[] | [] = []
+        if (playlist.contacts.length > 0) {
+          contacts = await get
+            .getContactsMutable(
+              playlist.contacts.map((item) => item.contact_id)
             )
-          )
+            .then((res) =>
+              Object.entries(res).map(([id, contact]) =>
+                formatContactData(contact, id)
+              )
+            )
+        }
+
         return {
           playlist,
           contacts,
         }
       } catch (err) {
         Promise.reject(new Error(`playlistQuery error ==> ${err}`))
+        return undefined
       }
     },
     enabled: !!router.query.id,
   })
-  console.log('playlistQuery', playlistQuery)
+
   const deleteContactsMutation = useMutation({
     mutationFn: (users: any[]) =>
       post.postPlaylists([
@@ -85,6 +94,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
         'list/PlaylistData',
         { id: router.query.id },
       ])
+      queryClient.removeQueries(['PlaylistContacts', { id: router.query.id }])
     },
   })
 
@@ -114,6 +124,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
         'list/PlaylistData',
         { id: router.query.id },
       ])
+      queryClient.removeQueries(['PlaylistContacts', { id: router.query.id }])
     },
   })
 

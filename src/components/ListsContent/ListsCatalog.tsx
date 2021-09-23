@@ -17,10 +17,7 @@ type CardsStructure = {
 }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {
-  const {
-    state: { data: lists },
-    query,
-  } = usePlaylists()
+  const { query } = usePlaylists()
 
   const { isLoading, data } = query
   const cardsStructure: CardsStructure = useMemo(() => {
@@ -44,7 +41,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
   return (
     <CardContainer className={classNames(s.container, className)}>
       <SectionsHeader
-        data={lists}
+        data={data}
         title="Your lists"
         description="List of people with a common themes"
         icon="lists"

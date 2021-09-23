@@ -26,7 +26,7 @@ const CardList: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false)
 
   const contactsQuery: UseQueryResult<FormattedContacts[], unknown> = useQuery({
-    queryKey: ['PlaylistContacts', id],
+    queryKey: ['PlaylistContacts', { id }],
     queryFn: () => {
       if (contacts.length > 0) {
         return get
