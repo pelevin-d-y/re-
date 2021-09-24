@@ -36,7 +36,10 @@ const TableHeader: React.FC<Props> = ({
   }
 
   const contactHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list.contacts || [] })
+    usersDispatch({
+      type: 'UPDATE_USERS_DATA',
+      payload: (list.contacts || []) as any,
+    })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 

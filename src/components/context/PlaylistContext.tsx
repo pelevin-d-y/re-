@@ -8,6 +8,7 @@ import {
   useQueryClient,
   UseQueryResult,
 } from 'react-query'
+import { getPlaylistDataQuery } from 'src/api/queries'
 
 type Action = { type: 'UPDATE_SELECTED_USERS'; payload: any[] }
 type State = Playlist | null
@@ -45,38 +46,9 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(playlistReducer, null)
 
   const queryClient = useQueryClient()
-  const playlistQuery = useQuery({
-    queryKey: ['list/PlaylistData', { id: router.query.id }],
-    queryFn: async () => {
-      try {
-        const [playlist] = await get.getPlaylistsData([
-          router.query.id,
-        ] as string[])
-
-        let contacts: FormattedContacts[] | [] = []
-        if (playlist.contacts.length > 0) {
-          contacts = await get
-            .getContactsMutable(
-              playlist.contacts.map((item) => item.contact_id)
-            )
-            .then((res) =>
-              Object.entries(res).map(([id, contact]) =>
-                formatContactData(contact, id)
-              )
-            )
-        }
-
-        return {
-          playlist,
-          contacts,
-        }
-      } catch (err) {
-        Promise.reject(new Error(`playlistQuery error ==> ${err}`))
-        return undefined
-      }
-    },
-    enabled: !!router.query.id,
-  })
+  const playlistQuery = useQuery(
+    getPlaylistDataQuery(router.query.id as string, !!router.query.id)
+  )
 
   const deleteContactsMutation = useMutation({
     mutationFn: (users: any[]) =>

@@ -5,7 +5,8 @@ import {
   useQueryClient,
   UseQueryResult,
 } from 'react-query'
-import { get, post } from 'src/api'
+import { deletePlaylist } from 'src/api/mutations.tsx'
+import { getPlaylistsDataQuery, getPlaylistsIdsQuery } from 'src/api/queries'
 
 type State = { data: any[] }
 type Action = { type: 'UPDATE_PLAYLISTS_DATA'; payload: any[] }
@@ -40,27 +41,15 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   })
   const queryClient = useQueryClient()
 
-  const { data: playlistsIds } = useQuery({
-    queryKey: ['PlaylistsIds'],
-    queryFn: () => get.getPlaylistsIds(),
-  })
+  const { data: playlistsIds } = useQuery(getPlaylistsIdsQuery())
 
   const isPlaylistsIds = !!(playlistsIds && playlistsIds.length > 0)
-
-  const playlistsQuery = useQuery({
-    queryKey: ['PlaylistsData'],
-    queryFn: () => {
-      if (isPlaylistsIds) {
-        return get.getPlaylistsData(playlistsIds.map((item) => item))
-      }
-      return undefined
-    },
-    enabled: isPlaylistsIds,
-  })
+  const playlistsQuery = useQuery(
+    getPlaylistsDataQuery(playlistsIds, isPlaylistsIds)
+  )
 
   const deletePlaylistMutation = useMutation({
-    mutationFn: (ids: string[]) =>
-      post.postPlaylists(ids.map((item) => ({ id: item }))),
+    ...deletePlaylist(),
     onSuccess: () => queryClient.invalidateQueries(['PlaylistsData']),
   })
 
