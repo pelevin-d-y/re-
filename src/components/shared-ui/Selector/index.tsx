@@ -5,7 +5,7 @@ import SelectComp, {
   components,
   ValueType,
 } from 'react-select'
-import { css } from 'astroturf'
+import {css} from 'astroturf'
 import DropdownIndicator from './DropdownIndicator'
 
 type Option = {
@@ -22,6 +22,8 @@ type Props = {
   classes?: {
     arrow?: string
   }
+  disabled?: boolean
+  componentsProp?: object
 }
 
 const selectStyles = (styles: any): StylesConfig<Option, false> => ({
@@ -92,6 +94,8 @@ const Selector: React.FC<Props> = ({
   styles,
   label,
   classes,
+  disabled,
+  componentsProp,
   handler,
 }) => (
   <div className={s.container}>
@@ -102,18 +106,21 @@ const Selector: React.FC<Props> = ({
     )}
     <SelectComp
       options={options}
-      instanceId="1"
+      instanceId='1'
       styles={selectStyles(styles)}
       onChange={handler}
-      components={{
-        DropdownIndicator: (props: IndicatorProps<any, any>) => (
-          <components.DropdownIndicator {...props}>
-            <DropdownIndicator className={classes?.arrow} />
-          </components.DropdownIndicator>
-        ),
-      }}
+      components={
+        componentsProp || {
+          DropdownIndicator: (props: IndicatorProps<any, any>) => (
+            <components.DropdownIndicator {...props}>
+              <DropdownIndicator className={classes?.arrow} />
+            </components.DropdownIndicator>
+          ),
+        }
+      }
       isSearchable={false}
       defaultValue={options[0]}
+      isDisabled={disabled}
     />
   </div>
 )
