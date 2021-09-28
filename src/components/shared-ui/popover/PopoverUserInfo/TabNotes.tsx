@@ -45,6 +45,8 @@ const s = css`
   }
 
   .textarea {
+    border-radius: 4px;
+    border: 1px solid #dddddd;
     width: 100%;
     height: 291px;
     resize: none;
