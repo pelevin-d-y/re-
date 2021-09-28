@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
 
 type Props = {
   className?: string
@@ -21,6 +22,10 @@ const Chips: React.FC<Props> = ({ setValue, name, data }) => {
     items: [],
     value: '',
     error: null,
+  })
+  const inputRef = useRef(null)
+  useOnClickOutside(inputRef, () => {
+    setInputValue()
   })
 
   const isInList = (email: string) =>
@@ -46,18 +51,22 @@ const Chips: React.FC<Props> = ({ setValue, name, data }) => {
     return true
   }
 
+  const setInputValue = () => {
+    const value = state.value.trim()
+
+    if (value && isValid(value)) {
+      setValue(name, [...currentFieldData, { address: value }])
+      setState({
+        ...state,
+        value: '',
+      })
+    }
+  }
+
   const handleKeyDown = (evt: any) => {
     if (['Enter', ','].includes(evt.key)) {
       evt.preventDefault()
-      const value = state.value.trim()
-
-      if (value && isValid(value)) {
-        setValue(name, [...currentFieldData, { address: value }])
-        setState({
-          ...state,
-          value: '',
-        })
-      }
+      setInputValue()
     }
 
     if (['Backspace'].includes(evt.key) && state.value === '') {
@@ -99,6 +108,7 @@ const Chips: React.FC<Props> = ({ setValue, name, data }) => {
         className={classNames(s.input, state.error && s.hasError)}
         value={state.value}
         placeholder=""
+        ref={inputRef}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
       />
