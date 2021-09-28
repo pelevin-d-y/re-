@@ -48,7 +48,7 @@ const s = css`
     width: 100%;
     height: 291px;
     resize: none;
-    padding: 13px 18px 18px 14px
+    padding: 13px 18px 18px 14px;
   }
 
   .button {
