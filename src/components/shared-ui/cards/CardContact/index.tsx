@@ -7,6 +7,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
+import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -55,14 +56,21 @@ const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
       </div>
       <div className={s.actions}>
         <Pin className={s.pin} data={data} />
-        <PopoverActions
+        <Button
+          className={s.button}
+          variant="contained"
+          handler={buttonHandler}
+        >
+          Follow Up
+        </Button>
+        {/* <PopoverActions
           buttonClickHandler={buttonHandler}
           className={s.button}
           variant="contained"
           isArrow
         >
           Follow Up
-        </PopoverActions>
+        </PopoverActions> */}
       </div>
     </CardContainer>
   )
