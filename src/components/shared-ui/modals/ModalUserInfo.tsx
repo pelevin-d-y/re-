@@ -15,6 +15,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
   const { avatar, name, fullName, templateData, relationshipStrength } = data
   const parsedText = templateData && parseMessage(templateData.Subject, name)
   const userName = fullName || name
+
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
@@ -25,7 +26,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
             <div className={s.profileType}>Founder at Company X</div>
           </div>
         </div>
-        <PopoverThread data={data} />
+        {data.last_contact_text ? <PopoverThread data={data} /> : <div />}
       </div>
       {parsedText && <UserHeader className={s.summary} text={parsedText} />}
     </div>
