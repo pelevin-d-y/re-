@@ -12,7 +12,7 @@ type Props = {
 const ListsContent: React.FC<Props> = ({ className }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.main}>
-      <ListsContacts className={s.contacts} />
+      {/* <ListsContacts className={s.contacts} /> */}
       <ListsCatalog />
     </div>
     <ListsSidebar className={s.sidebar} />
