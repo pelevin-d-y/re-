@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
-import Button from '../shared-ui/Button'
+import Link from 'src/components/shared-ui/Link'
 
 type Props = {
   className?: string
@@ -17,9 +17,10 @@ const ListsSidebar: React.FC<Props> = ({ className }) => (
       Save lists with important task here. You can drag and drop them into this
       module.
     </div>
-    <Button className={s.button} variant="outlined">
+
+    <Link className={s.link} href="/create-list" variant="outlined">
       Create a new list
-    </Button>
+    </Link>
   </CardContainer>
 )
 
@@ -53,8 +54,9 @@ const s = css`
     margin-bottom: 19px;
   }
 
-  .button {
+  .link {
     width: 100%;
+    text-align: center;
   }
 `
 

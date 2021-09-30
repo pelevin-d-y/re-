@@ -26,7 +26,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
             <div className={s.profileType}>Founder at Company X</div>
           </div>
         </div>
-        {data.last_contact_text ? <PopoverThread data={data} /> : <div />}
+        <PopoverThread data={data} />
       </div>
       {parsedText && <UserHeader className={s.summary} text={parsedText} />}
     </div>

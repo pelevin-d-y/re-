@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
-import PopoverNotifications from 'src/components/shared-ui/popover/PopoverNotifications'
 import { useClient } from 'src/components/context/ClientContext'
 import HeaderProfile from './HeaderProfile'
 
@@ -45,6 +44,7 @@ const s = css`
     left: 0;
     top: 0;
     right: 0;
+    z-index: 19;
     padding-top: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--grey);

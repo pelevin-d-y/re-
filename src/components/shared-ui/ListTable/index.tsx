@@ -55,22 +55,22 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         accessor: 'fullName',
         Cell: ({ value }) => <span className={s.cellContent}>investor</span>,
       },
-      {
-        Header: 'Last outreach',
-        accessor: 'last_client_text',
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div className={s.lastData}>
-              {/* {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')} */}
-              January 12, 2021
-            </div>
-            {/* <div>{value}</div> */}
-            <div>
-              Hi Hailey, Did get a chance to view the deck i sent ove...
-            </div>
-          </div>
-        ),
-      },
+      // {
+      //   Header: 'Last outreach',
+      //   accessor: 'last_client_text',
+      //   Cell: ({ value, row }) => (
+      //     <div className={s.cellContent}>
+      //       <div className={s.lastData}>
+      //         {/* {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')} */}
+      //         January 12, 2021
+      //       </div>
+      //       {/* <div>{value}</div> */}
+      //       <div>
+      //         Hi Hailey, Did get a chance to view the deck i sent ove...
+      //       </div>
+      //     </div>
+      //   ),
+      // },
       {
         Header: 'Notes',
         accessor: 'Notes',
@@ -347,11 +347,9 @@ const s = css`
   }
 
   .addUserView {
-    overflow: auto;
     max-width: 326px;
     width: 100%;
     box-shadow: none;
-    max-height: 300px;
     padding: 8px;
   }
 `

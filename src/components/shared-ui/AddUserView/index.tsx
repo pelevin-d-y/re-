@@ -90,6 +90,12 @@ const AddUserView: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
+  .container {
+    position: relative;
+    z-index: 18;
+    box-shadow: none;
+  }
+
   .search {
     width: 100%;
   }
@@ -99,9 +105,20 @@ const s = css`
   }
 
   .list {
-    position: relative;
-    list-style: none;
+    position: absolute;
+    top: 100%;
+    z-index: 20;
+    left: 0;
+
+    max-height: 300px;
+    width: 100%;
     padding: 0;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
+      0px 1px 1px rgba(34, 34, 34, 0.0989128);
+
+    overflow: auto;
+    background: #ffffff;
+    list-style: none;
   }
 
   .loader {
@@ -109,8 +126,12 @@ const s = css`
     height: 70px;
   }
 
+  .active .list {
+    padding: 5px;
+  }
+
   .container.active {
-    box-shadow: 0px 4px 8px rgb(0 0 0 / 12%), 0px 1px 1px rgb(34 34 34 / 10%);
+    // box-shadow: 0px 4px 8px rgb(0 0 0 / 12%), 0px 1px 1px rgb(34 34 34 / 10%);
   }
 `
 
