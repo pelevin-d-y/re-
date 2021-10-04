@@ -43,11 +43,6 @@ const Content: React.FC = () => {
               title="Follow up with people you met with last week"
               headerData={headerDataWeek}
             />
-            <HomeUpcoming
-              className={s.section}
-              title="Your Upcoming Trip to Los Angeles"
-              headerData={headerDataLosAngeles}
-            />
             <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
