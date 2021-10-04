@@ -3,7 +3,9 @@ import axios, { AxiosError, AxiosInstance } from 'axios'
 import { logInLink } from 'src/helpers/variables'
 
 const AWS_API =
-  process.env.NODE_ENV === 'development' ? '/api/aws' : 'api-dev.strata.cc'
+  process.env.NODE_ENV === 'development'
+    ? '/api/aws'
+    : 'https://e8llia7s3h.execute-api.us-east-1.amazonaws.com/Test'
 
 const defaultOptions = {
   headers: {

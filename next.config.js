@@ -9,7 +9,8 @@ module.exports = withPlugins([optimizedImages], {
     return [
       {
         source: '/api/aws/:path*',
-        destination: 'api-dev.strata.cc/:path*', // Proxy to Backend
+        destination:
+          'https://e8llia7s3h.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
       },
     ]
   },
