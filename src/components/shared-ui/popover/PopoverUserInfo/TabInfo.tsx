@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
+import parse from 'date-fns/parse'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
@@ -90,11 +90,14 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
               <Img alt="icon" className={s.pen} img="pen.png" />
             </div>
             <div className={s.value}>
-              {format(parseISO(data.last_contact_time), 'MMMM dd, yyyy')}
+              {format(
+                parse(data.last_contact_time, 'y-M-d H:m:s', new Date()),
+                'MMMM dd, yyyy'
+              )}
             </div>
           </li>
         )}
-        {data.last_contact_text && (
+        {data.last_client_text && (
           <li className={s.item}>
             <div className={s.itemTitle}>
               <span>Last Outreach</span>
