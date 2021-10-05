@@ -1,13 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
 import * as yup from 'yup'
 import { useClient } from 'src/components/context/ClientContext'
+import formatTime from 'src/helpers/utils/parseTime'
 
 type Props = {
   className?: string
@@ -89,12 +88,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
               <span>Met</span>
               <Img alt="icon" className={s.pen} img="pen.png" />
             </div>
-            <div className={s.value}>
-              {format(
-                parse(data.last_contact_time, 'y-M-d H:m:s', new Date()),
-                'MMMM dd, yyyy'
-              )}
-            </div>
+            <div className={s.value}>{formatTime(data.last_contact_time)}</div>
           </li>
         )}
         {data.last_client_text && (
