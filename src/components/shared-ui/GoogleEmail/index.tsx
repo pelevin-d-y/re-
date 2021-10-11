@@ -21,6 +21,11 @@ const GoogleEmail: React.FC<Props> = ({ className, data }) => (
       {data.status === 1 && (
         <div className={classNames(s.status, s.unSynced)}>Unsynced</div>
       )}
+      {data.status === -1 && (
+        <div className={classNames(s.status, s.unSynced)}>
+          Re-authorize account
+        </div>
+      )}
     </div>
     <Close className={s.close} handler={() => null} />
   </CardContainer>

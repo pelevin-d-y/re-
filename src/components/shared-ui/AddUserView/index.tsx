@@ -129,10 +129,6 @@ const s = css`
   .active .list {
     padding: 5px;
   }
-
-  .container.active {
-    // box-shadow: 0px 4px 8px rgb(0 0 0 / 12%), 0px 1px 1px rgb(34 34 34 / 10%);
-  }
 `
 
 export default AddUserView
