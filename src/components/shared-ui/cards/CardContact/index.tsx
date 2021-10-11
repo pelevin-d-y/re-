@@ -11,7 +11,6 @@ import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import Close from 'src/components/shared-ui/Close'
 
 type Props = {
   className?: string

@@ -82,6 +82,7 @@ type RecommendationUser = {
   playlist_maintain: number
   first_direct_hide: string
   client_initiated_count: number
+  contact_id: string
   last_client_text: string
   first_client_hide: string
   playlist_new_contact_context: string

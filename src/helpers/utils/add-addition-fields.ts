@@ -12,9 +12,9 @@ const avatars = [
 ]
 
 const addAdditionFields = (users: RecommendationUser[]): UserData[] => {
-  const extendedUsers: UserData[] = users.map((user, i) => ({
+  const extendedUsers: UserData[] = users.map((user) => ({
     ...user,
-    avatar: avatars[i % avatars.length], // random avatar from avatars list
+    avatar: `https://d1vi0xe0gbvwgr.cloudfront.net/contact_images/${user.contact_id}.jpg`,
     title: 'Investors', // field used in the list table
     pinned: false,
     templateData: findTemplate(testTemplates, user.template),
