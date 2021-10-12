@@ -5,7 +5,7 @@ import {
   useQueryClient,
   UseQueryResult,
 } from 'react-query'
-import { deletePlaylist } from 'src/api/mutations.tsx'
+import { deletePlaylist } from 'src/api/mutations'
 import { getPlaylistsDataQuery, getPlaylistsIdsQuery } from 'src/api/queries'
 
 type State = { data: any[] }
