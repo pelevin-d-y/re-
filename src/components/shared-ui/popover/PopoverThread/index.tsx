@@ -93,7 +93,6 @@ const s = css`
 
   .main {
     overflow: auto;
-    height: 72vh;
     padding: 18px;
   }
 

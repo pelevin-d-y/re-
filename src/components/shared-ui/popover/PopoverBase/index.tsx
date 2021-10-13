@@ -2,7 +2,7 @@ import React from 'react'
 import Popup from 'reactjs-popup'
 
 type Props = {
-  triggerElement: JSX.Element
+  triggerElement: JSX.Element | ((isOpen: boolean) => JSX.Element)
   popupContent: JSX.Element
   open?: boolean
   showPopupEvent?: 'hover' | 'click'
