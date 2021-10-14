@@ -14,7 +14,7 @@ const FullRecommendations: React.FC<Props> = ({ data }) => (
       Your Weekly Recommendations
       <Link className={s.link} href="#">
         View all
-        <SvgIcon className={s.linkIcon} icon="back.svg" />
+        <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
       </Link>
     </div>
     <div className={s.cards}>

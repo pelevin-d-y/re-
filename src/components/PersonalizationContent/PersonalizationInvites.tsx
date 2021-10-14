@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Bar from '../shared-ui/Bar'
-import CardShare from '../shared-ui/cards/CardShare'
+import CardShare from '../shared-ui/cards/CardShareLink'
 import Period from '../shared-ui/Period'
 
 type Props = {

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
-import CardShare from 'src/components/shared-ui/cards/CardShare'
+import CardShare from 'src/components/shared-ui/cards/CardShareLink'
 import { useLists } from 'src/components/context/ListsContext'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
@@ -11,6 +11,7 @@ import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import HomeRecommendations from './Recommendations/HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
+// import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 
 const Content: React.FC = () => {
   const { state: lists } = useLists()
@@ -55,6 +56,7 @@ const Content: React.FC = () => {
                 image="share-burger.jpeg"
                 users={contacts?.slice(1, 4)}
               />
+              {/* <CardShareMulti /> */}
             </Grid>
             {/* <CardGuide className={s.section} /> */}
             <CardShare

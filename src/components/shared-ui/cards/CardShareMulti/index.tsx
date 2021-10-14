@@ -1,56 +1,43 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePopup } from 'src/components/context/PopupContext'
-import { useUsers } from 'src/components/context/UsersContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import Img from 'src/components/shared-ui/Img'
+import Switcher from './Switcher'
 
 type Props = {
   className?: string
-  users?: UserData[]
-  image: string
-  title: string
 }
 
-const CardShareSmall: React.FC<Props> = ({
-  className,
-  users,
-  image,
-  title,
-}) => {
-  const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch } = useUsers()
-
+const CardShareSmall: React.FC<Props> = ({ className }) => {
   const openModalHandler = () => {
-    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
-    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    console.log('openModalHandler')
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
-        <div className={s.title}>{title}</div>
-        {users && (
-          <AvatarsList
-            className={s.avatars}
-            avatarWidth={37}
-            avatarHeight={37}
-            users={users}
+        <div className={s.title}>Share Meme</div>
+        <div className={s.controls}>
+          <Switcher
+            className={classNames(s.control, s.left)}
+            handler={() => null}
           />
-        )}
+          <Switcher
+            className={classNames(s.control, s.right)}
+            handler={() => null}
+          />
+        </div>
       </div>
       <div className={s.content}>
-        <Img className={s.img} img={image} alt="" />
+        <Img className={s.img} img="test.jpg" alt="" />
       </div>
       <div className={s.actions}>
         <Pin className={s.pin} />
         <Button variant="contained" handler={openModalHandler}>
-          {title}
+          Share Meme
         </Button>
       </div>
     </CardContainer>
@@ -75,6 +62,22 @@ const s = css`
     margin-bottom: 7px;
   }
 
+  .controls {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  .control {
+    width: 17px;
+    height: 17px;
+  }
+
+  .right {
+    transform: rotate(180deg);
+    margin-left: 14px;
+  }
+
   .title {
     font-size: 18px;
     line-height: 42px;
@@ -94,22 +97,6 @@ const s = css`
     height: 100%;
 
     object-fit: contain;
-  }
-
-  .gradient {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    z-index: 2;
-
-    width: 70%;
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 54%,
-      rgba(14, 17, 72, 0) 89%
-    );
   }
 
   .actions {

@@ -42,7 +42,7 @@ const SectionHeader: React.FC<Props> = ({
         {link && (
           <Link className={s.link} href={link.href}>
             {link.text}
-            <SvgIcon className={s.linkIcon} icon="back.svg" />
+            <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
           </Link>
         )}
       </div>

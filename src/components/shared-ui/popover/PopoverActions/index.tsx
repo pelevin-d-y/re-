@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import PopoverActionsContent from '../PopoverActionsContent'
 
 type Props = {
