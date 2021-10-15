@@ -11,20 +11,22 @@ import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import HomeRecommendations from './Recommendations/HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
-// import CardShareMulti from '../shared-ui/cards/CardShareMulti'
+import CardShareMulti from '../shared-ui/cards/CardShareMulti'
+
+const shareMemes = {
+  title: 'Share Meme',
+  slides: ['share-meme1.jpeg', 'share-meme2.jpeg', 'share-meme3.jpeg'],
+}
+
+const shareHolidays = {
+  title: 'Share Holiday',
+  slides: ['share-hol-1.jpeg', 'share-hol-2.jpeg', 'share-hol-3.jpeg'],
+}
 
 const Content: React.FC = () => {
   const { state: lists } = useLists()
   const { state: clientState } = useClient()
   const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
-
-  const headerDataLosAngeles = {
-    month: 'oct',
-    day: '23',
-    title: 'Your Upcoming Trip to Los Angeles',
-    description:
-      'Plan your trip ahead but scheduling meetings with contacts in LA',
-  }
 
   const headerDataWeek = {
     month: 'sep',
@@ -45,6 +47,16 @@ const Content: React.FC = () => {
               headerData={headerDataWeek}
             />
             <Grid className={s.section} division={2}>
+              <CardShareMulti
+                slides={shareHolidays.slides}
+                title={shareHolidays.title}
+              />
+              <CardShareMulti
+                slides={shareMemes.slides}
+                title={shareMemes.title}
+              />
+            </Grid>
+            <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
                 subtitle="Awhile..."
@@ -56,9 +68,7 @@ const Content: React.FC = () => {
                 image="share-burger.jpeg"
                 users={contacts?.slice(1, 4)}
               />
-              {/* <CardShareMulti /> */}
             </Grid>
-            {/* <CardGuide className={s.section} /> */}
             <CardShare
               className={s.section}
               variant="dark"
@@ -82,7 +92,7 @@ const Content: React.FC = () => {
               />
               <CardShareSmall
                 title="Share Meme"
-                image="share-meme.jpeg"
+                image="share-meme1.jpeg"
                 users={contacts?.slice(1, 4)}
               />
             </Grid>

@@ -8,19 +8,15 @@ type Props = {
   handler: () => void
 }
 
-const Switcher: React.FC<Props> = ({ className, handler }) => {
-  console.log('aaaa')
-
-  return (
-    <button
-      type="button"
-      className={classNames(s.container, className)}
-      onClick={handler}
-    >
-      <SvgIcon icon="arrow-left.svg" className={s.icon} />
-    </button>
-  )
-}
+const Switcher: React.FC<Props> = ({ className, handler }) => (
+  <button
+    type="button"
+    className={classNames(s.container, className)}
+    onClick={handler}
+  >
+    <SvgIcon icon="arrow-left.svg" className={s.icon} />
+  </button>
+)
 
 const s = css`
   .container {

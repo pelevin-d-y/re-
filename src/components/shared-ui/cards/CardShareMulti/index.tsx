@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -9,35 +9,55 @@ import Switcher from './Switcher'
 
 type Props = {
   className?: string
+  slides: string[]
+  title: string
 }
 
-const CardShareSmall: React.FC<Props> = ({ className }) => {
+const CardShareMulti: React.FC<Props> = ({ className, slides, title }) => {
+  const [slide, setSlide] = useState(slides[0])
+
   const openModalHandler = () => {
     console.log('openModalHandler')
+  }
+
+  const getSlideIndex = (item: string) => slides.indexOf(item)
+
+  const nextStep = () => {
+    const currentIndex = getSlideIndex(slide)
+    const nextSlide =
+      currentIndex === slides.length - 1 ? slides[0] : slides[currentIndex + 1]
+    setSlide(nextSlide)
+  }
+
+  const prevStep = () => {
+    const currentIndex = getSlideIndex(slide)
+    const nextSlide =
+      currentIndex === 0 ? slides[slides.length - 1] : slides[currentIndex - 1]
+    setSlide(nextSlide)
   }
 
   return (
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
-        <div className={s.title}>Share Meme</div>
+        <div className={s.title}>{title}</div>
         <div className={s.controls}>
           <Switcher
             className={classNames(s.control, s.left)}
-            handler={() => null}
+            handler={prevStep}
           />
           <Switcher
             className={classNames(s.control, s.right)}
-            handler={() => null}
+            handler={nextStep}
           />
         </div>
       </div>
       <div className={s.content}>
-        <Img className={s.img} img="test.jpg" alt="" />
+        <Img className={s.img} img={slide} alt="image" />
       </div>
       <div className={s.actions}>
         <Pin className={s.pin} />
         <Button variant="contained" handler={openModalHandler}>
-          Share Meme
+          Share
         </Button>
       </div>
     </CardContainer>
@@ -86,7 +106,7 @@ const s = css`
 
   .content {
     position: relative;
-    height: 150px;
+    height: 170px;
 
     margin-right: -19px;
     margin-left: -28px;
@@ -108,4 +128,4 @@ const s = css`
   }
 `
 
-export default CardShareSmall
+export default CardShareMulti
