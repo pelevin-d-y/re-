@@ -5,19 +5,29 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import Img from 'src/components/shared-ui/Img'
+import { usePopup } from 'src/components/context/PopupContext'
+import { useUsers } from 'src/components/context/UsersContext'
 import Switcher from './Switcher'
 
 type Props = {
+  data: {
+    slides: string[]
+    title: string
+    contacts: UserData[]
+  }
   className?: string
-  slides: string[]
-  title: string
 }
 
-const CardShareMulti: React.FC<Props> = ({ className, slides, title }) => {
+const CardShareMulti: React.FC<Props> = ({ className, data }) => {
+  const { slides, title, contacts } = data
   const [slide, setSlide] = useState(slides[0])
+  const { dispatch: popupDispatch } = usePopup()
+  const { dispatch: usersDispatch } = useUsers()
 
   const openModalHandler = () => {
-    console.log('openModalHandler')
+    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
   const getSlideIndex = (item: string) => slides.indexOf(item)

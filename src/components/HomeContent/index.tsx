@@ -13,16 +13,6 @@ import HomeRecommendations from './Recommendations/HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 
-const shareMemes = {
-  title: 'Share Meme',
-  slides: ['share-meme1.jpeg', 'share-meme2.jpeg', 'share-meme3.jpeg'],
-}
-
-const shareHolidays = {
-  title: 'Share Holiday',
-  slides: ['share-hol-1.jpeg', 'share-hol-2.jpeg', 'share-hol-3.jpeg'],
-}
-
 const Content: React.FC = () => {
   const { state: lists } = useLists()
   const { state: clientState } = useClient()
@@ -35,6 +25,24 @@ const Content: React.FC = () => {
     description: '',
   }
 
+  const shareHolidays = useMemo(
+    () => ({
+      title: 'Share Holiday',
+      slides: ['share-hol-1.jpeg', 'share-hol-2.jpeg', 'share-hol-3.jpeg'],
+      contacts: contacts?.slice(1, 4) as UserData[],
+    }),
+    [contacts]
+  )
+
+  const shareMemes = useMemo(
+    () => ({
+      title: 'Share Meme',
+      slides: ['share-meme1.jpeg', 'share-meme2.jpeg', 'share-meme3.jpeg'],
+      contacts: contacts?.slice(1, 4) as UserData[],
+    }),
+    [contacts]
+  )
+
   return (
     <div className={s.container}>
       <div className={s.main}>
@@ -46,16 +54,14 @@ const Content: React.FC = () => {
               title="Follow up with people you met with last week"
               headerData={headerDataWeek}
             />
+
             <Grid className={s.section} division={2}>
-              <CardShareMulti
-                slides={shareHolidays.slides}
-                title={shareHolidays.title}
-              />
-              <CardShareMulti
-                slides={shareMemes.slides}
-                title={shareMemes.title}
-              />
+              {shareHolidays.contacts && (
+                <CardShareMulti data={shareHolidays} />
+              )}
+              {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
             </Grid>
+
             <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
