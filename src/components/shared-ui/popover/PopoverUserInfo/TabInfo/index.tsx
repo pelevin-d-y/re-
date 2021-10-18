@@ -4,16 +4,14 @@ import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
-import * as yup from 'yup'
 import { useClient } from 'src/components/context/ClientContext'
 import formatTime from 'src/helpers/utils/parseTime'
+import EmailSelect from './EmailSelect'
 
 type Props = {
   className?: string
   data: any
 }
-
-const schema = yup.string().email()
 
 const TabInfo: React.FC<Props> = ({ className, data }) => {
   const { state: clientState, updateUserData } = useClient()
@@ -39,30 +37,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
       <ul className={s.list}>
         {emails.length > 0 && (
           <li className={s.item}>
-            <div className={s.itemTitle}>
-              <span>Email</span>
-              <Img alt="icon" className={s.pen} img="pen.png" />
-            </div>
-            <EasyEdit
-              type="text"
-              className={s.valueInput}
-              value={emails[0]}
-              placeholder={emails[0]}
-              hideCancelButton
-              validationMessage="Please provide a valid email"
-              hideSaveButton
-              saveOnBlur
-              onValidate={(value: string) => {
-                try {
-                  schema.validateSync(value)
-                  return true
-                } catch {
-                  return false
-                }
-              }}
-              cssClassPrefix="profile-card-"
-              onSave={(val: string) => onSave(val, 'address')}
-            />
+            <EmailSelect emails={emails} />
           </li>
         )}
         <li className={s.item}>
@@ -73,7 +48,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
           <EasyEdit
             type="text"
             className={s.valueInput}
-            value={data.fullName}
+            value={data.fullName || data.name}
             placeholder={data.fullName}
             hideCancelButton
             hideSaveButton
@@ -141,7 +116,7 @@ const s = css`
     flex-flow: row nowrap;
     justify-content: space-between;
     margin-bottom: 10px;
-
+    white-space: nowrap;
     color: #adadad;
   }
 
@@ -168,6 +143,12 @@ const s = css`
 
   .valueInput {
     background: red;
+  }
+
+  .triangle {
+    margin-left: 4px;
+    border: 5px solid transparent;
+    border-top: 6px solid #1966ff;
   }
 `
 

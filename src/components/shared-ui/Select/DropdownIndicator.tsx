@@ -7,7 +7,6 @@ type Props = {
   className?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const DropdownIndicator: React.FC<Props> = ({ className }) => (
   <SvgIcon
     className={classNames(s.container, className)}

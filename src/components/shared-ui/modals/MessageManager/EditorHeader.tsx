@@ -5,7 +5,7 @@ import { css } from 'astroturf'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useClient } from 'src/components/context/ClientContext'
 import Chips from 'src/components/shared-ui/Chips'
-import Selector from 'src/components/shared-ui/Selector'
+import Selector from 'src/components/shared-ui/Select'
 
 type Props = {
   className?: string

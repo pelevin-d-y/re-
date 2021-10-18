@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
-import Selector from '../shared-ui/Selector'
+import Selector from '../shared-ui/Select'
 
 type Props = {
   className?: string
