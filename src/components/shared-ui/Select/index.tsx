@@ -1,5 +1,5 @@
 import React from 'react'
-import SelectComp, {
+import ReactSelect, {
   StylesConfig,
   IndicatorProps,
   components,
@@ -7,24 +7,6 @@ import SelectComp, {
 } from 'react-select'
 import { css } from 'astroturf'
 import DropdownIndicator from './DropdownIndicator'
-
-type Option = {
-  value: string
-  label: string
-}
-
-type Props = {
-  options: Option[]
-  styles?: any
-  label?: string
-  handler?: (e: any) => void
-  value?: ValueType<Option, false>
-  classes?: {
-    arrow?: string
-  }
-  disabled?: boolean
-  componentsProp?: object
-}
 
 const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   container: (provided) => ({
@@ -89,41 +71,53 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   }),
 })
 
-const Selector: React.FC<Props> = ({
-  options,
-  styles,
-  label,
-  classes,
-  disabled,
-  componentsProp,
-  handler,
-}) => (
-  <div className={s.container}>
-    {label && (
-      <label htmlFor={label} className={s.label}>
-        {label}
-      </label>
-    )}
-    <SelectComp
-      options={options}
-      instanceId="1"
-      styles={selectStyles(styles)}
-      onChange={handler}
-      components={
-        componentsProp || {
-          DropdownIndicator: (props: IndicatorProps<any, any>) => (
-            <components.DropdownIndicator {...props}>
-              <DropdownIndicator className={classes?.arrow} />
-            </components.DropdownIndicator>
-          ),
-        }
-      }
-      isSearchable={false}
-      defaultValue={options[0]}
-      isDisabled={disabled}
-    />
-  </div>
-)
+type Option = {
+  value: string
+  label: string
+}
+
+type Props = {
+  options: Option[]
+  styles?: any
+  label?: string
+  handler?: (e: any) => void
+  value?: ValueType<Option, false>
+  isOpen?: boolean
+  classes?: {
+    arrow?: string
+  }
+  disabled?: boolean
+}
+
+const Selector: React.FC<Props & { ref: React.Ref<HTMLDivElement> }> =
+  React.forwardRef<HTMLDivElement, Props>(
+    ({ options, styles, label, classes, disabled, handler, isOpen }, ref) => (
+      <div className={s.container} ref={ref}>
+        {label && (
+          <label htmlFor={label} className={s.label}>
+            {label}
+          </label>
+        )}
+        <ReactSelect
+          options={options}
+          instanceId="1"
+          styles={selectStyles(styles)}
+          onChange={handler}
+          components={{
+            DropdownIndicator: (props: IndicatorProps<any, any>) => (
+              <components.DropdownIndicator {...props}>
+                <DropdownIndicator className={classes?.arrow} />
+              </components.DropdownIndicator>
+            ),
+          }}
+          isSearchable={false}
+          defaultValue={options[0]}
+          isDisabled={disabled}
+          menuIsOpen={isOpen}
+        />
+      </div>
+    )
+  )
 
 const s = css`
   .container {

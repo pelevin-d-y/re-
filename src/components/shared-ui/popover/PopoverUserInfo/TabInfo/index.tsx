@@ -1,25 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
-import * as yup from 'yup'
 import { useClient } from 'src/components/context/ClientContext'
 import formatTime from 'src/helpers/utils/parseTime'
-import Selector from '../../Selector'
+import EmailSelect from './EmailSelect'
 
 type Props = {
   className?: string
   data: any
 }
 
-const schema = yup.string().email()
-
 const TabInfo: React.FC<Props> = ({ className, data }) => {
   const { state: clientState, updateUserData } = useClient()
 
-  const [selectedEmail, setSelectedEmail] = useState('')
   const onSave = (val: string, type: 'address' | 'name') => {
     const updatedContacts = clientState?.contacts?.map((item: UserData) => {
       if (item.address === data.address) {
@@ -41,51 +37,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
       <ul className={s.list}>
         {emails.length > 0 && (
           <li className={s.item}>
-            <div className={s.itemTitle}>
-              <div className={s.titleContainer}>
-                <span>Email ({emails.length})</span>
-                <div className={s.changeButton}>
-                  <span>Primary</span>
-                </div>
-              </div>
-              <Selector
-                handler={(select) => {
-                  setSelectedEmail(select.value)
-                }}
-                styles={{
-                  container: {},
-                  control: {
-                    border: 'none',
-                    '&:hover': {
-                      border: 'none !important',
-                    },
-                    backgroundColor: 'white !import',
-                    minHeight: 'auto',
-                    width: 'max-content',
-                  },
-                  indicatorsContainer: {
-                    right: 'auto',
-                    padding: 0,
-                  },
-                  valueContainer: {
-                    padding: 0,
-                  },
-                  singleValue: {
-                    display: 'none',
-                  },
-                }}
-                value={{
-                  value: selectedEmail,
-                  label: selectedEmail,
-                }}
-                options={emails.map((item) => ({
-                  label: item,
-                  value: item,
-                }))}
-              />
-              <Img alt="icon" className={s.pen} img="pen.png" />
-            </div>
-            <div className={s.value}>{selectedEmail}</div>
+            <EmailSelect emails={emails} />
           </li>
         )}
         <li className={s.item}>
@@ -96,7 +48,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
           <EasyEdit
             type="text"
             className={s.valueInput}
-            value={data.fullName}
+            value={data.fullName || data.name}
             placeholder={data.fullName}
             hideCancelButton
             hideSaveButton
@@ -191,19 +143,6 @@ const s = css`
 
   .valueInput {
     background: red;
-  }
-
-  .titleContainer {
-    display: flex;
-  }
-
-  .changeButton {
-    display: flex;
-    margin-left: 5px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 14px;
-    color: #1966ff;
   }
 
   .triangle {
