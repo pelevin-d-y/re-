@@ -11,7 +11,7 @@ type Props = {
 
 const EmailSelect: React.FC<Props> = ({ emails }) => {
   const [selectedEmail, setSelectedEmail] = useState(emails[0])
-  const [selectIsOpen, setSelectIsOpen] = useState(true)
+  const [selectIsOpen, setSelectIsOpen] = useState(false)
 
   const selectOpenHandler = () => {
     setSelectIsOpen(!selectIsOpen)
