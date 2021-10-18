@@ -89,7 +89,7 @@ type Props = {
   disabled?: boolean
 }
 
-const Selector: React.FC<Props & { ref: React.Ref<HTMLDivElement> }> =
+const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
   React.forwardRef<HTMLDivElement, Props>(
     ({ options, styles, label, classes, disabled, handler, isOpen }, ref) => (
       <div className={s.container} ref={ref}>
