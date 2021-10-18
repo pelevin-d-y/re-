@@ -5,7 +5,7 @@ import SelectComp, {
   components,
   ValueType,
 } from 'react-select'
-import {css} from 'astroturf'
+import { css } from 'astroturf'
 import DropdownIndicator from './DropdownIndicator'
 
 type Option = {
@@ -106,7 +106,7 @@ const Selector: React.FC<Props> = ({
     )}
     <SelectComp
       options={options}
-      instanceId='1'
+      instanceId="1"
       styles={selectStyles(styles)}
       onChange={handler}
       components={
