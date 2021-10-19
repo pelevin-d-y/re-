@@ -17,6 +17,7 @@ type Props = {
     | 'bottom center'
     | 'center center'
     | 'right bottom'
+  nested?: boolean
 }
 
 const Popover: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const Popover: React.FC<Props> = ({
   open,
   showPopupEvent,
   position,
+  nested,
 }) => (
   <Popup
     trigger={triggerElement}
@@ -32,6 +34,7 @@ const Popover: React.FC<Props> = ({
     closeOnDocumentClick
     on={showPopupEvent || 'hover'}
     open={open}
+    nested={nested}
   >
     {popupContent}
   </Popup>

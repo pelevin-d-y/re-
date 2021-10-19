@@ -6,7 +6,7 @@ import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
 import { useClient } from 'src/components/context/ClientContext'
 import formatTime from 'src/helpers/utils/parseTime'
-import EmailSelect from './EmailSelect'
+import EmailsItem from './EmailsItem'
 
 type Props = {
   className?: string
@@ -37,7 +37,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
       <ul className={s.list}>
         {emails.length > 0 && (
           <li className={s.item}>
-            <EmailSelect emails={emails} />
+            <EmailsItem emails={emails} />
           </li>
         )}
         <li className={s.item}>
