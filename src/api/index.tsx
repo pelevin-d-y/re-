@@ -129,12 +129,12 @@ const postPlaylists = (data: Playlists) =>
     .then((res: ListRequest) => res)
     .catch((err) => Promise.reject(err))
 
-const postContactsSearch = (name: string) =>
+const postContactsSearch = (name: string): Promise<string[]> =>
   apiPost(`${AWS_API}/contacts/search`, {
     type: 'name',
     data: name,
   })
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => Promise.reject(err))
 
 export {

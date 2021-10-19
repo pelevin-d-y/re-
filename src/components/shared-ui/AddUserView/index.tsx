@@ -8,6 +8,7 @@ import { useDebounce } from 'use-debounce'
 import { getContactsMutable, postContactsSearch } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
 import UserItem from './UserItem'
 import Loader from '../Loader'
 
@@ -20,6 +21,7 @@ const AddUserView: React.FC<Props> = ({ className }) => {
   const [searchValue] = useDebounce(searchState, 700)
   const [isLoading, setIsLoading] = useState(false)
   const [contacts, setContacts] = useState<FormattedContacts[]>([])
+  const { state: playlistState } = usePlaylist()
 
   const ref = useRef(null)
 
@@ -30,11 +32,16 @@ const AddUserView: React.FC<Props> = ({ className }) => {
         try {
           const searchResponse = await postContactsSearch(searchValue)
           let formattedContacts: FormattedContacts[] | [] = []
+          const excludedUserIds = searchResponse.filter(
+            (item) =>
+              !playlistState?.contacts?.find((contact) => contact.id === item)
+          )
 
-          if (searchResponse.data.length > 0) {
+          if (excludedUserIds.length > 0) {
             const contactsResp = await getContactsMutable(
-              searchResponse.data.map((item: any) => item)
+              excludedUserIds.map((item: any) => item)
             )
+
             formattedContacts = Object.entries(contactsResp.data).map(
               ([id, contact]) => formatContactData(contact as any, id)
             )
@@ -52,7 +59,7 @@ const AddUserView: React.FC<Props> = ({ className }) => {
     } else {
       setContacts([])
     }
-  }, [searchValue])
+  }, [playlistState?.contacts, searchValue])
 
   useOnClickOutside(ref, () => {
     setContacts([])
