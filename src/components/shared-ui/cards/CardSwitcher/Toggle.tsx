@@ -8,7 +8,7 @@ type Props = {
   handler: () => void
 }
 
-const Switcher: React.FC<Props> = ({ className, handler }) => (
+const Toggle: React.FC<Props> = ({ className, handler }) => (
   <button
     type="button"
     className={classNames(s.container, className)}
@@ -28,4 +28,4 @@ const s = css`
   }
 `
 
-export default Switcher
+export default Toggle

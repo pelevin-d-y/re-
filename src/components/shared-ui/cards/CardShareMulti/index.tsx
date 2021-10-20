@@ -7,7 +7,7 @@ import Pin from 'src/components/shared-ui/Pin'
 import Img from 'src/components/shared-ui/Img'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
-import Switcher from './Switcher'
+import CardSwitcher from '../CardSwitcher'
 
 type Props = {
   data: {
@@ -50,16 +50,7 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
         <div className={s.title}>{title}</div>
-        <div className={s.controls}>
-          <Switcher
-            className={classNames(s.control, s.left)}
-            handler={prevStep}
-          />
-          <Switcher
-            className={classNames(s.control, s.right)}
-            handler={nextStep}
-          />
-        </div>
+        <CardSwitcher nextHandler={nextStep} prevHandler={prevStep} />
       </div>
       <div className={s.content}>
         <Img className={s.img} img={slide} alt="image" />
@@ -90,22 +81,6 @@ const s = css`
     justify-content: space-between;
 
     margin-bottom: 7px;
-  }
-
-  .controls {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-  }
-
-  .control {
-    width: 17px;
-    height: 17px;
-  }
-
-  .right {
-    transform: rotate(180deg);
-    margin-left: 14px;
   }
 
   .title {
