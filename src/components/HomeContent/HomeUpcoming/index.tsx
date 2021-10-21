@@ -62,9 +62,18 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
     padding: 16px 16px 32px 16px;
+  }
+  
+  .cards {
+    @include mobile {
+      display: flex;
+      flex-flow: column nowrap;
+    }
   }
 
   .header {
