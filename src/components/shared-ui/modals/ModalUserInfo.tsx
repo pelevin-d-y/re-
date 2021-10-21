@@ -26,7 +26,9 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
             <div className={s.profileType}>Founder at Company X</div>
           </div>
         </div>
-        <PopoverThread data={data} />
+        <div className={s.thread}>
+          <PopoverThread data={data} />
+        </div>
       </div>
       {parsedText && <UserHeader className={s.summary} text={parsedText} />}
     </div>
@@ -63,6 +65,10 @@ const s = css`
 
   .profileInfo {
     margin-left: 19px;
+  }
+
+  .thread {
+    margin-top: 10px;
   }
 
   .name {

@@ -40,6 +40,7 @@ const s = css`
     padding: 12px 16px 10px 16px;
     @include mobile {
       flex-flow: column nowrap;
+      align-items: center;
     }
   }
   .date {

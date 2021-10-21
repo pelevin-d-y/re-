@@ -49,11 +49,7 @@ const Content: React.FC = () => {
         {lists ? (
           <>
             <HomeRecommendations className={s.section} />
-            <HomeUpcoming
-              className={s.section}
-              title="Follow up with people you met with last week"
-              headerData={headerDataWeek}
-            />
+            <HomeUpcoming className={s.section} headerData={headerDataWeek} />
 
             <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (

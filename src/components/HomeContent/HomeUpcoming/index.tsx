@@ -13,7 +13,6 @@ import UpcomingItem from './UpcomingItem'
 
 type Props = {
   className?: string
-  title: string
   headerData: {
     month: string
     day: string
@@ -22,10 +21,10 @@ type Props = {
   }
 }
 
-const HomeUpcoming: React.FC<Props> = ({ className, title, headerData }) => {
+const HomeUpcoming: React.FC<Props> = ({ className, headerData }) => {
   const { state: stateLists } = useLists()
   const { dispatch: usersDispatch } = useUsers()
-  const list = stateLists?.find((item) => item.title === title)
+  const list = stateLists?.find((item) => item.title === headerData.title)
 
   const { dispatch: popupDispatch } = usePopup()
 

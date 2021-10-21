@@ -225,21 +225,29 @@ const s = css`
     text-align: right;
 
     @include mobile {
-      display: flex;
-      flex-flow: row nowrap;
+      flex-flow: column nowrap;
     }
   }
 
   .buttonTemplate {
     margin-right: 10px;
-    max-width: 144px;
+    max-width: 140px;
     width: 100%;
+
+    @include mobile {
+      margin-right: auto;
+      margin-left: auto;
+      margin-bottom: 10px;
+    }
   }
 
   .buttonSend {
     position: relative;
     max-width: 140px;
     width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+
     color: var(--white);
 
     &:hover {
