@@ -56,6 +56,10 @@ const s = css`
     @include mobile {
       flex-flow: column nowrap;
       padding: 14px 24px 18px 24px;
+      max-width: 300px;
+      width: 100%;
+      margin-right: auto;
+      margin-left: auto;
     }
   }
   .profile {
@@ -104,6 +108,9 @@ const s = css`
     max-width: 40%;
     width: 100%;
     margin-right: 20px;
+    @include mobile {
+      max-width: 100%;
+    }
   }
 `
 

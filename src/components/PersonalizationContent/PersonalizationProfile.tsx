@@ -229,6 +229,11 @@ const s = css`
     margin-right: 22px;
     display: flex;
     flex-direction: column;
+
+    @include mobile {
+      margin-right: 0;
+      max-width: fit-content;
+    }
   }
 
   .changeAvatar {
@@ -245,6 +250,10 @@ const s = css`
     flex-flow: row nowrap;
     max-width: 622px;
     width: 100%;
+    
+    @include mobile {
+      display: block;
+    }
   }
 
   .form {
@@ -255,6 +264,10 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     margin-left: -9px;
+
+    @include mobile {
+      flex-direction: column;
+    }
   }
 
   .field {

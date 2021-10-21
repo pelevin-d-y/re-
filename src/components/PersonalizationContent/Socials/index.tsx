@@ -34,9 +34,15 @@ const Socials: React.FC<Props> = ({ className }) => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row wrap;
+    
+    @include mobile {
+      flex-direction: column;
+    }
   }
 
   .social {
