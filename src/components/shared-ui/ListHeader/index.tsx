@@ -4,7 +4,7 @@ import PreviousPage from 'src/components/shared-ui/PreviousPage'
 import TextareaAutosize from 'react-textarea-autosize'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
-import { postPlaylists } from 'src/api'
+import { post } from 'src/api'
 import { useRouter } from 'next/router'
 import Button from '../Button'
 import Loader from '../Loader'
@@ -32,17 +32,18 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   const createList = () => {
     if (fields.title || fields.description) {
       setIsLoading(true)
-      postPlaylists([
-        {
-          info: {
-            name: fields.title,
-            description: fields.description,
+      post
+        .postPlaylists([
+          {
+            info: {
+              name: fields.title,
+              description: fields.description,
+            },
           },
-        },
-      ])
+        ])
         .then((res) => {
           setIsLoading(false)
-          router.push(`/list?id=${res.data[0].id}`)
+          router.push(`/list?id=${res[0].id}`)
         })
         .catch((err) => {
           setIsLoading(false)
@@ -58,18 +59,20 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         debounceFields.description !== data.description
       ) {
         if (data.id) {
-          await postPlaylists([
-            {
-              id: data.id,
-              info: {
-                name: debounceFields.title,
-                description: debounceFields.description,
+          await post
+            .postPlaylists([
+              {
+                id: data.id,
+                info: {
+                  name: debounceFields.title,
+                  description: debounceFields.description,
+                },
               },
-            },
-          ]).catch((err) => {
-            setIsLoading(false)
-            console.log('ListHeader err =>', err)
-          })
+            ])
+            .catch((err) => {
+              setIsLoading(false)
+              console.log('ListHeader err =>', err)
+            })
         }
       }
     }

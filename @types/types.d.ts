@@ -239,6 +239,25 @@ type RecsResponse = {
   }
 }
 
+type GetContactResp = {
+  type: 'email' | 'name' | 'short_name' | 'image'
+  data: string | string[]
+  meta: any
+}[]
+
+type ListData = {
+  actions: any
+  contacts:
+    | {
+        contact_id: string
+        review: number
+        scores: any
+      }[]
+  id: string
+  inclusions: any
+  info: { name?: string; description?: string }
+}
+
 type MainUserData = {
   emails?: any
   authData?: any[]
