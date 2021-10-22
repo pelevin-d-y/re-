@@ -68,7 +68,9 @@ const getMainUserData = async () => {
   const mainUserData: MainUserData = {
     ...clientData,
     contacts:
-      extendedUsers.length < 10 ? addAdditionFields(testUsers) : extendedUsers, // have to remove when API is fixed
+      extendedUsers.length < 10
+        ? addAdditionFields(testUsers as RecommendationUser[])
+        : extendedUsers, // have to remove when API is fixed
   }
 
   return mainUserData
