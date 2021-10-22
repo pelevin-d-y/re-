@@ -45,6 +45,7 @@ const s = css`
     top: 0;
     right: 0;
     z-index: 19;
+    height: 80px;
     padding-top: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--grey);
