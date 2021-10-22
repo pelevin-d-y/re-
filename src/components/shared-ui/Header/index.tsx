@@ -18,7 +18,7 @@ const Header: React.FC<Props> = ({ toggleMenu, className }) => {
     <header className={classNames(s.header, className)}>
       <div className={classNames(s.container)}>
         <button type="button" className={s.menu} onClick={toggleMenu}>
-          <SvgIcon icon="menu.svg" />
+          <SvgIcon icon="menu.svg" className={s.icon} />
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
@@ -45,7 +45,6 @@ const s = css`
     top: 0;
     right: 0;
     z-index: 19;
-    height: 80px;
     padding-top: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--grey);
@@ -104,9 +103,17 @@ const s = css`
   }
 
   .menu {
+    width: 28px;
+    height: 15px;
+    padding: 0;
     border: none;
     background: none;
     cursor: pointer;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
   }
 
   .greeting {
