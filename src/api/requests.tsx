@@ -4,7 +4,7 @@ import instance from './axios-config'
 const AWS_API =
   process.env.NODE_ENV === 'development'
     ? '/api/aws'
-    : 'https://3t8fpn6j0e.execute-api.us-east-1.amazonaws.com/Test'
+    : 'https://e8llia7s3h.execute-api.us-east-1.amazonaws.com/Test'
 
 const responseBody = (response: AxiosResponse) => response.data
 
