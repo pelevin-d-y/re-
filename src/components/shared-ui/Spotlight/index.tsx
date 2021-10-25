@@ -6,6 +6,7 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Img from 'src/components/shared-ui/Img'
 import CardGoals from 'src/components/shared-ui/cards/CardGoals'
 import QuickActions from './QuickActions'
+import Wins from './Wins'
 
 type Props = {
   className?: string
@@ -32,6 +33,7 @@ const Spotlight: React.FC<Props> = ({ className }) => (
     </div>
     <QuickActions className={s.actions} />
     <CardGoals />
+    <Wins className={s.wins} />
   </CardContainer>
 )
 
@@ -107,6 +109,10 @@ const s = css`
     width: 40px;
     height: 34px;
     object-fit: contain;
+  }
+
+  .wins {
+    margin-top: 11px;
   }
 `
 
