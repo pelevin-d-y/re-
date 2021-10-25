@@ -4,6 +4,19 @@ const optimizedImages = require('next-optimized-images')
 
 module.exports = withPlugins([optimizedImages], {
   cssModules: true,
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+    ]
+  },
   async rewrites() {
     /// proxying to dev server
     return [
