@@ -15,7 +15,7 @@ type Props = {
   contacts: UserData[] | null
 }
 
-const SelectedContacts: React.FC<Props> = ({
+const UsersManager: React.FC<Props> = ({
   className,
   selectedContacts,
   removeUser,
@@ -83,7 +83,7 @@ const SelectedContacts: React.FC<Props> = ({
 )
 
 const s = css`
-  .sidebar {
+  .container {
     border-right: 1px solid #d0d0d0;
     padding-top: 36px;
     padding-bottom: 36px;
@@ -185,4 +185,4 @@ const s = css`
   }
 `
 
-export default SelectedContacts
+export default UsersManager

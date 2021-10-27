@@ -9,7 +9,7 @@ import MessageManager from 'src/components/shared-ui/modals/MessageManager'
 import { differenceWith } from 'lodash'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
-import SelectedContacts from './SelectedContacts'
+import UsersManager from './UsersManager'
 
 const comparator = (a: UserData, b: UserData) => a.address === b.address
 
@@ -17,7 +17,7 @@ const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data, multiEmailsIsOpen } = state
 
-  const { state: users, dispatch: usersDispatch } = useUsers()
+  const { state: users } = useUsers()
   const { data: usersData } = users
 
   const [contacts, setContacts] = useState<UserData[] | null>([])
@@ -88,7 +88,7 @@ const MultiEmailsModal: React.FC = () => {
       onClose={closeHandler}
     >
       <ModalClose handler={closeHandler} className={s.close} />
-      <SelectedContacts
+      <UsersManager
         selectedContacts={selectedContacts}
         removeUser={removeUser}
         selectUser={selectUser}
@@ -99,7 +99,6 @@ const MultiEmailsModal: React.FC = () => {
         {data?.templateData?.Subject && (
           <ModalUserInfo className={s.header} data={data} />
         )}
-
         {data && <MessageManager data={data} closeHandler={closeHandler} />}
       </div>
     </ModalBase>
