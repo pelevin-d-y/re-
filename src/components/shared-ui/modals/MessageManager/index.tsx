@@ -189,7 +189,6 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    margin-top: 22px;
     padding: 0 0 23px;
 
     border: 1px solid #f1f1f1;
@@ -246,13 +245,16 @@ const s = css`
     position: relative;
     max-width: 140px;
     width: 100%;
-    margin-right: auto;
-    margin-left: auto;
 
     color: var(--white);
 
     &:hover {
       color: var(-blue);
+    }
+
+    @include mobile {
+      margin-right: auto;
+      margin-left: auto;
     }
   }
 

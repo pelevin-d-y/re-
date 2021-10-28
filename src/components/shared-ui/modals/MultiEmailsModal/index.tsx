@@ -87,7 +87,6 @@ const MultiEmailsModal: React.FC = () => {
       isOpen={multiEmailsIsOpen}
       onClose={closeHandler}
     >
-      <ModalClose handler={closeHandler} className={s.close} />
       <UsersManager
         selectedContacts={selectedContacts}
         removeUser={removeUser}
@@ -96,10 +95,10 @@ const MultiEmailsModal: React.FC = () => {
         addUserHandler={addUserHandler}
       />
       <div className={s.content}>
-        {data?.templateData?.Subject && (
-          <ModalUserInfo className={s.header} data={data} />
-        )}
         {data && <MessageManager data={data} closeHandler={closeHandler} />}
+        {data?.templateData?.Subject && (
+          <ModalUserInfo className={s.footer} data={data} withoutAvatar />
+        )}
       </div>
     </ModalBase>
   )
@@ -122,8 +121,8 @@ const s = css`
     padding: 29px 30px 15px;
   }
 
-  .header {
-    padding-right: 33px;
+  .footer {
+    margin-top: 29px;
   }
 `
 
