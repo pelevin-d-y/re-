@@ -45,7 +45,7 @@ const PopoverTemplates: React.FC<Props> = () => {
         templateData: template,
       })
 
-      updateUserData({ ...clientState, contacts })
+      // updateUserData({ ...clientState, contacts })
     }
   }
 

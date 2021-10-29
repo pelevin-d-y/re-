@@ -11,6 +11,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
+import formatTime from 'src/helpers/utils/parseTime'
 import Checkbox from './Checkbox'
 import AddUserView from '../AddUserView'
 import Row from './Row'
@@ -53,24 +54,36 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       {
         Header: 'Title',
         accessor: 'fullName',
-        Cell: ({ value }) => <span className={s.cellContent}>investor</span>,
+        Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
       },
-      // {
-      //   Header: 'Last outreach',
-      //   accessor: 'last_client_text',
-      //   Cell: ({ value, row }) => (
-      //     <div className={s.cellContent}>
-      //       <div className={s.lastData}>
-      //         {/* {format(parseISO(row.original.last_client_time), 'MMMM dd, yyyy')} */}
-      //         January 12, 2021
-      //       </div>
-      //       {/* <div>{value}</div> */}
-      //       <div>
-      //         Hi Hailey, Did get a chance to view the deck i sent ove...
-      //       </div>
-      //     </div>
-      //   ),
-      // },
+      {
+        Header: 'Company',
+        Cell: ({ value, row }) => (
+          <div className={s.cellContent}>Placeholder</div>
+        ),
+      },
+      {
+        Header: 'Last outreach',
+        accessor: 'last_client_text',
+        Cell: ({ value, row }) => (
+          <div className={s.cellContent}>
+            <div className={s.lastData}>
+              {formatTime(row.original.last_client_time)}
+            </div>
+            <div>
+              Hi Hailey, Did get a chance to view the deck i sent ove...
+            </div>
+          </div>
+        ),
+      },
+      {
+        Header: 'Next steps',
+        Cell: ({ value, row }) => (
+          <div className={s.cellContent}>
+            <div>Placeholder</div>
+          </div>
+        ),
+      },
       {
         Header: 'Notes',
         accessor: 'Notes',

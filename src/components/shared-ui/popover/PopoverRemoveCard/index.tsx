@@ -63,7 +63,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
       }
       return item
     })
-    updateUserData({ ...clientState, contacts: newContacts })
+    // updateUserData({ ...clientState, contacts: newContacts })
   }
 
   return (

@@ -3,41 +3,48 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import { Formik, Field } from 'formik'
+import { post } from 'src/api'
+import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
   data: UserData
 }
 
-const TabNotes: React.FC<Props> = ({ className, data }) => (
-  <div className={classNames(className, s.container)}>
-    <Formik
-      initialValues={{
-        notes: data?.Notes ? data?.Notes : '',
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        console.log(values?.notes)
-        setTimeout(() => {
+const TabNotes: React.FC<Props> = ({ className, data }) => {
+  const { updateUserData } = useClient()
+  return (
+    <div className={classNames(className, s.container)}>
+      <Formik
+        initialValues={{
+          notes: data?.Notes ? data?.Notes : '',
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          post
+            .postRecommendations({ note: values.notes, email: data.address })
+            .then(() => {
+              updateUserData()
+            })
           setSubmitting(false)
-        }, 1000)
-      }}
-    >
-      {({ handleSubmit, isSubmitting }) => (
-        <form className={s.form} onSubmit={handleSubmit}>
-          <Field className={s.textarea} name="notes" as="textarea" />
-          <Button
-            className={s.button}
-            type="submit"
-            variant="outlined"
-            disabled={isSubmitting}
-          >
-            Save
-          </Button>
-        </form>
-      )}
-    </Formik>
-  </div>
-)
+        }}
+      >
+        {({ handleSubmit, isSubmitting }) => (
+          <form className={s.form} onSubmit={handleSubmit}>
+            <Field className={s.textarea} name="notes" as="textarea" />
+            <Button
+              className={s.button}
+              type="submit"
+              variant="outlined"
+              disabled={isSubmitting}
+            >
+              Save
+            </Button>
+          </form>
+        )}
+      </Formik>
+    </div>
+  )
+}
 
 const s = css`
   .container {

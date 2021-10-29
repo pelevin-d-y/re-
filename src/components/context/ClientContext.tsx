@@ -11,7 +11,7 @@ type State = MainUserData | null
 type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
-  updateUserData: (data: MainUserData) => void
+  updateUserData: () => void
 }
 
 const ClientContext = React.createContext<ContextType | null>(null)
@@ -96,8 +96,12 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     setClientData()
   }, [])
 
-  const updateUserData = async (data: MainUserData) => {
-    dispatch({ type: 'UPDATE_USER_DATA', payload: data })
+  const updateUserData = async () => {
+    const mainUserData = await getMainUserData()
+    dispatch({
+      type: 'UPDATE_USER_DATA',
+      payload: mainUserData,
+    })
   }
 
   const value: ContextType = React.useMemo(

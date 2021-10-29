@@ -6,6 +6,7 @@ import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { TableProvider } from 'src/components/context/TableContext'
 import Loader from '../shared-ui/Loader'
+import ListRecs from '../shared-ui/ListRecs'
 
 const Content: React.FC = () => {
   const { state: data } = usePlaylist()
@@ -15,7 +16,7 @@ const Content: React.FC = () => {
       {data && <ListHeader data={data} />}
       <div className={s.content}>
         <TableProvider>
-          {/* <ListRecs list={currentList} contacts={contacts} /> */}
+          {/* <ListRecs list={data} contacts={contacts} /> */}
           {data && <TableHeader list={data} />}
           {data && <Table data={data} />}
         </TableProvider>
