@@ -1,41 +1,41 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { useLists } from 'src/components/context/ListsContext'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
 import SvgIcon from '../SvgIcon'
 import CardRecs from '../cards/CardRecs'
 
 type Props = {
   className?: string
   contacts?: UserData[]
-  list: List
+  // list: List
 }
 
-const ListRecs: React.FC<Props> = ({ className, contacts, list }) => {
-  const { updateList } = useLists()
-
-  const filtredContacts = useMemo(
-    () =>
-      contacts?.filter(
-        (item) =>
-          !list?.users?.find((listUser) => listUser.address === item.address)
-      ),
-    [contacts, list]
-  )
+const ListRecs: React.FC<Props> = ({ className, contacts }) => {
+  const { addUser } = usePlaylist()
+  // const filtredContacts = useMemo(
+  //   () =>
+  //     contacts?.filter(
+  //       (item) =>
+  //         !list?.users?.find((listUser) => listUser.address === item.address)
+  //     ),
+  //   [contacts, list]
+  // )
 
   const addUsers = (user: UserData) => {
-    const updatedList = { ...list, users: [...list.users, user] }
-    updateList(updatedList)
+    addUser(user).then((res) => {
+      console.log('addUsers res', res)
+    })
   }
 
-  return filtredContacts?.length !== 0 ? (
+  return contacts?.length !== 0 ? (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <SvgIcon className={s.svg} icon="lists.svg" />
         <div className={s.title}>Add these recs to list?</div>
       </div>
       <div className={s.cards}>
-        {filtredContacts?.map((user) => (
+        {contacts?.map((user) => (
           <CardRecs addUsers={addUsers} key={user.address} data={user} />
         ))}
       </div>

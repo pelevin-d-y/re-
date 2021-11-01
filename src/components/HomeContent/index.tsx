@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
 import CardShare from 'src/components/shared-ui/cards/CardShareLink'
-import { useLists } from 'src/components/context/ListsContext'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
@@ -14,7 +13,6 @@ import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 
 const Content: React.FC = () => {
-  const { state: lists } = useLists()
   const { state: clientState } = useClient()
   const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
 
@@ -43,13 +41,19 @@ const Content: React.FC = () => {
     [contacts]
   )
 
+  const HomeUpcomingContacts = contacts?.slice(3, 7)
+
   return (
     <div className={s.container}>
       <div className={s.main}>
-        {lists ? (
+        {contacts ? (
           <>
             <HomeRecommendations className={s.section} />
-            <HomeUpcoming className={s.section} headerData={headerDataWeek} />
+            <HomeUpcoming
+              className={s.section}
+              headerData={headerDataWeek}
+              contacts={HomeUpcomingContacts}
+            />
 
             <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (
