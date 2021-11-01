@@ -11,6 +11,7 @@ import ListRecs from '../shared-ui/ListRecs'
 
 const Content: React.FC = () => {
   const { state: playlistData } = usePlaylist()
+
   const { state: clientState } = useClient()
 
   return playlistData ? (
@@ -19,7 +20,10 @@ const Content: React.FC = () => {
       <div className={s.content}>
         <TableProvider>
           {clientState?.contacts && (
-            <ListRecs contacts={clientState.contacts} />
+            <ListRecs
+              contacts={clientState.contacts}
+              playlistData={playlistData}
+            />
           )}
           {playlistData && <TableHeader list={playlistData} />}
           {playlistData && <Table data={playlistData} />}

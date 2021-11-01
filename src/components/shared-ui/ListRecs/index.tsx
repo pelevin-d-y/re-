@@ -8,34 +8,35 @@ import CardRecs from '../cards/CardRecs'
 type Props = {
   className?: string
   contacts?: UserData[]
-  // list: List
+  playlistData: Playlist
 }
 
-const ListRecs: React.FC<Props> = ({ className, contacts }) => {
+const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
   const { addUser } = usePlaylist()
-  // const filtredContacts = useMemo(
-  //   () =>
-  //     contacts?.filter(
-  //       (item) =>
-  //         !list?.users?.find((listUser) => listUser.address === item.address)
-  //     ),
-  //   [contacts, list]
-  // )
+
+  const filteredContacts = useMemo(
+    () =>
+      contacts?.filter(
+        (item) =>
+          !playlistData?.contacts?.find(
+            (listUser) => listUser.id === item.contact_id
+          )
+      ),
+    [contacts, playlistData]
+  )
 
   const addUsers = (user: UserData) => {
-    addUser(user).then((res) => {
-      console.log('addUsers res', res)
-    })
+    addUser({ ...user, id: user.contact_id })
   }
 
-  return contacts?.length !== 0 ? (
+  return filteredContacts?.length !== 0 ? (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <SvgIcon className={s.svg} icon="lists.svg" />
         <div className={s.title}>Add these recs to list?</div>
       </div>
       <div className={s.cards}>
-        {contacts?.map((user) => (
+        {filteredContacts?.map((user) => (
           <CardRecs addUsers={addUsers} key={user.address} data={user} />
         ))}
       </div>

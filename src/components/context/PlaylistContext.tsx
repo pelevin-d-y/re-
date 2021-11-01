@@ -34,10 +34,6 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const router = useRouter()
   const [state, dispatch] = React.useReducer(playlistReducer, null)
 
-  const updatePlaylist = (list: any) => {
-    dispatch({ type: 'UPDATE_LIST', payload: list })
-  }
-
   const getPlaylistData = React.useCallback(async () => {
     try {
       const playlist = await get.getPlaylistsData([router.query.id] as string[])
