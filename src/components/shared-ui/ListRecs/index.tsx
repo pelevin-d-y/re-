@@ -25,9 +25,8 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
     [contacts, playlistData]
   )
 
-  const addUsers = (user: UserData) => {
+  const addUserHandler = (user: UserData) =>
     addUser({ ...user, id: user.contact_id })
-  }
 
   return filteredContacts?.length !== 0 ? (
     <div className={classNames(className, s.container)}>
@@ -37,7 +36,7 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
       </div>
       <div className={s.cards}>
         {filteredContacts?.map((user) => (
-          <CardRecs addUsers={addUsers} key={user.address} data={user} />
+          <CardRecs addUser={addUserHandler} key={user.address} data={user} />
         ))}
       </div>
     </div>
