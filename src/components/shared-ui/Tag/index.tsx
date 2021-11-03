@@ -1,15 +1,33 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import EasyEdit from 'react-easy-edit'
 
 type Props = {
   className?: string
   text: string
 }
 
-const Tag: React.FC<Props> = ({ className, text }) => (
-  <div className={classNames(className, s.container)}>{text}</div>
-)
+const Tag: React.FC<Props> = ({ className, text }) => {
+  const onSave = (val: string) => {
+    console.log('val', val)
+  }
+
+  return (
+    <div className={classNames(className, s.container)}>
+      <EasyEdit
+        type="text"
+        className={s.valueInput}
+        value={text}
+        hideCancelButton
+        hideSaveButton
+        saveOnBlur
+        cssClassPrefix="profile-card-"
+        onSave={(val: string) => onSave(val)}
+      />
+    </div>
+  )
+}
 
 const s = css`
   .container {
