@@ -26,7 +26,17 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
 
   const openModalHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const url = require(`public/images/${slide}`)
+    usersDispatch({
+      type: 'UPDATE_USERS_DATA',
+      payload:
+        contacts.map((item) => ({
+          ...item,
+          customTemplate: `<img src=${url}/>`,
+        })) || [],
+    })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 

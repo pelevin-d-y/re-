@@ -36,7 +36,6 @@ const initialState = {
   templatesModalIsOpen: false,
   deleteListModalIsOpen: false,
   data: null,
-  multiEmailsData: [],
 }
 
 const popupReducer = (state: State, action: Action): State => {

@@ -71,7 +71,7 @@ const reducer = (state: State, action: Action) => {
 }
 
 const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
-  const template = data.templateData?.Message
+  const template = data?.customTemplate || data.templateData?.Message
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const { state: clientState } = useClient()
