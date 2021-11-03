@@ -42,7 +42,27 @@ const HomeLayout: React.FC<Props> = ({ children, className }) => {
           isOpen={menuOpen}
           toggleMenu={toggleMenu}
         />
-        <div className={classNames(s.content)}>{children}</div>
+        <div className={classNames(s.content)}>
+          {children}
+          <div className={s.footer}>
+            <a
+              className={s.footerLink}
+              href="https://www.strata.cc/privacy-policy/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Privacy Policy
+            </a>
+            <a
+              className={s.footerLink}
+              href="https://www.strata.cc/terms-of-service/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Terms of Service
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -142,6 +162,20 @@ const s = css`
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .footer {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 14px;
+
+    border-top: 1px solid #d4dced;
+  }
+
+  .footerLink {
+    margin-right: 15px;
+
+    color: var(--black);
   }
 `
 

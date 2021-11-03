@@ -2,9 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
-import parseMessage from 'src/helpers/utils/parse-message'
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
+import formatTime from 'src/helpers/utils/parseTime'
 
 type Props = {
   className?: string
@@ -23,10 +21,9 @@ const ThreadItem: React.FC<Props> = ({ className, data }) => (
           <div className={s.profileItem}>To: Phil Hoyt</div>
         </div>
       </div>
-      <div className={s.date}>
-        {data.last_contact_time &&
-          format(parseISO(data.last_contact_time), 'MMMM dd, yyyy')}
-      </div>
+      {data.last_contact_time && (
+        <div className={s.date}>{formatTime(data.last_contact_time)}</div>
+      )}
     </div>
     {data.last_client_text ? (
       <div

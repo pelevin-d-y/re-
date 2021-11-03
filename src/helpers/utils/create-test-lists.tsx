@@ -53,18 +53,6 @@ const createTestLists = (users: UserData[]) => [
     },
   },
   {
-    id: 6,
-    title: 'Your Upcoming Trip to Los Angeles',
-    description:
-      'Plan your trip ahead but scheduling meetings with contacts in LA',
-    icon: 'pens.png',
-    users: users.slice(2, 10),
-    tasks: {
-      urgent: 1,
-      pinned: 1,
-    },
-  },
-  {
     id: 7,
     title: '1 Year…',
     description: 'It’s been',
@@ -94,6 +82,17 @@ const createTestLists = (users: UserData[]) => [
     users: users.slice(0, 6),
     tasks: {
       urgent: 3,
+    },
+  },
+  {
+    id: 10,
+    title: 'Follow up with people you met with last week',
+    description: '',
+    icon: 'pens.png',
+    users: users.slice(5, 8),
+    tasks: {
+      urgent: 1,
+      pinned: 1,
     },
   },
 ]

@@ -1,23 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Img from 'src/components/shared-ui/Img'
-import SpotlightLongCard from './SpotlightLongCard'
-
-type Сategories = {
-  reconnects: number
-  intros: number
-  followups: number
-}
+import CardGoals from 'src/components/shared-ui/cards/CardGoals'
+import QuickActions from './QuickActions'
+import Wins from './Wins'
 
 type Props = {
   className?: string
-  data?: Сategories
 }
 
-const Spotlight: React.FC<Props> = ({ className, data }) => (
+const Spotlight: React.FC<Props> = ({ className }) => (
   <CardContainer className={classnames(className, s.container)}>
     <div className={s.header}>
       <div className={s.title}>Spotlight</div>
@@ -36,32 +31,9 @@ const Spotlight: React.FC<Props> = ({ className, data }) => (
         </div>
       </div>
     </div>
-    <div className={s.longCards}>
-      <SpotlightLongCard
-        className={s.longCard}
-        from={data?.reconnects}
-        to={50}
-        period="within 30 Days"
-        text="Reconnects made"
-        barColor="blue"
-      />
-      <SpotlightLongCard
-        className={s.longCard}
-        from={data?.intros}
-        to={20}
-        period="within 30 Days"
-        text="Intros made"
-        barColor="green"
-      />
-      <SpotlightLongCard
-        className={s.longCard}
-        from={data?.followups}
-        to={12}
-        period="made within 30 Days"
-        text="Urgent followup"
-        barColor="red"
-      />
-    </div>
+    <QuickActions className={s.actions} />
+    <CardGoals />
+    <Wins className={s.wins} />
   </CardContainer>
 )
 
@@ -78,6 +50,10 @@ const s = css`
     margin-bottom: 27px;
 
     line-height: 31px;
+  }
+
+  .actions {
+    margin-bottom: 9px;
   }
 
   .title {
@@ -133,6 +109,10 @@ const s = css`
     width: 40px;
     height: 34px;
     object-fit: contain;
+  }
+
+  .wins {
+    margin-top: 11px;
   }
 `
 

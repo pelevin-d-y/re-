@@ -8,7 +8,7 @@ import EditorActions from 'src/components/shared-ui/EditorActions'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { sendMessage } from 'src/api'
+import { post } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
 import ModalSent from '../ModalSent'
@@ -121,7 +121,8 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
   const sendEmail = async () => {
     dispatch({ type: 'updateSendingStatus' })
 
-    sendMessage(state.bodyData)
+    post
+      .sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
         if (resp.status === 200) {
@@ -188,7 +189,6 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    margin-top: 22px;
     padding: 0 0 23px;
 
     border: 1px solid #f1f1f1;
@@ -225,25 +225,36 @@ const s = css`
     text-align: right;
 
     @include mobile {
-      display: flex;
-      flex-flow: row nowrap;
+      flex-flow: column nowrap;
     }
   }
 
   .buttonTemplate {
     margin-right: 10px;
-    max-width: 144px;
+    max-width: 140px;
     width: 100%;
+
+    @include mobile {
+      margin-right: auto;
+      margin-left: auto;
+      margin-bottom: 10px;
+    }
   }
 
   .buttonSend {
     position: relative;
     max-width: 140px;
     width: 100%;
+
     color: var(--white);
 
     &:hover {
       color: var(-blue);
+    }
+
+    @include mobile {
+      margin-right: auto;
+      margin-left: auto;
     }
   }
 

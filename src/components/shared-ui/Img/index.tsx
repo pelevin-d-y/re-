@@ -11,7 +11,7 @@ const Img: React.FC<Props> = ({ className, alt, img, errorLoad }) => (
   <img
     className={className}
     alt={alt}
-    src={img.includes('https') ? img : require(`public/images/${img}`)}
+    src={img.includes('https') ? img : `images/${img}`}
     onError={() => errorLoad && errorLoad(true)}
   />
 )

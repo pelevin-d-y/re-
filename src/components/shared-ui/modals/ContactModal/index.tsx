@@ -6,7 +6,7 @@ import MessageManager from 'src/components/shared-ui/modals/MessageManager'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
 
-const EmailModal: React.FC = () => {
+const ContactModal: React.FC = () => {
   const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
 
@@ -20,10 +20,10 @@ const EmailModal: React.FC = () => {
       isOpen={emailModalIsOpen}
       onClose={closeHandler}
     >
-      <CloseModal handler={closeHandler} className={s.close} />
+      {/* <CloseModal handler={closeHandler} className={s.close} /> */}
       <div className={s.content}>
-        {data && <ModalUserInfo className={s.header} data={data} />}
         {data && <MessageManager data={data} closeHandler={closeHandler} />}
+        {data && <ModalUserInfo className={s.footer} data={data} />}
       </div>
     </ModalBase>
   )
@@ -36,12 +36,8 @@ const s = css`
     max-width: 900px;
   }
 
-  .header {
-    padding-right: 53px;
-
-    @include mobile {
-      margin-bottom: 10px;
-    }
+  .footer {
+    margin-top: 29px;
   }
 
   .content {
@@ -59,4 +55,4 @@ const s = css`
   }
 `
 
-export default EmailModal
+export default ContactModal

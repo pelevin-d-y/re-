@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
-import CardShare from 'src/components/shared-ui/cards/CardShare'
-import { useLists } from 'src/components/context/ListsContext'
+import CardShare from 'src/components/shared-ui/cards/CardShareLink'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
@@ -11,19 +10,58 @@ import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import HomeRecommendations from './Recommendations/HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
+import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 
 const Content: React.FC = () => {
-  const { state: lists } = useLists()
   const { state: clientState } = useClient()
   const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
+
+  const headerDataWeek = {
+    month: 'sep',
+    day: '9',
+    title: 'Follow up with people you met with last week',
+    description: '',
+  }
+
+  const shareHolidays = useMemo(
+    () => ({
+      title: 'Share Holiday',
+      slides: ['share-hol-1.jpeg', 'share-hol-2.jpeg', 'share-hol-3.jpeg'],
+      contacts: contacts?.slice(1, 4) as UserData[],
+    }),
+    [contacts]
+  )
+
+  const shareMemes = useMemo(
+    () => ({
+      title: 'Share Meme',
+      slides: ['share-meme1.jpeg', 'share-meme2.jpeg', 'share-meme3.jpeg'],
+      contacts: contacts?.slice(1, 4) as UserData[],
+    }),
+    [contacts]
+  )
+
+  const HomeUpcomingContacts = contacts?.slice(3, 7)
 
   return (
     <div className={s.container}>
       <div className={s.main}>
-        {lists ? (
+        {contacts ? (
           <>
             <HomeRecommendations className={s.section} />
-            <HomeUpcoming className={s.section} />
+            <HomeUpcoming
+              className={s.section}
+              headerData={headerDataWeek}
+              contacts={HomeUpcomingContacts}
+            />
+
+            <Grid className={s.section} division={2}>
+              {shareHolidays.contacts && (
+                <CardShareMulti data={shareHolidays} />
+              )}
+              {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
+            </Grid>
+
             <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
@@ -37,7 +75,6 @@ const Content: React.FC = () => {
                 users={contacts?.slice(1, 4)}
               />
             </Grid>
-            {/* <CardGuide className={s.section} /> */}
             <CardShare
               className={s.section}
               variant="dark"
@@ -61,7 +98,7 @@ const Content: React.FC = () => {
               />
               <CardShareSmall
                 title="Share Meme"
-                image="share-meme.jpeg"
+                image="share-meme1.jpeg"
                 users={contacts?.slice(1, 4)}
               />
             </Grid>

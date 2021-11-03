@@ -1,10 +1,75 @@
 import React from 'react'
-import SelectComp, {
-  components,
+import ReactSelect, {
   StylesConfig,
   IndicatorProps,
+  components,
+  ValueType,
 } from 'react-select'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import { css } from 'astroturf'
+import DropdownIndicator from './DropdownIndicator'
+
+const selectStyles = (styles: any): StylesConfig<Option, false> => ({
+  container: (provided) => ({
+    ...provided,
+    ...styles?.container,
+  }),
+  control: (provided) => ({
+    ...provided,
+    minHeight: 50,
+    boxShadow: 'none',
+    border: '1px solid #d8d8d8',
+    ':hover': {
+      border: '1px solid #d8d8d8',
+    },
+    ...styles?.control,
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    ...styles?.placeholder,
+  }),
+  indicatorsContainer: (provided) => ({
+    ...provided,
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    right: 0,
+    padding: 17,
+    ...styles?.indicatorsContainer,
+  }),
+  indicatorSeparator: (provided) => ({
+    ...provided,
+    display: 'none',
+    ...styles?.indicatorSeparator,
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: '17px 18px 19px 18px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    ...styles?.valueContainer,
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    fontWeight: 500,
+    fontSize: 14,
+    lineHeight: 14,
+    width: 'calc(100% - 60px)',
+    ...styles?.singleValue,
+  }),
+  option: (provided) => ({
+    ...provided,
+    ...styles?.option,
+  }),
+  menu: (provided) => ({
+    ...provided,
+    margin: 0,
+    ...styles?.menu,
+  }),
+  menuList: (provided) => ({
+    ...provided,
+    ...styles?.menuList,
+  }),
+})
 
 type Option = {
   value: string
@@ -13,76 +78,57 @@ type Option = {
 
 type Props = {
   options: Option[]
+  styles?: any
+  label?: string
+  handler?: (e: any) => void
+  value?: ValueType<Option, false>
+  isOpen?: boolean
+  classes?: {
+    arrow?: string
+  }
+  disabled?: boolean
 }
 
-const selectStyles: StylesConfig<Option, false> = {
-  container: (provided) => ({
-    ...provided,
-    maxWidth: '140px',
-    width: '100%',
-    borderRadius: '16px',
-  }),
-  control: (provided) => ({
-    ...provided,
-    minHeight: '32px',
-    backgroundColor: '#1966FF',
-    borderRadius: '16px',
-    borderColor: '#1966FF',
-    cursor: 'pointer',
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: '#ffffff',
-  }),
-  indicatorsContainer: (provided) => ({
-    ...provided,
-    position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    right: 0,
-  }),
-  indicatorSeparator: (provided) => ({
-    ...provided,
-    display: 'none',
-  }),
-  valueContainer: (provided) => ({
-    ...provided,
-    justifyContent: 'center',
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    fontWeight: 500,
-    color: '#ffffff',
-    fontSize: '12px',
-  }),
-  option: (provided) => ({
-    ...provided,
-    cursor: 'pointer',
-  }),
-  menu: (provided) => ({
-    ...provided,
-    zIndex: 20,
-  }),
-}
-
-const Select: React.FC<Props> = ({ options }) => {
-  // eslint-disable-next-line
-  const DropdownIndicator = (props: IndicatorProps<any, any>) => (
-    <components.DropdownIndicator {...props}>
-      <SvgIcon icon="inputArrow.svg" />
-    </components.DropdownIndicator>
+const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
+  React.forwardRef<HTMLDivElement, Props>(
+    ({ options, styles, label, classes, disabled, handler, isOpen }, ref) => (
+      <div className={s.container} ref={ref}>
+        {label && (
+          <label htmlFor={label} className={s.label}>
+            {label}
+          </label>
+        )}
+        <ReactSelect
+          options={options}
+          instanceId="1"
+          styles={selectStyles(styles)}
+          onChange={handler}
+          components={{
+            DropdownIndicator: (props: IndicatorProps<any, any>) => (
+              <components.DropdownIndicator {...props}>
+                <DropdownIndicator className={classes?.arrow} />
+              </components.DropdownIndicator>
+            ),
+          }}
+          isSearchable={false}
+          defaultValue={options[0]}
+          isDisabled={disabled}
+          menuIsOpen={isOpen}
+        />
+      </div>
+    )
   )
 
-  return (
-    <SelectComp
-      options={options}
-      instanceId="1"
-      styles={selectStyles}
-      components={{ DropdownIndicator }}
-      isSearchable={false}
-      defaultValue={options[0]}
-    />
-  )
-}
+const s = css`
+  .container {
+    width: 100%;
+  }
 
-export default Select
+  .label {
+    display: block;
+    margin-bottom: 9px;
+    color: #7e7e7e;
+    line-height: 18px;
+  }
+`
+export default Selector

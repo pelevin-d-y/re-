@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getContactsMutable, getPlaylistsData, postPlaylists } from 'src/api'
+import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { useRouter } from 'next/router'
 
@@ -13,7 +13,6 @@ type ContextType = {
   state: State
   dispatch: Dispatch
   getPlaylistData: () => void
-  updatePlaylist: (list: any) => void
   removeUsers: (userData: any) => Promise<any>
   addUser: (user: any) => Promise<any>
 }
@@ -35,27 +34,22 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const router = useRouter()
   const [state, dispatch] = React.useReducer(playlistReducer, null)
 
-  const updatePlaylist = (list: any) => {
-    dispatch({ type: 'UPDATE_LIST', payload: list })
-  }
-
   const getPlaylistData = React.useCallback(async () => {
     try {
-      const playlist: any = await getPlaylistsData([
-        router.query.id,
-      ] as string[])
-      const newPlaylist = playlist.data[0]
+      const playlist = await get.getPlaylistsData([router.query.id] as string[])
+      const newPlaylist = playlist[0]
 
       if (newPlaylist.contacts.length > 0) {
-        const contactsResp: any = await getContactsMutable(
-          newPlaylist.contacts.map((item: any) => item.contact_id)
+        const contactsResp = await get.getContactsMutable(
+          newPlaylist.contacts.map((item) => item.contact_id)
         )
 
-        newPlaylist.contacts = Object.entries(contactsResp.data).map(
-          ([id, contact]) => formatContactData(contact as any, id)
+        newPlaylist.contacts = Object.entries(contactsResp).map(
+          ([id, contact]) => formatContactData(contact, id)
         )
       }
-      updatePlaylist(newPlaylist)
+
+      dispatch({ type: 'UPDATE_LIST', payload: newPlaylist })
     } catch (err) {
       console.log('getPlaylistData err =>', err)
     }
@@ -64,15 +58,16 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const removeUsers = React.useCallback(
     (users: any[]) => {
       if (state?.id) {
-        return postPlaylists([
-          {
-            id: state.id,
-            contacts: users.map((item) => ({
-              contact_id: item.id,
-              review: 2,
-            })),
-          },
-        ])
+        return post
+          .postPlaylists([
+            {
+              id: state.id,
+              contacts: users.map((item) => ({
+                contact_id: item.id,
+                review: 2,
+              })),
+            },
+          ])
           .then(() => getPlaylistData())
           .catch((err: any) => console.log('removeUser err =>', err))
       }
@@ -86,17 +81,18 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const addUser = React.useCallback(
     (user) => {
       if (state?.id) {
-        return postPlaylists([
-          {
-            id: state.id,
-            contacts: [
-              {
-                contact_id: user.id,
-                review: 1,
-              },
-            ],
-          },
-        ])
+        return post
+          .postPlaylists([
+            {
+              id: state.id,
+              contacts: [
+                {
+                  contact_id: user.id,
+                  review: 1,
+                },
+              ],
+            },
+          ])
           .then(() => getPlaylistData())
           .catch((err: any) => console.log('addUser err =>', err))
       }
@@ -119,7 +115,6 @@ const PlaylistProvider: React.FC = ({ children }) => {
     () => ({
       state,
       dispatch,
-      updatePlaylist,
       getPlaylistData,
       addUser,
       removeUsers,

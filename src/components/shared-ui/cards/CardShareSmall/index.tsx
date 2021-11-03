@@ -112,16 +112,6 @@ const s = css`
     );
   }
 
-  .burgerDay {
-    position: absolute;
-    top: 15px;
-    left: 8px;
-    z-index: 3;
-
-    width: 138px;
-    height: 83px;
-  }
-
   .actions {
     display: grid;
     grid-template-columns: 1fr 4fr;

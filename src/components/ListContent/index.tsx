@@ -4,20 +4,29 @@ import Table from 'src/components/shared-ui/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { useClient } from 'src/components/context/ClientContext'
 import { TableProvider } from 'src/components/context/TableContext'
 import Loader from '../shared-ui/Loader'
+import ListRecs from '../shared-ui/ListRecs'
 
 const Content: React.FC = () => {
-  const { state: data } = usePlaylist()
+  const { state: playlistData } = usePlaylist()
 
-  return data ? (
+  const { state: clientState } = useClient()
+
+  return playlistData ? (
     <div className={s.container}>
-      {data && <ListHeader data={data} />}
+      {playlistData && <ListHeader data={playlistData} />}
       <div className={s.content}>
         <TableProvider>
-          {/* <ListRecs list={currentList} contacts={contacts} /> */}
-          {data && <TableHeader list={data} />}
-          {data && <Table data={data} />}
+          {clientState?.contacts && (
+            <ListRecs
+              contacts={clientState.contacts}
+              playlistData={playlistData}
+            />
+          )}
+          {playlistData && <TableHeader list={playlistData} />}
+          {playlistData && <Table data={playlistData} />}
         </TableProvider>
       </div>
     </div>

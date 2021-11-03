@@ -24,6 +24,8 @@ const PersonalizationSocial: React.FC<Props> = ({ className, data }) => (
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: row nowrap;
@@ -35,6 +37,11 @@ const s = css`
     color: var(--white);
     border-radius: 16px;
     cursor: pointer;
+
+    @include mobile {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
   }
 
   .icon {

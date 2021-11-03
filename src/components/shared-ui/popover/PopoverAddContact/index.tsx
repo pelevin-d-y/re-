@@ -37,7 +37,6 @@ const PopoverAddContact: React.FC<Props> = ({
 
 const s = css`
   .popup {
-    overflow: auto;
     min-width: 375px;
     padding: 18px 20px;
     padding-bottom: 0;

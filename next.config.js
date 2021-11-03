@@ -4,13 +4,26 @@ const optimizedImages = require('next-optimized-images')
 
 module.exports = withPlugins([optimizedImages], {
   cssModules: true,
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+    ]
+  },
   async rewrites() {
     /// proxying to dev server
     return [
       {
         source: '/api/aws/:path*',
         destination:
-          'https://3t8fpn6j0e.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
+          'https://e8llia7s3h.execute-api.us-east-1.amazonaws.com/Test/:path*', // Proxy to Backend
       },
     ]
   },

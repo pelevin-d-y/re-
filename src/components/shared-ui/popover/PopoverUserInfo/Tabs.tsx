@@ -5,6 +5,7 @@ import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
 import TabInfo from './TabInfo'
 import TabLists from './TabLists'
 import TabRecs from './TabRecs'
+import TabNotes from './TabNotes'
 
 type Props = {
   className?: string
@@ -18,6 +19,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => (
         <Tab className={s.tabItem}>Info</Tab>
         <Tab className={s.tabItem}>List</Tab>
         <Tab className={s.tabItem}>Recs</Tab>
+        <Tab className={s.tabItem}>Notes</Tab>
       </TabList>
       <TabPanel>
         <TabInfo data={data} />
@@ -27,6 +29,9 @@ const InfoTab: React.FC<Props> = ({ className, data }) => (
       </TabPanel>
       <TabPanel>
         <TabRecs />
+      </TabPanel>
+      <TabPanel>
+        <TabNotes data={data} />
       </TabPanel>
     </ReactTabs>
   </div>

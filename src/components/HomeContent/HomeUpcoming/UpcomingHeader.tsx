@@ -36,10 +36,11 @@ const s = css`
     position: relative;
     display: flex;
     flex-flow: row nowrap;
-    align-items: center;
+    align-items: flex-start;
     padding: 12px 16px 10px 16px;
     @include mobile {
       flex-flow: column nowrap;
+      align-items: center;
     }
   }
   .date {
@@ -58,6 +59,7 @@ const s = css`
     }
   }
   .text {
+    margin-top: 3px;
     @include mobile {
       text-align: center;
     }

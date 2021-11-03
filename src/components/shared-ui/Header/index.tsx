@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Search from 'src/components/shared-ui/Search'
-import PopoverNotifications from 'src/components/shared-ui/popover/PopoverNotifications'
 import { useClient } from 'src/components/context/ClientContext'
 import HeaderProfile from './HeaderProfile'
 
@@ -19,7 +18,7 @@ const Header: React.FC<Props> = ({ toggleMenu, className }) => {
     <header className={classNames(s.header, className)}>
       <div className={classNames(s.container)}>
         <button type="button" className={s.menu} onClick={toggleMenu}>
-          <SvgIcon icon="menu.svg" />
+          <SvgIcon icon="menu.svg" className={s.icon} />
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
@@ -29,7 +28,7 @@ const Header: React.FC<Props> = ({ toggleMenu, className }) => {
           classes={{ container: s.search }}
           inputPlaceholder="Search..."
         />
-        {state?.emails && <HeaderProfile className={s.profile} />}
+        <HeaderProfile className={s.profile} />
         {/* <PopoverNotifications /> */}
       </div>
     </header>
@@ -45,6 +44,7 @@ const s = css`
     left: 0;
     top: 0;
     right: 0;
+    z-index: 19;
     padding-top: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--grey);
@@ -103,9 +103,17 @@ const s = css`
   }
 
   .menu {
+    width: 28px;
+    height: 15px;
+    padding: 0;
     border: none;
     background: none;
     cursor: pointer;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
   }
 
   .greeting {

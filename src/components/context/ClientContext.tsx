@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getAuth, getContact, getRecommendations } from 'src/api'
+import { get } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import testUsers from 'src/testUsers.json'
 import formatContactData from 'src/helpers/utils/format-contact-data'
@@ -11,7 +11,7 @@ type State = MainUserData | null
 type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
-  updateUserData: (data: MainUserData) => void
+  updateUserData: () => void
 }
 
 const ClientContext = React.createContext<ContextType | null>(null)
@@ -56,19 +56,21 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
 
 const getMainUserData = async () => {
   const requests = await Promise.all([
-    getRecommendations(),
-    getContact(),
-    getAuth(),
+    get.getRecommendations(),
+    get.getContact(),
+    get.getAuth(),
   ])
 
   const [recommendations, contactResponse, authResponse] = requests
   const extendedUsers = addAdditionFields(recommendations)
-  const formattedClientData = formatContactData(contactResponse.data)
-  const clientData = addAuthData(formattedClientData, authResponse.data)
+  const formattedClientData = formatContactData(contactResponse)
+  const clientData = addAuthData(formattedClientData, authResponse)
   const mainUserData: MainUserData = {
     ...clientData,
     contacts:
-      extendedUsers.length < 10 ? addAdditionFields(testUsers) : extendedUsers, // have to remove when API is fixed
+      extendedUsers.length < 10
+        ? addAdditionFields(testUsers as RecommendationUser[])
+        : extendedUsers, // have to remove when API is fixed
   }
 
   return mainUserData
@@ -94,8 +96,12 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     setClientData()
   }, [])
 
-  const updateUserData = async (data: MainUserData) => {
-    dispatch({ type: 'UPDATE_USER_DATA', payload: data })
+  const updateUserData = async () => {
+    const mainUserData = await getMainUserData()
+    dispatch({
+      type: 'UPDATE_USER_DATA',
+      payload: mainUserData,
+    })
   }
 
   const value: ContextType = React.useMemo(

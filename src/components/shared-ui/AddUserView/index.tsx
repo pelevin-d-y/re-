@@ -5,9 +5,10 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce'
-import { getContactsMutable, postContactsSearch } from 'src/api'
+import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
 import UserItem from './UserItem'
 import Loader from '../Loader'
 
@@ -20,6 +21,7 @@ const AddUserView: React.FC<Props> = ({ className }) => {
   const [searchValue] = useDebounce(searchState, 700)
   const [isLoading, setIsLoading] = useState(false)
   const [contacts, setContacts] = useState<FormattedContacts[]>([])
+  const { state: playlistState } = usePlaylist()
 
   const ref = useRef(null)
 
@@ -28,14 +30,19 @@ const AddUserView: React.FC<Props> = ({ className }) => {
       const search = async () => {
         setIsLoading(true)
         try {
-          const searchResponse = await postContactsSearch(searchValue)
+          const searchResponse = await post.postContactsSearch(searchValue)
           let formattedContacts: FormattedContacts[] | [] = []
+          const excludedUserIds = searchResponse.filter(
+            (item) =>
+              !playlistState?.contacts?.find((contact) => contact.id === item)
+          )
 
-          if (searchResponse.data.length > 0) {
-            const contactsResp = await getContactsMutable(
-              searchResponse.data.map((item: any) => item)
+          if (excludedUserIds.length > 0) {
+            const contactsResp = await get.getContactsMutable(
+              excludedUserIds.map((item: any) => item)
             )
-            formattedContacts = Object.entries(contactsResp.data).map(
+
+            formattedContacts = Object.entries(contactsResp).map(
               ([id, contact]) => formatContactData(contact as any, id)
             )
           }
@@ -52,7 +59,7 @@ const AddUserView: React.FC<Props> = ({ className }) => {
     } else {
       setContacts([])
     }
-  }, [searchValue])
+  }, [playlistState?.contacts, searchValue])
 
   useOnClickOutside(ref, () => {
     setContacts([])
@@ -90,6 +97,12 @@ const AddUserView: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
+  .container {
+    position: relative;
+    z-index: 18;
+    box-shadow: none;
+  }
+
   .search {
     width: 100%;
   }
@@ -99,9 +112,20 @@ const s = css`
   }
 
   .list {
-    position: relative;
-    list-style: none;
+    position: absolute;
+    top: 100%;
+    z-index: 20;
+    left: 0;
+
+    max-height: 300px;
+    width: 100%;
     padding: 0;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
+      0px 1px 1px rgba(34, 34, 34, 0.0989128);
+
+    overflow: auto;
+    background: #ffffff;
+    list-style: none;
   }
 
   .loader {
@@ -109,8 +133,8 @@ const s = css`
     height: 70px;
   }
 
-  .container.active {
-    box-shadow: 0px 4px 8px rgb(0 0 0 / 12%), 0px 1px 1px rgb(34 34 34 / 10%);
+  .active .list {
+    padding: 5px;
   }
 `
 

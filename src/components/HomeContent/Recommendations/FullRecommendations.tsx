@@ -11,10 +11,10 @@ type Props = {
 const FullRecommendations: React.FC<Props> = ({ data }) => (
   <>
     <div className={s.title}>
-      Your Weekly Recommendations
+      Your Weekly Recommendations <br />
       <Link className={s.link} href="#">
         View all
-        <SvgIcon className={s.linkIcon} icon="back.svg" />
+        <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
       </Link>
     </div>
     <div className={s.cards}>
@@ -39,6 +39,14 @@ const s = css`
 
     @include tablet {
       text-align: center;
+    }
+
+    br {
+      display: none;
+
+      @include mobile {
+        display: block;
+      }
     }
   }
 

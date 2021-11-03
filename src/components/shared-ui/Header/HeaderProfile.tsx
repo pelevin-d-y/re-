@@ -25,11 +25,9 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       position="bottom right"
       triggerElement={
         <div className={classNames(s.container, className)}>
-          {state?.avatar && (
-            <a href={logInLink}>
-              <Avatar image={state?.avatar} />
-            </a>
-          )}
+          <a href={logInLink}>
+            <Avatar image={state?.avatar} />
+          </a>
         </div>
       }
       popupContent={

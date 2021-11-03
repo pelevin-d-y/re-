@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Bar from '../Bar'
-import Period from '../Period'
+import Bar from 'src/components/shared-ui/Bar'
+import Period from 'src/components/shared-ui/Period'
 
 type Props = {
   className?: string
@@ -11,10 +11,10 @@ type Props = {
   text: string
   from?: number
   to: number
-  barColor: 'blue' | 'green' | 'red'
+  barColor: 'blue' | 'green' | 'red' | 'lightBlue' | 'orange'
 }
 
-const SpotlightLongCard: React.FC<Props> = ({
+const Goal: React.FC<Props> = ({
   className,
   period,
   text,
@@ -47,7 +47,7 @@ const s = css`
   .container {
     padding: 16px 20px 11px 20px;
 
-    background: #fbfbfb;
+    box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
   }
 
   .wrapper {
@@ -67,6 +67,10 @@ const s = css`
     font-size: 12px;
   }
 
+  .subtitle {
+    font-weight: var(--semibold);
+  }
+
   .period {
     padding-bottom: 8px;
   }
@@ -76,4 +80,4 @@ const s = css`
   }
 `
 
-export default SpotlightLongCard
+export default Goal

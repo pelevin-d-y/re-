@@ -8,6 +8,7 @@ import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import AddUserView from 'src/components/shared-ui/AddUserView'
 
 type Props = {
   className?: string
@@ -42,10 +43,11 @@ const TableHeader: React.FC<Props> = ({
 
   return (
     <div className={classNames(className, s.container)}>
-      <Search
+      <AddUserView />
+      {/* <Search
         classes={{ container: s.search }}
         inputPlaceholder="Search contacts…"
-      />
+      /> */}
       <div className={s.actions}>
         <Button className={classNames(s.dots, s.button)} variant="outlined">
           •••

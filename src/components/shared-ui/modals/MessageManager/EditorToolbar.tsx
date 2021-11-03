@@ -18,6 +18,7 @@ const ModalEditorToolbar: React.FC<Props> = ({ className }) => (
     </select>
     <button type="button" className="ql-bold" />
     <button type="button" className="ql-italic" />
+    <button type="button" className="ql-image" />
     <button type="button" className="ql-link" />
     <button type="button" value="ordered" className="ql-list" />
     <button type="button" value="bullet" className="ql-list" />

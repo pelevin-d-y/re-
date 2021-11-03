@@ -13,7 +13,7 @@ type Props = {
 const HomeRecommendations: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
 
-  const contacts = useMemo(() => state?.contacts?.slice(1, 4), [state])
+  const contacts = useMemo(() => state?.contacts?.slice(0, 3), [state])
 
   return (
     <CardContainer className={classNames(className, s.container)}>

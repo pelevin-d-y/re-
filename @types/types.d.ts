@@ -82,6 +82,7 @@ type RecommendationUser = {
   playlist_maintain: number
   first_direct_hide: string
   client_initiated_count: number
+  contact_id: string
   last_client_text: string
   first_client_hide: string
   playlist_new_contact_context: string
@@ -228,6 +229,7 @@ type RecommendationUser = {
 interface UserData extends RecommendationUser {
   avatar?: string
   title?: string
+  fullName?: string
   pinned: boolean
   templateData?: Template
   relationshipStrength: 'red' | 'orange' | 'green' | null
@@ -237,6 +239,25 @@ type RecsResponse = {
   data: {
     recommendations: RecommendationUser[]
   }
+}
+
+type GetContactResp = {
+  type: 'email' | 'name' | 'short_name' | 'image'
+  data: string | string[]
+  meta: any
+}[]
+
+type ListData = {
+  actions: any
+  contacts:
+    | {
+        contact_id: string
+        review: number
+        scores: any
+      }[]
+  id: string
+  inclusions: any
+  info: { name?: string; description?: string }
 }
 
 type MainUserData = {

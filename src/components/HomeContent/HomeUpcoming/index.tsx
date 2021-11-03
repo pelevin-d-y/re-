@@ -6,49 +6,42 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useUsers } from 'src/components/context/UsersContext'
 import Button from 'src/components/shared-ui/Button'
-import { useLists } from 'src/components/context/ListsContext'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import UpcomingHeader from './UpcomingHeader'
 import UpcomingItem from './UpcomingItem'
 
 type Props = {
   className?: string
+  headerData: {
+    month: string
+    day: string
+    title: string
+    description: string
+  }
+  contacts?: UserData[]
 }
 
-const HomeUpcoming: React.FC<Props> = ({ className }) => {
-  const { state: stateLists } = useLists()
+const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
   const { dispatch: usersDispatch } = useUsers()
-
-  const list = stateLists?.find(
-    (item) => item.title === 'Your Upcoming Trip to Los Angeles'
-  )
   const { dispatch: popupDispatch } = usePopup()
 
   const followUpWithAllHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list?.users || [] })
+    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
-  }
-
-  const headerData = {
-    month: 'feb',
-    day: '20',
-    title: list?.title as string,
-    description: list?.description as string,
   }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
       <UpcomingHeader className={s.header} data={headerData} />
       <div className={s.cards}>
-        {list?.users &&
-          list.users.map((item) => (
-            <UpcomingItem
-              data={item}
-              key={item.first_message_id}
-              template={item.templateData}
-            />
-          ))}
+        {contacts?.map((item) => (
+          <UpcomingItem
+            data={item}
+            key={item.first_message_id}
+            template={item.templateData}
+          />
+        ))}
       </div>
       <div className={s.actions}>
         <PopoverDots className={s.dots} variant="outlined" />
@@ -65,9 +58,18 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
     padding: 16px 16px 32px 16px;
+  }
+
+  .cards {
+    @include mobile {
+      display: flex;
+      flex-flow: column nowrap;
+    }
   }
 
   .header {

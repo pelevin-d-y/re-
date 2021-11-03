@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { css } from 'astroturf'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
@@ -7,6 +7,7 @@ import { useTemplates } from 'src/components/context/TemplatesContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { findIndex } from 'lodash'
+import classNames from 'classnames'
 
 type Props = {
   className?: string
@@ -15,6 +16,7 @@ type Props = {
 const PopoverTemplates: React.FC<Props> = () => {
   const { state: popupState, dispatch: modalDispatch } = usePopup()
   const { data } = popupState
+  const [isOpen, setIsOpen] = useState(false)
 
   const {
     state: { data: templatesData },
@@ -43,7 +45,7 @@ const PopoverTemplates: React.FC<Props> = () => {
         templateData: template,
       })
 
-      updateUserData({ ...clientState, contacts })
+      // updateUserData({ ...clientState, contacts })
     }
   }
 
@@ -51,11 +53,16 @@ const PopoverTemplates: React.FC<Props> = () => {
     <Popover
       position="right bottom"
       showPopupEvent="click"
-      triggerElement={
-        <button className={s.button} type="button">
+      open={isOpen}
+      triggerElement={(open) => (
+        <button
+          className={classNames(s.button, open && s.active)}
+          type="button"
+          onClick={() => setIsOpen(true)}
+        >
           <SvgIcon className={s.icon} icon="templates.svg" />
         </button>
-      }
+      )}
       popupContent={
         <CardContainer className={s.popup}>
           <div className={s.title}>Templates</div>
@@ -95,6 +102,14 @@ const s = css`
     border: none;
     color: #737373;
     cursor: pointer;
+
+    &:hover {
+      color: var(--blue);
+    }
+  }
+
+  .active {
+    color: var(--blue);
   }
 
   .icon {

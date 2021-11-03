@@ -28,7 +28,7 @@ const Pin: React.FC<Props> = ({ className, data }) => {
       }
       return item
     })
-    updateUserData({ ...state, contacts })
+    // updateUserData({ ...state, contacts })
   }
 
   return (
