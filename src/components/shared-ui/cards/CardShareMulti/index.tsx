@@ -27,12 +27,11 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
   const openModalHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const url = `images/${slide}`
-    console.log(
-      '🚀 ~ file: index.tsx ~ line 32 ~ openModalHandler ~ url',
-      `<img src=${url}/>`
-    )
+    const url =
+      process.env.NODE_ENV === 'development'
+        ? `/images/${slide}`
+        : `https://app.strata.cc/images/${slide}`
+
     usersDispatch({
       type: 'UPDATE_USERS_DATA',
       payload:
