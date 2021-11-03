@@ -28,7 +28,7 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const url = require(`public/images/${slide}`)
+    const url = `/images/${slide}`
     usersDispatch({
       type: 'UPDATE_USERS_DATA',
       payload:
