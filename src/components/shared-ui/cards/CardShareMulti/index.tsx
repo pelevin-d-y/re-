@@ -28,13 +28,17 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const url = `/images/${slide}`
+    const url = `images/${slide}`
+    console.log(
+      '🚀 ~ file: index.tsx ~ line 32 ~ openModalHandler ~ url',
+      `<img src=${url}/>`
+    )
     usersDispatch({
       type: 'UPDATE_USERS_DATA',
       payload:
         contacts.map((item) => ({
           ...item,
-          customTemplate: `<img src=${url}/>`,
+          customTemplate: `<img src=${url} />`,
         })) || [],
     })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
