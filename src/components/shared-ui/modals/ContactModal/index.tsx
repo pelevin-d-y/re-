@@ -1,10 +1,8 @@
 import React from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import CloseModal from 'src/components/shared-ui/Close'
-import MessageManager from 'src/components/shared-ui/modals/MessageManager'
-import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
+import ModalContent from '../ModalContent'
 
 const ContactModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -21,10 +19,7 @@ const ContactModal: React.FC = () => {
       onClose={closeHandler}
     >
       {/* <CloseModal handler={closeHandler} className={s.close} /> */}
-      <div className={s.content}>
-        {data && <MessageManager data={data} closeHandler={closeHandler} />}
-        {data && <ModalUserInfo className={s.footer} data={data} />}
-      </div>
+      {data && <ModalContent data={data} closeHandler={closeHandler} />}
     </ModalBase>
   )
 }
@@ -38,14 +33,6 @@ const s = css`
 
   .footer {
     margin-top: 29px;
-  }
-
-  .content {
-    padding: 29px 30px;
-
-    @include mobile {
-      padding: 29px 16px;
-    }
   }
 
   .close {

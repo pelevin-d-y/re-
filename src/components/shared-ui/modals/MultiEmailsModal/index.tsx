@@ -10,18 +10,17 @@ import { differenceWith } from 'lodash'
 import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
 import UsersManager from './UsersManager'
+import ModalContent from '../ModalContent'
 
 const comparator = (a: UserData, b: UserData) => a.address === b.address
 
 const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
-  const { data, multiEmailsIsOpen } = state
+  const { data: popupData, multiEmailsIsOpen } = state
 
   const { state: users } = useUsers()
   const { data: usersData } = users
-
   const [contacts, setContacts] = useState<UserData[] | null>([])
-
   const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
   useEffect(() => {
@@ -94,12 +93,9 @@ const MultiEmailsModal: React.FC = () => {
         contacts={contacts}
         addUserHandler={addUserHandler}
       />
-      <div className={s.content}>
-        {data && <MessageManager data={data} closeHandler={closeHandler} />}
-        {data?.templateData?.Subject && (
-          <ModalUserInfo className={s.footer} data={data} withoutAvatar />
-        )}
-      </div>
+      {popupData && (
+        <ModalContent data={popupData} closeHandler={closeHandler} />
+      )}
     </ModalBase>
   )
 }
@@ -119,10 +115,6 @@ const s = css`
 
   .content {
     padding: 29px 30px 15px;
-  }
-
-  .footer {
-    margin-top: 29px;
   }
 `
 
