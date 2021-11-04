@@ -22,7 +22,7 @@ const Tag: React.FC<Props> = ({ className, text }) => {
         hideCancelButton
         hideSaveButton
         saveOnBlur
-        cssClassPrefix="profile-card-"
+        cssClassPrefix="tag-"
         onSave={(val: string) => onSave(val)}
       />
     </div>
