@@ -7,6 +7,7 @@ import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import Avatar from '../shared-ui/Avatar'
 import PopoverUserInfo from '../shared-ui/popover/PopoverUserInfo'
+import Checkbox from '../shared-ui/Checkbox'
 
 type Props = {
   className?: string
@@ -37,19 +38,22 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
           </div>
           <div className={s.content}>
             {contacts.map((item) => (
-              <div className={s.cell} key={item.contact_id}>
-                <Avatar
-                  className={s.avatar}
-                  image={item.avatar}
-                  strength={item.relationshipStrength}
-                />{' '}
-                {item.templateData && (
-                  <PopoverUserInfo
-                    className={s.name}
-                    data={item}
-                    template={item.templateData}
-                  />
-                )}
+              <div className={s.row} key={item.contact_id}>
+                <Checkbox id={item.contact_id} handler={() => null} />
+                <div className={s.cell}>
+                  <Avatar
+                    className={s.avatar}
+                    image={item.avatar}
+                    strength={item.relationshipStrength}
+                  />{' '}
+                  {item.templateData && (
+                    <PopoverUserInfo
+                      className={s.name}
+                      data={item}
+                      template={item.templateData}
+                    />
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -90,10 +94,18 @@ const s = css`
     }
   }
 
+  .row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    margin-bottom: 10px;
+  }
+
   .cell {
     display: flex;
     flex-flow: row nowrap;
-    margin-bottom: 10px;
+    align-items: center;
   }
 `
 
