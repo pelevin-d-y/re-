@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { usePlaylists } from 'src/components//context/PlaylistsContext'
-import SectionsHeader from './ListsSectionsHeader'
+import SectionsHeader from '../shared-ui/SectionHeader'
 import SvgIcon from '../shared-ui/SvgIcon'
 
 type Props = {

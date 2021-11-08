@@ -1,7 +1,7 @@
 import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { useClient } from 'src/components/context/ClientContext'
-import SectionsHeader from './ListsSectionsHeader'
+import SectionsHeader from '../shared-ui/SectionHeader'
 
 type Props = {
   className?: string
