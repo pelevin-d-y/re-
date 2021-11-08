@@ -4,7 +4,7 @@ import instance from './axios-config'
 const AWS_API =
   process.env.NODE_ENV === 'development'
     ? '/api/aws'
-    : 'https://e8llia7s3h.execute-api.us-east-1.amazonaws.com/Test'
+    : 'https://dev2.strata-api.cc'
 
 const responseBody = (response: AxiosResponse) => response.data
 
@@ -69,7 +69,7 @@ const get = {
 
   getPlaylistsIds: (): Promise<string[]> =>
     requests
-      .get(`${AWS_API}/playlists`)
+      .get(`${AWS_API}/playlists/mutable`)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
@@ -78,7 +78,7 @@ const get = {
     ids.forEach((id) => params.append('id', id))
 
     return requests
-      .get(`${AWS_API}/playlists`, params)
+      .get(`${AWS_API}/playlists/mutable`, params)
       .then((res) => res)
       .catch((err) => Promise.reject(err))
   },
@@ -105,7 +105,7 @@ const post = {
 
   postPlaylists: (data: Playlists): Promise<ListData[]> =>
     requests
-      .post(`${AWS_API}/playlists`, data)
+      .post(`${AWS_API}/playlists/mutable`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
