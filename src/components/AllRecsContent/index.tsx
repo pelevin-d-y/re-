@@ -5,9 +5,8 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
-import Avatar from '../shared-ui/Avatar'
-import PopoverUserInfo from '../shared-ui/popover/PopoverUserInfo'
-import Checkbox from '../shared-ui/Checkbox'
+import RecsTable from './RecsTable'
+import { TableProvider } from '../context/TableContext'
 
 type Props = {
   className?: string
@@ -37,25 +36,9 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             />
           </div>
           <div className={s.content}>
-            {contacts.map((item) => (
-              <div className={s.row} key={item.contact_id}>
-                <Checkbox id={item.contact_id} handler={() => null} />
-                <div className={s.cell}>
-                  <Avatar
-                    className={s.avatar}
-                    image={item.avatar}
-                    strength={item.relationshipStrength}
-                  />{' '}
-                  {item.templateData && (
-                    <PopoverUserInfo
-                      className={s.name}
-                      data={item}
-                      template={item.templateData}
-                    />
-                  )}
-                </div>
-              </div>
-            ))}
+            <TableProvider>
+              <RecsTable data={contacts} />
+            </TableProvider>
           </div>
         </CardContainer>
       )}

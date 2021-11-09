@@ -9,9 +9,7 @@ type Props = {
 }
 
 const Tag: React.FC<Props> = ({ className, text }) => {
-  const onSave = (val: string) => {
-    console.log('val', val)
-  }
+  const onSave = (val: string) => null
 
   return (
     <div className={classNames(className, s.container)}>

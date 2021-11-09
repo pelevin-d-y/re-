@@ -1,9 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { usePopup } from 'src/components/context/PopupContext'
-import Close from '../Close'
 import Loader from '../Loader'
 
 type Props = {
@@ -11,31 +9,13 @@ type Props = {
   row: any // didn't find how to type it
 }
 
-const Row: React.FC<Props> = ({ className, row, ...restProps }) => {
+const Row: React.FC<Props> = ({ className, row, children, ...restProps }) => {
   const { dispatch } = usePopup()
-  const [isLoading, setIsLoading] = useState(false)
-
-  const contactHandler = (contactData: any) => {
-    if (!isLoading) {
+  const contactHandler = (contactData: UserData) => {
+    if (!row?.state?.isLoading) {
       dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
     }
   }
-
-  const { removeUsers } = usePlaylist()
-
-  const removeUser = useCallback(
-    (e: React.MouseEvent, userData: any[]) => {
-      e.stopPropagation()
-      setIsLoading(true)
-      removeUsers([userData])
-        .then(() => setIsLoading(false))
-        .catch((err) => {
-          console.log('removeUser err ==>', err)
-          setIsLoading(false)
-        })
-    },
-    [removeUsers]
-  )
 
   return (
     <tr
@@ -51,13 +31,8 @@ const Row: React.FC<Props> = ({ className, row, ...restProps }) => {
           </td>
         )
       })}
-      <td>
-        <Close
-          className={s.removeButton}
-          handler={(e: React.MouseEvent) => removeUser(e, row.original)}
-        />
-      </td>
-      {isLoading && (
+      {children}
+      {row?.state?.isLoading && (
         <td>
           <Loader />
         </td>

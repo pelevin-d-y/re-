@@ -12,27 +12,21 @@ import {
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import EasyEdit from 'react-easy-edit'
 import formatTime from 'src/helpers/utils/parseTime'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
-import AddUserView from '../AddUserView'
-import Row from '../Table/Row'
-import Close from '../Close'
-import Checkbox from '../Table/Checkbox'
+import Checkbox from '../shared-ui/Table/Checkbox'
+import Row from '../shared-ui/Table/Row'
+import Button from '../shared-ui/Button'
 
 type Props = {
   className?: string
-  data: Playlist
+  data: UserData[]
   removeContacts?: (removeContacts: any) => void
 }
 
-const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
+const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
-  const { removeUsers } = usePlaylist()
 
-  const tableData = useMemo(() => data.contacts, [data.contacts])
+  const tableData = useMemo(() => data, [data])
 
   const updateUser = useCallback((userData: any) => {
     console.log('userData', userData)
@@ -41,8 +35,8 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
   const columns: Column<any>[] = useMemo(
     () => [
       {
-        Header: 'Contact',
-        accessor: 'name',
+        id: 'Contact',
+        // accessor: 'name',
         minWidth: 180,
         Cell: ({ row }) => (
           <div className={s.cellName}>
@@ -60,18 +54,13 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
         ),
       },
       {
-        Header: 'Title',
-        accessor: 'fullName',
-        Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
-      },
-      {
-        Header: 'Company',
+        id: 'Company',
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>Placeholder</div>
         ),
       },
       {
-        Header: 'Last outreach',
+        id: 'Last outreach',
         accessor: 'last_client_text',
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
@@ -84,45 +73,8 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           </div>
         ),
       },
-      {
-        Header: 'Next steps',
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div>Placeholder</div>
-          </div>
-        ),
-      },
-      {
-        Header: 'Notes',
-        accessor: 'Notes',
-        Cell: ({ value, row }) => {
-          const restValue = value
-          return (
-            <div
-              className={s.cellContent}
-              onClick={(e) => e.stopPropagation()}
-              aria-hidden="true"
-            >
-              <EasyEdit
-                type="text"
-                value={value || restValue || '...'}
-                placeholder={value}
-                hideCancelButton
-                hideSaveButton
-                saveOnBlur
-                onSave={(val: string) =>
-                  updateUser({
-                    ...row.original,
-                    Notes: val || restValue,
-                  })
-                }
-              />
-            </div>
-          )
-        },
-      },
     ],
-    [updateUser]
+    []
   )
 
   const {
@@ -144,11 +96,6 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
       hooks.visibleColumns.push((hookColumns) => [
         {
           id: 'selection',
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <div className={s.headerCheckbox}>
-              <Checkbox {...getToggleAllRowsSelectedProps()} />
-            </div>
-          ),
           Cell: ({ row }: any) => (
             <div className={s.cellCheckbox}>
               <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
@@ -165,40 +112,14 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 
-  const removeUser = useCallback(
-    (e: React.MouseEvent, userData: any) => {
-      e.stopPropagation()
-      return removeUsers([userData])
-    },
-    [removeUsers]
-  )
+  const removeUser = useCallback((e: React.MouseEvent, userData: any) => {
+    e.stopPropagation()
+    return null
+  }, [])
 
   return (
     <div className={s.container}>
       <table className={classNames(className, s.table)} {...getTableProps()}>
-        <thead className={s.thead}>
-          {headerGroups.map((headerGroup) => {
-            const { key, ...restHeaderGroupProps } =
-              headerGroup.getHeaderGroupProps()
-            return (
-              <tr {...restHeaderGroupProps} className={s.tableRow} key={key}>
-                {headerGroup.headers.map((column) => {
-                  const { key: keyHeader, ...restHeaderProps } =
-                    column.getHeaderProps()
-                  return (
-                    <th
-                      className={classNames(s.columnHeader, s[keyHeader])}
-                      {...restHeaderProps}
-                      key={keyHeader}
-                    >
-                      {column.render('Header')}
-                    </th>
-                  )
-                })}
-              </tr>
-            )
-          })}
-        </thead>
         <tbody className={s.tbody} {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row)
@@ -207,31 +128,20 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             return (
               <Row row={row} className={s.tableRow} key={key} {...restProps}>
                 <td className={s.removeButton}>
-                  <Close
-                    handler={(e: React.MouseEvent) => {
-                      row.setState({ isLoading: true })
-                      removeUser(e, row.original).then(() => {
-                        row.setState({ ...row.state, isLoading: false })
-                      })
+                  <Button
+                    handler={() => {
+                      console.log('handler')
                     }}
-                  />
+                    variant="contained"
+                  >
+                    Follow up
+                  </Button>
                 </td>
               </Row>
             )
           })}
         </tbody>
       </table>
-      <div className={s.emptyCardContainer}>
-        {rows.length === 0 && (
-          <CardContainer className={classNames(className, s.emptyCard)}>
-            <div className={s.cardLogo}>
-              <SvgIcon className={s.logo} icon="contacts.svg" />
-            </div>
-            <div className={s.cardHeader}>Start creating your list</div>
-            <AddUserView className={s.addUserView} />
-          </CardContainer>
-        )}
-      </div>
     </div>
   )
 }
@@ -242,9 +152,7 @@ const s = css`
   .container {
     width: 100%;
     overflow: auto;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 10px;
+    padding: 20px;
   }
 
   .table {
@@ -258,16 +166,6 @@ const s = css`
 
     &:first-child {
       max-width: 55px !important;
-    }
-  }
-
-  .tableRow {
-    padding-right: 50px;
-
-    &:hover {
-      .removeButton {
-        opacity: 1;
-      }
     }
   }
 
@@ -330,6 +228,7 @@ const s = css`
 
   .tbody tr {
     margin-bottom: 5px;
+    padding-right: 26px;
 
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
@@ -380,15 +279,6 @@ const s = css`
       width: 100px;
       height: 100px;
     }
-  }
-
-  .removeButton {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-
-    opacity: 0;
   }
 
   .logo {
