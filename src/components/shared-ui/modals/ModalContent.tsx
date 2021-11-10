@@ -22,7 +22,7 @@ const ModalContent: React.FC<Props> = ({ className, data, closeHandler }) => {
         data={data}
         setIsSent={(val: boolean) => setIsSent(val)}
       />
-      <ModalUserInfo className={s.footer} data={data} withoutAvatar />
+      <ModalUserInfo className={s.footer} data={data} />
     </div>
   )
 }

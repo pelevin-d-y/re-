@@ -66,6 +66,11 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     padding-right: 25px;
+
+    @include mobile {
+      padding-right: 0;
+      flex-flow: column nowrap;
+    }
   }
 
   .sectionHeaderContent {

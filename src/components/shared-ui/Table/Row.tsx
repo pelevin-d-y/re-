@@ -5,11 +5,14 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { LoaderItem } from '../Loader'
 
 type Props = {
-  className?: string
   row: any // didn't find how to type it
+  classes?: {
+    container?: string
+    cell?: string
+  }
 }
 
-const Row: React.FC<Props> = ({ className, row, children, ...restProps }) => {
+const Row: React.FC<Props> = ({ row, children, classes, ...restProps }) => {
   const { dispatch } = usePopup()
   const contactHandler = (contactData: UserData) => {
     if (!row?.state?.isLoading) {
@@ -20,13 +23,17 @@ const Row: React.FC<Props> = ({ className, row, children, ...restProps }) => {
   return (
     <tr
       onClick={() => contactHandler(row.original)}
-      className={classNames(s.container, className)}
+      className={classNames(s.container, classes?.container)}
       {...restProps}
     >
       {row.cells.map((cell: any) => {
         const { key: cellKey, ...restCellProps } = cell.getCellProps()
         return (
-          <td className={s.cell} {...restCellProps} key={cellKey}>
+          <td
+            className={classNames(s.cell, classes?.cell)}
+            {...restCellProps}
+            key={cellKey}
+          >
             {cell.render('Cell')}
           </td>
         )

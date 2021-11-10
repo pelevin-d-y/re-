@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -13,10 +13,13 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import formatTime from 'src/helpers/utils/parseTime'
+import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
+import parseMessage from 'src/helpers/utils/parse-message'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Button from '../shared-ui/Button'
 import Tag from '../shared-ui/Tag'
+import UserHeader from '../shared-ui/UserHeader'
 
 type Props = {
   className?: string
@@ -25,8 +28,6 @@ type Props = {
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
-  const { setState: setSelectedUsers } = useTableContext()
-
   const tableData = useMemo(() => data, [data])
 
   const updateUser = useCallback((userData: any) => {
@@ -37,7 +38,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
     () => [
       {
         id: 'Contact',
-        minWidth: 180,
+        minWidth: 200,
         Cell: ({ row }) => (
           <div className={s.cellName}>
             <Avatar
@@ -57,22 +58,47 @@ const Table: React.FC<Props> = ({ className, data }) => {
         ),
       },
       {
-        id: 'Company',
+        id: 'last-message',
+        minWidth: 100,
         Cell: ({ value, row }) => (
-          <div className={s.cellContent}>Placeholder</div>
+          <div className={s.cellContent}>
+            <div>Last message</div>
+            <PopoverThread
+              className={s.threadButton}
+              buttonText={formatTime(row.original.last_client_time)}
+              data={row.original}
+            />
+          </div>
         ),
       },
       {
-        id: 'Last outreach',
-        accessor: 'last_client_text',
+        id: 'Company',
+        minWidth: 250,
         Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div className={s.lastData}>
-              {formatTime(row.original.last_client_time)}
-            </div>
-            <div>
-              Hi Hailey, Did get a chance to view the deck i sent ove...
-            </div>
+          <UserHeader
+            className={s.description}
+            text={parseMessage(
+              row.original.templateData.Action,
+              row.original.name
+            )}
+          />
+        ),
+      },
+      {
+        id: 'button',
+        minWidth: 150,
+        Cell: () => (
+          <div className={s.buttonWrapper}>
+            <Button
+              className={s.button}
+              handler={() => {
+                console.log('handler')
+              }}
+              variant="outlined"
+              isArrow
+            >
+              Follow up
+            </Button>
           </div>
         ),
       },
@@ -120,20 +146,12 @@ const Table: React.FC<Props> = ({ className, data }) => {
             const { key, ...restProps } = row.getRowProps()
 
             return (
-              <Row row={row} className={s.tableRow} key={key} {...restProps}>
-                <td className={s.removeButton}>
-                  <Button
-                    className={s.button}
-                    handler={() => {
-                      console.log('handler')
-                    }}
-                    variant="outlined"
-                    isArrow
-                  >
-                    Follow up
-                  </Button>
-                </td>
-              </Row>
+              <Row
+                row={row}
+                classes={{ cell: s.cell }}
+                key={key}
+                {...restProps}
+              />
             )
           })}
         </tbody>
@@ -154,6 +172,7 @@ const s = css`
   .table {
     border-collapse: collapse;
     width: 100%;
+    min-width: 400px !important;
   }
 
   .row:hover {
@@ -177,6 +196,14 @@ const s = css`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .threadButton {
+    font-size: 12px;
+    line-height: 14px;
   }
 
   .cellHeaderAll {
@@ -207,10 +234,6 @@ const s = css`
 
   .lastData {
     margin-bottom: 6px;
-
-    font-size: 12px;
-    line-height: 14px;
-    color: #adadad;
   }
 
   .nameTag {
@@ -220,7 +243,13 @@ const s = css`
     font-weight: var(--regular);
   }
 
+  .buttonWrapper {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
   .button {
+    margin-left: auto;
     width: 122px;
   }
 `

@@ -25,10 +25,9 @@ import Checkbox from '../Table/Checkbox'
 type Props = {
   className?: string
   data: Playlist
-  removeContacts?: (removeContacts: any) => void
 }
 
-const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
+const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
   const { removeUsers } = usePlaylist()
 
@@ -205,7 +204,12 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
             const { key, ...restProps } = row.getRowProps()
 
             return (
-              <Row row={row} className={s.tableRow} key={key} {...restProps}>
+              <Row
+                row={row}
+                classes={{ container: s.tableRow }}
+                key={key}
+                {...restProps}
+              >
                 <td className={s.removeButton}>
                   <Close
                     handler={(e: React.MouseEvent) => {
@@ -242,8 +246,8 @@ const s = css`
   .container {
     width: 100%;
     overflow: auto;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
     padding-bottom: 10px;
   }
 

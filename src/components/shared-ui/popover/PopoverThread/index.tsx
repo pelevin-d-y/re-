@@ -10,9 +10,10 @@ import ThreadItem from './ThreadItem'
 type Props = {
   className?: string
   data?: UserData
+  buttonText: string
 }
 
-const PopoverThread: React.FC<Props> = ({ className, data }) => {
+const PopoverThread: React.FC<Props> = ({ className, data, buttonText }) => {
   const { state } = useClient()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -28,7 +29,7 @@ const PopoverThread: React.FC<Props> = ({ className, data }) => {
             onClick={() => setIsOpen(true)}
             type="button"
           >
-            View thread
+            {buttonText}
           </button>
         </div>
       }
