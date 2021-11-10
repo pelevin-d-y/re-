@@ -7,6 +7,7 @@ import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import RecsTable from './RecsTable'
 import { TableProvider } from '../context/TableContext'
+import { LoaderPage } from '../shared-ui/Loader'
 
 type Props = {
   className?: string
@@ -18,7 +19,7 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(s.main, className)}>
-      {contacts && (
+      {contacts ? (
         <CardContainer className={s.container}>
           <div className={s.sectionHeader}>
             <SectionHeader
@@ -41,6 +42,8 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             </TableProvider>
           </div>
         </CardContainer>
+      ) : (
+        <LoaderPage />
       )}
     </div>
   )

@@ -11,6 +11,7 @@ import CardContact from 'src/components/shared-ui/cards/CardContact'
 import HomeRecommendations from './Recommendations/HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
+import { LoaderPage } from '../shared-ui/Loader'
 
 const Content: React.FC = () => {
   const { state: clientState } = useClient()
@@ -144,7 +145,7 @@ const Content: React.FC = () => {
             </Grid>
           </>
         ) : (
-          <SvgIcon className={s.spinner} icon="spinner.svg" />
+          <LoaderPage />
         )}
       </div>
       <HomeSidebar className={s.sidebar} />
@@ -183,14 +184,6 @@ const s = css`
 
   .cards {
     margin-top: 12px;
-  }
-
-  .spinner {
-    display: block;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    color: var(--blue);
   }
 `
 

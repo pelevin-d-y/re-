@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import Loader from '../Loader'
+import { LoaderItem } from '../Loader'
 
 type Props = {
   className?: string
@@ -34,7 +34,7 @@ const Row: React.FC<Props> = ({ className, row, children, ...restProps }) => {
       {children}
       {row?.state?.isLoading && (
         <td>
-          <Loader />
+          <LoaderItem />
         </td>
       )}
     </tr>

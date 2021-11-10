@@ -6,7 +6,7 @@ import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { TableProvider } from 'src/components/context/TableContext'
-import Loader from '../shared-ui/Loader'
+import { LoaderItem } from '../shared-ui/Loader'
 import ListRecs from '../shared-ui/ListRecs'
 
 const Content: React.FC = () => {
@@ -32,7 +32,7 @@ const Content: React.FC = () => {
     </div>
   ) : (
     <div className={s.loader}>
-      <Loader />
+      <LoaderItem />
     </div>
   )
 }

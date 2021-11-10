@@ -16,6 +16,7 @@ import formatTime from 'src/helpers/utils/parseTime'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Button from '../shared-ui/Button'
+import Tag from '../shared-ui/Tag'
 
 type Props = {
   className?: string
@@ -36,7 +37,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
     () => [
       {
         id: 'Contact',
-        // accessor: 'name',
         minWidth: 180,
         Cell: ({ row }) => (
           <div className={s.cellName}>
@@ -44,12 +44,15 @@ const Table: React.FC<Props> = ({ className, data }) => {
               className={s.avatar}
               image={row.original.avatar}
               strength={row.original.relationshipStrength}
-            />{' '}
-            <PopoverUserInfo
-              className={s.name}
-              data={row.original}
-              template={row.original.templateData}
             />
+            <div>
+              <PopoverUserInfo
+                className={s.name}
+                data={row.original}
+                template={row.original.templateData}
+              />
+              <Tag className={s.nameTag} text="Old friend" />
+            </div>
           </div>
         ),
       },
@@ -77,14 +80,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
     []
   )
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    selectedFlatRows,
-  } = useTable(
+  const { getTableProps, getTableBodyProps, rows, prepareRow } = useTable(
     {
       columns,
       data: tableData || [],
@@ -98,7 +94,10 @@ const Table: React.FC<Props> = ({ className, data }) => {
           id: 'selection',
           Cell: ({ row }: any) => (
             <div className={s.cellCheckbox}>
-              <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
+              <Checkbox
+                className={s.checkbox}
+                {...row.getToggleRowSelectedProps()}
+              />{' '}
             </div>
           ),
         },
@@ -106,11 +105,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
       ])
     }
   )
-
-  useEffect(() => {
-    setSelectedUsers(selectedFlatRows.map((item) => item.original))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFlatRows])
 
   const removeUser = useCallback((e: React.MouseEvent, userData: any) => {
     e.stopPropagation()
@@ -129,10 +123,12 @@ const Table: React.FC<Props> = ({ className, data }) => {
               <Row row={row} className={s.tableRow} key={key} {...restProps}>
                 <td className={s.removeButton}>
                   <Button
+                    className={s.button}
                     handler={() => {
                       console.log('handler')
                     }}
-                    variant="contained"
+                    variant="outlined"
+                    isArrow
                   >
                     Follow up
                   </Button>
@@ -160,38 +156,8 @@ const s = css`
     width: 100%;
   }
 
-  .columnHeader {
-    text-align: left;
-    padding: 18px 19px;
-
-    &:first-child {
-      max-width: 55px !important;
-    }
-  }
-
-  .headerButton {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .headerCheckbox {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    width: 100%;
-  }
-
   .row:hover {
     background: var(--lightBlue);
-  }
-
-  .header_All {
-    color: var(--blue);
-  }
-
-  .emptyCardContainer {
-    margin-top: 50px;
-    margin-bottom: 90px;
   }
 
   .cellName {
@@ -226,6 +192,10 @@ const s = css`
     width: 100%;
   }
 
+  .checkbox {
+    background: var(--white);
+  }
+
   .tbody tr {
     margin-bottom: 5px;
     padding-right: 26px;
@@ -243,60 +213,15 @@ const s = css`
     color: #adadad;
   }
 
-  .cardHeader {
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 42px;
-    text-align: center;
-    margin-bottom: 30px;
+  .nameTag {
+    margin-top: 5px;
+
+    background: var(--white);
+    font-weight: var(--regular);
   }
 
-  .emptyCardContainer {
-    display: flex;
-    justify-content: center;
-  }
-
-  .emptyCard {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    padding: 54px 0;
-    width: 80%;
-  }
-
-  .cardLogo {
-    width: 162px;
-    height: 162px;
-    border-radius: 50%;
-    background: #f0f5ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 13px;
-
-    @include mobile {
-      width: 100px;
-      height: 100px;
-    }
-  }
-
-  .logo {
-    width: 58px;
-    height: 58px;
-    color: #1966ff;
-
-    @include mobile {
-      width: 35px;
-      height: 35px;
-    }
-  }
-
-  .addUserView {
-    max-width: 326px;
-    width: 100%;
-    box-shadow: none;
-    padding: 8px;
+  .button {
+    width: 122px;
   }
 `
 

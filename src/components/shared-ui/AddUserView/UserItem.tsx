@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
-import Loader from '../Loader'
+import { LoaderItem } from '../Loader'
 
 type Props = {
   className?: string
@@ -48,7 +48,7 @@ const UserItem: React.FC<Props> = ({ className, data }) => {
       >
         add
       </Button>
-      {isLoading && <Loader />}
+      {isLoading && <LoaderItem />}
     </li>
   )
 }
