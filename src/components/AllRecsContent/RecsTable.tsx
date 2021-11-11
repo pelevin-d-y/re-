@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -10,16 +10,16 @@ import {
 } from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
-import { useTable as useTableContext } from 'src/components/context/TableContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import formatTime from 'src/helpers/utils/parseTime'
 import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import Button from '../shared-ui/Button'
-import Tag from '../shared-ui/Tag'
+import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
+import PopoverRate from '../shared-ui/popover/PopoverRate'
+import { useUsers } from '../context/UsersContext'
 
 type Props = {
   className?: string
@@ -28,6 +28,7 @@ type Props = {
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
+  const { dispatch: usersDispatch } = useUsers()
   const tableData = useMemo(() => data, [data])
 
   const updateUser = useCallback((userData: any) => {
@@ -52,7 +53,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
                 data={row.original}
                 template={row.original.templateData}
               />
-              <Tag className={s.nameTag} text="Old friend" />
+              <TagUser className={s.nameTag} text="Old friend" />
             </div>
           </div>
         ),
@@ -89,16 +90,13 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 150,
         Cell: () => (
           <div className={s.buttonWrapper}>
-            <Button
+            <PopoverRate
               className={s.button}
-              handler={() => {
-                console.log('handler')
-              }}
               variant="outlined"
-              isArrow
+              buttonClickHandler={() => null}
             >
               Follow up
-            </Button>
+            </PopoverRate>
           </div>
         ),
       },
@@ -106,7 +104,13 @@ const Table: React.FC<Props> = ({ className, data }) => {
     []
   )
 
-  const { getTableProps, getTableBodyProps, rows, prepareRow } = useTable(
+  const {
+    getTableProps,
+    getTableBodyProps,
+    rows,
+    selectedFlatRows,
+    prepareRow,
+  } = useTable(
     {
       columns,
       data: tableData || [],
@@ -131,6 +135,15 @@ const Table: React.FC<Props> = ({ className, data }) => {
       ])
     }
   )
+
+  useEffect(() => {
+    usersDispatch({
+      type: 'UPDATE_USERS_DATA',
+      payload: (selectedFlatRows.map((item) => item.original) ||
+        []) as UserData[],
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFlatRows])
 
   const removeUser = useCallback((e: React.MouseEvent, userData: any) => {
     e.stopPropagation()
@@ -166,7 +179,8 @@ const s = css`
   .container {
     width: 100%;
     overflow: auto;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .table {

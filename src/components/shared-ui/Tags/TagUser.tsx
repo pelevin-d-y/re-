@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -8,11 +11,14 @@ type Props = {
   text: string
 }
 
-const Tag: React.FC<Props> = ({ className, text }) => {
+const TagUser: React.FC<Props> = ({ className, text }) => {
   const onSave = (val: string) => null
 
   return (
-    <div className={classNames(className, s.container)}>
+    <div
+      className={classNames(className, s.container)}
+      onClick={(e) => e.stopPropagation()}
+    >
       <EasyEdit
         type="text"
         className={s.valueInput}
@@ -40,4 +46,4 @@ const s = css`
   }
 `
 
-export default Tag
+export default TagUser

@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'astroturf'
-import Table from 'src/components/shared-ui/ListTable'
+import Table from 'src/components/ListContent/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'

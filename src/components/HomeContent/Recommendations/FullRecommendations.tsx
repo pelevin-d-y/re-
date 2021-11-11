@@ -21,7 +21,6 @@ const FullRecommendations: React.FC<Props> = ({ data }) => (
       {data?.map((contactItem) => (
         <CardContact
           data={contactItem}
-          isRow
           className={s.column}
           key={contactItem.first_message_id}
         />

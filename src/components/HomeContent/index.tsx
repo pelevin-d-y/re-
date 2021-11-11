@@ -86,8 +86,8 @@ const Content: React.FC = () => {
             />
             {contacts && (
               <Grid className={s.section} division={2}>
-                <CardContact data={contacts[2]} isRow />
-                <CardContact data={contacts[3]} isRow />
+                <CardContact data={contacts[2]} />
+                <CardContact data={contacts[3]} />
               </Grid>
             )}
             <Grid className={s.section} division={2}>
@@ -106,8 +106,8 @@ const Content: React.FC = () => {
             {contacts && (
               <Grid className={s.section} division={2}>
                 <Grid division={2} direction="Row">
-                  <CardContact data={contacts[6]} isRow />
-                  <CardContact data={contacts[5]} isRow />
+                  <CardContact data={contacts[6]} />
+                  <CardContact data={contacts[5]} />
                 </Grid>
                 <CardTextContent
                   title="Followup"
@@ -126,8 +126,8 @@ const Content: React.FC = () => {
                   users={contacts?.slice(7, 12)}
                 />
                 <Grid division={2} direction="Row">
-                  <CardContact data={contacts[2]} isRow />
-                  <CardContact data={contacts[3]} isRow />
+                  <CardContact data={contacts[2]} />
+                  <CardContact data={contacts[3]} />
                 </Grid>
               </Grid>
             )}

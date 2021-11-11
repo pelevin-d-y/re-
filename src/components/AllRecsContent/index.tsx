@@ -2,20 +2,39 @@ import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+
 import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import RecsTable from './RecsTable'
-import { TableProvider } from '../context/TableContext'
 import { LoaderPage } from '../shared-ui/Loader'
+import { TagRecs } from '../shared-ui/Tags'
+import Button from '../shared-ui/Button'
+import { usePopup } from '../context/PopupContext'
+import { useTable } from '../context/TableContext'
 
 type Props = {
   className?: string
 }
 
+const tags = [
+  'New York',
+  'Investor',
+  'Follow Up',
+  'Pinned',
+  'Been awhile',
+  'Urgent',
+]
+
 const AllRecsContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
+  const { state: selectedUsers } = useTable()
+  const { dispatch: popupDispatch } = usePopup()
   const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
+
+  const contactMulti = () => {
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+  }
 
   return (
     <div className={classNames(s.main, className)}>
@@ -37,9 +56,26 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             />
           </div>
           <div className={s.content}>
-            <TableProvider>
-              <RecsTable data={contacts} />
-            </TableProvider>
+            <div className={s.contentHeader}>
+              <div className={s.tags}>
+                {tags.map((tag) => (
+                  <TagRecs className={s.tag} text={tag} key={tag} />
+                ))}
+              </div>
+              <div className={s.actions}>
+                <Button className={s.buttonCreate} variant="outlined">
+                  Create List
+                </Button>
+                <Button
+                  className={s.buttonContact}
+                  variant="contained"
+                  handler={() => contactMulti()}
+                >
+                  Contact
+                </Button>
+              </div>
+            </div>
+            <RecsTable data={contacts} />
           </div>
         </CardContainer>
       ) : (
@@ -61,11 +97,17 @@ const s = css`
     width: 100%;
   }
 
+  .search {
+    max-width: 289px;
+    width: 100%;
+  }
+
   .sectionHeader {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     padding-right: 25px;
+    margin-bottom: 11px;
 
     @include mobile {
       padding-right: 0;
@@ -85,18 +127,32 @@ const s = css`
     }
   }
 
-  .row {
+  .contentHeader {
     display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-
-    margin-bottom: 10px;
+    flex-flow: row wrap;
+    margin-bottom: 27px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
-  .cell {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
+  .buttonCreate {
+    width: 105px;
+    margin-right: 10px;
+  }
+
+  .buttonContact {
+    width: 86px;
+  }
+
+  .tag {
+    margin-right: 8px;
+  }
+
+  .actions {
+    margin-left: auto;
+
+    padding-left: 27px;
+    border-left: 1px solid #e6e6e6;
   }
 `
 

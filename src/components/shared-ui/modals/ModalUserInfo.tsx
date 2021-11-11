@@ -5,7 +5,7 @@ import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { css } from 'astroturf'
 import formatTime from 'src/helpers/utils/parseTime'
-import Tag from 'src/components/shared-ui/Tag'
+import { TagUser } from 'src/components/shared-ui/Tags'
 
 type Props = {
   className?: string
@@ -33,7 +33,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withoutAvatar }) => {
           )}
           <div className={s.profileInfo}>
             <div className={s.name}>{userName}</div>
-            <Tag text="Old friends" />
+            <TagUser text="Old friends" />
             <div className={s.lastMessageDate}>
               Last Message {formatTime(data.last_contact_time)}{' '}
               <span className={s.thread}>View</span>

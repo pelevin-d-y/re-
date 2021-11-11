@@ -44,12 +44,7 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
       <div className={s.cards}>
         {state?.contacts?.map((item, index) =>
           index < 6 ? (
-            <CardContact
-              className={s.card}
-              data={item}
-              key={item.contact_id}
-              isRow
-            />
+            <CardContact className={s.card} data={item} key={item.contact_id} />
           ) : null
         )}
       </div>

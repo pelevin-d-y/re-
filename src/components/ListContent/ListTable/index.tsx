@@ -17,10 +17,10 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import EasyEdit from 'react-easy-edit'
 import formatTime from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
-import AddUserView from '../AddUserView'
-import Row from '../Table/Row'
-import Close from '../Close'
-import Checkbox from '../Table/Checkbox'
+import AddUserView from '../../shared-ui/AddUserView'
+import Row from '../../shared-ui/Table/Row'
+import Close from '../../shared-ui/Close'
+import Checkbox from '../../shared-ui/Table/Checkbox'
 
 type Props = {
   className?: string
