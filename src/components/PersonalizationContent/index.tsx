@@ -9,6 +9,7 @@ import Subscription from './Subscription'
 import Notification from './PersonalizationNotification'
 import PasswordChangeForm from './PesonalizationPasswordChange'
 import PersonalizationInvites from './PersonalizationInvites'
+import { LoaderPage } from '../shared-ui/Loader'
 
 type Props = {
   className?: string
@@ -17,30 +18,40 @@ type Props = {
 const PersonalizationContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
 
+  const renderContent = () =>
+    clientState.data ? (
+      <>
+        <PersonalizationSection className={s.section} title="Profile">
+          <Profile data={clientState.data} />
+        </PersonalizationSection>
+        <PersonalizationSection className={s.section} title="Accounts">
+          <Accounts data={clientState.data} />
+        </PersonalizationSection>
+      </>
+    ) : (
+      <div>No data</div>
+    )
+
   return (
     <div className={classNames(className, s.container)}>
-      {clientState ? (
-        <>
-          <PersonalizationSection className={s.section} title="Profile">
-            <Profile data={clientState} />
-          </PersonalizationSection>
-          <PersonalizationSection className={s.section} title="Accounts">
-            <Accounts data={clientState} />
-          </PersonalizationSection>
-          {/* <PersonalizationSection className={s.section} title="Password">
-            <PasswordChangeForm />
-          </PersonalizationSection>
-          <PersonalizationSection className={s.section} title="Subscription">
-            <Subscription />
-          </PersonalizationSection>
-          <PersonalizationSection className={s.section} title="Notification">
-            <Notification />
-          </PersonalizationSection>
-          <PersonalizationSection className={s.section} title="Invites">
-            <PersonalizationInvites />
-          </PersonalizationSection> */}
-        </>
-      ) : null}
+      {!clientState.isLoading ? (
+        renderContent()
+      ) : (
+        // <PersonalizationSection className={s.section} title="Password">
+        //   <PasswordChangeForm />
+        // </PersonalizationSection>
+        // <PersonalizationSection className={s.section} title="Subscription">
+        //   <Subscription />
+        // </PersonalizationSection>
+        // <PersonalizationSection className={s.section} title="Notification">
+        //   <Notification />
+        // </PersonalizationSection>
+        // <PersonalizationSection className={s.section} title="Invites">
+        //   <PersonalizationInvites />
+        // </PersonalizationSection>
+
+        <LoaderPage />
+      )}
     </div>
   )
 }

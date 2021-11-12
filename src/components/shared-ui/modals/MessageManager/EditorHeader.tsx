@@ -72,7 +72,7 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
       <div className={s.item}>
         <div className={s.subtitle}>From:</div>
         <div className={s.from}>
-          {state?.syncedEmails && (
+          {state.data?.syncedEmails && (
             <Selector
               handler={(select) => {
                 onChangeField(select.value, 'from_contact')
@@ -81,7 +81,7 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
                 value: data.from_contact || '',
                 label: data.from_contact || '',
               }}
-              options={state.syncedEmails.map((item) => ({
+              options={state.data.syncedEmails.map((item) => ({
                 label: item,
                 value: item,
               }))}

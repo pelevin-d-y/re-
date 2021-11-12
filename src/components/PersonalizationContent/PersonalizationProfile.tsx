@@ -250,7 +250,7 @@ const s = css`
     flex-flow: row nowrap;
     max-width: 622px;
     width: 100%;
-    
+
     @include mobile {
       display: block;
     }

@@ -42,14 +42,14 @@ const PopoverRemoveCard: React.FC<Props> = ({
 
   const getRandomIndex = () =>
     random(
-      (clientState?.contacts as []).filter(
+      (clientState.data?.contacts as []).filter(
         (item: UserData) => item.address !== address
       ).length - 1
     )
 
   const closeHandler = () => {
     setIsOpen(false)
-    const contacts: UserData[] = clientState?.contacts as []
+    const contacts: UserData[] = clientState.data?.contacts as []
     const prevIndex = contacts.findIndex(
       (item) => item.address === data.address
     )

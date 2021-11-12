@@ -10,11 +10,11 @@ type Props = {
 const ListsContacts: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
 
-  return state?.contacts ? (
+  return state.data?.contacts ? (
     <div className={className}>
       <CardContainer>
         <SectionsHeader
-          data={state.contacts}
+          data={state.data.contacts}
           title="Contacts"
           description="Search your contacts to create lists"
           icon="contacts"

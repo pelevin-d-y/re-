@@ -42,7 +42,7 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
         <div className={s.text}>{messageTemplate()}</div>
       </div>
       <div className={s.cards}>
-        {state?.contacts?.map((item, index) =>
+        {state.data?.contacts?.map((item, index) =>
           index < 6 ? (
             <CardContact className={s.card} data={item} key={item.contact_id} />
           ) : null

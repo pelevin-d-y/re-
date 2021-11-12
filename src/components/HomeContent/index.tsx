@@ -4,18 +4,23 @@ import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
 import CardShare from 'src/components/shared-ui/cards/CardShareLink'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
-import HomeRecommendations from './Recommendations/HomeRecommendations'
+import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
 import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 import { LoaderPage } from '../shared-ui/Loader'
+import Recommendations from './Recommendations'
+import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
+import CardGuide from '../shared-ui/cards/CardGuide'
 
 const Content: React.FC = () => {
   const { state: clientState } = useClient()
-  const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
+  const contacts = useMemo(
+    () => clientState.data?.contacts,
+    [clientState.data?.contacts]
+  )
 
   const headerDataWeek = {
     month: 'sep',
@@ -42,21 +47,33 @@ const Content: React.FC = () => {
     [contacts]
   )
 
-  const HomeUpcomingContacts = contacts?.slice(3, 7)
+  const HomeUpcomingContacts = contacts?.slice(2, 5)
+
+  const renderRecommendations = () =>
+    contacts && !arrayIsEmpty(contacts) ? (
+      <Recommendations className={s.section} data={contacts?.slice(0, 3)} />
+    ) : (
+      <EmptyRecommendations className={s.section} />
+    )
+  const renderCalendar = () =>
+    contacts && !arrayIsEmpty(contacts) ? (
+      <HomeUpcoming
+        className={s.section}
+        headerData={headerDataWeek}
+        contacts={HomeUpcomingContacts}
+      />
+    ) : (
+      <CardGuide className={s.section} />
+    )
 
   return (
     <div className={s.container}>
       <div className={s.main}>
-        {contacts ? (
+        {!clientState.isLoading ? (
           <>
-            <HomeRecommendations className={s.section} />
-            <HomeUpcoming
-              className={s.section}
-              headerData={headerDataWeek}
-              contacts={HomeUpcomingContacts}
-            />
-
-            <Grid className={s.section} division={2}>
+            {renderRecommendations()}
+            {renderCalendar()}
+            {/* <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
               )}
@@ -142,7 +159,7 @@ const Content: React.FC = () => {
                 image="share-news2.jpeg"
                 users={contacts?.slice(9, 13)}
               />
-            </Grid>
+            </Grid> */}
           </>
         ) : (
           <LoaderPage />

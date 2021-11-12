@@ -20,7 +20,7 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
       get
         .getAuthUrl()
         .then((res) => {
-          setAuthUrl(Object.values(res.data)[0] as any)
+          setAuthUrl(Object.values(res)[0] as any)
         })
         // eslint-disable-next-line no-console
         .catch((err) => console.error('getAuthUrlAsync ==>', err))
