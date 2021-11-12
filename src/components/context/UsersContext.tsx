@@ -36,12 +36,12 @@ const UsersProvider: React.FC = ({ children }) => {
   const { state: clientState } = useClient()
 
   const [state, dispatch] = React.useReducer(usersReducer, {
-    data: clientState?.contacts || null,
+    data: clientState.data?.contacts || null,
   })
 
   React.useEffect(() => {
     const newArray = intersectionBy(
-      clientState?.contacts || [],
+      clientState.data?.contacts || [],
       state.data || [],
       (item) => item.address
     )

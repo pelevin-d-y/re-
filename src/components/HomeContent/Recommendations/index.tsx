@@ -3,13 +3,15 @@ import { css } from 'astroturf'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import classNames from 'classnames'
 
 type Props = {
   data?: UserData[]
+  className?: string
 }
 
-const FullRecommendations: React.FC<Props> = ({ data }) => (
-  <>
+const Recommendations: React.FC<Props> = ({ data, className }) => (
+  <div className={classNames(s.container, className)}>
     <div className={s.title}>
       Your Weekly Recommendations <br />
       <Link className={s.link} href="#">
@@ -26,11 +28,15 @@ const FullRecommendations: React.FC<Props> = ({ data }) => (
         />
       ))}
     </div>
-  </>
+  </div>
 )
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
+
+  .container {
+    background: url('/svg/circles-background.svg') no-repeat center/cover;
+  }
 
   .title {
     margin-bottom: 18px;
@@ -92,4 +98,4 @@ const s = css`
   }
 `
 
-export default FullRecommendations
+export default Recommendations

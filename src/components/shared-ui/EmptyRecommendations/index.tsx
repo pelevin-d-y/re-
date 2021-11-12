@@ -1,11 +1,17 @@
 import React from 'react'
 import { css } from 'astroturf'
-import Img from '../../shared-ui/Img'
-import Button from '../../shared-ui/Button'
-import SvgIcon from '../../shared-ui/SvgIcon'
+import classNames from 'classnames'
+import SvgIcon from '../SvgIcon'
+import Img from '../Img'
+import Button from '../Button'
+import CardContainer from '../cards/CardContainer'
 
-const EmptyRecommendations: React.FC = () => (
-  <>
+type Props = {
+  className?: string
+}
+
+const EmptyRecommendations: React.FC<Props> = ({ className }) => (
+  <CardContainer className={classNames(s.container, className)}>
     <div className={s.titles}>
       <div className={s.title}>Weekly Recommendations</div>
       <div className={s.subtitle}>
@@ -32,11 +38,18 @@ const EmptyRecommendations: React.FC = () => (
       alt="recommendations cards"
       img="recommendationsCard.png"
     />
-  </>
+  </CardContainer>
 )
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
+
+  .container {
+    position: relative;
+    padding: 20px;
+
+    background: url('/svg/circles-background.svg') no-repeat center/cover;
+  }
 
   .title {
     font-size: 26px;

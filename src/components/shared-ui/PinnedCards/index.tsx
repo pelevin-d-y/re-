@@ -12,7 +12,7 @@ type Props = {
 
 const PinnedCards: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-  const contacts = state?.contacts?.filter((item) => item.pinned)
+  const contacts = state.data?.contacts?.filter((item) => item.pinned)
 
   return (
     <CardContainer className={classNames(className, s.container)}>

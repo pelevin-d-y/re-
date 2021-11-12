@@ -34,8 +34,10 @@ const PopoverTemplates: React.FC<Props> = () => {
         },
       })
 
-      const contacts = clientState?.contacts && [...clientState.contacts] // new array
-      const clientIndex = findIndex(clientState?.contacts, {
+      const contacts = clientState.data?.contacts && [
+        ...clientState.data.contacts,
+      ] // new array
+      const clientIndex = findIndex(clientState.data?.contacts, {
         address: data?.address,
       })
 

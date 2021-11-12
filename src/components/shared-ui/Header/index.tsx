@@ -22,7 +22,7 @@ const Header: React.FC<Props> = ({ toggleMenu, className }) => {
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
-          {state?.fullName}
+          {state.data?.fullName}
         </div>
         <Search
           classes={{ container: s.search }}

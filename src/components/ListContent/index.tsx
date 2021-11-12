@@ -19,9 +19,9 @@ const Content: React.FC = () => {
       {playlistData && <ListHeader data={playlistData} />}
       <div className={s.content}>
         <TableProvider>
-          {clientState?.contacts && (
+          {clientState.data?.contacts && (
             <ListRecs
-              contacts={clientState.contacts}
+              contacts={clientState.data.contacts}
               playlistData={playlistData}
             />
           )}

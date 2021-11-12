@@ -68,7 +68,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   const { state: clientState } = useClient()
 
-  const clientName = clientState?.shortName || clientState?.fullName
+  const clientName = clientState.data?.shortName || clientState.data?.fullName
   const contactName = data.fullName || data.name
   const addressTo = data?.address || data.emails[0]
 
@@ -87,8 +87,9 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   useEffect(() => {
     const syncedEmail =
-      clientState?.syncedEmails && clientState?.syncedEmails.length > 0
-        ? clientState?.syncedEmails[0]
+      clientState.data?.syncedEmails &&
+      clientState.data?.syncedEmails.length > 0
+        ? clientState.data?.syncedEmails[0]
         : undefined
 
     dispatch({
@@ -108,7 +109,12 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
           : [],
       },
     })
-  }, [addressTo, contactName, data.templateData, clientState?.syncedEmails])
+  }, [
+    addressTo,
+    contactName,
+    data.templateData,
+    clientState.data?.syncedEmails,
+  ])
 
   const sendEmail = async () => {
     dispatch({ type: 'updateSendingStatus' })

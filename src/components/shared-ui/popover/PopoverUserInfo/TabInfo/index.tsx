@@ -17,15 +17,17 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
   const { state: clientState, updateUserData } = useClient()
 
   const onSave = (val: string, type: 'address' | 'name') => {
-    const updatedContacts = clientState?.contacts?.map((item: UserData) => {
-      if (item.address === data.address) {
-        return {
-          ...item,
-          [type]: val,
+    const updatedContacts = clientState.data?.contacts?.map(
+      (item: UserData) => {
+        if (item.address === data.address) {
+          return {
+            ...item,
+            [type]: val,
+          }
         }
+        return item
       }
-      return item
-    })
+    )
 
     // updateUserData({ ...clientState, contacts: updatedContacts })
   }

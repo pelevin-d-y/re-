@@ -19,7 +19,7 @@ const Pin: React.FC<Props> = ({ className, data }) => {
 
   const pinAction = () => {
     setIsActive(!isActive)
-    const contacts = state?.contacts?.map((item) => {
+    const contacts = state.data?.contacts?.map((item) => {
       if (item.address === data?.address) {
         return {
           ...item,
