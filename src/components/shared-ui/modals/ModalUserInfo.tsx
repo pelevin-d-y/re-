@@ -4,33 +4,52 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { css } from 'astroturf'
-import UserHeader from '../UserHeader'
+import formatTime from 'src/helpers/utils/parseTime'
+import { TagUser } from 'src/components/shared-ui/Tags'
 
 type Props = {
   className?: string
-  data: any
+  data: UserData
+  withoutAvatar?: boolean
 }
 
-const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
+const ModalUserInfo: React.FC<Props> = ({ className, data, withoutAvatar }) => {
   const { avatar, name, fullName, templateData, relationshipStrength } = data
-  const parsedText = templateData && parseMessage(templateData.Subject, name)
+
+  const parsedText =
+    (templateData && parseMessage(templateData.Subject, name)) || ''
   const userName = fullName || name
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.info}>
-          <Avatar strength={relationshipStrength} image={avatar || null} />
+          {!withoutAvatar && (
+            <Avatar
+              className={s.avatar}
+              strength={relationshipStrength}
+              image={avatar || null}
+            />
+          )}
           <div className={s.profileInfo}>
-            <div className={s.name}>{userName || '<unknown>'}</div>
-            <div className={s.profileType}>Founder at Company X</div>
+            <div className={s.name}>{userName}</div>
+            <TagUser text="Old friends" />
+            <div className={s.lastMessageDate}>
+              Last Message {formatTime(data.last_contact_time)}{' '}
+              <span className={s.thread}>View</span>
+            </div>
           </div>
         </div>
-        <div className={s.thread}>
-          <PopoverThread data={data} />
+        <div className={s.lastMessage}>
+          <div
+            className={s.message}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: parsedText,
+            }}
+          />
         </div>
       </div>
-      {parsedText && <UserHeader className={s.summary} text={parsedText} />}
     </div>
   )
 }
@@ -63,38 +82,48 @@ const s = css`
     flex-flow: row nowrap;
   }
 
-  .profileInfo {
-    margin-left: 19px;
+  .avatar {
+    margin-right: 19px;
   }
 
-  .thread {
-    margin-top: 10px;
+  .tag {
+    font-size: 11px;
+    line-height: 13px;
   }
 
   .name {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 
     font-weight: var(--bold);
-    font-size: 18px;
-    line-height: 21px;
+    font-size: 16px;
+    line-height: 19px;
   }
 
-  .summary {
-    display: inline-block;
-    width: auto;
-    padding: 11px 17px 13px;
-    margin-top: 17px;
+  .lastMessageDate {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    margin-top: 7px;
 
     font-size: 12px;
+    line-height: 14px;
+  }
 
-    @include mobile {
-      max-width: 300px;
-    }
+  .thread {
+    margin-left: 8px;
+    color: var(--blue);
+    cursor: pointer;
   }
 
   .lastMessage {
     max-width: 50%;
     width: 100%;
+    padding: 15px 21px;
+
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 14px;
 
     @include mobile {
       max-width: 300px;

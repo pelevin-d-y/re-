@@ -13,7 +13,6 @@ type ContextType = {
   state: State
   dispatch: Dispatch
   getPlaylistData: () => void
-  updatePlaylist: (list: any) => void
   removeUsers: (userData: any) => Promise<any>
   addUser: (user: any) => Promise<any>
 }
@@ -35,10 +34,6 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const router = useRouter()
   const [state, dispatch] = React.useReducer(playlistReducer, null)
 
-  const updatePlaylist = (list: any) => {
-    dispatch({ type: 'UPDATE_LIST', payload: list })
-  }
-
   const getPlaylistData = React.useCallback(async () => {
     try {
       const playlist = await get.getPlaylistsData([router.query.id] as string[])
@@ -53,7 +48,8 @@ const PlaylistProvider: React.FC = ({ children }) => {
           ([id, contact]) => formatContactData(contact, id)
         )
       }
-      updatePlaylist(newPlaylist)
+
+      dispatch({ type: 'UPDATE_LIST', payload: newPlaylist })
     } catch (err) {
       console.log('getPlaylistData err =>', err)
     }
@@ -119,7 +115,6 @@ const PlaylistProvider: React.FC = ({ children }) => {
     () => ({
       state,
       dispatch,
-      updatePlaylist,
       getPlaylistData,
       addUser,
       removeUsers,

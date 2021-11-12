@@ -1,8 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import { useClient } from 'src/components/context/ClientContext'
+
 import Button from '../Button'
+import Img from '../Img'
+import CardContact from '../cards/CardContact'
 
 type Props = {
   className?: string
@@ -11,13 +14,22 @@ type Props = {
 }
 
 const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
+  const { state } = useClient()
+
   const messageTemplate = () => {
     if (Array.isArray(names)) {
       return `Nice work on sending list to ${names.join(' & ')}`
     }
 
     if (typeof names === 'string') {
-      return `Nice work on following up w/ ${names}. Ready to keep it going?`
+      return (
+        <>
+          <div>Nice work on following up!</div>
+          <div className={s.smallText}>
+            Keep it up and connect with {names}!{' '}
+          </div>
+        </>
+      )
     }
 
     return 'Message sent'
@@ -25,10 +37,17 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <div className={s.check}>
-        <SvgIcon className={s.icon} icon="check.svg" />
+      <div className={s.heder}>
+        <Img className={s.check} img="sentCheck.png" alt="check" />
+        <div className={s.text}>{messageTemplate()}</div>
       </div>
-      <div className={s.text}>{messageTemplate()}</div>
+      <div className={s.cards}>
+        {state?.contacts?.map((item, index) =>
+          index < 6 ? (
+            <CardContact className={s.card} data={item} key={item.contact_id} />
+          ) : null
+        )}
+      </div>
       <Button variant="contained" className={s.buttonBack} handler={handler}>
         Back to home
       </Button>
@@ -43,7 +62,7 @@ const s = css`
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 637px;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 25px;
@@ -52,31 +71,41 @@ const s = css`
     background: url('/svg/circles-background.svg') no-repeat center/cover;
   }
 
-  .icon {
-    position: absolute;
-    left: 12px;
-    bottom: 5px;
-    width: 84px;
-    height: 84px;
-    color: var(--green);
+  .heder {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-bottom: 20px;
   }
 
   .text {
-    margin-top: 33px;
     max-width: 467px;
+    margin-left: 19px;
 
     font-weight: var(--bold);
     font-size: 26px;
     line-height: 32px;
-    text-align: center;
+  }
+
+  .smallText {
+    font-weight: var(--regular);
+    font-size: 18px;
+    line-height: 32px;
   }
 
   .check {
-    position: relative;
-    width: 84px;
-    height: 84px;
-    border-radius: 50%;
-    background: #c0ffeb;
+    width: 66px;
+    height: 62px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 15px;
+    margin-left: -17px;
+  }
+
+  .card {
+    margin-left: 17px;
   }
 
   .buttonBack {

@@ -3,6 +3,7 @@ import { css } from 'astroturf'
 import Link from 'next/link'
 import classNames from 'classnames'
 import SvgIcon from '../SvgIcon'
+import LogoSvgIcon from './SvgIconLogo'
 
 type Props = {
   className?: string
@@ -12,8 +13,8 @@ type Props = {
 const Logo: React.FC<Props> = ({ className, isOpen }) => (
   <Link href="/">
     <a className={classNames(s.link, className, !isOpen && s.default)}>
-      <SvgIcon className={classNames(s.first, s.icon)} icon="logo-icon.svg" />
-      <SvgIcon className={classNames(s.second, s.icon)} icon="logo-text.svg" />
+      <LogoSvgIcon className={s.first} /> {/* svg view error in build */}
+      <SvgIcon className={s.second} icon="logo-text.svg" />
     </a>
   </Link>
 )

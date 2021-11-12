@@ -10,7 +10,7 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import UserItem from './UserItem'
-import Loader from '../Loader'
+import { LoaderItem } from '../Loader'
 
 type Props = {
   className?: string
@@ -86,7 +86,7 @@ const AddUserView: React.FC<Props> = ({ className }) => {
       <ul className={s.list}>
         {isLoading ? (
           <div className={s.loader}>
-            <Loader />
+            <LoaderItem />
           </div>
         ) : (
           contacts?.map((item) => <UserItem data={item} key={item.id} />)

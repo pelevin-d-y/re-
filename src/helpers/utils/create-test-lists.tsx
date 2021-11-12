@@ -52,18 +52,6 @@ const createTestLists = (users: UserData[]) => [
       urgent: 1,
     },
   },
-  // {
-  //   id: 6,
-  //   title: 'Your Upcoming Trip to Los Angeles',
-  //   description:
-  //     'Plan your trip ahead but scheduling meetings with contacts in LA',
-  //   icon: 'pens.png',
-  //   users: users.slice(1, 6),
-  //   tasks: {
-  //     urgent: 1,
-  //     pinned: 1,
-  //   },
-  // },
   {
     id: 7,
     title: '1 Year…',

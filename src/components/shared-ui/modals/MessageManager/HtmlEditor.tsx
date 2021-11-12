@@ -13,10 +13,9 @@ type Props = {
 const modules = {
   toolbar: {
     container: '#editorToolbar',
+    toolbar: ['bold', 'italic', 'link', 'image', 'size', 'list'],
   },
 }
-
-const formats = ['bold', 'italic', 'link', 'size', 'list']
 
 const HtmlEditorModal: React.FC<Props> = ({
   className,
@@ -28,8 +27,9 @@ const HtmlEditorModal: React.FC<Props> = ({
       theme="snow"
       value={value || ''}
       modules={modules}
-      formats={formats}
-      onChange={(quillValue) => setEditorValue('body', quillValue)}
+      onChange={(quillValue) => {
+        setEditorValue('body', quillValue)
+      }}
     />
   </div>
 )

@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Search from 'src/components/shared-ui/Search'
+// import Search from 'src/components/shared-ui/Search'
 import Link from 'src/components/shared-ui/Link'
 
 type Props = {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
@@ -27,7 +27,7 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
       return item
     })
 
-    updateUserData({ ...clientState, contacts: updatedContacts })
+    // updateUserData({ ...clientState, contacts: updatedContacts })
   }
 
   const emails: string[] = data.emails ? data.emails : [data.address]

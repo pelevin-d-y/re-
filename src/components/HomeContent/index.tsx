@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
 import CardShare from 'src/components/shared-ui/cards/CardShareLink'
-import { useLists } from 'src/components/context/ListsContext'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
@@ -12,9 +11,9 @@ import CardContact from 'src/components/shared-ui/cards/CardContact'
 import HomeRecommendations from './Recommendations/HomeRecommendations'
 import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
+import { LoaderPage } from '../shared-ui/Loader'
 
 const Content: React.FC = () => {
-  const { state: lists } = useLists()
   const { state: clientState } = useClient()
   const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
 
@@ -43,13 +42,19 @@ const Content: React.FC = () => {
     [contacts]
   )
 
+  const HomeUpcomingContacts = contacts?.slice(3, 7)
+
   return (
     <div className={s.container}>
       <div className={s.main}>
-        {lists ? (
+        {contacts ? (
           <>
             <HomeRecommendations className={s.section} />
-            <HomeUpcoming className={s.section} headerData={headerDataWeek} />
+            <HomeUpcoming
+              className={s.section}
+              headerData={headerDataWeek}
+              contacts={HomeUpcomingContacts}
+            />
 
             <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (
@@ -81,8 +86,8 @@ const Content: React.FC = () => {
             />
             {contacts && (
               <Grid className={s.section} division={2}>
-                <CardContact data={contacts[2]} isRow />
-                <CardContact data={contacts[3]} isRow />
+                <CardContact data={contacts[2]} />
+                <CardContact data={contacts[3]} />
               </Grid>
             )}
             <Grid className={s.section} division={2}>
@@ -101,8 +106,8 @@ const Content: React.FC = () => {
             {contacts && (
               <Grid className={s.section} division={2}>
                 <Grid division={2} direction="Row">
-                  <CardContact data={contacts[6]} isRow />
-                  <CardContact data={contacts[5]} isRow />
+                  <CardContact data={contacts[6]} />
+                  <CardContact data={contacts[5]} />
                 </Grid>
                 <CardTextContent
                   title="Followup"
@@ -121,8 +126,8 @@ const Content: React.FC = () => {
                   users={contacts?.slice(7, 12)}
                 />
                 <Grid division={2} direction="Row">
-                  <CardContact data={contacts[2]} isRow />
-                  <CardContact data={contacts[3]} isRow />
+                  <CardContact data={contacts[2]} />
+                  <CardContact data={contacts[3]} />
                 </Grid>
               </Grid>
             )}
@@ -140,7 +145,7 @@ const Content: React.FC = () => {
             </Grid>
           </>
         ) : (
-          <SvgIcon className={s.spinner} icon="spinner.svg" />
+          <LoaderPage />
         )}
       </div>
       <HomeSidebar className={s.sidebar} />
@@ -179,14 +184,6 @@ const s = css`
 
   .cards {
     margin-top: 12px;
-  }
-
-  .spinner {
-    display: block;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    color: var(--blue);
   }
 `
 

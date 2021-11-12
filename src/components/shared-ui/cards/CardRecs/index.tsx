@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
-import CardContainer from '../CardContainer'
-import Button from '../../Button'
-import Avatar from '../../Avatar'
-import UserHeader from '../../UserHeader'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import Button from 'src/components/shared-ui/Button'
+import Avatar from 'src/components/shared-ui/Avatar'
+import UserHeader from 'src/components/shared-ui/UserHeader'
+import { LoaderItem } from 'src/components/shared-ui/Loader'
 
 type Props = {
   className?: string
   data: UserData
-  addUsers?: (user: UserData) => void
+  addUser: (user: UserData) => void
 }
 
-const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
-  const addUsersHandler = () => {
-    if (addUsers) {
-      addUsers(data)
-    }
+const CardRecs: React.FC<Props> = ({ data, addUser }) => {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const addUsersHandler = async () => {
+    setIsLoading(true)
+    await addUser(data)
+    setIsLoading(false)
   }
 
   return (
@@ -45,6 +48,7 @@ const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
           )}
         </div>
       </div>
+      {isLoading && <LoaderItem />}
     </CardContainer>
   )
 }
@@ -52,6 +56,7 @@ const CardRecs: React.FC<Props> = ({ className, data, addUsers }) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
   .container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;

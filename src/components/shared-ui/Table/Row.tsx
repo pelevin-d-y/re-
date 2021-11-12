@@ -1,65 +1,47 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { usePopup } from 'src/components/context/PopupContext'
-import Close from '../Close'
-import Loader from '../Loader'
+import { LoaderItem } from '../Loader'
 
 type Props = {
-  className?: string
   row: any // didn't find how to type it
+  classes?: {
+    container?: string
+    cell?: string
+  }
 }
 
-const Row: React.FC<Props> = ({ className, row, ...restProps }) => {
+const Row: React.FC<Props> = ({ row, children, classes, ...restProps }) => {
   const { dispatch } = usePopup()
-  const [isLoading, setIsLoading] = useState(false)
-
-  const contactHandler = (contactData: any) => {
-    if (!isLoading) {
+  const contactHandler = (contactData: UserData) => {
+    if (!row?.state?.isLoading) {
       dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
     }
   }
 
-  const { removeUsers } = usePlaylist()
-
-  const removeUser = useCallback(
-    (e: React.MouseEvent, userData: any[]) => {
-      e.stopPropagation()
-      setIsLoading(true)
-      removeUsers([userData])
-        .then(() => setIsLoading(false))
-        .catch((err) => {
-          console.log('removeUser err ==>', err)
-          setIsLoading(false)
-        })
-    },
-    [removeUsers]
-  )
-
   return (
     <tr
       onClick={() => contactHandler(row.original)}
-      className={classNames(s.container, className)}
+      className={classNames(s.container, classes?.container)}
       {...restProps}
     >
       {row.cells.map((cell: any) => {
         const { key: cellKey, ...restCellProps } = cell.getCellProps()
         return (
-          <td className={s.cell} {...restCellProps} key={cellKey}>
+          <td
+            className={classNames(s.cell, classes?.cell)}
+            {...restCellProps}
+            key={cellKey}
+          >
             {cell.render('Cell')}
           </td>
         )
       })}
-      <td>
-        <Close
-          className={s.removeButton}
-          handler={(e: React.MouseEvent) => removeUser(e, row.original)}
-        />
-      </td>
-      {isLoading && (
+      {children}
+      {row?.state?.isLoading && (
         <td>
-          <Loader />
+          <LoaderItem />
         </td>
       )}
     </tr>

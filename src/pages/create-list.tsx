@@ -4,7 +4,7 @@ import CreateListContent from 'src/components/CreateListContent'
 import 'react-quill/dist/quill.snow.css'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
-import EmailModal from 'src/components/shared-ui/modals/ContactModal'
+import ContactModal from 'src/components/shared-ui/modals/ContactModal'
 import { css } from 'astroturf'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
@@ -15,7 +15,7 @@ const List: React.FC = () => (
       <Layout className={s.layout}>
         <PlaylistProvider>
           <CreateListContent />
-          <EmailModal />
+          <ContactModal />
           <MultiEmailsModal />
         </PlaylistProvider>
       </Layout>

@@ -229,6 +229,7 @@ type RecommendationUser = {
 interface UserData extends RecommendationUser {
   avatar?: string
   title?: string
+  fullName?: string
   pinned: boolean
   templateData?: Template
   relationshipStrength: 'red' | 'orange' | 'green' | null

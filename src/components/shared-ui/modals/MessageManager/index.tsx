@@ -11,12 +11,11 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import { post } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
-import ModalSent from '../ModalSent'
 
 type Props = {
   className?: string
   data: any
-  closeHandler: () => void
+  setIsSent: (val: boolean) => void
 }
 
 type Action =
@@ -28,7 +27,6 @@ type State = {
   bodyData: SendMessageData
   error: string
   isSending: boolean
-  isSent: boolean
 }
 
 const initialState = {
@@ -42,7 +40,6 @@ const initialState = {
   },
   error: '',
   isSending: false,
-  isSent: false,
 }
 
 const reducer = (state: State, action: Action) => {
@@ -60,18 +57,13 @@ const reducer = (state: State, action: Action) => {
         ...state,
         isSending: !state.isSending,
       }
-    case 'updateRequestStatus':
-      return {
-        ...state,
-        isSent: action.payload,
-      }
     default:
       return initialState
   }
 }
 
-const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
-  const template = data.templateData?.Message
+const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
+  const template = data?.customTemplate || data.templateData?.Message
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const { state: clientState } = useClient()
@@ -126,7 +118,7 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
         if (resp.status === 200) {
-          dispatch({ type: 'updateRequestStatus', payload: true })
+          setIsSent(true)
         }
       })
       .catch((err) => {
@@ -147,40 +139,33 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      {state.isSent ? (
-        <ModalSent names={contactName} handler={closeHandler} />
-      ) : (
-        <>
-          {data && (
-            <ModalEditorHeader data={state.bodyData} setValue={setValue} />
-          )}
-          <ModalHtmlEditor
-            className={s.editor}
-            value={state.bodyData.body}
-            setEditorValue={setValue}
-          />
-          <div className={s.buttons}>
-            {data && <EditorActions className={s.editorActions} />}
-            <Button variant="outlined" className={s.buttonTemplate}>
-              Save Template
-            </Button>
-            <Button
-              variant="contained"
-              className={classNames(
-                s.buttonSend,
-                state.isSending && s.disabled
-              )}
-              handler={() => sendEmail()}
-            >
-              {state.isSending ? (
-                <SvgIcon className={s.spinner} icon="spinner.svg" />
-              ) : (
-                'Send'
-              )}
-            </Button>
-          </div>
-        </>
-      )}
+      <>
+        {data && (
+          <ModalEditorHeader data={state.bodyData} setValue={setValue} />
+        )}
+        <ModalHtmlEditor
+          className={s.editor}
+          value={state.bodyData.body}
+          setEditorValue={setValue}
+        />
+        <div className={s.buttons}>
+          {data && <EditorActions className={s.editorActions} />}
+          <Button variant="outlined" className={s.buttonTemplate}>
+            Save Template
+          </Button>
+          <Button
+            variant="contained"
+            className={classNames(s.buttonSend, state.isSending && s.disabled)}
+            handler={() => sendEmail()}
+          >
+            {state.isSending ? (
+              <SvgIcon className={s.spinner} icon="spinner.svg" />
+            ) : (
+              'Send'
+            )}
+          </Button>
+        </div>
+      </>
     </CardContainer>
   )
 }
@@ -189,7 +174,6 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    margin-top: 22px;
     padding: 0 0 23px;
 
     border: 1px solid #f1f1f1;
@@ -246,13 +230,16 @@ const s = css`
     position: relative;
     max-width: 140px;
     width: 100%;
-    margin-right: auto;
-    margin-left: auto;
 
     color: var(--white);
 
     &:hover {
       color: var(-blue);
+    }
+
+    @include mobile {
+      margin-right: auto;
+      margin-left: auto;
     }
   }
 

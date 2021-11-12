@@ -17,7 +17,6 @@ type State = {
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
-  templatesModalIsOpen: boolean
   data: UserData | null
 }
 
@@ -33,10 +32,8 @@ const initialState = {
   multiEmailsIsOpen: false,
   addContactModalIsOpen: false,
   createListModalIsOpen: false,
-  templatesModalIsOpen: false,
   deleteListModalIsOpen: false,
   data: null,
-  multiEmailsData: [],
 }
 
 const popupReducer = (state: State, action: Action): State => {
@@ -81,12 +78,6 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         ...state,
         deleteListModalIsOpen: !state.deleteListModalIsOpen,
-      }
-    }
-    case 'TOGGLE_TEMPLATES_POPUP': {
-      return {
-        ...state,
-        templatesModalIsOpen: !state.templatesModalIsOpen,
       }
     }
     case 'UPDATE_POPUP_DATA': {

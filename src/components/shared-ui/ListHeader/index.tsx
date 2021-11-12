@@ -7,7 +7,7 @@ import { useDebounce } from 'use-debounce/lib'
 import { post } from 'src/api'
 import { useRouter } from 'next/router'
 import Button from '../Button'
-import Loader from '../Loader'
+import { LoaderItem } from '../Loader'
 
 type Props = {
   className?: string
@@ -131,7 +131,7 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
           variant="contained"
           handler={() => createList()}
         >
-          {isLoading ? <Loader /> : 'Save list'}
+          {isLoading ? <LoaderItem /> : 'Save list'}
         </Button>
       )}
     </div>

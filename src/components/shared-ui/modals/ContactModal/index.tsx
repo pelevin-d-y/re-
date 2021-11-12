@@ -1,12 +1,10 @@
 import React from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import CloseModal from 'src/components/shared-ui/Close'
-import MessageManager from 'src/components/shared-ui/modals/MessageManager'
-import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
+import ModalContent from '../ModalContent'
 
-const EmailModal: React.FC = () => {
+const ContactModal: React.FC = () => {
   const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
 
@@ -20,11 +18,8 @@ const EmailModal: React.FC = () => {
       isOpen={emailModalIsOpen}
       onClose={closeHandler}
     >
-      <CloseModal handler={closeHandler} className={s.close} />
-      <div className={s.content}>
-        {data && <ModalUserInfo className={s.header} data={data} />}
-        {data && <MessageManager data={data} closeHandler={closeHandler} />}
-      </div>
+      {/* <CloseModal handler={closeHandler} className={s.close} /> */}
+      {data && <ModalContent data={data} closeHandler={closeHandler} />}
     </ModalBase>
   )
 }
@@ -36,20 +31,8 @@ const s = css`
     max-width: 900px;
   }
 
-  .header {
-    padding-right: 53px;
-
-    @include mobile {
-      margin-bottom: 10px;
-    }
-  }
-
-  .content {
-    padding: 29px 30px;
-
-    @include mobile {
-      padding: 29px 16px;
-    }
+  .footer {
+    margin-top: 29px;
   }
 
   .close {
@@ -59,4 +42,4 @@ const s = css`
   }
 `
 
-export default EmailModal
+export default ContactModal
