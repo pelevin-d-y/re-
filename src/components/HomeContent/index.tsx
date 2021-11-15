@@ -63,7 +63,13 @@ const Content: React.FC = () => {
         contacts={HomeUpcomingContacts}
       />
     ) : (
-      <CardGuide className={s.section} />
+      <CardShare
+        variant="dark"
+        image="banner-email@2x.png"
+        event="Share Strata"
+        title="Sharing is Caring"
+        link="bit.ly/share-strata/hailey"
+      />
     )
 
   return (
@@ -73,14 +79,14 @@ const Content: React.FC = () => {
           <>
             {renderRecommendations()}
             {renderCalendar()}
-            {/* <Grid className={s.section} division={2}>
+            <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
               )}
               {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
             </Grid>
 
-            <Grid className={s.section} division={2}>
+            {/* <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
                 subtitle="Awhile..."

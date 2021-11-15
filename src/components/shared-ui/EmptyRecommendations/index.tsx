@@ -12,21 +12,16 @@ type Props = {
 
 const EmptyRecommendations: React.FC<Props> = ({ className }) => (
   <CardContainer className={classNames(s.container, className)}>
-    <div className={s.titles}>
-      <div className={s.title}>Weekly Recommendations</div>
-      <div className={s.subtitle}>
-        Strata’s engine is analyzing your network for top recommendations to
-        reach out to.
+    <div className={s.header}>
+      <div className={s.circle}>
+        <SvgIcon className={s.iconGoogle} icon="google-mail.svg" />
+        <Img className={s.iconStrata} alt="logo" img="logo-user-info.svg" />
       </div>
+      <div className={s.title}>Getting your Weekly Recommendations</div>
     </div>
-    <div className={s.progress}>
-      <div className={s.circle}>
-        <SvgIcon className={s.icon} icon="google-mail.svg" />
-      </div>
-      <Img className={s.progressImg} alt="" img="progress-bar.png" />
-      <div className={s.circle}>
-        <SvgIcon className={s.icon} icon="geometry.svg" />
-      </div>
+    <div className={s.description}>
+      Strata’s engine is analyzing your network for top recommendations to reach
+      out to.
     </div>
     <div className={s.buttonBlock}>
       <Button className={s.button} variant="outlined">
@@ -46,34 +41,34 @@ const s = css`
 
   .container {
     position: relative;
-    padding: 20px;
+    padding: 45px 42px 60px 42px;
 
     background: url('/svg/circles-background.svg') no-repeat center/cover;
   }
 
-  .title {
-    font-size: 26px;
-    font-weight: 800;
-    line-height: 32px;
-    margin-bottom: 11px;
-  }
-
-  .subtitle {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 26px;
-    margin-bottom: 18px;
-  }
-
-  .progress {
-    margin-bottom: 25px;
+  .header {
     display: flex;
-    align-items: center;
+    flex-flow: row nowrap;
+
+    max-width: 60%;
+    width: 100%;
+    margin-bottom: 24px;
+
+    font-size: 24px;
+    font-weight: var(--semibold);
 
     @include mobile {
-      justify-content: center;
+      max-width: 100%;
     }
   }
+
+  .description {
+    max-width: 60%;
+    width: 100%;
+
+    margin-bottom: 31px;
+  }
+
   .buttonBlock {
     @include mobile {
       display: flex;
@@ -83,9 +78,24 @@ const s = css`
 
   .button {
     font-size: 12px;
-    font-weight: 700;
     line-height: 14px;
-    padding: 9px 11px;
+    padding: 9px 12px;
+  }
+
+  .circle {
+    position: relative;
+
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 62px;
+    width: 100%;
+    height: 62px;
+    margin-right: 29px;
+
+    border: 1.2px solid #e4e4e4;
+    border-radius: 50%;
   }
 
   .image {
@@ -102,27 +112,17 @@ const s = css`
     }
   }
 
-  .titles {
-    max-width: 60%;
-
-    @include mobile {
-      max-width: 100%;
-    }
+  .iconGoogle {
+    width: 30px;
+    height: 30px;
   }
 
-  .circle {
-    width: 51px;
-    height: 51px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1.2px solid #e4e4e4;
-  }
-
-  .icon {
-    width: 24px;
-    height: 24px;
+  .iconStrata {
+    position: absolute;
+    bottom: -2px;
+    right: -5px;
+    width: 22px;
+    height: 22px;
   }
 
   .progressImg {
