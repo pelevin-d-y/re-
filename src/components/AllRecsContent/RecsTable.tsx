@@ -19,7 +19,7 @@ import Row from '../shared-ui/Table/Row'
 import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
 import PopoverRate from '../shared-ui/popover/PopoverRate'
-import { useUsers } from '../context/UsersContext'
+import { usePopup } from '../context/PopupContext'
 
 type Props = {
   className?: string
@@ -28,7 +28,7 @@ type Props = {
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
-  const { dispatch: usersDispatch } = useUsers()
+  const { dispatch: popupDispatch } = usePopup()
   const tableData = useMemo(() => data, [data])
 
   const updateUser = useCallback((userData: any) => {
@@ -137,8 +137,8 @@ const Table: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    usersDispatch({
-      type: 'UPDATE_USERS_DATA',
+    popupDispatch({
+      type: 'UPDATE_POPUP_DATA_MULTI',
       payload: (selectedFlatRows.map((item) => item.original) ||
         []) as UserData[],
     })

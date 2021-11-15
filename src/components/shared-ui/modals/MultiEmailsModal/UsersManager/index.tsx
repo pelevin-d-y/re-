@@ -12,7 +12,7 @@ type Props = {
   removeUser: (user: UserData) => void
   selectUser: (user: UserData) => void
   addUserHandler: (user: UserData) => void
-  contacts: UserData[] | null
+  unselectedContacts: UserData[] | null
 }
 
 const UsersManager: React.FC<Props> = ({
@@ -20,7 +20,7 @@ const UsersManager: React.FC<Props> = ({
   selectedContacts,
   removeUser,
   selectUser,
-  contacts,
+  unselectedContacts,
   addUserHandler,
 }) => (
   <div className={classNames(s.container, className)}>
@@ -64,7 +64,7 @@ const UsersManager: React.FC<Props> = ({
     <div className={s.selectedHeader}>
       <div className={s.sidebarTitle}>Contacts to send to</div>
     </div>
-    {contacts?.map((item) => (
+    {unselectedContacts?.map((item) => (
       <div className={s.user} key={item.name}>
         <Avatar className={s.avatar} image={item.avatar} />
         <div className={s.userInfo}>

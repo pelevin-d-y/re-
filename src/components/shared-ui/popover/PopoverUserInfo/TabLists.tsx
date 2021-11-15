@@ -1,7 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { useLists } from 'src/components/context/ListsContext'
+import createTestLists from 'src/helpers/utils/create-test-lists'
+import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from '../../cards/CardContainer'
 
 type Props = {
@@ -10,7 +11,9 @@ type Props = {
 }
 
 const TabLists: React.FC<Props> = ({ className, data }) => {
-  const { state: lists } = useLists()
+  const { state: clientState } = useClient()
+  const contacts = clientState.data?.contacts || []
+  const lists = createTestLists(contacts)
 
   const matchLists = lists?.filter((item) =>
     item.users.find((user) => user.address === data.address)

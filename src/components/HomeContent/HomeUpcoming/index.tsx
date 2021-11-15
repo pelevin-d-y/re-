@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 
 import { usePopup } from 'src/components/context/PopupContext'
-import { useUsers } from 'src/components/context/UsersContext'
 import Button from 'src/components/shared-ui/Button'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import UpcomingHeader from './UpcomingHeader'
@@ -22,13 +21,14 @@ type Props = {
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
-  const { dispatch: usersDispatch } = useUsers()
   const { dispatch: popupDispatch } = usePopup()
 
   const followUpWithAllHandler = () => {
-    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
-    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    if (contacts) {
+      popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
+      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: contacts })
+      popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    }
   }
 
   return (

@@ -10,6 +10,7 @@ type Action =
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData | null }
+  | { type: 'UPDATE_POPUP_DATA_MULTI'; payload: UserData[] | null }
 
 type State = {
   emailModalIsOpen: boolean
@@ -18,6 +19,7 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   data: UserData | null
+  dataMulti: UserData[] | null
 }
 
 type ContextType = {
@@ -34,6 +36,7 @@ const initialState = {
   createListModalIsOpen: false,
   deleteListModalIsOpen: false,
   data: null,
+  dataMulti: null,
 }
 
 const popupReducer = (state: State, action: Action): State => {
@@ -84,6 +87,13 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         ...state,
         data: action.payload,
+      }
+    }
+
+    case 'UPDATE_POPUP_DATA_MULTI': {
+      return {
+        ...state,
+        dataMulti: action.payload,
       }
     }
 

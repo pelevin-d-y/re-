@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-
-import { useUsers } from 'src/components/context/UsersContext'
 import ModalClose from 'src/components/shared-ui/Close'
-import MessageManager from 'src/components/shared-ui/modals/MessageManager'
 
 import { differenceWith } from 'lodash'
-import ModalUserInfo from '../ModalUserInfo'
 import ModalBase from '../ModalBase'
 import UsersManager from './UsersManager'
 import ModalContent from '../ModalContent'
@@ -16,21 +12,25 @@ const comparator = (a: UserData, b: UserData) => a.address === b.address
 
 const MultiEmailsModal: React.FC = () => {
   const { state, dispatch } = usePopup()
-  const { data: popupData, multiEmailsIsOpen } = state
+  const { data: popupData, dataMulti: usersData, multiEmailsIsOpen } = state
 
-  const { state: users } = useUsers()
-  const { data: usersData } = users
-  const [contacts, setContacts] = useState<UserData[] | null>([])
+  const [unselectedContacts, setUnselectedContacts] = useState<
+    UserData[] | null
+  >([])
   const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
   useEffect(() => {
     if (usersData?.length) {
-      if (contacts) {
-        const filteredUsers = differenceWith(usersData, contacts, comparator)
+      if (unselectedContacts) {
+        const filteredUsers = differenceWith(
+          usersData,
+          unselectedContacts,
+          comparator
+        )
         setSelectedContacts(filteredUsers)
       }
     }
-  }, [contacts, setContacts, usersData])
+  }, [unselectedContacts, setUnselectedContacts, usersData])
 
   useEffect(() => {
     if (selectedContacts?.length) {
@@ -39,7 +39,7 @@ const MultiEmailsModal: React.FC = () => {
         payload: selectedContacts[0],
       })
     }
-  }, [dispatch, selectedContacts])
+  }, [dispatch, selectedContacts, multiEmailsIsOpen])
 
   const selectUser = (user: UserData) => {
     if (user?.templateData) {
@@ -57,8 +57,10 @@ const MultiEmailsModal: React.FC = () => {
     const isInclude = selectedContacts.find((item) => item.name === user.name)
     if (!isInclude) {
       setSelectedContacts([...selectedContacts, user])
-      if (contacts) {
-        setContacts(contacts.filter((item) => item.name !== user.name))
+      if (unselectedContacts) {
+        setUnselectedContacts(
+          unselectedContacts.filter((item) => item.name !== user.name)
+        )
       }
       selectUser(user)
     }
@@ -68,15 +70,14 @@ const MultiEmailsModal: React.FC = () => {
     setSelectedContacts(
       selectedContacts.filter((item) => item.name !== user.name)
     )
-    if (contacts) {
-      setContacts([...contacts, user])
+    if (unselectedContacts) {
+      setUnselectedContacts([...unselectedContacts, user])
     }
   }
 
   const closeHandler = () => {
     setSelectedContacts([])
-    dispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-    setContacts([])
+    setUnselectedContacts([])
     dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
@@ -90,7 +91,7 @@ const MultiEmailsModal: React.FC = () => {
         selectedContacts={selectedContacts}
         removeUser={removeUser}
         selectUser={selectUser}
-        contacts={contacts}
+        unselectedContacts={unselectedContacts}
         addUserHandler={addUserHandler}
       />
       {popupData && (

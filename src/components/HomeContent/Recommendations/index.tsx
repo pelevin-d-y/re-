@@ -35,7 +35,12 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
+    padding: 22px 30px 44px 36px;
     background: url('/svg/circles-background.svg') no-repeat center/cover;
+
+    @include mobile {
+      padding: 16px;
+    }
   }
 
   .title {
