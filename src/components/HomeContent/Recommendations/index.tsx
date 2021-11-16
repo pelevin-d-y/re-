@@ -14,7 +14,7 @@ const Recommendations: React.FC<Props> = ({ data, className }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.title}>
       Your Weekly Recommendations <br />
-      <Link className={s.link} href="#">
+      <Link className={s.link} href="/recommendations">
         View all
         <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
       </Link>
@@ -79,19 +79,18 @@ const s = css`
   }
 
   .cards {
-    display: flex;
-    flex-flow: row nowrap;
-    margin-left: -17px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 17px;
 
     @include mobile {
-      flex-flow: column nowrap;
+      grid-template-columns: 1fr;
       margin-left: 0;
     }
   }
 
   .column {
-    width: 33.3%;
-    margin-left: 17px;
+    width: 100%;
 
     @include mobile {
       max-width: 300px;

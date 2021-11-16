@@ -60,10 +60,13 @@ const popupReducer = (state: State, action: Action): State => {
       }
     }
     case 'TOGGLE_CONTACTS_POPUP': {
-      return {
-        ...state,
-        multiEmailsIsOpen: !state.multiEmailsIsOpen,
+      if (state?.dataMulti && state?.dataMulti?.length > 0) {
+        return {
+          ...state,
+          multiEmailsIsOpen: !state.multiEmailsIsOpen,
+        }
       }
+      return state
     }
     case 'TOGGLE_ADD_CONTACT_POPUP': {
       return {

@@ -39,6 +39,10 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
+  const openCreateListModal = () => {
+    popupDispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
+  }
+
   const renderContent = () =>
     contacts && !arrayIsEmpty(contacts) ? (
       <CardContainer className={s.container}>
@@ -65,7 +69,11 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
               ))}
             </div>
             <div className={s.actions}>
-              <Button className={s.buttonCreate} variant="outlined">
+              <Button
+                className={s.buttonCreate}
+                handler={openCreateListModal}
+                variant="outlined"
+              >
                 Create List
               </Button>
               <Button

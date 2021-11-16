@@ -7,16 +7,19 @@ import ContactModal from 'src/components/shared-ui/modals/ContactModal'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 import { css } from 'astroturf'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 
 const List: React.FC = () => (
   <TemplatesProvider>
     <PopupProvider>
       <Layout className={s.layout}>
-        <PlaylistProvider>
-          <ListContent />
-          <ContactModal />
-          <MultiEmailsModal />
-        </PlaylistProvider>
+        <PlaylistsProvider>
+          <PlaylistProvider>
+            <ListContent />
+            <ContactModal />
+            <MultiEmailsModal />
+          </PlaylistProvider>
+        </PlaylistsProvider>
       </Layout>
     </PopupProvider>
   </TemplatesProvider>

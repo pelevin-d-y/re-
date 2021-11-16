@@ -5,7 +5,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
 import UserHeader from 'src/components/shared-ui/UserHeader'
-import { LoaderItem } from 'src/components/shared-ui/Loader'
+import { LoaderComponent } from 'src/components/shared-ui/Loader'
 
 type Props = {
   className?: string
@@ -48,7 +48,7 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
           )}
         </div>
       </div>
-      {isLoading && <LoaderItem />}
+      {isLoading && <LoaderComponent />}
     </CardContainer>
   )
 }

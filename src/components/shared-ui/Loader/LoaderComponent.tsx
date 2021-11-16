@@ -7,7 +7,7 @@ type Props = {
   className?: string
 }
 
-const LoaderItem: React.FC<Props> = ({ className }) => (
+const LoaderComponent: React.FC<Props> = ({ className }) => (
   <>
     <SvgIcon
       className={classNames(s.container, className)}
@@ -41,4 +41,4 @@ const s = css`
   }
 `
 
-export default LoaderItem
+export default LoaderComponent

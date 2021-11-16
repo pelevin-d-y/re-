@@ -2,23 +2,25 @@ import React from 'react'
 import { css } from 'astroturf'
 import { Field, FieldProps, Formik } from 'formik'
 import { usePopup } from 'src/components/context/PopupContext'
-import AddUserView from 'src/components/shared-ui/AddUserView'
 import Button from 'src/components/shared-ui/Button'
 import Input from 'src/components/shared-ui/Input'
 import * as Yup from 'yup'
+import classNames from 'classnames'
+import { useRouter } from 'next/router'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import CloseModal from '../../Close'
 import ModalBase from '../ModalBase'
+import { LoaderComponent } from '../../Loader'
 
 const CreateListSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(1, 'Too Short!')
-    .max(80, 'Too Long!')
-    .required('Required'),
-  description: Yup.string().max(50, 'Too Long!'),
+  name: Yup.string().max(80, 'Too Long').required('Required'),
+  description: Yup.string().max(50, 'Too Long'),
 })
 
 const CreateListModal: React.FC = () => {
   const { state, dispatch: popupDispatch } = usePopup()
+  const { createPlaylist } = usePlaylists()
+  const router = useRouter()
   const { createListModalIsOpen } = state
 
   const closeHandler = () => {
@@ -33,24 +35,32 @@ const CreateListModal: React.FC = () => {
     >
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
-        <div className={s.title}>Create List</div>
-        <div className={s.description}>Enter your list’s info</div>
+        <div className={s.title}>Create new list</div>
+        <div className={s.description}>
+          Manage this list in the “Lists” section
+        </div>
         <Formik
           initialValues={{ name: '', description: '' }}
           validationSchema={CreateListSchema}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              setSubmitting(false)
-            }, 1000)
+            createPlaylist(values.name, values.description)
+              .then((res) => {
+                setSubmitting(false)
+                router.push(`/list?id=${res[0].id}`)
+              })
+              .catch((err) => {
+                setSubmitting(false)
+                console.log('err', err)
+              })
           }}
         >
-          {({ handleSubmit, isSubmitting }) => (
+          {({ values, handleSubmit, isSubmitting }) => (
             <form onSubmit={handleSubmit}>
               <Field name="name">
                 {({ field, form, meta }: FieldProps) => (
                   <Input
                     className={s.field}
-                    placeholder="List name"
+                    label="Name"
                     type="string"
                     field={field}
                     form={form}
@@ -62,7 +72,7 @@ const CreateListModal: React.FC = () => {
                 {({ field, form, meta }: FieldProps) => (
                   <Input
                     className={s.field}
-                    placeholder="Description"
+                    label="Description"
                     type="string"
                     field={field}
                     form={form}
@@ -70,10 +80,23 @@ const CreateListModal: React.FC = () => {
                   />
                 )}
               </Field>
-              <AddUserView className={s.addUser} />
-              <Button variant="contained" type="submit" disabled={isSubmitting}>
-                Create
-              </Button>
+              <div className={s.actions}>
+                <Button
+                  className={classNames(s.button)}
+                  variant="outlined"
+                  handler={closeHandler}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={classNames(s.createButton, s.button)}
+                >
+                  {isSubmitting ? <LoaderComponent /> : 'Create'}
+                </Button>
+              </div>
             </form>
           )}
         </Formik>
@@ -88,10 +111,11 @@ const s = css`
   .container {
     max-width: 475px;
     padding: 30px 33px 49px;
+    min-height: auto;
   }
 
   .field {
-    margin-bottom: 15px;
+    margin-bottom: 21px;
   }
 
   .close {
@@ -109,13 +133,28 @@ const s = css`
   }
 
   .description {
-    margin-bottom: 40px;
-    font-size: 16px;
-    line-height: 19px;
+    margin-bottom: 31px;
   }
 
-  .addUser {
-    box-shadow: none;
+  .input {
+    margin-bottom: 21px;
+  }
+
+  .actions {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+
+    margin-top: 25px;
+  }
+
+  .button {
+    min-width: 87px;
+  }
+
+  .createButton {
+    width: 102px;
+    margin-left: 7px;
   }
 `
 

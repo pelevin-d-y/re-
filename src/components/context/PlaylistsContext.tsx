@@ -13,6 +13,7 @@ type ContextType = {
   dispatch: Dispatch
   deletePlaylists: (ids: string[]) => Promise<any>
   getPlaylistsAsync: () => Promise<any>
+  createPlaylist: (title: string, description?: string) => Promise<ListData[]>
 }
 
 const PlaylistsContext = React.createContext<ContextType | null>(null)
@@ -100,14 +101,28 @@ const PlaylistsProvider: React.FC = ({ children }) => {
     [getPlaylistsAsync]
   )
 
+  const createPlaylist = React.useCallback(
+    (title: string, description?: string) =>
+      post.postPlaylists([
+        {
+          info: {
+            name: title,
+            description: description || '',
+          },
+        },
+      ]),
+    []
+  )
+
   const value: ContextType = React.useMemo(
     () => ({
       state,
       dispatch,
       deletePlaylists,
       getPlaylistsAsync,
+      createPlaylist,
     }),
-    [deletePlaylists, getPlaylistsAsync, state]
+    [deletePlaylists, getPlaylistsAsync, createPlaylist, state]
   )
 
   return (
@@ -120,7 +135,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
 const usePlaylists = (): ContextType => {
   const context = React.useContext(PlaylistsContext)
   if (context === null) {
-    throw new Error('usePlaylists must be used within a PlaylistProvider')
+    throw new Error('usePlaylists must be used within a PlaylistsProvider')
   }
   return context
 }

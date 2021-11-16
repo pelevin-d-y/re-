@@ -6,12 +6,11 @@ import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { TableProvider } from 'src/components/context/TableContext'
-import { LoaderItem } from '../shared-ui/Loader'
+import { LoaderComponent } from '../shared-ui/Loader'
 import ListRecs from '../shared-ui/ListRecs'
 
 const Content: React.FC = () => {
   const { state: playlistData } = usePlaylist()
-
   const { state: clientState } = useClient()
 
   return playlistData ? (
@@ -32,7 +31,7 @@ const Content: React.FC = () => {
     </div>
   ) : (
     <div className={s.loader}>
-      <LoaderItem />
+      <LoaderComponent />
     </div>
   )
 }

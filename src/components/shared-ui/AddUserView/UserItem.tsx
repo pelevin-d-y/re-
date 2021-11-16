@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
-import { LoaderItem } from '../Loader'
+import { LoaderComponent } from '../Loader'
 
 type Props = {
   className?: string
@@ -28,13 +28,6 @@ const UserItem: React.FC<Props> = ({ className, data }) => {
       })
   }
 
-  useEffect(
-    () => () => {
-      setIsLoading(false)
-    },
-    []
-  )
-
   return (
     <li className={classNames(s.container, className)}>
       <div className={s.profile}>
@@ -48,7 +41,7 @@ const UserItem: React.FC<Props> = ({ className, data }) => {
       >
         add
       </Button>
-      {isLoading && <LoaderItem />}
+      {isLoading && <LoaderComponent />}
     </li>
   )
 }

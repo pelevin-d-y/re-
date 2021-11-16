@@ -7,6 +7,8 @@ import AllRecommendationsContent from 'src/components/AllRecsContent'
 import ContactModal from 'src/components/shared-ui/modals/ContactModal'
 import { TableProvider } from 'src/components/context/TableContext'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import CreateListModal from 'src/components/shared-ui/modals/CreateListModal'
+import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 import 'react-quill/dist/quill.snow.css'
 
 type Props = {
@@ -16,15 +18,16 @@ type Props = {
 const Personalization: React.FC<Props> = () => (
   <Layout className={s.layout}>
     <TemplatesProvider>
-      <TemplatesProvider>
+      <PlaylistsProvider>
         <PopupProvider>
           <TableProvider>
             <AllRecommendationsContent />
           </TableProvider>
           <ContactModal />
           <MultiEmailsModal />
+          <CreateListModal />
         </PopupProvider>
-      </TemplatesProvider>
+      </PlaylistsProvider>
     </TemplatesProvider>
   </Layout>
 )
