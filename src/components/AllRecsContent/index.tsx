@@ -47,7 +47,10 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
     if (clientState.data?.contacts) {
       const allContacts = clientState.data.contacts
       const filteredContacts = allContacts.filter(
-        (item) => item.name.search(event.target.value) !== -1
+        (item) =>
+          item.name
+            .toLocaleLowerCase()
+            .search(event.target.value.toLocaleLowerCase()) !== -1
       )
       setContacts(filteredContacts)
     }
@@ -58,12 +61,12 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
   }, [clientState.data?.contacts])
 
   const renderContent = () =>
-    contacts && !arrayIsEmpty(contacts) ? (
+    clientState.data?.contacts && !arrayIsEmpty(clientState.data.contacts) ? (
       <CardContainer className={s.container}>
         <div className={s.sectionHeader}>
           <SectionHeader
             className={s.sectionHeaderContent}
-            data={contacts}
+            data={contacts || null}
             title="All Recommendations"
             description="Browse and reach out to your recommendations or start a list to manage for later"
             icon="recs"
