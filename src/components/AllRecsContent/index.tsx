@@ -139,8 +139,8 @@ const s = css`
     margin-bottom: 11px;
 
     @include mobile {
-      padding-right: 0;
       flex-flow: column nowrap;
+      padding-right: 0;
     }
   }
 
@@ -162,6 +162,22 @@ const s = css`
     padding-bottom: 27px;
     padding-left: 20px;
     padding-right: 20px;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      align-items: center;
+    }
+  }
+
+  .tags {
+    @include mobile {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+
+      max-width: 400px;
+      width: 100%;
+    }
   }
 
   .emptyRecs {
@@ -186,6 +202,7 @@ const s = css`
 
   .tag {
     margin-right: 8px;
+    margin-bottom: 8px;
   }
 
   .actions {
@@ -193,6 +210,13 @@ const s = css`
 
     padding-left: 27px;
     border-left: 1px solid #e6e6e6;
+
+    @include mobile {
+      margin-top: 15px;
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
+    }
   }
 `
 
