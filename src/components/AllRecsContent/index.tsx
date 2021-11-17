@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
+import { useDebounce } from 'use-debounce/lib'
 
 import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'
@@ -30,18 +31,31 @@ const tags = [
 const AllRecsContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
   const { dispatch: popupDispatch } = usePopup()
-  const contacts = useMemo(
-    () => clientState.data?.contacts,
-    [clientState.data?.contacts]
-  )
 
-  const contactMulti = () => {
+  const [contacts, setContacts] = useState(clientState.data?.contacts)
+  const [contactsDebounce] = useDebounce(contacts, 700)
+
+  const toggleContactMulti = () => {
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 
-  const openCreateListModal = () => {
+  const toggleCreateListModal = () => {
     popupDispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
   }
+
+  const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (clientState.data?.contacts) {
+      const allContacts = clientState.data.contacts
+      const filteredContacts = allContacts.filter(
+        (item) => item.name.search(event.target.value) !== -1
+      )
+      setContacts(filteredContacts)
+    }
+  }
+
+  useEffect(() => {
+    setContacts(clientState.data?.contacts)
+  }, [clientState.data?.contacts])
 
   const renderContent = () =>
     contacts && !arrayIsEmpty(contacts) ? (
@@ -58,7 +72,8 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
           />
           <Search
             classes={{ container: s.search }}
-            inputPlaceholder="Search contacts…"
+            onChange={filterContacts}
+            inputPlaceholder="Search recommendations…"
           />
         </div>
         <div className={s.content}>
@@ -71,7 +86,7 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             <div className={s.actions}>
               <Button
                 className={s.buttonCreate}
-                handler={openCreateListModal}
+                handler={toggleCreateListModal}
                 variant="outlined"
               >
                 Create List
@@ -79,13 +94,13 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
               <Button
                 className={s.buttonContact}
                 variant="contained"
-                handler={() => contactMulti()}
+                handler={() => toggleContactMulti()}
               >
                 Contact
               </Button>
             </div>
           </div>
-          <RecsTable data={contacts} />
+          {contactsDebounce && <RecsTable data={contactsDebounce} />}
         </div>
       </CardContainer>
     ) : (
@@ -144,7 +159,7 @@ const s = css`
   .contentHeader {
     display: flex;
     flex-flow: row wrap;
-    margin-bottom: 27px;
+    padding-bottom: 27px;
     padding-left: 20px;
     padding-right: 20px;
   }
