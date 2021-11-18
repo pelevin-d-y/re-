@@ -9,10 +9,18 @@ type Props = {
   className?: string
   data: UserData
   closeHandler: () => void
+  withAvatar?: boolean
+  isSent?: boolean
 }
 
-const ModalContent: React.FC<Props> = ({ className, data, closeHandler }) => {
-  const [isSent, setIsSent] = useState(false)
+const ModalContent: React.FC<Props> = ({
+  className,
+  data,
+  closeHandler,
+  withAvatar,
+  isSent: messageIsSent,
+}) => {
+  const [isSent, setIsSent] = useState(messageIsSent || false)
 
   return isSent ? (
     <ModalSent handler={closeHandler} names={data.fullName || data.name} />
@@ -22,7 +30,7 @@ const ModalContent: React.FC<Props> = ({ className, data, closeHandler }) => {
         data={data}
         setIsSent={(val: boolean) => setIsSent(val)}
       />
-      <ModalUserInfo className={s.footer} data={data} />
+      <ModalUserInfo className={s.footer} data={data} withAvatar={withAvatar} />
     </div>
   )
 }

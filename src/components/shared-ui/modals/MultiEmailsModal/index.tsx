@@ -17,6 +17,7 @@ const MultiEmailsModal: React.FC = () => {
   const [unselectedContacts, setUnselectedContacts] = useState<
     UserData[] | null
   >([])
+
   const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
 
   useEffect(() => {
@@ -95,7 +96,11 @@ const MultiEmailsModal: React.FC = () => {
         addUserHandler={addUserHandler}
       />
       {popupData && (
-        <ModalContent data={popupData} closeHandler={closeHandler} />
+        <ModalContent
+          data={popupData}
+          withAvatar={false}
+          closeHandler={closeHandler}
+        />
       )}
     </ModalBase>
   )

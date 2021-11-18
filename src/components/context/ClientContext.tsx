@@ -115,8 +115,10 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     })
   }
 
-  const updateUserData = async () => {
-    updateIsLoading(true)
+  const updateUserData = async (withLoading?: boolean) => {
+    if (withLoading) {
+      updateIsLoading(true)
+    }
     const mainUserData = await getMainUserData()
     dispatch({
       type: 'UPDATE_USER_DATA',

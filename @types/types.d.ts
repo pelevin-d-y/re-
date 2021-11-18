@@ -232,6 +232,7 @@ interface UserData extends RecommendationUser {
   fullName?: string
   pinned: boolean
   templateData?: Template
+  isSent?: boolean
   relationshipStrength: 'red' | 'orange' | 'green' | null
 }
 

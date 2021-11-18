@@ -19,7 +19,9 @@ const ContactModal: React.FC = () => {
       onClose={closeHandler}
     >
       {/* <CloseModal handler={closeHandler} className={s.close} /> */}
-      {data && <ModalContent data={data} closeHandler={closeHandler} />}
+      {data && (
+        <ModalContent data={data} withAvatar closeHandler={closeHandler} />
+      )}
     </ModalBase>
   )
 }

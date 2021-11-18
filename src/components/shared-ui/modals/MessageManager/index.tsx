@@ -8,6 +8,7 @@ import EditorActions from 'src/components/shared-ui/EditorActions'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
@@ -66,7 +67,9 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const template = data?.customTemplate || data.templateData?.Message
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const { state: clientState } = useClient()
+  const { state: clientState, updateUserData } = useClient()
+  const { state: popupState, dispatch: popupDispatch } = usePopup()
+  const { dataMulti } = popupState
 
   const clientName = clientState.data?.shortName || clientState.data?.fullName
   const contactName = data.fullName || data.name
@@ -116,15 +119,38 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     clientState.data?.syncedEmails,
   ])
 
+  const setConnectedUser = () => {
+    const updatedUsers = dataMulti?.map((item) => {
+      if (item.contact_id === data.contact_id) {
+        return {
+          ...item,
+          isSent: true,
+        }
+      }
+      return item
+    })
+
+    if (updatedUsers) {
+      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: updatedUsers })
+    }
+  }
+
   const sendEmail = async () => {
+    if (!state.bodyData.from_contact) {
+      // eslint-disable-next-line no-alert
+      return alert('Please set primary email')
+    }
+
     dispatch({ type: 'updateSendingStatus' })
 
-    post
+    return post
       .sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
         if (resp.status === 200) {
           setIsSent(true)
+          setConnectedUser()
+          updateUserData()
         }
       })
       .catch((err) => {

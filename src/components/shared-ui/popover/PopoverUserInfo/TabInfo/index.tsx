@@ -5,7 +5,7 @@ import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
 import { useClient } from 'src/components/context/ClientContext'
-import formatTime from 'src/helpers/utils/parseTime'
+import { formatTime } from 'src/helpers/utils/parseTime'
 import EmailsItem from './EmailsItem'
 
 type Props = {

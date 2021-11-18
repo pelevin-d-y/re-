@@ -11,7 +11,7 @@ import {
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import formatTime from 'src/helpers/utils/parseTime'
+import { formatTime } from 'src/helpers/utils/parseTime'
 import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import Checkbox from '../shared-ui/Table/Checkbox'
