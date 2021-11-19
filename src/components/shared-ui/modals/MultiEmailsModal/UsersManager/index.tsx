@@ -1,10 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import ModalClose from 'src/components/shared-ui/Close'
+import CloseButton from 'src/components/shared-ui/Close'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Search from 'src/components/shared-ui/Search'
+import { TagUser } from 'src/components/shared-ui/Tags'
+import MessageStatus from './MessageStatus'
 
 type Props = {
   className?: string
@@ -12,7 +14,7 @@ type Props = {
   removeUser: (user: UserData) => void
   selectUser: (user: UserData) => void
   addUserHandler: (user: UserData) => void
-  contacts: UserData[] | null
+  unselectedContacts: UserData[] | null
 }
 
 const UsersManager: React.FC<Props> = ({
@@ -20,7 +22,7 @@ const UsersManager: React.FC<Props> = ({
   selectedContacts,
   removeUser,
   selectUser,
-  contacts,
+  unselectedContacts,
   addUserHandler,
 }) => (
   <div className={classNames(s.container, className)}>
@@ -46,14 +48,16 @@ const UsersManager: React.FC<Props> = ({
           className={classNames(s.user, s.selectedUser)}
           key={item.name}
         >
-          {item.avatar && <Avatar className={s.avatar} image={item.avatar} />}
+          <Avatar className={s.avatar} image={item.avatar} />
           <div className={s.userInfo}>
             <div className={s.userName}>{item.name}</div>
+            <TagUser className={s.tag} text="Old friends" />
           </div>
-          <ModalClose
+          <CloseButton
             className={s.buttonRemove}
             handler={() => removeUser(item)}
           />
+          <MessageStatus className={s.messageStatus} data={item} />
         </div>
       ))}
       <div className={s.selectedActions}>
@@ -64,7 +68,7 @@ const UsersManager: React.FC<Props> = ({
     <div className={s.selectedHeader}>
       <div className={s.sidebarTitle}>Contacts to send to</div>
     </div>
-    {contacts?.map((item) => (
+    {unselectedContacts?.map((item) => (
       <div className={s.user} key={item.name}>
         <Avatar className={s.avatar} image={item.avatar} />
         <div className={s.userInfo}>
@@ -177,11 +181,24 @@ const s = css`
       .buttonRemove {
         display: block;
       }
+
+      .messageStatus {
+        display: none;
+      }
     }
+  }
+
+  .messageStatus {
+    margin-left: auto;
+    display: flex;
   }
 
   .avatar {
     margin-right: 18px;
+  }
+
+  .tag {
+    background: var(--white);
   }
 `
 

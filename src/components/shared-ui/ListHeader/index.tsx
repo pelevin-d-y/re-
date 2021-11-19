@@ -6,8 +6,9 @@ import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
 import { post } from 'src/api'
 import { useRouter } from 'next/router'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from '../Button'
-import Loader from '../Loader'
+import { LoaderComponent } from '../Loader'
 
 type Props = {
   className?: string
@@ -17,6 +18,7 @@ type Props = {
 
 const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   const router = useRouter()
+  const { createPlaylist } = usePlaylists()
   const [isLoading, setIsLoading] = useState(false)
   const [fields, setFields] = useState({
     title: data.info?.name,
@@ -32,15 +34,7 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   const createList = () => {
     if (fields.title || fields.description) {
       setIsLoading(true)
-      post
-        .postPlaylists([
-          {
-            info: {
-              name: fields.title,
-              description: fields.description,
-            },
-          },
-        ])
+      createPlaylist(fields.title, fields.description)
         .then((res) => {
           setIsLoading(false)
           router.push(`/list?id=${res[0].id}`)
@@ -53,13 +47,13 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   }
 
   useEffect(() => {
-    const updatePlaylist = async () => {
+    const updatePlaylist = () => {
       if (
         debounceFields.title !== data.title ||
         debounceFields.description !== data.description
       ) {
         if (data.id) {
-          await post
+          post
             .postPlaylists([
               {
                 id: data.id,
@@ -131,7 +125,7 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
           variant="contained"
           handler={() => createList()}
         >
-          {isLoading ? <Loader /> : 'Save list'}
+          {isLoading ? <LoaderComponent /> : 'Save list'}
         </Button>
       )}
     </div>

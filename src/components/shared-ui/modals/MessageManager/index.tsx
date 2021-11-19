@@ -8,15 +8,15 @@ import EditorActions from 'src/components/shared-ui/EditorActions'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
-import ModalSent from '../ModalSent'
 
 type Props = {
   className?: string
   data: any
-  closeHandler: () => void
+  setIsSent: (val: boolean) => void
 }
 
 type Action =
@@ -28,7 +28,6 @@ type State = {
   bodyData: SendMessageData
   error: string
   isSending: boolean
-  isSent: boolean
 }
 
 const initialState = {
@@ -42,7 +41,6 @@ const initialState = {
   },
   error: '',
   isSending: false,
-  isSent: false,
 }
 
 const reducer = (state: State, action: Action) => {
@@ -60,23 +58,20 @@ const reducer = (state: State, action: Action) => {
         ...state,
         isSending: !state.isSending,
       }
-    case 'updateRequestStatus':
-      return {
-        ...state,
-        isSent: action.payload,
-      }
     default:
       return initialState
   }
 }
 
-const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
-  const template = data.templateData?.Message
+const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
+  const template = data?.customTemplate || data.templateData?.Message
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const { state: clientState } = useClient()
+  const { state: clientState, updateUserData } = useClient()
+  const { state: popupState, dispatch: popupDispatch } = usePopup()
+  const { dataMulti } = popupState
 
-  const clientName = clientState?.shortName || clientState?.fullName
+  const clientName = clientState.data?.shortName || clientState.data?.fullName
   const contactName = data.fullName || data.name
   const addressTo = data?.address || data.emails[0]
 
@@ -95,8 +90,9 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
 
   useEffect(() => {
     const syncedEmail =
-      clientState?.syncedEmails && clientState?.syncedEmails.length > 0
-        ? clientState?.syncedEmails[0]
+      clientState.data?.syncedEmails &&
+      clientState.data?.syncedEmails.length > 0
+        ? clientState.data?.syncedEmails[0]
         : undefined
 
     dispatch({
@@ -116,17 +112,45 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
           : [],
       },
     })
-  }, [addressTo, contactName, data.templateData, clientState?.syncedEmails])
+  }, [
+    addressTo,
+    contactName,
+    data.templateData,
+    clientState.data?.syncedEmails,
+  ])
+
+  const setConnectedUser = () => {
+    const updatedUsers = dataMulti?.map((item) => {
+      if (item.contact_id === data.contact_id) {
+        return {
+          ...item,
+          isSent: true,
+        }
+      }
+      return item
+    })
+
+    if (updatedUsers) {
+      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: updatedUsers })
+    }
+  }
 
   const sendEmail = async () => {
+    if (!state.bodyData.from_contact) {
+      // eslint-disable-next-line no-alert
+      return alert('Please set primary email')
+    }
+
     dispatch({ type: 'updateSendingStatus' })
 
-    post
+    return post
       .sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
         if (resp.status === 200) {
-          dispatch({ type: 'updateRequestStatus', payload: true })
+          setIsSent(true)
+          setConnectedUser()
+          updateUserData()
         }
       })
       .catch((err) => {
@@ -147,40 +171,33 @@ const MessageManager: React.FC<Props> = ({ className, data, closeHandler }) => {
 
   return (
     <CardContainer className={classNames(s.container, className)}>
-      {state.isSent ? (
-        <ModalSent names={contactName} handler={closeHandler} />
-      ) : (
-        <>
-          {data && (
-            <ModalEditorHeader data={state.bodyData} setValue={setValue} />
-          )}
-          <ModalHtmlEditor
-            className={s.editor}
-            value={state.bodyData.body}
-            setEditorValue={setValue}
-          />
-          <div className={s.buttons}>
-            {data && <EditorActions className={s.editorActions} />}
-            <Button variant="outlined" className={s.buttonTemplate}>
-              Save Template
-            </Button>
-            <Button
-              variant="contained"
-              className={classNames(
-                s.buttonSend,
-                state.isSending && s.disabled
-              )}
-              handler={() => sendEmail()}
-            >
-              {state.isSending ? (
-                <SvgIcon className={s.spinner} icon="spinner.svg" />
-              ) : (
-                'Send'
-              )}
-            </Button>
-          </div>
-        </>
-      )}
+      <>
+        {data && (
+          <ModalEditorHeader data={state.bodyData} setValue={setValue} />
+        )}
+        <ModalHtmlEditor
+          className={s.editor}
+          value={state.bodyData.body}
+          setEditorValue={setValue}
+        />
+        <div className={s.buttons}>
+          {data && <EditorActions className={s.editorActions} />}
+          <Button variant="outlined" className={s.buttonTemplate}>
+            Save Template
+          </Button>
+          <Button
+            variant="contained"
+            className={classNames(s.buttonSend, state.isSending && s.disabled)}
+            handler={() => sendEmail()}
+          >
+            {state.isSending ? (
+              <SvgIcon className={s.spinner} icon="spinner.svg" />
+            ) : (
+              'Send'
+            )}
+          </Button>
+        </div>
+      </>
     </CardContainer>
   )
 }

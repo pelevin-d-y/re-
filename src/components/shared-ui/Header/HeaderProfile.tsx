@@ -14,8 +14,8 @@ type Props = {
 
 const HeaderProfile: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-  const addresses = state?.authData
-    ? Object.entries(state.authData).map(([key, value]) => ({
+  const addresses = state.data?.authData
+    ? Object.entries(state.data.authData).map(([key, value]) => ({
         email: key,
         status: value as number,
       }))
@@ -26,7 +26,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       triggerElement={
         <div className={classNames(s.container, className)}>
           <a href={logInLink}>
-            <Avatar image={state?.avatar} />
+            <Avatar image={state.data?.avatar} />
           </a>
         </div>
       }

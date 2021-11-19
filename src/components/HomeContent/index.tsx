@@ -4,17 +4,23 @@ import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
 import CardShare from 'src/components/shared-ui/cards/CardShareLink'
 import CardShareSmall from 'src/components/shared-ui/cards/CardShareSmall'
 import HomeSidebar from 'src/components/HomeContent/HomeSidebar'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
-import HomeRecommendations from './Recommendations/HomeRecommendations'
+import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
 import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
+import { LoaderPage } from '../shared-ui/Loader'
+import Recommendations from './Recommendations'
+import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
+import CardGuide from '../shared-ui/cards/CardGuide'
 
 const Content: React.FC = () => {
   const { state: clientState } = useClient()
-  const contacts = useMemo(() => clientState?.contacts, [clientState?.contacts])
+  const contacts = useMemo(
+    () => clientState.data?.contacts,
+    [clientState.data?.contacts]
+  )
 
   const headerDataWeek = {
     month: 'sep',
@@ -41,20 +47,38 @@ const Content: React.FC = () => {
     [contacts]
   )
 
-  const HomeUpcomingContacts = contacts?.slice(3, 7)
+  const HomeUpcomingContacts = contacts?.slice(2, 5)
+
+  const renderRecommendations = () =>
+    contacts && !arrayIsEmpty(contacts) ? (
+      <Recommendations className={s.section} data={contacts?.slice(0, 3)} />
+    ) : (
+      <EmptyRecommendations className={s.section} />
+    )
+  const renderCalendar = () =>
+    contacts && !arrayIsEmpty(contacts) ? (
+      <HomeUpcoming
+        className={s.section}
+        headerData={headerDataWeek}
+        contacts={HomeUpcomingContacts}
+      />
+    ) : (
+      <CardShare
+        variant="dark"
+        image="banner-email@2x.png"
+        event="Share Strata"
+        title="Sharing is Caring"
+        link="bit.ly/share-strata/hailey"
+      />
+    )
 
   return (
     <div className={s.container}>
       <div className={s.main}>
-        {contacts ? (
+        {!clientState.isLoading ? (
           <>
-            <HomeRecommendations className={s.section} />
-            <HomeUpcoming
-              className={s.section}
-              headerData={headerDataWeek}
-              contacts={HomeUpcomingContacts}
-            />
-
+            {renderRecommendations()}
+            {renderCalendar()}
             <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
@@ -62,7 +86,7 @@ const Content: React.FC = () => {
               {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
             </Grid>
 
-            <Grid className={s.section} division={2}>
+            {/* <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
                 subtitle="Awhile..."
@@ -85,8 +109,8 @@ const Content: React.FC = () => {
             />
             {contacts && (
               <Grid className={s.section} division={2}>
-                <CardContact data={contacts[2]} isRow />
-                <CardContact data={contacts[3]} isRow />
+                <CardContact data={contacts[2]} />
+                <CardContact data={contacts[3]} />
               </Grid>
             )}
             <Grid className={s.section} division={2}>
@@ -105,8 +129,8 @@ const Content: React.FC = () => {
             {contacts && (
               <Grid className={s.section} division={2}>
                 <Grid division={2} direction="Row">
-                  <CardContact data={contacts[6]} isRow />
-                  <CardContact data={contacts[5]} isRow />
+                  <CardContact data={contacts[6]} />
+                  <CardContact data={contacts[5]} />
                 </Grid>
                 <CardTextContent
                   title="Followup"
@@ -125,8 +149,8 @@ const Content: React.FC = () => {
                   users={contacts?.slice(7, 12)}
                 />
                 <Grid division={2} direction="Row">
-                  <CardContact data={contacts[2]} isRow />
-                  <CardContact data={contacts[3]} isRow />
+                  <CardContact data={contacts[2]} />
+                  <CardContact data={contacts[3]} />
                 </Grid>
               </Grid>
             )}
@@ -141,10 +165,10 @@ const Content: React.FC = () => {
                 image="share-news2.jpeg"
                 users={contacts?.slice(9, 13)}
               />
-            </Grid>
+            </Grid> */}
           </>
         ) : (
-          <SvgIcon className={s.spinner} icon="spinner.svg" />
+          <LoaderPage />
         )}
       </div>
       <HomeSidebar className={s.sidebar} />
@@ -183,14 +207,6 @@ const s = css`
 
   .cards {
     margin-top: 12px;
-  }
-
-  .spinner {
-    display: block;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    color: var(--blue);
   }
 `
 

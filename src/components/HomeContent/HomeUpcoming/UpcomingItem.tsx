@@ -7,6 +7,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { TagUser } from 'src/components/shared-ui/Tags'
 
 type Props = {
   className?: string
@@ -26,7 +27,7 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
         <Avatar className={s.avatar} image={avatar} />
         <div className={s.text}>
           <div className={s.name}>{name}</div>
-          <div className={s.position}>{template?.Subject}</div>
+          <TagUser text="Old friends" />
         </div>
       </div>
       <div className={s.message}>

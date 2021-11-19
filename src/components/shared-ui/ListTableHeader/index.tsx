@@ -6,7 +6,6 @@ import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
-import { useUsers } from 'src/components/context/UsersContext'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import AddUserView from 'src/components/shared-ui/AddUserView'
 
@@ -26,7 +25,6 @@ const TableHeader: React.FC<Props> = ({
   const { state: selectedUsers } = useTable()
   const { removeUsers } = usePlaylist()
   const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch } = useUsers()
 
   const removeUsersHandler = () => {
     if (removeContacts) {
@@ -37,8 +35,10 @@ const TableHeader: React.FC<Props> = ({
   }
 
   const contactHandler = () => {
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: list.contacts || [] })
-    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    if (list.contacts) {
+      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: list.contacts })
+      popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    }
   }
 
   return (

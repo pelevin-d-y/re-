@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
-import formatTime from 'src/helpers/utils/parseTime'
+import { formatTime } from 'src/helpers/utils/parseTime'
 
 type Props = {
   className?: string

@@ -34,8 +34,10 @@ const PopoverTemplates: React.FC<Props> = () => {
         },
       })
 
-      const contacts = clientState?.contacts && [...clientState.contacts] // new array
-      const clientIndex = findIndex(clientState?.contacts, {
+      const contacts = clientState.data?.contacts && [
+        ...clientState.data.contacts,
+      ] // new array
+      const clientIndex = findIndex(clientState.data?.contacts, {
         address: data?.address,
       })
 
@@ -65,7 +67,7 @@ const PopoverTemplates: React.FC<Props> = () => {
       )}
       popupContent={
         <CardContainer className={s.popup}>
-          <div className={s.title}>Templates</div>
+          <div className={s.title}>Snippets</div>
           <ul className={s.templatesList}>
             {templatesData.map((template) =>
               template.Template ? (

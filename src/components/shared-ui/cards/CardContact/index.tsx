@@ -11,14 +11,14 @@ import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import { TagUser } from '../../Tags'
 
 type Props = {
   className?: string
   data: UserData
-  isRow?: boolean
 }
 
-const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
+const CardContact: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = usePopup()
   const { name, avatar, templateData, relationshipStrength } = data
 
@@ -29,7 +29,7 @@ const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
   return (
     <CardContainer className={classNames(className, s.container)}>
       <PopoverRemoveCard classRemove={s.remove} data={data} />
-      <div className={classNames(isRow && s.rowUserInfo)}>
+      <div className={classNames(s.rowUserInfo)}>
         <Avatar
           image={avatar}
           width={54}
@@ -37,7 +37,7 @@ const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
           className={s.avatar}
           strength={relationshipStrength}
         />
-        <div className={classNames(isRow && s.userText)}>
+        <div className={classNames(s.userText)}>
           {templateData && (
             <PopoverUserInfo
               className={s.name}
@@ -45,14 +45,15 @@ const CardContact: React.FC<Props> = ({ className, data, isRow }) => {
               template={templateData}
             />
           )}
-          {templateData && (
-            <UserHeader
-              className={s.description}
-              text={parseEmailMessage(templateData.Action, name)}
-            />
-          )}
+          <TagUser text="Old friends" />
         </div>
       </div>
+      {templateData && (
+        <UserHeader
+          className={s.description}
+          text={parseEmailMessage(templateData.Action, name)}
+        />
+      )}
       <div className={s.actions}>
         <Pin className={s.pin} data={data} />
         <Button
@@ -105,10 +106,6 @@ const s = css`
     opacity: 0;
   }
 
-  .avatar {
-    margin-bottom: 12px;
-  }
-
   .description {
     margin-bottom: 14px;
   }
@@ -136,6 +133,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     padding-top: 6px;
+    margin-bottom: 12px;
   }
 
   .userText {

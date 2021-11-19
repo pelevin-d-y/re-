@@ -15,7 +15,7 @@ type Props = {
 
 const TabRecs: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-  const contacts = useMemo(() => state?.contacts?.slice(0, 3), [state])
+  const contacts = useMemo(() => state.data?.contacts?.slice(0, 3), [state])
 
   return (
     <div className={classNames(className, s.container)}>

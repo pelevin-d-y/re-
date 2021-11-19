@@ -5,7 +5,6 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import { usePopup } from 'src/components/context/PopupContext'
-import { useUsers } from 'src/components/context/UsersContext'
 import Tasks from '../../Tasks'
 import CardContainer from '../CardContainer'
 
@@ -25,12 +24,13 @@ const CardTextContent: React.FC<Props> = ({
   users,
 }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch } = useUsers()
 
   const openModalHandler = () => {
-    popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: users || [] })
-    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    if (users) {
+      popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
+      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: users })
+      popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    }
   }
 
   return (

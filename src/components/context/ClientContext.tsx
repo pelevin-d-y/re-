@@ -1,12 +1,16 @@
 import * as React from 'react'
 import { get } from 'src/api'
 import addAdditionFields from 'src/helpers/utils/add-addition-fields'
-import testUsers from 'src/testUsers.json'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
-type Action = { type: 'UPDATE_USER_DATA'; payload: MainUserData }
+type Action =
+  | { type: 'UPDATE_USER_DATA'; payload: MainUserData }
+  | { type: 'UPDATE_IS_LOADING'; payload: boolean }
 
-type State = MainUserData | null
+type State = {
+  data: MainUserData | null
+  isLoading: boolean
+}
 
 type ContextType = {
   state: State
@@ -21,7 +25,13 @@ const clientReducer = (state: State, action: Action): State => {
     case 'UPDATE_USER_DATA': {
       return {
         ...state,
-        ...action.payload,
+        data: action.payload,
+      }
+    }
+    case 'UPDATE_IS_LOADING': {
+      return {
+        ...state,
+        isLoading: action.payload,
       }
     }
     default: {
@@ -67,26 +77,28 @@ const getMainUserData = async () => {
   const clientData = addAuthData(formattedClientData, authResponse)
   const mainUserData: MainUserData = {
     ...clientData,
-    contacts:
-      extendedUsers.length < 10
-        ? addAdditionFields(testUsers as RecommendationUser[])
-        : extendedUsers, // have to remove when API is fixed
+    contacts: extendedUsers, // have to remove when API is fixed
   }
 
   return mainUserData
 }
 
 const ClientProvider: React.FC = ({ children }): JSX.Element => {
-  const [state, dispatch] = React.useReducer(clientReducer, null)
+  const [state, dispatch] = React.useReducer(clientReducer, {
+    isLoading: true,
+    data: null,
+  })
 
   React.useEffect(() => {
     const setClientData = async () => {
       try {
+        updateIsLoading(true)
         const mainUserData = await getMainUserData()
         dispatch({
           type: 'UPDATE_USER_DATA',
           payload: mainUserData,
         })
+        updateIsLoading(false)
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('setClientData err', err)
@@ -96,20 +108,33 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     setClientData()
   }, [])
 
-  const updateUserData = async () => {
+  const updateIsLoading = (value: boolean) => {
+    dispatch({
+      type: 'UPDATE_IS_LOADING',
+      payload: value,
+    })
+  }
+
+  const updateUserData = async (withLoading?: boolean) => {
+    if (withLoading) {
+      updateIsLoading(true)
+    }
     const mainUserData = await getMainUserData()
     dispatch({
       type: 'UPDATE_USER_DATA',
       payload: mainUserData,
     })
+    updateIsLoading(false)
   }
 
   const value: ContextType = React.useMemo(
     () => ({
       state,
       dispatch,
+      updateIsLoading,
       updateUserData,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]
   )
 

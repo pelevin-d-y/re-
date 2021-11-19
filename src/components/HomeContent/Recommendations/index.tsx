@@ -3,16 +3,18 @@ import { css } from 'astroturf'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import classNames from 'classnames'
 
 type Props = {
   data?: UserData[]
+  className?: string
 }
 
-const FullRecommendations: React.FC<Props> = ({ data }) => (
-  <>
+const Recommendations: React.FC<Props> = ({ data, className }) => (
+  <div className={classNames(s.container, className)}>
     <div className={s.title}>
       Your Weekly Recommendations <br />
-      <Link className={s.link} href="#">
+      <Link className={s.link} href="/recommendations">
         View all
         <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
       </Link>
@@ -26,11 +28,20 @@ const FullRecommendations: React.FC<Props> = ({ data }) => (
         />
       ))}
     </div>
-  </>
+  </div>
 )
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
+
+  .container {
+    padding: 22px 30px 44px 36px;
+    background: url('/svg/circles-background.svg') no-repeat center/cover;
+
+    @include mobile {
+      padding: 16px;
+    }
+  }
 
   .title {
     margin-bottom: 18px;
@@ -68,19 +79,18 @@ const s = css`
   }
 
   .cards {
-    display: flex;
-    flex-flow: row nowrap;
-    margin-left: -17px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 17px;
 
     @include mobile {
-      flex-flow: column nowrap;
+      grid-template-columns: 1fr;
       margin-left: 0;
     }
   }
 
   .column {
-    width: 33.3%;
-    margin-left: 17px;
+    width: 100%;
 
     @include mobile {
       max-width: 300px;
@@ -92,4 +102,4 @@ const s = css`
   }
 `
 
-export default FullRecommendations
+export default Recommendations

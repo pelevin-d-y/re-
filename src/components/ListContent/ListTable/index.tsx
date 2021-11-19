@@ -1,29 +1,36 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { Column, useFlexLayout, useRowSelect, useTable } from 'react-table'
+import {
+  Column,
+  useFlexLayout,
+  useRowSelect,
+  useRowState,
+  useTable,
+} from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
 import EasyEdit from 'react-easy-edit'
-import formatTime from 'src/helpers/utils/parseTime'
-import Checkbox from './Checkbox'
-import AddUserView from '../AddUserView'
-import Row from './Row'
+import { formatTime } from 'src/helpers/utils/parseTime'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
+import AddUserView from '../../shared-ui/AddUserView'
+import Row from '../../shared-ui/Table/Row'
+import Close from '../../shared-ui/Close'
+import Checkbox from '../../shared-ui/Table/Checkbox'
 
 type Props = {
   className?: string
   data: Playlist
-  removeContacts?: (removeContacts: any) => void
 }
 
-const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
+const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
+  const { removeUsers } = usePlaylist()
+
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
@@ -131,6 +138,7 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
     },
     useFlexLayout,
     useRowSelect,
+    useRowState,
     (hooks) => {
       hooks.visibleColumns.push((hookColumns) => [
         {
@@ -155,6 +163,14 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
     setSelectedUsers(selectedFlatRows.map((item) => item.original))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
+
+  const removeUser = useCallback(
+    (e: React.MouseEvent, userData: any) => {
+      e.stopPropagation()
+      return removeUsers([userData])
+    },
+    [removeUsers]
+  )
 
   return (
     <div className={s.container}>
@@ -186,9 +202,25 @@ const Table: React.FC<Props> = ({ className, data, removeContacts }) => {
           {rows.map((row) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
-            restProps.style = { ...restProps.style, borderColor: 'red' }
+
             return (
-              <Row row={row} className={s.tableRow} key={key} {...restProps} />
+              <Row
+                row={row}
+                classes={{ container: s.tableRow }}
+                key={key}
+                {...restProps}
+              >
+                <td className={s.removeButton}>
+                  <Close
+                    handler={(e: React.MouseEvent) => {
+                      row.setState({ isLoading: true })
+                      removeUser(e, row.original).then(() => {
+                        row.setState({ ...row.state, isLoading: false })
+                      })
+                    }}
+                  />
+                </td>
+              </Row>
             )
           })}
         </tbody>
@@ -214,8 +246,8 @@ const s = css`
   .container {
     width: 100%;
     overflow: auto;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
     padding-bottom: 10px;
   }
 
@@ -235,6 +267,12 @@ const s = css`
 
   .tableRow {
     padding-right: 50px;
+
+    &:hover {
+      .removeButton {
+        opacity: 1;
+      }
+    }
   }
 
   .headerButton {
@@ -346,6 +384,15 @@ const s = css`
       width: 100px;
       height: 100px;
     }
+  }
+
+  .removeButton {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    opacity: 0;
   }
 
   .logo {

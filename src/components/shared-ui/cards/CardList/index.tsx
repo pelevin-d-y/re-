@@ -9,7 +9,7 @@ import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
-import Loader from '../../Loader'
+import { LoaderComponent } from '../../Loader'
 
 type Props = {
   className?: string
@@ -74,7 +74,7 @@ const CardList: React.FC<Props> = ({
           View List
         </Button>
       </div>
-      {isLoading && <Loader />}
+      {isLoading && <LoaderComponent />}
     </CardContainer>
   )
 }

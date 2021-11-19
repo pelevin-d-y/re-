@@ -1,7 +1,7 @@
 import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { useClient } from 'src/components/context/ClientContext'
-import SectionsHeader from './ListsSectionsHeader'
+import SectionsHeader from '../shared-ui/SectionHeader'
 
 type Props = {
   className?: string
@@ -10,11 +10,11 @@ type Props = {
 const ListsContacts: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
 
-  return state?.contacts ? (
+  return state.data?.contacts ? (
     <div className={className}>
       <CardContainer>
         <SectionsHeader
-          data={state.contacts}
+          data={state.data.contacts}
           title="Contacts"
           description="Search your contacts to create lists"
           icon="contacts"

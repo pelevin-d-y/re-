@@ -8,7 +8,7 @@ type Props = {
   handler: (e: MouseEvent) => void
 }
 
-const ModalClose: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
+const CloseButton: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
   ({ className, handler }, ref) => (
     <button
       type="button"
@@ -35,4 +35,4 @@ const s = css`
   }
 `
 
-export default ModalClose
+export default CloseButton

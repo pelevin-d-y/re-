@@ -6,7 +6,6 @@ import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import Img from 'src/components/shared-ui/Img'
 import { usePopup } from 'src/components/context/PopupContext'
-import { useUsers } from 'src/components/context/UsersContext'
 import CardSwitcher from '../CardSwitcher'
 
 type Props = {
@@ -22,11 +21,23 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
   const { slides, title, contacts } = data
   const [slide, setSlide] = useState(slides[0])
   const { dispatch: popupDispatch } = usePopup()
-  const { dispatch: usersDispatch } = useUsers()
 
   const openModalHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-    usersDispatch({ type: 'UPDATE_USERS_DATA', payload: contacts || [] })
+
+    const url =
+      process.env.NODE_ENV === 'development'
+        ? `/images/${slide}`
+        : `https://app.strata.cc/images/${slide}`
+
+    popupDispatch({
+      type: 'UPDATE_POPUP_DATA_MULTI',
+      payload:
+        contacts.map((item) => ({
+          ...item,
+          customTemplate: `<img src=${url} />`,
+        })) || [],
+    })
     popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
   }
 

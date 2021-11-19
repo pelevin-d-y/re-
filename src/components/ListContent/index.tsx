@@ -1,17 +1,16 @@
 import React from 'react'
 import { css } from 'astroturf'
-import Table from 'src/components/shared-ui/ListTable'
+import Table from 'src/components/ListContent/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
 import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { TableProvider } from 'src/components/context/TableContext'
-import Loader from '../shared-ui/Loader'
+import { LoaderComponent } from '../shared-ui/Loader'
 import ListRecs from '../shared-ui/ListRecs'
 
 const Content: React.FC = () => {
   const { state: playlistData } = usePlaylist()
-
   const { state: clientState } = useClient()
 
   return playlistData ? (
@@ -19,9 +18,9 @@ const Content: React.FC = () => {
       {playlistData && <ListHeader data={playlistData} />}
       <div className={s.content}>
         <TableProvider>
-          {clientState?.contacts && (
+          {clientState.data?.contacts && (
             <ListRecs
-              contacts={clientState.contacts}
+              contacts={clientState.data.contacts}
               playlistData={playlistData}
             />
           )}
@@ -32,7 +31,7 @@ const Content: React.FC = () => {
     </div>
   ) : (
     <div className={s.loader}>
-      <Loader />
+      <LoaderComponent />
     </div>
   )
 }

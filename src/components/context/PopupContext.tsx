@@ -10,6 +10,7 @@ type Action =
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData | null }
+  | { type: 'UPDATE_POPUP_DATA_MULTI'; payload: UserData[] | null }
 
 type State = {
   emailModalIsOpen: boolean
@@ -17,8 +18,8 @@ type State = {
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
-  templatesModalIsOpen: boolean
   data: UserData | null
+  dataMulti: UserData[] | null
 }
 
 type ContextType = {
@@ -33,10 +34,9 @@ const initialState = {
   multiEmailsIsOpen: false,
   addContactModalIsOpen: false,
   createListModalIsOpen: false,
-  templatesModalIsOpen: false,
   deleteListModalIsOpen: false,
   data: null,
-  multiEmailsData: [],
+  dataMulti: null,
 }
 
 const popupReducer = (state: State, action: Action): State => {
@@ -60,10 +60,13 @@ const popupReducer = (state: State, action: Action): State => {
       }
     }
     case 'TOGGLE_CONTACTS_POPUP': {
-      return {
-        ...state,
-        multiEmailsIsOpen: !state.multiEmailsIsOpen,
+      if (state?.dataMulti && state?.dataMulti?.length > 0) {
+        return {
+          ...state,
+          multiEmailsIsOpen: !state.multiEmailsIsOpen,
+        }
       }
+      return state
     }
     case 'TOGGLE_ADD_CONTACT_POPUP': {
       return {
@@ -83,16 +86,17 @@ const popupReducer = (state: State, action: Action): State => {
         deleteListModalIsOpen: !state.deleteListModalIsOpen,
       }
     }
-    case 'TOGGLE_TEMPLATES_POPUP': {
-      return {
-        ...state,
-        templatesModalIsOpen: !state.templatesModalIsOpen,
-      }
-    }
     case 'UPDATE_POPUP_DATA': {
       return {
         ...state,
         data: action.payload,
+      }
+    }
+
+    case 'UPDATE_POPUP_DATA_MULTI': {
+      return {
+        ...state,
+        dataMulti: action.payload,
       }
     }
 
