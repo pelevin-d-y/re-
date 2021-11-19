@@ -9,6 +9,7 @@ type Action =
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
+  | { type: 'TOGGLE_PINNED_USERS_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData | null }
   | { type: 'UPDATE_POPUP_DATA_MULTI'; payload: UserData[] | null }
 
@@ -18,6 +19,7 @@ type State = {
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
+  modalPinnedIsOpen: boolean
   data: UserData | null
   dataMulti: UserData[] | null
 }
@@ -35,6 +37,7 @@ const initialState = {
   addContactModalIsOpen: false,
   createListModalIsOpen: false,
   deleteListModalIsOpen: false,
+  modalPinnedIsOpen: false,
   data: null,
   dataMulti: null,
 }
@@ -78,6 +81,12 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         ...state,
         createListModalIsOpen: !state.createListModalIsOpen,
+      }
+    }
+    case 'TOGGLE_PINNED_USERS_POPUP': {
+      return {
+        ...state,
+        modalPinnedIsOpen: !state.modalPinnedIsOpen,
       }
     }
     case 'TOGGLE_DELETE_LIST_POPUP': {

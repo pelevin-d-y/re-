@@ -4,15 +4,22 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import PinnedCard from './PinnedCard'
 
 type Props = {
   className?: string
 }
 
-const PinnedCards: React.FC<Props> = ({ className }) => {
+const PinnedUsers: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-  const contacts = state.data?.contacts?.filter((item) => item.pinned)
+  const contacts = state.data?.contacts
+
+  const { dispatch: popupDispatch } = usePopup()
+
+  const openModal = () => {
+    popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
+  }
 
   return (
     <CardContainer className={classNames(className, s.container)}>
@@ -20,9 +27,9 @@ const PinnedCards: React.FC<Props> = ({ className }) => {
         <div className={s.headerText}>
           <div className={s.headerImportant}>Pinned</div>
         </div>
-        <div className={s.headerStar}>
-          <SvgIcon className={s.headerStarIcon} icon="pin.svg" />
-        </div>
+        <button className={s.headerAction} type="button" onClick={openModal}>
+          Add/Create List
+        </button>
       </div>
       <div className={s.paragraph}>
         Pin actions, playlist and people to remember to followup up later.
@@ -51,6 +58,8 @@ const s = css`
     flex-flow: row nowrap;
     align-items: flex-start;
     align-items: center;
+
+    width: 100%;
   }
 
   .headerText {
@@ -59,26 +68,13 @@ const s = css`
     line-height: 31px;
   }
 
-  .headerNext {
-    color: var(--ginger);
-  }
-
-  .headerStar {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
+  .headerAction {
     margin-left: auto;
-    padding: 13px;
 
-    border-radius: 50%;
-    border: 1px solid #e4e4e4;
-  }
-
-  .headerStarIcon {
-    width: 23px;
-    height: 23px;
     color: var(--blue);
+    border: none;
+    background: none;
+    cursor: pointer;
   }
 
   .cards {
@@ -97,4 +93,4 @@ const s = css`
   }
 `
 
-export default PinnedCards
+export default PinnedUsers
