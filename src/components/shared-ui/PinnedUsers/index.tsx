@@ -31,9 +31,11 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
           Add/Create List
         </button>
       </div>
-      <div className={s.paragraph}>
-        Pin actions, playlist and people to remember to followup up later.
-      </div>
+      {!contacts?.length && (
+        <div className={s.paragraph}>
+          Pin actions, playlist and people to remember to followup up later.
+        </div>
+      )}
       <div className={s.cards}>
         {contacts?.map((item) => (
           <PinnedCard

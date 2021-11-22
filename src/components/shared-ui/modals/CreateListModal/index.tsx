@@ -14,7 +14,6 @@ import { LoaderComponent } from '../../Loader'
 
 const CreateListSchema = Yup.object().shape({
   name: Yup.string().max(80, 'Too Long').required('Required'),
-  description: Yup.string().max(50, 'Too Long'),
 })
 
 const CreateListModal: React.FC = () => {
@@ -43,10 +42,14 @@ const CreateListModal: React.FC = () => {
           initialValues={{ name: '', description: '' }}
           validationSchema={CreateListSchema}
           onSubmit={(values, { setSubmitting }) => {
-            createPlaylist(values.name, values.description)
+            createPlaylist({
+              title: values.name,
+              description: values.description,
+              contacts: state?.dataMulti || [],
+            })
               .then((res) => {
-                setSubmitting(false)
                 router.push(`/list?id=${res[0].id}`)
+                setSubmitting(false)
               })
               .catch((err) => {
                 setSubmitting(false)
@@ -54,7 +57,7 @@ const CreateListModal: React.FC = () => {
               })
           }}
         >
-          {({ values, handleSubmit, isSubmitting }) => (
+          {({ handleSubmit, isSubmitting }) => (
             <form onSubmit={handleSubmit}>
               <Field name="name">
                 {({ field, form, meta }: FieldProps) => (

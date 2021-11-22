@@ -12,10 +12,8 @@ type Props = {
   template?: Template
 }
 
-const PinnedCard: React.FC<Props> = ({ className, data }) => {
-  console.log('🚀 ~ file: PinnedCard.tsx ~ line 16 ~ data', data)
-
-  return data ? (
+const PinnedCard: React.FC<Props> = ({ className, data }) =>
+  data ? (
     <CardContainer className={classNames(className, s.container)}>
       <Checkbox
         className={s.checkbox}
@@ -35,7 +33,6 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
       </div>
     </CardContainer>
   ) : null
-}
 
 const s = css`
   .container {

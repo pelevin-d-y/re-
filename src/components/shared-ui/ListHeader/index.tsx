@@ -34,7 +34,7 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   const createList = () => {
     if (fields.title || fields.description) {
       setIsLoading(true)
-      createPlaylist(fields.title, fields.description)
+      createPlaylist({ title: fields.title, description: fields.description })
         .then((res) => {
           setIsLoading(false)
           router.push(`/list?id=${res[0].id}`)
