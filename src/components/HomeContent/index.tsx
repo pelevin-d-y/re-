@@ -200,6 +200,7 @@ const s = css`
   }
 
   .sidebar {
+    z-index: 1;
     @include tablet {
       display: none;
     }

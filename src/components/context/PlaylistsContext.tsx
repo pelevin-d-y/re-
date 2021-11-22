@@ -8,12 +8,18 @@ type Action =
   | { type: 'UPDATE_IS_LOADING'; payload: boolean }
 type Dispatch = React.Dispatch<Action>
 
+type CreatePlaylistData = {
+  title: string
+  description?: string
+  contacts?: UserData[]
+}
+
 type ContextType = {
   state: State
   dispatch: Dispatch
   deletePlaylists: (ids: string[]) => Promise<any>
   getPlaylistsAsync: () => Promise<any>
-  createPlaylist: (title: string, description?: string) => Promise<ListData[]>
+  createPlaylist: (data: CreatePlaylistData) => Promise<ListData[]>
 }
 
 const PlaylistsContext = React.createContext<ContextType | null>(null)
@@ -101,18 +107,22 @@ const PlaylistsProvider: React.FC = ({ children }) => {
     [getPlaylistsAsync]
   )
 
-  const createPlaylist = React.useCallback(
-    (title: string, description?: string) =>
-      post.postPlaylists([
-        {
-          info: {
-            name: title,
-            description: description || '',
-          },
+  const createPlaylist = React.useCallback((data: CreatePlaylistData) => {
+    const { title, description, contacts } = data
+
+    return post.postPlaylists([
+      {
+        info: {
+          name: title,
+          description: description || '',
         },
-      ]),
-    []
-  )
+        contacts:
+          contacts?.map((item) => ({
+            contact_id: item.contact_id,
+          })) || [],
+      },
+    ])
+  }, [])
 
   const value: ContextType = React.useMemo(
     () => ({

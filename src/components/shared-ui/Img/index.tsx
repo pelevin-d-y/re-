@@ -5,9 +5,10 @@ type Props = {
   alt: string
   img: string
   errorLoad?: (isLoad: boolean) => void
+  onLoaded?: (isLoaded: boolean) => void
 }
 
-const Img: React.FC<Props> = ({ className, alt, img, errorLoad }) => (
+const Img: React.FC<Props> = ({ className, alt, img, errorLoad, onLoaded }) => (
   <img
     className={className}
     alt={alt}

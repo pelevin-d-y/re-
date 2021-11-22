@@ -5,7 +5,6 @@ import { logInLink, LS_ID_TOKEN } from 'src/helpers/variables'
 
 type Tokens = {
   isSignedIn?: boolean
-  tokenChecked: boolean
 }
 
 type Action = { type: 'UPDATE_AUTH_DATA'; payload: Tokens }
@@ -52,16 +51,15 @@ const getIdToken = () => {
 const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(authReducer, {
     isSignedIn: false,
-    tokenChecked: false,
   })
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const token = getIdToken()
     if (token) {
       setToken(token)
       dispatch({
         type: 'UPDATE_AUTH_DATA',
-        payload: { isSignedIn: true, tokenChecked: true },
+        payload: { isSignedIn: true },
       })
     } else {
       document.location.href = logInLink
@@ -76,9 +74,7 @@ const AuthProvider: React.FC = ({ children }) => {
     [state]
   )
 
-  return state?.tokenChecked ? (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  ) : null
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 const useAuth = (): ContextType => {

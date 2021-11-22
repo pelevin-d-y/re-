@@ -158,6 +158,8 @@ const s = css`
   }
 
   .content {
+    display: flex;
+    flex-flow: column nowrap;
     max-width: 1400px;
     width: 100%;
     margin-left: auto;
@@ -168,6 +170,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     padding: 14px;
+    margin-top: auto;
 
     border-top: 1px solid #d4dced;
   }

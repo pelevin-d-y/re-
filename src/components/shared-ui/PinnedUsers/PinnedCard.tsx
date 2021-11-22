@@ -1,11 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import parseMessage from 'src/helpers/utils/parse-message'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
-import Pin from '../Pin'
-import UserHeader from '../UserHeader'
+import { TagUser } from '../Tags'
+import Checkbox from '../Checkbox'
 
 type Props = {
   className?: string
@@ -13,9 +12,14 @@ type Props = {
   template?: Template
 }
 
-const PinnedCard: React.FC<Props> = ({ className, data, template }) =>
-  data && template ? (
+const PinnedCard: React.FC<Props> = ({ className, data }) =>
+  data ? (
     <CardContainer className={classNames(className, s.container)}>
+      <Checkbox
+        className={s.checkbox}
+        id={data.contact_id}
+        handler={() => null}
+      />
       <Avatar
         className={s.avatar}
         width={38}
@@ -25,13 +29,8 @@ const PinnedCard: React.FC<Props> = ({ className, data, template }) =>
       />
       <div className={s.info}>
         <div className={s.name}>{data.name}</div>
-        {data.templateData && (
-          <UserHeader
-            text={parseMessage(data.templateData.Action, data.name)}
-          />
-        )}
+        <TagUser text="Old friends" />
       </div>
-      <Pin className={s.pin} data={data} />
     </CardContainer>
   ) : null
 
@@ -68,6 +67,10 @@ const s = css`
     right: 9px;
 
     margin-left: auto;
+  }
+
+  .checkbox {
+    margin-right: 19px;
   }
 `
 

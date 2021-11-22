@@ -115,16 +115,12 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     })
   }
 
-  const updateUserData = async (withLoading?: boolean) => {
-    if (withLoading) {
-      updateIsLoading(true)
-    }
+  const updateUserData = async () => {
     const mainUserData = await getMainUserData()
     dispatch({
       type: 'UPDATE_USER_DATA',
       payload: mainUserData,
     })
-    updateIsLoading(false)
   }
 
   const value: ContextType = React.useMemo(
