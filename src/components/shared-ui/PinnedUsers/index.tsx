@@ -13,7 +13,7 @@ type Props = {
 
 const PinnedUsers: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-  const contacts = state.data?.contacts
+  const contacts = state.data?.contacts?.slice(0, 3)
 
   const { dispatch: popupDispatch } = usePopup()
 

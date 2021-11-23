@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
@@ -14,6 +14,7 @@ import Input from '../../Input'
 import AvatarList from '../../AvatarsList'
 import Button from '../../Button'
 import { LoaderComponent } from '../../Loader'
+import Select from '../../Select'
 
 type Props = {
   className?: string
@@ -25,9 +26,16 @@ const CreateListSchema = Yup.object().shape({
 
 const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
   const { state, dispatch: popupDispatch } = usePopup()
-  const { state: clientState } = useClient()
-  const { createPlaylist } = usePlaylists()
+  const {
+    state: playlistsState,
+    createPlaylist,
+    getPlaylistsAsync,
+  } = usePlaylists()
   const router = useRouter()
+
+  useEffect(() => {
+    getPlaylistsAsync()
+  }, [getPlaylistsAsync])
 
   const closeHandler = () => {
     popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
@@ -49,9 +57,9 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
             <Tab className={s.tab}>Add to existing list</Tab>
           </TabList>
           <div className={s.avatars}>
-            {clientState.data?.contacts && (
+            {state?.dataMulti && (
               <AvatarList
-                users={clientState.data.contacts}
+                users={state.dataMulti}
                 avatarWidth={59}
                 avatarHeight={59}
               />
@@ -68,8 +76,8 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
                   contacts: state?.dataMulti || [],
                 })
                   .then((res) => {
-                    setSubmitting(false)
                     router.push(`/list?id=${res[0].id}`)
+                    setSubmitting(false)
                   })
                   .catch((err) => {
                     setSubmitting(false)
@@ -124,7 +132,51 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
               )}
             </Formik>
           </TabPanel>
-          <TabPanel>aaaa</TabPanel>
+          <TabPanel>
+            <Formik
+              initialValues={{ playlists: playlistsState.data[0] }}
+              onSubmit={(values, { setSubmitting }) => {
+                console.log('submit', values)
+                setSubmitting(false)
+              }}
+            >
+              {({ handleSubmit, isSubmitting }) => (
+                <form onSubmit={handleSubmit}>
+                  <Field name="playlists">
+                    {({ field, form }: FieldProps) => (
+                      <Select
+                        options={playlistsState.data?.map((item: ListData) => ({
+                          value: item.id,
+                          label: item.info.name as string,
+                        }))}
+                        label="List"
+                        handler={(option) => {
+                          form.setFieldValue(field.name, option.value)
+                        }}
+                      />
+                    )}
+                  </Field>
+                  <div className={s.actions}>
+                    <Button
+                      className={s.cancel}
+                      variant="outlined"
+                      handler={closeHandler}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className={s.createList}
+                      variant="contained"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? <LoaderComponent /> : 'Create'}
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </Formik>
+          </TabPanel>
         </ReactTabs>
       </div>
     </ModalBase>
