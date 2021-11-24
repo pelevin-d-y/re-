@@ -72,7 +72,7 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
 })
 
 type Option = {
-  value: string
+  value: any
   label: string
 }
 

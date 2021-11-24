@@ -34,7 +34,7 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
     }
     const contacts =
       statePopup?.dataMulti?.filter(
-        (item) => item.contact_id === data?.contact_id
+        (item) => !(item.contact_id === data?.contact_id)
       ) || []
 
     return dispatchPopup({

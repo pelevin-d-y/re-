@@ -13,11 +13,11 @@ type Props = {
 
 const UserItem: React.FC<Props> = ({ className, data }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const { addUser: addUserToPlaylist } = usePlaylist()
+  const { addUsers: addUserToPlaylist } = usePlaylist()
 
-  const addUser = (user: any) => {
+  const addUser = async (user: FormattedContacts) => {
     setIsLoading(true)
-    addUserToPlaylist(user)
+    addUserToPlaylist([user])
       .then(() => {
         setIsLoading(false)
       })

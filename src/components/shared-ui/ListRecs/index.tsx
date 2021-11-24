@@ -12,7 +12,7 @@ type Props = {
 }
 
 const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
-  const { addUser } = usePlaylist()
+  const { addUsers } = usePlaylist()
 
   const filteredContacts = useMemo(
     () =>
@@ -25,8 +25,7 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
     [contacts, playlistData]
   )
 
-  const addUserHandler = (user: UserData) =>
-    addUser({ ...user, id: user.contact_id })
+  const addUserHandler = (user: UserData) => addUsers([user])
 
   return filteredContacts?.length !== 0 ? (
     <div className={classNames(className, s.container)}>

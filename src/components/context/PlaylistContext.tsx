@@ -14,7 +14,7 @@ type ContextType = {
   dispatch: Dispatch
   getPlaylistData: () => void
   removeUsers: (userData: any) => Promise<any>
-  addUser: (user: any) => Promise<any>
+  addUsers: (users: (UserData | FormattedContacts)[]) => Promise<any>
 }
 
 const PlaylistContext = React.createContext<ContextType | null>(null)
@@ -56,14 +56,14 @@ const PlaylistProvider: React.FC = ({ children }) => {
   }, [router.query.id])
 
   const removeUsers = React.useCallback(
-    (users: any[]) => {
+    (users: (UserData | FormattedContacts)[]) => {
       if (state?.id) {
         return post
           .postPlaylists([
             {
               id: state.id,
               contacts: users.map((item) => ({
-                contact_id: item.id,
+                contact_id: 'id' in item ? item.id : item.contact_id,
                 review: 2,
               })),
             },
@@ -78,19 +78,19 @@ const PlaylistProvider: React.FC = ({ children }) => {
     [state?.id, getPlaylistData]
   )
 
-  const addUser = React.useCallback(
-    (user) => {
+  const addUsers = React.useCallback(
+    (users: (UserData | FormattedContacts)[]) => {
       if (state?.id) {
+        const contacts = users.map((item) => ({
+          contact_id: 'id' in item ? item?.id : item?.contact_id,
+          review: 1,
+        }))
+
         return post
           .postPlaylists([
             {
               id: state.id,
-              contacts: [
-                {
-                  contact_id: user.id,
-                  review: 1,
-                },
-              ],
+              contacts,
             },
           ])
           .then(() => getPlaylistData())
@@ -116,10 +116,10 @@ const PlaylistProvider: React.FC = ({ children }) => {
       state,
       dispatch,
       getPlaylistData,
-      addUser,
+      addUsers,
       removeUsers,
     }),
-    [state, getPlaylistData, addUser, removeUsers]
+    [state, getPlaylistData, addUsers, removeUsers]
   )
 
   return (

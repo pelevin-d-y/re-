@@ -7,19 +7,22 @@ import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
 import ModalPinnedContacts from 'src/components/shared-ui/modals/ModalPinnedContacts'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
+import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 import 'react-quill/dist/quill.snow.css'
 
 const Home: React.FC = () => (
   <Layout>
     <PlaylistsProvider>
-      <TemplatesProvider>
-        <PopupProvider>
-          <MainContent />
-          <ContactModal />
-          <MultiEmailsModal />
-          <ModalPinnedContacts />
-        </PopupProvider>
-      </TemplatesProvider>
+      <PlaylistProvider>
+        <TemplatesProvider>
+          <PopupProvider>
+            <MainContent />
+            <ContactModal />
+            <MultiEmailsModal />
+            <ModalPinnedContacts />
+          </PopupProvider>
+        </TemplatesProvider>
+      </PlaylistProvider>
     </PlaylistsProvider>
   </Layout>
 )

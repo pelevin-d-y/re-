@@ -1,41 +1,20 @@
-import React, { useEffect } from 'react'
-import classNames from 'classnames'
+import React from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import { useClient } from 'src/components/context/ClientContext'
-import { usePlaylists } from 'src/components/context/PlaylistsContext'
-import { Field, FieldProps, Formik } from 'formik'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
-import { useRouter } from 'next/router'
-import * as Yup from 'yup'
+
 import CloseModal from '../../Close'
 import ModalBase from '../ModalBase'
-import Input from '../../Input'
 import AvatarList from '../../AvatarsList'
-import Button from '../../Button'
-import { LoaderComponent } from '../../Loader'
-import Select from '../../Select'
+import TabCreateList from './TabCreateList'
+import TabAddToExistingPlaylist from './TabAddToExistingPlaylist'
 
 type Props = {
   className?: string
 }
 
-const CreateListSchema = Yup.object().shape({
-  name: Yup.string().required('Required'),
-})
-
 const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
   const { state, dispatch: popupDispatch } = usePopup()
-  const {
-    state: playlistsState,
-    createPlaylist,
-    getPlaylistsAsync,
-  } = usePlaylists()
-  const router = useRouter()
-
-  useEffect(() => {
-    getPlaylistsAsync()
-  }, [getPlaylistsAsync])
 
   const closeHandler = () => {
     popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
@@ -51,133 +30,31 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
       <div className={s.content}>
         <div className={s.title}>Add these Contacts</div>
         <div className={s.description}>Manage these contacts in a list</div>
-        <ReactTabs>
-          <TabList className={s.tabs}>
-            <Tab className={s.tab}>Create new list</Tab>
-            <Tab className={s.tab}>Add to existing list</Tab>
-          </TabList>
-          <div className={s.avatars}>
-            {state?.dataMulti && (
-              <AvatarList
-                users={state.dataMulti}
-                avatarWidth={59}
-                avatarHeight={59}
-              />
-            )}
-          </div>
-          <TabPanel className={s.tabContent}>
-            <Formik
-              initialValues={{ name: '', description: '' }}
-              validationSchema={CreateListSchema}
-              onSubmit={(values, { setSubmitting }) => {
-                createPlaylist({
-                  title: values.name,
-                  description: values.description,
-                  contacts: state?.dataMulti || [],
-                })
-                  .then((res) => {
-                    router.push(`/list?id=${res[0].id}`)
-                    setSubmitting(false)
-                  })
-                  .catch((err) => {
-                    setSubmitting(false)
-                    console.log('err', err)
-                  })
-              }}
-            >
-              {({ handleSubmit, isSubmitting }) => (
-                <form onSubmit={handleSubmit}>
-                  <Field name="name">
-                    {({ field, form, meta }: FieldProps) => (
-                      <Input
-                        className={s.input}
-                        type="text"
-                        field={field}
-                        form={form}
-                        meta={meta}
-                        label="Name"
-                      />
-                    )}
-                  </Field>
-                  <Field name="description">
-                    {({ field, form, meta }: FieldProps) => (
-                      <Input
-                        className={s.input}
-                        type="text"
-                        field={field}
-                        form={form}
-                        meta={meta}
-                        label="Description"
-                      />
-                    )}
-                  </Field>
-                  <div className={s.actions}>
-                    <Button
-                      className={s.cancel}
-                      variant="outlined"
-                      handler={closeHandler}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className={s.createList}
-                      variant="contained"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? <LoaderComponent /> : 'Create'}
-                    </Button>
-                  </div>
-                </form>
+        {state?.dataMulti ? (
+          <ReactTabs>
+            <TabList className={s.tabs}>
+              <Tab className={s.tab}>Create new list</Tab>
+              <Tab className={s.tab}>Add to existing list</Tab>
+            </TabList>
+            <div className={s.avatars}>
+              {state?.dataMulti && (
+                <AvatarList
+                  users={state.dataMulti}
+                  avatarWidth={59}
+                  avatarHeight={59}
+                />
               )}
-            </Formik>
-          </TabPanel>
-          <TabPanel>
-            <Formik
-              initialValues={{ playlists: playlistsState.data[0] }}
-              onSubmit={(values, { setSubmitting }) => {
-                console.log('submit', values)
-                setSubmitting(false)
-              }}
-            >
-              {({ handleSubmit, isSubmitting }) => (
-                <form onSubmit={handleSubmit}>
-                  <Field name="playlists">
-                    {({ field, form }: FieldProps) => (
-                      <Select
-                        options={playlistsState.data?.map((item: ListData) => ({
-                          value: item.id,
-                          label: item.info.name as string,
-                        }))}
-                        label="List"
-                        handler={(option) => {
-                          form.setFieldValue(field.name, option.value)
-                        }}
-                      />
-                    )}
-                  </Field>
-                  <div className={s.actions}>
-                    <Button
-                      className={s.cancel}
-                      variant="outlined"
-                      handler={closeHandler}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className={s.createList}
-                      variant="contained"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? <LoaderComponent /> : 'Create'}
-                    </Button>
-                  </div>
-                </form>
-              )}
-            </Formik>
-          </TabPanel>
-        </ReactTabs>
+            </div>
+            <TabPanel className={s.tabContent}>
+              <TabCreateList users={state.dataMulti} />
+            </TabPanel>
+            <TabPanel>
+              <TabAddToExistingPlaylist users={state.dataMulti} />
+            </TabPanel>
+          </ReactTabs>
+        ) : (
+          <div className={s.emptyState}>Please choose contacts</div>
+        )}
       </div>
     </ModalBase>
   )
@@ -243,25 +120,11 @@ const s = css`
     margin-bottom: 28px;
   }
 
-  .input {
-    margin-bottom: 21px;
-  }
+  .emptyState {
+    margin-top: 26px;
 
-  .actions {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: right;
-
-    margin-top: 29px;
-  }
-
-  .cancel {
-    width: 87px;
-  }
-
-  .createList {
-    width: 102px;
-    margin-left: 7px;
+    font-weight: var(--semibold);
+    font-size: 16px;
   }
 `
 
