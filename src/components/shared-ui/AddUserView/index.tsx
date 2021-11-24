@@ -14,9 +14,10 @@ import { LoaderComponent } from '../Loader'
 
 type Props = {
   className?: string
+  listId: string
 }
 
-const AddUserView: React.FC<Props> = ({ className }) => {
+const AddUserView: React.FC<Props> = ({ className, listId }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
   const [isLoading, setIsLoading] = useState(false)
@@ -89,7 +90,9 @@ const AddUserView: React.FC<Props> = ({ className }) => {
             <LoaderComponent />
           </div>
         ) : (
-          contacts?.map((item) => <UserItem data={item} key={item.id} />)
+          contacts?.map((item) => (
+            <UserItem data={item} key={item.id} listId={listId} />
+          ))
         )}
       </ul>
     </CardContainer>

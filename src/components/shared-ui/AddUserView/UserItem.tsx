@@ -9,15 +9,16 @@ import { LoaderComponent } from '../Loader'
 type Props = {
   className?: string
   data: FormattedContacts
+  listId: string
 }
 
-const UserItem: React.FC<Props> = ({ className, data }) => {
+const UserItem: React.FC<Props> = ({ className, data, listId }) => {
   const [isLoading, setIsLoading] = useState(false)
   const { addUsers: addUserToPlaylist } = usePlaylist()
 
   const addUser = async (user: FormattedContacts) => {
     setIsLoading(true)
-    addUserToPlaylist([user])
+    addUserToPlaylist(listId, [user])
       .then(() => {
         setIsLoading(false)
       })

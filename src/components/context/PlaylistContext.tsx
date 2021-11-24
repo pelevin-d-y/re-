@@ -12,9 +12,15 @@ type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
   dispatch: Dispatch
-  getPlaylistData: () => void
-  removeUsers: (userData: any) => Promise<any>
-  addUsers: (users: (UserData | FormattedContacts)[]) => Promise<any>
+  getPlaylistData: (listId: string) => void
+  removeUsers: (
+    listId: string,
+    userData: (UserData | FormattedContacts)[]
+  ) => Promise<any>
+  addUsers: (
+    listId: string,
+    users: (UserData | FormattedContacts)[]
+  ) => Promise<any>
 }
 
 const PlaylistContext = React.createContext<ContextType | null>(null)
@@ -31,12 +37,11 @@ const playlistReducer = (state: State, action: any): State => {
 }
 
 const PlaylistProvider: React.FC = ({ children }) => {
-  const router = useRouter()
   const [state, dispatch] = React.useReducer(playlistReducer, null)
 
-  const getPlaylistData = React.useCallback(async () => {
+  const getPlaylistData = React.useCallback(async (listId) => {
     try {
-      const playlist = await get.getPlaylistsData([router.query.id] as string[])
+      const playlist = await get.getPlaylistsData([listId] as string[])
       const newPlaylist = playlist[0]
 
       if (newPlaylist.contacts.length > 0) {
@@ -53,63 +58,46 @@ const PlaylistProvider: React.FC = ({ children }) => {
     } catch (err) {
       console.log('getPlaylistData err =>', err)
     }
-  }, [router.query.id])
+  }, [])
 
   const removeUsers = React.useCallback(
-    (users: (UserData | FormattedContacts)[]) => {
-      if (state?.id) {
-        return post
-          .postPlaylists([
-            {
-              id: state.id,
-              contacts: users.map((item) => ({
-                contact_id: 'id' in item ? item.id : item.contact_id,
-                review: 2,
-              })),
-            },
-          ])
-          .then(() => getPlaylistData())
-          .catch((err: any) => console.log('removeUser err =>', err))
-      }
-      return new Promise((resolve, reject) =>
-        reject(new Error('List id is undefined'))
-      )
-    },
-    [state?.id, getPlaylistData]
+    (listId, users: (UserData | FormattedContacts)[]) =>
+      post
+        .postPlaylists([
+          {
+            id: listId,
+            contacts: users.map((item) => ({
+              contact_id: 'id' in item ? item.id : item.contact_id,
+              review: 2,
+            })),
+          },
+        ])
+        .catch((err: any) => console.log('removeUser err =>', err)),
+    []
   )
 
   const addUsers = React.useCallback(
-    (users: (UserData | FormattedContacts)[]) => {
-      if (state?.id) {
-        const contacts = users.map((item) => ({
-          contact_id: 'id' in item ? item?.id : item?.contact_id,
-          review: 1,
-        }))
+    (listId: string, users: (UserData | FormattedContacts)[]) => {
+      const contacts = users.map((item) => ({
+        contact_id: 'id' in item ? item?.id : item?.contact_id,
+        review: 1,
+      }))
 
-        return post
-          .postPlaylists([
-            {
-              id: state.id,
-              contacts,
-            },
-          ])
-          .then(() => getPlaylistData())
-          .catch((err: any) => console.log('addUser err =>', err))
-      }
+      return post
+        .postPlaylists([
+          {
+            id: listId,
+            contacts,
+          },
+        ])
+        .catch((err: any) => console.log('addUser err =>', err))
 
       return new Promise((resolve, reject) =>
         reject(new Error('List id is undefined'))
       )
     },
-    [state?.id, getPlaylistData]
+    []
   )
-
-  React.useEffect(() => {
-    if (router.query.id && !state) {
-      getPlaylistData()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.id])
 
   const value: ContextType = React.useMemo(
     () => ({

@@ -17,6 +17,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { useRouter } from 'next/router'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -29,8 +30,8 @@ type Props = {
 
 const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
-  const { removeUsers } = usePlaylist()
-
+  const { removeUsers, getPlaylistData } = usePlaylist()
+  const router = useRouter()
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
@@ -165,11 +166,12 @@ const Table: React.FC<Props> = ({ className, data }) => {
   }, [selectedFlatRows])
 
   const removeUser = useCallback(
-    (e: React.MouseEvent, userData: any) => {
+    async (e: React.MouseEvent, userData: any) => {
       e.stopPropagation()
-      return removeUsers([userData])
+      await removeUsers(router.query.id as string, [userData])
+      await getPlaylistData(router.query.id as string)
     },
-    [removeUsers]
+    [getPlaylistData, removeUsers, router.query.id]
   )
 
   return (
@@ -232,7 +234,12 @@ const Table: React.FC<Props> = ({ className, data }) => {
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
             <div className={s.cardHeader}>Start creating your list</div>
-            <AddUserView className={s.addUserView} />
+            {router.query?.id && (
+              <AddUserView
+                className={s.addUserView}
+                listId={router.query.id as string}
+              />
+            )}
           </CardContainer>
         )}
       </div>

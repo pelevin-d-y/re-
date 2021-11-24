@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { css } from 'astroturf'
 import Table from 'src/components/ListContent/ListTable'
 import TableHeader from 'src/components/shared-ui/ListTableHeader'
@@ -6,12 +6,20 @@ import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { TableProvider } from 'src/components/context/TableContext'
+import { useRouter } from 'next/router'
 import { LoaderComponent } from '../shared-ui/Loader'
 import ListRecs from '../shared-ui/ListRecs'
 
 const Content: React.FC = () => {
-  const { state: playlistData } = usePlaylist()
+  const { state: playlistData, getPlaylistData } = usePlaylist()
   const { state: clientState } = useClient()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (router.query.id) {
+      getPlaylistData(router.query.id as string)
+    }
+  }, [getPlaylistData, router.query.id])
 
   return playlistData ? (
     <div className={s.container}>

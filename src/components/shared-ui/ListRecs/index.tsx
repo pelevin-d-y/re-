@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { useRouter } from 'next/router'
 import SvgIcon from '../SvgIcon'
 import CardRecs from '../cards/CardRecs'
 
@@ -13,6 +14,7 @@ type Props = {
 
 const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
   const { addUsers } = usePlaylist()
+  const router = useRouter()
 
   const filteredContacts = useMemo(
     () =>
@@ -25,7 +27,8 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
     [contacts, playlistData]
   )
 
-  const addUserHandler = (user: UserData) => addUsers([user])
+  const addUserHandler = (user: UserData) =>
+    addUsers(router.query.id as string, [user])
 
   return filteredContacts?.length !== 0 ? (
     <div className={classNames(className, s.container)}>

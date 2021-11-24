@@ -8,6 +8,7 @@ import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import AddUserView from 'src/components/shared-ui/AddUserView'
+import { useRouter } from 'next/router'
 
 type Props = {
   className?: string
@@ -23,14 +24,16 @@ const TableHeader: React.FC<Props> = ({
   removeContacts,
 }) => {
   const { state: selectedUsers } = useTable()
-  const { removeUsers } = usePlaylist()
+  const { removeUsers, getPlaylistData } = usePlaylist()
   const { dispatch: popupDispatch } = usePopup()
+  const router = useRouter()
 
   const removeUsersHandler = () => {
     if (removeContacts) {
       removeContacts(selectedUsers as any)
-    } else {
-      removeUsers(selectedUsers)
+    } else if (selectedUsers) {
+      removeUsers(router.query.id as string, selectedUsers)
+      getPlaylistData(router.query.id as string)
     }
   }
 
@@ -43,7 +46,7 @@ const TableHeader: React.FC<Props> = ({
 
   return (
     <div className={classNames(className, s.container)}>
-      <AddUserView />
+      <AddUserView listId={router.query.id as string} />
       {/* <Search
         classes={{ container: s.search }}
         inputPlaceholder="Search contacts…"

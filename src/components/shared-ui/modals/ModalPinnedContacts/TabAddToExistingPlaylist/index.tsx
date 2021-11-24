@@ -32,9 +32,9 @@ const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
     <Formik
       initialValues={{ playlist: playlistsState.data[0]?.id }}
       onSubmit={(values, { setSubmitting }) => {
-        addUsers(users)
+        addUsers(values.playlist, users)
           .then((res) => {
-            router.push(`/list?id=${res[0].id}`)
+            router.push(`/list?id=${values.playlist}`)
             setSubmitting(false)
           })
           // eslint-disable-next-line no-console
