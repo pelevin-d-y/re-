@@ -40,11 +40,14 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  getAuthUrl: (): Promise<Record<string, string>> =>
-    requests
-      .get(`${AWS_API}/client/authorization_url`)
+  getAuthUrl: (emails: string[]): Promise<Record<string, string>> => {
+    const params = new URLSearchParams()
+    emails.forEach((email) => params.append('email', email))
+    return requests
+      .get(`${AWS_API}/client/authorization_url`, params)
       .then((res) => res)
-      .catch((err) => Promise.reject(err)),
+      .catch((err) => Promise.reject(err))
+  },
 
   getContact: (): Promise<GetContactResp> =>
     requests
@@ -114,6 +117,12 @@ const post = {
         type: 'name',
         data: name,
       })
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
+  postContact: (data: any): Promise<any> =>
+    requests
+      .post(`${AWS_API}/client/contact`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
