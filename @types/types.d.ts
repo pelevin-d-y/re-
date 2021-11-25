@@ -283,7 +283,15 @@ type FormattedContacts = {
 }
 
 type Playlist = {
-  id?: string
+  id: string
+  actions?: []
+  contacts?: any[]
+  inclusions?: []
+  info?: { name: string; description?: string }
+  triggers?: []
+}
+
+type CreatePlaylist = {
   actions?: []
   contacts?: any[]
   inclusions?: []

@@ -14,19 +14,18 @@ type Props = {
 
 const UserItem: React.FC<Props> = ({ className, data, listId }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const { addUsers: addUserToPlaylist } = usePlaylist()
+  const { addUsers: addUserToPlaylist, getPlaylistData } = usePlaylist()
 
   const addUser = async (user: FormattedContacts) => {
-    setIsLoading(true)
-    addUserToPlaylist(listId, [user])
-      .then(() => {
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log('addUser err ==>', err)
-        setIsLoading(false)
-      })
+    try {
+      setIsLoading(true)
+      await addUserToPlaylist(listId, [user])
+      await getPlaylistData(listId)
+      setIsLoading(false)
+    } catch (err) {
+      setIsLoading(false)
+      console.log('addUser err ==>', err)
+    }
   }
 
   return (

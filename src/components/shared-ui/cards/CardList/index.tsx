@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Img from 'src/components/shared-ui/Img'
-import Tasks from 'src/components/shared-ui/Tasks'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
@@ -41,7 +40,6 @@ const CardList: React.FC<Props> = ({
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
-      {/* <Tasks className={s.tasks} data={tasks} /> */}
       <AvatarsList
         avatarWidth={38}
         avatarHeight={38}

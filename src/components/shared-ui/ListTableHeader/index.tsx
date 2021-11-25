@@ -1,39 +1,27 @@
 import React from 'react'
 import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
-import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import AddUserView from 'src/components/shared-ui/AddUserView'
-import { useRouter } from 'next/router'
 
 type Props = {
   className?: string
   list: Playlist
-  addContact?: (users: UserData[]) => void
-  removeContacts?: (users: UserData[]) => void
 }
 
-const TableHeader: React.FC<Props> = ({
-  className,
-  list,
-  addContact,
-  removeContacts,
-}) => {
+const TableHeader: React.FC<Props> = ({ className, list }) => {
   const { state: selectedUsers } = useTable()
   const { removeUsers, getPlaylistData } = usePlaylist()
   const { dispatch: popupDispatch } = usePopup()
-  const router = useRouter()
 
-  const removeUsersHandler = () => {
-    if (removeContacts) {
-      removeContacts(selectedUsers as any)
-    } else if (selectedUsers) {
-      removeUsers(router.query.id as string, selectedUsers)
-      getPlaylistData(router.query.id as string)
+  const removeUsersHandler = async () => {
+    if (selectedUsers) {
+      await removeUsers(list.id, selectedUsers)
+      await getPlaylistData(list.id)
     }
   }
 
@@ -46,7 +34,7 @@ const TableHeader: React.FC<Props> = ({
 
   return (
     <div className={classNames(className, s.container)}>
-      <AddUserView listId={router.query.id as string} />
+      <AddUserView listId={list.id} />
       {/* <Search
         classes={{ container: s.search }}
         inputPlaceholder="Search contacts…"
@@ -57,7 +45,7 @@ const TableHeader: React.FC<Props> = ({
         </Button>
         <PopoverAddContact
           className={classNames(s.contacts, s.button)}
-          addContactHandler={addContact}
+          listId={list.id}
         />
         <Button
           className={classNames(s.button, s.remove)}

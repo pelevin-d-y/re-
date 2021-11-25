@@ -24,7 +24,6 @@ import { usePopup } from '../context/PopupContext'
 type Props = {
   className?: string
   data: UserData[]
-  removeContacts?: (removeContacts: any) => void
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {

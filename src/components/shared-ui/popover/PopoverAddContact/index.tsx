@@ -3,41 +3,23 @@ import { css } from 'astroturf'
 import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
 import AddUserView from 'src/components/shared-ui/AddUserView'
-import { useRouter } from 'next/router'
 import Popover from '../PopoverBase'
 
 type Props = {
   className?: string
-  addContactHandler?: (users: UserData[]) => void
+  listId: string
 }
 
-const PopoverAddContact: React.FC<Props> = ({
-  className,
-  addContactHandler,
-}) => {
-  const router = useRouter()
-  const addUserHandler = (user: UserData) => {
-    if (addContactHandler) {
-      addContactHandler([user])
+const PopoverAddContact: React.FC<Props> = ({ className, listId }) => (
+  <Popover
+    triggerElement={
+      <Button className={classNames(className, s.contacts)} variant="outlined">
+        + Add contact
+      </Button>
     }
-  }
-
-  return (
-    <Popover
-      triggerElement={
-        <Button
-          className={classNames(className, s.contacts)}
-          variant="outlined"
-        >
-          + Add contact
-        </Button>
-      }
-      popupContent={
-        <AddUserView className={s.popup} listId={router.query.id as string} />
-      }
-    />
-  )
-}
+    popupContent={<AddUserView className={s.popup} listId={listId} />}
+  />
+)
 
 const s = css`
   .popup {

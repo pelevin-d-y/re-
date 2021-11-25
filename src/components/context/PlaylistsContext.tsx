@@ -110,7 +110,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   const createPlaylist = React.useCallback((data: CreatePlaylistData) => {
     const { title, description, contacts } = data
 
-    return post.postPlaylists([
+    return post.postCreatePlaylist([
       {
         info: {
           name: title,

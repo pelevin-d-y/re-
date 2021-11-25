@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
-import { useRouter } from 'next/router'
 
 type Action =
   | { type: 'UPDATE_LIST'; payload: any }
@@ -56,6 +55,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
 
       dispatch({ type: 'UPDATE_LIST', payload: newPlaylist })
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log('getPlaylistData err =>', err)
     }
   }, [])
