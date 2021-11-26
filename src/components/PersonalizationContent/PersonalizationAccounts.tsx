@@ -12,8 +12,6 @@ type Props = {
 }
 
 const Accounts: React.FC<Props> = ({ className, data }) => {
-  const [authUrls, setAuthUrls] = useState<null | Record<string, string>>(null)
-
   const addresses = useMemo(
     () =>
       data?.authData
@@ -25,43 +23,31 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
     [data.authData]
   )
 
-  useEffect(() => {
-    if (addresses) {
-      const getAuthUrlAsync = async () => {
-        get
-          .getAuthUrl(addresses.map((item) => item.email))
-          .then((res) => {
-            setAuthUrls(res)
-          })
-          // eslint-disable-next-line no-console
-          .catch((err) => console.error('getAuthUrlAsync ==>', err))
-      }
-      getAuthUrlAsync()
-    }
-  }, [addresses])
-
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <span className={s.subtitle}>
           Email Sync ({data?.syncedEmails?.length})
         </span>
-        {authUrls && (
-          <a href={Object.values(authUrls)[0]} className={s.headerAdd}>
+        {data?.authUrls && (
+          <a href={data?.authUrls['']} className={s.headerAdd}>
             + Add account
           </a>
         )}
       </div>
       <div className={s.syncAccounts}>
-        {addresses && authUrls ? (
-          addresses?.map((address) => (
-            <GoogleEmail
-              key={address.email}
-              className={s.account}
-              data={address}
-              authUrl={authUrls[address.email]}
-            />
-          ))
+        {addresses ? (
+          addresses?.map(
+            (address) =>
+              data.authUrls && (
+                <GoogleEmail
+                  key={address.email}
+                  className={s.account}
+                  data={address}
+                  authUrl={data.authUrls[address.email]}
+                />
+              )
+          )
         ) : (
           <div className={s.emptyAccounts}>
             Strata’s recommendation analyze your network and put together
@@ -69,11 +55,8 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
           </div>
         )}
       </div>
-      {authUrls && Object.values(authUrls)[0] && (
-        <GoogleAuth
-          className={s.googleAuth}
-          authUrl={Object.values(authUrls)[0]}
-        />
+      {data.authUrls && data?.authUrls[''] && (
+        <GoogleAuth className={s.googleAuth} authUrl={data?.authUrls['']} />
       )}
       <div className={s.socials}>
         <div className={s.subtitle}>Social Accounts</div>

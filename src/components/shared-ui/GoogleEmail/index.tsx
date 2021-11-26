@@ -8,7 +8,7 @@ import Close from 'src/components/shared-ui/Close'
 type Props = {
   className?: string
   data: { email: string; status: number }
-  authUrl: string
+  authUrl?: string
 }
 
 const GoogleEmail: React.FC<Props> = ({ className, data, authUrl }) => (
@@ -67,6 +67,7 @@ const s = css`
   }
 
   .status {
+    text-decoration: none;
     color: var(--blue);
     font-size: 12px;
     line-height: 14px;

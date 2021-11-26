@@ -263,7 +263,8 @@ type ListData = {
 
 type MainUserData = {
   emails?: any
-  authData?: any[]
+  authData?: Record<string, number>
+  authUrls?: Record<string, string>
   syncedEmails?: string[]
   unsyncEmails?: string[]
   shortName?: string

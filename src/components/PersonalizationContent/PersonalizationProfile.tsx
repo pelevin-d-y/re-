@@ -25,7 +25,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
 
   const { fullName } = data
   const names = fullName?.split(' ')
-  console.log('data.syncedEmails', data.syncedEmails)
+
   return (
     <div className={classNames(className, s.container)}>
       <Formik

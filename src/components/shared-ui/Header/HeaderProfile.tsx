@@ -34,16 +34,22 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
         <CardContainer className={s.popup}>
           <div className={s.title}>Email Sync</div>
           {addresses &&
-            addresses?.map((address) => (
-              <GoogleEmail
-                key={address.email}
-                className={s.account}
-                data={address}
-              />
-            ))}
-          <button className={s.addButton} type="button">
-            + Add another email
-          </button>
+            addresses.map(
+              (address) =>
+                state?.data?.authUrls && (
+                  <GoogleEmail
+                    key={address.email}
+                    className={s.account}
+                    data={address}
+                    authUrl={state.data.authUrls[address.email]}
+                  />
+                )
+            )}
+          {state?.data?.authUrls && state.data?.authUrls[''] && (
+            <a className={s.addButton} type="button">
+              + Add another email
+            </a>
+          )}
         </CardContainer>
       }
     />
@@ -85,8 +91,10 @@ const s = css`
     padding-bottom: 16px;
     cursor: pointer;
 
+    text-decoration: none;
     background: var(--white);
     color: var(--blue);
+    text-align: center;
     font-weight: var(--bold);
     border: 1px dashed #1966ff;
     border-radius: 6px;
