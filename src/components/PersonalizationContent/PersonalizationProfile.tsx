@@ -32,7 +32,9 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data?.syncedEmails && data?.syncedEmails[0],
+          profileEmail: data?.primaryEmail.data
+            ? data?.primaryEmail.data
+            : data?.syncedEmails && data?.syncedEmails[0],
           profileCompany: data.company,
           profileTitle: data.title,
           profilePhone: data.phone,
@@ -59,6 +61,12 @@ const Profile: React.FC<Props> = ({ className, data }) => {
             data: values.profilePhone,
             review: 1,
           }
+          const email = {
+            type: 'email',
+            data: values.profileEmail,
+            review: 1,
+            meta: { context: 'professional', isPrimary: 1 },
+          }
 
           const previousName = {
             type: 'name',
@@ -80,16 +88,23 @@ const Profile: React.FC<Props> = ({ className, data }) => {
             data: data.phone,
             review: 2,
           }
+          const previousEmail = {
+            type: 'email',
+            data: values.profileEmail,
+            review: 2,
+          }
 
           const body = [
             name,
             company,
             title,
             phone,
+            email,
             previousName,
             previousCompany,
             previousTitle,
             previousPhone,
+            previousEmail,
           ]
 
           post.postContact(body).then((resp) => {
@@ -182,7 +197,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                   {({ field, form, meta }: FieldProps) => (
                     <Input
                       className={classNames(s.field, s.smallField)}
-                      type="text"
+                      type="tel"
                       field={field}
                       form={form}
                       meta={meta}

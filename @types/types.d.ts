@@ -242,11 +242,13 @@ type RecsResponse = {
   }
 }
 
-type GetContactResp = {
+type ResponseContactItem = {
   type: 'email' | 'name' | 'short_name' | 'image'
   data: string | string[]
   meta: any
-}[]
+}
+
+type GetContactResp = ResponseContactItem[]
 
 type ListData = {
   actions: any
@@ -266,7 +268,7 @@ type MainUserData = {
   authData?: Record<string, number>
   authUrls?: Record<string, string>
   syncedEmails?: string[]
-  unsyncEmails?: string[]
+  primaryEmail: ResponseContactItem
   shortName?: string
   fullName?: string
   strataEmail?: string
