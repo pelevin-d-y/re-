@@ -17,6 +17,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { post } from 'src/api'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -34,7 +35,22 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
-    console.log('userData', userData)
+    const body = {
+      [userData.id]: [
+        {
+          type: 'Notes',
+          data: userData.newNotes,
+          review: 1,
+        },
+        {
+          type: 'Notes',
+          data: userData.Notes,
+          review: 2,
+        },
+      ],
+    }
+
+    post.postContactsMutable(body as any)
   }, [])
 
   const columns: Column<any>[] = useMemo(
@@ -96,6 +112,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         accessor: 'Notes',
         Cell: ({ value, row }) => {
           const restValue = value
+          console.log('🚀 ~ file: index.tsx ~ line 115 ~ value', value)
           return (
             <div
               className={s.cellContent}
@@ -112,7 +129,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
                 onSave={(val: string) =>
                   updateUser({
                     ...row.original,
-                    Notes: val || restValue,
+                    newNotes: val || restValue,
                   })
                 }
               />

@@ -106,11 +106,20 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
+  postContactsMutable: (data: {
+    [key: string]: { type: string; data: string; review: number }
+  }): Promise<any> =>
+    requests
+      .post(`${AWS_API}/contacts/mutable`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
   postPlaylists: (data: Playlists): Promise<ListData[]> =>
     requests
       .post(`${AWS_API}/playlists/mutable`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
+
   postContactsSearch: (name: string): Promise<string[]> =>
     requests
       .post(`${AWS_API}/contacts/search`, {

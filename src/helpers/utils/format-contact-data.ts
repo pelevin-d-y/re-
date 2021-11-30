@@ -29,6 +29,10 @@ const formatContactData = (data: Data, id?: string): any => {
       data.flatMap((item: any) =>
         item.type === 'phone' ? item.data : []
       )[0] || '',
+    Notes:
+      data.flatMap((item: any) =>
+        item.type === 'Notes' ? item.data : []
+      )[0] || '',
   }
 
   if (id) {
