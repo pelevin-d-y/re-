@@ -4,10 +4,13 @@ type Data = {
 }[]
 
 const formatContactData = (data: Data, id?: string): any => {
+  const emails = data.flatMap((item: any) =>
+    item.type === 'email' ? item : []
+  )
+
   const parsedContact: any = {
-    emails: data.flatMap((item: any) =>
-      item.type === 'email' ? item.data : []
-    ),
+    emails,
+    primaryEmail: emails.find((item) => item.meta.isPrimary),
     shortName: data.flatMap((item: any) =>
       item.type === 'name_short' ? item.data : []
     )[0],

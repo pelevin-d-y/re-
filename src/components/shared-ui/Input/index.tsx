@@ -8,6 +8,7 @@ type Props = {
   type: string
   label?: string
   placeholder?: string
+  [x: string]: any
 }
 
 const Input: React.FC<Props & FieldProps> = ({
@@ -17,6 +18,7 @@ const Input: React.FC<Props & FieldProps> = ({
   field,
   form,
   label,
+  ...restProps
 }) => {
   const { name, value, onChange } = field
   const { errors } = form
@@ -34,6 +36,7 @@ const Input: React.FC<Props & FieldProps> = ({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        {...restProps}
       />
       {errors[field.name] && (
         <div className={s.error}>{errors[field.name]}</div>
