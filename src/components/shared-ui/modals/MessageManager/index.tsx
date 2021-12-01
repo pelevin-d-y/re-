@@ -73,7 +73,8 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   const clientName = clientState.data?.shortName || clientState.data?.fullName
   const contactName = data.fullName || data.name
-  const addressTo = data?.address || data.emails[0]
+
+  const addressTo = data?.address || data.emails[0]?.data
 
   useEffect(() => {
     let parsedMessage
