@@ -268,7 +268,7 @@ type MainUserData = {
   authData?: Record<string, number>
   authUrls?: Record<string, string>
   syncedEmails?: string[]
-  primaryEmail: ResponseContactItem
+  primaryEmail?: ResponseContactItem
   shortName?: string
   fullName?: string
   strataEmail?: string

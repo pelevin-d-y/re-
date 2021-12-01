@@ -32,7 +32,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data?.primaryEmail.data
+          profileEmail: data?.primaryEmail?.data
             ? data?.primaryEmail.data
             : data?.syncedEmails && data?.syncedEmails[0],
           profileCompany: data.company,
