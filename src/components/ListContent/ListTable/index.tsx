@@ -112,7 +112,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         accessor: 'Notes',
         Cell: ({ value, row }) => {
           const restValue = value
-          console.log('🚀 ~ file: index.tsx ~ line 115 ~ value', value)
+
           return (
             <div
               className={s.cellContent}

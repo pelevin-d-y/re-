@@ -272,9 +272,9 @@ type MainUserData = {
   strataEmail?: string
   avatar?: string
   contacts?: UserData[]
-  company: string
-  title: string
-  phone: string
+  company?: string
+  title?: string
+  phone?: string
 }
 
 type FormattedContacts = {

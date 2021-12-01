@@ -102,14 +102,16 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     setClientData()
   }, [])
 
+  const authData = React.useMemo(
+    () => state.data?.authData,
+    [state.data?.authData]
+  )
+
   React.useEffect(() => {
     const setAuthUrlsData = async () => {
       try {
-        if (state.data?.authData) {
-          const authUrls = await get.getAuthUrl([
-            ...Object.keys(state.data?.authData),
-            '',
-          ])
+        if (authData) {
+          const authUrls = await get.getAuthUrl([...Object.keys(authData), ''])
 
           dispatch({
             type: 'UPDATE_USER_DATA',
@@ -124,7 +126,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
 
     setAuthUrlsData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.data?.authData])
+  }, [authData])
 
   const updateIsLoading = (value: boolean) => {
     dispatch({
