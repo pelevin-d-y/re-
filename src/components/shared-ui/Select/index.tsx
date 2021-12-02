@@ -82,7 +82,7 @@ type Props = {
   label?: string
   name?: string
   handler?: (e: any) => void
-  value: Option | null
+  value?: Option | null
   isOpen?: boolean
   classes?: {
     arrow?: string
