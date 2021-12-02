@@ -89,17 +89,21 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     setValue('body', parsedMessage)
   }, [contactName, template, clientState, clientName])
 
-  useEffect(() => {
-    const syncedEmail =
-      clientState.data?.syncedEmails &&
+  const getPrimaryEmail = () => {
+    if (clientState.data?.primaryEmail?.data) {
+      return clientState.data?.primaryEmail?.data as string
+    }
+    return clientState.data?.syncedEmails &&
       clientState.data?.syncedEmails.length > 0
-        ? clientState.data?.syncedEmails[0]
-        : undefined
+      ? clientState.data?.syncedEmails[0]
+      : undefined
+  }
 
+  useEffect(() => {
     dispatch({
       type: 'updateBody',
       payload: {
-        from_contact: syncedEmail,
+        from_contact: getPrimaryEmail(),
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, contactName),

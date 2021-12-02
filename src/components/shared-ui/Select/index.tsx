@@ -80,8 +80,9 @@ type Props = {
   options: Option[]
   styles?: any
   label?: string
+  name?: string
   handler?: (e: any) => void
-  value?: ValueType<Option, false>
+  value: Option | null
   isOpen?: boolean
   classes?: {
     arrow?: string
@@ -91,7 +92,20 @@ type Props = {
 
 const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
   React.forwardRef<HTMLDivElement, Props>(
-    ({ options, styles, label, classes, disabled, handler, isOpen }, ref) => (
+    (
+      {
+        options,
+        styles,
+        label,
+        classes,
+        disabled,
+        handler,
+        name,
+        isOpen,
+        value,
+      },
+      ref
+    ) => (
       <div className={s.container} ref={ref}>
         {label && (
           <label htmlFor={label} className={s.label}>
@@ -101,6 +115,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
         <ReactSelect
           options={options}
           instanceId="1"
+          name={name}
           styles={selectStyles(styles)}
           onChange={handler}
           components={{
@@ -111,7 +126,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
             ),
           }}
           isSearchable={false}
-          defaultValue={options[0]}
+          defaultValue={value || options[0]}
           isDisabled={disabled}
           menuIsOpen={isOpen}
         />

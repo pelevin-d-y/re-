@@ -10,7 +10,7 @@ const formatContactData = (data: Data, id?: string): any => {
 
   const parsedContact: any = {
     emails,
-    primaryEmail: emails.find((item) => item.meta.isPrimary),
+    primaryEmail: data.find((item) => item.type === 'primaryEmail'),
     shortName: data.flatMap((item: any) =>
       item.type === 'name_short' ? item.data : []
     )[0],

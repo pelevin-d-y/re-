@@ -16,6 +16,11 @@ type Props = {
   data: MainUserData
 }
 
+const getPrimaryEmail = (data: MainUserData) =>
+  data?.primaryEmail?.data
+    ? data?.primaryEmail.data
+    : data?.syncedEmails && data?.syncedEmails[0]
+
 const Profile: React.FC<Props> = ({ className, data }) => {
   const { updateUserData } = useClient()
   const CreateProfileSchema = Yup.object().shape({
@@ -25,16 +30,13 @@ const Profile: React.FC<Props> = ({ className, data }) => {
 
   const { fullName } = data
   const names = fullName?.split(' ')
-
   return (
     <div className={classNames(className, s.container)}>
       <Formik
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data?.primaryEmail?.data
-            ? data?.primaryEmail.data
-            : data?.syncedEmails && data?.syncedEmails[0],
+          profileEmail: getPrimaryEmail(data),
           profileCompany: data.company,
           profileTitle: data.title,
           profilePhone: data.phone,
@@ -61,13 +63,11 @@ const Profile: React.FC<Props> = ({ className, data }) => {
             data: values.profilePhone,
             review: 1,
           }
-          const email = {
-            type: 'email',
+          const primaryEmail = {
+            type: 'primaryEmail',
             data: values.profileEmail,
             review: 1,
-            meta: { context: 'professional', isPrimary: 1 },
           }
-
           const previousName = {
             type: 'name',
             data: data.fullName?.split(' '),
@@ -88,9 +88,9 @@ const Profile: React.FC<Props> = ({ className, data }) => {
             data: data.phone,
             review: 2,
           }
-          const previousEmail = {
-            type: 'email',
-            data: values.profileEmail,
+          const previousPrimaryEmail = {
+            type: 'primaryEmail',
+            data: data.primaryEmail?.data,
             review: 2,
           }
 
@@ -99,15 +99,15 @@ const Profile: React.FC<Props> = ({ className, data }) => {
             company,
             title,
             phone,
-            email,
+            primaryEmail,
             previousName,
             previousCompany,
             previousTitle,
             previousPhone,
-            previousEmail,
+            previousPrimaryEmail,
           ]
-
-          post.postContact(body).then((resp) => {
+          console.log('body', body)
+          post.postContact(body).then(() => {
             updateUserData()
             setSubmitting(false)
           })
@@ -153,9 +153,21 @@ const Profile: React.FC<Props> = ({ className, data }) => {
               <div className={s.row}>
                 <div className={classNames(s.field, s.email, s.smallField)}>
                   <Field name="profileEmail">
-                    {({ field }: FieldProps) =>
+                    {({ field, form }: FieldProps) =>
                       data?.syncedEmails && (
                         <Selector
+                          value={
+                            data?.primaryEmail?.data
+                              ? {
+                                  value: data.primaryEmail.data as string,
+                                  label: data.primaryEmail.data as string,
+                                }
+                              : null
+                          }
+                          name={field.name}
+                          handler={(option) =>
+                            form.setFieldValue(field.name, option.value)
+                          }
                           styles={{
                             valueContainer: {
                               padding: '16px 21px',
