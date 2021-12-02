@@ -117,9 +117,6 @@ const Profile: React.FC<Props> = ({ className, data }) => {
           <div className={s.content}>
             <div className={s.avatarBlock}>
               <Avatar image={data.avatar} className={s.avatar} />
-              <button type="button" className={s.changeAvatar}>
-                {data.avatar ? 'Change Pic' : 'Upload Pic'}
-              </button>
             </div>
             <form className={s.form} onSubmit={handleSubmit}>
               <div className={s.row}>
@@ -324,15 +321,6 @@ const s = css`
       margin-right: 0;
       max-width: fit-content;
     }
-  }
-
-  .changeAvatar {
-    color: var(--blue);
-    font-size: 12px;
-    line-height: 26px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
   }
 
   .content {
