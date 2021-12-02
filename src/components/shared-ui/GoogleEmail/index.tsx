@@ -20,7 +20,9 @@ const GoogleEmail: React.FC<Props> = ({ className, data, authUrl }) => (
         <div className={classNames(s.status, s.synced)}>Synced</div>
       )}
       {data.status === 1 && (
-        <div className={classNames(s.status, s.unSynced)}>Unsynced</div>
+        <a href={authUrl} className={classNames(s.status, s.unSynced)}>
+          Authorize unsynced account
+        </a>
       )}
       {data.status === -1 && (
         <a href={authUrl} className={classNames(s.status, s.unSynced)}>

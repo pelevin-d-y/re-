@@ -20,6 +20,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
         status: value as number,
       }))
     : []
+
   return (
     <Popover
       position="bottom right"

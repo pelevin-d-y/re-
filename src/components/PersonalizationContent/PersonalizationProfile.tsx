@@ -106,7 +106,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
             previousPhone,
             previousPrimaryEmail,
           ]
-          console.log('body', body)
+
           post.postContact(body).then(() => {
             updateUserData()
             setSubmitting(false)
