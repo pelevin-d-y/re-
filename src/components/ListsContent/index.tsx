@@ -15,7 +15,6 @@ const ListsContent: React.FC<Props> = ({ className }) => (
       {/* <ListsContacts className={s.contacts} /> */}
       <ListsCatalog />
     </div>
-    <ListsSidebar className={s.sidebar} />
   </div>
 )
 
@@ -29,8 +28,11 @@ const s = css`
   }
 
   .main {
-    width: 70%;
+    max-width: 1200px;
+    width: 100%;
     padding: 0 12px 12px 0;
+    margin-left: auto;
+    margin-right: auto;
     @include tablet {
       width: 100%;
       padding: 0;
