@@ -110,18 +110,20 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   const createPlaylist = React.useCallback((data: CreatePlaylistData) => {
     const { title, description, contacts } = data
 
-    return post.postCreatePlaylist([
-      {
-        info: {
-          name: title,
-          description: description || '',
+    return post
+      .postCreatePlaylist([
+        {
+          info: {
+            name: title,
+            description: description || '',
+          },
+          contacts:
+            contacts?.map((item) => ({
+              contact_id: item.contact_id,
+            })) || [],
         },
-        contacts:
-          contacts?.map((item) => ({
-            contact_id: item.contact_id,
-          })) || [],
-      },
-    ])
+      ])
+      .catch((err) => Promise.reject(err))
   }, [])
 
   const value: ContextType = React.useMemo(

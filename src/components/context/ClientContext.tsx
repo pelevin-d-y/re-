@@ -45,7 +45,6 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
     ...clientData,
     authData,
     syncedEmails: [],
-    unsyncEmails: [],
   }
 
   Object.entries(authData).forEach(([email, status]) => {
@@ -54,13 +53,7 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
         data.syncedEmails.push(email)
       }
     }
-    if (status === 1) {
-      if (data.unsyncEmails) {
-        data.unsyncEmails.push(email)
-      }
-    }
   })
-
   return data
 }
 
@@ -98,6 +91,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
           type: 'UPDATE_USER_DATA',
           payload: mainUserData,
         })
+
         updateIsLoading(false)
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -107,6 +101,32 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
 
     setClientData()
   }, [])
+
+  const authData = React.useMemo(
+    () => state.data?.authData,
+    [state.data?.authData]
+  )
+
+  React.useEffect(() => {
+    const setAuthUrlsData = async () => {
+      try {
+        if (authData) {
+          const authUrls = await get.getAuthUrl([...Object.keys(authData), ''])
+
+          dispatch({
+            type: 'UPDATE_USER_DATA',
+            payload: { ...state.data, authUrls },
+          })
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('authUrls err', err)
+      }
+    }
+
+    setAuthUrlsData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authData])
 
   const updateIsLoading = (value: boolean) => {
     dispatch({

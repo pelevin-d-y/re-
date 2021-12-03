@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
 import GoogleAuth from 'src/components/shared-ui/GoogleAuth'
 import { get } from 'src/api'
-
 import Socials from './Socials'
 
 type Props = {
@@ -13,27 +12,16 @@ type Props = {
 }
 
 const Accounts: React.FC<Props> = ({ className, data }) => {
-  const [authUrl, setAuthUrl] = useState('')
-
-  useEffect(() => {
-    const getAuthUrlAsync = async () => {
-      get
-        .getAuthUrl()
-        .then((res) => {
-          setAuthUrl(Object.values(res)[0] as any)
-        })
-        // eslint-disable-next-line no-console
-        .catch((err) => console.error('getAuthUrlAsync ==>', err))
-    }
-    getAuthUrlAsync()
-  })
-
-  const addresses = data?.authData
-    ? Object.entries(data.authData).map(([key, value]) => ({
-        email: key,
-        status: value as number,
-      }))
-    : []
+  const addresses = useMemo(
+    () =>
+      data?.authData
+        ? Object.entries(data.authData).map(([key, value]) => ({
+            email: key,
+            status: value as number,
+          }))
+        : [],
+    [data.authData]
+  )
 
   return (
     <div className={classNames(className, s.container)}>
@@ -41,21 +29,25 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
         <span className={s.subtitle}>
           Email Sync ({data?.syncedEmails?.length})
         </span>
-        {authUrl && (
-          <a href={authUrl} className={s.headerAdd}>
+        {data?.authUrls && (
+          <a href={data?.authUrls['']} className={s.headerAdd}>
             + Add account
           </a>
         )}
       </div>
       <div className={s.syncAccounts}>
         {addresses ? (
-          addresses?.map((address) => (
-            <GoogleEmail
-              key={address.email}
-              className={s.account}
-              data={address}
-            />
-          ))
+          addresses?.map(
+            (address) =>
+              data.authUrls && (
+                <GoogleEmail
+                  key={address.email}
+                  className={s.account}
+                  data={address}
+                  authUrl={data.authUrls[address.email]}
+                />
+              )
+          )
         ) : (
           <div className={s.emptyAccounts}>
             Strata’s recommendation analyze your network and put together
@@ -63,7 +55,9 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
           </div>
         )}
       </div>
-      {authUrl && <GoogleAuth className={s.googleAuth} authUrl={authUrl} />}
+      {data.authUrls && data?.authUrls[''] && (
+        <GoogleAuth className={s.googleAuth} authUrl={data?.authUrls['']} />
+      )}
       <div className={s.socials}>
         <div className={s.subtitle}>Social Accounts</div>
         <Socials />

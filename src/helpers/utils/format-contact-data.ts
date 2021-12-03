@@ -4,10 +4,13 @@ type Data = {
 }[]
 
 const formatContactData = (data: Data, id?: string): any => {
+  const emails = data.flatMap((item: any) =>
+    item.type === 'email' ? item : []
+  )
+
   const parsedContact: any = {
-    emails: data.flatMap((item: any) =>
-      item.type === 'email' ? item.data : []
-    ),
+    emails,
+    primaryEmail: data.find((item) => item.type === 'primaryEmail'),
     shortName: data.flatMap((item: any) =>
       item.type === 'name_short' ? item.data : []
     )[0],
@@ -17,6 +20,22 @@ const formatContactData = (data: Data, id?: string): any => {
     avatar: data.flatMap((item: any) =>
       item.type === 'image' ? item.meta.cached : []
     )[0],
+    company:
+      data.flatMap((item: any) =>
+        item.type === 'company' ? item.data : []
+      )[0] || '',
+    title:
+      data.flatMap((item: any) =>
+        item.type === 'title' ? item.data : []
+      )[0] || '',
+    phone:
+      data.flatMap((item: any) =>
+        item.type === 'phone' ? item.data : []
+      )[0] || '',
+    Notes:
+      data.flatMap((item: any) =>
+        item.type === 'Notes' ? item.data : []
+      )[0] || '',
   }
 
   if (id) {

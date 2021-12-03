@@ -33,7 +33,7 @@ const Spotlight: React.FC<Props> = ({ className }) => (
     </div>
     <QuickActions className={s.actions} />
     <CardGoals />
-    <Wins className={s.wins} />
+    {/* <Wins className={s.wins} /> */}
   </CardContainer>
 )
 

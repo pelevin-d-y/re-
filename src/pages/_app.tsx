@@ -4,16 +4,21 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import { AuthProvider } from 'src/components/context/AuthContext'
 import { ClientProvider } from 'src/components/context/ClientContext'
+import { ToastContainer } from 'react-toastify'
 import 'ts-replace-all'
+import 'react-toastify/dist/ReactToastify.css'
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <div suppressHydrationWarning>
     {typeof window === 'undefined' ? null : (
-      <AuthProvider>
-        <ClientProvider>
-          <Component {...pageProps} />
-        </ClientProvider>
-      </AuthProvider>
+      <>
+        <AuthProvider>
+          <ClientProvider>
+            <Component {...pageProps} />
+          </ClientProvider>
+        </AuthProvider>
+        <ToastContainer position="top-right" autoClose={2500} hideProgressBar />
+      </>
     )}
   </div>
 )

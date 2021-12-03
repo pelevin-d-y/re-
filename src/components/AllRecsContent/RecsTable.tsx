@@ -30,10 +30,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const { dispatch: popupDispatch } = usePopup()
   const tableData = useMemo(() => data, [data])
 
-  const updateUser = useCallback((userData: any) => {
-    console.log('userData', userData)
-  }, [])
-
   const columns: Column<any>[] = useMemo(
     () => [
       {

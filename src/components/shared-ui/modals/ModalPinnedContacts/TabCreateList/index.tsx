@@ -3,12 +3,12 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import * as Yup from 'yup'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
-import { useRouter } from 'next/router'
 import { Field, FieldProps, Formik } from 'formik'
 import { usePopup } from 'src/components/context/PopupContext'
 import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import { LoaderComponent } from 'src/components/shared-ui/Loader'
+import { toast } from 'react-toastify'
 
 type Props = {
   className?: string
@@ -22,7 +22,6 @@ const CreateListSchema = Yup.object().shape({
 const TabCreatePlaylist: React.FC<Props> = ({ className, users }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { createPlaylist } = usePlaylists()
-  const router = useRouter()
 
   const closeHandler = () => {
     popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
@@ -38,12 +37,13 @@ const TabCreatePlaylist: React.FC<Props> = ({ className, users }) => {
           description: values.description,
           contacts: users,
         })
-          .then((res) => {
-            router.push(`/list?id=${res[0].id}`)
+          .then(() => {
+            toast('Playlist has been created')
             setSubmitting(false)
           })
           .catch((err) => {
             setSubmitting(false)
+            toast('Error')
             console.log('err', err)
           })
       }}
