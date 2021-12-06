@@ -12,15 +12,15 @@ import { LoaderComponent } from '../../Loader'
 
 type Props = {
   className?: string
-  data: any
+  data: FormattedListData
 }
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { info, id, contacts, image, tasks },
+  data: { info, id, contacts },
 }) => {
   const router = useRouter()
-  const { deletePlaylists } = usePlaylists()
+  const { deletePlaylists, createPlaylist, getPlaylistsAsync } = usePlaylists()
   const [isLoading, setIsLoading] = useState(false)
 
   const deleteHandler = async () => {
@@ -33,31 +33,48 @@ const CardList: React.FC<Props> = ({
     }
   }
 
+  const moveToListPage = () => {
+    router.push(`/list?id=${id}`)
+  }
+
+  const duplicateList = async () => {
+    await createPlaylist({
+      title: info?.name as string,
+      description: info?.description,
+      contacts: contacts?.map((item) => ({
+        contact_id: item.contact_id,
+      })),
+    })
+    getPlaylistsAsync()
+  }
+
   return (
     <CardContainer className={classNames(s.container, className)}>
-      {image && <Img img={image} alt="icon" className={s.image} />}
-      <div className={s.title}>{info.name}</div>
+      {/* {image && <Img img={image} alt="icon" className={s.image} />} */}
+      <div className={s.title}>{info?.name}</div>
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
-      <AvatarsList
-        avatarWidth={38}
-        avatarHeight={38}
-        className={s.avatars}
-        users={contacts}
-        showHiddenUsers
-      />
+      {contacts && (
+        <AvatarsList
+          avatarWidth={38}
+          avatarHeight={38}
+          className={s.avatars}
+          users={contacts}
+          showHiddenUsers
+        />
+      )}
       <div className={classNames(s.actions)}>
         <PopoverDots
           variant="outlined"
           items={[
             {
               name: 'Edit',
-              handler: () => null,
+              handler: moveToListPage,
             },
             {
               name: 'Duplicate',
-              handler: () => null,
+              handler: duplicateList,
             },
             {
               name: 'Delete',
@@ -65,10 +82,7 @@ const CardList: React.FC<Props> = ({
             },
           ]}
         />
-        <Button
-          variant="contained"
-          handler={() => router.push(`/list?id=${id}`)}
-        >
+        <Button variant="contained" handler={moveToListPage}>
           View List
         </Button>
       </div>

@@ -5,7 +5,7 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 type Action =
   | { type: 'UPDATE_LIST'; payload: any }
   | { type: 'UPDATE_SELECTED_USERS'; payload: any[] }
-type State = Playlist | null
+type State = ListData | null
 
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
@@ -41,9 +41,10 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const getPlaylistData = React.useCallback(async (listId) => {
     try {
       const playlist = await get.getPlaylistsData([listId] as string[])
-      const newPlaylist = playlist[0]
 
-      if (newPlaylist.contacts.length > 0) {
+      const newPlaylist = { ...playlist[0] }
+
+      if (newPlaylist?.contacts && newPlaylist?.contacts?.length > 0) {
         const contactsResp = await get.getContactsMutable(
           newPlaylist.contacts.map((item) => item.contact_id)
         )
@@ -67,7 +68,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
           {
             id: listId,
             contacts: users.map((item) => ({
-              contact_id: 'id' in item ? item.id : item.contact_id,
+              contact_id: item.contact_id,
               review: 2,
             })),
           },
@@ -79,7 +80,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const addUsers = React.useCallback(
     (listId: string, users: (UserData | FormattedContacts)[]) => {
       const contacts = users.map((item) => ({
-        contact_id: 'id' in item ? item?.id : item?.contact_id,
+        contact_id: item?.contact_id,
         review: 1,
       }))
 

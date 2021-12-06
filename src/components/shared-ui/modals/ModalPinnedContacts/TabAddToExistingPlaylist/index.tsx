@@ -51,7 +51,7 @@ const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
               <Select
                 options={playlistsState.data?.map((item: ListData) => ({
                   value: item.id,
-                  label: item.info.name as string,
+                  label: item?.info?.name as string,
                 }))}
                 label="List"
                 handler={(option) =>

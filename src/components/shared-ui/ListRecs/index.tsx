@@ -8,7 +8,7 @@ import CardRecs from '../cards/CardRecs'
 type Props = {
   className?: string
   contacts?: UserData[]
-  playlistData: Playlist
+  playlistData: ListData
 }
 
 const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
@@ -19,7 +19,7 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
       contacts?.filter(
         (item) =>
           !playlistData?.contacts?.find(
-            (listUser) => listUser.id === item.contact_id
+            (listUser) => listUser.contact_id === item.contact_id
           )
       ),
     [contacts, playlistData]

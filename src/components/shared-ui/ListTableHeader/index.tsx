@@ -10,7 +10,7 @@ import AddUserView from 'src/components/shared-ui/AddUserView'
 
 type Props = {
   className?: string
-  list: Playlist
+  list: FormattedListData
 }
 
 const TableHeader: React.FC<Props> = ({ className, list }) => {
@@ -27,8 +27,8 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
 
   const contactHandler = () => {
     if (list.contacts) {
-      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: list.contacts })
-      popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+      // popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: list.contacts })
+      // popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
     }
   }
 

@@ -11,7 +11,7 @@ type Dispatch = React.Dispatch<Action>
 type CreatePlaylistData = {
   title: string
   description?: string
-  contacts?: UserData[]
+  contacts?: UserData[] | FormattedContacts[]
 }
 
 type ContextType = {
@@ -62,7 +62,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
       >(
         playlistsData.map((playlist) => {
           const { contacts: playlistContacts } = playlist
-          return playlistContacts.length > 0
+          return playlistContacts && playlistContacts.length > 0
             ? get.getContactsMutable(
                 playlistContacts.map((item: any) => item.contact_id)
               )

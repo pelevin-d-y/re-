@@ -12,8 +12,8 @@ type Props = {
 }
 
 type CardsStructure = {
-  firstColumn: any
-  secondColumn: any
+  firstColumn: ListData[]
+  secondColumn: ListData[]
 }
 
 const ListsCatalog: React.FC<Props> = ({ className }) => {

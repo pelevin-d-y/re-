@@ -35,7 +35,9 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
           let formattedContacts: FormattedContacts[] | [] = []
           const excludedUserIds = searchResponse.filter(
             (item) =>
-              !playlistState?.contacts?.find((contact) => contact.id === item)
+              !playlistState?.contacts?.find(
+                (contact) => contact.contact_id === item
+              )
           )
 
           if (excludedUserIds.length > 0) {
@@ -91,7 +93,7 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
           </div>
         ) : (
           contacts?.map((item) => (
-            <UserItem data={item} key={item.id} listId={listId} />
+            <UserItem data={item} key={item.contact_id} listId={listId} />
           ))
         )}
       </ul>

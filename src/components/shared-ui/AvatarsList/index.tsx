@@ -5,7 +5,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 
 type Props = {
   className?: string
-  users: UserData[]
+  users: UserData[] | FormattedContacts[]
   avatarWidth?: number
   avatarHeight?: number
   showHiddenUsers?: boolean
@@ -37,7 +37,7 @@ const AvatarList: React.FC<Props> = ({
       >
         {visibleUsers.map((item, index) => (
           <div
-            key={item.key || index}
+            key={item.contact_id || index}
             style={{ transform: `translateX(-${index * AVATAR_TRANSITION}px)` }}
           >
             <Avatar

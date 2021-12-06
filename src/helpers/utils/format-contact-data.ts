@@ -39,7 +39,7 @@ const formatContactData = (data: Data, id?: string): any => {
   }
 
   if (id) {
-    parsedContact.id = id
+    parsedContact.contact_id = id
   }
 
   return parsedContact

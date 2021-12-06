@@ -25,7 +25,7 @@ import Checkbox from '../../shared-ui/Table/Checkbox'
 
 type Props = {
   className?: string
-  data: Playlist
+  data: ListData
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {

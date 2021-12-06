@@ -26,7 +26,7 @@ type ListRequest = {
   data: any[]
   actions: any
   contacts: {
-    contact_id: string
+    id: string
     review: number
     scores: any
   }[]
@@ -250,19 +250,6 @@ type ResponseContactItem = {
 
 type GetContactResp = ResponseContactItem[]
 
-type ListData = {
-  actions: any
-  contacts:
-    | {
-        contact_id: string
-        review: number
-        scores: any
-      }[]
-  id: string
-  inclusions: any
-  info: { name?: string; description?: string }
-}
-
 type MainUserData = {
   emails?: any
   authData?: Record<string, number>
@@ -285,15 +272,28 @@ type FormattedContacts = {
   fullName?: string
   strataEmail?: string
   avatar?: string
-  id: string
+  contact_id: string
 }
 
-type Playlist = {
+type ListData = {
+  actions?: any
+  contacts?: {
+    contact_id: string
+    review?: number
+    scores?: any
+  }[]
   id: string
-  actions?: []
-  contacts?: any[]
-  inclusions?: []
-  info?: { name: string; description?: string }
+  inclusions?: any
+  info?: { name?: string; description?: string }
+  triggers?: []
+}
+
+type FormattedListData = {
+  actions?: any
+  contacts?: FormattedContacts[]
+  id: string
+  inclusions?: any
+  info?: { name?: string; description?: string }
   triggers?: []
 }
 
@@ -305,4 +305,4 @@ type CreatePlaylist = {
   triggers?: []
 }
 
-type Playlists = Playlist[]
+type Playlists = ListData[]
