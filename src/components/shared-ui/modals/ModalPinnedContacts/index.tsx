@@ -30,7 +30,7 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
       <div className={s.content}>
         <div className={s.title}>Add these Contacts</div>
         <div className={s.description}>Manage these contacts in a list</div>
-        {state?.dataMulti ? (
+        {state?.dataMulti && (
           <ReactTabs>
             <TabList className={s.tabs}>
               <Tab className={s.tab}>Create new list</Tab>
@@ -52,8 +52,6 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
               <TabAddToExistingPlaylist users={state.dataMulti} />
             </TabPanel>
           </ReactTabs>
-        ) : (
-          <div className={s.emptyState}>Please choose contacts</div>
         )}
       </div>
     </ModalBase>
@@ -62,6 +60,7 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
 
 const s = css`
   .container {
+    overflow: visible;
     max-width: 475px;
     padding: 30px 33px 49px;
     min-height: 462px;

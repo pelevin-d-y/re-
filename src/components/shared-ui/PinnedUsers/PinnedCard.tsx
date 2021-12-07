@@ -1,12 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePopup } from 'src/components/context/PopupContext'
-import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
 import { TagUser } from '../Tags'
-import Checkbox from '../Checkbox'
 
 type Props = {
   className?: string
@@ -14,42 +11,9 @@ type Props = {
   template?: Template
 }
 
-const PinnedCard: React.FC<Props> = ({ className, data }) => {
-  const { state: statePopup, dispatch: dispatchPopup } = usePopup()
-
-  const handleCheck = (value: boolean) => {
-    const isContainedUser = !!statePopup?.dataMulti?.find(
-      (item) => item.contact_id === data?.contact_id
-    )
-    if (value) {
-      if (isContainedUser) {
-        return null
-      }
-
-      const contacts = statePopup.dataMulti || []
-      return dispatchPopup({
-        type: 'UPDATE_POPUP_DATA_MULTI',
-        payload: [...contacts, data as UserData],
-      })
-    }
-    const contacts =
-      statePopup?.dataMulti?.filter(
-        (item) => !(item.contact_id === data?.contact_id)
-      ) || []
-
-    return dispatchPopup({
-      type: 'UPDATE_POPUP_DATA_MULTI',
-      payload: contacts,
-    })
-  }
-
-  return data ? (
+const PinnedCard: React.FC<Props> = ({ className, data }) =>
+  data ? (
     <CardContainer className={classNames(className, s.container)}>
-      <Checkbox
-        className={s.checkbox}
-        id={data.contact_id}
-        handler={handleCheck}
-      />
       <Avatar
         className={s.avatar}
         width={38}
@@ -63,7 +27,6 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
       </div>
     </CardContainer>
   ) : null
-}
 
 const s = css`
   .container {

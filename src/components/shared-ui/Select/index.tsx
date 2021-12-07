@@ -88,6 +88,7 @@ type Props = {
     arrow?: string
   }
   disabled?: boolean
+  isLoading?: boolean
 }
 
 const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
@@ -103,6 +104,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
         name,
         isOpen,
         value,
+        isLoading,
       },
       ref
     ) => (
@@ -129,6 +131,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
           defaultValue={value || options[0]}
           isDisabled={disabled}
           menuIsOpen={isOpen}
+          isLoading={isLoading}
         />
       </div>
     )

@@ -18,7 +18,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => (
       <TabList className={s.tabs}>
         <Tab className={s.tabItem}>Info</Tab>
         <Tab className={s.tabItem}>List</Tab>
-        <Tab className={s.tabItem}>Recs</Tab>
+        {/* <Tab className={s.tabItem}>Recs</Tab> */}
         <Tab className={s.tabItem}>Notes</Tab>
       </TabList>
       <TabPanel>
@@ -27,9 +27,9 @@ const InfoTab: React.FC<Props> = ({ className, data }) => (
       <TabPanel>
         <TabLists data={data} />
       </TabPanel>
-      <TabPanel>
+      {/* <TabPanel>
         <TabRecs />
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel>
         <TabNotes data={data} />
       </TabPanel>

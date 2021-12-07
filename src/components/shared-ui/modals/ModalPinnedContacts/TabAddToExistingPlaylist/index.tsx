@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field, FieldProps, Formik } from 'formik'
 import { css } from 'astroturf'
 import Select from 'src/components/shared-ui/Select'
@@ -18,10 +18,16 @@ const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
   const { dispatch: popupDispatch } = usePopup()
   const { state: playlistsState, getPlaylistsAsync } = usePlaylists()
   const { addUsers } = usePlaylist()
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    getPlaylistsAsync()
+    const getPlaylists = async () => {
+      setIsLoading(true)
+      await getPlaylistsAsync()
+      setIsLoading(false)
+    }
+    getPlaylists()
   }, [getPlaylistsAsync])
 
   const closeHandler = () => {
@@ -57,6 +63,7 @@ const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
                 handler={(option) =>
                   form.setFieldValue(field.name, option.value)
                 }
+                isLoading={isLoading}
               />
             )}
           </Field>
