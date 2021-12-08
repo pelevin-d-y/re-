@@ -16,19 +16,19 @@ type Props = {
 
 const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { state: playlistsState, getPlaylistsAsync } = usePlaylists()
+  const { state: playlistsState, getPlaylists } = usePlaylists()
   const { addUsers } = usePlaylist()
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    const getPlaylists = async () => {
+    const getPlaylistsAsync = async () => {
       setIsLoading(true)
-      await getPlaylistsAsync()
+      await getPlaylists()
       setIsLoading(false)
     }
-    getPlaylists()
-  }, [getPlaylistsAsync])
+    getPlaylistsAsync()
+  }, [getPlaylists])
 
   const closeHandler = () => {
     popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })

@@ -19,19 +19,25 @@ type CardsStructure = {
 const ListsCatalog: React.FC<Props> = ({ className }) => {
   const {
     state: { data: lists, isLoading },
-    getPlaylistsAsync,
+    getPlaylists,
     dispatch,
   } = usePlaylists()
 
   useEffect(() => {
-    const getPlaylists = async () => {
-      dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
-      await getPlaylistsAsync()
-      dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
+    const getPlaylistsAsync = async () => {
+      try {
+        dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
+        await getPlaylists()
+
+        dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('ListsCatalog err ==>', err)
+      }
     }
 
-    getPlaylists()
-  }, [dispatch, getPlaylistsAsync])
+    getPlaylistsAsync()
+  }, [dispatch, getPlaylists])
 
   const cardsStructure: CardsStructure = useMemo(() => {
     const value: CardsStructure = {

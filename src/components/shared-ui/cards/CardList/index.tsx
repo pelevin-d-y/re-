@@ -20,7 +20,7 @@ const CardList: React.FC<Props> = ({
   data: { info, id, contacts },
 }) => {
   const router = useRouter()
-  const { deletePlaylists, createPlaylist, getPlaylistsAsync } = usePlaylists()
+  const { deletePlaylists, createPlaylist, getPlaylists } = usePlaylists()
   const [isLoading, setIsLoading] = useState(false)
 
   const deleteHandler = async () => {
@@ -45,7 +45,7 @@ const CardList: React.FC<Props> = ({
         contact_id: item.contact_id,
       })),
     })
-    getPlaylistsAsync()
+    getPlaylists()
   }
 
   return (
