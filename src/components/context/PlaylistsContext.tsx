@@ -2,7 +2,7 @@ import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
-type State = { data: any[]; isLoading: boolean }
+type State = { data: ListData[]; isLoading: boolean }
 type Action =
   | { type: 'UPDATE_PLAYLISTS_DATA'; payload: any[] }
   | { type: 'UPDATE_IS_LOADING'; payload: boolean }
@@ -131,6 +131,19 @@ const PlaylistsProvider: React.FC = ({ children }) => {
     }),
     [deletePlaylists, getPlaylists, createPlaylist, state]
   )
+
+  React.useEffect(() => {
+    const getPlaylistsAsync = async () => {
+      try {
+        dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
+        await getPlaylists()
+        dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
+      } catch (err) {
+        console.warn('getPlaylistsAsync err =>', err)
+      }
+    }
+    getPlaylistsAsync()
+  }, [getPlaylists])
 
   return (
     <PlaylistsContext.Provider value={value}>

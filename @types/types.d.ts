@@ -7,21 +7,6 @@ type Template = {
   Message: string
 }
 
-type List = {
-  id: number
-  title: string
-  users: UserData[]
-  description: string
-  icon: string
-  image?: string
-  tasks?: {
-    urgent?: number
-    pinned?: number
-  }
-}
-
-type Lists = List[]
-
 type ListRequest = {
   data: any[]
   actions: any
@@ -32,16 +17,7 @@ type ListRequest = {
   }[]
   id: string
   inclusions: any
-  info: { name: string }
-}
-
-type ListsRequest = {
-  config: any
-  data: string[]
-  status: number
-  request: any
-  headers: any
-  statusText: any
+  info: { name: string; description?: string }
 }
 
 type MessageList = {
