@@ -48,10 +48,11 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
       const allContacts = clientState.data.contacts
       const filteredContacts = allContacts.filter(
         (item) =>
-          item.name
+          (item.name as string)
             .toLocaleLowerCase()
             .search(event.target.value.toLocaleLowerCase()) !== -1
       )
+      console.log('filteredContacts', filteredContacts)
       setContacts(filteredContacts)
     }
   }
