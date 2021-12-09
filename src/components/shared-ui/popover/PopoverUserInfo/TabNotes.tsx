@@ -8,43 +8,36 @@ import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
-  data: UserData
+  data?: FormattedContacts
+  updateData: (val: string, type: 'name' | 'Notes') => Promise<void>
 }
 
-const TabNotes: React.FC<Props> = ({ className, data }) => {
-  const { updateUserData } = useClient()
-  return (
-    <div className={classNames(className, s.container)}>
-      <Formik
-        initialValues={{
-          notes: data?.Notes ? data?.Notes : '',
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          post
-            .postRecommendations({ note: values.notes, email: data.address })
-            .then(() => {
-              updateUserData()
-            })
-          setSubmitting(false)
-        }}
-      >
-        {({ handleSubmit, isSubmitting }) => (
-          <form className={s.form} onSubmit={handleSubmit}>
-            <Field className={s.textarea} name="notes" as="textarea" />
-            <Button
-              className={s.button}
-              type="submit"
-              variant="outlined"
-              disabled={isSubmitting}
-            >
-              Save
-            </Button>
-          </form>
-        )}
-      </Formik>
-    </div>
-  )
-}
+const TabNotes: React.FC<Props> = ({ className, data, updateData }) => (
+  <div className={classNames(className, s.container)}>
+    <Formik
+      initialValues={{
+        notes: data?.Notes ? data?.Notes : '',
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        updateData(values.notes, 'Notes').then(() => setSubmitting(false))
+      }}
+    >
+      {({ handleSubmit, isSubmitting }) => (
+        <form className={s.form} onSubmit={handleSubmit}>
+          <Field className={s.textarea} name="notes" as="textarea" />
+          <Button
+            className={s.button}
+            type="submit"
+            variant="outlined"
+            disabled={isSubmitting}
+          >
+            Save
+          </Button>
+        </form>
+      )}
+    </Formik>
+  </div>
+)
 
 const s = css`
   .container {

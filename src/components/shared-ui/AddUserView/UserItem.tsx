@@ -32,7 +32,7 @@ const UserItem: React.FC<Props> = ({ className, data, listId }) => {
     <li className={classNames(s.container, className)}>
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
-        <span className={s.name}>{data.fullName}</span>
+        <span className={s.name}>{data.name}</span>
       </div>
       <Button
         className={s.button}

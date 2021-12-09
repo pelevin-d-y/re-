@@ -28,8 +28,8 @@ const Profile: React.FC<Props> = ({ className, data }) => {
     profileLastName: Yup.string().max(100, 'Too Long!'),
   })
 
-  const { fullName } = data
-  const names = fullName?.split(' ')
+  const { name } = data
+  const names = name?.split(' ')
   return (
     <div className={classNames(className, s.container)}>
       <Formik
@@ -70,7 +70,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
           }
           const previousName = {
             type: 'name',
-            data: data.fullName?.split(' '),
+            data: data.name?.split(' '),
             review: 2,
           }
           const previousCompany = {

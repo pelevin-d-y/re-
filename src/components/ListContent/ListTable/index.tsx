@@ -49,7 +49,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       ],
     }
 
-    post.postContactsMutable(body as any)
+    post.postContactsMutable(body)
   }, [])
 
   const columns: Column<any>[] = useMemo(
@@ -75,7 +75,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
       },
       {
         Header: 'Title',
-        accessor: 'fullName',
         Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
       },
       {

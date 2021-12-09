@@ -205,7 +205,7 @@ type RecommendationUser = {
 interface UserData extends RecommendationUser {
   avatar?: string
   title?: string
-  fullName?: string
+  name?: string
   pinned: boolean
   templateData?: Template
   isSent?: boolean
@@ -219,8 +219,8 @@ type RecsResponse = {
 }
 
 type ResponseContactItem = {
-  type: 'email' | 'name' | 'short_name' | 'image'
-  data: string | string[]
+  type: string
+  data: string
   meta: any
 }
 
@@ -233,7 +233,7 @@ type MainUserData = {
   syncedEmails?: string[]
   primaryEmail?: ResponseContactItem
   shortName?: string
-  fullName?: string
+  name?: string
   strataEmail?: string
   avatar?: string
   contacts?: UserData[]
@@ -243,12 +243,13 @@ type MainUserData = {
 }
 
 type FormattedContacts = {
-  emails?: string[]
+  emails?: ResponseContactItem[]
   shortName?: string
-  fullName?: string
+  name?: string
   strataEmail?: string
   avatar?: string
   contact_id: string
+  Notes?: string
 }
 
 type ListData = {

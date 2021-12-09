@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
+import { get, post } from 'src/api'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 import TabInfo from './TabInfo'
 import TabLists from './TabLists'
 import TabRecs from './TabRecs'
@@ -12,30 +14,84 @@ type Props = {
   data: UserData
 }
 
-const InfoTab: React.FC<Props> = ({ className, data }) => (
-  <div className={classNames(s.container, className)}>
-    <ReactTabs>
-      <TabList className={s.tabs}>
-        <Tab className={s.tabItem}>Info</Tab>
-        <Tab className={s.tabItem}>List</Tab>
-        {/* <Tab className={s.tabItem}>Recs</Tab> */}
-        <Tab className={s.tabItem}>Notes</Tab>
-      </TabList>
-      <TabPanel>
-        <TabInfo data={data} />
-      </TabPanel>
-      <TabPanel>
-        <TabLists data={data} />
-      </TabPanel>
-      {/* <TabPanel>
-        <TabRecs />
-      </TabPanel> */}
-      <TabPanel>
-        <TabNotes data={data} />
-      </TabPanel>
-    </ReactTabs>
-  </div>
-)
+const InfoTab: React.FC<Props> = ({ className, data }) => {
+  const [mutableData, setMutableData] = useState<FormattedContacts | undefined>(
+    undefined
+  )
+  console.log('mutableData', mutableData)
+  useEffect(() => {
+    get.getContactsMutable([data.contact_id]).then((res) => {
+      const formattedData = formatContactData(Object.values(res)[0])
+      setMutableData(formattedData)
+    })
+  }, [data.contact_id])
+
+  const updateMutableData = async (val: string, type: 'name' | 'Notes') => {
+    try {
+      if (mutableData) {
+        let value: string | string[] = val
+        if (type === 'name') {
+          value = val.split(' ')
+        }
+
+        const body = {
+          [data.contact_id]: [
+            {
+              type,
+              data: value,
+              review: 1,
+            },
+            {
+              type,
+              data:
+                type === 'name'
+                  ? mutableData[type]?.split(' ')
+                  : mutableData[type],
+              review: 2,
+            },
+          ],
+        }
+
+        await post.postContactsMutable(body as any)
+        const contactMutableRes = await get.getContactsMutable([
+          data.contact_id,
+        ])
+
+        const formattedData = formatContactData(
+          Object.values(contactMutableRes)[0]
+        )
+        setMutableData(formattedData)
+      }
+    } catch (err) {
+      console.warn('updateMutableData ==>', err)
+    }
+  }
+
+  return (
+    <div className={classNames(s.container, className)}>
+      <ReactTabs>
+        <TabList className={s.tabs}>
+          <Tab className={s.tabItem}>Info</Tab>
+          <Tab className={s.tabItem}>List</Tab>
+          {/* <Tab className={s.tabItem}>Recs</Tab> */}
+          <Tab className={s.tabItem}>Notes</Tab>
+        </TabList>
+        <TabPanel>
+          <TabInfo data={mutableData} updateData={updateMutableData} />
+        </TabPanel>
+        <TabPanel>
+          <TabLists data={data} />
+        </TabPanel>
+        {/* <TabPanel>
+          <TabRecs />
+        </TabPanel> */}
+        <TabPanel>
+          <TabNotes data={mutableData} updateData={updateMutableData} />
+        </TabPanel>
+      </ReactTabs>
+    </div>
+  )
+}
 
 const s = css`
   .container {

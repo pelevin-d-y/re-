@@ -14,11 +14,11 @@ type Props = {
 }
 
 const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
-  const { avatar, name, fullName, templateData, relationshipStrength } = data
+  const { avatar, name, templateData, relationshipStrength } = data
 
   const parsedText =
     (templateData && parseMessage(templateData.Subject, name)) || ''
-  const userName = fullName || name
+  const userName = name
 
   return (
     <div className={classNames(className, s.container)}>
