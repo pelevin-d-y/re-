@@ -35,10 +35,6 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
   return (
     <div className={classNames(className, s.container)}>
       <AddUserView listId={list.id} />
-      {/* <Search
-        classes={{ container: s.search }}
-        inputPlaceholder="Search contacts…"
-      /> */}
       <div className={s.actions}>
         <Button className={classNames(s.dots, s.button)} variant="outlined">
           •••
