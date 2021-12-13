@@ -52,7 +52,7 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             .toLocaleLowerCase()
             .search(event.target.value.toLocaleLowerCase()) !== -1
       )
-      console.log('filteredContacts', filteredContacts)
+
       setContacts(filteredContacts)
     }
   }

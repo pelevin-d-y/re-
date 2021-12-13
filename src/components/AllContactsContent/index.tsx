@@ -1,51 +1,51 @@
-import React, {useEffect, useState} from 'react';
-import classNames from 'classnames';
-import {css} from 'astroturf';
-import CardContainer from 'src/components/shared-ui/cards/CardContainer';
-import {arrayIsEmpty} from 'src/helpers/utils/array-is-empty';
-import {useDebounce} from 'use-debounce/lib';
+import React, { useEffect, useState } from 'react'
+import classNames from 'classnames'
+import { css } from 'astroturf'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
+import { useDebounce } from 'use-debounce/lib'
 
-import SectionHeader from '../shared-ui/SectionHeader';
-import {useClient} from '../context/ClientContext';
-import Search from '../shared-ui/Search';
-import {LoaderPage} from '../shared-ui/Loader';
-import Button from '../shared-ui/Button';
-import {usePopup} from '../context/PopupContext';
-import EmptyRecommendations from '../shared-ui/EmptyRecommendations';
-import ContactsTable from './ContactsTable';
+import SectionHeader from '../shared-ui/SectionHeader'
+import { useClient } from '../context/ClientContext'
+import Search from '../shared-ui/Search'
+import { LoaderPage } from '../shared-ui/Loader'
+import Button from '../shared-ui/Button'
+import { usePopup } from '../context/PopupContext'
+import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
+import ContactsTable from './ContactsTable'
 
 type Props = {
-  className?: string;
-};
+  className?: string
+}
 
-const AllContactsContent: React.FC<Props> = ({className}) => {
-  const {state: clientState} = useClient();
-  const {dispatch: popupDispatch} = usePopup();
+const AllContactsContent: React.FC<Props> = ({ className }) => {
+  const { state: clientState } = useClient()
+  const { dispatch: popupDispatch } = usePopup()
 
-  const [contacts, setContacts] = useState(clientState.data?.contacts);
-  const [contactsDebounce] = useDebounce(contacts, 700);
+  const [contacts, setContacts] = useState(clientState.data?.contacts)
+  const [contactsDebounce] = useDebounce(contacts, 700)
 
   const toggleContactMulti = () => {
-    popupDispatch({type: 'TOGGLE_CONTACTS_POPUP'});
-  };
+    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+  }
 
   const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (clientState.data?.contacts) {
-      const allContacts = clientState.data.contacts;
+      const allContacts = clientState.data.contacts
       const filteredContacts = allContacts.filter(
         (item) =>
           (item.name as string)
             .toLocaleLowerCase()
             .search(event.target.value.toLocaleLowerCase()) !== -1
-      );
+      )
 
-      setContacts(filteredContacts);
+      setContacts(filteredContacts)
     }
-  };
+  }
 
   useEffect(() => {
-    setContacts(clientState.data?.contacts);
-  }, [clientState.data?.contacts]);
+    setContacts(clientState.data?.contacts)
+  }, [clientState.data?.contacts])
 
   const renderContent = () =>
     clientState.data?.contacts && !arrayIsEmpty(clientState.data.contacts) ? (
@@ -54,27 +54,27 @@ const AllContactsContent: React.FC<Props> = ({className}) => {
           <SectionHeader
             className={s.sectionHeaderContent}
             data={contacts || null}
-            title='All contacts'
-            description='Create lists with your contacts to organize tasks '
-            icon='contacts'
-            iconBackground='#F0F5FF'
-            iconColor='#1966FF'
+            title="All contacts"
+            description="Create lists with your contacts to organize tasks "
+            icon="contacts"
+            iconBackground="#F0F5FF"
+            iconColor="#1966FF"
           />
         </div>
         <div className={s.content}>
           <div className={s.contentHeader}>
             <Search
-              classes={{container: s.search}}
+              classes={{ container: s.search }}
               onChange={filterContacts}
-              inputPlaceholder='Search contacts'
+              inputPlaceholder="Search contacts"
             />
             <div className={s.actions}>
-              <Button className={classNames(s.dots)} variant='outlined'>
+              <Button className={classNames(s.dots)} variant="outlined">
                 •••
               </Button>
               <Button
                 className={classNames(s.button, s.filter)}
-                variant='outlined'
+                variant="outlined"
                 isArrow
               >
                 Filter
@@ -82,7 +82,7 @@ const AllContactsContent: React.FC<Props> = ({className}) => {
               <Button
                 handler={() => toggleContactMulti()}
                 className={classNames(s.contact, s.button)}
-                variant='contained'
+                variant="contained"
               >
                 Contact
               </Button>
@@ -93,14 +93,14 @@ const AllContactsContent: React.FC<Props> = ({className}) => {
       </CardContainer>
     ) : (
       <EmptyRecommendations />
-    );
+    )
 
   return (
     <div className={classNames(s.main, className)}>
       {!clientState.isLoading ? renderContent() : <LoaderPage />}
     </div>
-  );
-};
+  )
+}
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
@@ -203,6 +203,6 @@ const s = css`
       margin-left: 3px;
     }
   }
-`;
+`
 
-export default AllContactsContent;
+export default AllContactsContent
