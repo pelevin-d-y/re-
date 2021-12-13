@@ -7,6 +7,7 @@ import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { post } from 'src/api'
+import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import Selector from '../shared-ui/Select'
 import { LoaderComponent } from '../shared-ui/Loader'
 import { useClient } from '../context/ClientContext'
@@ -43,74 +44,32 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
-          const name = {
-            type: 'name',
-            data: [values.profileFirstName, values.profileLastName],
-            review: 1,
-          }
-          const company = {
-            type: 'company',
-            data: values.profileCompany,
-            review: 1,
-          }
-          const title = {
-            type: 'title',
-            data: values.profileTitle,
-            review: 1,
-          }
-          const phone = {
-            type: 'phone',
-            data: values.profilePhone,
-            review: 1,
-          }
-          const primaryEmail = {
-            type: 'primaryEmail',
-            data: values.profileEmail,
-            review: 1,
-          }
-          const previousName = {
-            type: 'name',
-            data: data.name?.split(' '),
-            review: 2,
-          }
-          const previousCompany = {
-            type: 'company',
-            data: data.company,
-            review: 2,
-          }
-          const previousTitle = {
-            type: 'title',
-            data: data.title,
-            review: 2,
-          }
-          const previousPhone = {
-            type: 'phone',
-            data: data.phone,
-            review: 2,
-          }
-          const previousPrimaryEmail = {
-            type: 'primaryEmail',
-            data: data.primaryEmail?.data,
-            review: 2,
-          }
+          const { newValue, previousValue } = formatDataForApi(
+            {
+              name: [values.profileFirstName, values.profileLastName],
+              primaryEmail: values.profileEmail || '',
+              company: values.profileCompany || '',
+              title: values.profileTitle || '',
+              phone: values.profilePhone || '',
+            },
+            {
+              name: data.name?.split(' '),
+              primaryEmail: data.primaryEmail?.data,
+              company: data.company,
+              title: data.title,
+              phone: data.phone,
+            }
+          )
 
-          const body = [
-            name,
-            company,
-            title,
-            phone,
-            primaryEmail,
-            previousName,
-            previousCompany,
-            previousTitle,
-            previousPhone,
-            previousPrimaryEmail,
-          ]
-
-          post.postContact(body).then(() => {
-            updateUserData()
-            setSubmitting(false)
-          })
+          post
+            .postContact([...newValue, ...previousValue])
+            .then(() => {
+              updateUserData()
+              setSubmitting(false)
+            })
+            .catch((err) => {
+              console.warn('err ==>', err)
+            })
         }}
       >
         {({ handleSubmit, isSubmitting }) => (

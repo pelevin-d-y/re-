@@ -18,6 +18,7 @@ import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { post } from 'src/api'
+import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -34,19 +35,13 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
+    const { newValue, previousValue } = formatDataForApi(
+      { Notes: userData.newNotes },
+      { Notes: userData.Notes }
+    )
+    console.log('userData', userData)
     const body = {
-      [userData.id]: [
-        {
-          type: 'Notes',
-          data: userData.newNotes,
-          review: 1,
-        },
-        {
-          type: 'Notes',
-          data: userData.Notes,
-          review: 2,
-        },
-      ],
+      [userData.contact_id]: [...newValue, ...previousValue],
     }
 
     post.postContactsMutable(body)

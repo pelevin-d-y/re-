@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import TabInfo from './TabInfo'
 import TabLists from './TabLists'
 import TabRecs from './TabRecs'
@@ -18,7 +19,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => {
   const [mutableData, setMutableData] = useState<FormattedContacts | undefined>(
     undefined
   )
-  console.log('mutableData', mutableData)
+
   useEffect(() => {
     get.getContactsMutable([data.contact_id]).then((res) => {
       const formattedData = formatContactData(Object.values(res)[0])
@@ -34,22 +35,18 @@ const InfoTab: React.FC<Props> = ({ className, data }) => {
           value = val.split(' ')
         }
 
+        const { newValue, previousValue } = formatDataForApi(
+          { [type]: value },
+          {
+            [type]:
+              type === 'name'
+                ? mutableData[type]?.split(' ')
+                : mutableData[type],
+          }
+        )
+
         const body = {
-          [data.contact_id]: [
-            {
-              type,
-              data: value,
-              review: 1,
-            },
-            {
-              type,
-              data:
-                type === 'name'
-                  ? mutableData[type]?.split(' ')
-                  : mutableData[type],
-              review: 2,
-            },
-          ],
+          [data.contact_id]: [...newValue, ...previousValue],
         }
 
         await post.postContactsMutable(body as any)

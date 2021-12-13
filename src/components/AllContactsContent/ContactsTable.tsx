@@ -1,51 +1,45 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
-import classNames from 'classnames';
-import {css} from 'astroturf';
+import React, { useCallback, useEffect, useMemo } from 'react'
+import classNames from 'classnames'
+import { css } from 'astroturf'
 import {
   Column,
   useFlexLayout,
   useRowSelect,
   useRowState,
   useTable,
-} from 'react-table';
-import Avatar from 'src/components/shared-ui/Avatar';
-import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo';
-import SvgIcon from 'src/components/shared-ui/SvgIcon';
-import CardContainer from 'src/components/shared-ui/cards/CardContainer';
-import EasyEdit from 'react-easy-edit';
-import {formatTime} from 'src/helpers/utils/parseTime';
-import {post} from 'src/api';
-import Checkbox from '../shared-ui/Table/Checkbox';
-import Row from '../shared-ui/Table/Row';
-import {usePopup} from '../context/PopupContext';
+} from 'react-table'
+import Avatar from 'src/components/shared-ui/Avatar'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import EasyEdit from 'react-easy-edit'
+import { formatTime } from 'src/helpers/utils/parseTime'
+import { post } from 'src/api'
+import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
+import Checkbox from '../shared-ui/Table/Checkbox'
+import Row from '../shared-ui/Table/Row'
+import { usePopup } from '../context/PopupContext'
 
 type Props = {
-  className?: string;
-  data: UserData[];
-};
+  className?: string
+  data: UserData[]
+}
 
-const ContactsTable: React.FC<Props> = ({className, data}) => {
-  const {dispatch: popupDispatch} = usePopup();
-  const tableData = useMemo(() => data, [data]);
+const ContactsTable: React.FC<Props> = ({ className, data }) => {
+  const { dispatch: popupDispatch } = usePopup()
+  const tableData = useMemo(() => data, [data])
 
   const updateUser = useCallback((userData: any) => {
+    const { newValue, previousValue } = formatDataForApi(
+      { Notes: userData.newNotes },
+      { Notes: userData.Notes }
+    )
     const body = {
-      [userData.id]: [
-        {
-          type: 'Notes',
-          data: userData.newNotes,
-          review: 1,
-        },
-        {
-          type: 'Notes',
-          data: userData.Notes,
-          review: 2,
-        },
-      ],
-    };
+      [userData.id]: [...newValue, ...previousValue],
+    }
 
-    post.postContactsMutable(body);
-  }, []);
+    post.postContactsMutable(body)
+  }, [])
 
   const columns: Column<any>[] = useMemo(
     () => [
@@ -53,7 +47,7 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
         Header: 'Contact',
         accessor: 'name',
         minWidth: 180,
-        Cell: ({row}) => (
+        Cell: ({ row }) => (
           <div className={s.cellName}>
             <Avatar
               className={s.avatar}
@@ -70,18 +64,18 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
       },
       {
         Header: 'Title',
-        Cell: ({value}) => <span className={s.cellContent}>Placeholder</span>,
+        Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
       },
       {
         Header: 'Company',
-        Cell: ({value, row}) => (
+        Cell: ({ value, row }) => (
           <div className={s.cellContent}>Placeholder</div>
         ),
       },
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',
-        Cell: ({value, row}) => (
+        Cell: ({ value, row }) => (
           <div className={s.cellContent}>
             <div className={s.lastData}>
               {formatTime(row.original.last_client_time)}
@@ -94,7 +88,7 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
       },
       {
         Header: 'Next steps',
-        Cell: ({value, row}) => (
+        Cell: ({ value, row }) => (
           <div className={s.cellContent}>
             <div>Placeholder</div>
           </div>
@@ -103,17 +97,17 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
       {
         Header: 'Notes',
         accessor: 'Notes',
-        Cell: ({value, row}) => {
-          const restValue = value;
+        Cell: ({ value, row }) => {
+          const restValue = value
 
           return (
             <div
               className={s.cellContent}
               onClick={(e) => e.stopPropagation()}
-              aria-hidden='true'
+              aria-hidden="true"
             >
               <EasyEdit
-                type='text'
+                type="text"
                 value={value || restValue || '...'}
                 placeholder={value}
                 hideCancelButton
@@ -127,12 +121,12 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
                 }
               />
             </div>
-          );
+          )
         },
       },
     ],
     [updateUser]
-  );
+  )
 
   const {
     getTableProps,
@@ -153,21 +147,21 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
       hooks.visibleColumns.push((hookColumns) => [
         {
           id: 'selection',
-          Header: ({getToggleAllRowsSelectedProps}) => (
+          Header: ({ getToggleAllRowsSelectedProps }) => (
             <div className={s.headerCheckbox}>
               <Checkbox {...getToggleAllRowsSelectedProps()} />
             </div>
           ),
-          Cell: ({row}: any) => (
+          Cell: ({ row }: any) => (
             <div className={s.cellCheckbox}>
               <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
             </div>
           ),
         },
         ...hookColumns,
-      ]);
+      ])
     }
-  );
+  )
 
   useEffect(() => {
     console.log(selectedFlatRows)
@@ -175,22 +169,22 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
       type: 'UPDATE_POPUP_DATA_MULTI',
       payload: (selectedFlatRows.map((item) => item.original) ||
         []) as UserData[],
-    });
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFlatRows]);
+  }, [selectedFlatRows])
 
   return (
     <div className={s.container}>
       <table className={classNames(className, s.table)} {...getTableProps()}>
         <thead className={s.thead}>
           {headerGroups.map((headerGroup) => {
-            const {key, ...restHeaderGroupProps} =
-              headerGroup.getHeaderGroupProps();
+            const { key, ...restHeaderGroupProps } =
+              headerGroup.getHeaderGroupProps()
             return (
               <tr {...restHeaderGroupProps} className={s.tableRow} key={key}>
                 {headerGroup.headers.map((column) => {
-                  const {key: keyHeader, ...restHeaderProps} =
-                    column.getHeaderProps();
+                  const { key: keyHeader, ...restHeaderProps } =
+                    column.getHeaderProps()
                   return (
                     <th
                       className={classNames(s.columnHeader, s[keyHeader])}
@@ -199,25 +193,25 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
                     >
                       {column.render('Header')}
                     </th>
-                  );
+                  )
                 })}
               </tr>
-            );
+            )
           })}
         </thead>
         <tbody className={s.tbody} {...getTableBodyProps()}>
           {rows.map((row) => {
-            prepareRow(row);
-            const {key, ...restProps} = row.getRowProps();
+            prepareRow(row)
+            const { key, ...restProps } = row.getRowProps()
 
             return (
               <Row
                 row={row}
-                classes={{container: s.tableRow}}
+                classes={{ container: s.tableRow }}
                 key={key}
                 {...restProps}
-              ></Row>
-            );
+              />
+            )
           })}
         </tbody>
       </table>
@@ -225,14 +219,14 @@ const ContactsTable: React.FC<Props> = ({className, data}) => {
         {rows.length === 0 && (
           <CardContainer className={classNames(className, s.emptyCard)}>
             <div className={s.cardLogo}>
-              <SvgIcon className={s.logo} icon='contacts.svg' />
+              <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
           </CardContainer>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
@@ -406,6 +400,6 @@ const s = css`
     box-shadow: none;
     padding: 8px;
   }
-`;
+`
 
-export default ContactsTable;
+export default ContactsTable

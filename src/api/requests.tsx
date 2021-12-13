@@ -109,7 +109,7 @@ const post = {
       .catch((err) => Promise.reject(err)),
 
   postContactsMutable: (data: {
-    [key: string]: { type: string; data: string; review: number }[]
+    [key: string]: { type: string; data: string | string[]; review: number }[]
   }): Promise<any> =>
     requests
       .post(`${AWS_API}/contacts/mutable`, data)
