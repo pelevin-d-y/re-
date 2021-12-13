@@ -20,7 +20,7 @@ const ListsContacts: React.FC<Props> = ({ className }) => {
           icon="contacts"
           iconBackground="#F0F5FF"
           iconColor="#1966FF"
-          link={{ text: 'View', href: '#' }}
+          link={{ text: 'View', href: '/contacts' }}
         />
       </CardContainer>
     </div>
