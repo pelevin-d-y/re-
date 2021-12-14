@@ -49,7 +49,7 @@ const get = {
       .catch((err) => Promise.reject(err))
   },
 
-  getContact: (): Promise<GetContactResp> =>
+  getContact: (): Promise<ContactMutable[]> =>
     requests
       .get(`${AWS_API}/client/contact`)
       .then((res) => res)
@@ -61,7 +61,7 @@ const get = {
       .then((res) => res.recommendations)
       .catch((err) => Promise.reject(err)),
 
-  getContactsMutable: (ids: string[]): Promise<GetContactResp[]> => {
+  getContactsMutable: (ids: string[]): Promise<ContactMutable[]> => {
     const params = new URLSearchParams()
     const croppedIds = ids.slice(0, 10)
     croppedIds.forEach((id) => params.append('id', id))

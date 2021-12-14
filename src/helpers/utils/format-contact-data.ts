@@ -1,7 +1,4 @@
-type Data = {
-  type: string
-  data: string | any[]
-}[]
+type Data = ContactMutable[]
 
 const formatContactData = (data: Data, id?: string): any => {
   const emails = data.flatMap((item: any) =>

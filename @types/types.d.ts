@@ -218,20 +218,19 @@ type RecsResponse = {
   }
 }
 
-type ResponseContactItem = {
+type ContactMutable = {
   type: string
-  data: string
+  data: string | string[]
+  review: number
   meta: any
 }
-
-type GetContactResp = ResponseContactItem[]
 
 type MainUserData = {
   emails?: any
   authData?: Record<string, number>
   authUrls?: Record<string, string>
   syncedEmails?: string[]
-  primaryEmail?: ResponseContactItem
+  primaryEmail?: ContactMutable
   shortName?: string
   name?: string
   strataEmail?: string
@@ -243,7 +242,7 @@ type MainUserData = {
 }
 
 type FormattedContacts = {
-  emails?: ResponseContactItem[]
+  emails?: ContactMutable[]
   shortName?: string
   name?: string
   strataEmail?: string

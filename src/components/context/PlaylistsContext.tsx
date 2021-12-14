@@ -58,7 +58,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
       )
 
       const contactsResp = await Promise.all<
-        GetContactResp[] | Record<string, unknown>
+        ContactMutable[] | Record<string, unknown>
       >(
         playlistsData.map((playlist) => {
           const { contacts: playlistContacts } = playlist
