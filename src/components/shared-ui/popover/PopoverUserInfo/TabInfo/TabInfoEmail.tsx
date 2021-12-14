@@ -14,7 +14,7 @@ type ExtendedEmail = {
   status: string
 }
 
-const EmailsItem: React.FC<Props> = ({ className, emails }) => {
+const TabInfoEmail: React.FC<Props> = ({ className, emails }) => {
   const extendedEmails = emails.map((item, index) => ({
     email: item,
     id: index,
@@ -40,4 +40,4 @@ const s = css`
   }
 `
 
-export default EmailsItem
+export default TabInfoEmail

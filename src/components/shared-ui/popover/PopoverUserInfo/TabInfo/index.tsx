@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
-import EmailsItem from './EmailsItem'
+import TabInfoEmail from './TabInfoEmail'
 
 type Props = {
   className?: string
@@ -19,7 +19,7 @@ const TabInfo: React.FC<Props> = ({ className, data, updateData }) => {
   }
 
   const emails: string[] | null = data?.emails
-    ? data.emails.map((item) => item.data)
+    ? (data.emails.map((item) => item.data) as string[])
     : null
 
   return (
@@ -27,7 +27,7 @@ const TabInfo: React.FC<Props> = ({ className, data, updateData }) => {
       <ul className={s.list}>
         {emails && (
           <li className={s.item}>
-            <EmailsItem emails={emails} />
+            <TabInfoEmail emails={emails} />
           </li>
         )}
         <li className={s.item}>

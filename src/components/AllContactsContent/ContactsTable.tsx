@@ -16,6 +16,7 @@ import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { post } from 'src/api'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
+import { useRouter } from 'next/router'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import { usePopup } from '../context/PopupContext'
@@ -28,7 +29,7 @@ type Props = {
 const ContactsTable: React.FC<Props> = ({ className, data }) => {
   const { dispatch: popupDispatch } = usePopup()
   const tableData = useMemo(() => data, [data])
-
+  const router = useRouter()
   const updateUser = useCallback((userData: any) => {
     const { newValue, previousValue } = formatDataForApi(
       { Notes: userData.newNotes },
@@ -164,7 +165,6 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    console.log(selectedFlatRows)
     popupDispatch({
       type: 'UPDATE_POPUP_DATA_MULTI',
       payload: (selectedFlatRows.map((item) => item.original) ||
@@ -210,7 +210,15 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
                 classes={{ container: s.tableRow }}
                 key={key}
                 {...restProps}
-              />
+              >
+                {/* <button
+                  onClick={() =>
+                    router.push(`/profile?id=${row.original.contact_id}`)
+                  }
+                >
+                  click
+                </button> */}
+              </Row>
             )
           })}
         </tbody>

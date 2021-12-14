@@ -61,7 +61,9 @@ const get = {
       .then((res) => res.recommendations)
       .catch((err) => Promise.reject(err)),
 
-  getContactsMutable: (ids: string[]): Promise<ContactMutable[]> => {
+  getContactsMutable: (
+    ids: string[]
+  ): Promise<{ string: ContactMutable[] }> => {
     const params = new URLSearchParams()
     const croppedIds = ids.slice(0, 10)
     croppedIds.forEach((id) => params.append('id', id))
