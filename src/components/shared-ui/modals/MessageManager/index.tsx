@@ -117,6 +117,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
           : [],
       },
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     addressTo,
     contactName,
