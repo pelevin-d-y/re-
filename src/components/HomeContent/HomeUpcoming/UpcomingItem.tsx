@@ -4,10 +4,10 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
-import PopoverRate from 'src/components/shared-ui/popover/PopoverRate'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { TagUser } from 'src/components/shared-ui/Tags'
+import Button from 'src/components/shared-ui/Button'
 
 type Props = {
   className?: string
@@ -35,13 +35,16 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
           <UserHeader text={parseMessage(template.Action, data.name)} />
         )}
       </div>
-      <PopoverRate
+      <Button className={s.button} variant="outlined" handler={buttonHandler}>
+        Follow up
+      </Button>
+      {/* <PopoverRate
         className={s.button}
         buttonClickHandler={buttonHandler}
         variant="outlined"
       >
         Reach out
-      </PopoverRate>
+      </PopoverRate> */}
     </CardContainer>
   )
 }

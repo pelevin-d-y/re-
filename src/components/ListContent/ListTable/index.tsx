@@ -39,7 +39,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
       { Notes: userData.newNotes },
       { Notes: userData.Notes }
     )
-    console.log('userData', userData)
     const body = {
       [userData.contact_id]: [...newValue, ...previousValue],
     }
@@ -68,35 +67,42 @@ const Table: React.FC<Props> = ({ className, data }) => {
           </div>
         ),
       },
-      {
-        Header: 'Title',
-        Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
-      },
-      {
-        Header: 'Company',
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>Placeholder</div>
-        ),
-      },
+      // {
+      //   Header: 'Title',
+      //   Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
+      // },
+      // {
+      //   Header: 'Company',
+      //   Cell: ({ value, row }) => (
+      //     <div className={s.cellContent}>Placeholder</div>
+      //   ),
+      // },
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',
+        maxWidth: 100,
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
+            <div className={s.lastMessage}>Last message</div>
             <div className={s.lastData}>
               {formatTime(row.original.last_client_time)}
             </div>
-            <div>
+            {/* <div>
               Hi Hailey, Did get a chance to view the deck i sent ove...
-            </div>
+            </div> */}
           </div>
         ),
       },
       {
         Header: 'Next steps',
+        minWidth: 250,
         Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div>Placeholder</div>
+          <div className={classNames(s.cellContent)}>
+            <div className={s.nextSteps}>
+              Follow up on the presentation Landon shared and make sure he
+              socialize it with the board members and their network.
+              (placeholder)
+            </div>
           </div>
         ),
       },
@@ -119,6 +125,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
                 hideCancelButton
                 hideSaveButton
                 saveOnBlur
+                cssClassPrefix="list-note-"
                 onSave={(val: string) =>
                   updateUser({
                     ...row.original,
@@ -270,6 +277,7 @@ const s = css`
   .columnHeader {
     text-align: left;
     padding: 18px 19px;
+    font-size: 12px;
 
     &:first-child {
       max-width: 55px !important;
@@ -315,7 +323,14 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    font-weight: var(--bold);
+  }
+
+  .nextSteps {
+    padding: 8px 12px;
+
+    font-size: 11px;
+    line-height: 13px;
+    background: #fafafa;
   }
 
   .avatar {
@@ -357,6 +372,11 @@ const s = css`
     font-size: 12px;
     line-height: 14px;
     color: #adadad;
+  }
+
+  .lastMessage {
+    font-size: 12px;
+    line-height: 14px;
   }
 
   .cardHeader {

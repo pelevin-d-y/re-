@@ -145,6 +145,12 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
+  postClientDeauthorization: (data: string) =>
+    requests
+      .post(`${AWS_API}/client/deauthorization`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
   postRecommendations: ({
     email,
     note,

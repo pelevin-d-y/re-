@@ -188,9 +188,6 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
         />
         <div className={s.buttons}>
           {data && <EditorActions className={s.editorActions} />}
-          <Button variant="outlined" className={s.buttonTemplate}>
-            Save Template
-          </Button>
           <Button
             variant="contained"
             className={classNames(s.buttonSend, state.isSending && s.disabled)}
