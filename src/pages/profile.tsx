@@ -1,9 +1,8 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import Layout from 'src/layouts/Layout'
-import ContactModal from 'src/components/shared-ui/modals/ContactModal'
+import ComposeModal from 'src/components/shared-ui/modals/ComposeModal'
 import ProfileContent from 'src/components/ProfileContent'
 
 type Props = {
@@ -14,7 +13,7 @@ const Profile: React.FC<Props> = ({ className }) => (
   <PopupProvider>
     <Layout className={s.layout}>
       <ProfileContent />
-      <ContactModal />
+      <ComposeModal />
     </Layout>
   </PopupProvider>
 )

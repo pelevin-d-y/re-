@@ -26,8 +26,8 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
   const followUpWithAllHandler = () => {
     if (contacts) {
       popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: contacts })
-      popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+      popupDispatch({ type: 'UPDATE_COMPOSE_MULTI_DATA', payload: contacts })
+      popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
   }
 

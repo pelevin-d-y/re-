@@ -19,7 +19,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
 
   const openModal = () => {
     dispatchPopup({
-      type: 'UPDATE_POPUP_DATA_MULTI',
+      type: 'UPDATE_COMPOSE_MULTI_DATA',
       payload: contacts as UserData[],
     })
     popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })

@@ -4,9 +4,9 @@ import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { css } from 'astroturf'
 import AllRecommendationsContent from 'src/components/AllRecsContent'
-import ContactModal from 'src/components/shared-ui/modals/ContactModal'
+import ComposeModal from 'src/components/shared-ui/modals/ComposeModal'
 import { TableProvider } from 'src/components/context/TableContext'
-import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import ComposeModalMulti from 'src/components/shared-ui/modals/ComposeModalMulti'
 import CreateListModal from 'src/components/shared-ui/modals/CreateListModal'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 import 'react-quill/dist/quill.snow.css'
@@ -23,8 +23,8 @@ const Personalization: React.FC<Props> = () => (
           <TableProvider>
             <AllRecommendationsContent />
           </TableProvider>
-          <ContactModal />
-          <MultiEmailsModal />
+          <ComposeModal />
+          <ComposeModalMulti />
           <CreateListModal />
         </PopupProvider>
       </PlaylistsProvider>

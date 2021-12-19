@@ -10,7 +10,7 @@ import ModalContent from '../ModalContent'
 
 const comparator = (a: UserData, b: UserData) => a.address === b.address
 
-const MultiEmailsModal: React.FC = () => {
+const ComposeModalMulti: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data: popupData, dataMulti: usersData, multiEmailsIsOpen } = state
 
@@ -79,7 +79,7 @@ const MultiEmailsModal: React.FC = () => {
   const closeHandler = () => {
     setSelectedContacts([])
     setUnselectedContacts([])
-    dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    dispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
   }
 
   return (
@@ -124,4 +124,4 @@ const s = css`
   }
 `
 
-export default MultiEmailsModal
+export default ComposeModalMulti

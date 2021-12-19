@@ -137,7 +137,10 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     })
 
     if (updatedUsers) {
-      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: updatedUsers })
+      popupDispatch({
+        type: 'UPDATE_COMPOSE_MULTI_DATA',
+        payload: updatedUsers,
+      })
     }
   }
 
@@ -153,11 +156,9 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
       .sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
-        if (resp.status === 200) {
-          setIsSent(true)
-          setConnectedUser()
-          updateUserData()
-        }
+        setIsSent(true)
+        setConnectedUser()
+        updateUserData()
       })
       .catch((err) => {
         dispatch({ type: 'updateSendingStatus' })

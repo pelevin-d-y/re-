@@ -23,7 +23,7 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
   const { name, avatar, templateData, relationshipStrength } = data
 
   const buttonHandler = () => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
   return (

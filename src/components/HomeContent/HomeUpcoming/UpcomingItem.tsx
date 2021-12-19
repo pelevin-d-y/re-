@@ -19,7 +19,7 @@ const UpcomingItem: React.FC<Props> = ({ data, template, className }) => {
   const { avatar, name } = data
   const { dispatch } = usePopup()
   const buttonHandler = () => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
   return (
     <CardContainer className={classNames(className, s.container)}>

@@ -26,7 +26,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
   const [contactsDebounce] = useDebounce(contacts, 700)
 
   const toggleContactMulti = () => {
-    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
   }
 
   const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {

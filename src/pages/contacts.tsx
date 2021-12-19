@@ -7,7 +7,8 @@ import { TableProvider } from 'src/components/context/TableContext'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 import 'react-quill/dist/quill.snow.css'
 import AllContactsContent from 'src/components/AllContactsContent'
-import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import ComposeModalMulti from 'src/components/shared-ui/modals/ComposeModalMulti'
+import ComposeModal from 'src/components/shared-ui/modals/ComposeModal'
 
 type Props = {
   className?: string
@@ -21,7 +22,8 @@ const Contacts: React.FC<Props> = () => (
           <TableProvider>
             <AllContactsContent />
           </TableProvider>
-          <MultiEmailsModal />
+          <ComposeModal />
+          <ComposeModalMulti />
         </PopupProvider>
       </PlaylistsProvider>
     </TemplatesProvider>

@@ -27,8 +27,8 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
 
   const contactHandler = () => {
     if (list.contacts) {
-      // popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: list.contacts })
-      // popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+      // popupDispatch({ type: 'UPDATE_COMPOSE_MULTI_DATA', payload: list.contacts })
+      // popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
   }
 

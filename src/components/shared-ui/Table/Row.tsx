@@ -16,7 +16,8 @@ const Row: React.FC<Props> = ({ row, children, classes, ...restProps }) => {
   const { dispatch } = usePopup()
   const contactHandler = (contactData: UserData) => {
     if (!row?.state?.isLoading) {
-      dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: contactData })
+      console.log('contactData', contactData)
+      dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: contactData })
     }
   }
 
@@ -27,7 +28,14 @@ const Row: React.FC<Props> = ({ row, children, classes, ...restProps }) => {
       {...restProps}
     >
       {row.cells.map((cell: any) => {
-        const { key: cellKey, ...restCellProps } = cell.getCellProps()
+        const { key: cellKey, ...restCellProps } = cell.getCellProps([
+          {
+            style: {
+              paddingTop: 15,
+              paddingBottom: 15,
+            },
+          },
+        ])
         return (
           <td
             className={classNames(s.cell, classes?.cell)}

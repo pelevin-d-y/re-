@@ -133,7 +133,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
 
   useEffect(() => {
     popupDispatch({
-      type: 'UPDATE_POPUP_DATA_MULTI',
+      type: 'UPDATE_COMPOSE_MULTI_DATA',
       payload: (selectedFlatRows.map((item) => item.original) ||
         []) as UserData[],
     })

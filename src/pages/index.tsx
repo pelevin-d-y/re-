@@ -1,10 +1,10 @@
 import React from 'react'
 import MainContent from 'src/components/HomeContent'
 import Layout from 'src/layouts/Layout'
-import ContactModal from 'src/components/shared-ui/modals/ContactModal'
+import ComposeModal from 'src/components/shared-ui/modals/ComposeModal'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
-import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import ComposeModalMulti from 'src/components/shared-ui/modals/ComposeModalMulti'
 import ModalPinnedContacts from 'src/components/shared-ui/modals/ModalPinnedContacts'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
@@ -17,8 +17,8 @@ const Home: React.FC = () => (
         <TemplatesProvider>
           <PopupProvider>
             <MainContent />
-            <ContactModal />
-            <MultiEmailsModal />
+            <ComposeModal />
+            <ComposeModalMulti />
             <ModalPinnedContacts />
           </PopupProvider>
         </TemplatesProvider>

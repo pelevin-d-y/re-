@@ -3,10 +3,10 @@ import ListContent from 'src/components/ListContent'
 import 'react-quill/dist/quill.snow.css'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
-import ContactModal from 'src/components/shared-ui/modals/ContactModal'
+import ComposeModal from 'src/components/shared-ui/modals/ComposeModal'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 import { css } from 'astroturf'
-import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
+import ComposeModalMulti from 'src/components/shared-ui/modals/ComposeModalMulti'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 
 const List: React.FC = () => (
@@ -16,8 +16,8 @@ const List: React.FC = () => (
         <PlaylistsProvider>
           <PlaylistProvider>
             <ListContent />
-            <ContactModal />
-            <MultiEmailsModal />
+            <ComposeModal />
+            <ComposeModalMulti />
           </PlaylistProvider>
         </PlaylistsProvider>
       </Layout>

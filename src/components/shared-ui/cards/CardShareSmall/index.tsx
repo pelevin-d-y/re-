@@ -26,8 +26,8 @@ const CardShareSmall: React.FC<Props> = ({
   const openModalHandler = () => {
     if (users) {
       popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: users })
-      popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+      popupDispatch({ type: 'UPDATE_COMPOSE_MULTI_DATA', payload: users })
+      popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
   }
 

@@ -31,14 +31,14 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
         : `https://app.strata.cc/images/${slide}`
 
     popupDispatch({
-      type: 'UPDATE_POPUP_DATA_MULTI',
+      type: 'UPDATE_COMPOSE_MULTI_DATA',
       payload:
         contacts.map((item) => ({
           ...item,
           customTemplate: `<img src=${url} />`,
         })) || [],
     })
-    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
   }
 
   const getSlideIndex = (item: string) => slides.indexOf(item)

@@ -3,15 +3,15 @@ import testTemplates from 'src/testTemplates.json'
 import findTemplate from 'src/helpers/utils/find-template'
 
 type Action =
-  | { type: 'TOGGLE_CONTACT_POPUP'; payload: UserData | null }
-  | { type: 'TOGGLE_CONTACTS_POPUP' }
+  | { type: 'TOGGLE_COMPOSE_POPUP'; payload: UserData | null }
+  | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
   | { type: 'UPDATE_POPUP_DATA'; payload: UserData | null }
-  | { type: 'UPDATE_POPUP_DATA_MULTI'; payload: UserData[] | null }
+  | { type: 'UPDATE_COMPOSE_MULTI_DATA'; payload: UserData[] | null }
 
 type State = {
   emailModalIsOpen: boolean
@@ -44,13 +44,13 @@ const initialState = {
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'TOGGLE_CONTACT_POPUP': {
+    case 'TOGGLE_COMPOSE_POPUP': {
       if (action.payload) {
         const templateData = findTemplate(
           testTemplates,
           action.payload?.template
         )
-
+        console.log('!state.emailModalIsOpen', !state.emailModalIsOpen)
         return {
           ...state,
           data: { ...action.payload, templateData },
@@ -62,7 +62,7 @@ const popupReducer = (state: State, action: Action): State => {
         emailModalIsOpen: !state.emailModalIsOpen,
       }
     }
-    case 'TOGGLE_CONTACTS_POPUP': {
+    case 'TOGGLE_COMPOSE_MULTI_POPUP': {
       if (state?.dataMulti && state?.dataMulti?.length > 0) {
         return {
           ...state,
@@ -102,7 +102,7 @@ const popupReducer = (state: State, action: Action): State => {
       }
     }
 
-    case 'UPDATE_POPUP_DATA_MULTI': {
+    case 'UPDATE_COMPOSE_MULTI_DATA': {
       return {
         ...state,
         dataMulti: action.payload,

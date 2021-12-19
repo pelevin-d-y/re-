@@ -24,7 +24,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
   const { dispatch } = usePopup()
 
   const buttonHandler = () => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
   return (

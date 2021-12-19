@@ -20,6 +20,7 @@ import { useRouter } from 'next/router'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import { usePopup } from '../context/PopupContext'
+import Img from '../shared-ui/Img'
 
 type Props = {
   className?: string
@@ -166,7 +167,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
 
   useEffect(() => {
     popupDispatch({
-      type: 'UPDATE_POPUP_DATA_MULTI',
+      type: 'UPDATE_COMPOSE_MULTI_DATA',
       payload: (selectedFlatRows.map((item) => item.original) ||
         []) as UserData[],
     })
@@ -200,7 +201,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
           })}
         </thead>
         <tbody className={s.tbody} {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map((row: any) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
 
@@ -211,13 +212,16 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
                 key={key}
                 {...restProps}
               >
-                {/* <button
-                  onClick={() =>
+                <button
+                  type="button"
+                  className={s.rowButton}
+                  onClick={(evt) => {
+                    evt.stopPropagation()
                     router.push(`/profile?id=${row.original.contact_id}`)
-                  }
+                  }}
                 >
-                  click
-                </button> */}
+                  <Img alt="icon" className={s.pen} img="pen.png" />
+                </button>
               </Row>
             )
           })}
@@ -265,7 +269,7 @@ const s = css`
     padding-right: 50px;
 
     &:hover {
-      .removeButton {
+      .rowButton {
         opacity: 1;
       }
     }
@@ -382,11 +386,18 @@ const s = css`
     }
   }
 
-  .removeButton {
+  .rowButton {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    background: 0;
+    border: 0;
+    cursor: pointer;
 
     opacity: 0;
   }
