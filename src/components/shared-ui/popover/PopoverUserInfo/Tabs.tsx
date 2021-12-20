@@ -5,10 +5,11 @@ import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
-import TabInfo from './TabInfo'
+import UserInfo from '../../UserInfo'
 import TabLists from './TabLists'
 import TabRecs from './TabRecs'
 import TabNotes from './TabNotes'
+import Button from '../../Button'
 
 type Props = {
   className?: string
@@ -74,7 +75,12 @@ const InfoTab: React.FC<Props> = ({ className, data }) => {
           <Tab className={s.tabItem}>Notes</Tab>
         </TabList>
         <TabPanel>
-          <TabInfo data={mutableData} updateData={updateMutableData} />
+          <UserInfo data={mutableData} updateData={updateMutableData} />
+          <div className={s.removeButtonContainer}>
+            <Button className={s.removeButton} variant="outlined">
+              Remove from Recommendations
+            </Button>
+          </div>
         </TabPanel>
         <TabPanel>
           <TabLists data={data} />
@@ -127,6 +133,16 @@ const s = css`
 
   .panel {
     padding: 16px;
+  }
+  .removeButtonContainer {
+    padding-bottom: 25px;
+  }
+
+  .removeButton {
+    display: block;
+    max-width: 247px;
+    width: 100%;
+    margin: 22px auto 0 auto;
   }
 `
 

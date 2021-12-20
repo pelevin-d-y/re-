@@ -126,6 +126,23 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
           )
         },
       },
+      {
+        accessor: 'edit',
+        Cell: ({ value, row }) => (
+          <div className={s.cellButton}>
+            <button
+              type="button"
+              className={s.rowButton}
+              onClick={(evt) => {
+                evt.stopPropagation()
+                router.push(`/contact?id=${row.original.contact_id}`)
+              }}
+            >
+              <Img alt="icon" className={s.pen} img="pen.png" />
+            </button>
+          </div>
+        ),
+      },
     ],
     [updateUser]
   )
@@ -211,18 +228,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
                 classes={{ container: s.tableRow }}
                 key={key}
                 {...restProps}
-              >
-                <button
-                  type="button"
-                  className={s.rowButton}
-                  onClick={(evt) => {
-                    evt.stopPropagation()
-                    router.push(`/profile?id=${row.original.contact_id}`)
-                  }}
-                >
-                  <Img alt="icon" className={s.pen} img="pen.png" />
-                </button>
-              </Row>
+              />
             )
           })}
         </tbody>
@@ -263,15 +269,23 @@ const s = css`
     &:first-child {
       max-width: 55px !important;
     }
+
+    &:last-child {
+      max-width: 50px !important;
+    }
   }
 
   .tableRow {
-    padding-right: 50px;
-
     &:hover {
       .rowButton {
         opacity: 1;
       }
+    }
+  }
+
+  .tableRow td {
+    &:last-child {
+      max-width: 50px !important;
     }
   }
 

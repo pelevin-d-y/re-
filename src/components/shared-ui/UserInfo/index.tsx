@@ -5,7 +5,7 @@ import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
-import TabInfoEmail from './TabInfoEmail'
+import UserInfoEmail from './UserInfoEmail'
 
 type Props = {
   className?: string
@@ -13,7 +13,7 @@ type Props = {
   updateData: (val: string, type: 'name' | 'Notes') => Promise<void>
 }
 
-const TabInfo: React.FC<Props> = ({ className, data, updateData }) => {
+const UserInfo: React.FC<Props> = ({ className, data, updateData }) => {
   const onSave = (val: string, type: 'name' | 'Notes') => {
     updateData(val, type)
   }
@@ -27,7 +27,7 @@ const TabInfo: React.FC<Props> = ({ className, data, updateData }) => {
       <ul className={s.list}>
         {emails && (
           <li className={s.item}>
-            <TabInfoEmail emails={emails} />
+            <UserInfoEmail emails={emails} />
           </li>
         )}
         <li className={s.item}>
@@ -67,16 +67,12 @@ const TabInfo: React.FC<Props> = ({ className, data, updateData }) => {
           </li>
         )} */}
       </ul>
-      <Button className={s.button} variant="outlined">
-        Remove from Recommendations
-      </Button>
     </div>
   )
 }
 
 const s = css`
   .container {
-    padding-bottom: 25px;
   }
 
   .list {
@@ -123,13 +119,6 @@ const s = css`
     overflow: hidden;
   }
 
-  .button {
-    display: block;
-    max-width: 247px;
-    width: 100%;
-    margin: 22px auto 0 auto;
-  }
-
   .valueInput {
     background: red;
   }
@@ -141,4 +130,4 @@ const s = css`
   }
 `
 
-export default TabInfo
+export default UserInfo
