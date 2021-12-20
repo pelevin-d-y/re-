@@ -2,24 +2,24 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
-import { get, post } from 'src/api'
+import TabLists from '../shared-ui/popover/PopoverUserInfo/TabLists'
+import TabNotes from '../shared-ui/popover/PopoverUserInfo/TabNotes'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import { get, post } from 'src/api/requests'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
-import UserInfo from '../../UserInfo'
-import TabLists from './TabLists'
-import TabRecs from './TabRecs'
-import TabNotes from './TabNotes'
-import Button from '../../Button'
+import ContactLists from './ContactLists'
 
 type Props = {
   className?: string
   data: UserData
 }
 
-const InfoTab: React.FC<Props> = ({ className, data }) => {
+const ContactTabs: React.FC<Props> = ({ className, data }) => {
   const [mutableData, setMutableData] = useState<FormattedContacts | undefined>(
     undefined
   )
+
+  console.log(data)
 
   useEffect(() => {
     get.getContactsMutable([data.contact_id]).then((res) => {
@@ -66,28 +66,17 @@ const InfoTab: React.FC<Props> = ({ className, data }) => {
   }
 
   return (
-    <div className={classNames(s.container, className)}>
+    <div className={classNames(className, s.container)}>
       <ReactTabs>
         <TabList className={s.tabs}>
-          <Tab className={s.tabItem}>Info</Tab>
-          <Tab className={s.tabItem}>List</Tab>
-          {/* <Tab className={s.tabItem}>Recs</Tab> */}
+          <Tab className={s.tabItem}>Next Steps</Tab>
+          <Tab className={s.tabItem}>Lists</Tab>
           <Tab className={s.tabItem}>Notes</Tab>
         </TabList>
+        <TabPanel>Coming soon</TabPanel>
         <TabPanel>
-          <UserInfo data={mutableData} updateData={updateMutableData} />
-          <div className={s.removeButtonContainer}>
-            <Button className={s.removeButton} variant="outlined">
-              Remove from Recommendations
-            </Button>
-          </div>
+          <ContactLists data={data} />
         </TabPanel>
-        <TabPanel>
-          <TabLists data={data} />
-        </TabPanel>
-        {/* <TabPanel>
-          <TabRecs />
-        </TabPanel> */}
         <TabPanel>
           <TabNotes data={mutableData} updateData={updateMutableData} />
         </TabPanel>
@@ -98,14 +87,12 @@ const InfoTab: React.FC<Props> = ({ className, data }) => {
 
 const s = css`
   .container {
-    min-width: 308px;
+    padding: 37px 24px 47px 18px;
+    width: 100%;
   }
 
   .tabs {
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-
     padding-left: 20px;
     padding-right: 20px;
     margin: 0;
@@ -115,9 +102,8 @@ const s = css`
 
   .tabItem {
     display: inline-block;
-    min-width: 63px;
+    min-width: 100px;
     border-bottom: 4px solid transparent;
-
     text-align: center;
     font-size: 14px;
     line-height: 31px;
@@ -134,17 +120,6 @@ const s = css`
   .panel {
     padding: 16px;
   }
-  
-  .removeButtonContainer {
-    padding-bottom: 25px;
-  }
-
-  .removeButton {
-    display: block;
-    max-width: 247px;
-    width: 100%;
-    margin: 22px auto 0 auto;
-  }
 `
 
-export default InfoTab
+export default ContactTabs

@@ -13,6 +13,7 @@ type Props = {
     | 'bottom left'
     | 'right center'
     | 'left center'
+    | 'left bottom'
     | 'top center'
     | 'bottom center'
     | 'center center'
