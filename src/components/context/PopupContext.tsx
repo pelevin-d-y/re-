@@ -3,15 +3,21 @@ import testTemplates from 'src/testTemplates.json'
 import findTemplate from 'src/helpers/utils/find-template'
 
 type Action =
-  | { type: 'TOGGLE_COMPOSE_POPUP'; payload: UserData | null }
+  | {
+      type: 'TOGGLE_COMPOSE_POPUP'
+      payload: UserData | FormattedContacts | null
+    }
   | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
-  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | null }
-  | { type: 'UPDATE_COMPOSE_MULTI_DATA'; payload: UserData[] | null }
+  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContacts | null }
+  | {
+      type: 'UPDATE_COMPOSE_MULTI_DATA'
+      payload: UserData[] | FormattedContacts[] | null
+    }
 
 type State = {
   emailModalIsOpen: boolean
@@ -20,8 +26,8 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
-  data: UserData | null
-  dataMulti: UserData[] | null
+  data: UserData | FormattedContacts | null
+  dataMulti: UserData[] | FormattedContacts[] | null
 }
 
 type ContextType = {
@@ -48,9 +54,9 @@ const popupReducer = (state: State, action: Action): State => {
       if (action.payload) {
         const templateData = findTemplate(
           testTemplates,
-          action.payload?.template
+          'template' in action.payload ? action.payload.template : undefined
         )
-        console.log('!state.emailModalIsOpen', !state.emailModalIsOpen)
+
         return {
           ...state,
           data: { ...action.payload, templateData },

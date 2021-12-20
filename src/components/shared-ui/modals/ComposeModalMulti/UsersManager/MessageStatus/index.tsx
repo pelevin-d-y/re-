@@ -8,19 +8,19 @@ import { formatDistance } from 'date-fns'
 
 type Props = {
   className?: string
-  data: UserData
+  data: UserData | FormattedContacts
 }
 
 const MessageStatus: React.FC<Props> = ({ className, data }) => (
   <div className={classNames(className, s.container)}>
-    {data.last_contact_time && (
+    {'last_contact_time' in data && data?.last_contact_time && (
       <div className={s.date}>
         {formatDistance(parseDate(data.last_contact_time), new Date(), {
           addSuffix: true,
         })}
       </div>
     )}
-    {data?.isSent ? (
+    {'isSent' in data && data?.isSent ? (
       <Img className={s.image} alt="sent" img="message-sent.png" />
     ) : (
       <SvgIcon className={s.icon} icon="message-default.svg" />

@@ -16,7 +16,6 @@ const Row: React.FC<Props> = ({ row, children, classes, ...restProps }) => {
   const { dispatch } = usePopup()
   const contactHandler = (contactData: UserData) => {
     if (!row?.state?.isLoading) {
-      console.log('contactData', contactData)
       dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: contactData })
     }
   }

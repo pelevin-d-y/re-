@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-type State = any[] | null
+type State = FormattedContacts[] | UserData[] | null
 type ContextType = {
   state: State
   setState: React.Dispatch<React.SetStateAction<State>>

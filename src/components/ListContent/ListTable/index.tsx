@@ -111,7 +111,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
         accessor: 'Notes',
         Cell: ({ value, row }) => {
           const restValue = value
-
           return (
             <div
               className={s.cellContent}
@@ -120,18 +119,17 @@ const Table: React.FC<Props> = ({ className, data }) => {
             >
               <EasyEdit
                 type="text"
-                value={value || restValue || '...'}
-                placeholder={value}
+                value={value}
                 hideCancelButton
                 hideSaveButton
                 saveOnBlur
                 cssClassPrefix="list-note-"
-                onSave={(val: string) =>
+                onSave={(val: string) => {
                   updateUser({
                     ...row.original,
-                    newNotes: val || restValue,
+                    newNotes: val,
                   })
-                }
+                }}
               />
             </div>
           )
@@ -177,7 +175,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    setSelectedUsers(selectedFlatRows.map((item) => item.original))
+    setSelectedUsers(
+      selectedFlatRows.map(
+        (item) => item.original as UserData | FormattedContacts
+      )
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

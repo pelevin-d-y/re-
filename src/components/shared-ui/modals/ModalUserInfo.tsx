@@ -9,15 +9,26 @@ import { TagUser } from 'src/components/shared-ui/Tags'
 
 type Props = {
   className?: string
-  data: UserData
+  data: UserData | FormattedContacts
   withAvatar?: boolean
 }
 
 const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
-  const { avatar, name, templateData, relationshipStrength } = data
+  const { avatar, name } = data
 
-  const parsedText =
-    (templateData && parseMessage(templateData.Subject, name)) || ''
+  const parsedText = () => {
+    if ('templateData' in data && data?.templateData) {
+      return parseMessage(data.templateData.Subject, name)
+    }
+    return ''
+  }
+
+  const lastContactTime = () => {
+    if ('last_contact_time' in data) {
+      return formatTime(data.last_contact_time)
+    }
+    return ''
+  }
   const userName = name
 
   return (
@@ -27,7 +38,11 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
           {withAvatar && (
             <Avatar
               className={s.avatar}
-              strength={relationshipStrength}
+              strength={
+                'relationshipStrength' in data
+                  ? data.relationshipStrength
+                  : undefined
+              }
               image={avatar || null}
             />
           )}
@@ -35,7 +50,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
             <div className={s.name}>{userName}</div>
             <TagUser text="Old friends" />
             <div className={s.lastMessageDate}>
-              Last Message {formatTime(data.last_contact_time)}{' '}
+              Last Message {lastContactTime()}{' '}
               <span className={s.thread}>View</span>
             </div>
           </div>
@@ -45,7 +60,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
             className={s.message}
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
-              __html: parsedText,
+              __html: parsedText(),
             }}
           />
         </div>

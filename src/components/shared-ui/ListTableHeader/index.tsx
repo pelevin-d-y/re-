@@ -26,12 +26,17 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
   }
 
   const contactHandler = () => {
-    if (list.contacts) {
-      // popupDispatch({ type: 'UPDATE_COMPOSE_MULTI_DATA', payload: list.contacts })
-      // popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
+    if (selectedUsers && selectedUsers?.length >= 0) {
+      popupDispatch({
+        type: 'UPDATE_COMPOSE_MULTI_DATA',
+        payload: selectedUsers,
+      })
+
+      popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
   }
 
+  const isSelectedUsersEmpty = !!(selectedUsers && selectedUsers.length <= 0)
   return (
     <div className={classNames(className, s.container)}>
       <AddUserView listId={list.id} />
@@ -46,6 +51,7 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         <Button
           className={classNames(s.button, s.remove)}
           handler={removeUsersHandler}
+          disabled={isSelectedUsersEmpty}
           variant="outlined"
         >
           Remove
@@ -59,6 +65,7 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         </Button>
         <Button
           handler={contactHandler}
+          disabled={isSelectedUsersEmpty}
           className={classNames(s.contact, s.button)}
           variant="contained"
         >
