@@ -134,6 +134,7 @@ const s = css`
   .panel {
     padding: 16px;
   }
+  
   .removeButtonContainer {
     padding-bottom: 25px;
   }
