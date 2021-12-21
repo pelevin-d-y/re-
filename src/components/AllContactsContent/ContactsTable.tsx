@@ -24,7 +24,7 @@ import Img from '../shared-ui/Img'
 
 type Props = {
   className?: string
-  data: FormattedContacts[]
+  data: FormattedContact[]
 }
 
 const ContactsTable: React.FC<Props> = ({ className, data }) => {
