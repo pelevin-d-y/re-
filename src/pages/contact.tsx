@@ -14,11 +14,13 @@ type Props = {
 const Contact: React.FC<Props> = ({ className }) => (
   <Layout className={s.layout}>
     <PlaylistsProvider>
-      <TemplatesProvider>
-        <PopupProvider>
-          <ContactContent />
-        </PopupProvider>
-      </TemplatesProvider>
+      <PlaylistProvider>
+        <TemplatesProvider>
+          <PopupProvider>
+            <ContactContent />
+          </PopupProvider>
+        </TemplatesProvider>
+      </PlaylistProvider>
     </PlaylistsProvider>
   </Layout>
 )
