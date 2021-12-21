@@ -5,7 +5,7 @@ import findTemplate from 'src/helpers/utils/find-template'
 type Action =
   | {
       type: 'TOGGLE_COMPOSE_POPUP'
-      payload: UserData | FormattedContacts | null
+      payload: UserData | FormattedContact | null
     }
   | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
@@ -13,10 +13,10 @@ type Action =
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
-  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContacts | null }
+  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContact | null }
   | {
       type: 'UPDATE_COMPOSE_MULTI_DATA'
-      payload: UserData[] | FormattedContacts[] | null
+      payload: UserData[] | FormattedContact[] | null
     }
 
 type State = {
@@ -26,8 +26,8 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
-  data: UserData | FormattedContacts | null
-  dataMulti: UserData[] | FormattedContacts[] | null
+  data: UserData | FormattedContact | null
+  dataMulti: UserData[] | FormattedContact[] | null
 }
 
 type ContextType = {

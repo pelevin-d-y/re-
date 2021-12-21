@@ -10,11 +10,11 @@ import MessageStatus from './MessageStatus'
 
 type Props = {
   className?: string
-  selectedContacts: UserData[] | FormattedContacts[]
-  removeUser: (user: UserData | FormattedContacts) => void
-  selectUser: (user: UserData | FormattedContacts) => void
-  addUserHandler: (user: UserData | FormattedContacts) => void
-  unselectedContacts: UserData[] | FormattedContacts[] | null
+  selectedContacts: UserData[] | FormattedContact[]
+  removeUser: (user: UserData | FormattedContact) => void
+  selectUser: (user: UserData | FormattedContact) => void
+  addUserHandler: (user: UserData | FormattedContact) => void
+  unselectedContacts: UserData[] | FormattedContact[] | null
 }
 
 const UsersManager: React.FC<Props> = ({

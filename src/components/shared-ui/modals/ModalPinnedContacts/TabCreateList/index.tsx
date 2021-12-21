@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 
 type Props = {
   className?: string
-  users: UserData[] | FormattedContacts[]
+  users: UserData[] | FormattedContact[]
 }
 
 const CreateListSchema = Yup.object().shape({

@@ -15,7 +15,7 @@ type Props = {
 }
 
 const ContactTabs: React.FC<Props> = ({ className, data }) => {
-  const [mutableData, setMutableData] = useState<FormattedContacts | undefined>(
+  const [mutableData, setMutableData] = useState<FormattedContact | undefined>(
     undefined
   )
 

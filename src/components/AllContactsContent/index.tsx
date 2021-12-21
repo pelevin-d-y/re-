@@ -13,6 +13,7 @@ import Button from '../shared-ui/Button'
 import { usePopup } from '../context/PopupContext'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import ContactsTable from './ContactsTable'
+import TableActions from '../shared-ui/TableActions'
 
 type Props = {
   className?: string
@@ -68,25 +69,10 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
               onChange={filterContacts}
               inputPlaceholder="Search contacts"
             />
-            <div className={s.actions}>
-              <Button className={classNames(s.dots)} variant="outlined">
-                •••
-              </Button>
-              <Button
-                className={classNames(s.button, s.filter)}
-                variant="outlined"
-                isArrow
-              >
-                Filter
-              </Button>
-              <Button
-                handler={() => toggleContactMulti()}
-                className={classNames(s.contact, s.button)}
-                variant="contained"
-              >
-                Contact
-              </Button>
-            </div>
+            <TableActions
+              className={s.actions}
+              buttons={['dots', 'filter', 'contact']}
+            />
           </div>
           {contactsDebounce && <ContactsTable data={contactsDebounce} />}
         </div>

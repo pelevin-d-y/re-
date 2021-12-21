@@ -14,11 +14,11 @@ type ContextType = {
   getPlaylistData: (listId: string) => void
   removeUsers: (
     listId: string,
-    userData: (UserData | FormattedContacts)[]
+    userData: (UserData | FormattedContact)[]
   ) => Promise<any>
   addUsers: (
     listId: string,
-    users: (UserData | FormattedContacts)[]
+    users: (UserData | FormattedContact)[]
   ) => Promise<any>
 }
 
@@ -62,7 +62,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
   }, [])
 
   const removeUsers = React.useCallback(
-    (listId, users: (UserData | FormattedContacts)[]) =>
+    (listId, users: (UserData | FormattedContact)[]) =>
       post
         .postPlaylists([
           {
@@ -78,7 +78,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
   )
 
   const addUsers = React.useCallback(
-    (listId: string, users: (UserData | FormattedContacts)[]) => {
+    (listId: string, users: (UserData | FormattedContact)[]) => {
       const contacts = users.map((item) => ({
         contact_id: item?.contact_id,
         review: 1,

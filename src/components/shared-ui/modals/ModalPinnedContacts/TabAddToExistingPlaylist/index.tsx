@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 
 type Props = {
   className?: string
-  users: UserData[] | FormattedContacts[]
+  users: UserData[] | FormattedContact[]
 }
 
 const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {

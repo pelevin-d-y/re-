@@ -9,8 +9,8 @@ import UsersManager from './UsersManager'
 import ModalContent from '../ModalContent'
 
 const comparator = (
-  a: FormattedContacts | UserData,
-  b: FormattedContacts | UserData
+  a: FormattedContact | UserData,
+  b: FormattedContact | UserData
 ) => a.contact_id === b.contact_id
 
 const ComposeModalMulti: React.FC = () => {
@@ -18,19 +18,19 @@ const ComposeModalMulti: React.FC = () => {
   const { data: popupData, dataMulti: usersData, multiEmailsIsOpen } = state
 
   const [unselectedContacts, setUnselectedContacts] = useState<
-    Array<FormattedContacts | UserData>
+    Array<FormattedContact | UserData>
   >([])
 
   const [selectedContacts, setSelectedContacts] = useState<
-    Array<FormattedContacts | UserData>
+    Array<FormattedContact | UserData>
   >([])
 
   useEffect(() => {
     if (usersData?.length) {
       if (unselectedContacts) {
         const filteredUsers = differenceWith<
-          FormattedContacts | UserData,
-          FormattedContacts | UserData
+          FormattedContact | UserData,
+          FormattedContact | UserData
         >(usersData, unselectedContacts, comparator)
         setSelectedContacts(filteredUsers)
       }
@@ -46,7 +46,7 @@ const ComposeModalMulti: React.FC = () => {
     }
   }, [dispatch, selectedContacts, multiEmailsIsOpen])
 
-  const selectUser = (user: UserData | FormattedContacts) => {
+  const selectUser = (user: UserData | FormattedContact) => {
     if ('templateData' in user && user?.templateData) {
       dispatch({
         type: 'UPDATE_POPUP_DATA',
@@ -58,7 +58,7 @@ const ComposeModalMulti: React.FC = () => {
     }
   }
 
-  const addUserHandler = (user: UserData | FormattedContacts) => {
+  const addUserHandler = (user: UserData | FormattedContact) => {
     const isInclude = selectedContacts.find(
       (item) => item.contact_id === user.contact_id
     )
@@ -75,7 +75,7 @@ const ComposeModalMulti: React.FC = () => {
     }
   }
 
-  const removeUser = (user: UserData | FormattedContacts) => {
+  const removeUser = (user: UserData | FormattedContact) => {
     setSelectedContacts(
       selectedContacts.filter((item) => item.contact_id !== user.contact_id)
     )

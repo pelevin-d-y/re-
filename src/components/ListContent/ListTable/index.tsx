@@ -177,7 +177,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
   useEffect(() => {
     setSelectedUsers(
       selectedFlatRows.map(
-        (item) => item.original as UserData | FormattedContacts
+        (item) => item.original as UserData | FormattedContact
       )
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps

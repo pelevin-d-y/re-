@@ -9,7 +9,7 @@ import { TagUser } from 'src/components/shared-ui/Tags'
 
 type Props = {
   className?: string
-  data: UserData | FormattedContacts
+  data: UserData | FormattedContact
   withAvatar?: boolean
 }
 
