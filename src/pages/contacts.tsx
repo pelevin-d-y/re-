@@ -5,10 +5,7 @@ import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { css } from 'astroturf'
 import { TableProvider } from 'src/components/context/TableContext'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
-import 'react-quill/dist/quill.snow.css'
 import AllContactsContent from 'src/components/AllContactsContent'
-import ComposeModalMulti from 'src/components/shared-ui/modals/ComposeModalMulti'
-import ComposeModal from 'src/components/shared-ui/modals/ComposeModal'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 
 type Props = {
@@ -24,8 +21,6 @@ const Contacts: React.FC<Props> = () => (
             <TableProvider>
               <AllContactsContent />
             </TableProvider>
-            <ComposeModal />
-            <ComposeModalMulti />
           </PopupProvider>
         </PlaylistProvider>
       </PlaylistsProvider>

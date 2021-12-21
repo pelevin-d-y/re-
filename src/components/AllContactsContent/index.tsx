@@ -9,8 +9,6 @@ import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import { LoaderPage } from '../shared-ui/Loader'
-import Button from '../shared-ui/Button'
-import { usePopup } from '../context/PopupContext'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import ContactsTable from './ContactsTable'
 import TableActions from '../shared-ui/TableActions'
@@ -21,14 +19,9 @@ type Props = {
 
 const AllContactsContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
-  const { dispatch: popupDispatch } = usePopup()
 
   const [contacts, setContacts] = useState(clientState.data?.contacts)
   const [contactsDebounce] = useDebounce(contacts, 700)
-
-  const toggleContactMulti = () => {
-    popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
-  }
 
   const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (clientState.data?.contacts) {

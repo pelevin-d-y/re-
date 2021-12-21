@@ -4,12 +4,8 @@ import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { css } from 'astroturf'
 import AllRecommendationsContent from 'src/components/AllRecsContent'
-import ComposeModal from 'src/components/shared-ui/modals/ComposeModal'
 import { TableProvider } from 'src/components/context/TableContext'
-import ComposeModalMulti from 'src/components/shared-ui/modals/ComposeModalMulti'
-import CreateListModal from 'src/components/shared-ui/modals/CreateListModal'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
-import 'react-quill/dist/quill.snow.css'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 
 type Props = {
@@ -25,9 +21,6 @@ const Personalization: React.FC<Props> = () => (
             <TableProvider>
               <AllRecommendationsContent />
             </TableProvider>
-            <ComposeModal />
-            <ComposeModalMulti />
-            <CreateListModal />
           </PopupProvider>
         </PlaylistProvider>
       </PlaylistsProvider>

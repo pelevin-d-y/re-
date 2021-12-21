@@ -1,6 +1,12 @@
 import * as React from 'react'
 import testTemplates from 'src/testTemplates.json'
 import findTemplate from 'src/helpers/utils/find-template'
+import ComposeModal from '../shared-ui/modals/ComposeModal'
+import ComposeModalMulti from '../shared-ui/modals/ComposeModalMulti'
+import ModalPinnedContacts from '../shared-ui/modals/ModalPinnedContacts'
+import CreateListModal from '../shared-ui/modals/CreateListModal'
+import DeleteListModal from '../shared-ui/modals/DeleteListModal'
+import 'react-quill/dist/quill.snow.css'
 
 type Action =
   | {
@@ -132,7 +138,16 @@ const PopupProvider: React.FC = ({ children }) => {
     [state]
   )
 
-  return <PopupContext.Provider value={value}>{children}</PopupContext.Provider>
+  return (
+    <PopupContext.Provider value={value}>
+      {children}
+      <ComposeModal />
+      <ComposeModalMulti />
+      <ModalPinnedContacts />
+      <CreateListModal />
+      <DeleteListModal />
+    </PopupContext.Provider>
+  )
 }
 
 const usePopup = (): ContextType => {

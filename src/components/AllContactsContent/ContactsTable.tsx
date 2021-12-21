@@ -144,7 +144,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
         ),
       },
     ],
-    [updateUser]
+    [router, updateUser]
   )
 
   const {
