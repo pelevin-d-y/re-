@@ -5,6 +5,7 @@ import Layout from 'src/layouts/Layout'
 import ContactContent from 'src/components/ContactContent'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
+import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 
 type Props = {
   className?: string

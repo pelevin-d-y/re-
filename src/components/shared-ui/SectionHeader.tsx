@@ -6,7 +6,7 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Link from 'src/components/shared-ui/Link'
 
 type Props = {
-  data: UserData[] | ListData[] | null
+  data: UserData[] | ListData[] | FormattedContacts[] | null
   className?: string
   icon: string
   iconBackground: string

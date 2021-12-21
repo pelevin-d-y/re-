@@ -19,8 +19,6 @@ const ContactTabs: React.FC<Props> = ({ className, data }) => {
     undefined
   )
 
-  console.log(data)
-
   useEffect(() => {
     get.getContactsMutable([data.contact_id]).then((res) => {
       const formattedData = formatContactData(Object.values(res)[0])
