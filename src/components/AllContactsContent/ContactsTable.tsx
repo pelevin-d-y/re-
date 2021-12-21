@@ -24,7 +24,7 @@ import Img from '../shared-ui/Img'
 
 type Props = {
   className?: string
-  data: UserData[]
+  data: FormattedContacts[]
 }
 
 const ContactsTable: React.FC<Props> = ({ className, data }) => {
@@ -37,7 +37,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
       { Notes: userData.Notes }
     )
     const body = {
-      [userData.id]: [...newValue, ...previousValue],
+      [userData.contact_id]: [...newValue, ...previousValue],
     }
 
     post.postContactsMutable(body)

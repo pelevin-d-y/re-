@@ -13,6 +13,8 @@ import Button from '../shared-ui/Button'
 import { usePopup } from '../context/PopupContext'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import ContactsTable from './ContactsTable'
+import { get } from 'src/api/requests'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 
 type Props = {
   className?: string
@@ -21,39 +23,54 @@ type Props = {
 const AllContactsContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
   const { dispatch: popupDispatch } = usePopup()
+  const [loading, setLoading] = useState(false)
+  const [mutableData, setMutableData] = useState<
+    FormattedContacts[] | undefined
+  >(undefined)
 
-  const [contacts, setContacts] = useState(clientState.data?.contacts)
-  const [contactsDebounce] = useDebounce(contacts, 700)
+  useEffect(() => {
+    setLoading(true)
+    if (clientState.data?.contacts) {
+      get
+        .getContactsMutable(
+          clientState?.data?.contacts.map((item) => item.contact_id)
+        )
+        .then((res) => {
+          const formattedData = Object.entries(res).map(([id, contact]) =>
+            formatContactData(contact, id)
+          )
+          setMutableData(formattedData)
+          setLoading(false)
+        })
+    }
+  }, [clientState.data?.contacts])
+
+  const [contactsDebounce] = useDebounce(mutableData, 700)
 
   const toggleContactMulti = () => {
     popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
   }
 
   const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (clientState.data?.contacts) {
-      const allContacts = clientState.data.contacts
-      const filteredContacts = allContacts.filter(
+    if (mutableData) {
+      const filteredContacts = mutableData.filter(
         (item) =>
           (item.name as string)
             .toLocaleLowerCase()
             .search(event.target.value.toLocaleLowerCase()) !== -1
       )
 
-      setContacts(filteredContacts)
+      setMutableData(filteredContacts)
     }
   }
 
-  useEffect(() => {
-    setContacts(clientState.data?.contacts)
-  }, [clientState.data?.contacts])
-
   const renderContent = () =>
-    clientState.data?.contacts && !arrayIsEmpty(clientState.data.contacts) ? (
+    mutableData && !arrayIsEmpty(mutableData) ? (
       <CardContainer className={s.container}>
         <div className={s.sectionHeader}>
           <SectionHeader
             className={s.sectionHeaderContent}
-            data={contacts || null}
+            data={mutableData || null}
             title="All contacts"
             description="Create lists with your contacts to organize tasks "
             icon="contacts"
@@ -97,7 +114,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(s.main, className)}>
-      {!clientState.isLoading ? renderContent() : <LoaderPage />}
+      {!loading ? renderContent() : <LoaderPage />}
     </div>
   )
 }
