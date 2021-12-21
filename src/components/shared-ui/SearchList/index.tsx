@@ -1,26 +1,38 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
-import Img from 'src/components/shared-ui/Img'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
-import { useRouter } from 'next/router'
-import CardContainer from '../cards/CardContainer'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import { LoaderComponent } from '../Loader'
 
 type Props = {
   className?: string
   data: FormattedListData
+  user: UserData
 }
 
 const SearchList: React.FC<Props> = ({
   className,
   data: { info, id, contacts },
+  user,
 }) => {
+  const { addUsers } = usePlaylist()
+  const { getPlaylists } = usePlaylists()
+
+  const [loading, setLoading] = useState(false)
+
+  const addUserHandler = useCallback(async () => {
+    setLoading(true)
+    await addUsers(id, [user])
+      .then(() => getPlaylists())
+      .catch((err) => console.log(`addUsers err => ${err} `))
+    setLoading(false)
+  }, [id, user])
+
   return (
-    <CardContainer className={classNames(s.container, className)}>
+    <div className={classNames(s.container, className)}>
       <div className={s.mainInfo}>
         <div className={s.title}>{info?.name}</div>
         {info?.description && (
@@ -37,11 +49,12 @@ const SearchList: React.FC<Props> = ({
         )}
       </div>
       <div className={classNames(s.actions)}>
-        <Button variant="outlined" handler={() => {}}>
+        <Button variant="outlined" handler={addUserHandler}>
           Add
         </Button>
       </div>
-    </CardContainer>
+      {loading && <LoaderComponent className={s.loading} />}
+    </div>
   )
 }
 
@@ -51,7 +64,8 @@ const s = css`
     overflow: hidden;
     display: flex;
     justify-content: space-between;
-    padding: 11px 16px 25px 21px;
+    padding: 11px 16px 11px 21px;
+    border-bottom: 1px solid #f6f6f6;
   }
 
   .title {
