@@ -11,11 +11,11 @@ import SearchList from '../../SearchList'
 
 type Props = {
   className?: string
-  userData: UserData
+  user: UserData
   lists: FormattedListData[]
 }
 
-const PopoverAddList: React.FC<Props> = ({ className, userData, lists }) => {
+const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
   const { state } = usePlaylists()
 
   const [filteredList, setFilteredList] = useState<FormattedListData[]>()
@@ -37,13 +37,13 @@ const PopoverAddList: React.FC<Props> = ({ className, userData, lists }) => {
         <CardContainer className={classNames(s.card, className)}>
           <Search
             classes={{ container: s.searchContainer, input: s.searchInput }}
-            inputPlaceholder={`Search list to ${userData.name} add to...`}
+            inputPlaceholder={`Search list to ${user.name} add to...`}
           />
           <div className={s.header}>Recommendation</div>
           <div className={s.lists}>
             {filteredList?.length !== 0 ? (
               filteredList?.map((item) => (
-                <SearchList key={item?.id} data={item} user={userData} />
+                <SearchList key={item?.id} data={item} user={user} />
               ))
             ) : (
               <div className={s.empty}>Empty</div>

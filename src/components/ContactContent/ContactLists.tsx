@@ -54,7 +54,7 @@ const ContactLists: React.FC<Props> = ({ className, data }) => {
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.text}>Current lists {data?.name} is in:</div>
-        <PopoverAddList className={s.add} user_data={data} lists={lists} />
+        <PopoverAddList className={s.add} user={data} lists={lists} />
       </div>
       <div className={s.list}>
         <div className={s.column}>
