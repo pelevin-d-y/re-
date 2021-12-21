@@ -4,17 +4,16 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
 import { useDebounce } from 'use-debounce/lib'
+import { get } from 'src/api/requests'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 
 import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import { LoaderPage } from '../shared-ui/Loader'
-import Button from '../shared-ui/Button'
-import { usePopup } from '../context/PopupContext'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import ContactsTable from './ContactsTable'
-import { get } from 'src/api/requests'
-import formatContactData from 'src/helpers/utils/format-contact-data'
+import TableActions from '../shared-ui/TableActions'
 
 type Props = {
   className?: string
@@ -22,10 +21,10 @@ type Props = {
 
 const AllContactsContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
-  const { dispatch: popupDispatch } = usePopup()
+
   const [loading, setLoading] = useState(false)
   const [mutableData, setMutableData] = useState<
-    FormattedContacts[] | undefined
+    FormattedContact[] | undefined
   >(undefined)
 
   useEffect(() => {
@@ -46,10 +45,6 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
   }, [clientState.data?.contacts])
 
   const [contactsDebounce] = useDebounce(mutableData, 700)
-
-  const toggleContactMulti = () => {
-    popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
-  }
 
   const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (mutableData) {
@@ -85,25 +80,10 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
               onChange={filterContacts}
               inputPlaceholder="Search contacts"
             />
-            <div className={s.actions}>
-              <Button className={classNames(s.dots)} variant="outlined">
-                •••
-              </Button>
-              <Button
-                className={classNames(s.button, s.filter)}
-                variant="outlined"
-                isArrow
-              >
-                Filter
-              </Button>
-              <Button
-                handler={() => toggleContactMulti()}
-                className={classNames(s.contact, s.button)}
-                variant="contained"
-              >
-                Contact
-              </Button>
-            </div>
+            <TableActions
+              className={s.actions}
+              buttons={['dots', 'filter', 'contact']}
+            />
           </div>
           {contactsDebounce && <ContactsTable data={contactsDebounce} />}
         </div>

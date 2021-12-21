@@ -5,23 +5,40 @@ import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
 import AddUserView from 'src/components/shared-ui/AddUserView'
+import { usePlaylist } from 'src/components/context/PlaylistContext'
+
+const actions = [
+  'createList',
+  'contact',
+  'addContactToListPopover',
+  'dots',
+  'removeContacts',
+  'filter',
+] as const
+
+type Buttons = Array<typeof actions[number]>
 
 type Props = {
   className?: string
-  list: FormattedListData
+  data?: FormattedListData
+  buttons: Buttons
 }
 
-const TableHeader: React.FC<Props> = ({ className, list }) => {
-  const { state: selectedUsers } = useTable()
+const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
   const { removeUsers, getPlaylistData } = usePlaylist()
+  const { state: selectedUsers } = useTable()
   const { dispatch: popupDispatch } = usePopup()
 
   const removeUsersHandler = async () => {
-    if (selectedUsers) {
-      await removeUsers(list.id, selectedUsers)
-      await getPlaylistData(list.id)
+    if (data && 'id' in data) {
+      if (selectedUsers) {
+        await removeUsers(data.id, selectedUsers)
+        await getPlaylistData(data.id)
+      }
+    } else {
+      // eslint-disable-next-line no-console
+      console.log("id is undefined or data doesn't contain id field")
     }
   }
 
@@ -31,23 +48,29 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         type: 'UPDATE_COMPOSE_MULTI_DATA',
         payload: selectedUsers,
       })
-
       popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
+  }
+
+  const toggleCreateListModal = () => {
+    popupDispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
   }
 
   const isSelectedUsersEmpty = !!(selectedUsers && selectedUsers.length <= 0)
   return (
     <div className={classNames(className, s.container)}>
-      <AddUserView listId={list.id} />
-      <div className={s.actions}>
+      {buttons.includes('dots') && (
         <Button className={classNames(s.dots, s.button)} variant="outlined">
           •••
         </Button>
+      )}
+      {data && buttons.includes('addContactToListPopover') && 'id' in data && (
         <PopoverAddContact
           className={classNames(s.contacts, s.button)}
-          listId={list.id}
+          listId={data.id}
         />
+      )}
+      {buttons.includes('removeContacts') && (
         <Button
           className={classNames(s.button, s.remove)}
           handler={removeUsersHandler}
@@ -56,6 +79,17 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         >
           Remove
         </Button>
+      )}
+      {buttons.includes('createList') && (
+        <Button
+          className={classNames(s.button, s.buttonCreate)}
+          handler={toggleCreateListModal}
+          variant="outlined"
+        >
+          Create List
+        </Button>
+      )}
+      {buttons.includes('filter') && (
         <Button
           className={classNames(s.button, s.filter)}
           variant="outlined"
@@ -63,6 +97,8 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         >
           Filter
         </Button>
+      )}
+      {buttons.includes('contact') && (
         <Button
           handler={contactHandler}
           disabled={isSelectedUsersEmpty}
@@ -71,7 +107,7 @@ const TableHeader: React.FC<Props> = ({ className, list }) => {
         >
           Contact
         </Button>
-      </div>
+      )}
     </div>
   )
 }
@@ -80,20 +116,6 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    padding: 21px 23px 23px 20px;
-
-    @include mobile {
-      padding: 16px 12px;
-
-      flex-flow: column nowrap;
-      align-items: flex-start;
-    }
-  }
-
-  .actions {
     display: flex;
     flex-flow: row nowrap;
     flex: 1 0 auto;
@@ -125,10 +147,13 @@ const s = css`
     @include mobile {
       margin-top: 6px;
     }
+
+    &:first-child {
+      margin-left: auto;
+    }
   }
 
   .dots {
-    margin-left: auto;
     max-width: 61px;
     width: 100%;
 
@@ -149,4 +174,4 @@ const s = css`
   }
 `
 
-export default TableHeader
+export default TableActions

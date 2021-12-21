@@ -17,7 +17,7 @@ type Props = {
 }
 
 const InfoTab: React.FC<Props> = ({ className, data }) => {
-  const [mutableData, setMutableData] = useState<FormattedContacts | undefined>(
+  const [mutableData, setMutableData] = useState<FormattedContact | undefined>(
     undefined
   )
 
@@ -134,7 +134,7 @@ const s = css`
   .panel {
     padding: 16px;
   }
-  
+
   .removeButtonContainer {
     padding-bottom: 25px;
   }

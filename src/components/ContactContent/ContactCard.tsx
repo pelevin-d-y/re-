@@ -25,7 +25,7 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
-  const [mutableData, setMutableData] = useState<FormattedContacts | undefined>(
+  const [mutableData, setMutableData] = useState<FormattedContact | undefined>(
     undefined
   )
 

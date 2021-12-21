@@ -14,12 +14,12 @@ import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { useTable as useTableContext } from 'src/components/context/TableContext'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
 import PopoverRate from '../shared-ui/popover/PopoverRate'
-import { usePopup } from '../context/PopupContext'
 
 type Props = {
   className?: string
@@ -27,7 +27,7 @@ type Props = {
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
-  const { dispatch: popupDispatch } = usePopup()
+  const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
 
   const columns: Column<any>[] = useMemo(
@@ -132,11 +132,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    popupDispatch({
-      type: 'UPDATE_COMPOSE_MULTI_DATA',
-      payload: (selectedFlatRows.map((item) => item.original) ||
-        []) as UserData[],
-    })
+    setSelectedUsers(
+      selectedFlatRows.map(
+        (item) => item.original as UserData | FormattedContact
+      )
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

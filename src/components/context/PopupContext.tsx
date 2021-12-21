@@ -1,11 +1,17 @@
 import * as React from 'react'
 import testTemplates from 'src/testTemplates.json'
 import findTemplate from 'src/helpers/utils/find-template'
+import ComposeModal from '../shared-ui/modals/ComposeModal'
+import ComposeModalMulti from '../shared-ui/modals/ComposeModalMulti'
+import ModalPinnedContacts from '../shared-ui/modals/ModalPinnedContacts'
+import CreateListModal from '../shared-ui/modals/CreateListModal'
+import DeleteListModal from '../shared-ui/modals/DeleteListModal'
+import 'react-quill/dist/quill.snow.css'
 
 type Action =
   | {
       type: 'TOGGLE_COMPOSE_POPUP'
-      payload: UserData | FormattedContacts | null
+      payload: UserData | FormattedContact | null
     }
   | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
@@ -13,10 +19,10 @@ type Action =
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
-  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContacts | null }
+  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContact | null }
   | {
       type: 'UPDATE_COMPOSE_MULTI_DATA'
-      payload: UserData[] | FormattedContacts[] | null
+      payload: UserData[] | FormattedContact[] | null
     }
 
 type State = {
@@ -26,8 +32,8 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
-  data: UserData | FormattedContacts | null
-  dataMulti: UserData[] | FormattedContacts[] | null
+  data: UserData | FormattedContact | null
+  dataMulti: UserData[] | FormattedContact[] | null
 }
 
 type ContextType = {
@@ -132,7 +138,16 @@ const PopupProvider: React.FC = ({ children }) => {
     [state]
   )
 
-  return <PopupContext.Provider value={value}>{children}</PopupContext.Provider>
+  return (
+    <PopupContext.Provider value={value}>
+      {children}
+      <ComposeModal />
+      <ComposeModalMulti />
+      <ModalPinnedContacts />
+      <CreateListModal />
+      <DeleteListModal />
+    </PopupContext.Provider>
+  )
 }
 
 const usePopup = (): ContextType => {

@@ -8,7 +8,7 @@ import { formatDistance } from 'date-fns'
 
 type Props = {
   className?: string
-  data: UserData | FormattedContacts
+  data: UserData | FormattedContact
 }
 
 const MessageStatus: React.FC<Props> = ({ className, data }) => (

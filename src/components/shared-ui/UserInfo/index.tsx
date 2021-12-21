@@ -9,7 +9,7 @@ import UserInfoEmail from './UserInfoEmail'
 
 type Props = {
   className?: string
-  data?: FormattedContacts
+  data?: FormattedContact
   updateData: (val: string, type: 'name' | 'Notes') => Promise<void>
 }
 

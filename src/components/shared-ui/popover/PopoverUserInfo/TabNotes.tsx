@@ -8,7 +8,7 @@ import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
-  data?: FormattedContacts
+  data?: FormattedContact
   updateData: (val: string, type: 'name' | 'Notes') => Promise<void>
 }
 

@@ -16,10 +16,10 @@ import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { post } from 'src/api'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
+import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import { usePopup } from '../context/PopupContext'
 import Img from '../shared-ui/Img'
 
 type Props = {
@@ -28,7 +28,7 @@ type Props = {
 }
 
 const ContactsTable: React.FC<Props> = ({ className, data }) => {
-  const { dispatch: popupDispatch } = usePopup()
+  const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
   const router = useRouter()
   const updateUser = useCallback((userData: any) => {
@@ -144,7 +144,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
         ),
       },
     ],
-    [updateUser]
+    [router, updateUser]
   )
 
   const {
@@ -183,11 +183,11 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    popupDispatch({
-      type: 'UPDATE_COMPOSE_MULTI_DATA',
-      payload: (selectedFlatRows.map((item) => item.original) ||
-        []) as UserData[],
-    })
+    setSelectedUsers(
+      selectedFlatRows.map(
+        (item) => item.original as UserData | FormattedContact
+      )
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

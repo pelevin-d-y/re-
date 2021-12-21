@@ -21,7 +21,7 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
   const [isLoading, setIsLoading] = useState(false)
-  const [contacts, setContacts] = useState<FormattedContacts[]>([])
+  const [contacts, setContacts] = useState<FormattedContact[]>([])
   const { state: playlistState } = usePlaylist()
 
   const ref = useRef(null)
@@ -32,7 +32,7 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
         setIsLoading(true)
         try {
           const searchResponse = await post.postContactsSearch(searchValue)
-          let formattedContacts: FormattedContacts[] | [] = []
+          let formattedContacts: FormattedContact[] | [] = []
           const excludedUserIds = searchResponse.filter(
             (item) =>
               !playlistState?.contacts?.find(

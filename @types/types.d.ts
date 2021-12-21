@@ -241,7 +241,7 @@ type MainUserData = {
   phone?: string
 }
 
-type FormattedContacts = {
+type FormattedContact = {
   emails?: ContactMutable[]
   shortName?: string
   name?: string
@@ -266,7 +266,7 @@ type ListData = {
 
 type FormattedListData = {
   actions?: any
-  contacts?: FormattedContacts[]
+  contacts?: FormattedContact[]
   id: string
   inclusions?: any
   info?: { name?: string; description?: string }
