@@ -8,6 +8,7 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 import { get, post } from 'src/api/requests'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import ContactLists from './ContactLists'
+import ContactNextSteps from './ContactNextSteps'
 
 type Props = {
   className?: string
@@ -71,7 +72,9 @@ const ContactTabs: React.FC<Props> = ({ className, data }) => {
           <Tab className={s.tabItem}>Lists</Tab>
           <Tab className={s.tabItem}>Notes</Tab>
         </TabList>
-        <TabPanel>Coming soon</TabPanel>
+        <TabPanel>
+          <ContactNextSteps />
+        </TabPanel>
         <TabPanel>
           <ContactLists data={data} />
         </TabPanel>
