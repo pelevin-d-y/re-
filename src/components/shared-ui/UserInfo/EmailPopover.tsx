@@ -8,11 +8,11 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
 type Props = {
   className?: string
-  data: { email: string; id: number; status: string }[]
+  data: { email: string; id: string; status: string }[]
   setEmail: (emailData: any) => void
 }
 
-const PopoverRate: React.FC<Props> = ({ className, data, setEmail }) => {
+const EmailPopover: React.FC<Props> = ({ className, data, setEmail }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const setEmailHandler = (emailData: any) => {
@@ -141,4 +141,4 @@ const s = css`
   }
 `
 
-export default PopoverRate
+export default EmailPopover

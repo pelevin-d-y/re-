@@ -27,7 +27,7 @@ const UserInfo: React.FC<Props> = ({ className, data, updateData }) => {
       <ul className={s.list}>
         {emails && (
           <li className={s.item}>
-            <UserInfoEmail emails={emails} />
+            <UserInfoEmail emails={emails} userId={data?.contact_id} />
           </li>
         )}
         <li className={s.item}>

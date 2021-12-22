@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import parseMessage from 'src/helpers/utils/parse-message'
+import formatContactData from 'src/helpers/utils/format-contact-data'
+import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
+import { get, post } from 'src/api/requests'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
 import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
-import parseMessage from 'src/helpers/utils/parse-message'
 import { usePopup } from '../context/PopupContext'
 import UserInfo from '../shared-ui/UserInfo'
-import { get, post } from 'src/api/requests'
-import formatContactData from 'src/helpers/utils/format-contact-data'
-import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 
 type Props = {
   className?: string

@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
-import TabLists from '../shared-ui/popover/PopoverUserInfo/TabLists'
-import TabNotes from '../shared-ui/popover/PopoverUserInfo/TabNotes'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { get, post } from 'src/api/requests'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import ContactLists from './ContactLists'
 import ContactNextSteps from './ContactNextSteps'
+import TabNotes from '../shared-ui/popover/PopoverUserInfo/TabNotes'
 
 type Props = {
   className?: string

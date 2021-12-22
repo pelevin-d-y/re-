@@ -58,6 +58,7 @@ export const formatDataForApi = (
     if (checkIsKeysContainKey(key)) {
       throw new Error(`unsupported key previousValues! ==> ${key}`)
     }
+
     return {
       type: key,
       data: value,
