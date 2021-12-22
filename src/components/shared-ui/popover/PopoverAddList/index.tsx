@@ -8,6 +8,7 @@ import Popover from '../PopoverBase'
 import CardContainer from '../../cards/CardContainer'
 import Search from '../../Search'
 import SearchList from '../../SearchList'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {
   className?: string
@@ -17,6 +18,8 @@ type Props = {
 
 const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
   const { state } = usePlaylists()
+
+  const isDesktop = useMediaQuery({ query: '(min-width: 769px)' })
 
   const [searchText, setSearchText] = useState<string>('')
   const [searchResults, setSearchResults] = useState<FormattedListData[]>()
@@ -50,7 +53,7 @@ const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
   return (
     <Popover
       showPopupEvent="click"
-      position="bottom right"
+      position={isDesktop ? 'bottom right' : 'top right'}
       onClose={onCloseHandler}
       triggerElement={
         <Button className={classNames(className, s.button)} variant="outlined">
@@ -81,6 +84,8 @@ const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .popup {
     padding: 18px 20px;
     padding-bottom: 0;
@@ -91,6 +96,10 @@ const s = css`
   .lists {
     max-height: 320px;
     overflow: scroll;
+
+    @include mobile {
+      max-height: 250px;
+    }
   }
 
   .button {
@@ -104,7 +113,11 @@ const s = css`
 
   .card {
     padding: 16px 22px 33px 16px;
-    min-width: 480px;
+    width: 480px;
+
+    @include mobile {
+      width: 280px;
+    }
   }
 
   .searchContainer {

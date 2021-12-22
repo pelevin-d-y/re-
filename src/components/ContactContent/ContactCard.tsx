@@ -105,10 +105,19 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     min-width: 350px;
     padding: 37px 24px 47px 18px;
     border-right: 1px solid #dddddd;
+
+    @include mobile {
+      min-width: auto;
+      max-width: 350px;
+      border-right: none;
+      align-self: center;
+    }
   }
 
   .header {
