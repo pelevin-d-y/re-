@@ -1,0 +1,31 @@
+{
+  "nextSteps": [
+    {
+      "id": "0",
+      "name": "Landon Tucker",
+      "avatar": "",
+      "tag": "Super Connector",
+      "message": "Follow up with Landon on investor deck updates from meeting",
+      "nextStep": "Next step on Investors list",
+      "buttonLabel": "Send Investor Deck"
+    },
+    {
+      "id": "1",
+      "name": "Landon Tucker",
+      "avatar": "",
+      "tag": "Super Connector",
+      "message": "Follow up with Landon on investor deck updates from meeting",
+      "nextStep": "Next step on New Yorker list",
+      "buttonLabel": "I’m in town!"
+    },
+    {
+      "id": "2",
+      "name": "Landon Tucker",
+      "avatar": "",
+      "tag": "Super Connector",
+      "message": "Follow up with Landon on investor deck updates from meeting",
+      "nextStep": "Next step on Designer list",
+      "buttonLabel": "Share design update"
+    }
+  ]
+}
