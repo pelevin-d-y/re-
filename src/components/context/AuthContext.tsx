@@ -2,6 +2,7 @@ import * as React from 'react'
 import { setToken } from 'src/api'
 import getTokensUrl from 'src/helpers/utils/get-tokens-url'
 import { logInLink, LS_ID_TOKEN } from 'src/helpers/variables'
+import SplashScreen from '../shared-ui/SplashScreen'
 
 type Tokens = {
   isSignedIn?: boolean
@@ -74,7 +75,11 @@ const AuthProvider: React.FC = ({ children }) => {
     [state]
   )
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={value}>
+      {state?.isSignedIn ? children : <SplashScreen />}
+    </AuthContext.Provider>
+  )
 }
 
 const useAuth = (): ContextType => {
