@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -14,7 +14,6 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { post } from 'src/api'
@@ -23,6 +22,7 @@ import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
+import EditField from 'src/components/shared-ui/EditField'
 
 type Props = {
   className?: string
@@ -43,7 +43,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       [userData.contact_id]: [...newValue, ...previousValue],
     }
 
-    post.postContactsMutable(body)
+    return post.postContactsMutable(body)
   }, [])
 
   const columns: Column<any>[] = useMemo(
@@ -110,28 +110,20 @@ const Table: React.FC<Props> = ({ className, data }) => {
         Header: 'Notes',
         accessor: 'Notes',
         Cell: ({ value, row }) => {
-          const restValue = value
+          const [currentValue, setCurrentValue] = useState(value)
+
           return (
-            <div
-              className={s.cellContent}
-              onClick={(e) => e.stopPropagation()}
-              aria-hidden="true"
-            >
-              <EasyEdit
-                type="text"
-                value={value}
-                hideCancelButton
-                hideSaveButton
-                saveOnBlur
-                cssClassPrefix="list-note-"
-                onSave={(val: string) => {
-                  updateUser({
-                    ...row.original,
-                    newNotes: val,
-                  })
-                }}
-              />
-            </div>
+            <EditField
+              type="text"
+              value={currentValue}
+              onSave={(val: string) => {
+                setCurrentValue(val)
+                updateUser({
+                  ...row.original,
+                  newNotes: val,
+                }).catch(() => setCurrentValue(currentValue))
+              }}
+            />
           )
         },
       },

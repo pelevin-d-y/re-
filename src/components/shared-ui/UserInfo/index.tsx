@@ -3,9 +3,9 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
-import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import UserInfoEmail from './UserInfoEmail'
+import EditField from '../EditField'
 
 type Props = {
   className?: string
@@ -35,14 +35,10 @@ const UserInfo: React.FC<Props> = ({ className, data, updateData }) => {
             <span>Name</span>
             <Img alt="icon" className={s.pen} img="pen.png" />
           </div>
-          <EasyEdit
+          <EditField
             type="text"
-            className={s.valueInput}
             value={data?.name || ''}
-            hideCancelButton
-            hideSaveButton
-            saveOnBlur
-            cssClassPrefix="profile-card-"
+            classPrefix="profile-card-"
             onSave={(val: string) => onSave(val, 'name')}
           />
         </li>
@@ -117,10 +113,6 @@ const s = css`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  .valueInput {
-    background: red;
   }
 
   .triangle {
