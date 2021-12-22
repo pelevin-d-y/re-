@@ -29,7 +29,7 @@ const Popover: React.FC<Props> = ({
   showPopupEvent,
   position,
   nested,
-  onClose
+  onClose,
 }) => (
   <Popup
     trigger={triggerElement}
