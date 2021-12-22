@@ -87,6 +87,8 @@ const ContactTabs: React.FC<Props> = ({ className, data }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     padding: 37px 24px 47px 18px;
     width: 100%;
@@ -97,13 +99,14 @@ const s = css`
     padding-left: 20px;
     padding-right: 20px;
     margin: 0;
-
     border-bottom: 1px solid #dddddd;
   }
 
   .tabItem {
     display: inline-block;
-    min-width: 100px;
+    white-space: nowrap;
+    max-width: 100px;
+    width: 100%;
     border-bottom: 4px solid transparent;
     text-align: center;
     font-size: 14px;

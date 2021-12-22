@@ -33,9 +33,12 @@ const ContactContent: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     padding: 10px 14px 14px;
   }
+  
   .section {
     display: flex;
     width: 100%;
@@ -44,6 +47,10 @@ const s = css`
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
     border-top: 4px solid #0b5cff;
+
+    @include mobile {
+      flex-flow: column nowrap;
+    }
   }
 `
 

@@ -166,7 +166,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     flex: 1 0 auto;
-
+    
     @include mobile {
       width: 100%;
       flex-flow: row wrap;

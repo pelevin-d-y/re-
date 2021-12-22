@@ -27,7 +27,7 @@ const ContactNextSteps: React.FC<Props> = ({ className }) => (
             />
             <div className={s.info}>
               <div className={s.name}>{step?.name}</div>
-              <TagUser text={step?.tag} />
+              <TagUser className={s.tag} text={step?.tag} />
             </div>
           </div>
           <UserHeader className={s.message} text={step?.message} />
@@ -68,18 +68,32 @@ const s = css`
     display: flex;
     justify-content: space-between;
     margin-bottom: 31px;
+    flex-wrap: wrap;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 0;
+    }
   }
 
   .profileInfo {
     display: flex;
-  }
+    margin-bottom: 10px;
 
-  .info {
-    margin-top: 5px;
+    @include mobile {
+      flex-direction: column;
+    }
   }
 
   .avatar {
     margin-right: 17px;
+
+    @include mobile {
+      align-self: center;
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
   }
 
   .name {
@@ -88,26 +102,58 @@ const s = css`
     line-height: 19px;
     margin-bottom: 9px;
     white-space: nowrap;
+
+    @include mobile {
+      text-align: center;
+    }
+  }
+
+  .tag {
+    @include mobile {
+      margin-bottom: 5px;
+    }
   }
 
   .message {
     max-width: 314px;
+
+    @include mobile {
+      margin-bottom: 10px;
+    }
   }
 
   .bottomContainer {
     display: flex;
     justify-content: space-between;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   .nextStep {
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
+    width: 100%;
+    align-self: center;
+
+    @include mobile {
+      text-align: center;
+      margin-bottom: 10px;
+    }
   }
 
   .actions {
     display: flex;
     align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+
+    @include mobile {
+      justify-content: center;
+    }
   }
 
   .pinButton {
@@ -115,7 +161,9 @@ const s = css`
   }
 
   .buttonPopup {
-    width: 217px;
+    max-width: 217px;
+    width: 100%;
+    height: auto;
   }
 `
 

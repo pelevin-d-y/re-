@@ -87,7 +87,7 @@ const s = css`
 
   .list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-gap: 15px;
     padding: 6px 21px 31px 21px;
 
