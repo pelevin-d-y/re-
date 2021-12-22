@@ -1,32 +1,40 @@
 import React from 'react'
 import { css } from 'astroturf'
 import EasyEdit from 'react-easy-edit'
+import classNames from 'classnames'
 
 type Props = {
   className?: string
+  classPrefix?: string
   type: string
-  classPrefix: string
   value: string
-  onSave: (...args: any) => any
+  onSave: (val: string) => any
 }
 
 const EditField: React.FC<Props> = ({
   type,
   classPrefix,
   value,
+  className,
   onSave,
   ...restProps
 }) => (
-  <EasyEdit
-    type={type}
-    value={value}
-    hideCancelButton
-    hideSaveButton
-    saveOnBlur
-    cssClassPrefix={classPrefix}
-    onSave={(val: string) => onSave(val, 'name')}
-    {...restProps}
-  />
+  <div
+    className={classNames(className, s.container)}
+    onClick={(e) => e.stopPropagation()}
+    aria-hidden="true"
+  >
+    <EasyEdit
+      type={type}
+      value={value ? value : null}
+      hideCancelButton
+      hideSaveButton
+      saveOnBlur
+      cssClassPrefix={classPrefix}
+      onSave={onSave}
+      {...restProps}
+    />
+  </div>
 )
 
 const s = css`
