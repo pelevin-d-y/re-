@@ -151,20 +151,9 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  postRecommendations: ({
-    email,
-    note,
-  }: {
-    note: string
-    email: string
-  }): any =>
+  postRecommendations: (data: object) =>
     requests
-      .post(`${AWS_API}/dash/recommendations`, {
-        [email]: {
-          Status: '',
-          Notes: note,
-        },
-      })
+      .post(`${AWS_API}/dash/recommendations`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 }

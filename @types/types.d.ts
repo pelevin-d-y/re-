@@ -200,6 +200,7 @@ type RecommendationUser = {
   playlist_resume_context: string
   last_client_timestamp: number
   playlist_anniversary_context: string
+  Status: string
 }
 
 interface UserData extends RecommendationUser {
@@ -249,6 +250,7 @@ type FormattedContact = {
   avatar?: string
   contact_id: string
   Notes?: string
+  Status?: string
 }
 
 type ListData = {
