@@ -6,6 +6,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { css } from 'astroturf'
 import { useClient } from 'src/components/context/ClientContext'
 import { random } from 'lodash'
+import { post } from 'src/api'
 
 type Props = {
   className?: string
@@ -36,34 +37,22 @@ const PopoverRemoveCard: React.FC<Props> = ({
   classRemove,
   data,
 }) => {
-  const { state: clientState, updateUserData } = useClient()
-  const { address } = data
-  const [isOpen, setIsOpen] = useState(false)
+  const { updateUserData } = useClient()
 
-  const getRandomIndex = () =>
-    random(
-      (clientState.data?.contacts as []).filter(
-        (item: UserData) => item.address !== address
-      ).length - 1
-    )
+  const [isOpen, setIsOpen] = useState(false)
 
   const closeHandler = () => {
     setIsOpen(false)
-    const contacts: UserData[] = clientState.data?.contacts as []
-    const prevIndex = contacts.findIndex(
-      (item) => item.address === data.address
-    )
-    const nextIndex = getRandomIndex()
-    const newContacts = contacts.map((item, index) => {
-      if (index === prevIndex) {
-        return contacts[nextIndex]
-      }
-      if (index === nextIndex) {
-        return contacts[prevIndex]
-      }
-      return item
-    })
-    // updateUserData({ ...clientState, contacts: newContacts })
+
+    post
+      .postRecommendations({
+        [data.address]: {
+          Status: 'Declined',
+          Notes: data?.Notes,
+        },
+      })
+      .then(() => updateUserData())
+      .catch((err) => console.log('postRecommendations err ==>', err))
   }
 
   return (
@@ -97,26 +86,6 @@ const PopoverRemoveCard: React.FC<Props> = ({
                 {item.text}
               </button>
             ))}
-
-            {/* <button className={s.button} type="button" onClick={closeHandler}>
-              Not relevant
-            </button>
-            <button className={s.button} type="button" onClick={closeHandler}>
-              Not a good time
-            </button>
-            <button className={s.button} type="button" onClick={closeHandler}>
-              We spoke offline
-            </button>
-            <button className={s.button} type="button" onClick={closeHandler}>
-              Will reach out later
-            </button> */}
-            {/* <button
-              className={classNames(s.button, s.buttonWithoutBorder)}
-              type="button"
-              onClick={closeHandler}
-            >
-              Never will contact
-            </button> */}
           </div>
         </CardContainer>
       }
