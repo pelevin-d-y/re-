@@ -54,7 +54,7 @@ const Content: React.FC = () => {
   const filteredStatusContacts = contacts?.filter(
     (contact: UserData) => contact.Status !== 'Declined'
   )
-  console.log(filteredStatusContacts)
+
   const renderRecommendations = () => {
     return filteredStatusContacts && !arrayIsEmpty(filteredStatusContacts) ? (
       <Recommendations
