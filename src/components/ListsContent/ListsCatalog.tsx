@@ -42,12 +42,12 @@ const ListsCatalog: React.FC<Props> = ({ data }) => {
       <div className={s.list}>
         <div className={s.column}>
           {cardsStructure.firstColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} />
+            <CardList className={s.card} key={item.id} data={item} showButtonAddList />
           ))}
         </div>
         <div className={s.column}>
           {cardsStructure.secondColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} />
+            <CardList className={s.card} key={item.id} data={item} showButtonAddList />
           ))}
         </div>
       </div>

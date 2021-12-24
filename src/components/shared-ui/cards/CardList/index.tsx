@@ -9,15 +9,19 @@ import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
 import CardContainer from '../CardContainer'
 import { LoaderComponent } from '../../Loader'
+import Link from 'src/components/shared-ui/Link'
+import SvgIcon from '../../SvgIcon'
 
 type Props = {
   className?: string
   data: FormattedListData
+  showButtonAddList?: boolean
 }
 
 const CardList: React.FC<Props> = ({
   className,
   data: { info, id, contacts },
+  showButtonAddList,
 }) => {
   const router = useRouter()
   const { deletePlaylists, createPlaylist, getPlaylists } = usePlaylists()
@@ -66,6 +70,7 @@ const CardList: React.FC<Props> = ({
       )}
       <div className={classNames(s.actions)}>
         <PopoverDots
+          className={s.dots}
           variant="outlined"
           items={[
             {
@@ -82,9 +87,15 @@ const CardList: React.FC<Props> = ({
             },
           ]}
         />
-        <Button variant="contained" handler={moveToListPage}>
+        {showButtonAddList && (
+          <Link className={s.link} href='#'>
+            Add to list
+          </Link>
+        )}
+        <Link className={s.link} href={`/list?id=${id}`}>
           View List
-        </Button>
+          <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
+        </Link>
       </div>
       {isLoading && <LoaderComponent />}
     </CardContainer>
@@ -144,12 +155,35 @@ const s = css`
   }
 
   .actions {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 9px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     width: 100%;
     margin-top: auto;
+  }
+
+  .dots {
+    min-width: 48px;
+  }
+
+  .link {
+    position: relative;
+    margin-left: 16px;
+
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--blue);
+  }
+
+  .linkIcon {
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+
+    color: var(--blue);
+    transform: rotate(180deg);
   }
 `
 
