@@ -15,6 +15,7 @@ const ContactContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
 
   const client = clientState?.data?.contacts?.filter(
+    // eslint-disable-next-line camelcase
     ({ contact_id }) => contact_id === query.id
   )?.[0]
 
@@ -38,7 +39,7 @@ const s = css`
   .container {
     padding: 10px 14px 14px;
   }
-  
+
   .section {
     display: flex;
     width: 100%;

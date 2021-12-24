@@ -18,11 +18,11 @@ import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { post } from 'src/api'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
+import EditField from 'src/components/shared-ui/EditField'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
-import EditField from 'src/components/shared-ui/EditField'
 
 type Props = {
   className?: string
