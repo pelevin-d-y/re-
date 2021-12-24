@@ -12,7 +12,7 @@ type Props = {
 }
 
 const EditField: React.FC<Props> = ({
-  type,
+  type = 'text',
   classPrefix,
   value,
   className,
@@ -26,7 +26,7 @@ const EditField: React.FC<Props> = ({
   >
     <EasyEdit
       type={type}
-      value={value ? value : null}
+      value={value || null}
       hideCancelButton
       hideSaveButton
       saveOnBlur

@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
-import { get, post } from 'src/api'
-import formatContactData from 'src/helpers/utils/format-contact-data'
-import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
-import UserInfo from '../../UserInfo'
+import { apiHelpers, get } from 'src/api'
+import { UserInfo } from '../../UserInfo'
 import TabLists from './TabLists'
 import TabRecs from './TabRecs'
 import TabNotes from './TabNotes'
@@ -17,49 +15,24 @@ type Props = {
 }
 
 const InfoTab: React.FC<Props> = ({ className, data }) => {
-  const [mutableData, setMutableData] = useState<FormattedContact | undefined>(
+  const [mutableData, setMutableData] = useState<ContactMutable[] | undefined>(
     undefined
   )
 
   useEffect(() => {
     get.getContactsMutable([data.contact_id]).then((res) => {
-      const formattedData = formatContactData(Object.values(res)[0])
-      setMutableData(formattedData)
+      setMutableData(Object.values(res)[0])
     })
   }, [data.contact_id])
 
-  const updateMutableData = async (val: string, type: 'name' | 'Notes') => {
+  const updateMutableData = async (
+    newVal: ContactMutable,
+    prevVal?: ContactMutable
+  ) => {
     try {
-      if (mutableData) {
-        let value: string | string[] = val
-        if (type === 'name') {
-          value = val.split(' ')
-        }
-
-        const { newValue, previousValue } = formatDataForApi(
-          { [type]: value },
-          {
-            [type]:
-              type === 'name'
-                ? mutableData[type]?.split(' ')
-                : mutableData[type],
-          }
-        )
-
-        const body = {
-          [data.contact_id]: [...newValue, ...previousValue],
-        }
-
-        await post.postContactsMutable(body as any)
-        const contactMutableRes = await get.getContactsMutable([
-          data.contact_id,
-        ])
-
-        const formattedData = formatContactData(
-          Object.values(contactMutableRes)[0]
-        )
-        setMutableData(formattedData)
-      }
+      await apiHelpers.updateMutableData(data.contact_id, newVal, prevVal)
+      const contactMutableRes = await get.getContactsMutable([data.contact_id])
+      setMutableData(Object.values(contactMutableRes)[0])
     } catch (err) {
       console.warn('updateMutableData ==>', err)
     }
@@ -75,7 +48,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => {
           <Tab className={s.tabItem}>Notes</Tab>
         </TabList>
         <TabPanel>
-          <UserInfo data={mutableData} updateData={updateMutableData} />
+          <UserInfo data={mutableData} updateApiData={updateMutableData} />
           <div className={s.removeButtonContainer}>
             <Button className={s.removeButton} variant="outlined">
               Remove from Recommendations
@@ -89,7 +62,7 @@ const InfoTab: React.FC<Props> = ({ className, data }) => {
           <TabRecs />
         </TabPanel> */}
         <TabPanel>
-          <TabNotes data={mutableData} updateData={updateMutableData} />
+          <TabNotes data={mutableData} updateApiData={updateMutableData} />
         </TabPanel>
       </ReactTabs>
     </div>

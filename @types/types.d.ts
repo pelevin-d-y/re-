@@ -220,7 +220,7 @@ type RecsResponse = {
 
 type ContactMutable = {
   type: string
-  data: string | string[]
+  data: string[] | string
   review: number
   meta: any
 }

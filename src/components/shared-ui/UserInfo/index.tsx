@@ -4,30 +4,44 @@ import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import { formatTime } from 'src/helpers/utils/parseTime'
+import { getBaseMutableData } from 'src/helpers/utils/base-mutable-data'
 import UserInfoEmail from './UserInfoEmail'
 import EditField from '../EditField'
 
+export type UpdateMutableData = (
+  val: ContactMutable,
+  prevVal?: ContactMutable | undefined
+) => Promise<void>
+
 type Props = {
   className?: string
-  data?: FormattedContact
-  updateData: (val: string, type: 'name' | 'Notes') => Promise<void>
+  data?: ContactMutable[]
+  updateApiData: UpdateMutableData
 }
 
-const UserInfo: React.FC<Props> = ({ className, data, updateData }) => {
-  const onSave = (val: string, type: 'name' | 'Notes') => {
-    updateData(val, type)
+const UserInfo: React.FC<Props> = ({ className, data, updateApiData }) => {
+  const onSaveName = (val: string) => {
+    const contactItem = data?.find((item) => item.type === 'name')
+
+    if (contactItem) {
+      updateApiData({ ...contactItem, data: val.split(' ') }, contactItem)
+    } else {
+      updateApiData({
+        ...getBaseMutableData({ data: val.split(' '), type: 'name' }),
+      })
+    }
   }
 
-  const emails: string[] | null = data?.emails
-    ? (data.emails.map((item) => item.data) as string[])
-    : null
+  const name = (
+    data?.find((item) => item.type === 'name')?.data as string[] | undefined
+  )?.join(' ')
 
   return (
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
-        {emails && (
+        {data && (
           <li className={s.item}>
-            <UserInfoEmail emails={emails} userId={data?.contact_id} />
+            <UserInfoEmail data={data} updateApiData={updateApiData} />
           </li>
         )}
         <li className={s.item}>
@@ -37,9 +51,9 @@ const UserInfo: React.FC<Props> = ({ className, data, updateData }) => {
           </div>
           <EditField
             type="text"
-            value={data?.name || ''}
+            value={name || ''}
             classPrefix="profile-card-"
-            onSave={(val: string) => onSave(val, 'name')}
+            onSave={(val: string) => onSaveName(val)}
           />
         </li>
         {/* {data.last_contact_time && (
@@ -79,6 +93,7 @@ const s = css`
   }
 
   .item {
+    position: relative;
     padding: 14px 20px;
 
     font-size: 12px;
@@ -122,4 +137,4 @@ const s = css`
   }
 `
 
-export default UserInfo
+export { UserInfo }

@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
-import formatContactData from 'src/helpers/utils/format-contact-data'
-import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
-import { get, post } from 'src/api/requests'
+import { apiHelpers, get, post } from 'src/api/requests'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
 import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
 import { usePopup } from '../context/PopupContext'
-import UserInfo from '../shared-ui/UserInfo'
+import { UserInfo } from '../shared-ui/UserInfo'
 
 type Props = {
   className?: string
@@ -25,49 +23,24 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
-  const [mutableData, setMutableData] = useState<FormattedContact | undefined>(
+  const [mutableData, setMutableData] = useState<ContactMutable[] | undefined>(
     undefined
   )
 
   useEffect(() => {
     get.getContactsMutable([data.contact_id]).then((res) => {
-      const formattedData = formatContactData(Object.values(res)[0])
-      setMutableData(formattedData)
+      setMutableData(Object.values(res)[0])
     })
   }, [data.contact_id])
 
-  const updateMutableData = async (val: string, type: 'name' | 'Notes') => {
+  const updateMutableData = async (
+    newVal: ContactMutable,
+    prevVal?: ContactMutable
+  ) => {
     try {
-      if (mutableData) {
-        let value: string | string[] = val
-        if (type === 'name') {
-          value = val.split(' ')
-        }
-
-        const { newValue, previousValue } = formatDataForApi(
-          { [type]: value },
-          {
-            [type]:
-              type === 'name'
-                ? mutableData[type]?.split(' ')
-                : mutableData[type],
-          }
-        )
-
-        const body = {
-          [data.contact_id]: [...newValue, ...previousValue],
-        }
-
-        await post.postContactsMutable(body as any)
-        const contactMutableRes = await get.getContactsMutable([
-          data.contact_id,
-        ])
-
-        const formattedData = formatContactData(
-          Object.values(contactMutableRes)[0]
-        )
-        setMutableData(formattedData)
-      }
+      await apiHelpers.updateMutableData(data.contact_id, newVal, prevVal)
+      const contactMutableRes = await get.getContactsMutable([data.contact_id])
+      setMutableData(Object.values(contactMutableRes)[0])
     } catch (err) {
       console.warn('updateMutableData ==>', err)
     }
@@ -99,7 +72,7 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
           </PopoverActions>
         </div>
       </div>
-      <UserInfo data={mutableData} updateData={updateMutableData} />
+      <UserInfo data={mutableData} updateApiData={updateMutableData} />
     </div>
   )
 }

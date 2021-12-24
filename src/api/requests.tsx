@@ -145,6 +145,7 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   postClientDeauthorization: (data: string) =>
     requests
       .post(`${AWS_API}/client/deauthorization`, data)
@@ -169,4 +170,33 @@ const post = {
       .catch((err) => Promise.reject(err)),
 }
 
-export { get, post }
+const apiHelpers = {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  updateMutableData: async (
+    id: string,
+    newVal: ContactMutable,
+    prevVal?: ContactMutable
+  ) => {
+    try {
+      if (prevVal) {
+        const body = {
+          [id]: [
+            newVal,
+            {
+              ...prevVal,
+              review: 2,
+            },
+          ],
+        }
+
+        return await post.postContactsMutable(body)
+      }
+      return await post.postContactsMutable({ [id]: [newVal] })
+    } catch (err) {
+      console.warn('updateMutableData ==>', err)
+      return Promise.reject(err)
+    }
+  },
+}
+
+export { get, post, apiHelpers }

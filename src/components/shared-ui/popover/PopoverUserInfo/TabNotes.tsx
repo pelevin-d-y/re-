@@ -3,41 +3,55 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import { Formik, Field } from 'formik'
-import { post } from 'src/api'
-import { useClient } from 'src/components/context/ClientContext'
+import { UpdateMutableData } from '../../UserInfo'
 
 type Props = {
   className?: string
-  data?: FormattedContact
-  updateData: (val: string, type: 'name' | 'Notes') => Promise<void>
+  data?: ContactMutable[]
+  updateApiData: UpdateMutableData
 }
 
-const TabNotes: React.FC<Props> = ({ className, data, updateData }) => (
-  <div className={classNames(className, s.container)}>
-    <Formik
-      initialValues={{
-        notes: data?.Notes ? data?.Notes : '',
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        updateData(values.notes, 'Notes').then(() => setSubmitting(false))
-      }}
-    >
-      {({ handleSubmit, isSubmitting }) => (
-        <form className={s.form} onSubmit={handleSubmit}>
-          <Field className={s.textarea} name="notes" as="textarea" />
-          <Button
-            className={s.button}
-            type="submit"
-            variant="outlined"
-            disabled={isSubmitting}
-          >
-            Save
-          </Button>
-        </form>
-      )}
-    </Formik>
-  </div>
-)
+const TabNotes: React.FC<Props> = ({ className, data, updateApiData }) => {
+  const noteData = data?.find((item) => item.type === 'Notes')
+
+  return (
+    <div className={classNames(className, s.container)}>
+      <Formik
+        initialValues={{
+          notes: noteData?.data || '',
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          if (noteData) {
+            updateApiData({ ...noteData, data: values.notes }, noteData).then(
+              () => setSubmitting(false)
+            )
+          } else {
+            updateApiData({
+              data: values.notes,
+              review: 1,
+              type: 'Notes',
+              meta: {},
+            }).then(() => setSubmitting(false))
+          }
+        }}
+      >
+        {({ handleSubmit, isSubmitting }) => (
+          <form className={s.form} onSubmit={handleSubmit}>
+            <Field className={s.textarea} name="notes" as="textarea" />
+            <Button
+              className={s.button}
+              type="submit"
+              variant="outlined"
+              disabled={isSubmitting}
+            >
+              Save
+            </Button>
+          </form>
+        )}
+      </Formik>
+    </div>
+  )
+}
 
 const s = css`
   .container {
