@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { css } from 'astroturf'
 import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
 import CardShare from 'src/components/shared-ui/cards/CardShareLink'
@@ -14,6 +14,8 @@ import { LoaderPage } from '../shared-ui/Loader'
 import Recommendations from './Recommendations'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import CardGuide from '../shared-ui/cards/CardGuide'
+import { get } from 'src/api/requests'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 
 const Content: React.FC = () => {
   const { state: clientState } = useClient()
@@ -49,12 +51,21 @@ const Content: React.FC = () => {
 
   const HomeUpcomingContacts = contacts?.slice(2, 5)
 
-  const renderRecommendations = () =>
-    contacts && !arrayIsEmpty(contacts) ? (
-      <Recommendations className={s.section} data={contacts?.slice(0, 3)} />
+  const filteredStatusContacts = contacts?.filter(
+    (contact: UserData) => contact.Status !== 'Declined'
+  )
+
+  const renderRecommendations = () => {
+    return filteredStatusContacts && !arrayIsEmpty(filteredStatusContacts) ? (
+      <Recommendations
+        className={s.section}
+        data={filteredStatusContacts?.slice(0, 3)}
+      />
     ) : (
       <EmptyRecommendations className={s.section} />
     )
+  }
+
   const renderCalendar = () =>
     contacts && !arrayIsEmpty(contacts) ? (
       <HomeUpcoming
