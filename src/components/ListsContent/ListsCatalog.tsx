@@ -1,14 +1,11 @@
-import React, { useEffect, useMemo } from 'react'
-import classNames from 'classnames'
+import React, { useMemo } from 'react'
 import { css } from 'astroturf'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { usePlaylists } from 'src/components//context/PlaylistsContext'
-import SectionsHeader from '../shared-ui/SectionHeader'
 import { LoaderPage } from '../shared-ui/Loader'
 
 type Props = {
-  className?: string
+  data: ListData[]
 }
 
 type CardsStructure = {
@@ -16,9 +13,9 @@ type CardsStructure = {
   secondColumn: ListData[]
 }
 
-const ListsCatalog: React.FC<Props> = ({ className }) => {
+const ListsCatalog: React.FC<Props> = ({ data }) => {
   const {
-    state: { data: lists, isLoading },
+    state: { isLoading },
   } = usePlaylists()
 
   const cardsStructure: CardsStructure = useMemo(() => {
@@ -27,7 +24,7 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
       secondColumn: [],
     }
 
-    lists?.map((item, index) => {
+    data?.map((item, index) => {
       const remainder = (index + 1) % 2
       if (remainder) {
         return value.firstColumn.push(item)
@@ -37,33 +34,24 @@ const ListsCatalog: React.FC<Props> = ({ className }) => {
     })
 
     return value
-  }, [lists])
+  }, [data])
 
   return (
-    <CardContainer className={classNames(s.container, className)}>
-      <SectionsHeader
-        data={lists}
-        title="Your lists"
-        description="List of people with a common themes"
-        icon="lists"
-        iconBackground="#ECFFFD"
-        iconColor="#0DB09D"
-        link={{ text: 'Create New', href: '/create-list' }}
-      />
+    <>
       {isLoading && <LoaderPage />}
       <div className={s.list}>
         <div className={s.column}>
           {cardsStructure.firstColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} />
+            <CardList className={s.card} key={item.id} data={item} showButtonAddList />
           ))}
         </div>
         <div className={s.column}>
           {cardsStructure.secondColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} />
+            <CardList className={s.card} key={item.id} data={item} showButtonAddList />
           ))}
         </div>
       </div>
-    </CardContainer>
+    </>
   )
 }
 
@@ -78,7 +66,7 @@ const s = css`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 15px;
-    padding: 6px 21px 31px 21px;
+    padding: 27px 21px 31px 21px;
 
     @include mobile {
       grid-template-columns: none;
