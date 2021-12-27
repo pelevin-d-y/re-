@@ -24,6 +24,7 @@ type Action =
       type: 'UPDATE_COMPOSE_MULTI_DATA'
       payload: UserData[] | FormattedContact[] | null
     }
+  | { type: 'UPDATE_LIST_ID_DATA'; payload: string }
 
 type State = {
   emailModalIsOpen: boolean
@@ -34,6 +35,7 @@ type State = {
   modalPinnedIsOpen: boolean
   data: UserData | FormattedContact | null
   dataMulti: UserData[] | FormattedContact[] | null
+  list_id: string | ''
 }
 
 type ContextType = {
@@ -52,6 +54,7 @@ const initialState = {
   modalPinnedIsOpen: false,
   data: null,
   dataMulti: null,
+  list_id: '',
 }
 
 const popupReducer = (state: State, action: Action): State => {
@@ -118,6 +121,13 @@ const popupReducer = (state: State, action: Action): State => {
       return {
         ...state,
         dataMulti: action.payload,
+      }
+    }
+
+    case 'UPDATE_LIST_ID_DATA': {
+      return {
+        ...state,
+        list_id: action.payload,
       }
     }
 
