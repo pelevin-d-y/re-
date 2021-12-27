@@ -11,6 +11,7 @@ import CardContainer from '../CardContainer'
 import { LoaderComponent } from '../../Loader'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from '../../SvgIcon'
+import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
   className?: string
@@ -24,17 +25,12 @@ const CardList: React.FC<Props> = ({
   showButtonAddList,
 }) => {
   const router = useRouter()
-  const { deletePlaylists, createPlaylist, getPlaylists } = usePlaylists()
-  const [isLoading, setIsLoading] = useState(false)
+  const {  createPlaylist, getPlaylists } = usePlaylists()
+  const { dispatch: popupDispatch } = usePopup()
 
   const deleteHandler = async () => {
-    try {
-      setIsLoading(true)
-      await deletePlaylists([id])
-      setIsLoading(false)
-    } catch (err) {
-      setIsLoading(false)
-    }
+    popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
+    popupDispatch({ type: 'UPDATE_LIST_ID_DATA', payload: id })
   }
 
   const moveToListPage = () => {
@@ -88,7 +84,7 @@ const CardList: React.FC<Props> = ({
           ]}
         />
         {showButtonAddList && (
-          <Link className={s.link} href='#'>
+          <Link className={s.link} href="#">
             Add to list
           </Link>
         )}
@@ -97,7 +93,6 @@ const CardList: React.FC<Props> = ({
           <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
         </Link>
       </div>
-      {isLoading && <LoaderComponent />}
     </CardContainer>
   )
 }
