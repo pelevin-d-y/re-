@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { setToken } from 'src/api'
+import { get, setToken } from 'src/api'
 import getTokensUrl from 'src/helpers/utils/get-tokens-url'
 import { logInLink, LS_ID_TOKEN } from 'src/helpers/variables'
 import SplashScreen from '../shared-ui/SplashScreen'
@@ -56,15 +56,17 @@ const AuthProvider: React.FC = ({ children }) => {
 
   React.useLayoutEffect(() => {
     const token = getIdToken()
-    if (token) {
-      setToken(token)
-      dispatch({
-        type: 'UPDATE_AUTH_DATA',
-        payload: { isSignedIn: true },
-      })
-    } else {
-      document.location.href = logInLink
-    }
+    setToken(token)
+
+    get
+      .getAuth()
+      .then(() =>
+        dispatch({
+          type: 'UPDATE_AUTH_DATA',
+          payload: { isSignedIn: true },
+        })
+      )
+      .catch(() => (document.location.href = logInLink))
   }, [])
 
   const value: ContextType = React.useMemo(
