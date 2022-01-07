@@ -27,9 +27,9 @@ const Sidebar: React.FC<Props> = ({ className, toggleMenu, isOpen }) => {
           <Logo isOpen={isOpen} />
         </div>
         <SidebarList isOpen={isOpen} />
-        <Button className={s.link} handler={() => logOut()} variant="outlined">
+        {/* <Button className={s.link} handler={() => logOut()} variant="outlined">
           Log Out
-        </Button>
+        </Button> */}
       </div>
     </div>
   )
