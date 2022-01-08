@@ -105,7 +105,7 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
           className={classNames(s.contact, s.button)}
           variant="contained"
         >
-          Contact
+          Compose Messages
         </Button>
       )}
     </div>
@@ -162,7 +162,15 @@ const s = css`
     }
   }
 
-  .contact,
+  .contact {
+    max-width: 160px;
+    width: 100%;
+
+    @include mobile {
+      margin-left: 3px;
+    }
+  }
+
   .remove,
   .filter {
     max-width: 97px;
