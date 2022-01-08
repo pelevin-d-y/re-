@@ -58,10 +58,10 @@ const Accounts: React.FC<Props> = ({ className, data }) => {
       {data.authUrls && data?.authUrls[''] && (
         <GoogleAuth className={s.googleAuth} authUrl={data?.authUrls['']} />
       )}
-      <div className={s.socials}>
+      {/* <div className={s.socials}>
         <div className={s.subtitle}>Social Accounts</div>
         <Socials />
-      </div>
+      </div> */}
     </div>
   )
 }
