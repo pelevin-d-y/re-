@@ -17,7 +17,6 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
 import PopoverRate from '../shared-ui/popover/PopoverRate'
 
@@ -48,7 +47,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
                 data={row.original}
                 template={row.original.templateData}
               />
-              <TagUser className={s.nameTag} text="Old friend" />
             </div>
           </div>
         ),
@@ -243,13 +241,6 @@ const s = css`
 
   .lastData {
     margin-bottom: 6px;
-  }
-
-  .nameTag {
-    margin-top: 5px;
-
-    background: var(--white);
-    font-weight: var(--regular);
   }
 
   .buttonWrapper {

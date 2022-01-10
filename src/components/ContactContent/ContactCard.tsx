@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { apiHelpers, get, post } from 'src/api/requests'
+import { apiHelpers, get} from 'src/api/requests'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
-import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
 import { usePopup } from '../context/PopupContext'
 import { UserInfo } from '../shared-ui/UserInfo'
@@ -52,7 +51,6 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
         <Avatar className={s.avatar} image={data?.avatar} />
         <div className={s.headerInfo}>
           <div className={s.name}>{data?.name}</div>
-          <TagUser className={s.tag} text="Super Connector" />
           {data.templateData && (
             <UserHeader
               className={s.message}
@@ -119,10 +117,6 @@ const s = css`
     font-size: 24px;
     text-align: center;
     margin-bottom: 12px;
-  }
-
-  .tag {
-    margin-bottom: 37px;
   }
 
   .message {
