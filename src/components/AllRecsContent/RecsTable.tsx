@@ -19,6 +19,7 @@ import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import UserHeader from '../shared-ui/UserHeader'
 import PopoverRate from '../shared-ui/popover/PopoverRate'
+import Button from '../shared-ui/Button'
 
 type Props = {
   className?: string
@@ -83,13 +84,9 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 150,
         Cell: () => (
           <div className={s.buttonWrapper}>
-            <PopoverRate
-              className={s.button}
-              variant="outlined"
-              buttonClickHandler={() => null}
-            >
+            <Button className={s.button} variant="outlined" handler={() => {}}>
               Follow up
-            </PopoverRate>
+            </Button>
           </div>
         ),
       },
