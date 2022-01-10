@@ -76,6 +76,8 @@ const CardList: React.FC<Props> = ({
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .usersCount {
     margin-top: 20px;
     margin-bottom: 16px;
@@ -112,6 +114,12 @@ const s = css`
         0px 1px 1px rgba(34, 34, 34, 0.0989128);
       border-radius: 6px;
 
+      .removeButton {
+        display: block;
+      }
+    }
+
+    @include mobile {
       .removeButton {
         display: block;
       }
