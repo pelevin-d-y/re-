@@ -10,7 +10,6 @@ import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import RecsTable from './RecsTable'
 import { LoaderPage } from '../shared-ui/Loader'
-import { TagRecs } from '../shared-ui/Tags'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import TableActions from '../shared-ui/TableActions'
 import { TableProvider } from '../context/TableContext'
@@ -18,15 +17,6 @@ import { TableProvider } from '../context/TableContext'
 type Props = {
   className?: string
 }
-
-const tags = [
-  'New York',
-  'Investor',
-  'Follow Up',
-  'Pinned',
-  'Been awhile',
-  'Urgent',
-]
 
 const AllRecsContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
@@ -74,11 +64,6 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
         <div className={s.content}>
           <TableProvider>
             <div className={s.contentHeader}>
-              <div className={s.tags}>
-                {tags.map((tag) => (
-                  <TagRecs className={s.tag} text={tag} key={tag} />
-                ))}
-              </div>
               <TableActions
                 className={s.actions}
                 buttons={['dots', 'filter', 'contact']}
@@ -154,17 +139,6 @@ const s = css`
     }
   }
 
-  .tags {
-    @include mobile {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: center;
-
-      max-width: 400px;
-      width: 100%;
-    }
-  }
-
   .emptyRecs {
     max-width: 800px;
     width: 100%;
@@ -185,16 +159,8 @@ const s = css`
     width: 86px;
   }
 
-  .tag {
-    margin-right: 8px;
-    margin-bottom: 8px;
-  }
-
   .actions {
     margin-left: auto;
-
-    padding-left: 27px;
-    border-left: 1px solid #e6e6e6;
 
     @include mobile {
       margin-top: 15px;
