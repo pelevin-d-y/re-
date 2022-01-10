@@ -8,7 +8,6 @@ import { get } from 'src/api/requests'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
 import SectionHeader from '../shared-ui/SectionHeader'
-import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import { LoaderPage } from '../shared-ui/Loader'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
@@ -20,8 +19,6 @@ type Props = {
 }
 
 const AllContactsContent: React.FC<Props> = ({ className }) => {
-  const { state: clientState } = useClient()
-
   const [loading, setLoading] = useState(false)
   const [mutableData, setMutableData] = useState<
     FormattedContact[] | undefined
@@ -29,20 +26,14 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
 
   useEffect(() => {
     setLoading(true)
-    if (clientState.data?.contacts) {
-      get
-        .getContactsMutable(
-          clientState?.data?.contacts.map((item) => item.contact_id)
-        )
-        .then((res) => {
-          const formattedData = Object.entries(res).map(([id, contact]) =>
-            formatContactData(contact, id)
-          )
-          setMutableData(formattedData)
-          setLoading(false)
-        })
-    }
-  }, [clientState.data?.contacts])
+    get.getContactsMutable().then((res) => {
+      const formattedData = Object.entries(res).map(([id, contact]) =>
+        formatContactData(contact, id)
+      )
+      setMutableData(formattedData)
+      setLoading(false)
+    })
+  }, [])
 
   const [contactsDebounce] = useDebounce(mutableData, 700)
 
@@ -166,7 +157,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     flex: 1 0 auto;
-    
+
     @include mobile {
       width: 100%;
       flex-flow: row wrap;
