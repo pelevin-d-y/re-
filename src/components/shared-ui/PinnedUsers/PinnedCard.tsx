@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
-import { TagUser } from '../Tags'
 
 type Props = {
   className?: string
@@ -23,7 +22,6 @@ const PinnedCard: React.FC<Props> = ({ className, data }) =>
       />
       <div className={s.info}>
         <div className={s.name}>{data.name}</div>
-        <TagUser text="Old friends" />
       </div>
     </CardContainer>
   ) : null

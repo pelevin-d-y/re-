@@ -4,7 +4,6 @@ import { css } from 'astroturf'
 import data from './dummyData.json'
 import CardContainer from '../shared-ui/cards/CardContainer'
 import Avatar from '../shared-ui/Avatar'
-import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
 import Pin from '../shared-ui/Pin'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
@@ -27,7 +26,6 @@ const ContactNextSteps: React.FC<Props> = ({ className }) => (
             />
             <div className={s.info}>
               <div className={s.name}>{step?.name}</div>
-              <TagUser className={s.tag} text={step?.tag} />
             </div>
           </div>
           <UserHeader className={s.message} text={step?.message} />
@@ -105,12 +103,6 @@ const s = css`
 
     @include mobile {
       text-align: center;
-    }
-  }
-
-  .tag {
-    @include mobile {
-      margin-bottom: 5px;
     }
   }
 
