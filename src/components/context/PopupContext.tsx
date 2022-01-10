@@ -1,17 +1,30 @@
 import * as React from 'react'
 import testTemplates from 'src/testTemplates.json'
 import findTemplate from 'src/helpers/utils/find-template'
+import ComposeModal from '../shared-ui/modals/ComposeModal'
+import ComposeModalMulti from '../shared-ui/modals/ComposeModalMulti'
+import ModalPinnedContacts from '../shared-ui/modals/ModalPinnedContacts'
+import CreateListModal from '../shared-ui/modals/CreateListModal'
+import DeleteListModal from '../shared-ui/modals/DeleteListModal'
+import 'react-quill/dist/quill.snow.css'
 
 type Action =
-  | { type: 'TOGGLE_CONTACT_POPUP'; payload: UserData | null }
-  | { type: 'TOGGLE_CONTACTS_POPUP' }
+  | {
+      type: 'TOGGLE_COMPOSE_POPUP'
+      payload: UserData | FormattedContact | null
+    }
+  | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
-  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | null }
-  | { type: 'UPDATE_POPUP_DATA_MULTI'; payload: UserData[] | null }
+  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContact | null }
+  | {
+      type: 'UPDATE_COMPOSE_MULTI_DATA'
+      payload: UserData[] | FormattedContact[] | null
+    }
+  | { type: 'UPDATE_LIST_ID_DATA'; payload: string }
 
 type State = {
   emailModalIsOpen: boolean
@@ -20,8 +33,9 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
-  data: UserData | null
-  dataMulti: UserData[] | null
+  data: UserData | FormattedContact | null
+  dataMulti: UserData[] | FormattedContact[] | null
+  list_id: string | ''
 }
 
 type ContextType = {
@@ -40,15 +54,16 @@ const initialState = {
   modalPinnedIsOpen: false,
   data: null,
   dataMulti: null,
+  list_id: '',
 }
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'TOGGLE_CONTACT_POPUP': {
+    case 'TOGGLE_COMPOSE_POPUP': {
       if (action.payload) {
         const templateData = findTemplate(
           testTemplates,
-          action.payload?.template
+          'template' in action.payload ? action.payload.template : undefined
         )
 
         return {
@@ -62,7 +77,7 @@ const popupReducer = (state: State, action: Action): State => {
         emailModalIsOpen: !state.emailModalIsOpen,
       }
     }
-    case 'TOGGLE_CONTACTS_POPUP': {
+    case 'TOGGLE_COMPOSE_MULTI_POPUP': {
       if (state?.dataMulti && state?.dataMulti?.length > 0) {
         return {
           ...state,
@@ -102,10 +117,17 @@ const popupReducer = (state: State, action: Action): State => {
       }
     }
 
-    case 'UPDATE_POPUP_DATA_MULTI': {
+    case 'UPDATE_COMPOSE_MULTI_DATA': {
       return {
         ...state,
         dataMulti: action.payload,
+      }
+    }
+
+    case 'UPDATE_LIST_ID_DATA': {
+      return {
+        ...state,
+        list_id: action.payload,
       }
     }
 
@@ -126,7 +148,16 @@ const PopupProvider: React.FC = ({ children }) => {
     [state]
   )
 
-  return <PopupContext.Provider value={value}>{children}</PopupContext.Provider>
+  return (
+    <PopupContext.Provider value={value}>
+      {children}
+      <ComposeModal />
+      <ComposeModalMulti />
+      <ModalPinnedContacts />
+      <CreateListModal />
+      <DeleteListModal />
+    </PopupContext.Provider>
+  )
 }
 
 const usePopup = (): ContextType => {

@@ -4,8 +4,6 @@ import ListsContent from 'src/components/ListsContent'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
-import DeleteListModal from 'src/components/shared-ui/modals/DeleteListModal'
-import 'react-quill/dist/quill.snow.css'
 
 const Lists: React.FC = () => (
   <Layout>
@@ -13,7 +11,6 @@ const Lists: React.FC = () => (
       <TemplatesProvider>
         <PopupProvider>
           <ListsContent />
-          <DeleteListModal />
         </PopupProvider>
       </TemplatesProvider>
     </PlaylistsProvider>

@@ -6,13 +6,17 @@ import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 
+interface PrimaryEmail extends ContactMutable {
+  status: 'Primary' | 'Set Primary'
+}
+
 type Props = {
   className?: string
-  data: { email: string; id: number; status: string }[]
+  data: PrimaryEmail[]
   setEmail: (emailData: any) => void
 }
 
-const PopoverRate: React.FC<Props> = ({ className, data, setEmail }) => {
+const EmailPopover: React.FC<Props> = ({ className, data, setEmail }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const setEmailHandler = (emailData: any) => {
@@ -43,7 +47,7 @@ const PopoverRate: React.FC<Props> = ({ className, data, setEmail }) => {
         <CardContainer className={classNames(className, s.popup)}>
           <ul className={s.list}>
             {data?.map((item) => (
-              <li key={item.id}>
+              <li key={item.data as string}>
                 <div
                   className={s.item}
                   role="button"
@@ -51,7 +55,7 @@ const PopoverRate: React.FC<Props> = ({ className, data, setEmail }) => {
                   onKeyDown={() => setEmailHandler(item)}
                   tabIndex={0}
                 >
-                  <div className={s.popupEmail}>{item.email}</div>
+                  <div className={s.popupEmail}>{item.data}</div>
                   <span
                     className={classNames(
                       s.status,
@@ -141,4 +145,4 @@ const s = css`
   }
 `
 
-export default PopoverRate
+export default EmailPopover

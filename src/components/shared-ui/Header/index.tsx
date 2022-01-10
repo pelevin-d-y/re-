@@ -22,12 +22,12 @@ const Header: React.FC<Props> = ({ toggleMenu, className }) => {
         </button>
         <div className={s.text}>
           <span className={s.greeting}>Welcome to your Dashboard, &nbsp;</span>
-          {state.data?.fullName}
+          {state.data?.name}
         </div>
-        <Search
+        {/* <Search
           classes={{ container: s.search }}
           inputPlaceholder="Search..."
-        />
+        /> */}
         <HeaderProfile className={s.profile} />
         {/* <PopoverNotifications /> */}
       </div>
@@ -97,6 +97,8 @@ const s = css`
   }
 
   .profile {
+    margin-left: auto;
+
     @include mobile {
       margin-left: auto;
     }

@@ -6,44 +6,76 @@ import * as Yup from 'yup'
 import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
+import { post } from 'src/api'
+import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import Selector from '../shared-ui/Select'
+import { LoaderComponent } from '../shared-ui/Loader'
+import { useClient } from '../context/ClientContext'
 
 type Props = {
   className?: string
   data: MainUserData
 }
 
+const getPrimaryEmail = (data: MainUserData) =>
+  data?.primaryEmail?.data
+    ? data?.primaryEmail.data
+    : data?.syncedEmails && data?.syncedEmails[0]
+
 const Profile: React.FC<Props> = ({ className, data }) => {
+  const { updateUserData } = useClient()
   const CreateProfileSchema = Yup.object().shape({
     profileFirstName: Yup.string().max(100, 'Too Long!').required('Required'),
     profileLastName: Yup.string().max(100, 'Too Long!'),
   })
 
-  const { fullName } = data
-  const names = fullName?.split(' ')
-
+  const { name } = data
+  const names = name?.split(' ')
   return (
     <div className={classNames(className, s.container)}>
       <Formik
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: data.syncedEmails,
+          profileEmail: getPrimaryEmail(data),
+          profileCompany: data.company,
+          profileTitle: data.title,
+          profilePhone: data.phone,
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            setSubmitting(false)
-          }, 1000)
+          const { newValue, previousValue } = formatDataForApi(
+            {
+              name: [values.profileFirstName, values.profileLastName],
+              primaryEmail: values.profileEmail || '',
+              company: values.profileCompany || '',
+              title: values.profileTitle || '',
+              phone: values.profilePhone || '',
+            },
+            {
+              name: data.name?.split(' '),
+              primaryEmail: data.primaryEmail?.data,
+              company: data.company,
+              title: data.title,
+              phone: data.phone,
+            }
+          )
+
+          post
+            .postContact([...newValue, ...previousValue])
+            .then(() => {
+              updateUserData()
+              setSubmitting(false)
+            })
+            .catch((err) => {
+              console.warn('err ==>', err)
+            })
         }}
       >
         {({ handleSubmit, isSubmitting }) => (
           <div className={s.content}>
             <div className={s.avatarBlock}>
               <Avatar image={data.avatar} className={s.avatar} />
-              <button type="button" className={s.changeAvatar}>
-                {data.avatar ? 'Change Pic' : 'Upload Pic'}
-              </button>
             </div>
             <form className={s.form} onSubmit={handleSubmit}>
               <div className={s.row}>
@@ -77,49 +109,63 @@ const Profile: React.FC<Props> = ({ className, data }) => {
               <div className={s.row}>
                 <div className={classNames(s.field, s.email, s.smallField)}>
                   <Field name="profileEmail">
-                    {({ field }: FieldProps) => (
-                      <Selector
-                        styles={{
-                          valueContainer: {
-                            padding: '16px 21px',
-                          },
-                          option: {
-                            borderRadius: 5,
-                            padding: '12px 18px 15px 18px',
-                            marginBottom: 6,
-                            boxShadow:
-                              '0px 1px 1px 0px rgba(34, 34, 34, 0.0989), 0px 4px 8px 0px rgba(0, 0, 0, 0.1199)',
-                          },
-                          menu: {
-                            width: 275,
-                            padding: '18px 13px 19px 21px',
-                            '&:before': {
-                              position: 'absolute',
-                              content: '"Synced emails"',
-                              fontWeight: 800,
-                              fontSize: 14,
+                    {({ field, form }: FieldProps) =>
+                      data?.syncedEmails && (
+                        <Selector
+                          value={
+                            data?.primaryEmail?.data
+                              ? {
+                                  value: data.primaryEmail.data as string,
+                                  label: data.primaryEmail.data as string,
+                                }
+                              : null
+                          }
+                          name={field.name}
+                          handler={(option) =>
+                            form.setFieldValue(field.name, option.value)
+                          }
+                          styles={{
+                            valueContainer: {
+                              padding: '16px 21px',
                             },
-                          },
-                          menuList: {
-                            marginTop: 30,
-                            padding: 0,
-                            overflowY: 'visible',
-                          },
-                        }}
-                        options={field.value.map((item: string) => ({
-                          value: item,
-                          label: item,
-                        }))}
-                        label="Email"
-                      />
-                    )}
+                            option: {
+                              borderRadius: 5,
+                              padding: '12px 18px 15px 18px',
+                              marginBottom: 6,
+                              boxShadow:
+                                '0px 1px 1px 0px rgba(34, 34, 34, 0.0989), 0px 4px 8px 0px rgba(0, 0, 0, 0.1199)',
+                            },
+                            menu: {
+                              width: 275,
+                              padding: '18px 13px 19px 21px',
+                              '&:before': {
+                                position: 'absolute',
+                                content: '"Synced emails"',
+                                fontWeight: 800,
+                                fontSize: 14,
+                              },
+                            },
+                            menuList: {
+                              marginTop: 30,
+                              padding: 0,
+                              overflowY: 'visible',
+                            },
+                          }}
+                          options={data?.syncedEmails.map((item: string) => ({
+                            value: item,
+                            label: item,
+                          }))}
+                          label="Email"
+                        />
+                      )
+                    }
                   </Field>
                 </div>
                 <Field name="profilePhone">
                   {({ field, form, meta }: FieldProps) => (
                     <Input
                       className={classNames(s.field, s.smallField)}
-                      type="text"
+                      type="tel"
                       field={field}
                       form={form}
                       meta={meta}
@@ -142,7 +188,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                   />
                 )}
               </Field>
-              <Field name="TitleProfile">
+              <Field name="profileTitle">
                 {({ field, form, meta }: FieldProps) => (
                   <Input
                     className={s.field}
@@ -207,7 +253,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                Save changes
+                {isSubmitting ? <LoaderComponent /> : 'Save changes '}
               </Button>
             </form>
           </div>
@@ -234,15 +280,6 @@ const s = css`
       margin-right: 0;
       max-width: fit-content;
     }
-  }
-
-  .changeAvatar {
-    color: var(--blue);
-    font-size: 12px;
-    line-height: 26px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
   }
 
   .content {

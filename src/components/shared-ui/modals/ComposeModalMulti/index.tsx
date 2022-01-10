@@ -8,26 +8,30 @@ import ModalBase from '../ModalBase'
 import UsersManager from './UsersManager'
 import ModalContent from '../ModalContent'
 
-const comparator = (a: UserData, b: UserData) => a.address === b.address
+const comparator = (
+  a: FormattedContact | UserData,
+  b: FormattedContact | UserData
+) => a.contact_id === b.contact_id
 
-const MultiEmailsModal: React.FC = () => {
+const ComposeModalMulti: React.FC = () => {
   const { state, dispatch } = usePopup()
   const { data: popupData, dataMulti: usersData, multiEmailsIsOpen } = state
 
   const [unselectedContacts, setUnselectedContacts] = useState<
-    UserData[] | null
+    Array<FormattedContact | UserData>
   >([])
 
-  const [selectedContacts, setSelectedContacts] = useState<UserData[]>([])
+  const [selectedContacts, setSelectedContacts] = useState<
+    Array<FormattedContact | UserData>
+  >([])
 
   useEffect(() => {
     if (usersData?.length) {
       if (unselectedContacts) {
-        const filteredUsers = differenceWith(
-          usersData,
-          unselectedContacts,
-          comparator
-        )
+        const filteredUsers = differenceWith<
+          FormattedContact | UserData,
+          FormattedContact | UserData
+        >(usersData, unselectedContacts, comparator)
         setSelectedContacts(filteredUsers)
       }
     }
@@ -42,8 +46,8 @@ const MultiEmailsModal: React.FC = () => {
     }
   }, [dispatch, selectedContacts, multiEmailsIsOpen])
 
-  const selectUser = (user: UserData) => {
-    if (user?.templateData) {
+  const selectUser = (user: UserData | FormattedContact) => {
+    if ('templateData' in user && user?.templateData) {
       dispatch({
         type: 'UPDATE_POPUP_DATA',
         payload: {
@@ -54,22 +58,26 @@ const MultiEmailsModal: React.FC = () => {
     }
   }
 
-  const addUserHandler = (user: UserData) => {
-    const isInclude = selectedContacts.find((item) => item.name === user.name)
+  const addUserHandler = (user: UserData | FormattedContact) => {
+    const isInclude = selectedContacts.find(
+      (item) => item.contact_id === user.contact_id
+    )
     if (!isInclude) {
       setSelectedContacts([...selectedContacts, user])
       if (unselectedContacts) {
         setUnselectedContacts(
-          unselectedContacts.filter((item) => item.name !== user.name)
+          unselectedContacts.filter(
+            (item) => item.contact_id !== user.contact_id
+          )
         )
       }
       selectUser(user)
     }
   }
 
-  const removeUser = (user: UserData) => {
+  const removeUser = (user: UserData | FormattedContact) => {
     setSelectedContacts(
-      selectedContacts.filter((item) => item.name !== user.name)
+      selectedContacts.filter((item) => item.contact_id !== user.contact_id)
     )
     if (unselectedContacts) {
       setUnselectedContacts([...unselectedContacts, user])
@@ -79,7 +87,7 @@ const MultiEmailsModal: React.FC = () => {
   const closeHandler = () => {
     setSelectedContacts([])
     setUnselectedContacts([])
-    dispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+    dispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
   }
 
   return (
@@ -124,4 +132,4 @@ const s = css`
   }
 `
 
-export default MultiEmailsModal
+export default ComposeModalMulti

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -10,48 +10,30 @@ import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import RecsTable from './RecsTable'
 import { LoaderPage } from '../shared-ui/Loader'
-import { TagRecs } from '../shared-ui/Tags'
-import Button from '../shared-ui/Button'
-import { usePopup } from '../context/PopupContext'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
+import TableActions from '../shared-ui/TableActions'
+import { TableProvider } from '../context/TableContext'
 
 type Props = {
   className?: string
 }
 
-const tags = [
-  'New York',
-  'Investor',
-  'Follow Up',
-  'Pinned',
-  'Been awhile',
-  'Urgent',
-]
-
 const AllRecsContent: React.FC<Props> = ({ className }) => {
   const { state: clientState } = useClient()
-  const { dispatch: popupDispatch } = usePopup()
 
   const [contacts, setContacts] = useState(clientState.data?.contacts)
   const [contactsDebounce] = useDebounce(contacts, 700)
-
-  const toggleContactMulti = () => {
-    popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
-  }
-
-  const toggleCreateListModal = () => {
-    popupDispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
-  }
 
   const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (clientState.data?.contacts) {
       const allContacts = clientState.data.contacts
       const filteredContacts = allContacts.filter(
         (item) =>
-          item.name
+          (item.name as string)
             .toLocaleLowerCase()
             .search(event.target.value.toLocaleLowerCase()) !== -1
       )
+
       setContacts(filteredContacts)
     }
   }
@@ -80,30 +62,15 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
           />
         </div>
         <div className={s.content}>
-          <div className={s.contentHeader}>
-            <div className={s.tags}>
-              {tags.map((tag) => (
-                <TagRecs className={s.tag} text={tag} key={tag} />
-              ))}
+          <TableProvider>
+            <div className={s.contentHeader}>
+              <TableActions
+                className={s.actions}
+                buttons={['dots', 'filter', 'contact']}
+              />
             </div>
-            <div className={s.actions}>
-              <Button
-                className={s.buttonCreate}
-                handler={toggleCreateListModal}
-                variant="outlined"
-              >
-                Create List
-              </Button>
-              <Button
-                className={s.buttonContact}
-                variant="contained"
-                handler={() => toggleContactMulti()}
-              >
-                Contact
-              </Button>
-            </div>
-          </div>
-          {contactsDebounce && <RecsTable data={contactsDebounce} />}
+            {contactsDebounce && <RecsTable data={contactsDebounce} />}
+          </TableProvider>
         </div>
       </CardContainer>
     ) : (
@@ -172,17 +139,6 @@ const s = css`
     }
   }
 
-  .tags {
-    @include mobile {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: center;
-
-      max-width: 400px;
-      width: 100%;
-    }
-  }
-
   .emptyRecs {
     max-width: 800px;
     width: 100%;
@@ -203,16 +159,8 @@ const s = css`
     width: 86px;
   }
 
-  .tag {
-    margin-right: 8px;
-    margin-bottom: 8px;
-  }
-
   .actions {
     margin-left: auto;
-
-    padding-left: 27px;
-    border-left: 1px solid #e6e6e6;
 
     @include mobile {
       margin-top: 15px;

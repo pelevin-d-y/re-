@@ -4,12 +4,12 @@ import { usePopup } from 'src/components/context/PopupContext'
 import ModalBase from '../ModalBase'
 import ModalContent from '../ModalContent'
 
-const ContactModal: React.FC = () => {
+const ComposeModal: React.FC = () => {
   const { dispatch, state } = usePopup()
   const { data, emailModalIsOpen } = state
 
   const closeHandler = () => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: null })
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: null })
   }
 
   return (
@@ -44,4 +44,4 @@ const s = css`
   }
 `
 
-export default ContactModal
+export default ComposeModal

@@ -1,27 +1,22 @@
 import Layout from 'src/layouts/Layout'
 import ListContent from 'src/components/ListContent'
-import 'react-quill/dist/quill.snow.css'
 import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
-import ContactModal from 'src/components/shared-ui/modals/ContactModal'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 import { css } from 'astroturf'
-import MultiEmailsModal from 'src/components/shared-ui/modals/MultiEmailsModal'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 
 const List: React.FC = () => (
   <TemplatesProvider>
-    <PopupProvider>
-      <Layout className={s.layout}>
-        <PlaylistsProvider>
-          <PlaylistProvider>
+    <Layout className={s.layout}>
+      <PlaylistsProvider>
+        <PlaylistProvider>
+          <PopupProvider>
             <ListContent />
-            <ContactModal />
-            <MultiEmailsModal />
-          </PlaylistProvider>
-        </PlaylistsProvider>
-      </Layout>
-    </PopupProvider>
+          </PopupProvider>
+        </PlaylistProvider>
+      </PlaylistsProvider>
+    </Layout>
   </TemplatesProvider>
 )
 

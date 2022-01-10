@@ -3,79 +3,75 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Img from 'src/components/shared-ui/Img'
-import Tasks from 'src/components/shared-ui/Tasks'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
+import { usePopup } from 'src/components/context/PopupContext'
+import Link from 'src/components/shared-ui/Link'
 import CardContainer from '../CardContainer'
 import { LoaderComponent } from '../../Loader'
+import SvgIcon from '../../SvgIcon'
+import CloseButton from '../../Close'
 
 type Props = {
   className?: string
-  data: any
+  data: FormattedListData
+  showButtonAddList?: boolean
 }
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { info, id, contacts, image, tasks },
+  data: { info, id, contacts },
 }) => {
   const router = useRouter()
-  const { deletePlaylists } = usePlaylists()
-  const [isLoading, setIsLoading] = useState(false)
+  const { createPlaylist, getPlaylists } = usePlaylists()
+  const { dispatch: popupDispatch } = usePopup()
 
   const deleteHandler = async () => {
-    try {
-      setIsLoading(true)
-      await deletePlaylists([id])
-      setIsLoading(false)
-    } catch (err) {
-      setIsLoading(false)
-    }
+    popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
+    popupDispatch({ type: 'UPDATE_LIST_ID_DATA', payload: id })
+  }
+
+  const moveToListPage = () => {
+    router.push(`/list?id=${id}`)
+  }
+
+  const duplicateList = async () => {
+    await createPlaylist({
+      title: info?.name as string,
+      description: info?.description,
+      contacts: contacts?.map((item) => ({
+        contact_id: item.contact_id,
+      })),
+    })
+    getPlaylists()
   }
 
   return (
-    <CardContainer className={classNames(s.container, className)}>
-      {image && <Img img={image} alt="icon" className={s.image} />}
-      <div className={s.title}>{info.name}</div>
+    <div
+      className={classNames(s.container, className)}
+      onClick={moveToListPage}
+      onKeyDown={moveToListPage}
+      role="button"
+      tabIndex={0}
+    >
+      <CloseButton className={s.removeButton} handler={deleteHandler} />
+      {/* {image && <Img img={image} alt="icon" className={s.image} />} */}
+      <div className={s.title}>{info?.name}</div>
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
-      {/* <Tasks className={s.tasks} data={tasks} /> */}
-      <AvatarsList
-        avatarWidth={38}
-        avatarHeight={38}
-        className={s.avatars}
-        users={contacts}
-        showHiddenUsers
-      />
-      <div className={classNames(s.actions)}>
-        <PopoverDots
-          variant="outlined"
-          items={[
-            {
-              name: 'Edit',
-              handler: () => null,
-            },
-            {
-              name: 'Duplicate',
-              handler: () => null,
-            },
-            {
-              name: 'Delete',
-              handler: deleteHandler,
-            },
-          ]}
+      {contacts && (
+        <AvatarsList
+          avatarWidth={38}
+          avatarHeight={38}
+          className={s.avatars}
+          users={contacts}
+          showHiddenUsers
         />
-        <Button
-          variant="contained"
-          handler={() => router.push(`/list?id=${id}`)}
-        >
-          View List
-        </Button>
-      </div>
-      {isLoading && <LoaderComponent />}
-    </CardContainer>
+      )}
+    </div>
   )
 }
 
@@ -88,13 +84,38 @@ const s = css`
     font-weight: var(--bold);
   }
 
+  .removeButton {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+  }
+
   .container {
     position: relative;
     overflow: hidden;
     display: flex;
     flex-flow: column nowrap;
 
-    padding: 11px 16px 25px 21px;
+    padding: 17px 21px 23px 21px;
+
+    text-decoration: none;
+    cursor: pointer;
+    color: #000000;
+    border: 1px solid #ffffff;
+    box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
+    border-radius: 6px;
+
+    &:hover {
+      border: 1px solid #1966ff;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
+        0px 1px 1px rgba(34, 34, 34, 0.0989128);
+      border-radius: 6px;
+
+      .removeButton {
+        display: block;
+      }
+    }
   }
 
   .image {
@@ -132,12 +153,35 @@ const s = css`
   }
 
   .actions {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 9px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     width: 100%;
     margin-top: auto;
+  }
+
+  .dots {
+    min-width: 48px;
+  }
+
+  .link {
+    position: relative;
+    margin-left: 16px;
+
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--blue);
+  }
+
+  .linkIcon {
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+
+    color: var(--blue);
+    transform: rotate(180deg);
   }
 `
 

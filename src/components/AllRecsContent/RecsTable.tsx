@@ -14,26 +14,21 @@ import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { useTable as useTableContext } from 'src/components/context/TableContext'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import { TagUser } from '../shared-ui/Tags'
 import UserHeader from '../shared-ui/UserHeader'
 import PopoverRate from '../shared-ui/popover/PopoverRate'
-import { usePopup } from '../context/PopupContext'
+import Button from '../shared-ui/Button'
 
 type Props = {
   className?: string
   data: UserData[]
-  removeContacts?: (removeContacts: any) => void
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
-  const { dispatch: popupDispatch } = usePopup()
+  const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
-
-  const updateUser = useCallback((userData: any) => {
-    console.log('userData', userData)
-  }, [])
 
   const columns: Column<any>[] = useMemo(
     () => [
@@ -53,7 +48,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
                 data={row.original}
                 template={row.original.templateData}
               />
-              <TagUser className={s.nameTag} text="Old friend" />
             </div>
           </div>
         ),
@@ -90,13 +84,9 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 150,
         Cell: () => (
           <div className={s.buttonWrapper}>
-            <PopoverRate
-              className={s.button}
-              variant="outlined"
-              buttonClickHandler={() => null}
-            >
+            <Button className={s.button} variant="outlined" handler={() => {}}>
               Follow up
-            </PopoverRate>
+            </Button>
           </div>
         ),
       },
@@ -137,11 +127,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    popupDispatch({
-      type: 'UPDATE_POPUP_DATA_MULTI',
-      payload: (selectedFlatRows.map((item) => item.original) ||
-        []) as UserData[],
-    })
+    setSelectedUsers(
+      selectedFlatRows.map(
+        (item) => item.original as UserData | FormattedContact
+      )
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 
@@ -248,13 +238,6 @@ const s = css`
 
   .lastData {
     margin-bottom: 6px;
-  }
-
-  .nameTag {
-    margin-top: 5px;
-
-    background: var(--white);
-    font-weight: var(--regular);
   }
 
   .buttonWrapper {

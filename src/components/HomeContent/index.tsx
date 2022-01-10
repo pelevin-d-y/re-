@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { css } from 'astroturf'
 import CardTextContent from 'src/components/shared-ui/cards/CardTextContent'
 import CardShare from 'src/components/shared-ui/cards/CardShareLink'
@@ -8,6 +8,8 @@ import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
+import { get } from 'src/api/requests'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 import { LoaderPage } from '../shared-ui/Loader'
@@ -49,12 +51,21 @@ const Content: React.FC = () => {
 
   const HomeUpcomingContacts = contacts?.slice(2, 5)
 
-  const renderRecommendations = () =>
-    contacts && !arrayIsEmpty(contacts) ? (
-      <Recommendations className={s.section} data={contacts?.slice(0, 3)} />
+  const filteredStatusContacts = contacts?.filter(
+    (contact: UserData) => contact.Status !== 'Declined'
+  )
+
+  const renderRecommendations = () => {
+    return filteredStatusContacts && !arrayIsEmpty(filteredStatusContacts) ? (
+      <Recommendations
+        className={s.section}
+        data={filteredStatusContacts?.slice(0, 3)}
+      />
     ) : (
       <EmptyRecommendations className={s.section} />
     )
+  }
+
   const renderCalendar = () =>
     contacts && !arrayIsEmpty(contacts) ? (
       <HomeUpcoming
@@ -64,6 +75,7 @@ const Content: React.FC = () => {
       />
     ) : (
       <CardShare
+        className={s.shareCard}
         variant="dark"
         image="banner-email@2x.png"
         event="Share Strata"
@@ -80,10 +92,10 @@ const Content: React.FC = () => {
             {renderRecommendations()}
             {renderCalendar()}
             <Grid className={s.section} division={2}>
-              {shareHolidays.contacts && (
+              {/* {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
-              )}
-              {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
+              )} */}
+              {/* {shareMemes.contacts && <CardShareMulti data={shareMemes} />} */}
             </Grid>
 
             {/* <Grid className={s.section} division={2}>
@@ -183,6 +195,10 @@ const s = css`
     flex-flow: row nowrap;
     display: flex;
     padding: 10px 14px 14px;
+  }
+
+  .shareCard {
+    margin-bottom: 13px;
   }
 
   .main {

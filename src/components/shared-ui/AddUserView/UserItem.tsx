@@ -8,31 +8,31 @@ import { LoaderComponent } from '../Loader'
 
 type Props = {
   className?: string
-  data: FormattedContacts
+  data: FormattedContact
+  listId: string
 }
 
-const UserItem: React.FC<Props> = ({ className, data }) => {
+const UserItem: React.FC<Props> = ({ className, data, listId }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const { addUser: addUserToPlaylist } = usePlaylist()
+  const { addUsers: addUserToPlaylist, getPlaylistData } = usePlaylist()
 
-  const addUser = (user: any) => {
-    setIsLoading(true)
-    addUserToPlaylist(user)
-      .then(() => {
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log('addUser err ==>', err)
-        setIsLoading(false)
-      })
+  const addUser = async (user: FormattedContact) => {
+    try {
+      setIsLoading(true)
+      await addUserToPlaylist(listId, [user])
+      await getPlaylistData(listId)
+      setIsLoading(false)
+    } catch (err) {
+      setIsLoading(false)
+      console.log('addUser err ==>', err)
+    }
   }
 
   return (
     <li className={classNames(s.container, className)}>
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
-        <span className={s.name}>{data.fullName}</span>
+        <span className={s.name}>{data.name}</span>
       </div>
       <Button
         className={s.button}

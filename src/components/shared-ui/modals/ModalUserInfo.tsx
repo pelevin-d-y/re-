@@ -5,20 +5,30 @@ import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { css } from 'astroturf'
 import { formatTime } from 'src/helpers/utils/parseTime'
-import { TagUser } from 'src/components/shared-ui/Tags'
 
 type Props = {
   className?: string
-  data: UserData
+  data: UserData | FormattedContact
   withAvatar?: boolean
 }
 
 const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
-  const { avatar, name, fullName, templateData, relationshipStrength } = data
+  const { avatar, name } = data
 
-  const parsedText =
-    (templateData && parseMessage(templateData.Subject, name)) || ''
-  const userName = fullName || name
+  const parsedText = () => {
+    if ('templateData' in data && data?.templateData) {
+      return parseMessage(data.templateData.Subject, name)
+    }
+    return ''
+  }
+
+  const lastContactTime = () => {
+    if ('last_contact_time' in data) {
+      return formatTime(data.last_contact_time)
+    }
+    return ''
+  }
+  const userName = name
 
   return (
     <div className={classNames(className, s.container)}>
@@ -27,15 +37,18 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
           {withAvatar && (
             <Avatar
               className={s.avatar}
-              strength={relationshipStrength}
+              strength={
+                'relationshipStrength' in data
+                  ? data.relationshipStrength
+                  : undefined
+              }
               image={avatar || null}
             />
           )}
           <div className={s.profileInfo}>
             <div className={s.name}>{userName}</div>
-            <TagUser text="Old friends" />
             <div className={s.lastMessageDate}>
-              Last Message {formatTime(data.last_contact_time)}{' '}
+              Last Message {lastContactTime()}{' '}
               <span className={s.thread}>View</span>
             </div>
           </div>
@@ -45,7 +58,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
             className={s.message}
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
-              __html: parsedText,
+              __html: parsedText(),
             }}
           />
         </div>
@@ -84,11 +97,6 @@ const s = css`
 
   .avatar {
     margin-right: 19px;
-  }
-
-  .tag {
-    font-size: 11px;
-    line-height: 13px;
   }
 
   .name {

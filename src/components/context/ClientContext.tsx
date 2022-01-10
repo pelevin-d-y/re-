@@ -5,6 +5,7 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 
 type Action =
   | { type: 'UPDATE_USER_DATA'; payload: MainUserData }
+  | { type: 'UPDATE_AUTH_DATA'; payload: Record<string, string> }
   | { type: 'UPDATE_IS_LOADING'; payload: boolean }
 
 type State = {
@@ -28,6 +29,15 @@ const clientReducer = (state: State, action: Action): State => {
         data: action.payload,
       }
     }
+    case 'UPDATE_AUTH_DATA': {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          authUrls: action.payload,
+        },
+      }
+    }
     case 'UPDATE_IS_LOADING': {
       return {
         ...state,
@@ -45,7 +55,6 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
     ...clientData,
     authData,
     syncedEmails: [],
-    unsyncEmails: [],
   }
 
   Object.entries(authData).forEach(([email, status]) => {
@@ -54,13 +63,7 @@ const addAuthData = (clientData: MainUserData, authData: any): MainUserData => {
         data.syncedEmails.push(email)
       }
     }
-    if (status === 1) {
-      if (data.unsyncEmails) {
-        data.unsyncEmails.push(email)
-      }
-    }
   })
-
   return data
 }
 
@@ -70,11 +73,12 @@ const getMainUserData = async () => {
     get.getContact(),
     get.getAuth(),
   ])
-
   const [recommendations, contactResponse, authResponse] = requests
+
   const extendedUsers = addAdditionFields(recommendations)
   const formattedClientData = formatContactData(contactResponse)
   const clientData = addAuthData(formattedClientData, authResponse)
+
   const mainUserData: MainUserData = {
     ...clientData,
     contacts: extendedUsers, // have to remove when API is fixed
@@ -89,6 +93,23 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     data: null,
   })
 
+  const setAuthUrlsData = React.useCallback(
+    async (data: Record<string, number>) => {
+      try {
+        const authUrls = await get.getAuthUrl([...Object.keys(data), ''])
+
+        dispatch({
+          type: 'UPDATE_AUTH_DATA',
+          payload: authUrls,
+        })
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('authUrls err', err)
+      }
+    },
+    []
+  )
+
   React.useEffect(() => {
     const setClientData = async () => {
       try {
@@ -98,6 +119,11 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
           type: 'UPDATE_USER_DATA',
           payload: mainUserData,
         })
+
+        if (mainUserData.authData) {
+          setAuthUrlsData(mainUserData.authData)
+        }
+
         updateIsLoading(false)
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -106,7 +132,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     }
 
     setClientData()
-  }, [])
+  }, [setAuthUrlsData])
 
   const updateIsLoading = (value: boolean) => {
     dispatch({

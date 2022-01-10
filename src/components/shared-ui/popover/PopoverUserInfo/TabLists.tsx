@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import createTestLists from 'src/helpers/utils/create-test-lists'
-import { useClient } from 'src/components/context/ClientContext'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import CardContainer from '../../cards/CardContainer'
 
 type Props = {
@@ -11,22 +10,33 @@ type Props = {
 }
 
 const TabLists: React.FC<Props> = ({ className, data }) => {
-  const { state: clientState } = useClient()
-  const contacts = clientState.data?.contacts || []
-  const lists = createTestLists(contacts)
-
-  const matchLists = lists?.filter((item) =>
-    item.users.find((user) => user.address === data.address)
+  const { state: playlistsState } = usePlaylists()
+  const lists = useMemo(
+    () =>
+      playlistsState.data?.reduce<ListData[]>((acc, item) => {
+        if (
+          item.contacts?.find(
+            (contact) => contact.contact_id === data.contact_id
+          )
+        ) {
+          return [...acc, item]
+        }
+        return acc
+      }, []),
+    [data.contact_id, playlistsState.data]
   )
+
   return (
     <div className={classNames(className, s.container)}>
       <ul>
-        {matchLists?.map((list) => (
+        {lists?.map((list) => (
           <li className={s.item} key={list.id}>
-            <CardContainer className={s.card}>
-              <div className={s.title}>{list.title}</div>
-              <div className={s.description}>{list.description}</div>
-            </CardContainer>
+            <a className={s.link} href={`/list?id=${list.id}`}>
+              <CardContainer className={s.card}>
+                <div className={s.title}>{list.info?.name}</div>
+                <div className={s.description}>{list.info?.description}</div>
+              </CardContainer>
+            </a>
           </li>
         ))}
       </ul>
@@ -40,6 +50,12 @@ const TabLists: React.FC<Props> = ({ className, data }) => {
 const s = css`
   .container {
     padding: 16px 16px 34px 16px;
+  }
+
+  .link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
   }
 
   .item {

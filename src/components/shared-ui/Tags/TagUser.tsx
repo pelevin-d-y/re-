@@ -21,7 +21,6 @@ const TagUser: React.FC<Props> = ({ className, text }) => {
     >
       <EasyEdit
         type="text"
-        className={s.valueInput}
         value={text}
         hideCancelButton
         hideSaveButton

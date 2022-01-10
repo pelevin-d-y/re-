@@ -5,7 +5,6 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import { usePopup } from 'src/components/context/PopupContext'
-import Tasks from '../../Tasks'
 import CardContainer from '../CardContainer'
 
 type Props = {
@@ -28,8 +27,8 @@ const CardTextContent: React.FC<Props> = ({
   const openModalHandler = () => {
     if (users) {
       popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
-      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: users })
-      popupDispatch({ type: 'TOGGLE_CONTACTS_POPUP' })
+      popupDispatch({ type: 'UPDATE_COMPOSE_MULTI_DATA', payload: users })
+      popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
   }
 
@@ -37,7 +36,6 @@ const CardTextContent: React.FC<Props> = ({
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
         <div className={s.cardName}>{title}</div>
-        <Tasks data={{ urgent: 3, pinned: 1 }} />
       </div>
       <div className={s.title}>{subtitle}</div>
       <div className={s.description}>{description}</div>

@@ -7,7 +7,7 @@ import ModalUserInfo from './ModalUserInfo'
 
 type Props = {
   className?: string
-  data: UserData
+  data: UserData | FormattedContact
   closeHandler: () => void
   withAvatar?: boolean
   isSent?: boolean
@@ -23,7 +23,7 @@ const ModalContent: React.FC<Props> = ({
   const [isSent, setIsSent] = useState(messageIsSent || false)
 
   return isSent ? (
-    <ModalSent handler={closeHandler} names={data.fullName || data.name} />
+    <ModalSent handler={closeHandler} names={data.name || data.name} />
   ) : (
     <div className={classNames(className, s.container)}>
       <MessageManager

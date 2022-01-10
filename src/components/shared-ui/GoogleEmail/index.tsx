@@ -4,32 +4,47 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Close from 'src/components/shared-ui/Close'
+import { post } from 'src/api'
+import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
   data: { email: string; status: number }
+  authUrl?: string
 }
 
-const GoogleEmail: React.FC<Props> = ({ className, data }) => (
-  <CardContainer className={classNames(className, s.container)}>
-    <SvgIcon className={s.icon} icon="google-mail.svg" />
-    <div className={s.content}>
-      <div className={s.email}>{data.email}</div>
-      {data.status === 2 && (
-        <div className={classNames(s.status, s.synced)}>Synced</div>
-      )}
-      {data.status === 1 && (
-        <div className={classNames(s.status, s.unSynced)}>Unsynced</div>
-      )}
-      {data.status === -1 && (
-        <div className={classNames(s.status, s.unSynced)}>
-          Re-authorize account
-        </div>
-      )}
-    </div>
-    <Close className={s.close} handler={() => null} />
-  </CardContainer>
-)
+const GoogleEmail: React.FC<Props> = ({ className, data, authUrl }) => {
+  const { updateUserData } = useClient()
+
+  const deauthAccount = () => {
+    post.postClientDeauthorization(data.email).then((res) => {
+      console.log('res', res)
+      updateUserData()
+    })
+  }
+  return (
+    <CardContainer className={classNames(className, s.container)}>
+      <SvgIcon className={s.icon} icon="google-mail.svg" />
+      <div className={s.content}>
+        <div className={s.email}>{data.email}</div>
+        {data.status === 2 && (
+          <div className={classNames(s.status, s.synced)}>Synced</div>
+        )}
+        {data.status === 1 && (
+          <a href={authUrl} className={classNames(s.status, s.unSynced)}>
+            Authorize unsynced account
+          </a>
+        )}
+        {data.status === -1 && (
+          <a href={authUrl} className={classNames(s.status, s.unSynced)}>
+            Re-authorize account
+          </a>
+        )}
+      </div>
+      <Close className={s.close} handler={deauthAccount} />
+    </CardContainer>
+  )
+}
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
@@ -66,6 +81,7 @@ const s = css`
   }
 
   .status {
+    text-decoration: none;
     color: var(--blue);
     font-size: 12px;
     line-height: 14px;

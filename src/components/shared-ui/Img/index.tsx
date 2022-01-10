@@ -1,3 +1,5 @@
+import { css } from 'astroturf'
+import classNames from 'classnames'
 import React from 'react'
 
 type Props = {
@@ -10,11 +12,19 @@ type Props = {
 
 const Img: React.FC<Props> = ({ className, alt, img, errorLoad, onLoaded }) => (
   <img
-    className={className}
+    className={classNames(s.container, className)}
     alt={alt}
     src={img.includes('https') ? img : `images/${img}`}
     onError={() => errorLoad && errorLoad(true)}
   />
 )
+
+const s = css`
+  .container {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`
 
 export default Img

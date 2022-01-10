@@ -25,14 +25,18 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx', '.js', '.jsx'] }],
+    'react/jsx-filename-extension': [
+      1,
+      { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+    ],
+    'import/prefer-default-export': 'off',
     'import/extensions': 'off',
     'react/prop-types': 'off',
     'react/display-name': 'off',
-    "react/react-in-jsx-scope": "off",
+    'react/react-in-jsx-scope': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
-    'react/jsx-props-no-spreading': "off",
-    "@typescript-eslint/no-explicit-any": "off",
+    'react/jsx-props-no-spreading': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'prettier/prettier': [
       'error',
       { singleQuote: true, jsxSingleQuote: false, semi: false },
@@ -54,8 +58,8 @@ module.exports = {
       'babel-module': {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
-      "typescript": {
-        "project": "."
+      typescript: {
+        project: '.',
       },
     },
   },

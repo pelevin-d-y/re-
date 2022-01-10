@@ -71,9 +71,10 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const { state: popupState, dispatch: popupDispatch } = usePopup()
   const { dataMulti } = popupState
 
-  const clientName = clientState.data?.shortName || clientState.data?.fullName
-  const contactName = data.fullName || data.name
-  const addressTo = data?.address || data.emails[0]
+  const clientName = clientState.data?.shortName || clientState.data?.name
+  const contactName = data.name || data.name
+
+  const addressTo = data?.address || data.emails[0]?.data
 
   useEffect(() => {
     let parsedMessage
@@ -88,17 +89,21 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     setValue('body', parsedMessage)
   }, [contactName, template, clientState, clientName])
 
-  useEffect(() => {
-    const syncedEmail =
-      clientState.data?.syncedEmails &&
+  const getPrimaryEmail = () => {
+    if (clientState.data?.primaryEmail?.data) {
+      return clientState.data?.primaryEmail?.data as string
+    }
+    return clientState.data?.syncedEmails &&
       clientState.data?.syncedEmails.length > 0
-        ? clientState.data?.syncedEmails[0]
-        : undefined
+      ? clientState.data?.syncedEmails[0]
+      : undefined
+  }
 
+  useEffect(() => {
     dispatch({
       type: 'updateBody',
       payload: {
-        from_contact: syncedEmail,
+        from_contact: getPrimaryEmail(),
         subject:
           data?.templateData &&
           parseMessage(data.templateData.Subject, contactName),
@@ -112,6 +117,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
           : [],
       },
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     addressTo,
     contactName,
@@ -131,7 +137,10 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     })
 
     if (updatedUsers) {
-      popupDispatch({ type: 'UPDATE_POPUP_DATA_MULTI', payload: updatedUsers })
+      popupDispatch({
+        type: 'UPDATE_COMPOSE_MULTI_DATA',
+        payload: updatedUsers,
+      })
     }
   }
 
@@ -147,11 +156,9 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
       .sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
-        if (resp.status === 200) {
-          setIsSent(true)
-          setConnectedUser()
-          updateUserData()
-        }
+        setIsSent(true)
+        setConnectedUser()
+        updateUserData()
       })
       .catch((err) => {
         dispatch({ type: 'updateSendingStatus' })
@@ -182,9 +189,6 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
         />
         <div className={s.buttons}>
           {data && <EditorActions className={s.editorActions} />}
-          <Button variant="outlined" className={s.buttonTemplate}>
-            Save Template
-          </Button>
           <Button
             variant="contained"
             className={classNames(s.buttonSend, state.isSending && s.disabled)}

@@ -7,41 +7,17 @@ type Template = {
   Message: string
 }
 
-type List = {
-  id: number
-  title: string
-  users: UserData[]
-  description: string
-  icon: string
-  image?: string
-  tasks?: {
-    urgent?: number
-    pinned?: number
-  }
-}
-
-type Lists = List[]
-
 type ListRequest = {
   data: any[]
   actions: any
   contacts: {
-    contact_id: string
+    id: string
     review: number
     scores: any
   }[]
   id: string
   inclusions: any
-  info: { name: string }
-}
-
-type ListsRequest = {
-  config: any
-  data: string[]
-  status: number
-  request: any
-  headers: any
-  statusText: any
+  info: { name: string; description?: string }
 }
 
 type MessageList = {
@@ -224,12 +200,13 @@ type RecommendationUser = {
   playlist_resume_context: string
   last_client_timestamp: number
   playlist_anniversary_context: string
+  Status: string
 }
 
 interface UserData extends RecommendationUser {
   avatar?: string
   title?: string
-  fullName?: string
+  name?: string
   pinned: boolean
   templateData?: Template
   isSent?: boolean
@@ -242,48 +219,63 @@ type RecsResponse = {
   }
 }
 
-type GetContactResp = {
-  type: 'email' | 'name' | 'short_name' | 'image'
-  data: string | string[]
+type ContactMutable = {
+  type: string
+  data: string[] | string
+  review: number
   meta: any
-}[]
-
-type ListData = {
-  actions: any
-  contacts:
-    | {
-        contact_id: string
-        review: number
-        scores: any
-      }[]
-  id: string
-  inclusions: any
-  info: { name?: string; description?: string }
 }
 
 type MainUserData = {
   emails?: any
-  authData?: any[]
+  authData?: Record<string, number>
+  authUrls?: Record<string, string>
   syncedEmails?: string[]
-  unsyncEmails?: string[]
+  primaryEmail?: ContactMutable
   shortName?: string
-  fullName?: string
+  name?: string
   strataEmail?: string
   avatar?: string
   contacts?: UserData[]
+  company?: string
+  title?: string
+  phone?: string
 }
 
-type FormattedContacts = {
-  emails?: string[]
+type FormattedContact = {
+  emails?: ContactMutable[]
   shortName?: string
-  fullName?: string
+  name?: string
   strataEmail?: string
   avatar?: string
-  id: string
+  contact_id: string
+  Notes?: string
+  Status?: string
 }
 
-type Playlist = {
-  id?: string
+type ListData = {
+  actions?: any
+  contacts?: {
+    contact_id: string
+    review?: number
+    scores?: any
+  }[]
+  id: string
+  inclusions?: any
+  info?: { name?: string; description?: string }
+  triggers?: []
+}
+
+type FormattedListData = {
+  actions?: any
+  contacts?: FormattedContact[]
+  id: string
+  inclusions?: any
+  info?: { name?: string; description?: string }
+  triggers?: []
+}
+
+type CreatePlaylist = {
   actions?: []
   contacts?: any[]
   inclusions?: []
@@ -291,4 +283,4 @@ type Playlist = {
   triggers?: []
 }
 
-type Playlists = Playlist[]
+type Playlists = ListData[]

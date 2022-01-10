@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
@@ -6,6 +6,9 @@ import Close from 'src/components/shared-ui/Close'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import ModalBase from 'src/components/shared-ui/modals/ModalBase'
 import ModalListActions from '../ModalListActions'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import { LoaderComponent } from '../../Loader'
+import Button from '../../Button'
 
 type Props = {
   className?: string
@@ -13,12 +16,24 @@ type Props = {
 
 const DeleteListModal: React.FC<Props> = ({ className }) => {
   const { state: popupState, dispatch: popupDispatch } = usePopup()
+  const { deletePlaylists } = usePlaylists()
+
+  const [loading, setLoading] = useState(false)
+
   const closeHandler = () => {
     popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
   }
 
-  const deleteHandler = () => {
-    console.log(popupState)
+  const deleteHandler = async () => {
+    try {
+      setLoading(true)
+      await deletePlaylists([popupState?.list_id])
+      setLoading(false)
+      closeHandler()
+    } catch (err) {
+      setLoading(false)
+      console.log('err => deletePlaylist', err)
+    }
   }
 
   return (
@@ -30,28 +45,24 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
       <CardContainer className={classNames(className, s.popup)}>
         <div className={s.title}>
           <div className={s.titleText}>Delete list?</div>
-          <Close handler={closeHandler} className={s.close} />
         </div>
-        <ModalListActions
-          items={[
-            {
-              text: 'Not relevant',
-              action: () => deleteHandler(),
-            },
-            {
-              text: 'Bad recommendations',
-              action: () => deleteHandler(),
-            },
-            {
-              text: 'Not useful',
-              action: () => deleteHandler(),
-            },
-            {
-              text: 'Recommend later',
-              action: () => deleteHandler(),
-            },
-          ]}
-        />
+        <div className={s.actions}>
+          <Button
+            className={s.button}
+            handler={deleteHandler}
+            variant="outlined"
+          >
+            Yes
+          </Button>
+          <Button
+            className={s.button}
+            handler={closeHandler}
+            variant="outlined"
+          >
+            Cancel
+          </Button>
+        </div>
+        {loading && <LoaderComponent />}
       </CardContainer>
     </ModalBase>
   )
@@ -66,22 +77,27 @@ const s = css`
 
   .title {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 19px;
+    margin-bottom: 20px;
   }
 
   .titleText {
     font-weight: var(--bold);
     font-size: 16px;
     line-height: 19px;
-    margin-right: 62px;
   }
 
   .popup {
-    padding: 15px 12px 10px 22px;
+    padding: 15px 12px 15px 22px;
     margin-top: 5px;
     background: var(--white);
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
 `
 

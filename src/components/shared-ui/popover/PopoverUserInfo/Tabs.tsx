@@ -1,41 +1,73 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
-import TabInfo from './TabInfo'
+import { apiHelpers, get } from 'src/api'
+import { UserInfo } from '../../UserInfo'
 import TabLists from './TabLists'
 import TabRecs from './TabRecs'
 import TabNotes from './TabNotes'
+import Button from '../../Button'
 
 type Props = {
   className?: string
   data: UserData
 }
 
-const InfoTab: React.FC<Props> = ({ className, data }) => (
-  <div className={classNames(s.container, className)}>
-    <ReactTabs>
-      <TabList className={s.tabs}>
-        <Tab className={s.tabItem}>Info</Tab>
-        <Tab className={s.tabItem}>List</Tab>
-        <Tab className={s.tabItem}>Recs</Tab>
-        <Tab className={s.tabItem}>Notes</Tab>
-      </TabList>
-      <TabPanel>
-        <TabInfo data={data} />
-      </TabPanel>
-      <TabPanel>
-        <TabLists data={data} />
-      </TabPanel>
-      <TabPanel>
-        <TabRecs />
-      </TabPanel>
-      <TabPanel>
-        <TabNotes data={data} />
-      </TabPanel>
-    </ReactTabs>
-  </div>
-)
+const InfoTab: React.FC<Props> = ({ className, data }) => {
+  const [mutableData, setMutableData] = useState<ContactMutable[] | undefined>(
+    undefined
+  )
+
+  useEffect(() => {
+    get.getContactsMutable([data.contact_id]).then((res) => {
+      setMutableData(Object.values(res)[0])
+    })
+  }, [data.contact_id])
+
+  const updateMutableData = async (
+    newVal: ContactMutable,
+    prevVal?: ContactMutable
+  ) => {
+    try {
+      await apiHelpers.updateMutableData(data.contact_id, newVal, prevVal)
+      const contactMutableRes = await get.getContactsMutable([data.contact_id])
+      setMutableData(Object.values(contactMutableRes)[0])
+    } catch (err) {
+      console.warn('updateMutableData ==>', err)
+    }
+  }
+
+  return (
+    <div className={classNames(s.container, className)}>
+      <ReactTabs>
+        <TabList className={s.tabs}>
+          <Tab className={s.tabItem}>Info</Tab>
+          <Tab className={s.tabItem}>List</Tab>
+          {/* <Tab className={s.tabItem}>Recs</Tab> */}
+          <Tab className={s.tabItem}>Notes</Tab>
+        </TabList>
+        <TabPanel>
+          <UserInfo data={mutableData} updateApiData={updateMutableData} />
+          <div className={s.removeButtonContainer}>
+            <Button className={s.removeButton} variant="outlined">
+              Remove from Recommendations
+            </Button>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <TabLists data={data} />
+        </TabPanel>
+        {/* <TabPanel>
+          <TabRecs />
+        </TabPanel> */}
+        <TabPanel>
+          <TabNotes data={mutableData} updateApiData={updateMutableData} />
+        </TabPanel>
+      </ReactTabs>
+    </div>
+  )
+}
 
 const s = css`
   .container {
@@ -74,6 +106,17 @@ const s = css`
 
   .panel {
     padding: 16px;
+  }
+
+  .removeButtonContainer {
+    padding-bottom: 25px;
+  }
+
+  .removeButton {
+    display: block;
+    max-width: 247px;
+    width: 100%;
+    margin: 22px auto 0 auto;
   }
 `
 

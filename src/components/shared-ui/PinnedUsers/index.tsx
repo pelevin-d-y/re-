@@ -2,7 +2,6 @@ import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import PinnedCard from './PinnedCard'
@@ -13,11 +12,16 @@ type Props = {
 
 const PinnedUsers: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
-  const contacts = state.data?.contacts
+  const { dispatch: dispatchPopup } = usePopup()
+  const contacts = state.data?.contacts?.slice(0, 3)
 
   const { dispatch: popupDispatch } = usePopup()
 
   const openModal = () => {
+    dispatchPopup({
+      type: 'UPDATE_COMPOSE_MULTI_DATA',
+      payload: contacts as UserData[],
+    })
     popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
   }
 

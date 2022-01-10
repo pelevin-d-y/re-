@@ -40,13 +40,16 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  getAuthUrl: (): Promise<Record<string, string>> =>
-    requests
-      .get(`${AWS_API}/client/authorization_url`)
+  getAuthUrl: (emails: string[]): Promise<Record<string, string>> => {
+    const params = new URLSearchParams()
+    emails.forEach((email) => params.append('email', email))
+    return requests
+      .get(`${AWS_API}/client/authorization_url`, params)
       .then((res) => res)
-      .catch((err) => Promise.reject(err)),
+      .catch((err) => Promise.reject(err))
+  },
 
-  getContact: (): Promise<GetContactResp> =>
+  getContact: (): Promise<ContactMutable[]> =>
     requests
       .get(`${AWS_API}/client/contact`)
       .then((res) => res)
@@ -58,9 +61,13 @@ const get = {
       .then((res) => res.recommendations)
       .catch((err) => Promise.reject(err)),
 
-  getContactsMutable: (ids: string[]): Promise<GetContactResp[]> => {
+  getContactsMutable: (
+    ids: string[]
+  ): Promise<{ string: ContactMutable[] }> => {
     const params = new URLSearchParams()
-    ids.forEach((id) => params.append('id', id))
+    const croppedIds = ids.slice(0, 10)
+    croppedIds.forEach((id) => params.append('id', id))
+
     return requests
       .get(`${AWS_API}/contacts/mutable`, params)
       .then((res) => res)
@@ -103,11 +110,26 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
+  postContactsMutable: (data: {
+    [key: string]: { type: string; data: string | string[]; review: number }[]
+  }): Promise<any> =>
+    requests
+      .post(`${AWS_API}/contacts/mutable`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
   postPlaylists: (data: Playlists): Promise<ListData[]> =>
     requests
       .post(`${AWS_API}/playlists/mutable`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
+
+  postCreatePlaylist: (data: CreatePlaylist[]): Promise<ListData[]> =>
+    requests
+      .post(`${AWS_API}/playlists/mutable`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
   postContactsSearch: (name: string): Promise<string[]> =>
     requests
       .post(`${AWS_API}/contacts/search`, {
@@ -117,22 +139,53 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  postRecommendations: ({
-    email,
-    note,
-  }: {
-    note: string
-    email: string
-  }): any =>
+  postContact: (data: any): Promise<any> =>
     requests
-      .post(`${AWS_API}/dash/recommendations`, {
-        [email]: {
-          Status: '',
-          Notes: note,
-        },
-      })
+      .post(`${AWS_API}/client/contact`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  postClientDeauthorization: (data: string) =>
+    requests
+      .post(`${AWS_API}/client/deauthorization`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
+  postRecommendations: (data: object) =>
+    requests
+      .post(`${AWS_API}/dash/recommendations`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 }
 
-export { get, post }
+const apiHelpers = {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  updateMutableData: async (
+    id: string,
+    newVal: ContactMutable,
+    prevVal?: ContactMutable
+  ) => {
+    try {
+      if (prevVal) {
+        const body = {
+          [id]: [
+            newVal,
+            {
+              ...prevVal,
+              review: 2,
+            },
+          ],
+        }
+
+        return await post.postContactsMutable(body)
+      }
+      return await post.postContactsMutable({ [id]: [newVal] })
+    } catch (err) {
+      console.warn('updateMutableData ==>', err)
+      return Promise.reject(err)
+    }
+  },
+}
+
+export { get, post, apiHelpers }

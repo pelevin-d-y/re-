@@ -3,29 +3,36 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import { Formik, Field } from 'formik'
-import { post } from 'src/api'
-import { useClient } from 'src/components/context/ClientContext'
+import { UpdateMutableData } from '../../UserInfo'
 
 type Props = {
   className?: string
-  data: UserData
+  data?: ContactMutable[]
+  updateApiData: UpdateMutableData
 }
 
-const TabNotes: React.FC<Props> = ({ className, data }) => {
-  const { updateUserData } = useClient()
+const TabNotes: React.FC<Props> = ({ className, data, updateApiData }) => {
+  const noteData = data?.find((item) => item.type === 'Notes')
+
   return (
     <div className={classNames(className, s.container)}>
       <Formik
         initialValues={{
-          notes: data?.Notes ? data?.Notes : '',
+          notes: noteData?.data || '',
         }}
         onSubmit={(values, { setSubmitting }) => {
-          post
-            .postRecommendations({ note: values.notes, email: data.address })
-            .then(() => {
-              updateUserData()
-            })
-          setSubmitting(false)
+          if (noteData) {
+            updateApiData({ ...noteData, data: values.notes }, noteData).then(
+              () => setSubmitting(false)
+            )
+          } else {
+            updateApiData({
+              data: values.notes,
+              review: 1,
+              type: 'Notes',
+              meta: {},
+            }).then(() => setSubmitting(false))
+          }
         }}
       >
         {({ handleSubmit, isSubmitting }) => (

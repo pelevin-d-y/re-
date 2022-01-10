@@ -11,7 +11,6 @@ import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { TagUser } from '../../Tags'
 
 type Props = {
   className?: string
@@ -23,7 +22,7 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
   const { name, avatar, templateData, relationshipStrength } = data
 
   const buttonHandler = () => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
   return (
@@ -45,7 +44,6 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
               template={templateData}
             />
           )}
-          <TagUser text="Old friends" />
         </div>
       </div>
       {templateData && (

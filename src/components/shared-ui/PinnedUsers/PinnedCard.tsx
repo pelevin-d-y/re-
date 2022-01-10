@@ -3,8 +3,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
-import { TagUser } from '../Tags'
-import Checkbox from '../Checkbox'
 
 type Props = {
   className?: string
@@ -15,11 +13,6 @@ type Props = {
 const PinnedCard: React.FC<Props> = ({ className, data }) =>
   data ? (
     <CardContainer className={classNames(className, s.container)}>
-      <Checkbox
-        className={s.checkbox}
-        id={data.contact_id}
-        handler={() => null}
-      />
       <Avatar
         className={s.avatar}
         width={38}
@@ -29,7 +22,6 @@ const PinnedCard: React.FC<Props> = ({ className, data }) =>
       />
       <div className={s.info}>
         <div className={s.name}>{data.name}</div>
-        <TagUser text="Old friends" />
       </div>
     </CardContainer>
   ) : null

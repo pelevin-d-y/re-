@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -14,9 +14,11 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import EasyEdit from 'react-easy-edit'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { post } from 'src/api'
+import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
+import EditField from 'src/components/shared-ui/EditField'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -24,17 +26,24 @@ import Checkbox from '../../shared-ui/Table/Checkbox'
 
 type Props = {
   className?: string
-  data: Playlist
+  data: ListData
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
-  const { removeUsers } = usePlaylist()
-
+  const { removeUsers, getPlaylistData } = usePlaylist()
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
-    console.log('userData', userData)
+    const { newValue, previousValue } = formatDataForApi(
+      { Notes: userData.newNotes },
+      { Notes: userData.Notes }
+    )
+    const body = {
+      [userData.contact_id]: [...newValue, ...previousValue],
+    }
+
+    return post.postContactsMutable(body)
   }, [])
 
   const columns: Column<any>[] = useMemo(
@@ -58,65 +67,62 @@ const Table: React.FC<Props> = ({ className, data }) => {
           </div>
         ),
       },
-      {
-        Header: 'Title',
-        accessor: 'fullName',
-        Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
-      },
-      {
-        Header: 'Company',
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>Placeholder</div>
-        ),
-      },
+      // {
+      //   Header: 'Title',
+      //   Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
+      // },
+      // {
+      //   Header: 'Company',
+      //   Cell: ({ value, row }) => (
+      //     <div className={s.cellContent}>Placeholder</div>
+      //   ),
+      // },
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',
+        maxWidth: 100,
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
+            <div className={s.lastMessage}>Last message</div>
             <div className={s.lastData}>
               {formatTime(row.original.last_client_time)}
             </div>
-            <div>
+            {/* <div>
               Hi Hailey, Did get a chance to view the deck i sent ove...
-            </div>
+            </div> */}
           </div>
         ),
       },
       {
         Header: 'Next steps',
+        minWidth: 250,
         Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div>Placeholder</div>
+          <div className={classNames(s.cellContent)}>
+            <div className={s.nextSteps}>
+                ...
+            </div>
           </div>
         ),
       },
+
       {
         Header: 'Notes',
         accessor: 'Notes',
         Cell: ({ value, row }) => {
-          const restValue = value
+          const [currentValue, setCurrentValue] = useState(value)
+
           return (
-            <div
-              className={s.cellContent}
-              onClick={(e) => e.stopPropagation()}
-              aria-hidden="true"
-            >
-              <EasyEdit
-                type="text"
-                value={value || restValue || '...'}
-                placeholder={value}
-                hideCancelButton
-                hideSaveButton
-                saveOnBlur
-                onSave={(val: string) =>
-                  updateUser({
-                    ...row.original,
-                    Notes: val || restValue,
-                  })
-                }
-              />
-            </div>
+            <EditField
+              type="text"
+              value={currentValue}
+              onSave={(val: string) => {
+                setCurrentValue(val)
+                updateUser({
+                  ...row.original,
+                  newNotes: val,
+                }).catch(() => setCurrentValue(currentValue))
+              }}
+            />
           )
         },
       },
@@ -160,16 +166,21 @@ const Table: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    setSelectedUsers(selectedFlatRows.map((item) => item.original))
+    setSelectedUsers(
+      selectedFlatRows.map(
+        (item) => item.original as UserData | FormattedContact
+      )
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 
   const removeUser = useCallback(
-    (e: React.MouseEvent, userData: any) => {
+    async (e: React.MouseEvent, userData: any) => {
       e.stopPropagation()
-      return removeUsers([userData])
+      await removeUsers(data.id, [userData])
+      await getPlaylistData(data.id)
     },
-    [removeUsers]
+    [getPlaylistData, removeUsers, data.id]
   )
 
   return (
@@ -232,7 +243,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
             <div className={s.cardHeader}>Start creating your list</div>
-            <AddUserView className={s.addUserView} />
+            <AddUserView className={s.addUserView} listId={data.id} />
           </CardContainer>
         )}
       </div>
@@ -259,6 +270,7 @@ const s = css`
   .columnHeader {
     text-align: left;
     padding: 18px 19px;
+    font-size: 12px;
 
     &:first-child {
       max-width: 55px !important;
@@ -304,7 +316,14 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    font-weight: var(--bold);
+  }
+
+  .nextSteps {
+    padding: 8px 12px;
+
+    font-size: 11px;
+    line-height: 13px;
+    background: #fafafa;
   }
 
   .avatar {
@@ -346,6 +365,11 @@ const s = css`
     font-size: 12px;
     line-height: 14px;
     color: #adadad;
+  }
+
+  .lastMessage {
+    font-size: 12px;
+    line-height: 14px;
   }
 
   .cardHeader {

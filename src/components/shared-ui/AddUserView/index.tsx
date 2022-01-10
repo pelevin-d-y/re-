@@ -14,13 +14,14 @@ import { LoaderComponent } from '../Loader'
 
 type Props = {
   className?: string
+  listId: string
 }
 
-const AddUserView: React.FC<Props> = ({ className }) => {
+const AddUserView: React.FC<Props> = ({ className, listId }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
   const [isLoading, setIsLoading] = useState(false)
-  const [contacts, setContacts] = useState<FormattedContacts[]>([])
+  const [contacts, setContacts] = useState<FormattedContact[]>([])
   const { state: playlistState } = usePlaylist()
 
   const ref = useRef(null)
@@ -31,10 +32,12 @@ const AddUserView: React.FC<Props> = ({ className }) => {
         setIsLoading(true)
         try {
           const searchResponse = await post.postContactsSearch(searchValue)
-          let formattedContacts: FormattedContacts[] | [] = []
+          let formattedContacts: FormattedContact[] | [] = []
           const excludedUserIds = searchResponse.filter(
             (item) =>
-              !playlistState?.contacts?.find((contact) => contact.id === item)
+              !playlistState?.contacts?.find(
+                (contact) => contact.contact_id === item
+              )
           )
 
           if (excludedUserIds.length > 0) {
@@ -89,7 +92,9 @@ const AddUserView: React.FC<Props> = ({ className }) => {
             <LoaderComponent />
           </div>
         ) : (
-          contacts?.map((item) => <UserItem data={item} key={item.id} />)
+          contacts?.map((item) => (
+            <UserItem data={item} key={item.contact_id} listId={listId} />
+          ))
         )}
       </ul>
     </CardContainer>

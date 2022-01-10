@@ -8,25 +8,32 @@ import CardRecs from '../cards/CardRecs'
 type Props = {
   className?: string
   contacts?: UserData[]
-  playlistData: Playlist
+  playlistData: ListData
 }
 
 const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
-  const { addUser } = usePlaylist()
+  const { addUsers, getPlaylistData } = usePlaylist()
 
   const filteredContacts = useMemo(
     () =>
       contacts?.filter(
         (item) =>
           !playlistData?.contacts?.find(
-            (listUser) => listUser.id === item.contact_id
+            (listUser) => listUser.contact_id === item.contact_id
           )
       ),
     [contacts, playlistData]
   )
 
-  const addUserHandler = (user: UserData) =>
-    addUser({ ...user, id: user.contact_id })
+  const addUserHandler = async (user: UserData) => {
+    try {
+      await addUsers(playlistData.id, [user])
+      await getPlaylistData(playlistData.id)
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log('🚀 ~ file: index.tsx ~ line 33 ~ addUserHandler ~ err', err)
+    }
+  }
 
   return filteredContacts?.length !== 0 ? (
     <div className={classNames(className, s.container)}>

@@ -5,16 +5,15 @@ import CloseButton from 'src/components/shared-ui/Close'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Search from 'src/components/shared-ui/Search'
-import { TagUser } from 'src/components/shared-ui/Tags'
 import MessageStatus from './MessageStatus'
 
 type Props = {
   className?: string
-  selectedContacts: UserData[]
-  removeUser: (user: UserData) => void
-  selectUser: (user: UserData) => void
-  addUserHandler: (user: UserData) => void
-  unselectedContacts: UserData[] | null
+  selectedContacts: UserData[] | FormattedContact[]
+  removeUser: (user: UserData | FormattedContact) => void
+  selectUser: (user: UserData | FormattedContact) => void
+  addUserHandler: (user: UserData | FormattedContact) => void
+  unselectedContacts: UserData[] | FormattedContact[] | null
 }
 
 const UsersManager: React.FC<Props> = ({
@@ -51,7 +50,6 @@ const UsersManager: React.FC<Props> = ({
           <Avatar className={s.avatar} image={item.avatar} />
           <div className={s.userInfo}>
             <div className={s.userName}>{item.name}</div>
-            <TagUser className={s.tag} text="Old friends" />
           </div>
           <CloseButton
             className={s.buttonRemove}
@@ -195,10 +193,6 @@ const s = css`
 
   .avatar {
     margin-right: 18px;
-  }
-
-  .tag {
-    background: var(--white);
   }
 `
 

@@ -18,59 +18,60 @@ type Props = {
 }
 
 const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
-  const { fullName, name, avatar } = data
+  const { name, avatar } = data
   // const { Subject, Summary } = template
 
   const { dispatch } = usePopup()
 
   const buttonHandler = () => {
-    dispatch({ type: 'TOGGLE_CONTACT_POPUP', payload: data })
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
   return (
-    <Popover
-      showPopupEvent="click"
-      nested
-      triggerElement={
-        <div className={classNames(className, s.trigger)}>
-          {fullName || name}
-        </div>
-      }
-      popupContent={
-        <CardContainer className={classNames(s.popup)}>
-          <div className={s.wrapper}>
-            <div className={s.header}>
-              <Avatar
-                image={avatar}
-                width={54}
-                height={54}
-                className={s.avatar}
-                // strength={data.relationshipStrength}
-              />
-              <div className={s.headerInfo}>
-                <div className={s.name}>{fullName || name}</div>
-                {/* <div className={s.subject}>{Subject}</div> */}
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions , jsx-a11y/click-events-have-key-events
+    <div onClick={(e: any) => e.stopPropagation()}>
+      <Popover
+        showPopupEvent="click"
+        nested
+        triggerElement={
+          <div className={classNames(className, s.trigger)}>{name}</div>
+        }
+        popupContent={
+          <CardContainer className={classNames(s.popup)}>
+            <div className={s.wrapper}>
+              <div className={s.header}>
+                <Avatar
+                  image={avatar}
+                  width={54}
+                  height={54}
+                  className={s.avatar}
+                  // strength={data.relationshipStrength}
+                />
+                <div className={s.headerInfo}>
+                  <div className={s.name}>{name}</div>
+                  {/* <div className={s.subject}>{Subject}</div> */}
+                </div>
               </div>
-            </div>
-            {/* <UserHeader
+              {/* <UserHeader
               className={s.summary}
               text={parseMessage(Summary, name)}
             /> */}
-            <div className={s.actions}>
-              <PopoverDots variant="outlined" />
-              <PopoverActions
-                variant="contained"
-                buttonClickHandler={buttonHandler}
-                isArrow
-              >
-                Say Hi
-              </PopoverActions>
+              <div className={s.actions}>
+                <PopoverDots variant="outlined" />
+                <PopoverActions
+                  variant="contained"
+                  buttonClickHandler={buttonHandler}
+                  isArrow
+                >
+                  Say Hi
+                </PopoverActions>
+              </div>
             </div>
-          </div>
-          {data && <Tabs className={s.tabs} data={data} />}
-        </CardContainer>
-      }
-    />
+            {data && <Tabs className={s.tabs} data={data} />}
+          </CardContainer>
+        }
+      />
+    </div>
   )
 }
 

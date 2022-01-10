@@ -1,45 +1,47 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
-import EasyEdit from 'react-easy-edit'
-import { useClient } from 'src/components/context/ClientContext'
 import { formatTime } from 'src/helpers/utils/parseTime'
-import EmailsItem from './EmailsItem'
+import { getBaseMutableData } from 'src/helpers/utils/base-mutable-data'
+import UserInfoEmail from './UserInfoEmail'
+import EditField from '../EditField'
+
+export type UpdateMutableData = (
+  val: ContactMutable,
+  prevVal?: ContactMutable | undefined
+) => Promise<void>
 
 type Props = {
   className?: string
-  data: any
+  data?: ContactMutable[]
+  updateApiData: UpdateMutableData
 }
 
-const TabInfo: React.FC<Props> = ({ className, data }) => {
-  const { state: clientState, updateUserData } = useClient()
+const UserInfo: React.FC<Props> = ({ className, data, updateApiData }) => {
+  const onSaveName = (val: string) => {
+    const contactItem = data?.find((item) => item.type === 'name')
 
-  const onSave = (val: string, type: 'address' | 'name') => {
-    const updatedContacts = clientState.data?.contacts?.map(
-      (item: UserData) => {
-        if (item.address === data.address) {
-          return {
-            ...item,
-            [type]: val,
-          }
-        }
-        return item
-      }
-    )
-
-    // updateUserData({ ...clientState, contacts: updatedContacts })
+    if (contactItem) {
+      updateApiData({ ...contactItem, data: val.split(' ') }, contactItem)
+    } else {
+      updateApiData({
+        ...getBaseMutableData({ data: val.split(' '), type: 'name' }),
+      })
+    }
   }
 
-  const emails: string[] = data.emails ? data.emails : [data.address]
+  const name = (
+    data?.find((item) => item.type === 'name')?.data as string[] | undefined
+  )?.join(' ')
 
   return (
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
-        {emails.length > 0 && (
+        {data && (
           <li className={s.item}>
-            <EmailsItem emails={emails} />
+            <UserInfoEmail data={data} updateApiData={updateApiData} />
           </li>
         )}
         <li className={s.item}>
@@ -47,19 +49,14 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
             <span>Name</span>
             <Img alt="icon" className={s.pen} img="pen.png" />
           </div>
-          <EasyEdit
+          <EditField
             type="text"
-            className={s.valueInput}
-            value={data.fullName || data.name}
-            placeholder={data.fullName}
-            hideCancelButton
-            hideSaveButton
-            saveOnBlur
-            cssClassPrefix="profile-card-"
-            onSave={(val: string) => onSave(val, 'name')}
+            value={name || ''}
+            classPrefix="profile-card-"
+            onSave={(val: string) => onSaveName(val)}
           />
         </li>
-        {data.last_contact_time && (
+        {/* {data.last_contact_time && (
           <li className={s.item}>
             <div className={s.itemTitle}>
               <span>Met</span>
@@ -78,18 +75,14 @@ const TabInfo: React.FC<Props> = ({ className, data }) => {
               {data.last_client_text}
             </div>
           </li>
-        )}
+        )} */}
       </ul>
-      <Button className={s.button} variant="outlined">
-        Remove from Recommendations
-      </Button>
     </div>
   )
 }
 
 const s = css`
   .container {
-    padding-bottom: 25px;
   }
 
   .list {
@@ -100,6 +93,7 @@ const s = css`
   }
 
   .item {
+    position: relative;
     padding: 14px 20px;
 
     font-size: 12px;
@@ -136,17 +130,6 @@ const s = css`
     overflow: hidden;
   }
 
-  .button {
-    display: block;
-    max-width: 247px;
-    width: 100%;
-    margin: 22px auto 0 auto;
-  }
-
-  .valueInput {
-    background: red;
-  }
-
   .triangle {
     margin-left: 4px;
     border: 5px solid transparent;
@@ -154,4 +137,4 @@ const s = css`
   }
 `
 
-export default TabInfo
+export { UserInfo }
