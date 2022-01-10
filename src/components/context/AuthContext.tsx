@@ -66,6 +66,7 @@ const AuthProvider: React.FC = ({ children }) => {
           payload: { isSignedIn: true },
         })
       )
+      // eslint-disable-next-line no-return-assign
       .catch(() => (document.location.href = logInLink))
   }, [])
 

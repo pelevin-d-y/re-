@@ -7,11 +7,12 @@ import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
+import { usePopup } from 'src/components/context/PopupContext'
+import Link from 'src/components/shared-ui/Link'
 import CardContainer from '../CardContainer'
 import { LoaderComponent } from '../../Loader'
-import Link from 'src/components/shared-ui/Link'
 import SvgIcon from '../../SvgIcon'
-import { usePopup } from 'src/components/context/PopupContext'
+import CloseButton from '../../Close'
 
 type Props = {
   className?: string
@@ -22,10 +23,9 @@ type Props = {
 const CardList: React.FC<Props> = ({
   className,
   data: { info, id, contacts },
-  showButtonAddList,
 }) => {
   const router = useRouter()
-  const {  createPlaylist, getPlaylists } = usePlaylists()
+  const { createPlaylist, getPlaylists } = usePlaylists()
   const { dispatch: popupDispatch } = usePopup()
 
   const deleteHandler = async () => {
@@ -49,7 +49,14 @@ const CardList: React.FC<Props> = ({
   }
 
   return (
-    <CardContainer className={classNames(s.container, className)}>
+    <div
+      className={classNames(s.container, className)}
+      onClick={moveToListPage}
+      onKeyDown={moveToListPage}
+      role="button"
+      tabIndex={0}
+    >
+      <CloseButton className={s.removeButton} handler={deleteHandler} />
       {/* {image && <Img img={image} alt="icon" className={s.image} />} */}
       <div className={s.title}>{info?.name}</div>
       {info?.description && (
@@ -64,36 +71,7 @@ const CardList: React.FC<Props> = ({
           showHiddenUsers
         />
       )}
-      <div className={classNames(s.actions)}>
-        <PopoverDots
-          className={s.dots}
-          variant="outlined"
-          items={[
-            {
-              name: 'Edit',
-              handler: moveToListPage,
-            },
-            {
-              name: 'Duplicate',
-              handler: duplicateList,
-            },
-            {
-              name: 'Delete',
-              handler: deleteHandler,
-            },
-          ]}
-        />
-        {showButtonAddList && (
-          <Link className={s.link} href="#">
-            Add to list
-          </Link>
-        )}
-        <Link className={s.link} href={`/list?id=${id}`}>
-          View List
-          <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
-        </Link>
-      </div>
-    </CardContainer>
+    </div>
   )
 }
 
@@ -106,13 +84,38 @@ const s = css`
     font-weight: var(--bold);
   }
 
+  .removeButton {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+  }
+
   .container {
     position: relative;
     overflow: hidden;
     display: flex;
     flex-flow: column nowrap;
 
-    padding: 11px 16px 25px 21px;
+    padding: 17px 21px 23px 21px;
+
+    text-decoration: none;
+    cursor: pointer;
+    color: #000000;
+    border: 1px solid #ffffff;
+    box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
+    border-radius: 6px;
+
+    &:hover {
+      border: 1px solid #1966ff;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
+        0px 1px 1px rgba(34, 34, 34, 0.0989128);
+      border-radius: 6px;
+
+      .removeButton {
+        display: block;
+      }
+    }
   }
 
   .image {

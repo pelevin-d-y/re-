@@ -18,38 +18,13 @@ const ListsCatalog: React.FC<Props> = ({ data }) => {
     state: { isLoading },
   } = usePlaylists()
 
-  const cardsStructure: CardsStructure = useMemo(() => {
-    const value: CardsStructure = {
-      firstColumn: [],
-      secondColumn: [],
-    }
-
-    data?.map((item, index) => {
-      const remainder = (index + 1) % 2
-      if (remainder) {
-        return value.firstColumn.push(item)
-      }
-
-      return value.secondColumn.push(item)
-    })
-
-    return value
-  }, [data])
-
   return (
     <>
       {isLoading && <LoaderPage />}
       <div className={s.list}>
-        <div className={s.column}>
-          {cardsStructure.firstColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} showButtonAddList />
-          ))}
-        </div>
-        <div className={s.column}>
-          {cardsStructure.secondColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} showButtonAddList />
-          ))}
-        </div>
+        {data.map((item: any) => (
+          <CardList className={s.card} key={item.id} data={item} />
+        ))}
       </div>
     </>
   )
