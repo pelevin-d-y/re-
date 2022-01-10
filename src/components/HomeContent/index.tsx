@@ -49,7 +49,7 @@ const Content: React.FC = () => {
     [contacts]
   )
 
-  const HomeUpcomingContacts = contacts?.slice(2, 5)
+  const HomeUpcomingContacts = contacts?.slice(0, 4)
 
   const filteredStatusContacts = contacts?.filter(
     (contact: UserData) => contact.Status !== 'Declined'
@@ -67,7 +67,7 @@ const Content: React.FC = () => {
   }
 
   const renderCalendar = () =>
-    contacts && !arrayIsEmpty(contacts) ? (
+    HomeUpcomingContacts && !arrayIsEmpty(HomeUpcomingContacts) ? (
       <HomeUpcoming
         className={s.section}
         headerData={headerDataWeek}
