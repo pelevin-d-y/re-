@@ -91,10 +91,10 @@ const Content: React.FC = () => {
             {renderRecommendations()}
             {renderCalendar()}
             <Grid className={s.section} division={2}>
-              {shareHolidays.contacts && (
+              {/* {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
-              )}
-              {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
+              )} */}
+              {/* {shareMemes.contacts && <CardShareMulti data={shareMemes} />} */}
             </Grid>
 
             {/* <Grid className={s.section} division={2}>

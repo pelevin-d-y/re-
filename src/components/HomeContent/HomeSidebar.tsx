@@ -11,7 +11,7 @@ type Props = {
 const ContentSidebar: React.FC<Props> = ({ className }) => (
   <div className={classNames(className, s.container)}>
     <Spotlight className={s.spotlight} />
-    <PinnedUsers />
+    {/* <PinnedUsers /> */}
   </div>
 )
 
