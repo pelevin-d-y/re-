@@ -39,7 +39,7 @@ const s = css`
 
   .list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 15px;
     padding: 27px 21px 31px 21px;
 
