@@ -99,13 +99,12 @@ const Table: React.FC<Props> = ({ className, data }) => {
         Cell: ({ value, row }) => (
           <div className={classNames(s.cellContent)}>
             <div className={s.nextSteps}>
-              Follow up on the presentation Landon shared and make sure he
-              socialize it with the board members and their network.
-              (placeholder)
+                ...
             </div>
           </div>
         ),
       },
+
       {
         Header: 'Notes',
         accessor: 'Notes',
