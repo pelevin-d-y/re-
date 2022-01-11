@@ -11,14 +11,11 @@ import {
 
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import { formatTime } from 'src/helpers/utils/parseTime'
-import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import UserHeader from '../shared-ui/UserHeader'
-import PopoverRate from '../shared-ui/popover/PopoverRate'
 import Button from '../shared-ui/Button'
 
 type Props = {
@@ -56,14 +53,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         id: 'last-message',
         minWidth: 100,
         Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div>Last message</div>
-            <PopoverThread
-              className={s.threadButton}
-              buttonText={formatTime(row.original.last_client_time)}
-              data={row.original}
-            />
-          </div>
+          <div className={s.cellContent}>{row.original.last_client_text}</div>
         ),
       },
       {
@@ -84,7 +74,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 150,
         Cell: () => (
           <div className={s.buttonWrapper}>
-            <Button className={s.button} variant="outlined" handler={() => {}}>
+            <Button
+              className={s.button}
+              variant="outlined"
+              handler={() => null}
+            >
               Follow up
             </Button>
           </div>
