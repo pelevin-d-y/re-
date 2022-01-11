@@ -62,11 +62,11 @@ const get = {
       .catch((err) => Promise.reject(err)),
 
   getContactsMutable: (
-    ids: string[]
+    ids?: string[]
   ): Promise<{ string: ContactMutable[] }> => {
     const params = new URLSearchParams()
-    const croppedIds = ids.slice(0, 10)
-    croppedIds.forEach((id) => params.append('id', id))
+    const croppedIds = ids?.slice(0, 10)
+    croppedIds?.forEach((id) => params.append('id', id))
 
     return requests
       .get(`${AWS_API}/contacts/mutable`, params)

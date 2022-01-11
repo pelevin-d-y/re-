@@ -98,9 +98,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 250,
         Cell: ({ value, row }) => (
           <div className={classNames(s.cellContent)}>
-            <div className={s.nextSteps}>
-                ...
-            </div>
+            <div className={s.nextSteps}>Placeholder</div>
           </div>
         ),
       },

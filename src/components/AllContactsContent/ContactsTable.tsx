@@ -82,9 +82,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
             <div className={s.lastData}>
               {formatTime(row.original.last_client_time)}
             </div>
-            <div>
-              Hi Hailey, Did get a chance to view the deck i sent ove...
-            </div>
+            <div>Placeholder</div>
           </div>
         ),
       },
