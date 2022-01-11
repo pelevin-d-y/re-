@@ -1,10 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
-import PopoverThread from 'src/components/shared-ui/popover/PopoverThread'
-import parseMessage from 'src/helpers/utils/parse-message'
+
 import { css } from 'astroturf'
-import { formatTime } from 'src/helpers/utils/parseTime'
 
 type Props = {
   className?: string
@@ -16,18 +14,12 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
   const { avatar, name } = data
 
   const parsedText = () => {
-    if ('templateData' in data && data?.templateData) {
-      return parseMessage(data.templateData.Subject, name)
+    if ('last_contact_text' in data) {
+      return data?.last_contact_text
     }
-    return ''
+    return 'Last message is not defined'
   }
 
-  const lastContactTime = () => {
-    if ('last_contact_time' in data) {
-      return formatTime(data.last_contact_time)
-    }
-    return ''
-  }
   const userName = name
 
   return (
@@ -47,10 +39,6 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
           )}
           <div className={s.profileInfo}>
             <div className={s.name}>{userName}</div>
-            <div className={s.lastMessageDate}>
-              Last Message {lastContactTime()}{' '}
-              <span className={s.thread}>View</span>
-            </div>
           </div>
         </div>
         <div className={s.lastMessage}>

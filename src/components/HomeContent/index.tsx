@@ -55,8 +55,8 @@ const Content: React.FC = () => {
     (contact: UserData) => contact.Status !== 'Declined'
   )
 
-  const renderRecommendations = () => {
-    return filteredStatusContacts && !arrayIsEmpty(filteredStatusContacts) ? (
+  const renderRecommendations = () =>
+    filteredStatusContacts && !arrayIsEmpty(filteredStatusContacts) ? (
       <Recommendations
         className={s.section}
         data={filteredStatusContacts?.slice(0, 3)}
@@ -64,7 +64,6 @@ const Content: React.FC = () => {
     ) : (
       <EmptyRecommendations className={s.section} />
     )
-  }
 
   const renderCalendar = () =>
     HomeUpcomingContacts && !arrayIsEmpty(HomeUpcomingContacts) ? (
@@ -92,10 +91,10 @@ const Content: React.FC = () => {
             {renderRecommendations()}
             {renderCalendar()}
             <Grid className={s.section} division={2}>
-              {/* {shareHolidays.contacts && (
+              {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
-              )} */}
-              {/* {shareMemes.contacts && <CardShareMulti data={shareMemes} />} */}
+              )}
+              {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
             </Grid>
 
             {/* <Grid className={s.section} division={2}>
