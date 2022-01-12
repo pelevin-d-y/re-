@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
-import { apiHelpers, get, post } from 'src/api/requests'
+import { apiHelpers, get } from 'src/api/requests'
 import ContactLists from './ContactLists'
 import ContactNextSteps from './ContactNextSteps'
 import TabNotes from '../shared-ui/popover/PopoverUserInfo/TabNotes'
+import { HOCUpdateMutableData } from '../HOCs/HOCUpdateMutableData'
 
 type Props = {
   className?: string
@@ -13,28 +14,10 @@ type Props = {
 }
 
 const ContactTabs: React.FC<Props> = ({ className, data }) => {
-  const [mutableData, setMutableData] = useState<ContactMutable[] | undefined>(
-    undefined
-  )
-
-  useEffect(() => {
-    get.getContactsMutable([data.contact_id]).then((res) => {
-      setMutableData(Object.values(res)[0])
-    })
-  }, [data.contact_id])
-
-  const updateMutableData = async (
-    newVal: ContactMutable,
-    prevVal?: ContactMutable
-  ) => {
-    try {
-      await apiHelpers.updateMutableData(data.contact_id, newVal, prevVal)
-      const contactMutableRes = await get.getContactsMutable([data.contact_id])
-      setMutableData(Object.values(contactMutableRes)[0])
-    } catch (err) {
-      console.warn('updateMutableData ==>', err)
-    }
-  }
+  const TabNotesComp = HOCUpdateMutableData({
+    WrappedComponent: TabNotes,
+    data,
+  })
 
   return (
     <div className={classNames(className, s.container)}>
@@ -51,7 +34,7 @@ const ContactTabs: React.FC<Props> = ({ className, data }) => {
           <ContactLists data={data} />
         </TabPanel>
         <TabPanel>
-          <TabNotes data={mutableData} updateApiData={updateMutableData} />
+          <TabNotesComp />
         </TabPanel>
       </ReactTabs>
     </div>

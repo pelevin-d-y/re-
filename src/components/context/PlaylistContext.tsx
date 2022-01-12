@@ -92,10 +92,6 @@ const PlaylistProvider: React.FC = ({ children }) => {
           },
         ])
         .catch((err: any) => console.log('addUser err =>', err))
-
-      return new Promise((resolve, reject) =>
-        reject(new Error('List id is undefined'))
-      )
     },
     []
   )

@@ -8,14 +8,11 @@ import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
-import { get } from 'src/api/requests'
-import formatContactData from 'src/helpers/utils/format-contact-data'
 import HomeUpcoming from './HomeUpcoming'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 import { LoaderPage } from '../shared-ui/Loader'
 import Recommendations from './Recommendations'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
-import CardGuide from '../shared-ui/cards/CardGuide'
 
 const Content: React.FC = () => {
   const { state: clientState } = useClient()

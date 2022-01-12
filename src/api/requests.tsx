@@ -101,6 +101,11 @@ const get = {
       .get(`${AWS_API}/messages/read`, { id })
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
+  getPinnedContacts: (): Promise<any> =>
+    requests
+      .get(`${AWS_API}/dash/pinned`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
 }
 
 const post = {
@@ -152,7 +157,13 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  postRecommendations: (data: object) =>
+  postRecommendations: (data: Record<string, unknown>): Promise<any> =>
+    requests
+      .post(`${AWS_API}/dash/recommendations`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
+  postPinnedContacts: (data: any): Promise<any> =>
     requests
       .post(`${AWS_API}/dash/recommendations`, data)
       .then((res) => res)
