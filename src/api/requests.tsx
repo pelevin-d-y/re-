@@ -123,7 +123,7 @@ const post = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  postPlaylists: (data: Playlists): Promise<ListData[]> =>
+  postPlaylists: (data: any): Promise<ListData[]> =>
     requests
       .post(`${AWS_API}/playlists/mutable`, data)
       .then((res) => res)

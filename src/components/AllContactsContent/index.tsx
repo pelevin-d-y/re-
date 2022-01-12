@@ -62,6 +62,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
             icon="contacts"
             iconBackground="#F0F5FF"
             iconColor="#1966FF"
+            hideNumber={false}
           />
         </div>
         <div className={s.content}>

@@ -54,6 +54,7 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             icon="recs"
             iconBackground="#F0F5FF"
             iconColor="#1966FF"
+            hideNumber={false}
           />
           <Search
             classes={{ container: s.search }}
