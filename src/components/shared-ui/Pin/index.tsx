@@ -13,21 +13,21 @@ const Pin: React.FC<Props> = ({ className, data }) => {
   const { state, updateUserData } = useClient()
   const [isActive, setIsActive] = useState(false)
 
-  useEffect(() => {
-    setIsActive(!!data?.pinned)
-  }, [data?.pinned])
+  // useEffect(() => {
+  //   setIsActive(!!data?.pinned)
+  // }, [data?.pinned])
 
   const pinAction = () => {
     setIsActive(!isActive)
-    const contacts = state.data?.contacts?.map((item) => {
-      if (item.address === data?.address) {
-        return {
-          ...item,
-          pinned: !item.pinned,
-        }
-      }
-      return item
-    })
+    // const contacts = state.data?.contacts?.map((item) => {
+    //   if (item.address === data?.address) {
+    //     return {
+    //       ...item,
+    //       pinned: !item.pinned,
+    //     }
+    //   }
+    //   return item
+    // })
     // updateUserData({ ...state, contacts })
   }
 
