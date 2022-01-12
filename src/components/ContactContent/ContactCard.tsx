@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { apiHelpers, get} from 'src/api/requests'
+import { HOCUpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
@@ -22,28 +22,10 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
-  const [mutableData, setMutableData] = useState<ContactMutable[] | undefined>(
-    undefined
-  )
-
-  useEffect(() => {
-    get.getContactsMutable([data.contact_id]).then((res) => {
-      setMutableData(Object.values(res)[0])
-    })
-  }, [data.contact_id])
-
-  const updateMutableData = async (
-    newVal: ContactMutable,
-    prevVal?: ContactMutable
-  ) => {
-    try {
-      await apiHelpers.updateMutableData(data.contact_id, newVal, prevVal)
-      const contactMutableRes = await get.getContactsMutable([data.contact_id])
-      setMutableData(Object.values(contactMutableRes)[0])
-    } catch (err) {
-      console.warn('updateMutableData ==>', err)
-    }
-  }
+  const UserInfoComp = HOCUpdateMutableData({
+    WrappedComponent: UserInfo,
+    data,
+  })
 
   return (
     <div className={classNames(className, s.container)}>
@@ -70,7 +52,7 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
           </PopoverActions>
         </div>
       </div>
-      <UserInfo data={mutableData} updateApiData={updateMutableData} />
+      <UserInfoComp />
     </div>
   )
 }

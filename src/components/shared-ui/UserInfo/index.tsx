@@ -15,33 +15,35 @@ export type UpdateMutableData = (
 
 type Props = {
   className?: string
-  data?: ContactMutable[]
-  updateApiData: UpdateMutableData
+  mutableData?: ContactMutable[]
+  updateData: UpdateMutableData
 }
 
-const UserInfo: React.FC<Props> = ({ className, data, updateApiData }) => {
+const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
   const onSaveName = (val: string) => {
-    const contactItem = data?.find((item) => item.type === 'name')
+    const contactItem = mutableData?.find((item) => item.type === 'name')
 
     if (contactItem) {
-      updateApiData({ ...contactItem, data: val.split(' ') }, contactItem)
+      updateData({ ...contactItem, data: val.split(' ') }, contactItem)
     } else {
-      updateApiData({
+      updateData({
         ...getBaseMutableData({ data: val.split(' '), type: 'name' }),
       })
     }
   }
 
   const name = (
-    data?.find((item) => item.type === 'name')?.data as string[] | undefined
+    mutableData?.find((item) => item.type === 'name')?.data as
+      | string[]
+      | undefined
   )?.join(' ')
 
   return (
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
-        {data && (
+        {mutableData && (
           <li className={s.item}>
-            <UserInfoEmail data={data} updateApiData={updateApiData} />
+            <UserInfoEmail data={mutableData} updateApiData={updateData} />
           </li>
         )}
         <li className={s.item}>

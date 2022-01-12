@@ -7,12 +7,12 @@ import { UpdateMutableData } from '../../UserInfo'
 
 type Props = {
   className?: string
-  data?: ContactMutable[]
-  updateApiData: UpdateMutableData
+  mutableData?: ContactMutable[]
+  updateData: UpdateMutableData
 }
 
-const TabNotes: React.FC<Props> = ({ className, data, updateApiData }) => {
-  const noteData = data?.find((item) => item.type === 'Notes')
+const TabNotes: React.FC<Props> = ({ className, mutableData, updateData }) => {
+  const noteData = mutableData?.find((item) => item.type === 'Notes')
 
   return (
     <div className={classNames(className, s.container)}>
@@ -22,11 +22,11 @@ const TabNotes: React.FC<Props> = ({ className, data, updateApiData }) => {
         }}
         onSubmit={(values, { setSubmitting }) => {
           if (noteData) {
-            updateApiData({ ...noteData, data: values.notes }, noteData).then(
-              () => setSubmitting(false)
+            updateData({ ...noteData, data: values.notes }, noteData).then(() =>
+              setSubmitting(false)
             )
           } else {
-            updateApiData({
+            updateData({
               data: values.notes,
               review: 1,
               type: 'Notes',
