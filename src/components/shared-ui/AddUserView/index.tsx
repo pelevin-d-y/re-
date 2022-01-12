@@ -102,10 +102,17 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     position: relative;
+    width: 60%;
     z-index: 18;
     box-shadow: none;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   .search {
@@ -114,6 +121,7 @@ const s = css`
 
   .searchInput {
     outline: none;
+    width: 100%;
   }
 
   .list {
