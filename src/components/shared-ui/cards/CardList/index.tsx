@@ -22,11 +22,12 @@ type Props = {
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { info, id, contacts },
+  data: { info, playlist_id, contacts },
 }) => {
   const router = useRouter()
   const { createPlaylist, getPlaylists } = usePlaylists()
   const { dispatch: popupDispatch } = usePopup()
+  const id = playlist_id
 
   const deleteHandler = async () => {
     popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })

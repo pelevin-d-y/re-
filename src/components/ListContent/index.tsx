@@ -41,10 +41,10 @@ const Content: React.FC = () => {
               <TableActions
                 data={playlistData}
                 buttons={[
-                  'addContactToListPopover',
+                  // 'addContactToListPopover',
                   'contact',
-                  'dots',
-                  'filter',
+                  // 'dots',
+                  // 'filter',
                   'removeContacts',
                 ]}
               />

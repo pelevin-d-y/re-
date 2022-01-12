@@ -40,6 +40,7 @@ const ListsContent: React.FC<Props> = ({ className }) => {
                 icon="contacts"
                 iconBackground="#F0F5FF"
                 iconColor="#1966FF"
+                hideNumber
                 link={{ text: 'View', href: '/contacts' }}
               />
               <div className={s.buttonContainer}>
@@ -93,7 +94,7 @@ const s = css`
   .header {
     display: flex;
     justify-content: space-between;
-    
+
     @include mobile {
       flex-direction: column;
     }
