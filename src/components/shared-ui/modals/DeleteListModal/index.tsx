@@ -5,8 +5,8 @@ import { usePopup } from 'src/components/context/PopupContext'
 import Close from 'src/components/shared-ui/Close'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import ModalBase from 'src/components/shared-ui/modals/ModalBase'
-import ModalListActions from '../ModalListActions'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import ModalListActions from '../ModalListActions'
 import { LoaderComponent } from '../../Loader'
 import Button from '../../Button'
 
@@ -27,6 +27,7 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
   const deleteHandler = async () => {
     try {
       setLoading(true)
+
       await deletePlaylists([popupState?.list_id])
       setLoading(false)
       closeHandler()

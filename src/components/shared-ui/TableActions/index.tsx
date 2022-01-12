@@ -31,10 +31,10 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
   const { dispatch: popupDispatch } = usePopup()
 
   const removeUsersHandler = async () => {
-    if (data && 'id' in data) {
+    if (data && 'playlist_id' in data) {
       if (selectedUsers) {
-        await removeUsers(data.id, selectedUsers)
-        await getPlaylistData(data.id)
+        await removeUsers(data.playlist_id, selectedUsers)
+        await getPlaylistData(data.playlist_id)
       }
     } else {
       // eslint-disable-next-line no-console

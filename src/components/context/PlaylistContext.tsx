@@ -66,7 +66,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
       post
         .postPlaylists([
           {
-            id: listId,
+            playlist_id: listId,
             contacts: users.map((item) => ({
               contact_id: item.contact_id,
               review: 2,
@@ -87,7 +87,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
       return post
         .postPlaylists([
           {
-            id: listId,
+            playlist_id: listId,
             contacts,
           },
         ])

@@ -52,11 +52,11 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         debounceFields.title !== data.title ||
         debounceFields.description !== data.description
       ) {
-        if (data.id) {
+        if (data.playlist_id) {
           post
             .postPlaylists([
               {
-                id: data.id,
+                playlist_id: data.playlist_id,
                 info: {
                   name: debounceFields.title,
                   description: debounceFields.description,

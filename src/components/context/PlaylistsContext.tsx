@@ -95,7 +95,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   const deletePlaylists = React.useCallback(
     (ids: string[]) =>
       post
-        .postPlaylists(ids.map((item) => ({ id: item })))
+        .postPlaylists(ids.map((item) => ({ playlist_id: item })))
         .then(() => getPlaylists())
         // eslint-disable-next-line no-console
         .catch((err) => console.log('deletePlaylists err', err)),
