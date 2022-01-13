@@ -8,6 +8,7 @@ type Props = {
   classPrefix?: string
   type: string
   value: string
+  placeholder?: string
   onSave: (val: string) => any
 }
 
