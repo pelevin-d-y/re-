@@ -30,8 +30,8 @@ const TabLists: React.FC<Props> = ({ className, data }) => {
     <div className={classNames(className, s.container)}>
       <ul>
         {lists?.map((list) => (
-          <li className={s.item} key={list.id}>
-            <a className={s.link} href={`/list?id=${list.id}`}>
+          <li className={s.item} key={list.playlist_id}>
+            <a className={s.link} href={`/list?id=${list.playlist_id}`}>
               <CardContainer className={s.card}>
                 <div className={s.title}>{list.info?.name}</div>
                 <div className={s.description}>{list.info?.description}</div>

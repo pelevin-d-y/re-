@@ -21,7 +21,7 @@ type Buttons = Array<typeof actions[number]>
 
 type Props = {
   className?: string
-  data?: FormattedListData
+  data?: ListData
   buttons: Buttons
 }
 
@@ -64,12 +64,14 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
           •••
         </Button>
       )}
-      {data && buttons.includes('addContactToListPopover') && 'id' in data && (
-        <PopoverAddContact
-          className={classNames(s.contacts, s.button)}
-          listId={data.id}
-        />
-      )}
+      {data &&
+        buttons.includes('addContactToListPopover') &&
+        'playlist_id' in data && (
+          <PopoverAddContact
+            className={classNames(s.contacts, s.button)}
+            listId={data.playlist_id}
+          />
+        )}
       {buttons.includes('removeContacts') && (
         <Button
           className={classNames(s.button, s.remove)}

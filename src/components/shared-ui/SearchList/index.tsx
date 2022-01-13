@@ -9,13 +9,13 @@ import { LoaderComponent } from '../Loader'
 
 type Props = {
   className?: string
-  data: FormattedListData
+  data: ListData
   user: UserData
 }
 
 const SearchList: React.FC<Props> = ({
   className,
-  data: { info, id, contacts },
+  data: { info, playlist_id, contacts },
   user,
 }) => {
   const { addUsers } = usePlaylist()
@@ -25,11 +25,11 @@ const SearchList: React.FC<Props> = ({
 
   const addUserHandler = useCallback(async () => {
     setLoading(true)
-    await addUsers(id, [user])
+    await addUsers(playlist_id, [user])
       .then(() => getPlaylists())
       .catch((err) => console.log(`addUsers err => ${err} `))
     setLoading(false)
-  }, [id, user])
+  }, [playlist_id, user])
 
   return (
     <div className={classNames(s.container, className)}>

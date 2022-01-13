@@ -259,18 +259,8 @@ type ListData = {
     review?: number
     scores?: any
   }[]
-  id: string
-  playlist_id: string
-  inclusions?: any
-  info?: { name?: string; description?: string }
-  triggers?: []
-}
 
-type FormattedListData = {
-  actions?: any
-  contacts?: FormattedContact[]
   playlist_id: string
-  id: string
   inclusions?: any
   info?: { name?: string; description?: string }
   triggers?: []

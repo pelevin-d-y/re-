@@ -36,7 +36,7 @@ const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
 
   return (
     <Formik
-      initialValues={{ playlist: playlistsState.data[0]?.id }}
+      initialValues={{ playlist: playlistsState.data[0]?.playlist_id }}
       onSubmit={(values, { setSubmitting }) => {
         addUsers(values.playlist, users)
           .then((res) => {
@@ -56,7 +56,7 @@ const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
             {({ field, form }: FieldProps) => (
               <Select
                 options={playlistsState.data?.map((item: ListData) => ({
-                  value: item.id,
+                  value: item.playlist_id,
                   label: item?.info?.name as string,
                 }))}
                 label="List"
