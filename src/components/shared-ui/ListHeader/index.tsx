@@ -37,7 +37,7 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
       createPlaylist({ title: fields.title, description: fields.description })
         .then((res) => {
           setIsLoading(false)
-          router.push(`/list?id=${res[0].id}`)
+          router.push(`/list?id=${res[0].playlist_id}`)
         })
         .catch((err) => {
           setIsLoading(false)
@@ -52,11 +52,11 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         debounceFields.title !== data.title ||
         debounceFields.description !== data.description
       ) {
-        if (data.id) {
+        if (data.playlist_id) {
           post
             .postPlaylists([
               {
-                id: data.id,
+                playlist_id: data.playlist_id,
                 info: {
                   name: debounceFields.title,
                   description: debounceFields.description,

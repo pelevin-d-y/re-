@@ -27,8 +27,8 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
 
   const addUserHandler = async (user: UserData) => {
     try {
-      await addUsers(playlistData.id, [user])
-      await getPlaylistData(playlistData.id)
+      await addUsers(playlistData.playlist_id, [user])
+      await getPlaylistData(playlistData.playlist_id)
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log('🚀 ~ file: index.tsx ~ line 33 ~ addUserHandler ~ err', err)

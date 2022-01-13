@@ -4,16 +4,16 @@ import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
 import _ from 'lodash'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import { useMediaQuery } from 'react-responsive'
 import Popover from '../PopoverBase'
 import CardContainer from '../../cards/CardContainer'
 import Search from '../../Search'
 import SearchList from '../../SearchList'
-import { useMediaQuery } from 'react-responsive'
 
 type Props = {
   className?: string
   user: UserData
-  lists: FormattedListData[]
+  lists: ListData[]
 }
 
 const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
@@ -22,16 +22,15 @@ const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
   const isDesktop = useMediaQuery({ query: '(min-width: 769px)' })
 
   const [searchText, setSearchText] = useState<string>('')
-  const [searchResults, setSearchResults] = useState<FormattedListData[]>()
+  const [searchResults, setSearchResults] = useState<ListData[]>()
 
   useEffect(() => {
     if (state.data) {
       const result = _.differenceWith(state.data, lists).filter(
-        (list: ListData) => {
-          return list.info?.name
+        (list: ListData) =>
+          list.info?.name
             ?.toLocaleLowerCase()
             .includes(searchText.toLowerCase())
-        }
       )
       setSearchResults(result)
     }
@@ -41,9 +40,7 @@ const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
     setSearchText(e.target.value)
   }
 
-  const debounceHandleSearch = useMemo(() => {
-    return _.debounce(handleSearch, 300)
-  }, [])
+  const debounceHandleSearch = useMemo(() => _.debounce(handleSearch, 300), [])
 
   const onCloseHandler = useCallback(() => {
     setSearchText('')
@@ -71,7 +68,7 @@ const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
           <div className={s.lists}>
             {searchResults?.length !== 0 ? (
               searchResults?.map((item) => (
-                <SearchList key={item?.id} data={item} user={user} />
+                <SearchList key={item?.playlist_id} data={item} user={user} />
               ))
             ) : (
               <div className={s.empty}>Empty</div>

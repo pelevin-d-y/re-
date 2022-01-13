@@ -19,6 +19,7 @@ const UserItem: React.FC<Props> = ({ className, data, listId }) => {
   const addUser = async (user: FormattedContact) => {
     try {
       setIsLoading(true)
+
       await addUserToPlaylist(listId, [user])
       await getPlaylistData(listId)
       setIsLoading(false)

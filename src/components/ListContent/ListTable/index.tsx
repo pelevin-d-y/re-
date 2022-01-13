@@ -175,10 +175,10 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const removeUser = useCallback(
     async (e: React.MouseEvent, userData: any) => {
       e.stopPropagation()
-      await removeUsers(data.id, [userData])
-      await getPlaylistData(data.id)
+      await removeUsers(data.playlist_id, [userData])
+      await getPlaylistData(data.playlist_id)
     },
-    [getPlaylistData, removeUsers, data.id]
+    [getPlaylistData, removeUsers, data.playlist_id]
   )
 
   return (
@@ -241,7 +241,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
             <div className={s.cardHeader}>Start creating your list</div>
-            <AddUserView className={s.addUserView} listId={data.id} />
+            <AddUserView className={s.addUserView} listId={data.playlist_id} />
           </CardContainer>
         )}
       </div>

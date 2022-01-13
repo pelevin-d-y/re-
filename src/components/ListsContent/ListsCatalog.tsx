@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { usePlaylists } from 'src/components//context/PlaylistsContext'
@@ -6,11 +6,6 @@ import { LoaderPage } from '../shared-ui/Loader'
 
 type Props = {
   data: ListData[]
-}
-
-type CardsStructure = {
-  firstColumn: ListData[]
-  secondColumn: ListData[]
 }
 
 const ListsCatalog: React.FC<Props> = ({ data }) => {
@@ -22,8 +17,8 @@ const ListsCatalog: React.FC<Props> = ({ data }) => {
     <>
       {isLoading && <LoaderPage />}
       <div className={s.list}>
-        {data.map((item: any) => (
-          <CardList className={s.card} key={item.id} data={item} />
+        {data.map((item) => (
+          <CardList className={s.card} key={item.playlist_id} data={item} />
         ))}
       </div>
     </>

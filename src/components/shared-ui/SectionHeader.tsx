@@ -13,6 +13,7 @@ type Props = {
   iconColor: string
   title: string
   description: string
+  hideNumber: boolean
   link?: {
     href: string
     text: string
@@ -28,6 +29,7 @@ const SectionHeader: React.FC<Props> = ({
   title,
   description,
   link,
+  hideNumber,
 }) => (
   <div className={classNames(s.container, className)}>
     <div
@@ -38,7 +40,8 @@ const SectionHeader: React.FC<Props> = ({
     </div>
     <div className={s.content}>
       <div className={s.title}>
-        <span>{title}</span> ({data?.length}){' '}
+        <span>{title}</span>
+        {!hideNumber && ` (${data?.length})`}{' '}
         {link && (
           <Link className={s.link} href={link.href}>
             {link.text}

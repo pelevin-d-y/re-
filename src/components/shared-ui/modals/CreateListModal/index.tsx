@@ -48,7 +48,7 @@ const CreateListModal: React.FC = () => {
               contacts: state?.dataMulti || [],
             })
               .then((res) => {
-                router.push(`/list?id=${res[0].id}`)
+                router.push(`/list?id=${res[0].playlist_id}`)
                 setSubmitting(false)
               })
               .catch((err) => {

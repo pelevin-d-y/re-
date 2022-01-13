@@ -175,7 +175,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                   )}
                 </Field>
               </div>
-              <Field name="profileCompany">
+              {/* <Field name="profileCompany">
                 {({ field, form, meta }: FieldProps) => (
                   <Input
                     className={s.field}
@@ -200,8 +200,8 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                     label="Title"
                   />
                 )}
-              </Field>
-              <div className={s.recomModule}>
+              </Field> */}
+              {/* <div className={s.recomModule}>
                 <div className={s.recomHeader}>Recommendation</div>
                 <div className={s.recomFields}>
                   <div className={s.recomField}>
@@ -246,7 +246,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                     </Field>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <Button
                 className={s.saveChanges}
                 variant="contained"

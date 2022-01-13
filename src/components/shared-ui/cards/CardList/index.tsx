@@ -1,32 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import AvatarsList from 'src/components/shared-ui/AvatarsList'
-import Img from 'src/components/shared-ui/Img'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
-import Button from 'src/components/shared-ui/Button'
 import { useRouter } from 'next/router'
 import { usePopup } from 'src/components/context/PopupContext'
-import Link from 'src/components/shared-ui/Link'
-import CardContainer from '../CardContainer'
-import { LoaderComponent } from '../../Loader'
-import SvgIcon from '../../SvgIcon'
 import CloseButton from '../../Close'
 
 type Props = {
   className?: string
-  data: FormattedListData
+  data: ListData
   showButtonAddList?: boolean
 }
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { info, id, contacts },
+  data: { info, playlist_id, contacts },
 }) => {
   const router = useRouter()
   const { createPlaylist, getPlaylists } = usePlaylists()
   const { dispatch: popupDispatch } = usePopup()
+  const id = playlist_id
 
   const deleteHandler = async () => {
     popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
@@ -171,25 +165,6 @@ const s = css`
 
   .dots {
     min-width: 48px;
-  }
-
-  .link {
-    position: relative;
-    margin-left: 16px;
-
-    text-decoration: none;
-    font-size: 14px;
-    line-height: 17px;
-    color: var(--blue);
-  }
-
-  .linkIcon {
-    width: 10px;
-    height: 10px;
-    margin-left: 6px;
-
-    color: var(--blue);
-    transform: rotate(180deg);
   }
 `
 

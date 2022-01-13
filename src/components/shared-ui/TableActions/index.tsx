@@ -21,7 +21,7 @@ type Buttons = Array<typeof actions[number]>
 
 type Props = {
   className?: string
-  data?: FormattedListData
+  data?: ListData
   buttons: Buttons
 }
 
@@ -31,10 +31,10 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
   const { dispatch: popupDispatch } = usePopup()
 
   const removeUsersHandler = async () => {
-    if (data && 'id' in data) {
+    if (data && 'playlist_id' in data) {
       if (selectedUsers) {
-        await removeUsers(data.id, selectedUsers)
-        await getPlaylistData(data.id)
+        await removeUsers(data.playlist_id, selectedUsers)
+        await getPlaylistData(data.playlist_id)
       }
     } else {
       // eslint-disable-next-line no-console
@@ -64,12 +64,14 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
           •••
         </Button>
       )}
-      {data && buttons.includes('addContactToListPopover') && 'id' in data && (
-        <PopoverAddContact
-          className={classNames(s.contacts, s.button)}
-          listId={data.id}
-        />
-      )}
+      {data &&
+        buttons.includes('addContactToListPopover') &&
+        'playlist_id' in data && (
+          <PopoverAddContact
+            className={classNames(s.contacts, s.button)}
+            listId={data.playlist_id}
+          />
+        )}
       {buttons.includes('removeContacts') && (
         <Button
           className={classNames(s.button, s.remove)}
@@ -105,7 +107,7 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
           className={classNames(s.contact, s.button)}
           variant="contained"
         >
-          Compose Messages
+          Compose
         </Button>
       )}
     </div>
@@ -163,7 +165,7 @@ const s = css`
   }
 
   .contact {
-    max-width: 160px;
+    max-width: 110px;
     width: 100%;
 
     @include mobile {

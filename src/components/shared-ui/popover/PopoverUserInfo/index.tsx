@@ -9,6 +9,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import parseMessage from 'src/helpers/utils/parse-message'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import { css } from 'astroturf'
+import Button from 'src/components/shared-ui/Button'
 import Tabs from './Tabs'
 
 type Props = {
@@ -58,13 +59,20 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
             /> */}
               <div className={s.actions}>
                 <PopoverDots variant="outlined" />
-                <PopoverActions
+                {/* <PopoverActions
                   variant="contained"
                   buttonClickHandler={buttonHandler}
                   isArrow
                 >
                   Say Hi
-                </PopoverActions>
+                </PopoverActions> */}
+                <Button
+                  // handler={null}
+                  className={classNames(s.button)}
+                  variant="contained"
+                >
+                  Compose
+                </Button>
               </div>
             </div>
             {data && <Tabs className={s.tabs} data={data} />}
@@ -119,7 +127,11 @@ const s = css`
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-gap: 6px;
-    margin-top: 14px;
+    margin-top: 0 px;
+  }
+
+  .button {
+    text-align: center;
   }
 `
 export default PopoverUserInfo

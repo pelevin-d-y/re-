@@ -37,14 +37,14 @@ const Content: React.FC = () => {
 
           {playlistData && (
             <div className={s.tableActions}>
-              <AddUserView listId={playlistData.id} />
+              <AddUserView listId={playlistData.playlist_id} />
               <TableActions
                 data={playlistData}
                 buttons={[
-                  'addContactToListPopover',
+                  // 'addContactToListPopover',
                   'contact',
-                  'dots',
-                  'filter',
+                  // 'dots',
+                  // 'filter',
                   'removeContacts',
                 ]}
               />
