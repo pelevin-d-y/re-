@@ -118,16 +118,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
         defaultValue={fields.description || ''}
         onChange={handleDescChange}
       />
-      {!data.id && (
-        <Button
-          className={classNames(s.button)}
-          disabled={isButtonActive()}
-          variant="contained"
-          handler={() => createList()}
-        >
-          {isLoading ? <LoaderComponent /> : 'Save list'}
-        </Button>
-      )}
     </div>
   )
 }
