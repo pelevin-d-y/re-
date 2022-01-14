@@ -13,8 +13,6 @@ type Props = {
 const ContactContent: React.FC<Props> = ({ className }) => {
   const { query } = useRouter()
 
-  // useEffect(() => {})
-
   const WithMutableDataContactCard = HOCUpdateMutableData({
     WrappedComponent: ContactCard,
     id: query.id as string,

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import { Formik, Field } from 'formik'
-import { UpdateMutableData } from '../../UserInfo'
+import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 
 type Props = {
   className?: string
