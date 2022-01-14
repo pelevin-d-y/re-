@@ -102,7 +102,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
           </div>
         ),
       },
-
       {
         Header: 'Notes',
         accessor: 'Notes',
@@ -113,6 +112,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             <EditField
               type="text"
               value={currentValue}
+              placeholder=""
               onSave={(val: string) => {
                 setCurrentValue(val)
                 updateUser({

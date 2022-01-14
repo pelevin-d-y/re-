@@ -5,13 +5,9 @@ import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { getBaseMutableData } from 'src/helpers/utils/base-mutable-data'
+import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import UserInfoEmail from './UserInfoEmail'
 import EditField from '../EditField'
-
-export type UpdateMutableData = (
-  val: ContactMutable,
-  prevVal?: ContactMutable | undefined
-) => Promise<void>
 
 type Props = {
   className?: string

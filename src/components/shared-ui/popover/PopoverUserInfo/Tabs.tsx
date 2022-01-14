@@ -9,7 +9,7 @@ type Props = {
 const Tabs: React.FC<Props> = ({ data }) => {
   const TabsComp = HOCUpdateMutableData({
     WrappedComponent: TabsContent,
-    data,
+    id: data.contact_id,
   })
   return <TabsComp data={data} />
 }

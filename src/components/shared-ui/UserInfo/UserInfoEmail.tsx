@@ -3,9 +3,10 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { getBaseMutableData } from 'src/helpers/utils/base-mutable-data'
 import * as yup from 'yup'
+import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
+import { primaryEmailType } from 'src/helpers/variables'
 import EmailPopover from './EmailPopover'
 import EditField from '../EditField'
-import { UpdateMutableData } from '.'
 import { LoaderComponent } from '../Loader'
 
 type Props = {
@@ -24,7 +25,7 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
   )
 
   const primaryEmail = useMemo(
-    () => data?.find((item) => item.type === 'primaryEmail') || emails[0],
+    () => data?.find((item) => item.type === primaryEmailType) || emails[0],
     [data, emails]
   )
 
@@ -48,7 +49,19 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
     meta: any
   }) => {
     setIsLoading(true)
-    await updateApiData({ ...primaryEmail, data: emailData.data }, primaryEmail)
+    if (data?.find((item) => item.type === primaryEmailType)) {
+      await updateApiData(
+        { ...primaryEmail, data: emailData.data },
+        primaryEmail
+      )
+    } else {
+      await updateApiData({
+        ...primaryEmail,
+        type: primaryEmailType,
+        data: emailData.data,
+      })
+    }
+
     setIsLoading(false)
   }
 

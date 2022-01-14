@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
-import { HOCUpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
+import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
+import formatContactData from 'src/helpers/utils/format-contact-data'
+import { getAvatarUrl } from 'src/helpers/variables'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
@@ -12,33 +14,39 @@ import { UserInfo } from '../shared-ui/UserInfo'
 
 type Props = {
   className?: string
-  data: UserData
+  updateData: UpdateMutableData
+  mutableData?: ContactMutable[]
+  id: string
 }
 
-const ContactCard: React.FC<Props> = ({ className, data }) => {
+const ContactCard: React.FC<Props> = ({
+  className,
+  updateData,
+  mutableData,
+  id,
+}) => {
+  const formattedData = mutableData ? formatContactData(mutableData, id) : null
   const { dispatch } = usePopup()
 
   const buttonHandler = () => {
-    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: formattedData })
   }
-
-  const UserInfoComp = HOCUpdateMutableData({
-    WrappedComponent: UserInfo,
-    data,
-  })
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <Avatar className={s.avatar} image={data?.avatar} />
+        <Avatar className={s.avatar} image={formattedData.avatar} />
         <div className={s.headerInfo}>
-          <div className={s.name}>{data?.name}</div>
-          {data.templateData && (
+          <div className={s.name}>{formattedData?.name}</div>
+          {formattedData.templateData ? (
             <UserHeader
               className={s.message}
-              text={parseMessage(data?.templateData?.Subject, data.name)}
+              text={parseMessage(
+                formattedData?.templateData?.Subject,
+                formattedData.name
+              )}
             />
-          )}
+          ) : null}
         </div>
         <div className={s.actions}>
           <PopoverDots className={s.dots} variant="outlined" />
@@ -52,7 +60,7 @@ const ContactCard: React.FC<Props> = ({ className, data }) => {
           </PopoverActions>
         </div>
       </div>
-      <UserInfoComp />
+      <UserInfo mutableData={mutableData} updateData={updateData} />
     </div>
   )
 }

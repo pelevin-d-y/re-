@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
-import { apiHelpers, get } from 'src/api/requests'
+import formatContactData from 'src/helpers/utils/format-contact-data'
 import ContactLists from './ContactLists'
 import ContactNextSteps from './ContactNextSteps'
 import TabNotes from '../shared-ui/popover/PopoverUserInfo/TabNotes'
-import { HOCUpdateMutableData } from '../HOCs/HOCUpdateMutableData'
+import { UpdateMutableData } from '../HOCs/HOCUpdateMutableData'
 
 type Props = {
   className?: string
-  data: UserData
+  updateData: UpdateMutableData
+  mutableData?: ContactMutable[]
+  id: string
 }
 
-const ContactTabs: React.FC<Props> = ({ className, data }) => {
-  const TabNotesComp = HOCUpdateMutableData({
-    WrappedComponent: TabNotes,
-    data,
-  })
-
+const ContactTabs: React.FC<Props> = ({
+  className,
+  mutableData,
+  updateData,
+  id,
+}) => {
+  const data = mutableData ? formatContactData(mutableData, id) : null
+  console.log('ContactTabs')
   return (
     <div className={classNames(className, s.container)}>
       <ReactTabs>
@@ -34,7 +38,7 @@ const ContactTabs: React.FC<Props> = ({ className, data }) => {
           <ContactLists data={data} />
         </TabPanel>
         <TabPanel>
-          <TabNotesComp />
+          <TabNotes updateData={updateData} mutableData={mutableData} />
         </TabPanel>
       </ReactTabs>
     </div>
