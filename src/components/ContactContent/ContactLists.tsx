@@ -59,12 +59,12 @@ const ContactLists: React.FC<Props> = ({ className, data }) => {
       <div className={s.list}>
         <div className={s.column}>
           {cardsStructure.firstColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} />
+            <CardList className={s.card} key={item.playlist_id} data={item} />
           ))}
         </div>
         <div className={s.column}>
           {cardsStructure.secondColumn.map((item: any) => (
-            <CardList className={s.card} key={item.id} data={item} />
+            <CardList className={s.card} key={item.playlist_id} data={item} />
           ))}
         </div>
       </div>

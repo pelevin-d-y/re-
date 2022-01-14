@@ -104,6 +104,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
             <EditField
               type="text"
               value={currentValue}
+              placeholder=""
               onSave={(val: string) => {
                 setCurrentValue(val)
                 updateUser({

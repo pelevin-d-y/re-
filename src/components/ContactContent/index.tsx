@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import { useRouter } from 'next/router'
 import ContactCard from './ContactCard'
 import ContactTabs from './ContactTabs'
-import { useClient } from '../context/ClientContext'
+import { HOCUpdateMutableData } from '../HOCs/HOCUpdateMutableData'
 
 type Props = {
   className?: string
@@ -12,22 +12,24 @@ type Props = {
 
 const ContactContent: React.FC<Props> = ({ className }) => {
   const { query } = useRouter()
-  const { state: clientState } = useClient()
 
-  const client = clientState?.data?.contacts?.filter(
-    // eslint-disable-next-line camelcase
-    ({ contact_id }) => contact_id === query.id
-  )?.[0]
+  // useEffect(() => {})
+
+  const WithMutableDataContactCard = HOCUpdateMutableData({
+    WrappedComponent: ContactCard,
+    id: query.id as string,
+  })
+
+  const WithMutableDataContactTabs = HOCUpdateMutableData({
+    WrappedComponent: ContactTabs,
+    id: query.id as string,
+  })
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.section}>
-        {client && (
-          <>
-            <ContactCard data={client} />
-            <ContactTabs data={client} />
-          </>
-        )}
+        <WithMutableDataContactCard />
+        <WithMutableDataContactTabs />
       </div>
     </div>
   )
