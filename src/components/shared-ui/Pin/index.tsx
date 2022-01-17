@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import { useClient } from 'src/components/context/ClientContext'
+import { usePinned } from 'src/components/context/PinnedContext'
 
 type Props = {
   className?: string
@@ -10,25 +10,24 @@ type Props = {
 }
 
 const Pin: React.FC<Props> = ({ className, data }) => {
-  const { state, updateUserData } = useClient()
+  const { state, addPinned, removePinned } = usePinned()
+
   const [isActive, setIsActive] = useState(false)
 
-  // useEffect(() => {
-  //   setIsActive(!!data?.pinned)
-  // }, [data?.pinned])
+  useEffect(() => {
+    if (state.data.find((item) => item.key === data?.key)) {
+      return setIsActive(true)
+    }
+    return setIsActive(false)
+  }, [data?.key, state.data])
 
   const pinAction = () => {
-    setIsActive(!isActive)
-    // const contacts = state.data?.contacts?.map((item) => {
-    //   if (item.address === data?.address) {
-    //     return {
-    //       ...item,
-    //       pinned: !item.pinned,
-    //     }
-    //   }
-    //   return item
-    // })
-    // updateUserData({ ...state, contacts })
+    if (isActive) {
+      removePinned(data)
+    }
+    if (!isActive) {
+      addPinned(data)
+    }
   }
 
   return (
