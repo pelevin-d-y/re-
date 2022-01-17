@@ -6,6 +6,7 @@ import { PopupProvider } from 'src/components/context/PopupContext'
 import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
+import { PinnedProvider } from 'src/components/context/PinnedContext'
 
 const Home: React.FC = () => (
   <Layout>
@@ -13,7 +14,9 @@ const Home: React.FC = () => (
       <PlaylistProvider>
         <TemplatesProvider>
           <PopupProvider>
-            <MainContent />
+            <PinnedProvider>
+              <MainContent />
+            </PinnedProvider>
           </PopupProvider>
         </TemplatesProvider>
       </PlaylistProvider>

@@ -2,8 +2,8 @@ import React from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { useClient } from 'src/components/context/ClientContext'
 import { usePopup } from 'src/components/context/PopupContext'
+import { usePinned } from 'src/components/context/PinnedContext'
 import PinnedCard from './PinnedCard'
 
 type Props = {
@@ -11,16 +11,13 @@ type Props = {
 }
 
 const PinnedUsers: React.FC<Props> = ({ className }) => {
-  const { state } = useClient()
-  const { dispatch: dispatchPopup } = usePopup()
-  const contacts = state.data?.contacts?.slice(0, 3)
-
   const { dispatch: popupDispatch } = usePopup()
+  const { state } = usePinned()
 
   const openModal = () => {
-    dispatchPopup({
+    popupDispatch({
       type: 'UPDATE_COMPOSE_MULTI_DATA',
-      payload: contacts as UserData[],
+      payload: state.data as UserData[],
     })
     popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
   }
@@ -35,13 +32,13 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
           Add/Create List
         </button>
       </div>
-      {!contacts?.length && (
+      {!state.data?.length && (
         <div className={s.paragraph}>
           Pin actions, playlist and people to remember to followup up later.
         </div>
       )}
       <div className={s.cards}>
-        {contacts?.map((item) => (
+        {state.data?.map((item) => (
           <PinnedCard
             className={s.card}
             key={item.first_message_id}
