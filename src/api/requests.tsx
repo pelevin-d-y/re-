@@ -57,7 +57,7 @@ const get = {
 
   getRecommendations: (): Promise<RecommendationUser[]> =>
     requests
-      .get(`${AWS_API}/dash/recommendations`, { number: '20' })
+      .get(`${AWS_API}/dash/recommendations`)
       .then((res) => res.recommendations)
       .catch((err) => Promise.reject(err)),
 
@@ -164,7 +164,7 @@ const post = {
 
   postPinnedContacts: (data: any): Promise<any> =>
     requests
-      .post(`${AWS_API}/dash/recommendations`, data)
+      .post(`${AWS_API}/dash/pinned`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 }
