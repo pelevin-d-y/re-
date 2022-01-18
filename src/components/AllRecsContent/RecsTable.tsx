@@ -182,6 +182,7 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     font-weight: var(--bold);
+    word-break: break-word;
   }
 
   .avatar {

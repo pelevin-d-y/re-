@@ -314,6 +314,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    word-break: break-word;
   }
 
   .nextSteps {
