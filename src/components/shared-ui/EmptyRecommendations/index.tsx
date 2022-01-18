@@ -55,7 +55,7 @@ const s = css`
     margin-bottom: 24px;
 
     font-size: 24px;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
 
     @include mobile {
       max-width: 100%;

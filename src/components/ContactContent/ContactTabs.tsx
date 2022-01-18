@@ -22,7 +22,6 @@ const ContactTabs: React.FC<Props> = ({
   id,
 }) => {
   const data = mutableData ? formatContactData(mutableData, id) : null
-  console.log('ContactTabs')
   return (
     <div className={classNames(className, s.container)}>
       <ReactTabs>
@@ -77,7 +76,7 @@ const s = css`
 
   .tabItem[aria-selected='true'] {
     color: var(--black);
-    border-bottom: 4px solid #000000;
+    border-bottom: 4px solid var(--black);
   }
 
   .panel {

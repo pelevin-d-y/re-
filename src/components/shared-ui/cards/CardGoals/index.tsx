@@ -64,7 +64,7 @@ const s = css`
   .title {
     font-size: 12px;
     color: #c5c5c5;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
   }
 
   .goal {

@@ -129,7 +129,7 @@ const s = css`
   .link {
     cursor: pointer;
     text-decoration: none;
-    color: #1966ff;
+    color: var(--blue);
     line-height: 17px;
     font-weight: 500;
   }
@@ -162,7 +162,7 @@ const s = css`
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    color: #1966ff;
+    color: var(--blue);
   }
 `
 export default Auth

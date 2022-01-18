@@ -113,11 +113,11 @@ const s = css`
     padding-top: 9px;
     padding-bottom: 9px;
     font-size: 11px;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     text-align: left;
     background: var(--white);
     border: none;
-    border-bottom: 1px solid var(--lightGrey);
+    border-bottom: 1px solid var(--neutral5);
     cursor: pointer;
   }
 

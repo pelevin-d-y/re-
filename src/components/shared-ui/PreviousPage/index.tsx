@@ -43,7 +43,7 @@ const s = css`
     background: none;
     border: none;
     cursor: pointer;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
   }
 
   .icon {

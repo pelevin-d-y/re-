@@ -131,7 +131,7 @@ const s = css`
   .triangle {
     margin-left: 4px;
     border: 5px solid transparent;
-    border-top: 6px solid #1966ff;
+    border-top: 6px solid var(--blue);
   }
 `
 

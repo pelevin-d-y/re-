@@ -75,7 +75,7 @@ const s = css`
   .title {
     margin-bottom: 14px;
 
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     font-size: 18px;
     line-height: 21px;
   }
@@ -122,7 +122,7 @@ const s = css`
   .emptyState {
     margin-top: 26px;
 
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     font-size: 16px;
   }
 `

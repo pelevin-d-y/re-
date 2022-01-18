@@ -31,7 +31,7 @@ const s = css`
     height: 32px;
 
     font-size: 14px;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     border: 1px solid var(--blue);
     border-radius: 16px;
     text-decoration: none;

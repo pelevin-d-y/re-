@@ -77,12 +77,12 @@ const s = css`
     background: var(--white);
     color: var(--blue);
     border: none;
-    border-bottom: 1px solid var(--lightGrey);
+    border-bottom: 1px solid var(--neutral5);
     cursor: pointer;
   }
 
   .ignore {
-    color: #000000;
+    color: var(-black);
   }
 `
 

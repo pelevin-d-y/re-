@@ -47,7 +47,7 @@ const s = css`
     z-index: 19;
     padding-top: 16px;
     padding-bottom: 14px;
-    border-bottom: 1px solid var(--grey);
+    border-bottom: 1px solid var(--neutral3);
     background: var(--white);
   }
 
@@ -90,7 +90,7 @@ const s = css`
   .text {
     margin-left: 18px;
 
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     @include tablet {
       display: none;
     }

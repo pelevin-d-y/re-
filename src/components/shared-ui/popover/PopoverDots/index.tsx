@@ -87,7 +87,7 @@ const s = css`
     text-align: left;
     background: var(--white);
     border: none;
-    border-bottom: 1px solid var(--lightGrey);
+    border-bottom: 1px solid var(--neutral5);
     cursor: pointer;
 
     &:focus {

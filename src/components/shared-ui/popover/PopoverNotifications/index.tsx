@@ -217,12 +217,12 @@ const s = css`
 
   .old {
     color: #b8b8b8;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
   }
 
   .new {
     color: var(--blue);
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
   }
 
   .actions {
@@ -236,7 +236,7 @@ const s = css`
     line-height: 14px;
     color: var(--blue);
     font-size: 12px;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     background: none;
     border: none;
 

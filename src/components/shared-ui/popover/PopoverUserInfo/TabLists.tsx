@@ -87,7 +87,7 @@ const s = css`
 
     cursor: pointer;
     background: none;
-    border: 1px dashed #1966ff;
+    border: 1px dashed var(--blue);
     border-radius: 6px;
     font-size: 14px;
     line-height: 26px;

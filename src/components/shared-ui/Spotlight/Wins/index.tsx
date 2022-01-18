@@ -50,7 +50,7 @@ const s = css`
   .header {
     font-size: 12px;
     color: #c5c5c5;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
   }
 
   .awards {

@@ -53,7 +53,7 @@ const s = css`
   .title {
     margin-bottom: 19px;
 
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     color: #c5c5c5;
   }
 

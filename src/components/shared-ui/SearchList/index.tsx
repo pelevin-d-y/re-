@@ -65,12 +65,12 @@ const s = css`
     display: flex;
     justify-content: space-between;
     padding: 11px 16px 11px 21px;
-    border-bottom: 1px solid #f6f6f6;
+    border-bottom: 1px solid var(--neutral5);
   }
 
   .title {
     padding-right: 50px;
-    color: #000000;
+    color: var(--black);
     font-weight: 500;
     font-size: 20px;
     line-height: 42px;
@@ -78,7 +78,7 @@ const s = css`
 
   .description {
     padding-right: 50px;
-    color: #000000;
+    color: var(--black);
     font-weight: normal;
     font-size: 12px;
     line-height: 22px;

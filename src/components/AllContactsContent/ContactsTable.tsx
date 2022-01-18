@@ -309,6 +309,7 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     font-weight: var(--bold);
+    word-break: break-word;
   }
 
   .avatar {
@@ -378,7 +379,7 @@ const s = css`
     width: 162px;
     height: 162px;
     border-radius: 50%;
-    background: #f0f5ff;
+    background: var(--lightBlue);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -409,7 +410,7 @@ const s = css`
   .logo {
     width: 58px;
     height: 58px;
-    color: #1966ff;
+    color: var(--blue);
 
     @include mobile {
       width: 35px;
