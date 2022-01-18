@@ -19,7 +19,8 @@ type Props = {
 }
 
 const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
-  const { name, avatar } = data
+  const { name, avatar, emails } = data
+  console.log(emails)
   // const { Subject, Summary } = template
 
   const { dispatch } = usePopup()
@@ -35,7 +36,9 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
         showPopupEvent="click"
         nested
         triggerElement={
-          <div className={classNames(className, s.trigger)}>{name}</div>
+          <div className={classNames(className, s.trigger)}>
+            {name || emails[0]?.data}
+          </div>
         }
         popupContent={
           <CardContainer className={classNames(s.popup)}>
