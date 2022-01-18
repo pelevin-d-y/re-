@@ -22,7 +22,6 @@ const ContactTabs: React.FC<Props> = ({
   id,
 }) => {
   const data = mutableData ? formatContactData(mutableData, id) : null
-  console.log('ContactTabs')
   return (
     <div className={classNames(className, s.container)}>
       <ReactTabs>

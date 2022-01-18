@@ -174,7 +174,7 @@ const s = css`
     background: var(--white);
     cursor: pointer;
     &:hover {
-      background: #f0f5ff;
+      background: var(--lightBlue);
 
       .buttonRemove {
         display: block;

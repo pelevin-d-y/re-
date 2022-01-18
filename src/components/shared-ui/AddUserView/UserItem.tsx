@@ -56,7 +56,7 @@ const s = css`
     justify-content: space-between;
     align-items: center;
     padding: 22px 0;
-    border-bottom: 1px solid #f6f6f6;
+    border-bottom: 1px solid var(--neutral5);
   }
 
   .profile {

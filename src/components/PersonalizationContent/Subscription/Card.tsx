@@ -88,7 +88,7 @@ const s = css`
     padding: 7px 8px;
     min-width: 174px;
     color: var(--white);
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
 
     cursor: pointer;
     border-radius: 16px;

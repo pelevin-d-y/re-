@@ -77,7 +77,7 @@ const s = css`
 
     font-size: 22px;
     line-height: 42px;
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
   }
 
   .logo {

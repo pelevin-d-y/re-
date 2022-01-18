@@ -68,7 +68,7 @@ const s = css`
   }
 
   .subtitle {
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
   }
 
   .period {

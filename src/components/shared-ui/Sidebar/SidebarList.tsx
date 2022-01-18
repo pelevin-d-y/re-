@@ -61,7 +61,7 @@ const s = css`
     padding: 12px 5px 12px 73px;
     color: var(--black);
 
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     cursor: pointer;
     text-decoration: none;
 

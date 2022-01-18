@@ -141,7 +141,7 @@ const s = css`
 
     background-color: white;
     border: none;
-    border-bottom: 1px solid #f6f6f6;
+    border-bottom: 1px solid var(--neutral5);
     margin-bottom: 7px;
     padding: 0 0 9px 0;
     text-align: start;

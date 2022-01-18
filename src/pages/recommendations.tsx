@@ -30,7 +30,7 @@ const Personalization: React.FC<Props> = () => (
 
 const s = css`
   .layout {
-    background: var(--lightGrey);
+    background: var(--neutral5);
   }
 `
 

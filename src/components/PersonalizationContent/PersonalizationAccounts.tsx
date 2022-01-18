@@ -72,7 +72,7 @@ const s = css`
   .subtitle {
     margin-bottom: 18px;
 
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     line-height: 31px;
   }
 

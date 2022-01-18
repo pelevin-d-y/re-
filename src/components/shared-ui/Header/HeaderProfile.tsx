@@ -97,7 +97,7 @@ const s = css`
     color: var(--blue);
     text-align: center;
     font-weight: var(--bold);
-    border: 1px dashed #1966ff;
+    border: 1px dashed var(--blue);
     border-radius: 6px;
   }
 `

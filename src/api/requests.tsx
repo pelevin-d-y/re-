@@ -58,7 +58,7 @@ const get = {
   getRecommendations: (): Promise<RecommendationUser[]> =>
     requests
       .get(`${AWS_API}/dash/recommendations`)
-      .then((res) => res.recommendations)
+      .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
   getContactsMutable: (

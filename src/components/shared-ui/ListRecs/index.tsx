@@ -69,7 +69,7 @@ const s = css`
   .svg {
     width: 24px;
     height: 24px;
-    color: #1966ff;
+    color: var(--blue);
     margin-right: 16px;
   }
 
@@ -77,7 +77,7 @@ const s = css`
     font-size: 14px;
     font-weight: 700;
     line-height: 17px;
-    color: #1966ff;
+    color: var(--blue);
   }
 
   .cards {

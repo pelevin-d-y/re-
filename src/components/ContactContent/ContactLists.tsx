@@ -102,7 +102,7 @@ const s = css`
     font-weight: bold;
     font-size: 18px;
     line-height: 31px;
-    color: #1966ff;
+    color: var(--blue);
     cursor: pointer;
   }
 

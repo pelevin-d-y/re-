@@ -320,7 +320,7 @@ const s = css`
   }
 
   .recomHeader {
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     font-size: 18px;
     line-height: 22px;
     margin-bottom: 14px;

@@ -137,7 +137,7 @@ const s = css`
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
 
     overflow: auto;
-    background: #ffffff;
+    background: var(--white);
     list-style: none;
   }
 

@@ -32,7 +32,7 @@ const s = css`
     align-items: center;
     padding: 5px 23px;
 
-    font-weight: var(--semibold);
+    font-weight: var(--semiBold);
     text-decoration: none;
     color: var(--white);
     border-radius: 16px;
