@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
-import Pin from 'src/components/shared-ui/Pin'
 import Img from 'src/components/shared-ui/Img'
 import { usePopup } from 'src/components/context/PopupContext'
 import CardSwitcher from '../CardSwitcher'
@@ -67,8 +66,11 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
         <Img className={s.img} img={slide} alt="image" />
       </div>
       <div className={s.actions}>
-        <Pin className={s.pin} />
-        <Button variant="contained" handler={openModalHandler}>
+        <Button
+          className={s.button}
+          variant="contained"
+          handler={openModalHandler}
+        >
           Share
         </Button>
       </div>
@@ -116,11 +118,18 @@ const s = css`
   }
 
   .actions {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-gap: 9px 18px;
+    display: block;
+
     max-width: 100%;
     margin-top: 20px;
+  }
+
+  .button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 230px;
+    width: 100%;
   }
 `
 

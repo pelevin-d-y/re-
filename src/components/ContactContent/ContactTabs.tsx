@@ -77,7 +77,7 @@ const s = css`
 
   .tabItem[aria-selected='true'] {
     color: var(--black);
-    border-bottom: 4px solid #000000;
+    border-bottom: 4px solid var(--black);
   }
 
   .panel {
