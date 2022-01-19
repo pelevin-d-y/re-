@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
+import { useRouter } from 'next/router'
 import SvgIcon from '../SvgIcon'
 import Img from '../Img'
 import Button from '../Button'
@@ -10,31 +11,43 @@ type Props = {
   className?: string
 }
 
-const EmptyRecommendations: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classNames(s.container, className)}>
-    <div className={s.header}>
-      <div className={s.circle}>
-        <SvgIcon className={s.iconGoogle} icon="google-mail.svg" />
-        <Img className={s.iconStrata} alt="logo" img="logo-user-info.svg" />
+const EmptyRecommendations: React.FC<Props> = ({ className }) => {
+  const router = useRouter()
+
+  const openPersonalizationPage = () => {
+    router.push(`/personalization`)
+  }
+
+  return (
+    <CardContainer className={classNames(s.container, className)}>
+      <div className={s.header}>
+        <div className={s.circle}>
+          <SvgIcon className={s.iconGoogle} icon="google-mail.svg" />
+          <Img className={s.iconStrata} alt="logo" img="logo-user-info.svg" />
+        </div>
+        <div className={s.title}>Getting your Weekly Recommendations</div>
       </div>
-      <div className={s.title}>Getting your Weekly Recommendations</div>
-    </div>
-    <div className={s.description}>
-      Strata’s engine is analyzing your network for top recommendations to reach
-      out to.
-    </div>
-    <div className={s.buttonBlock}>
-      <Button className={s.button} variant="outlined">
-        + Add another account
-      </Button>
-    </div>
-    <Img
-      className={s.image}
-      alt="recommendations cards"
-      img="recommendationsCard.png"
-    />
-  </CardContainer>
-)
+      <div className={s.description}>
+        Strata’s engine is analyzing your network for top recommendations to
+        reach out to.
+      </div>
+      <div className={s.buttonBlock}>
+        <Button
+          className={s.button}
+          variant="outlined"
+          handler={openPersonalizationPage}
+        >
+          + Add another account
+        </Button>
+      </div>
+      <Img
+        className={s.image}
+        alt="recommendations cards"
+        img="recommendationsCard.png"
+      />
+    </CardContainer>
+  )
+}
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
