@@ -64,16 +64,16 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
           </div>
         ),
       },
-      {
-        Header: 'Title',
-        Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
-      },
-      {
-        Header: 'Company',
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>Placeholder</div>
-        ),
-      },
+      // {
+      //   Header: 'Title',
+      //   Cell: ({ value }) => <span className={s.cellContent}>Placeholder</span>,
+      // },
+      // {
+      //   Header: 'Company',
+      //   Cell: ({ value, row }) => (
+      //     <div className={s.cellContent}>Placeholder</div>
+      //   ),
+      // },
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',

@@ -44,7 +44,7 @@ const CardList: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames(s.container, className)}
+      className={classNames(s.container, s['card-shadow'], className)}
       onClick={moveToListPage}
       onKeyDown={moveToListPage}
       role="button"
@@ -118,6 +118,10 @@ const s = css`
         display: block;
       }
     }
+  }
+
+  .card-shadow {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 
   .image {

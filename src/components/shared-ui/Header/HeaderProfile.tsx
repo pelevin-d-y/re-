@@ -7,6 +7,8 @@ import GoogleEmail from 'src/components/shared-ui/GoogleEmail'
 import { useClient } from 'src/components/context/ClientContext'
 import classNames from 'classnames'
 import { logInLink } from 'src/helpers/variables'
+import { useRouter } from 'next/router'
+import Button from '../Button'
 
 type Props = {
   className?: string
@@ -14,6 +16,8 @@ type Props = {
 
 const HeaderProfile: React.FC<Props> = ({ className }) => {
   const { state } = useClient()
+  const router = useRouter()
+
   const addresses = state.data?.authData
     ? Object.entries(state.data.authData).map(([key, value]) => ({
         email: key,
@@ -21,12 +25,16 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       }))
     : []
 
+  const openPersonalizationPage = () => {
+    router.push(`/personalization`)
+  }
+
   return (
     <Popover
       position="bottom right"
       triggerElement={
         <div className={classNames(s.container, className)}>
-          <a href={logInLink}>
+          <a>
             <Avatar image={state.data?.avatar} />
           </a>
         </div>
@@ -47,10 +55,17 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
                 )
             )}
           {state?.data?.authUrls && state.data?.authUrls[''] && (
-            <a className={s.addButton} type="button">
+            <Button
+              className={s.addButton}
+              type="button"
+              handler={openPersonalizationPage}
+            >
               + Add another email
-            </a>
+            </Button>
           )}
+          <a href={logInLink} className={s.logoutButton} type="button">
+            Logout
+          </a>
         </CardContainer>
       }
     />
@@ -88,6 +103,20 @@ const s = css`
   .addButton {
     width: 100%;
     margin-top: 17px;
+    cursor: pointer;
+
+    text-decoration: none;
+    background: var(--white);
+    color: var(--blue);
+    text-align: center;
+    font-weight: var(--bold);
+    border: 1px dashed var(--blue);
+    border-radius: 6px;
+  }
+
+  .logoutButton {
+    width: 100%;
+    margin-top: 17px;
     padding-top: 16px;
     padding-bottom: 16px;
     cursor: pointer;
@@ -97,7 +126,6 @@ const s = css`
     color: var(--blue);
     text-align: center;
     font-weight: var(--bold);
-    border: 1px dashed var(--blue);
     border-radius: 6px;
   }
 `

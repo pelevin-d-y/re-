@@ -3,6 +3,7 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import ModalBase from '../ModalBase'
 import ModalContent from '../ModalContent'
+import Button from '../../Button'
 
 const ComposeModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -18,7 +19,11 @@ const ComposeModal: React.FC = () => {
       isOpen={emailModalIsOpen}
       onClose={closeHandler}
     >
-      {/* <CloseModal handler={closeHandler} className={s.close} /> */}
+      <div className={s.closeContainer}>
+        <Button handler={closeHandler} className={s.close} variant="outlined">
+          X
+        </Button>
+      </div>
       {data && (
         <ModalContent data={data} withAvatar closeHandler={closeHandler} />
       )}
@@ -37,10 +42,14 @@ const s = css`
     margin-top: 29px;
   }
 
+  .closeContainer {
+    width: 30px;
+    margin-left: calc(100% - 50px);
+    margin-top: 15px;
+  }
+
   .close {
-    position: absolute;
-    right: 23px;
-    top: 23px;
+    margin-left: calc(100% - 30px);
   }
 `
 

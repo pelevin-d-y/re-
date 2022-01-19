@@ -72,10 +72,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
               onChange={filterContacts}
               inputPlaceholder="Search contacts"
             />
-            <TableActions
-              className={s.actions}
-              buttons={['dots', 'filter', 'contact']}
-            />
+            <TableActions className={s.actions} buttons={['contact']} />
           </div>
           {contactsDebounce && <ContactsTable data={contactsDebounce} />}
         </div>
