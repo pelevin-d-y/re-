@@ -9,8 +9,8 @@ import { LoaderComponent } from 'src/components/shared-ui/Loader'
 
 type Props = {
   className?: string
-  data: UserData
-  addUser: (user: UserData) => void
+  data: RecommendationUser
+  addUser: (user: RecommendationUser) => void
 }
 
 const CardRecs: React.FC<Props> = ({ data, addUser }) => {

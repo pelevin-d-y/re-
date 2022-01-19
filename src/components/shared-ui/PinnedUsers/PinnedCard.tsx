@@ -6,7 +6,7 @@ import Avatar from '../Avatar'
 
 type Props = {
   className?: string
-  data?: UserData | null
+  data?: RecommendationUser | null
   template?: Template
 }
 

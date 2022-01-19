@@ -17,7 +17,7 @@ type Props = {
     title: string
     description: string
   }
-  contacts?: UserData[]
+  contacts?: RecommendationUser[]
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {

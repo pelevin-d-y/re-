@@ -6,7 +6,7 @@ import { formatTime } from 'src/helpers/utils/parseTime'
 
 type Props = {
   className?: string
-  data: UserData
+  data: RecommendationUser
   clientName?: string
 }
 

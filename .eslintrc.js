@@ -32,6 +32,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
     'react/prop-types': 'off',
+    camelcase: 'off',
     'react/display-name': 'off',
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/anchor-is-valid': 'off',

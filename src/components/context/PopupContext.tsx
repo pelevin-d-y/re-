@@ -11,7 +11,7 @@ import 'react-quill/dist/quill.snow.css'
 type Action =
   | {
       type: 'TOGGLE_COMPOSE_POPUP'
-      payload: UserData | FormattedContact | null
+      payload: RecommendationUser | FormattedContact | null
     }
   | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
@@ -19,10 +19,13 @@ type Action =
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
-  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContact | null }
+  | {
+      type: 'UPDATE_POPUP_DATA'
+      payload: RecommendationUser | FormattedContact | null
+    }
   | {
       type: 'UPDATE_COMPOSE_MULTI_DATA'
-      payload: UserData[] | FormattedContact[] | null
+      payload: RecommendationUser[] | FormattedContact[] | null
     }
   | { type: 'UPDATE_LIST_ID_DATA'; payload: string }
 
@@ -33,9 +36,9 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
-  data: UserData | FormattedContact | null
-  dataMulti: UserData[] | FormattedContact[] | null
-  list_id: string | ''
+  data: RecommendationUser | FormattedContact | null
+  dataMulti: RecommendationUser[] | FormattedContact[] | null
+  listId: string | ''
 }
 
 type ContextType = {
@@ -54,7 +57,7 @@ const initialState = {
   modalPinnedIsOpen: false,
   data: null,
   dataMulti: null,
-  list_id: '',
+  listId: '',
 }
 
 const popupReducer = (state: State, action: Action): State => {
@@ -127,7 +130,7 @@ const popupReducer = (state: State, action: Action): State => {
     case 'UPDATE_LIST_ID_DATA': {
       return {
         ...state,
-        list_id: action.payload,
+        listId: action.payload,
       }
     }
 

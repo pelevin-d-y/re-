@@ -6,7 +6,7 @@ import { css } from 'astroturf'
 
 type Props = {
   className?: string
-  data: UserData | FormattedContact
+  data: RecommendationUser | FormattedContact
   withAvatar?: boolean
 }
 

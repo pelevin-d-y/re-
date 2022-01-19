@@ -21,7 +21,7 @@ const PopoverTemplates: React.FC<Props> = () => {
   const {
     state: { data: templatesData },
   } = useTemplates()
-  const { state: clientState, updateUserData } = useClient()
+  const { state: clientState } = useClient()
 
   const selectTemplate = (template: Template) => {
     if (data) {

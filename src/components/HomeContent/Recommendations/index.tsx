@@ -6,7 +6,7 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import classNames from 'classnames'
 
 type Props = {
-  data?: UserData[]
+  data?: RecommendationUser[]
   className?: string
 }
 

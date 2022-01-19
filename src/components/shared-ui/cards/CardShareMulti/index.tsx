@@ -11,7 +11,7 @@ type Props = {
   data: {
     slides: string[]
     title: string
-    contacts: UserData[]
+    contacts: RecommendationUser[]
   }
   className?: string
 }

@@ -9,7 +9,7 @@ import ThreadItem from './ThreadItem'
 
 type Props = {
   className?: string
-  data?: UserData
+  data?: RecommendationUser
   buttonText: string
 }
 

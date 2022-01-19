@@ -3,7 +3,7 @@ import TabsContent from './TabsContent'
 
 type Props = {
   className?: string
-  data: UserData
+  data: RecommendationUser | FormattedContact
 }
 
 const Tabs: React.FC<Props> = ({ data }) => {

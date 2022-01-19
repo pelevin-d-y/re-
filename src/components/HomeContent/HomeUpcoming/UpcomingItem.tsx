@@ -10,7 +10,7 @@ import Button from 'src/components/shared-ui/Button'
 
 type Props = {
   className?: string
-  data: UserData
+  data: RecommendationUser
   template?: Template
 }
 
