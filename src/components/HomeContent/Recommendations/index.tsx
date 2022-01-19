@@ -13,7 +13,7 @@ type Props = {
 const Recommendations: React.FC<Props> = ({ data, className }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.title}>
-      Your Weekly Recommendations <br />
+      Your Top Recommendations <br />
       <Link className={s.link} href="/recommendations">
         View all
         <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />

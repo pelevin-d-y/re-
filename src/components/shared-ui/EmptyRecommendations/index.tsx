@@ -25,7 +25,7 @@ const EmptyRecommendations: React.FC<Props> = ({ className }) => {
           <SvgIcon className={s.iconGoogle} icon="google-mail.svg" />
           <Img className={s.iconStrata} alt="logo" img="logo-user-info.svg" />
         </div>
-        <div className={s.title}>Getting your Weekly Recommendations</div>
+        <div className={s.title}>Getting your Top Recommendations</div>
       </div>
       <div className={s.description}>
         Strata’s engine is analyzing your network for top recommendations to
