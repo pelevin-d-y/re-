@@ -59,6 +59,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
               className={s.addButton}
               type="button"
               handler={openPersonalizationPage}
+              variant="outlined"
             >
               + Add another email
             </Button>
@@ -127,6 +128,7 @@ const s = css`
     text-align: center;
     font-weight: var(--bold);
     border-radius: 6px;
+    border: 0px;
   }
 `
 
