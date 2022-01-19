@@ -44,7 +44,6 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
         ))}
       </div>
       <div className={s.actions}>
-        <PopoverDots className={s.dots} variant="outlined" />
         <Button
           className={s.button}
           variant="contained"
