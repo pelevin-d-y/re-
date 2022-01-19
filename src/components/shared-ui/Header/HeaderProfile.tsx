@@ -26,7 +26,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       position="bottom right"
       triggerElement={
         <div className={classNames(s.container, className)}>
-          <a href={logInLink}>
+          <a>
             <Avatar image={state.data?.avatar} />
           </a>
         </div>
@@ -51,6 +51,9 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
               + Add another email
             </a>
           )}
+          <a href={logInLink} className={s.logoutButton} type="button">
+            Logout
+          </a>
         </CardContainer>
       }
     />
@@ -98,6 +101,21 @@ const s = css`
     text-align: center;
     font-weight: var(--bold);
     border: 1px dashed var(--blue);
+    border-radius: 6px;
+  }
+
+  .logoutButton {
+    width: 100%;
+    margin-top: 17px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    cursor: pointer;
+
+    text-decoration: none;
+    background: var(--white);
+    color: var(--blue);
+    text-align: center;
+    font-weight: var(--bold);
     border-radius: 6px;
   }
 `
