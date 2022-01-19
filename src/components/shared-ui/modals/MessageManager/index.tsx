@@ -64,7 +64,8 @@ const reducer = (state: State, action: Action) => {
 }
 
 const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
-  const template = data?.customTemplate || data.templateData?.Message
+  const template = data?.templateData?.Message || data?.message_template_body
+
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const { state: clientState, updateUserData } = useClient()
@@ -78,7 +79,6 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   useEffect(() => {
     let parsedMessage
-
     if (template && clientName && contactName) {
       parsedMessage = parseMessage(
         template,
@@ -99,14 +99,22 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
       : undefined
   }
 
+  const getSubject = () => {
+    if (data.templateData) {
+      return data.templateData.Subject
+    }
+    return (
+      data?.message_template_subject &&
+      parseMessage(data.message_template_subject, contactName)
+    )
+  }
+
   useEffect(() => {
     dispatch({
       type: 'updateBody',
       payload: {
         from_contact: getPrimaryEmail(),
-        subject:
-          data?.templateData &&
-          parseMessage(data.templateData.Subject, contactName),
+        subject: getSubject(),
         to_contact_list: addressTo
           ? [
               {

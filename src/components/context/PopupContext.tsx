@@ -8,10 +8,14 @@ import CreateListModal from '../shared-ui/modals/CreateListModal'
 import DeleteListModal from '../shared-ui/modals/DeleteListModal'
 import 'react-quill/dist/quill.snow.css'
 
+interface UserWithTemplateData extends RecommendationUser {
+  templateData?: Template
+}
+
 type Action =
   | {
       type: 'TOGGLE_COMPOSE_POPUP'
-      payload: RecommendationUser | FormattedContact | null
+      payload: UserWithTemplateData | FormattedContact | null
     }
   | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
@@ -21,11 +25,11 @@ type Action =
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
   | {
       type: 'UPDATE_POPUP_DATA'
-      payload: RecommendationUser | FormattedContact | null
+      payload: UserWithTemplateData | FormattedContact | null
     }
   | {
       type: 'UPDATE_COMPOSE_MULTI_DATA'
-      payload: RecommendationUser[] | FormattedContact[] | null
+      payload: UserWithTemplateData[] | FormattedContact[] | null
     }
   | { type: 'UPDATE_LIST_ID_DATA'; payload: string }
 
@@ -36,8 +40,8 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
-  data: RecommendationUser | FormattedContact | null
-  dataMulti: RecommendationUser[] | FormattedContact[] | null
+  data: UserWithTemplateData | FormattedContact | null
+  dataMulti: UserWithTemplateData[] | FormattedContact[] | null
   listId: string | ''
 }
 
@@ -64,14 +68,9 @@ const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'TOGGLE_COMPOSE_POPUP': {
       if (action.payload) {
-        const templateData = findTemplate(
-          testTemplates,
-          'template' in action.payload ? action.payload.template : undefined
-        )
-
         return {
           ...state,
-          data: { ...action.payload, templateData },
+          data: { ...action.payload },
           emailModalIsOpen: !state.emailModalIsOpen,
         }
       }

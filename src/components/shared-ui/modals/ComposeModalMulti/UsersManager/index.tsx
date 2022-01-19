@@ -23,66 +23,78 @@ const UsersManager: React.FC<Props> = ({
   selectUser,
   unselectedContacts,
   addUserHandler,
-}) => (
-  <div className={classNames(s.container, className)}>
-    <div className={s.searchContainer}>
-      <Search
-        classes={{ container: s.search, input: s.searchInput }}
-        inputPlaceholder="Search contacts to add…"
-      />
-    </div>
-    <div className={s.selected}>
-      <div className={s.selectedHeader}>
-        <div className={s.sidebarTitle}>Sending to:</div>
-        <div className={s.selectedQuantity}>
-          {selectedContacts.length} Selected
+}) => {
+  const getAvatar = (data: RecommendationUser | FormattedContact) => {
+    if ('image_url' in data) {
+      return data.image_url
+    }
+    if ('avatar' in data) {
+      return data.avatar
+    }
+    return null
+  }
+
+  return (
+    <div className={classNames(s.container, className)}>
+      <div className={s.searchContainer}>
+        <Search
+          classes={{ container: s.search, input: s.searchInput }}
+          inputPlaceholder="Search contacts to add…"
+        />
+      </div>
+      <div className={s.selected}>
+        <div className={s.selectedHeader}>
+          <div className={s.sidebarTitle}>Sending to:</div>
+          <div className={s.selectedQuantity}>
+            {selectedContacts.length} Selected
+          </div>
+        </div>
+        {selectedContacts?.map((item) => (
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => selectUser(item)}
+            onKeyDown={() => selectUser(item)}
+            className={classNames(s.user, s.selectedUser)}
+            key={item.name}
+          >
+            <Avatar className={s.avatar} image={getAvatar(item)} />
+            <div className={s.userInfo}>
+              <div className={s.userName}>{item.name}</div>
+            </div>
+            <CloseButton
+              className={s.buttonRemove}
+              handler={() => removeUser(item)}
+            />
+            <MessageStatus className={s.messageStatus} data={item} />
+          </div>
+        ))}
+        <div className={s.selectedActions}>
+          <Button variant="outlined">•••</Button>
+          <Button variant="outlined">Send to all</Button>
         </div>
       </div>
-      {selectedContacts?.map((item) => (
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={() => selectUser(item)}
-          onKeyDown={() => selectUser(item)}
-          className={classNames(s.user, s.selectedUser)}
-          key={item.name}
-        >
-          <Avatar className={s.avatar} image={item.avatar} />
+      <div className={s.selectedHeader}>
+        <div className={s.sidebarTitle}>Contacts to send to</div>
+      </div>
+      {unselectedContacts?.map((item) => (
+        <div className={s.user} key={item.name}>
+          <Avatar className={s.avatar} image={getAvatar(item)} />
           <div className={s.userInfo}>
             <div className={s.userName}>{item.name}</div>
           </div>
-          <CloseButton
-            className={s.buttonRemove}
-            handler={() => removeUser(item)}
-          />
-          <MessageStatus className={s.messageStatus} data={item} />
+          <Button
+            variant="outlined"
+            className={s.buttonAdd}
+            handler={() => addUserHandler(item)}
+          >
+            add
+          </Button>
         </div>
       ))}
-      <div className={s.selectedActions}>
-        <Button variant="outlined">•••</Button>
-        <Button variant="outlined">Send to all</Button>
-      </div>
     </div>
-    <div className={s.selectedHeader}>
-      <div className={s.sidebarTitle}>Contacts to send to</div>
-    </div>
-    {unselectedContacts?.map((item) => (
-      <div className={s.user} key={item.name}>
-        <Avatar className={s.avatar} image={item.avatar} />
-        <div className={s.userInfo}>
-          <div className={s.userName}>{item.name}</div>
-        </div>
-        <Button
-          variant="outlined"
-          className={s.buttonAdd}
-          handler={() => addUserHandler(item)}
-        >
-          add
-        </Button>
-      </div>
-    ))}
-  </div>
-)
+  )
+}
 
 const s = css`
   .container {

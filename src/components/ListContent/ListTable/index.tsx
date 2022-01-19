@@ -59,11 +59,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
               image={row.original.avatar}
               strength={row.original.relationshipStrength}
             />{' '}
-            <PopoverUserInfo
-              className={s.name}
-              data={row.original}
-              template={row.original.templateData}
-            />
+            <PopoverUserInfo className={s.name} data={row.original} />
           </div>
         ),
       },

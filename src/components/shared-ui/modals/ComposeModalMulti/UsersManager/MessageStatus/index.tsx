@@ -1,9 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
-import Img from 'src/components/shared-ui/Img'
-import { parseDate } from 'src/helpers/utils/parseTime'
+
 import { formatDistance } from 'date-fns'
 
 type Props = {
@@ -13,18 +11,18 @@ type Props = {
 
 const MessageStatus: React.FC<Props> = ({ className, data }) => (
   <div className={classNames(className, s.container)}>
-    {'last_contact_time' in data && data?.last_contact_time && (
+    {'last_contact_message_time' in data && data?.last_contact_message_time && (
       <div className={s.date}>
-        {formatDistance(parseDate(data.last_contact_time), new Date(), {
+        {formatDistance(new Date(data?.last_contact_message_time), new Date(), {
           addSuffix: true,
         })}
       </div>
     )}
-    {'isSent' in data && data?.isSent ? (
-      <Img className={s.image} alt="sent" img="message-sent.png" />
-    ) : (
-      <SvgIcon className={s.icon} icon="message-default.svg" />
-    )}
+    {/* {'isSent' in data && data?.isSent ? (
+        <Img className={s.image} alt="sent" img="message-sent.png" />
+      ) : (
+        <SvgIcon className={s.icon} icon="message-default.svg" />
+      )} */}
   </div>
 )
 

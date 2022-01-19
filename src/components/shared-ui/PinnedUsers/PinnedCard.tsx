@@ -17,8 +17,7 @@ const PinnedCard: React.FC<Props> = ({ className, data }) =>
         className={s.avatar}
         width={38}
         height={38}
-        image={data.avatar}
-        strength={data.relationshipStrength}
+        image={data.image_url}
       />
       <div className={s.info}>
         <div className={s.name}>{data.name}</div>

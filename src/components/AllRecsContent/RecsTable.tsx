@@ -59,7 +59,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
           <UserHeader
             className={s.description}
             text={parseMessage(
-              row.original.templateData.Action,
+              row.original.message_template_description,
               row.original.name
             )}
           />

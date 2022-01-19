@@ -9,8 +9,8 @@ const addAdditionFields = (
   const extendedUsers: RecommendationUser[] = users.map((user) => ({
     ...user,
     avatar: user.contact_id ? getAvatarUrl(user.contact_id) : '',
-    templateData: findTemplate(testTemplates, user.template),
-    relationshipStrength: calculateColorByStraight(user.connection_E),
+    // templateData: findTemplate(testTemplates, user.template),
+    // relationshipStrength: calculateColorByStraight(user.connection_E),
   }))
 
   return extendedUsers

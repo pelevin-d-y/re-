@@ -46,9 +46,9 @@ type SendMessageField =
   | 'from_contact'
 
 type RecommendationUser = {
-  last_contact_message_time: Date
+  last_contact_message_time: string
   last_client_message_to: string
-  first_message_time: Date
+  first_message_time: string
   score: number
   Status: string
   last_client_message_text: string
@@ -68,7 +68,7 @@ type RecommendationUser = {
   last_client_message_id: string
   first_message_text: string
   trigger_id: string
-  last_client_message_time: Date
+  last_client_message_time: string
   last_contact_message_from: string
   address: string
   order: number

@@ -13,11 +13,11 @@ const Home: React.FC = () => (
     <PlaylistsProvider>
       <PlaylistProvider>
         <TemplatesProvider>
-          <PopupProvider>
-            <PinnedProvider>
+          <PinnedProvider>
+            <PopupProvider>
               <MainContent />
-            </PinnedProvider>
-          </PopupProvider>
+            </PopupProvider>
+          </PinnedProvider>
         </TemplatesProvider>
       </PlaylistProvider>
     </PlaylistsProvider>

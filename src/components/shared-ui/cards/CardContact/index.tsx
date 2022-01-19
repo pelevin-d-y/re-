@@ -19,7 +19,6 @@ type Props = {
 
 const CardContact: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = usePopup()
-  const { name, image_url } = data
 
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
@@ -29,7 +28,12 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
     <CardContainer className={classNames(className, s.container)}>
       <PopoverRemoveCard classRemove={s.remove} data={data} />
       <div className={classNames(s.rowUserInfo)}>
-        <Avatar image={image_url} width={54} height={54} className={s.avatar} />
+        <Avatar
+          image={data.image_url}
+          width={54}
+          height={54}
+          className={s.avatar}
+        />
         <div className={classNames(s.userText)}>
           <PopoverUserInfo className={s.name} data={data} />
         </div>

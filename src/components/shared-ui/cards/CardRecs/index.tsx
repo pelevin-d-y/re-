@@ -25,7 +25,7 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
   return (
     <CardContainer className={s.container}>
       <div className={s.header}>
-        <Avatar image={data?.avatar} className={s.avatar} />
+        <Avatar image={data?.image_url} className={s.avatar} />
         <div className={s.info}>
           <div className={s.name}>{data.name}</div>
           <div className={s.job}>Fund Manager @ JPM</div>
@@ -41,9 +41,9 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
       </div>
       <div className={s.footer}>
         <div className={s.message}>
-          {data?.templateData?.Action && (
+          {data?.message_template_description && (
             <UserHeader
-              text={parseMessage(data.templateData?.Action, data.name)}
+              text={parseMessage(data.message_template_description, data.name)}
             />
           )}
         </div>

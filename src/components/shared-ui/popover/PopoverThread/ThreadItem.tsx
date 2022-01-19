@@ -14,23 +14,25 @@ const ThreadItem: React.FC<Props> = ({ className, data }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.header}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={data.avatar} />
+        <Avatar className={s.avatar} image={data.image_url} />
         <div className={s.profileInfo}>
           <div className={classNames(s.name, s.profileItem)}>{data.name}</div>
           <div className={s.profileItem}>Re: Investor needed</div>
           <div className={s.profileItem}>To: Phil Hoyt</div>
         </div>
       </div>
-      {data.last_contact_time && (
-        <div className={s.date}>{formatTime(data.last_contact_time)}</div>
+      {data.last_contact_message_time && (
+        <div className={s.date}>
+          {formatTime(data.last_contact_message_time)}
+        </div>
       )}
     </div>
-    {data.last_client_text ? (
+    {data.last_contact_message_text ? (
       <div
         className={s.message}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: data.last_client_text,
+          __html: data.last_contact_message_text,
         }}
       />
     ) : (
