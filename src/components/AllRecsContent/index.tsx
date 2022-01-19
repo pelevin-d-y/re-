@@ -65,10 +65,7 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
         <div className={s.content}>
           <TableProvider>
             <div className={s.contentHeader}>
-              <TableActions
-                className={s.actions}
-                buttons={['dots', 'filter', 'contact']}
-              />
+              <TableActions className={s.actions} buttons={['contact']} />
             </div>
             {contactsDebounce && <RecsTable data={contactsDebounce} />}
           </TableProvider>
