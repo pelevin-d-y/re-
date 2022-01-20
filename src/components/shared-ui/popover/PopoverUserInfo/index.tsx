@@ -87,7 +87,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
                   Say Hi
                 </PopoverActions> */}
                 <Button
-                  // handler={null}
+                  handler={buttonHandler}
                   className={classNames(s.button)}
                   variant="contained"
                 >
