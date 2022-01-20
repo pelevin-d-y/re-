@@ -5,7 +5,6 @@ import Close from 'src/components/shared-ui/Close'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { css } from 'astroturf'
 import { useClient } from 'src/components/context/ClientContext'
-import { random } from 'lodash'
 import { post } from 'src/api'
 
 type Props = {
@@ -41,7 +40,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const closeHandler = () => {
+  const removeCard = () => {
     setIsOpen(false)
 
     post
@@ -69,6 +68,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
         </div>
       }
       open={isOpen}
+      onClose={() => setIsOpen(false)}
       popupContent={
         <CardContainer className={classNames(className, s.popup)}>
           <div className={s.title}>
@@ -81,7 +81,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
                 className={s.button}
                 key={item.text}
                 type="button"
-                onClick={closeHandler}
+                onClick={removeCard}
               >
                 {item.text}
               </button>
