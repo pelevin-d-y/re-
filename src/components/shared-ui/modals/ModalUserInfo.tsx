@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
 
 import { css } from 'astroturf'
+import parseMessage from 'src/helpers/utils/parse-message'
 
 type Props = {
   className?: string
@@ -13,7 +14,7 @@ type Props = {
 const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
   const parsedText = () => {
     if ('last_contact_message_text' in data) {
-      return data?.last_contact_message_text
+      return parseMessage(data?.last_contact_message_text)
     }
     return 'Last message is not defined'
   }

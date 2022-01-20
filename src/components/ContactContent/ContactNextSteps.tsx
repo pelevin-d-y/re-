@@ -5,7 +5,6 @@ import data from './dummyData.json'
 import CardContainer from '../shared-ui/cards/CardContainer'
 import Avatar from '../shared-ui/Avatar'
 import UserHeader from '../shared-ui/UserHeader'
-import Pin from '../shared-ui/Pin'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
 
 type Props = {
@@ -33,7 +32,7 @@ const ContactNextSteps: React.FC<Props> = ({ className }) => (
         <div className={s.bottomContainer}>
           <div className={s.nextStep}>{step?.nextStep}</div>
           <div className={s.actions}>
-            <Pin className={s.pinButton} />
+            {/* <Pin className={s.pinButton} /> */}
             <PopoverActions
               className={s.buttonPopup}
               variant="contained"

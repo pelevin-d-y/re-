@@ -10,6 +10,7 @@ import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
+import testTemplates from 'src/testTemplates.json'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
 
@@ -64,7 +65,10 @@ const reducer = (state: State, action: Action) => {
 }
 
 const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
-  const template = data?.templateData?.Message || data?.message_template_body
+  const template =
+    data?.templateData?.Message ||
+    data?.message_template_body ||
+    testTemplates[0].Message
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -103,10 +107,10 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     if (data.templateData) {
       return data.templateData.Subject
     }
-    return (
-      data?.message_template_subject &&
-      parseMessage(data.message_template_subject, contactName)
-    )
+    if (data?.message_template_subject) {
+      return parseMessage(data.message_template_subject, contactName)
+    }
+    return testTemplates[0].Subject
   }
 
   useEffect(() => {

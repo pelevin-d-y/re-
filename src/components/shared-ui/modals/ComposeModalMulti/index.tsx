@@ -47,12 +47,10 @@ const ComposeModalMulti: React.FC = () => {
   }, [dispatch, selectedContacts, multiEmailsIsOpen])
 
   const selectUser = (user: RecommendationUser | FormattedContact) => {
-    if ('templateData' in user) {
-      dispatch({
-        type: 'UPDATE_POPUP_DATA',
-        payload: user,
-      })
-    }
+    dispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: user,
+    })
   }
 
   const addUserHandler = (user: RecommendationUser | FormattedContact) => {
