@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { get } from 'src/api'
-import addAdditionFields from 'src/helpers/utils/add-addition-fields'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
 type Action =
@@ -75,13 +74,12 @@ const getMainUserData = async () => {
   ])
   const [recommendations, contactResponse, authResponse] = requests
 
-  const extendedUsers = addAdditionFields(recommendations)
   const formattedClientData = formatContactData(contactResponse)
   const clientData = addAuthData(formattedClientData, authResponse)
 
   const mainUserData: MainUserData = {
     ...clientData,
-    contacts: extendedUsers, // have to remove when API is fixed
+    contacts: recommendations, // have to remove when API is fixed
   }
 
   return mainUserData

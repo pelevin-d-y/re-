@@ -24,11 +24,10 @@ const TabRecs: React.FC<Props> = ({ className }) => {
           <li className={s.item} key={item.first_message_id}>
             <CardContainer className={s.card}>
               <Avatar
-                image={item.avatar}
+                image={item.image_url}
                 width={49}
                 height={49}
                 className={s.avatar}
-                strength={item.relationshipStrength}
               />
               <div className={s.info}>
                 <div className={s.name}>
@@ -39,9 +38,12 @@ const TabRecs: React.FC<Props> = ({ className }) => {
                   />
                 </div>
                 <div className={s.description}>
-                  {item.templateData && (
+                  {item.message_template_subject && (
                     <UserHeader
-                      text={parseMessage(item.templateData.Subject, item.name)}
+                      text={parseMessage(
+                        item.message_template_subject,
+                        item.name
+                      )}
                     />
                   )}
                 </div>

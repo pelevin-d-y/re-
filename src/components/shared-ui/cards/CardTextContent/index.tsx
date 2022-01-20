@@ -12,7 +12,7 @@ type Props = {
   title: string
   subtitle: string
   description: string
-  users?: UserData[]
+  users?: RecommendationUser[]
 }
 
 const CardTextContent: React.FC<Props> = ({

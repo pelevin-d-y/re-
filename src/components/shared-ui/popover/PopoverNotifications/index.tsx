@@ -59,10 +59,7 @@ const PopoverNotifications: React.FC<Props> = ({ className }) => {
                       <div className={s.itemTitle}>{item.title}</div>
                       <div className={s.description}>{item.description}</div>
                       <div className={s.contact}>
-                        <Avatar
-                          image={item.user.avatar}
-                          strength={item.user.relationshipStrength}
-                        />
+                        <Avatar image={item.user.image_url} />
                         <div className={s.contactName}>{item.user.name}</div>
                       </div>
                       <div className={s.table}>

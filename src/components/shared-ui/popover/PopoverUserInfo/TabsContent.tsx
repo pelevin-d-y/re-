@@ -10,7 +10,7 @@ import Button from '../../Button'
 
 type Props = {
   className?: string
-  data: UserData
+  data: RecommendationUser | FormattedContact
   updateData: UpdateMutableData
   mutableData: ContactMutable[]
 }

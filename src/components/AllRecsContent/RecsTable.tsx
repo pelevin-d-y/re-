@@ -2,11 +2,13 @@ import React, { useCallback, useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
+  Cell,
   Column,
   useFlexLayout,
   useRowSelect,
   useRowState,
   useTable,
+  UseTableRowProps,
 } from 'react-table'
 
 import Avatar from 'src/components/shared-ui/Avatar'
@@ -20,31 +22,23 @@ import Button from '../shared-ui/Button'
 
 type Props = {
   className?: string
-  data: UserData[]
+  data: RecommendationUser[]
 }
 
 const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
 
-  const columns: Column<any>[] = useMemo(
+  const columns: Array<Column> = useMemo(
     () => [
       {
         id: 'Contact',
         minWidth: 200,
-        Cell: ({ row }) => (
+        Cell: ({ row }: Cell<RecommendationUser>) => (
           <div className={s.cellName}>
-            <Avatar
-              className={s.avatar}
-              image={row.original.avatar}
-              strength={row.original.relationshipStrength}
-            />
+            <Avatar className={s.avatar} image={row.original.image_url} />
             <div>
-              <PopoverUserInfo
-                className={s.name}
-                data={row.original}
-                template={row.original.templateData}
-              />
+              <PopoverUserInfo className={s.name} data={row.original} />
             </div>
           </div>
         ),
@@ -53,7 +47,9 @@ const Table: React.FC<Props> = ({ className, data }) => {
         id: 'last-message',
         minWidth: 100,
         Cell: ({ value, row }) => (
-          <div className={s.cellContent}>{row.original.last_client_text}</div>
+          <div className={s.cellContent}>
+            {row.original.last_contact_message_text}
+          </div>
         ),
       },
       {
@@ -63,7 +59,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
           <UserHeader
             className={s.description}
             text={parseMessage(
-              row.original.templateData.Action,
+              row.original.message_template_description,
               row.original.name
             )}
           />
@@ -123,7 +119,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
   useEffect(() => {
     setSelectedUsers(
       selectedFlatRows.map(
-        (item) => item.original as UserData | FormattedContact
+        (item) => item.original as RecommendationUser | FormattedContact
       )
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps

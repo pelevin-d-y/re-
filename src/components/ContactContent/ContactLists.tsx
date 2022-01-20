@@ -7,7 +7,7 @@ import PopoverAddList from '../shared-ui/popover/PopoverAddList'
 
 type Props = {
   className?: string
-  data: UserData
+  data: RecommendationUser
 }
 
 type CardsStructure = {

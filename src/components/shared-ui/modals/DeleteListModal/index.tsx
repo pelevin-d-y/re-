@@ -28,7 +28,7 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
     try {
       setLoading(true)
 
-      await deletePlaylists([popupState?.list_id])
+      await deletePlaylists([popupState?.listId])
       setLoading(false)
       closeHandler()
     } catch (err) {

@@ -6,7 +6,7 @@ import CardContainer from '../../cards/CardContainer'
 
 type Props = {
   className?: string
-  data: UserData
+  data: RecommendationUser | FormattedContact
 }
 
 const TabLists: React.FC<Props> = ({ className, data }) => {

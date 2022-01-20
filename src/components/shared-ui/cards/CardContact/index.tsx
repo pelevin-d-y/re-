@@ -14,12 +14,11 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 
 type Props = {
   className?: string
-  data: UserData
+  data: RecommendationUser
 }
 
 const CardContact: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = usePopup()
-  const { name, avatar, templateData, relationshipStrength } = data
 
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
@@ -30,28 +29,19 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
       <PopoverRemoveCard classRemove={s.remove} data={data} />
       <div className={classNames(s.rowUserInfo)}>
         <Avatar
-          image={avatar}
+          image={data.image_url}
           width={54}
           height={54}
           className={s.avatar}
-          strength={relationshipStrength}
         />
         <div className={classNames(s.userText)}>
-          {templateData && (
-            <PopoverUserInfo
-              className={s.name}
-              data={data}
-              template={templateData}
-            />
-          )}
+          <PopoverUserInfo className={s.name} data={data} />
         </div>
       </div>
-      {templateData && (
-        <UserHeader
-          className={s.description}
-          text={parseEmailMessage(templateData.Action, name)}
-        />
-      )}
+      <UserHeader
+        className={s.description}
+        text={data.message_template_subject}
+      />
       <div className={s.actions}>
         <Pin className={s.pin} data={data} />
         <Button

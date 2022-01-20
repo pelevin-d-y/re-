@@ -32,7 +32,7 @@ const Content: React.FC = () => {
     () => ({
       title: 'Share Holiday',
       slides: ['share-hol-1.jpeg', 'share-hol-2.jpeg', 'share-hol-3.jpeg'],
-      contacts: contacts?.slice(1, 4) as UserData[],
+      contacts: contacts?.slice(1, 4) as RecommendationUser[],
     }),
     [contacts]
   )
@@ -41,7 +41,7 @@ const Content: React.FC = () => {
     () => ({
       title: 'Share Meme',
       slides: ['share-meme1.jpeg', 'share-meme2.jpeg', 'share-meme3.jpeg'],
-      contacts: contacts?.slice(1, 4) as UserData[],
+      contacts: contacts?.slice(1, 4) as RecommendationUser[],
     }),
     [contacts]
   )
@@ -49,7 +49,7 @@ const Content: React.FC = () => {
   const HomeUpcomingContacts = contacts?.slice(0, 4)
 
   const filteredStatusContacts = contacts?.filter(
-    (contact: UserData) => contact.Status !== 'Declined'
+    (contact: RecommendationUser) => contact.Status !== 'Declined'
   )
 
   const renderRecommendations = () =>

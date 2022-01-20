@@ -5,7 +5,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 
 type Props = {
   className?: string
-  users: UserData[] | FormattedContact[]
+  users: RecommendationUser[] | FormattedContact[]
   avatarWidth?: number
   avatarHeight?: number
   showHiddenUsers?: boolean
@@ -29,6 +29,16 @@ const AvatarList: React.FC<Props> = ({
     avatarWidthWithBorder * visibleUsers.length -
     AVATAR_TRANSITION * (visibleUsers.length - 1)
 
+  const getAvatar = (data: RecommendationUser | FormattedContact) => {
+    if ('avatar' in data) {
+      return data.avatar
+    }
+    if ('image_url' in data) {
+      return data.image_url
+    }
+    return null
+  }
+
   return (
     <div className={classNames(className, s.container)}>
       <div
@@ -44,7 +54,7 @@ const AvatarList: React.FC<Props> = ({
               className={s.avatarImage}
               width={avatarWidth || AVATAR_BASE_SIZE}
               height={avatarHeight || AVATAR_BASE_SIZE}
-              image={item.avatar}
+              image={getAvatar(item)}
             />
           </div>
         ))}
