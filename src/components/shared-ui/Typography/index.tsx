@@ -1,37 +1,25 @@
-import React, { FC, FunctionComponent } from 'react'
+import React, { FC } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 
-type variants =
+type tagsVariants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p'
+type styleVariants =
   | 'h1'
   | 'h2'
   | 'h3'
   | 'h4'
   | 'h5'
-  | 'h6'
-  | 'subheading1'
-  | 'subheading2'
   | 'body1'
   | 'body2'
+  | 'body3'
+  | 'body4'
+  | 'body5'
 
 type Props = {
   className?: string
-  tagVariant?: variants
-  styleVariant?: variants
+  tagVariant?: tagsVariants
+  styleVariant?: styleVariants
   fontWeight?: 'regular' | 'medium' | 'semiBold' | 'bold'
-}
-
-const variantsMapping = {
-  h1: 'h1',
-  h2: 'h2',
-  h3: 'h3',
-  h4: 'div',
-  h5: 'div',
-  h6: 'div',
-  subheading1: '',
-  subheading2: 'h6',
-  body1: 'p',
-  body2: 'p',
 }
 
 const Typography: FC<Props> = ({
@@ -42,7 +30,7 @@ const Typography: FC<Props> = ({
   fontWeight,
   ...props
 }) => {
-  const Component: any = tagVariant ? variantsMapping[tagVariant] : 'div'
+  const Component: any = tagVariant || 'p'
 
   return (
     <Component
@@ -64,32 +52,66 @@ const s = css`
   }
 
   .h1 {
+    font-size: 42px;
+    line-height: 50px;
   }
+
   .h2 {
+    font-size: 32px;
+    line-height: 38px;
   }
+
   .h3 {
+    font-size: 32px;
+    line-height: 38px;
   }
+
   .h4 {
+    font-size: 24px;
+    line-height: 29px;
   }
+
   .h5 {
+    font-size: 18px;
+    line-height: 21px;
   }
-  .h6 {
-  }
-  .subheading1 {
-  }
-  .subheading2 {
-  }
+
   .body1 {
+    font-size: 16px;
+    line-height: 19px;
   }
+
   .body2 {
+    font-size: 14px;
+    line-height: 17px;
   }
+
+  .body3 {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .body4 {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .body5 {
+    font-size: 9px;
+    line-height: 11px;
+  }
+
   .regular {
+    font-weight: var(--regular);
   }
   .medium {
+    font-weight: var(--medium);
   }
   .semiBold {
+    font-weight: var(--semiBold);
   }
   .bold {
+    font-weight: var(--bold);
   }
 `
 
