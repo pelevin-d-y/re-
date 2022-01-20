@@ -3,42 +3,39 @@ import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
 
 import { css } from 'astroturf'
+import parseMessage from 'src/helpers/utils/parse-message'
 
 type Props = {
   className?: string
-  data: UserData | FormattedContact
+  data: RecommendationUser | FormattedContact
   withAvatar?: boolean
 }
 
 const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
-  const { avatar, name } = data
-
   const parsedText = () => {
-    if ('last_contact_text' in data) {
-      return data?.last_contact_text
+    if ('last_contact_message_text' in data) {
+      return parseMessage(data?.last_contact_message_text)
     }
     return 'Last message is not defined'
   }
 
-  const userName = name
+  const getAvatarUrl = () => {
+    if ('avatar' in data) {
+      return data.avatar
+    }
+    if ('image_url' in data) {
+      return data.image_url
+    }
+    return null
+  }
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.info}>
-          {withAvatar && (
-            <Avatar
-              className={s.avatar}
-              strength={
-                'relationshipStrength' in data
-                  ? data.relationshipStrength
-                  : undefined
-              }
-              image={avatar || null}
-            />
-          )}
+          {withAvatar && <Avatar className={s.avatar} image={getAvatarUrl()} />}
           <div className={s.profileInfo}>
-            <div className={s.name}>{userName}</div>
+            <div className={s.name}>{data.name}</div>
           </div>
         </div>
         <div className={s.lastMessage}>

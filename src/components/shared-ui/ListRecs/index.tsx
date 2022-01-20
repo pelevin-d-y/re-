@@ -7,7 +7,7 @@ import CardRecs from '../cards/CardRecs'
 
 type Props = {
   className?: string
-  contacts?: UserData[]
+  contacts?: RecommendationUser[]
   playlistData: ListData
 }
 
@@ -25,7 +25,7 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
     [contacts, playlistData]
   )
 
-  const addUserHandler = async (user: UserData) => {
+  const addUserHandler = async (user: RecommendationUser) => {
     try {
       await addUsers(playlistData.playlist_id, [user])
       await getPlaylistData(playlistData.playlist_id)

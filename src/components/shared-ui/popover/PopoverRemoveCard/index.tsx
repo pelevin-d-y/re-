@@ -11,7 +11,7 @@ import { post } from 'src/api'
 type Props = {
   className?: string
   classRemove?: string
-  data: UserData
+  data: RecommendationUser
 }
 
 const reasons = [

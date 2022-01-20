@@ -11,7 +11,7 @@ type Dispatch = React.Dispatch<Action>
 type CreatePlaylistData = {
   title: string
   description?: string
-  contacts?: UserData[] | FormattedContact[]
+  contacts?: RecommendationUser[] | FormattedContact[]
 }
 
 type ContextType = {

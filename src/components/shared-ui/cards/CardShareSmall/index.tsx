@@ -10,7 +10,7 @@ import Img from 'src/components/shared-ui/Img'
 
 type Props = {
   className?: string
-  users?: UserData[]
+  users?: RecommendationUser[]
   image: string
   title: string
 }

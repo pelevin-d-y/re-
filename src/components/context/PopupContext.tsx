@@ -8,10 +8,14 @@ import CreateListModal from '../shared-ui/modals/CreateListModal'
 import DeleteListModal from '../shared-ui/modals/DeleteListModal'
 import 'react-quill/dist/quill.snow.css'
 
+interface UserWithTemplateData extends RecommendationUser {
+  templateData?: Template
+}
+
 type Action =
   | {
       type: 'TOGGLE_COMPOSE_POPUP'
-      payload: UserData | FormattedContact | null
+      payload: UserWithTemplateData | FormattedContact | null
     }
   | { type: 'TOGGLE_COMPOSE_MULTI_POPUP' }
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
@@ -19,10 +23,13 @@ type Action =
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
-  | { type: 'UPDATE_POPUP_DATA'; payload: UserData | FormattedContact | null }
+  | {
+      type: 'UPDATE_POPUP_DATA'
+      payload: UserWithTemplateData | FormattedContact | null
+    }
   | {
       type: 'UPDATE_COMPOSE_MULTI_DATA'
-      payload: UserData[] | FormattedContact[] | null
+      payload: UserWithTemplateData[] | FormattedContact[] | null
     }
   | { type: 'UPDATE_LIST_ID_DATA'; payload: string }
 
@@ -33,9 +40,9 @@ type State = {
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
-  data: UserData | FormattedContact | null
-  dataMulti: UserData[] | FormattedContact[] | null
-  list_id: string | ''
+  data: UserWithTemplateData | FormattedContact | null
+  dataMulti: UserWithTemplateData[] | FormattedContact[] | null
+  listId: string | ''
 }
 
 type ContextType = {
@@ -54,21 +61,16 @@ const initialState = {
   modalPinnedIsOpen: false,
   data: null,
   dataMulti: null,
-  list_id: '',
+  listId: '',
 }
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'TOGGLE_COMPOSE_POPUP': {
       if (action.payload) {
-        const templateData = findTemplate(
-          testTemplates,
-          'template' in action.payload ? action.payload.template : undefined
-        )
-
         return {
           ...state,
-          data: { ...action.payload, templateData },
+          data: { ...action.payload },
           emailModalIsOpen: !state.emailModalIsOpen,
         }
       }
@@ -127,7 +129,7 @@ const popupReducer = (state: State, action: Action): State => {
     case 'UPDATE_LIST_ID_DATA': {
       return {
         ...state,
-        list_id: action.payload,
+        listId: action.payload,
       }
     }
 

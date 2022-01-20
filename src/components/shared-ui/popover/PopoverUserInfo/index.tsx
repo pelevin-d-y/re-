@@ -14,19 +14,38 @@ import Tabs from './Tabs'
 
 type Props = {
   className?: string
-  data: any
-  template: Template
+  data: RecommendationUser | FormattedContact
 }
 
-const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
-  const { name, avatar, emails } = data
-  console.log(emails)
-  // const { Subject, Summary } = template
-
+const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = usePopup()
 
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
+  }
+
+  const getName = () => {
+    if ('name' in data) {
+      return data.name
+    }
+    if ('emails' in data) {
+      return data.emails && data.emails[0]?.data
+    }
+    return ''
+  }
+
+  const getAvatarUrl = () => {
+    if ('image_url' in data) {
+      return data.image_url
+    }
+    return data.avatar
+  }
+
+  const getSubject = () => {
+    if ('message_template_subject' in data) {
+      return data.message_template_subject
+    }
+    return ''
   }
 
   return (
@@ -36,24 +55,22 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data, template }) => {
         showPopupEvent="click"
         nested
         triggerElement={
-          <div className={classNames(className, s.trigger)}>
-            {name || emails[0]?.data}
-          </div>
+          <div className={classNames(className, s.trigger)}>{getName()}</div>
         }
         popupContent={
           <CardContainer className={classNames(s.popup)}>
             <div className={s.wrapper}>
               <div className={s.header}>
                 <Avatar
-                  image={avatar}
+                  image={getAvatarUrl()}
                   width={54}
                   height={54}
                   className={s.avatar}
                   // strength={data.relationshipStrength}
                 />
                 <div className={s.headerInfo}>
-                  <div className={s.name}>{name}</div>
-                  {/* <div className={s.subject}>{Subject}</div> */}
+                  <div className={s.name}>{getName()}</div>
+                  <div className={s.subject}>{getSubject()}</div>
                 </div>
               </div>
               {/* <UserHeader

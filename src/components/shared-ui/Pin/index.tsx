@@ -6,7 +6,7 @@ import { usePinned } from 'src/components/context/PinnedContext'
 
 type Props = {
   className?: string
-  data?: UserData
+  data?: RecommendationUser
 }
 
 const Pin: React.FC<Props> = ({ className, data }) => {

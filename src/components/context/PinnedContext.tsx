@@ -96,7 +96,7 @@ const PinnedProvider: React.FC = ({ children }) => {
 const usePinned = (): ContextType => {
   const context = React.useContext(PinnedContext)
   if (context === null) {
-    throw new Error('useTemplates must be used within a PinnedProvider')
+    throw new Error('usePinned must be used within a PinnedProvider')
   }
   return context
 }

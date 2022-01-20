@@ -17,7 +17,7 @@ type Props = {
     title: string
     description: string
   }
-  contacts?: UserData[]
+  contacts?: RecommendationUser[]
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
@@ -36,11 +36,7 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
       <UpcomingHeader className={s.header} data={headerData} />
       <div className={s.cards}>
         {contacts?.map((item) => (
-          <UpcomingItem
-            data={item}
-            key={item.first_message_id}
-            template={item.templateData}
-          />
+          <UpcomingItem data={item} key={item.first_message_id} />
         ))}
       </div>
       <div className={s.actions}>

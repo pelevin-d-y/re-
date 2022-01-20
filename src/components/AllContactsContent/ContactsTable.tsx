@@ -56,11 +56,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
               image={row.original.avatar}
               strength={row.original.relationshipStrength}
             />
-            <PopoverUserInfo
-              className={s.name}
-              data={row.original}
-              template={row.original.templateData}
-            />
+            <PopoverUserInfo className={s.name} data={row.original} />
           </div>
         ),
       },
@@ -175,7 +171,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
   useEffect(() => {
     setSelectedUsers(
       selectedFlatRows.map(
-        (item) => item.original as UserData | FormattedContact
+        (item) => item.original as RecommendationUser | FormattedContact
       )
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps

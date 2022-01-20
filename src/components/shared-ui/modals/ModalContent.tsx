@@ -7,7 +7,7 @@ import ModalUserInfo from './ModalUserInfo'
 
 type Props = {
   className?: string
-  data: UserData | FormattedContact
+  data: RecommendationUser | FormattedContact
   closeHandler: () => void
   withAvatar?: boolean
   isSent?: boolean

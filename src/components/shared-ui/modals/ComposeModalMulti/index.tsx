@@ -9,8 +9,8 @@ import UsersManager from './UsersManager'
 import ModalContent from '../ModalContent'
 
 const comparator = (
-  a: FormattedContact | UserData,
-  b: FormattedContact | UserData
+  a: FormattedContact | RecommendationUser,
+  b: FormattedContact | RecommendationUser
 ) => a.contact_id === b.contact_id
 
 const ComposeModalMulti: React.FC = () => {
@@ -18,19 +18,19 @@ const ComposeModalMulti: React.FC = () => {
   const { data: popupData, dataMulti: usersData, multiEmailsIsOpen } = state
 
   const [unselectedContacts, setUnselectedContacts] = useState<
-    Array<FormattedContact | UserData>
+    Array<FormattedContact | RecommendationUser>
   >([])
 
   const [selectedContacts, setSelectedContacts] = useState<
-    Array<FormattedContact | UserData>
+    Array<FormattedContact | RecommendationUser>
   >([])
 
   useEffect(() => {
     if (usersData?.length) {
       if (unselectedContacts) {
         const filteredUsers = differenceWith<
-          FormattedContact | UserData,
-          FormattedContact | UserData
+          FormattedContact | RecommendationUser,
+          FormattedContact | RecommendationUser
         >(usersData, unselectedContacts, comparator)
         setSelectedContacts(filteredUsers)
       }
@@ -46,19 +46,14 @@ const ComposeModalMulti: React.FC = () => {
     }
   }, [dispatch, selectedContacts, multiEmailsIsOpen])
 
-  const selectUser = (user: UserData | FormattedContact) => {
-    if ('templateData' in user && user?.templateData) {
-      dispatch({
-        type: 'UPDATE_POPUP_DATA',
-        payload: {
-          ...user,
-          templateData: user.templateData,
-        },
-      })
-    }
+  const selectUser = (user: RecommendationUser | FormattedContact) => {
+    dispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: user,
+    })
   }
 
-  const addUserHandler = (user: UserData | FormattedContact) => {
+  const addUserHandler = (user: RecommendationUser | FormattedContact) => {
     const isInclude = selectedContacts.find(
       (item) => item.contact_id === user.contact_id
     )
@@ -75,7 +70,7 @@ const ComposeModalMulti: React.FC = () => {
     }
   }
 
-  const removeUser = (user: UserData | FormattedContact) => {
+  const removeUser = (user: RecommendationUser | FormattedContact) => {
     setSelectedContacts(
       selectedContacts.filter((item) => item.contact_id !== user.contact_id)
     )
