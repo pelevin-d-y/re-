@@ -25,9 +25,10 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
   }
 
   const getName = () => {
-    if ('name' in data) {
+    if ('name' in data && data.name) {
       return data.name
     }
+
     if ('emails' in data) {
       return data.emails && data.emails[0]?.data
     }
