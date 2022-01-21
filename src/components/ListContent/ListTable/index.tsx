@@ -35,10 +35,24 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const tableData = useMemo(() => data.contacts, [data.contacts])
 
   const updateUser = useCallback((userData: any) => {
-    const { newValue, previousValue } = formatDataForApi(
-      { Notes: userData.newNotes },
-      { Notes: userData.Notes }
-    )
+    const newValue = [
+      {
+        type: 'Playlist_Notes',
+        data: data.playlist_id,
+        review: 1,
+        meta: {
+          text: userData.newNotes,
+        },
+      },
+    ]
+
+    const previousValue = [
+      {
+        type: 'Playlist_Notes',
+        data: data.playlist_id,
+        review: 2,
+      },
+    ]
     const body = {
       [userData.contact_id]: [...newValue, ...previousValue],
     }
@@ -100,9 +114,17 @@ const Table: React.FC<Props> = ({ className, data }) => {
       },
       {
         Header: 'Notes',
-        accessor: 'Notes',
+        accessor: 'Playlist_Notes',
         Cell: ({ value, row }) => {
-          const [currentValue, setCurrentValue] = useState(value)
+          const currentPlaylistValue =
+            value.filter(
+              (item: { text: string; playlistId: string }) =>
+                item?.playlistId === data.playlist_id
+            )[0] || ''
+
+          const [currentValue, setCurrentValue] = useState(
+            currentPlaylistValue?.text
+          )
 
           return (
             <EditField
@@ -121,7 +143,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         },
       },
     ],
-    [updateUser]
+    [data.playlist_id, updateUser]
   )
 
   const {

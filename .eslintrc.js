@@ -30,6 +30,7 @@ module.exports = {
       { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
     ],
     'import/prefer-default-export': 'off',
+    'arrow-body-style': 0,
     'import/extensions': 'off',
     'react/prop-types': 'off',
     camelcase: 'off',
