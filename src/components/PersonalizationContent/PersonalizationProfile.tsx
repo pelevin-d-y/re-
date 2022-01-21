@@ -7,7 +7,6 @@ import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { post } from 'src/api'
-import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import Selector from '../shared-ui/Select'
 import { LoaderComponent } from '../shared-ui/Loader'
 import { useClient } from '../context/ClientContext'
@@ -31,6 +30,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
 
   const { name } = data
   const names = name?.split(' ')
+
   return (
     <div className={classNames(className, s.container)}>
       <Formik
@@ -44,22 +44,61 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
-          const { newValue, previousValue } = formatDataForApi(
+          const newValue = [
             {
-              name: [values.profileFirstName, values.profileLastName],
-              primaryEmail: values.profileEmail || '',
-              company: values.profileCompany || '',
-              title: values.profileTitle || '',
-              phone: values.profilePhone || '',
+              type: 'name',
+              data: [values.profileFirstName, values.profileLastName],
+              review: 1,
             },
             {
-              name: data.name?.split(' '),
-              primaryEmail: data.primaryEmail?.data,
-              company: data.company,
-              title: data.title,
-              phone: data.phone,
-            }
-          )
+              type: 'primaryEmail',
+              data: values.profileEmail || '',
+              review: 1,
+            },
+            {
+              type: 'company',
+              data: values.profileCompany || '',
+              review: 1,
+            },
+            {
+              type: 'title',
+              data: values.profileTitle || '',
+              review: 1,
+            },
+            {
+              type: 'phone',
+              data: values.profilePhone || '',
+              review: 1,
+            },
+          ]
+
+          const previousValue = [
+            {
+              type: 'name',
+              data: data.name?.split(' '),
+              review: 2,
+            },
+            {
+              type: 'primaryEmail',
+              data: data.primaryEmail?.data,
+              review: 2,
+            },
+            {
+              type: 'company',
+              data: data.company,
+              review: 2,
+            },
+            {
+              type: 'title',
+              data: data.title,
+              review: 2,
+            },
+            {
+              type: 'phone',
+              data: data.phone,
+              review: 2,
+            },
+          ]
 
           post
             .postContact([...newValue, ...previousValue])

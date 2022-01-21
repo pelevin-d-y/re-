@@ -1,10 +1,29 @@
 type Data = ContactMutable[]
 
+const types = [
+  'name_short',
+  'name',
+  'image',
+  'company',
+  'title',
+  'phone',
+  'Notes',
+  'email',
+  'primaryEmail',
+  'name_suffix',
+  'Playlist_Notes',
+]
+
 const formatContactData = (data: Data, id?: string): any => {
+  data.forEach((item) => {
+    if (!types.includes(item.type)) {
+      console.warn(`unexpected type from mutable API ${item.type}`)
+    }
+  })
+
   const emails = data.flatMap((item: any) =>
     item.type === 'email' ? item : []
   )
-
   const parsedContact: any = {
     emails,
     primaryEmail: data.find((item) => item.type === 'primaryEmail'),
@@ -33,6 +52,17 @@ const formatContactData = (data: Data, id?: string): any => {
       data.flatMap((item: any) =>
         item.type === 'Notes' ? item.data : []
       )[0] || '',
+    Playlist_Notes:
+      data.flatMap((item: any) =>
+        item.type === 'Playlist_Notes'
+          ? [
+              {
+                text: item.meta.text,
+                playlistId: item.data,
+              },
+            ]
+          : []
+      ) || [],
   }
 
   if (id) {
