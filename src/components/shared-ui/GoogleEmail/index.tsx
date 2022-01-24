@@ -16,12 +16,12 @@ type Props = {
 const GoogleEmail: React.FC<Props> = ({ className, data, authUrl }) => {
   const { updateUserData } = useClient()
 
-  const deauthAccount = () => {
-    post.postClientDeauthorization(data.email).then((res) => {
-      console.log('res', res)
-      updateUserData()
-    })
-  }
+  // const deauthAccount = () => {
+  //   post.postClientDeauthorization(data.email).then((res) => {
+  //     console.log('res', res)
+  //     updateUserData()
+  //   })
+  // }
   return (
     <CardContainer className={classNames(className, s.container)}>
       <SvgIcon className={s.icon} icon="google-mail.svg" />
@@ -41,7 +41,7 @@ const GoogleEmail: React.FC<Props> = ({ className, data, authUrl }) => {
           </a>
         )}
       </div>
-      <Close className={s.close} handler={deauthAccount} />
+      {/* <Close className={s.close} handler={deauthAccount} /> */}
     </CardContainer>
   )
 }
