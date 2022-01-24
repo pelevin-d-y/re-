@@ -107,10 +107,14 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  getEventContacts: (before = '0', after = '0'): Promise<any> => {
+  getEventContacts: (after?: string, before?: string): Promise<any> => {
     const params = new URLSearchParams()
-    params.append('before', before)
-    params.append('after', after)
+    if (before) {
+      params.append('before', before)
+    }
+    if (after) {
+      params.append('after', after)
+    }
 
     return requests
       .get(`${AWS_API}/dash/interval/event-contacts`, params)

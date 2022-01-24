@@ -22,6 +22,15 @@ type Props = {
   contacts?: RecommendationUser[]
 }
 
+const getUserIds = async () => {
+  const date = new Date()
+  const sevenDaysAgoDateSeconds = millisecondsToSeconds(
+    date.setDate(date.getDate() - 7)
+  ).toString()
+  const nowSeconds = millisecondsToSeconds(Date.now()).toString()
+  return get.getEventContacts(sevenDaysAgoDateSeconds, nowSeconds)
+}
+
 const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
   const { dispatch: popupDispatch } = usePopup()
 
@@ -34,15 +43,12 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
   }
 
   useEffect(() => {
-    const date = new Date()
-    const sevenDaysAgoDateSeconds = millisecondsToSeconds(
-      date.setDate(date.getDate() - 7)
-    ).toString()
-    const nowSeconds = millisecondsToSeconds(Date.now()).toString()
+    const getUsersData = async () => {
+      const ids = await getUserIds()
 
-    get
-      .getEventContacts(sevenDaysAgoDateSeconds, nowSeconds)
-      .then((res) => console.log(res))
+      console.log('🚀 ~ file: index.tsx ~ line 48 ~ getUsersData ~ ids', ids)
+    }
+    getUsersData()
   }, [])
 
   return (
