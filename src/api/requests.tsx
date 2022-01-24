@@ -100,11 +100,23 @@ const get = {
       .get(`${AWS_API}/messages/read`, { id })
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
+
   getPinnedContacts: (): Promise<any> =>
     requests
       .get(`${AWS_API}/dash/pinned`)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
+
+  getEventContacts: (before = '0', after = '0'): Promise<any> => {
+    const params = new URLSearchParams()
+    params.append('before', before)
+    params.append('after', after)
+
+    return requests
+      .get(`${AWS_API}/dash/interval/event-contacts`, params)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err))
+  },
 }
 
 const post = {

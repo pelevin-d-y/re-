@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -6,6 +6,8 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import Button from 'src/components/shared-ui/Button'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
+import { get } from 'src/api'
+import millisecondsToSeconds from 'date-fns/millisecondsToSeconds'
 import UpcomingHeader from './UpcomingHeader'
 import UpcomingItem from './UpcomingItem'
 
@@ -30,6 +32,18 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData, contacts }) => {
       popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
   }
+
+  useEffect(() => {
+    const date = new Date()
+    const sevenDaysAgoDateSeconds = millisecondsToSeconds(
+      date.setDate(date.getDate() - 7)
+    ).toString()
+    const nowSeconds = millisecondsToSeconds(Date.now()).toString()
+
+    get
+      .getEventContacts(sevenDaysAgoDateSeconds, nowSeconds)
+      .then((res) => console.log(res))
+  }, [])
 
   return (
     <CardContainer className={classNames(className, s.container)}>
