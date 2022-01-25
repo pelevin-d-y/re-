@@ -34,6 +34,8 @@ const UsersManager: React.FC<Props> = ({
     return null
   }
 
+  console.log(selectedContacts)
+
   return (
     <div className={classNames(s.container, className)}>
       <div className={s.searchContainer}>
@@ -49,18 +51,20 @@ const UsersManager: React.FC<Props> = ({
             {selectedContacts.length} Selected
           </div>
         </div>
-        {selectedContacts?.map((item) => (
+        {selectedContacts?.map((item: FormattedContact) => (
           <div
             role="button"
             tabIndex={0}
             onClick={() => selectUser(item)}
             onKeyDown={() => selectUser(item)}
             className={classNames(s.user, s.selectedUser)}
-            key={item.name}
+            key={item.contact_id}
           >
             <Avatar className={s.avatar} image={getAvatar(item)} />
             <div className={s.userInfo}>
-              <div className={s.userName}>{item.name}</div>
+              <div className={s.userName}>
+                {item.name ? item.name : item?.emails?.[0].data}
+              </div>
               <MessageStatus className={s.messageStatus} data={item} />
             </div>
             <CloseButton
@@ -78,7 +82,7 @@ const UsersManager: React.FC<Props> = ({
         <div className={s.sidebarTitle}>Contacts to send to</div>
       </div>
       {unselectedContacts?.map((item) => (
-        <div className={s.user} key={item.name}>
+        <div className={s.user} key={item.contact_id}>
           <Avatar className={s.avatar} image={getAvatar(item)} />
           <div className={s.userInfo}>
             <div className={s.userName}>{item.name}</div>
