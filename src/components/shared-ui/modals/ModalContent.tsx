@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import { getName } from 'src/helpers/utils/get-name'
 import ModalSent from './ModalSent'
 import MessageManager from './MessageManager'
 import ModalUserInfo from './ModalUserInfo'
@@ -24,7 +25,7 @@ const ModalContent: React.FC<Props> = ({
   const [isSent, setIsSent] = useState(messageIsSent || false)
 
   return isSent ? (
-    <ModalSent handler={closeHandler} names={data.name || data.name} />
+    <ModalSent handler={closeHandler} names={getName(data)} />
   ) : (
     <div className={classNames(className, s.container)}>
       <div className={s.closeContainer}>
