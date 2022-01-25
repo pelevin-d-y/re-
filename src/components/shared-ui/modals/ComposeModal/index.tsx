@@ -4,6 +4,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import ModalBase from '../ModalBase'
 import ModalContent from '../ModalContent'
 import Button from '../../Button'
+import CloseButton from '../../Close'
 
 const ComposeModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -20,9 +21,7 @@ const ComposeModal: React.FC = () => {
       onClose={closeHandler}
     >
       <div className={s.closeContainer}>
-        <Button handler={closeHandler} className={s.close} variant="outlined">
-          X
-        </Button>
+        <CloseButton className={s.buttonRemove} handler={closeHandler} />
       </div>
       {data && (
         <ModalContent data={data} withAvatar closeHandler={closeHandler} />
@@ -48,8 +47,9 @@ const s = css`
     margin-top: 15px;
   }
 
-  .close {
-    margin-left: calc(100% - 30px);
+  .buttonRemove {
+    background: transparent;
+    color: var(--neutral2);
   }
 `
 
