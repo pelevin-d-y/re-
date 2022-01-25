@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import ModalSent from './ModalSent'
 import MessageManager from './MessageManager'
 import ModalUserInfo from './ModalUserInfo'
+import CloseButton from '../Close'
 
 type Props = {
   className?: string
@@ -26,6 +27,10 @@ const ModalContent: React.FC<Props> = ({
     <ModalSent handler={closeHandler} names={data.name || data.name} />
   ) : (
     <div className={classNames(className, s.container)}>
+      <div className={s.closeContainer}>
+        <div className={s.title}>Compose Message</div>
+        <CloseButton className={s.buttonRemove} handler={closeHandler} />
+      </div>
       <MessageManager
         data={data}
         setIsSent={(val: boolean) => setIsSent(val)}
@@ -44,6 +49,24 @@ const s = css`
     @include mobile {
       padding: 29px 16px;
     }
+  }
+
+  .closeContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  .buttonRemove {
+    background: transparent;
+    color: var(--neutral2);
   }
 
   .footer {

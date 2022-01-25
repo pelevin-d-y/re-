@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import { useClient } from '../context/ClientContext'
-import { LoaderComponent } from '../shared-ui/Loader'
+import { LoaderAbsolute } from '../shared-ui/Loader'
 import CardContainer from '../shared-ui/cards/CardContainer'
 import SectionHeader from '../shared-ui/SectionHeader'
 import Button from '../shared-ui/Button'
@@ -57,7 +57,7 @@ const ListsContent: React.FC<Props> = ({ className }) => {
           </CardContainer>
         ) : (
           <div className={s.loader}>
-            <LoaderComponent />
+            <LoaderAbsolute />
           </div>
         )}
       </div>

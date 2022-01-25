@@ -1,13 +1,11 @@
-import React from 'react'
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
 import Avatar from 'src/components/shared-ui/Avatar'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import { usePopup } from 'src/components/context/PopupContext'
-import parseMessage from 'src/helpers/utils/parse-message'
-import UserHeader from 'src/components/shared-ui/UserHeader'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import Tabs from './Tabs'
@@ -19,8 +17,10 @@ type Props = {
 
 const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = usePopup()
+  const [isOpen, setIsOpen] = useState(false)
 
   const buttonHandler = () => {
+    setIsOpen(false)
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
@@ -50,13 +50,23 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
   }
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions , jsx-a11y/click-events-have-key-events
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div onClick={(e: any) => e.stopPropagation()}>
       <Popover
         showPopupEvent="click"
         nested
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
         triggerElement={
-          <div className={classNames(className, s.trigger)}>{getName()}</div>
+          <div className={classNames(className, s.trigger)}>
+            <button
+              type="button"
+              className={s.triggerButton}
+              onClick={() => setIsOpen(true)}
+            >
+              {getName()}
+            </button>
+          </div>
         }
         popupContent={
           <CardContainer className={classNames(s.popup)}>
@@ -110,12 +120,17 @@ const s = css`
     width: 100%;
   }
 
-  .trigger {
-    cursor: pointer;
-  }
-
   .wrapper {
     padding: 20px;
+  }
+
+  .triggerButton {
+    padding: 0;
+    margin: 0;
+    background: none !important;
+    border: none;
+    cursor: pointer;
+    font-weight: inherit;
   }
 
   .header {

@@ -5,7 +5,7 @@ import Select from 'src/components/shared-ui/Select'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from 'src/components/shared-ui/Button'
-import { LoaderComponent } from 'src/components/shared-ui/Loader'
+import { LoaderAbsolute } from 'src/components/shared-ui/Loader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useRouter } from 'next/router'
 
@@ -81,7 +81,7 @@ const TabAddToExistingPlaylist: React.FC<Props> = ({ className, users }) => {
               type="submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? <LoaderComponent /> : 'Add'}
+              {isSubmitting ? <LoaderAbsolute /> : 'Add'}
             </Button>
           </div>
         </form>

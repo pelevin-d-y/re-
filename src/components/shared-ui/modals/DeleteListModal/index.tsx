@@ -7,7 +7,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import ModalBase from 'src/components/shared-ui/modals/ModalBase'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import ModalListActions from '../ModalListActions'
-import { LoaderComponent } from '../../Loader'
+import { LoaderAbsolute } from '../../Loader'
 import Button from '../../Button'
 
 type Props = {
@@ -63,7 +63,7 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
             Cancel
           </Button>
         </div>
-        {loading && <LoaderComponent />}
+        {loading && <LoaderAbsolute />}
       </CardContainer>
     </ModalBase>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import { LoaderComponent } from '../Loader'
+import { LoaderAbsolute } from '../Loader'
 
 type Props = {
   row: any // didn't find how to type it
@@ -48,7 +48,7 @@ const Row: React.FC<Props> = ({ row, children, classes, ...restProps }) => {
       {children}
       {row?.state?.isLoading && (
         <td>
-          <LoaderComponent />
+          <LoaderAbsolute />
         </td>
       )}
     </tr>

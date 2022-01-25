@@ -7,7 +7,7 @@ import { Field, FieldProps, Formik } from 'formik'
 import { usePopup } from 'src/components/context/PopupContext'
 import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
-import { LoaderComponent } from 'src/components/shared-ui/Loader'
+import { LoaderAbsolute } from 'src/components/shared-ui/Loader'
 import { toast } from 'react-toastify'
 
 type Props = {
@@ -88,7 +88,7 @@ const TabCreatePlaylist: React.FC<Props> = ({ className, users }) => {
               type="submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? <LoaderComponent /> : 'Create'}
+              {isSubmitting ? <LoaderAbsolute /> : 'Create'}
             </Button>
           </div>
         </form>
