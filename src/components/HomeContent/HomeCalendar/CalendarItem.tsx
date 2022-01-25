@@ -10,30 +10,41 @@ import Button from 'src/components/shared-ui/Button'
 
 type Props = {
   className?: string
-  data: RecommendationUser
+  data: FormattedContact
 }
 
 const UpcomingItem: React.FC<Props> = ({ data, className }) => {
-  const { image_url, name } = data
   const { dispatch } = usePopup()
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
+
+  const getName = () => {
+    if ('name' in data && data.name) {
+      return data.name
+    }
+
+    if ('emails' in data) {
+      return data.emails && data.emails[0]?.data
+    }
+    return ''
+  }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={image_url} />
+        <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
-          <div className={s.name}>{name}</div>
+          <div className={s.name}>{getName()}</div>
         </div>
       </div>
-      <div className={s.message}>
-        {data.message_template_description && (
+      {/* <div className={s.message}>
+        {data?.message_template_description && (
           <UserHeader
             text={parseMessage(data.message_template_description, data.name)}
           />
         )}
-      </div>
+      </div> */}
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
         Follow up
       </Button>

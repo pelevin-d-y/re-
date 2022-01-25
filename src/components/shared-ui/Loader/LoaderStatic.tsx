@@ -7,7 +7,7 @@ type Props = {
   className?: string
 }
 
-const LoaderPage: React.FC<Props> = ({ className }) => (
+const LoaderStatic: React.FC<Props> = ({ className }) => (
   <SvgIcon className={classNames(className, s.container)} icon="spinner.svg" />
 )
 
@@ -21,4 +21,4 @@ const s = css`
   }
 `
 
-export default LoaderPage
+export default LoaderStatic

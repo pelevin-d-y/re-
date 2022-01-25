@@ -7,7 +7,7 @@ import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { TableProvider } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
-import { LoaderComponent } from '../shared-ui/Loader'
+import { LoaderAbsolute } from '../shared-ui/Loader'
 import ListRecs from '../shared-ui/ListRecs'
 import TableActions from '../shared-ui/TableActions'
 import AddUserView from '../shared-ui/AddUserView'
@@ -56,7 +56,7 @@ const Content: React.FC = () => {
     </div>
   ) : (
     <div className={s.loader}>
-      <LoaderComponent />
+      <LoaderAbsolute />
     </div>
   )
 }

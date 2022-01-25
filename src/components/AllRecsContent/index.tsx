@@ -9,7 +9,7 @@ import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import RecsTable from './RecsTable'
-import { LoaderPage } from '../shared-ui/Loader'
+import { LoaderStatic } from '../shared-ui/Loader'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import TableActions from '../shared-ui/TableActions'
 import { TableProvider } from '../context/TableContext'
@@ -77,7 +77,7 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(s.main, className)}>
-      {!clientState.isLoading ? renderContent() : <LoaderPage />}
+      {!clientState.isLoading ? renderContent() : <LoaderStatic />}
     </div>
   )
 }

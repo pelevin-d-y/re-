@@ -8,7 +8,7 @@ import { post } from 'src/api'
 import { useRouter } from 'next/router'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import Button from '../Button'
-import { LoaderComponent } from '../Loader'
+import { LoaderAbsolute } from '../Loader'
 
 type Props = {
   className?: string

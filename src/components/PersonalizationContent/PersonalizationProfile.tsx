@@ -8,7 +8,7 @@ import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { post } from 'src/api'
 import Selector from '../shared-ui/Select'
-import { LoaderComponent } from '../shared-ui/Loader'
+import { LoaderAbsolute } from '../shared-ui/Loader'
 import { useClient } from '../context/ClientContext'
 
 type Props = {
@@ -292,7 +292,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? <LoaderComponent /> : 'Save changes '}
+                {isSubmitting ? <LoaderAbsolute /> : 'Save changes '}
               </Button>
             </form>
           </div>
