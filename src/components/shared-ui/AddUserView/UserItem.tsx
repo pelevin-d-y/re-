@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
+import { getName } from 'src/helpers/utils/get-name'
 import { LoaderAbsolute } from '../Loader'
 
 type Props = {
@@ -33,7 +34,7 @@ const UserItem: React.FC<Props> = ({ className, data, listId }) => {
     <li className={classNames(s.container, className)}>
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
-        <span className={s.name}>{data.name}</span>
+        <span className={s.name}>{getName(data)}</span>
       </div>
       <Button
         className={s.button}
@@ -55,7 +56,7 @@ const s = css`
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 0;
+    padding: 22px;
     border-bottom: 1px solid var(--neutral5);
   }
 

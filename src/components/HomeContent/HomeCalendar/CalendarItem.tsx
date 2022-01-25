@@ -7,6 +7,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseMessage from 'src/helpers/utils/parse-message'
 import Button from 'src/components/shared-ui/Button'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -19,23 +20,12 @@ const UpcomingItem: React.FC<Props> = ({ data, className }) => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
-  const getName = () => {
-    if ('name' in data && data.name) {
-      return data.name
-    }
-
-    if ('emails' in data) {
-      return data.emails && data.emails[0]?.data
-    }
-    return ''
-  }
-
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
-          <div className={s.name}>{getName()}</div>
+          <div className={s.name}>{getName(data)}</div>
         </div>
       </div>
       {/* <div className={s.message}>
