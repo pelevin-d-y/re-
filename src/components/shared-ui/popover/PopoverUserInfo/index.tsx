@@ -8,6 +8,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { usePopup } from 'src/components/context/PopupContext'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
+import { getName } from 'src/helpers/utils/get-name'
 import Tabs from './Tabs'
 
 type Props = {
@@ -22,17 +23,6 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
   const buttonHandler = () => {
     setIsOpen(false)
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
-  }
-
-  const getName = () => {
-    if ('name' in data && data.name) {
-      return data.name
-    }
-
-    if ('emails' in data) {
-      return data.emails && data.emails[0]?.data
-    }
-    return ''
   }
 
   const getAvatarUrl = () => {
@@ -64,7 +54,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
               className={s.triggerButton}
               onClick={() => setIsOpen(true)}
             >
-              {getName()}
+              {getName(data)}
             </button>
           </div>
         }
@@ -80,7 +70,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
                   // strength={data.relationshipStrength}
                 />
                 <div className={s.headerInfo}>
-                  <div className={s.name}>{getName()}</div>
+                  <div className={s.name}>{getName(data)}</div>
                   <div className={s.subject}>{getSubject()}</div>
                 </div>
               </div>

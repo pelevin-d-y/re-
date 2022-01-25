@@ -5,6 +5,7 @@ import CloseButton from 'src/components/shared-ui/Close'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Search from 'src/components/shared-ui/Search'
+import { getName } from 'src/helpers/utils/get-name'
 import MessageStatus from './MessageStatus'
 
 type Props = {
@@ -32,16 +33,6 @@ const UsersManager: React.FC<Props> = ({
       return data.avatar
     }
     return null
-  }
-
-  const getName = (data: RecommendationUser | FormattedContact) => {
-    if ('name' in data && data.name) {
-      return data.name
-    }
-    if ('emails' in data) {
-      return data.emails && data.emails[0]?.data
-    }
-    return ''
   }
 
   return (
