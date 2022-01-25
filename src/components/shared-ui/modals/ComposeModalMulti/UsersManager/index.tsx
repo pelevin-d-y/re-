@@ -34,7 +34,15 @@ const UsersManager: React.FC<Props> = ({
     return null
   }
 
-  console.log(selectedContacts)
+  const getName = (data: RecommendationUser | FormattedContact) => {
+    if ('name' in data && data.name) {
+      return data.name
+    }
+    if ('emails' in data) {
+      return data.emails && data.emails[0]?.data
+    }
+    return ''
+  }
 
   return (
     <div className={classNames(s.container, className)}>
@@ -51,28 +59,28 @@ const UsersManager: React.FC<Props> = ({
             {selectedContacts.length} Selected
           </div>
         </div>
-        {selectedContacts?.map((item: FormattedContact) => (
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => selectUser(item)}
-            onKeyDown={() => selectUser(item)}
-            className={classNames(s.user, s.selectedUser)}
-            key={item.contact_id}
-          >
-            <Avatar className={s.avatar} image={getAvatar(item)} />
-            <div className={s.userInfo}>
-              <div className={s.userName}>
-                {item.name ? item.name : item?.emails?.[0].data}
+        <div className={s.selectedUsers}>
+          {selectedContacts?.map((item) => (
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => selectUser(item)}
+              onKeyDown={() => selectUser(item)}
+              className={classNames(s.user, s.selectedUser)}
+              key={item.contact_id}
+            >
+              <Avatar className={s.avatar} image={getAvatar(item)} />
+              <div className={s.userInfo}>
+                <div className={s.userName}>{getName(item)}</div>
               </div>
+              <CloseButton
+                className={s.buttonRemove}
+                handler={() => removeUser(item)}
+              />
               <MessageStatus className={s.messageStatus} data={item} />
             </div>
-            <CloseButton
-              className={s.buttonRemove}
-              handler={() => removeUser(item)}
-            />
-          </div>
-        ))}
+          ))}
+        </div>
         <div className={s.selectedActions}>
           <Button variant="outlined">•••</Button>
           <Button variant="outlined">Send to all</Button>
@@ -85,7 +93,7 @@ const UsersManager: React.FC<Props> = ({
         <div className={s.user} key={item.contact_id}>
           <Avatar className={s.avatar} image={getAvatar(item)} />
           <div className={s.userInfo}>
-            <div className={s.userName}>{item.name}</div>
+            <div className={s.userName}>{getName(item)}</div>
           </div>
           <Button
             variant="outlined"
@@ -176,6 +184,11 @@ const s = css`
 
   .sidebarTitle {
     color: #acacac;
+  }
+
+  .selectedUsers {
+    overflow: auto;
+    max-height: 320px;
   }
 
   .selectedQuantity {

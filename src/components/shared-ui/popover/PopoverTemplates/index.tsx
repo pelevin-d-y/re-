@@ -21,7 +21,6 @@ const PopoverTemplates: React.FC<Props> = () => {
   const {
     state: { data: templatesData },
   } = useTemplates()
-  const { state: clientState } = useClient()
 
   const selectTemplate = (template: Template) => {
     if (data) {
@@ -77,7 +76,6 @@ const s = css`
   .popup {
     max-height: 300px;
     overflow: auto;
-
     padding: 20px;
 
     background: var(--white);

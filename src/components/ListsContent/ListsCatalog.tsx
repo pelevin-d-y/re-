@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import CardList from 'src/components/shared-ui/cards/CardList'
 import { usePlaylists } from 'src/components//context/PlaylistsContext'
-import { LoaderPage } from '../shared-ui/Loader'
+import { LoaderStatic } from '../shared-ui/Loader'
 
 type Props = {
   data: ListData[]
@@ -15,7 +15,7 @@ const ListsCatalog: React.FC<Props> = ({ data }) => {
 
   return (
     <>
-      {isLoading && <LoaderPage />}
+      {isLoading && <LoaderStatic />}
       <div className={s.list}>
         {data.map((item) => (
           <CardList className={s.card} key={item.playlist_id} data={item} />
