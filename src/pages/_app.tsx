@@ -2,6 +2,7 @@ import 'normalize.css'
 import 'src/styles/global.scss'
 import React from 'react'
 import type { AppProps } from 'next/app'
+import Head from 'next/head'
 import { AuthProvider } from 'src/components/context/AuthContext'
 import { ClientProvider } from 'src/components/context/ClientContext'
 import { ToastContainer } from 'react-toastify'
@@ -14,6 +15,9 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => (
       <>
         <AuthProvider>
           <ClientProvider>
+            <Head>
+              <title>Strata</title>
+            </Head>
             <Component {...pageProps} />
           </ClientProvider>
         </AuthProvider>

@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
 import { useDebounce } from 'use-debounce/lib'
 import { get } from 'src/api/requests'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
+import { isArray, debounce } from 'lodash'
 import SectionHeader from '../shared-ui/SectionHeader'
 import Search from '../shared-ui/Search'
 import { LoaderStatic } from '../shared-ui/Loader'
-import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import ContactsTable from './ContactsTable'
 import TableActions from '../shared-ui/TableActions'
 
@@ -23,6 +22,8 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
   const [mutableData, setMutableData] = useState<
     FormattedContact[] | undefined
   >(undefined)
+  const [searchText, setSearchText] = useState<string>('')
+  const [searchResults, setSearchResults] = useState<FormattedContact[]>([])
 
   useEffect(() => {
     setLoading(true)
@@ -35,23 +36,31 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
     })
   }, [])
 
-  const [contactsDebounce] = useDebounce(mutableData, 700)
-
-  const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
     if (mutableData) {
-      const filteredContacts = mutableData.filter(
-        (item) =>
-          (item.name as string)
-            .toLocaleLowerCase()
-            .search(event.target.value.toLocaleLowerCase()) !== -1
-      )
-
-      setMutableData(filteredContacts)
+      const results = mutableData.filter((item: FormattedContact) => {
+        return (
+          item?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+          (!isArray(item?.emails?.[0]?.data) &&
+            item?.emails?.[0]?.data
+              ?.toLowerCase()
+              .includes(searchText.toLowerCase()))
+        )
+      })
+      setSearchResults(results)
     }
+  }, [mutableData, searchText])
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value)
   }
 
+  const debounceHandleSearch = useMemo(() => {
+    return debounce(handleSearch, 300)
+  }, [])
+
   const renderContent = () =>
-    mutableData && !arrayIsEmpty(mutableData) ? (
+    mutableData && (
       <CardContainer className={s.container}>
         <div className={s.sectionHeader}>
           <SectionHeader
@@ -69,16 +78,14 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
           <div className={s.contentHeader}>
             <Search
               classes={{ container: s.search }}
-              onChange={filterContacts}
+              onChange={debounceHandleSearch}
               inputPlaceholder="Search contacts"
             />
             <TableActions className={s.actions} buttons={['contact']} />
           </div>
-          {contactsDebounce && <ContactsTable data={contactsDebounce} />}
+          {searchResults && <ContactsTable data={searchResults} />}
         </div>
       </CardContainer>
-    ) : (
-      <EmptyRecommendations />
     )
 
   return (

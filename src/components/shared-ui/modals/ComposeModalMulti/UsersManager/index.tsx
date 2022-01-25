@@ -109,6 +109,8 @@ const UsersManager: React.FC<Props> = ({
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     border-right: 1px solid #d0d0d0;
     padding-top: 36px;
@@ -142,6 +144,10 @@ const s = css`
 
     font-size: 12px;
     font-weight: var(--bold);
+
+    @include mobile {
+      margin-right: 10px;
+    }
   }
 
   .userPosition {
@@ -211,6 +217,11 @@ const s = css`
 
       .messageStatus {
         display: none;
+      }
+    }
+    @include mobile {
+      .buttonRemove {
+        display: block !important;
       }
     }
   }
