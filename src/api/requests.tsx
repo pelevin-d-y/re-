@@ -73,6 +73,18 @@ const get = {
       .catch((err) => Promise.reject(err))
   },
 
+  getLastEmails: (ids?: string[]): Promise<any> => {
+    const params = new URLSearchParams()
+    ids?.forEach((id) => params.append('id', id))
+
+    params.append('limit', '1')
+
+    return requests
+      .get(`${AWS_API}/contacts/messages`, params)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err))
+  },
+
   getPlaylistsIds: (): Promise<string[]> =>
     requests
       .get(`${AWS_API}/playlists/mutable`)

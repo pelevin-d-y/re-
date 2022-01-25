@@ -75,10 +75,10 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
         accessor: 'last_client_text',
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
-            <div className={s.lastData}>
+            {/* <div className={s.lastData}>
               {formatTime(row.original.last_client_time)}
-            </div>
-            <div>Placeholder</div>
+            </div> */}
+            <div>{row.original.last_client_text}</div>
           </div>
         ),
       },
