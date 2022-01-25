@@ -28,7 +28,7 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
         <Avatar image={data?.image_url} className={s.avatar} />
         <div className={s.info}>
           <div className={s.name}>{data.name}</div>
-          <div className={s.job}>Fund Manager @ JPM</div>
+          {/* <div className={s.job}>Fund Manager @ JPM</div> */}
         </div>
         <Button
           className={s.button}
