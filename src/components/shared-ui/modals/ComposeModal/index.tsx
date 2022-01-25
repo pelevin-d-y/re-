@@ -20,9 +20,6 @@ const ComposeModal: React.FC = () => {
       isOpen={emailModalIsOpen}
       onClose={closeHandler}
     >
-      <div className={s.closeContainer}>
-        <CloseButton className={s.buttonRemove} handler={closeHandler} />
-      </div>
       {data && (
         <ModalContent data={data} withAvatar closeHandler={closeHandler} />
       )}

@@ -61,12 +61,12 @@ const UsersManager: React.FC<Props> = ({
             <Avatar className={s.avatar} image={getAvatar(item)} />
             <div className={s.userInfo}>
               <div className={s.userName}>{item.name}</div>
+              <MessageStatus className={s.messageStatus} data={item} />
             </div>
             <CloseButton
               className={s.buttonRemove}
               handler={() => removeUser(item)}
             />
-            <MessageStatus className={s.messageStatus} data={item} />
           </div>
         ))}
         <div className={s.selectedActions}>
@@ -97,6 +97,8 @@ const UsersManager: React.FC<Props> = ({
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     border-right: 1px solid #d0d0d0;
     padding-top: 36px;
@@ -130,6 +132,10 @@ const s = css`
 
     font-size: 12px;
     font-weight: var(--bold);
+
+    @include mobile {
+      margin-right: 10px;
+    }
   }
 
   .userPosition {
@@ -194,6 +200,11 @@ const s = css`
 
       .messageStatus {
         display: none;
+      }
+    }
+    @include mobile {
+      .buttonRemove {
+        display: block !important;
       }
     }
   }
