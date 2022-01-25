@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import CloseModal from '../../Close'
 import ModalBase from '../ModalBase'
-import { LoaderComponent } from '../../Loader'
+import { LoaderAbsolute } from '../../Loader'
 
 const CreateListSchema = Yup.object().shape({
   name: Yup.string().max(80, 'Too Long').required('Required'),
@@ -97,7 +97,7 @@ const CreateListModal: React.FC = () => {
                   disabled={isSubmitting}
                   className={classNames(s.createButton, s.button)}
                 >
-                  {isSubmitting ? <LoaderComponent /> : 'Create'}
+                  {isSubmitting ? <LoaderAbsolute /> : 'Create'}
                 </Button>
               </div>
             </form>

@@ -1,2 +1,2 @@
-export { default as LoaderComponent } from './LoaderComponent'
-export { default as LoaderPage } from './LoaderPage'
+export { default as LoaderAbsolute } from './LoaderAbsolute'
+export { default as LoaderStatic } from './LoaderStatic'

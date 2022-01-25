@@ -18,7 +18,7 @@ const EmailModal: React.FC<Props> = ({
   ReactModal.setAppElement('#__next')
   const modalStyles = {
     overlay: {
-      zIndex: 1000,
+      zIndex: 20,
       background: 'rgba(0, 0, 0, 0.5)',
       width: '100vw',
       height: '100vh',

@@ -77,7 +77,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const { dataMulti } = popupState
 
   const clientName = clientState.data?.shortName || clientState.data?.name
-  const contactName = data.name || data.name
+  const contactName = data.name
 
   const addressTo = data?.address || data.emails[0]?.data
 

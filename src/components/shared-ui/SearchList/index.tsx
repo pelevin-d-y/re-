@@ -5,7 +5,7 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import Button from 'src/components/shared-ui/Button'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
-import { LoaderComponent } from '../Loader'
+import { LoaderAbsolute } from '../Loader'
 
 type Props = {
   className?: string
@@ -53,7 +53,7 @@ const SearchList: React.FC<Props> = ({
           Add
         </Button>
       </div>
-      {loading && <LoaderComponent className={s.loading} />}
+      {loading && <LoaderAbsolute className={s.loading} />}
     </div>
   )
 }

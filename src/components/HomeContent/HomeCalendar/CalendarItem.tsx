@@ -7,33 +7,34 @@ import { usePopup } from 'src/components/context/PopupContext'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseMessage from 'src/helpers/utils/parse-message'
 import Button from 'src/components/shared-ui/Button'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
-  data: RecommendationUser
+  data: FormattedContact
 }
 
 const UpcomingItem: React.FC<Props> = ({ data, className }) => {
-  const { image_url, name } = data
   const { dispatch } = usePopup()
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={image_url} />
+        <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
-          <div className={s.name}>{name}</div>
+          <div className={s.name}>{getName(data)}</div>
         </div>
       </div>
-      <div className={s.message}>
-        {data.message_template_description && (
+      {/* <div className={s.message}>
+        {data?.message_template_description && (
           <UserHeader
             text={parseMessage(data.message_template_description, data.name)}
           />
         )}
-      </div>
+      </div> */}
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
         Follow up
       </Button>

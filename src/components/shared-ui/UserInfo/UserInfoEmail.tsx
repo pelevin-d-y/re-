@@ -7,7 +7,7 @@ import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import { primaryEmailType } from 'src/helpers/variables'
 import EmailPopover from './EmailPopover'
 import EditField from '../EditField'
-import { LoaderComponent } from '../Loader'
+import { LoaderAbsolute } from '../Loader'
 
 type Props = {
   className?: string
@@ -81,7 +81,7 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
   return (
     <div className={classNames(className, s.container)}>
       <EmailPopover data={emailsWithPrimary} setEmail={setPrimaryEmail} />
-      {isLoading && <LoaderComponent />}
+      {isLoading && <LoaderAbsolute />}
       {primaryEmail && (
         <EditField
           type="text"

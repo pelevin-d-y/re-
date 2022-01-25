@@ -10,7 +10,7 @@ import formatLastMessage from 'src/helpers/utils/format-last-message'
 import { isArray, debounce } from 'lodash'
 import SectionHeader from '../shared-ui/SectionHeader'
 import Search from '../shared-ui/Search'
-import { LoaderPage } from '../shared-ui/Loader'
+import { LoaderStatic } from '../shared-ui/Loader'
 import ContactsTable from './ContactsTable'
 import TableActions from '../shared-ui/TableActions'
 
@@ -111,7 +111,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(s.main, className)}>
-      {!loading ? renderContent() : <LoaderPage />}
+      {!loading ? renderContent() : <LoaderStatic />}
     </div>
   )
 }

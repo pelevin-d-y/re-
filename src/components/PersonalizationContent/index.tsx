@@ -9,7 +9,7 @@ import Subscription from './Subscription'
 import Notification from './PersonalizationNotification'
 import PasswordChangeForm from './PesonalizationPasswordChange'
 import PersonalizationInvites from './PersonalizationInvites'
-import { LoaderPage } from '../shared-ui/Loader'
+import { LoaderStatic } from '../shared-ui/Loader'
 
 type Props = {
   className?: string
@@ -50,7 +50,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
         //   <PersonalizationInvites />
         // </PersonalizationSection>
 
-        <LoaderPage />
+        <LoaderStatic />
       )}
     </div>
   )
