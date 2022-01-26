@@ -5,6 +5,8 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { useDebounce } from 'use-debounce/lib'
 import { get } from 'src/api/requests'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import getLastMessage from 'src/helpers/utils/get-last-message'
+import formatLastMessage from 'src/helpers/utils/format-last-message'
 
 import { isArray, debounce } from 'lodash'
 import SectionHeader from '../shared-ui/SectionHeader'
@@ -27,10 +29,22 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
 
   useEffect(() => {
     setLoading(true)
-    get.getContactsMutable().then((res) => {
-      const formattedData = Object.entries(res).map(([id, contact]) =>
-        formatContactData(contact, id)
-      )
+    get.getContactsMutable().then(async (res) => {
+      const ids = Object.entries(res).map(([id]) => id)
+      const lastMessages = await get.getLastEmails(ids)
+
+      const formattedData = Object.entries(res).map(([id, contact]) => {
+        const contactData = formatContactData(contact, id)
+
+        const lastMessage = getLastMessage(lastMessages[id])
+        const contactLastMessage = formatLastMessage(lastMessage)
+
+        return {
+          ...contactData,
+          ...contactLastMessage,
+        }
+      })
+
       setMutableData(formattedData)
       setLoading(false)
     })

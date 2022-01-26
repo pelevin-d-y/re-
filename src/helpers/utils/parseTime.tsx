@@ -8,5 +8,13 @@ export const formatTime = (date: string): string => {
   return format(parse(date, 'y-M-d H:m:s', new Date()), 'MMMM dd, yyyy')
 }
 
+export const formatDate = (date: Date): string => {
+  if (!date) {
+    return 'not found'
+  }
+
+  return format(date, 'MMMM dd, yyyy')
+}
+
 export const parseDate = (date: string): Date =>
   parse(date, 'y-M-d H:m:s', new Date())

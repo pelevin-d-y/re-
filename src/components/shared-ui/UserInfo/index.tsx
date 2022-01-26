@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Img from 'src/components/shared-ui/Img'
 import Button from 'src/components/shared-ui/Button'
-import { formatTime } from 'src/helpers/utils/parseTime'
+import { formatDate } from 'src/helpers/utils/parseTime'
 import { getBaseMutableData } from 'src/helpers/utils/base-mutable-data'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import UserInfoEmail from './UserInfoEmail'
@@ -62,7 +62,7 @@ const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
               <span>Met</span>
               <Img alt="icon" className={s.pen} img="pen.png" />
             </div>
-            <div className={s.value}>{formatTime(data.last_contact_time)}</div>
+            <div className={s.value}>{formatDate(data.last_contact_time)}</div>
           </li>
         )}
         {data.last_client_text && (
