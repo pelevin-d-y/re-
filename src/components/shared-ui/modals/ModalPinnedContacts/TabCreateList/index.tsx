@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import { css } from 'astroturf'
 import * as Yup from 'yup'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
@@ -40,6 +39,7 @@ const TabCreatePlaylist: React.FC<Props> = ({ className, users }) => {
           .then(() => {
             toast('Playlist has been created')
             setSubmitting(false)
+            closeHandler()
           })
           .catch((err) => {
             setSubmitting(false)

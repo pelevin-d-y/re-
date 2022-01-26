@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -7,6 +8,7 @@ import {
   useFlexLayout,
   useRowSelect,
   useRowState,
+  useSortBy,
   useTable,
   UseTableRowProps,
 } from 'react-table'
@@ -19,6 +21,7 @@ import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import UserHeader from '../shared-ui/UserHeader'
 import Button from '../shared-ui/Button'
+import SvgIcon from '../shared-ui/SvgIcon'
 
 type Props = {
   className?: string
@@ -32,6 +35,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const columns: Array<Column> = useMemo(
     () => [
       {
+        Header: 'Contact',
         id: 'Contact',
         minWidth: 200,
         Cell: ({ row }: Cell<RecommendationUser>) => (
@@ -44,6 +48,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         ),
       },
       {
+        Header: 'Last Outreach',
         id: 'last-message',
         minWidth: 100,
         Cell: ({ value, row }) => (
@@ -53,6 +58,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         ),
       },
       {
+        Header: 'Next Steps',
         id: 'Company',
         minWidth: 250,
         Cell: ({ value, row }) => (
@@ -87,6 +93,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
   const {
     getTableProps,
     getTableBodyProps,
+    headerGroups,
     rows,
     selectedFlatRows,
     prepareRow,
@@ -95,6 +102,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       columns,
       data: tableData || [],
     },
+    useSortBy,
     useFlexLayout,
     useRowSelect,
     useRowState,
@@ -133,6 +141,42 @@ const Table: React.FC<Props> = ({ className, data }) => {
   return (
     <div className={s.container}>
       <table className={classNames(className, s.table)} {...getTableProps()}>
+        <thead className={s.thead}>
+          {headerGroups.map((headerGroup) => {
+            const { key, ...restHeaderGroupProps } =
+              headerGroup.getHeaderGroupProps()
+            return (
+              <tr {...restHeaderGroupProps} className={s.tableRow} key={key}>
+                {headerGroup.headers.map((column) => {
+                  const { key: keyHeader } = column.getHeaderProps()
+                  return (
+                    <th
+                      className={classNames(s.columnHeader, s[keyHeader])}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      key={keyHeader}
+                    >
+                      {column.render('Header')}
+                      <span>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <SvgIcon className={s.sort} icon="sort.svg" />
+                          ) : (
+                            <SvgIcon
+                              className={classNames(s.sort, s.sortAsc)}
+                              icon="sort.svg"
+                            />
+                          )
+                        ) : (
+                          ''
+                        )}
+                      </span>
+                    </th>
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </thead>
         <tbody className={s.tbody} {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row)
@@ -239,6 +283,26 @@ const s = css`
   .button {
     margin-left: auto;
     width: 122px;
+  }
+
+  .columnHeader {
+    text-align: left;
+    padding: 18px 19px;
+
+    &:first-child {
+      max-width: 55px !important;
+    }
+
+    &:last-child {
+      max-width: none !important;
+    }
+  }
+
+  .sort {
+    margin-left: 3px;
+  }
+  .sortAsc {
+    transform: scale(1, -1);
   }
 `
 

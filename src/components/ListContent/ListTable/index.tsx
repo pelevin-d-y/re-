@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -6,6 +7,7 @@ import {
   useFlexLayout,
   useRowSelect,
   useRowState,
+  useSortBy,
   useTable,
 } from 'react-table'
 
@@ -17,7 +19,6 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { post } from 'src/api'
-import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import EditField from 'src/components/shared-ui/EditField'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
@@ -58,6 +59,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
     }
 
     return post.postContactsMutable(body)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const columns: Column<any>[] = useMemo(
@@ -158,6 +160,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       columns,
       data: tableData || [],
     },
+    useSortBy,
     useFlexLayout,
     useRowSelect,
     useRowState,
@@ -209,15 +212,28 @@ const Table: React.FC<Props> = ({ className, data }) => {
             return (
               <tr {...restHeaderGroupProps} className={s.tableRow} key={key}>
                 {headerGroup.headers.map((column) => {
-                  const { key: keyHeader, ...restHeaderProps } =
-                    column.getHeaderProps()
+                  const { key: keyHeader } = column.getHeaderProps()
                   return (
                     <th
                       className={classNames(s.columnHeader, s[keyHeader])}
-                      {...restHeaderProps}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
                       key={keyHeader}
                     >
                       {column.render('Header')}
+                      <span>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <SvgIcon className={s.sort} icon="sort.svg" />
+                          ) : (
+                            <SvgIcon
+                              className={classNames(s.sort, s.sortAsc)}
+                              icon="sort.svg"
+                            />
+                          )
+                        ) : (
+                          ''
+                        )}
+                      </span>
                     </th>
                   )
                 })}
@@ -452,6 +468,13 @@ const s = css`
     width: 100%;
     box-shadow: none;
     padding: 8px;
+  }
+
+  .sort {
+    margin-left: 3px;
+  }
+  .sortAsc {
+    transform: scale(1, -1);
   }
 `
 

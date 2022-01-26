@@ -22,16 +22,18 @@ const TabNotes: React.FC<Props> = ({ className, mutableData, updateData }) => {
         }}
         onSubmit={(values, { setSubmitting }) => {
           if (noteData) {
-            updateData({ ...noteData, data: values.notes }, noteData).then(() =>
-              setSubmitting(false)
+            updateData([{ ...noteData, data: values.notes }], [noteData]).then(
+              () => setSubmitting(false)
             )
           } else {
-            updateData({
-              data: values.notes,
-              review: 1,
-              type: 'Notes',
-              meta: {},
-            }).then(() => setSubmitting(false))
+            updateData([
+              {
+                data: values.notes,
+                review: 1,
+                type: 'Notes',
+                meta: {},
+              },
+            ]).then(() => setSubmitting(false))
           }
         }}
       >

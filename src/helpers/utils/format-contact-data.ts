@@ -26,7 +26,7 @@ const formatContactData = (data: Data, id?: string): any => {
   )
   const parsedContact: any = {
     emails,
-    primaryEmail: data.find((item) => item.type === 'primaryEmail'),
+    primaryEmail: data.find((item) => item.meta.type === 'primary'),
     shortName: data.flatMap((item: any) =>
       item.type === 'name_short' ? item.data : []
     )[0],

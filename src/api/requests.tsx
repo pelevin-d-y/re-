@@ -189,24 +189,18 @@ const apiHelpers = {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   updateMutableData: async (
     id: string,
-    newVal: ContactMutable,
-    prevVal?: ContactMutable
+    newVal: ContactMutable[],
+    prevVal?: ContactMutable[]
   ) => {
     try {
       if (prevVal) {
         const body = {
-          [id]: [
-            newVal,
-            {
-              ...prevVal,
-              review: 2,
-            },
-          ],
+          [id]: [...newVal, ...prevVal],
         }
 
         return await post.postContactsMutable(body)
       }
-      return await post.postContactsMutable({ [id]: [newVal] })
+      return await post.postContactsMutable({ [id]: newVal })
     } catch (err) {
       console.warn('updateMutableData ==>', err)
       return Promise.reject(err)

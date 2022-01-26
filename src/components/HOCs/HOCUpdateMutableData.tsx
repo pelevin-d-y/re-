@@ -9,8 +9,8 @@ type WithUpdateMutableData<T> = {
 type GenericType<GT> = Omit<GT, 'mutableData' | 'updateData' | 'id'>
 
 export type UpdateMutableData = (
-  val: ContactMutable,
-  prevVal?: ContactMutable | undefined
+  val: ContactMutable[],
+  prevVal?: ContactMutable[] | undefined
 ) => Promise<void>
 
 const HOCUpdateMutableData = <T,>({
@@ -28,8 +28,8 @@ const HOCUpdateMutableData = <T,>({
   }, [id])
 
   const updateMutableData = async (
-    newVal: ContactMutable,
-    prevVal?: ContactMutable
+    newVal: ContactMutable[],
+    prevVal?: ContactMutable[]
   ) => {
     try {
       await apiHelpers.updateMutableData(id, newVal, prevVal)
