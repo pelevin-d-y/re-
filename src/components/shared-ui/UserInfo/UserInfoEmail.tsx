@@ -25,7 +25,7 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
   )
 
   const primaryEmail = useMemo(
-    () => data?.find((item) => item.type === primaryEmailType) || emails[0],
+    () => data?.find((item) => item.meta.type === 'primary') || emails[0],
     [data, emails]
   )
 
@@ -49,17 +49,35 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
     meta: any
   }) => {
     setIsLoading(true)
-    if (data?.find((item) => item.type === primaryEmailType)) {
-      await updateApiData(
-        { ...primaryEmail, data: emailData.data },
-        primaryEmail
-      )
+    const currentPrimaryEmail = data?.find(
+      (item) => item.meta.type === 'primary'
+    )
+
+    const selectedEmail = emails.find(
+      (item) => emailData.data === item.data
+    ) as ContactMutable
+
+    if (currentPrimaryEmail) {
+      await updateApiData([
+        {
+          ...selectedEmail,
+          meta: { ...selectedEmail.meta, type: 'primary' },
+        },
+        {
+          ...currentPrimaryEmail,
+          meta: { ...currentPrimaryEmail.meta, type: null },
+        },
+      ])
     } else {
-      await updateApiData({
-        ...primaryEmail,
-        type: primaryEmailType,
-        data: emailData.data,
-      })
+      await updateApiData([
+        {
+          ...selectedEmail,
+          meta: {
+            ...selectedEmail.meta,
+            type: 'primary',
+          },
+        },
+      ])
     }
 
     setIsLoading(false)
@@ -69,7 +87,7 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
     setIsLoading(true)
     try {
       await schema.validate(value)
-      await updateApiData(getBaseMutableData({ data: value, type: 'email' }))
+      await updateApiData([getBaseMutableData({ data: value, type: 'email' })])
       setIsLoading(false)
     } catch (err) {
       // eslint-disable-next-line no-console

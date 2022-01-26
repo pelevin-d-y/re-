@@ -20,11 +20,13 @@ const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
     const contactItem = mutableData?.find((item) => item.type === 'name')
 
     if (contactItem) {
-      updateData({ ...contactItem, data: val.split(' ') }, contactItem)
+      updateData([{ ...contactItem, data: val.split(' ') }], [contactItem])
     } else {
-      updateData({
-        ...getBaseMutableData({ data: val.split(' '), type: 'name' }),
-      })
+      updateData([
+        {
+          ...getBaseMutableData({ data: val.split(' '), type: 'name' }),
+        },
+      ])
     }
   }
 

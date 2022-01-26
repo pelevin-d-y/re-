@@ -92,7 +92,7 @@ type ContactMutable = {
 }
 
 type MainUserData = {
-  emails?: any
+  emails?: ContactMutable[]
   authData?: Record<string, number>
   authUrls?: Record<string, string>
   syncedEmails?: string[]
