@@ -5,7 +5,8 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
 import UserHeader from 'src/components/shared-ui/UserHeader'
-import { LoaderComponent } from 'src/components/shared-ui/Loader'
+import { LoaderAbsolute } from 'src/components/shared-ui/Loader'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -27,7 +28,7 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
       <div className={s.header}>
         <Avatar image={data?.image_url} className={s.avatar} />
         <div className={s.info}>
-          <div className={s.name}>{data.name}</div>
+          <div className={s.name}>{getName(data)}</div>
           {/* <div className={s.job}>Fund Manager @ JPM</div> */}
         </div>
         <Button
@@ -48,7 +49,7 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
           )}
         </div>
       </div>
-      {isLoading && <LoaderComponent />}
+      {isLoading && <LoaderAbsolute />}
     </CardContainer>
   )
 }

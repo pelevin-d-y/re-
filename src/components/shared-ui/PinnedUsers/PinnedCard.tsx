@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import { getName } from 'src/helpers/utils/get-name'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
 
@@ -20,7 +21,7 @@ const PinnedCard: React.FC<Props> = ({ className, data }) =>
         image={data.image_url}
       />
       <div className={s.info}>
-        <div className={s.name}>{data.name}</div>
+        <div className={s.name}>{getName(data)}</div>
       </div>
     </CardContainer>
   ) : null

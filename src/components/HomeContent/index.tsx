@@ -8,9 +8,9 @@ import Grid from 'src/components/shared-ui/CardGrid'
 import { useClient } from 'src/components/context/ClientContext'
 import CardContact from 'src/components/shared-ui/cards/CardContact'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
-import HomeUpcoming from './HomeUpcoming'
+import HomeUpcoming from './HomeCalendar'
 import CardShareMulti from '../shared-ui/cards/CardShareMulti'
-import { LoaderPage } from '../shared-ui/Loader'
+import { LoaderStatic } from '../shared-ui/Loader'
 import Recommendations from './Recommendations'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 
@@ -62,38 +62,27 @@ const Content: React.FC = () => {
       <EmptyRecommendations className={s.section} />
     )
 
-  const renderCalendar = () =>
-    HomeUpcomingContacts && !arrayIsEmpty(HomeUpcomingContacts) ? (
-      <HomeUpcoming
-        className={s.section}
-        headerData={headerDataWeek}
-        contacts={HomeUpcomingContacts}
-      />
-    ) : (
-      <CardShare
-        className={s.shareCard}
-        variant="dark"
-        image="banner-email@2x.png"
-        event="Share Strata"
-        title="Sharing is Caring"
-        link="bit.ly/share-strata/hailey"
-      />
-    )
-
   return (
     <div className={s.container}>
       <div className={s.main}>
         {!clientState.isLoading ? (
           <>
             {renderRecommendations()}
-            {renderCalendar()}
+            <HomeUpcoming className={s.section} headerData={headerDataWeek} />
             <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
               )}
               {shareMemes.contacts && <CardShareMulti data={shareMemes} />}
             </Grid>
-
+            {/* <CardShare
+              className={s.shareCard}
+              variant="dark"
+              image="banner-email@2x.png"
+              event="Share Strata"
+              title="Sharing is Caring"
+              link="bit.ly/share-strata/hailey"
+            /> */}
             {/* <Grid className={s.section} division={2}>
               <CardTextContent
                 title="It’s been"
@@ -176,7 +165,7 @@ const Content: React.FC = () => {
             </Grid> */}
           </>
         ) : (
-          <LoaderPage />
+          <LoaderStatic />
         )}
       </div>
       <HomeSidebar className={s.sidebar} />
