@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import getLastMessage from 'src/helpers/utils/get-last-message'
+import formatLastMessage from 'src/helpers/utils/format-last-message'
 
 type State = { data: ListData[]; isLoading: boolean }
 type Action =
@@ -70,13 +72,39 @@ const PlaylistsProvider: React.FC = ({ children }) => {
         })
       )
 
+      const contactsIds = playlistsData.flatMap((item, index) => {
+        const contacts = contactsResp[index]
+        if (contacts) {
+          return Object.entries(contacts).map(([id]) => id)
+        }
+
+        return []
+      })
+      const lastMessages = await get.getLastEmails(contactsIds)
+
       const playlistsWithContacts = playlistsData.map((item, index) => {
         let newItem = item
-        newItem.contacts = contactsResp[index]
-          ? Object.entries(contactsResp[index]).map(([id, contact]) =>
-              formatContactData(contact as any, id)
-            )
-          : []
+
+        const contacts = contactsResp[index]
+        if (contacts) {
+          const formattedData = Object.entries(contacts).map(
+            ([id, contact]) => {
+              const contactData = formatContactData(contact as any, id)
+
+              const lastMessage = getLastMessage(lastMessages[id])
+              const contactLastMessage = formatLastMessage(lastMessage)
+
+              return {
+                ...contactData,
+                ...contactLastMessage,
+              }
+            }
+          )
+
+          newItem.contacts = formattedData
+        } else {
+          newItem.contacts = []
+        }
 
         return newItem
       })

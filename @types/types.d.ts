@@ -36,6 +36,18 @@ type SendMessageData = {
   reply_to_contact_list?: MessageList[]
 }
 
+type MessageData = {
+  message_id?: string
+  account_id?: string
+  thread_id?: string
+  timestamp?: number
+  from_address?: string
+  to_addresses?: string
+  labels?: string[]
+  subject?: string
+  body?: string
+}
+
 type SendMessageField =
   | 'body'
   | 'subject'
