@@ -16,10 +16,15 @@ type Props = {
   data: MainUserData
 }
 
-const getPrimaryEmail = (data: MainUserData) =>
-  data?.primaryEmail?.data
-    ? data?.primaryEmail.data
-    : data?.syncedEmails && data?.syncedEmails[0]
+const getPrimaryEmailValue = (data: MainUserData) => {
+  if (data.emails && data.emails.length > 0) {
+    return (
+      data.emails.find((item) => item.meta.type === 'primary')?.data ||
+      data.emails[0].data
+    )
+  }
+  return ''
+}
 
 const Profile: React.FC<Props> = ({ className, data }) => {
   const { updateUserData } = useClient()
@@ -37,22 +42,44 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         initialValues={{
           profileFirstName: names ? names[0] : '',
           profileLastName: names ? names[1] : '',
-          profileEmail: getPrimaryEmail(data),
+          profileEmail: getPrimaryEmailValue(data),
           profileCompany: data.company,
           profileTitle: data.title,
           profilePhone: data.phone,
         }}
         validationSchema={CreateProfileSchema}
         onSubmit={(values, { setSubmitting }) => {
+          const currentEmailData = data.emails?.find(
+            (item) => item.data === values.profileEmail
+          )
+          const primaryEmailData = data.emails?.find(
+            (item) => item.meta.type === 'primary'
+          )
+
+          const emails = []
+          if (currentEmailData) {
+            emails.push({
+              ...currentEmailData,
+              meta: {
+                ...currentEmailData?.meta,
+                type: 'primary',
+              },
+            })
+          }
+          if (primaryEmailData) {
+            emails.push({
+              ...primaryEmailData,
+              meta: {
+                ...primaryEmailData?.meta,
+                type: null,
+              },
+            })
+          }
+
           const newValue = [
             {
               type: 'name',
               data: [values.profileFirstName, values.profileLastName],
-              review: 1,
-            },
-            {
-              type: 'primaryEmail',
-              data: values.profileEmail || '',
               review: 1,
             },
             {
@@ -70,17 +97,13 @@ const Profile: React.FC<Props> = ({ className, data }) => {
               data: values.profilePhone || '',
               review: 1,
             },
+            ...emails,
           ]
 
           const previousValue = [
             {
               type: 'name',
               data: data.name?.split(' '),
-              review: 2,
-            },
-            {
-              type: 'primaryEmail',
-              data: data.primaryEmail?.data,
               review: 2,
             },
             {
@@ -148,56 +171,58 @@ const Profile: React.FC<Props> = ({ className, data }) => {
               <div className={s.row}>
                 <div className={classNames(s.field, s.email, s.smallField)}>
                   <Field name="profileEmail">
-                    {({ field, form }: FieldProps) =>
-                      data?.syncedEmails && (
-                        <Selector
-                          value={
-                            data?.primaryEmail?.data
-                              ? {
-                                  value: data.primaryEmail.data as string,
-                                  label: data.primaryEmail.data as string,
-                                }
-                              : null
-                          }
-                          name={field.name}
-                          handler={(option) =>
-                            form.setFieldValue(field.name, option.value)
-                          }
-                          styles={{
-                            valueContainer: {
-                              padding: '16px 21px',
-                            },
-                            option: {
-                              borderRadius: 5,
-                              padding: '12px 18px 15px 18px',
-                              marginBottom: 6,
-                              boxShadow:
-                                '0px 1px 1px 0px rgba(34, 34, 34, 0.0989), 0px 4px 8px 0px rgba(0, 0, 0, 0.1199)',
-                            },
-                            menu: {
-                              width: 275,
-                              padding: '18px 13px 19px 21px',
-                              '&:before': {
-                                position: 'absolute',
-                                content: '"Synced emails"',
-                                fontWeight: 800,
-                                fontSize: 14,
+                    {({ field, form }: FieldProps) => {
+                      return (
+                        data?.emails && (
+                          <Selector
+                            value={
+                              field.value
+                                ? {
+                                    value: field.value,
+                                    label: field.value,
+                                  }
+                                : null
+                            }
+                            name={field.name}
+                            handler={(option) =>
+                              form.setFieldValue(field.name, option.value)
+                            }
+                            styles={{
+                              valueContainer: {
+                                padding: '16px 21px',
                               },
-                            },
-                            menuList: {
-                              marginTop: 30,
-                              padding: 0,
-                              overflowY: 'visible',
-                            },
-                          }}
-                          options={data?.syncedEmails.map((item: string) => ({
-                            value: item,
-                            label: item,
-                          }))}
-                          label="Email"
-                        />
+                              option: {
+                                borderRadius: 5,
+                                padding: '12px 18px 15px 18px',
+                                marginBottom: 6,
+                                boxShadow:
+                                  '0px 1px 1px 0px rgba(34, 34, 34, 0.0989), 0px 4px 8px 0px rgba(0, 0, 0, 0.1199)',
+                              },
+                              menu: {
+                                width: 275,
+                                padding: '18px 13px 19px 21px',
+                                '&:before': {
+                                  position: 'absolute',
+                                  content: '"Synced emails"',
+                                  fontWeight: 800,
+                                  fontSize: 14,
+                                },
+                              },
+                              menuList: {
+                                marginTop: 30,
+                                padding: 0,
+                                overflowY: 'visible',
+                              },
+                            }}
+                            options={data.emails.map((item) => ({
+                              value: item.data as string,
+                              label: item.data as string,
+                            }))}
+                            label="Email"
+                          />
+                        )
                       )
-                    }
+                    }}
                   </Field>
                 </div>
                 <Field name="profilePhone">

@@ -1,6 +1,4 @@
 import * as React from 'react'
-import testTemplates from 'src/testTemplates.json'
-import findTemplate from 'src/helpers/utils/find-template'
 import ComposeModal from '../shared-ui/modals/ComposeModal'
 import ComposeModalMulti from '../shared-ui/modals/ComposeModalMulti'
 import ModalPinnedContacts from '../shared-ui/modals/ModalPinnedContacts'
