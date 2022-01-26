@@ -5,6 +5,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { useDebounce } from 'use-debounce/lib'
 import { get } from 'src/api/requests'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import getLastMessage from 'src/helpers/utils/get-last-message'
 import formatLastMessage from 'src/helpers/utils/format-last-message'
 
 import { isArray, debounce } from 'lodash'
@@ -31,14 +32,6 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
     get.getContactsMutable().then(async (res) => {
       const ids = Object.entries(res).map(([id]) => id)
       const lastMessages = await get.getLastEmails(ids)
-
-      const getLastMessage = (messages: any) => {
-        if (!messages) return {}
-        if (messages.length === 0) return {}
-
-        const lastMessage = messages[0]
-        return lastMessage
-      }
 
       const formattedData = Object.entries(res).map(([id, contact]) => {
         const contactData = formatContactData(contact, id)

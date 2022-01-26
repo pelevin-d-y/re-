@@ -12,7 +12,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { formatTime } from 'src/helpers/utils/parseTime'
+import { formatDate } from 'src/helpers/utils/parseTime'
 import { post } from 'src/api'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
@@ -75,10 +75,10 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
         accessor: 'last_client_text',
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
-            {/* <div className={s.lastData}>
-              {formatTime(row.original.last_client_time)}
-            </div> */}
-            <div>{row.original.last_client_text}</div>
+            <div className={s.lastData}>
+              {formatDate(row.original.last_client_time)}
+            </div>
+            <div>{row.original.last_contact_message_text}</div>
           </div>
         ),
       },

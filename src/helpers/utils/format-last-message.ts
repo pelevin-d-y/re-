@@ -1,4 +1,4 @@
-type Data = SendMessageData
+type Data = MessageData
 
 const types = [
   'message_id',
@@ -22,7 +22,7 @@ const formatLastMessage = (data: Data): any => {
   const parsedContact: any = {
     last_client_text: data.subject,
     last_contact_message_text: data.body,
-    // last_client_time: parseDate(lastMessage.timestamp),
+    last_client_time: data.timestamp ? new Date(data.timestamp * 1000) : null,
   }
 
   return parsedContact
