@@ -176,7 +176,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
               <Checkbox {...getToggleAllRowsSelectedProps()} />
             </div>
           ),
-          Cell: ({ row }: any) => (
+          Cell: ({ row }) => (
             <div className={s.cellCheckbox}>
               <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
             </div>
@@ -188,12 +188,14 @@ const Table: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    setSelectedUsers(selectedFlatRows.map((item) => item.original as any))
+    setSelectedUsers(
+      selectedFlatRows.map((item) => item.original as FormattedContact)
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 
   const removeUser = useCallback(
-    async (e: React.MouseEvent, userData: any) => {
+    async (e: React.MouseEvent, userData) => {
       e.stopPropagation()
       await removeUsers(data.playlist_id, [userData])
       await getPlaylistData(data.playlist_id)

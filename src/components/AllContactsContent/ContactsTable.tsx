@@ -166,7 +166,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
               <Checkbox {...getToggleAllRowsSelectedProps()} />
             </div>
           ),
-          Cell: ({ row }: any) => (
+          Cell: ({ row }) => (
             <div className={s.cellCheckbox}>
               <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
             </div>
@@ -178,7 +178,9 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    setSelectedUsers(selectedFlatRows.map((item) => item.original as any))
+    setSelectedUsers(
+      selectedFlatRows.map((item) => item.original as FormattedContact)
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

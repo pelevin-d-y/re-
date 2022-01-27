@@ -42,11 +42,11 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
 
           if (excludedUserIds.length > 0) {
             const contactsResp = await get.getContactsMutable(
-              excludedUserIds.map((item: any) => item)
+              excludedUserIds.map((item) => item)
             )
 
             formattedContacts = Object.entries(contactsResp).map(
-              ([id, contact]) => formatContactData(contact as any, id)
+              ([id, contact]) => formatContactData(contact, id)
             )
           }
 
