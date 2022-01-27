@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { useDebounce } from 'use-debounce/lib'
 import { get } from 'src/api/requests'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import getLastMessage from 'src/helpers/utils/get-last-message'
 import formatLastMessage from 'src/helpers/utils/format-last-message'
 
 import { isArray, debounce } from 'lodash'
+import { getName } from 'src/helpers/utils/get-name'
 import SectionHeader from '../shared-ui/SectionHeader'
 import Search from '../shared-ui/Search'
 import { LoaderStatic } from '../shared-ui/Loader'
@@ -54,7 +54,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
     if (mutableData) {
       const results = mutableData.filter((item: FormattedContact) => {
         return (
-          item?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+          getName(item)?.toLowerCase().includes(searchText.toLowerCase()) ||
           (!isArray(item?.emails?.[0]?.data) &&
             item?.emails?.[0]?.data
               ?.toLowerCase()

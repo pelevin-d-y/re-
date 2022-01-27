@@ -6,6 +6,7 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Close from 'src/components/shared-ui/Close'
 import { useClient } from 'src/components/context/ClientContext'
 import ThreadItem from './ThreadItem'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -45,7 +46,12 @@ const PopoverThread: React.FC<Props> = ({ className, data, buttonText }) => {
                 state &&
                 [data].map((item) => (
                   <li className={s.item} key={item.address}>
-                    <ThreadItem data={item} clientName={state.data?.name} />
+                    {state.data && (
+                      <ThreadItem
+                        data={item}
+                        clientName={getName(state.data)}
+                      />
+                    )}
                   </li>
                 ))}
             </ul>

@@ -11,6 +11,7 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
 import testTemplates from 'src/testTemplates.json'
+import { getName } from 'src/helpers/utils/get-name'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
 
@@ -76,8 +77,8 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const { state: popupState, dispatch: popupDispatch } = usePopup()
   const { dataMulti } = popupState
 
-  const clientName = clientState.data?.shortName || clientState.data?.name
-  const contactName = data.name
+  const clientName = clientState.data && getName(clientState.data)
+  const contactName = getName(data)
 
   const addressTo = data?.address || data.emails[0]?.data
 
@@ -151,7 +152,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     if (updatedUsers) {
       popupDispatch({
         type: 'UPDATE_COMPOSE_MULTI_DATA',
-        payload: updatedUsers,
+        payload: updatedUsers as any,
       })
     }
   }

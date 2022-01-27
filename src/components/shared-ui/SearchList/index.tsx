@@ -10,7 +10,7 @@ import { LoaderAbsolute } from '../Loader'
 type Props = {
   className?: string
   data: ListData
-  user: RecommendationUser
+  user: RecommendationUser | FormattedContact
 }
 
 const SearchList: React.FC<Props> = ({

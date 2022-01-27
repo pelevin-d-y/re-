@@ -172,11 +172,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    setSelectedUsers(
-      selectedFlatRows.map(
-        (item) => item.original as RecommendationUser | FormattedContact
-      )
-    )
+    setSelectedUsers(selectedFlatRows.map((item) => item.original as any))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

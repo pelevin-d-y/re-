@@ -2,12 +2,13 @@ import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import { getName } from 'src/helpers/utils/get-name'
 import CardList from '../shared-ui/cards/CardList'
 import PopoverAddList from '../shared-ui/popover/PopoverAddList'
 
 type Props = {
   className?: string
-  data: RecommendationUser
+  data: RecommendationUser | FormattedContact
 }
 
 type CardsStructure = {
@@ -53,7 +54,7 @@ const ContactLists: React.FC<Props> = ({ className, data }) => {
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <div className={s.text}>Current lists {data?.name} is in:</div>
+        <div className={s.text}>Current lists {getName(data)} is in:</div>
         <PopoverAddList className={s.add} user={data} lists={lists} />
       </div>
       <div className={s.list}>

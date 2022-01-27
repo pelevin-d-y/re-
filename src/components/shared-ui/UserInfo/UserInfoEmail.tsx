@@ -25,7 +25,10 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
   )
 
   const primaryEmail = useMemo(
-    () => data?.find((item) => item.meta.type === 'primary') || emails[0],
+    () =>
+      data?.find(
+        (item) => item.type === 'email' && item.meta.type === 'primary'
+      ) || emails[0],
     [data, emails]
   )
 
