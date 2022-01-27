@@ -27,7 +27,6 @@ const getPrimaryEmailValue = (data: MainUserData) => {
 }
 
 const Profile: React.FC<Props> = ({ className, data }) => {
-  console.log('🚀 ~ file: PersonalizationProfile.tsx ~ line 30 ~ data', data)
   const { updateUserData } = useClient()
   const CreateProfileSchema = Yup.object().shape({
     profileFirstName: Yup.string().max(100, 'Too Long!').required('Required'),
