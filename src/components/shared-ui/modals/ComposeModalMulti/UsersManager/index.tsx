@@ -43,11 +43,11 @@ const UsersManager: React.FC<Props> = ({
 
   useEffect(() => {
     if (selectedContacts) {
-      const results = selectedContacts.filter(
-        (item: FormattedContact | RecommendationUser) => {
-          return item?.name?.toLowerCase().includes(searchText.toLowerCase())
-        }
-      )
+      const results = (
+        selectedContacts as Array<RecommendationUser | FormattedContact>
+      ).filter((item: FormattedContact | RecommendationUser) => {
+        return item?.name?.toLowerCase().includes(searchText.toLowerCase())
+      })
       setSearchResults(results)
     }
   }, [selectedContacts, searchText])
