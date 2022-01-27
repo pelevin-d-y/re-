@@ -4,6 +4,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -35,7 +36,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
         <div className={s.info}>
           {withAvatar && <Avatar className={s.avatar} image={getAvatarUrl()} />}
           <div className={s.profileInfo}>
-            <div className={s.name}>{data.name}</div>
+            <div className={s.name}>{getName(data)}</div>
           </div>
         </div>
         <div className={s.lastMessage}>

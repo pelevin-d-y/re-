@@ -98,20 +98,21 @@ type RecommendationUser = {
 
 type ContactMutable = {
   type: string
-  data: string[] | string
+  data: any
   review: number
   meta: any
 }
 
 type MainUserData = {
+  name?: ContactMutable
+  names?: ContactMutable[]
   emails?: ContactMutable[]
   authData?: Record<string, number>
   authUrls?: Record<string, string>
   syncedEmails?: string[]
   primaryEmail?: ContactMutable
   shortName?: string
-  name?: string
-  strataEmail?: string
+
   avatar?: string
   contacts?: RecommendationUser[]
   company?: string
@@ -122,8 +123,8 @@ type MainUserData = {
 type FormattedContact = {
   emails?: ContactMutable[]
   shortName?: string
-  name?: string
-  strataEmail?: string
+  name?: ContactMutable
+  names?: ContactMutable[]
   avatar?: string
   contact_id: string
   Notes?: string

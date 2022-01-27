@@ -49,7 +49,7 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData }) => {
       try {
         setIsLoading(true)
         const ids = await getUserIds()
-        let usersData = []
+        let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
         if (ids && ids.length > 0) {
           const mutableData = await get.getContactsMutable(ids)
           usersData = Object.entries(mutableData).map(([id, contact]) =>

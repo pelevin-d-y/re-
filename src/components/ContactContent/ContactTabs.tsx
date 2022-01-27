@@ -33,9 +33,7 @@ const ContactTabs: React.FC<Props> = ({
         <TabPanel>
           <ContactNextSteps />
         </TabPanel>
-        <TabPanel>
-          <ContactLists data={data} />
-        </TabPanel>
+        <TabPanel>{data && <ContactLists data={data} />}</TabPanel>
         <TabPanel>
           <TabNotes updateData={updateData} mutableData={mutableData} />
         </TabPanel>
