@@ -46,9 +46,9 @@ const UsersManager: React.FC<Props> = ({
       const results = (
         selectedContacts as Array<RecommendationUser | FormattedContact>
       ).filter((item: FormattedContact | RecommendationUser) => {
-        return item?.name?.toLowerCase().includes(searchText.toLowerCase())
+        return getName(item).toLowerCase().includes(searchText.toLowerCase())
       })
-      setSearchResults(results)
+      setSearchResults(results as RecommendationUser[] | FormattedContact[])
     }
   }, [selectedContacts, searchText])
 
