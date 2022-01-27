@@ -10,13 +10,12 @@ import {
   useRowState,
   useSortBy,
   useTable,
-  UseTableRowProps,
 } from 'react-table'
-
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
+import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import UserHeader from '../shared-ui/UserHeader'
@@ -31,12 +30,11 @@ type Props = {
 const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
-
-  const columns: Array<Column> = useMemo(
+  const columns: Column<any>[] = useMemo(
     () => [
       {
         Header: 'Contact',
-        id: 'Contact',
+        accessor: 'name',
         minWidth: 200,
         Cell: ({ row }: Cell<RecommendationUser>) => (
           <div className={s.cellName}>
@@ -46,6 +44,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             </div>
           </div>
         ),
+        sortType: customSortType(),
       },
       {
         Header: 'Last Outreach',
@@ -56,6 +55,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             {row.original.last_contact_message_text}
           </div>
         ),
+        disableSortBy: true,
       },
       {
         Header: 'Next Steps',
@@ -70,6 +70,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             )}
           />
         ),
+        disableSortBy: true,
       },
       {
         id: 'button',
@@ -110,12 +111,14 @@ const Table: React.FC<Props> = ({ className, data }) => {
       hooks.visibleColumns.push((hookColumns) => [
         {
           id: 'selection',
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <div className={s.headerCheckbox}>
+              <Checkbox {...getToggleAllRowsSelectedProps()} />
+            </div>
+          ),
           Cell: ({ row }: any) => (
             <div className={s.cellCheckbox}>
-              <Checkbox
-                className={s.checkbox}
-                {...row.getToggleRowSelectedProps()}
-              />{' '}
+              <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
             </div>
           ),
         },
