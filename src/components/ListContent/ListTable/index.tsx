@@ -20,6 +20,7 @@ import { formatTime } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { post } from 'src/api'
 import EditField from 'src/components/shared-ui/EditField'
+import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -78,6 +79,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             <PopoverUserInfo className={s.name} data={row.original} />
           </div>
         ),
+        sortType: customSortType(),
       },
       // {
       //   Header: 'Title',
@@ -93,6 +95,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         Header: 'Last outreach',
         accessor: 'last_client_text',
         maxWidth: 100,
+        disableSortBy: true,
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
             <div className={s.lastMessage}>Last message</div>
@@ -108,6 +111,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Next steps',
         minWidth: 250,
+        disableSortBy: true,
         Cell: ({ value, row }) => (
           <div className={classNames(s.cellContent)}>
             <div className={s.nextSteps}>Placeholder</div>
@@ -117,6 +121,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Notes',
         accessor: 'Playlist_Notes',
+        disableSortBy: true,
         Cell: ({ value, row }) => {
           const currentPlaylistValue =
             value.filter(

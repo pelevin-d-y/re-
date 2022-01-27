@@ -6,7 +6,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import Search from 'src/components/shared-ui/Search'
 import { getName } from 'src/helpers/utils/get-name'
-import { debounce, isArray } from 'lodash'
+import { debounce } from 'lodash'
 import MessageStatus from './MessageStatus'
 
 type Props = {

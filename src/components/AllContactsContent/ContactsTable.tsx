@@ -19,6 +19,7 @@ import { post } from 'src/api'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
+import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Img from '../shared-ui/Img'
@@ -61,6 +62,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
             <PopoverUserInfo className={s.name} data={row.original} />
           </div>
         ),
+        sortType: customSortType(),
       },
       // {
       //   Header: 'Title',
@@ -75,6 +77,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',
+        disableSortBy: true,
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
             <div className={s.lastData}>
@@ -86,6 +89,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
       },
       {
         Header: 'Next steps',
+        disableSortBy: true,
         Cell: ({ value, row }) => (
           <div className={s.cellContent}>
             <div>Placeholder</div>
@@ -95,6 +99,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Notes',
         accessor: 'Notes',
+        disableSortBy: true,
         Cell: ({ value, row }) => {
           const [currentValue, setCurrentValue] = useState(value)
 
@@ -116,6 +121,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
       },
       {
         accessor: 'edit',
+        disableSortBy: true,
         Cell: ({ value, row }) => (
           <div className={s.cellButton}>
             <button
