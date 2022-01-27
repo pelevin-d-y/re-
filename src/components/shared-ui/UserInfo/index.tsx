@@ -16,25 +16,27 @@ type Props = {
 }
 
 const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
+  const nameData =
+    mutableData?.find((item) => {
+      return item.type === 'name' && item.meta.type === 'primary'
+    }) || mutableData?.find((item) => item.type === 'name')
   const onSaveName = (val: string) => {
-    const contactItem = mutableData?.find((item) => item.type === 'name')
-
-    if (contactItem) {
-      updateData([{ ...contactItem, data: val.split(' ') }], [contactItem])
-    } else {
-      updateData([
-        {
-          ...getBaseMutableData({ data: val.split(' '), type: 'name' }),
-        },
-      ])
+    if (nameData) {
+      updateData(
+        [
+          {
+            ...nameData,
+            data: val.split(' '),
+            meta: {
+              ...nameData.meta,
+              type: 'primary',
+            },
+          },
+        ],
+        [{ ...nameData, review: 2 }]
+      )
     }
   }
-
-  const name = (
-    mutableData?.find((item) => item.type === 'name')?.data as
-      | string[]
-      | undefined
-  )?.join(' ')
 
   return (
     <div className={classNames(s.container, className)}>
@@ -51,7 +53,7 @@ const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
           </div>
           <EditField
             type="text"
-            value={name || ''}
+            value={nameData?.data.join(' ') || ''}
             classPrefix="profile-card-"
             onSave={(val: string) => onSaveName(val)}
           />

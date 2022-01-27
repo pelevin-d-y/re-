@@ -14,7 +14,7 @@ type Props = {
   data: FormattedContact
 }
 
-const UpcomingItem: React.FC<Props> = ({ data, className }) => {
+const CalendarItem: React.FC<Props> = ({ data, className }) => {
   const { dispatch } = usePopup()
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
@@ -118,4 +118,4 @@ const s = css`
   }
 `
 
-export default UpcomingItem
+export default CalendarItem

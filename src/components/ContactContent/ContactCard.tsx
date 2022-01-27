@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import { getName } from 'src/helpers/utils/get-name'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
@@ -34,10 +35,12 @@ const ContactCard: React.FC<Props> = ({
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <Avatar className={s.avatar} image={formattedData.avatar} />
+        <Avatar className={s.avatar} image={formattedData?.avatar} />
         <div className={s.headerInfo}>
-          <div className={s.name}>{formattedData?.name}</div>
-          {formattedData.templateData ? (
+          <div className={s.name}>
+            {formattedData && getName(formattedData)}
+          </div>
+          {/* {formattedData?.templateData ? (
             <UserHeader
               className={s.message}
               text={parseMessage(
@@ -45,7 +48,7 @@ const ContactCard: React.FC<Props> = ({
                 formattedData.name
               )}
             />
-          ) : null}
+          ) : null} */}
         </div>
         <div className={s.actions}>
           <PopoverDots className={s.dots} variant="outlined" />

@@ -14,24 +14,34 @@ const types = [
   'Playlist_Notes',
 ]
 
-const formatContactData = (data: Data, id?: string): any => {
+const formatContactData = (data: Data, id?: string): FormattedContact => {
   data.forEach((item) => {
     if (!types.includes(item.type)) {
       console.warn(`unexpected type from mutable API ${item.type}`)
     }
   })
 
+  // Names
+  const name =
+    data.find((item) => {
+      return item.type === 'name' && item.meta.type === 'primary'
+    }) || data.find((item) => item.type === 'name')
+
+  const names = data.filter((item) => item.type === 'name')
+
+  // Emails
   const emails = data.flatMap((item: any) =>
     item.type === 'email' ? item : []
   )
+  const primaryEmail = data.find((item) => item.meta.type === 'primary')
+
   const parsedContact: any = {
+    names,
+    name,
     emails,
-    primaryEmail: data.find((item) => item.meta.type === 'primary'),
+    primaryEmail,
     shortName: data.flatMap((item: any) =>
       item.type === 'name_short' ? item.data : []
-    )[0],
-    name: data.flatMap((item: any) =>
-      item.type === 'name' ? item.data.join(' ') : []
     )[0],
     avatar: data.flatMap((item: any) =>
       item.type === 'image' ? item.meta.cached : []

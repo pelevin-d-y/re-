@@ -12,7 +12,7 @@ import SearchList from '../../SearchList'
 
 type Props = {
   className?: string
-  user: RecommendationUser
+  user: RecommendationUser | FormattedContact
   lists: ListData[]
 }
 

@@ -27,6 +27,7 @@ const getPrimaryEmailValue = (data: MainUserData) => {
 }
 
 const Profile: React.FC<Props> = ({ className, data }) => {
+  console.log('🚀 ~ file: PersonalizationProfile.tsx ~ line 30 ~ data', data)
   const { updateUserData } = useClient()
   const CreateProfileSchema = Yup.object().shape({
     profileFirstName: Yup.string().max(100, 'Too Long!').required('Required'),
@@ -34,7 +35,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
   })
 
   const { name } = data
-  const names = name?.split(' ')
+  const names = name?.data
 
   return (
     <div className={classNames(className, s.container)}>
@@ -78,9 +79,12 @@ const Profile: React.FC<Props> = ({ className, data }) => {
 
           const newValue = [
             {
-              type: 'name',
+              ...data.name,
               data: [values.profileFirstName, values.profileLastName],
-              review: 1,
+              meta: {
+                ...data.name?.meta,
+                type: 'primary',
+              },
             },
             {
               type: 'company',
@@ -102,8 +106,7 @@ const Profile: React.FC<Props> = ({ className, data }) => {
 
           const previousValue = [
             {
-              type: 'name',
-              data: data.name?.split(' '),
+              ...data.name,
               review: 2,
             },
             {
