@@ -118,10 +118,6 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
           payload: mainUserData,
         })
 
-        if (mainUserData.authData) {
-          setAuthUrlsData(mainUserData.authData)
-        }
-
         updateIsLoading(false)
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -130,7 +126,13 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     }
 
     setClientData()
-  }, [setAuthUrlsData])
+  }, [])
+
+  React.useEffect(() => {
+    if (state.data?.authData) {
+      setAuthUrlsData(state.data.authData)
+    }
+  }, [setAuthUrlsData, state.data?.authData])
 
   const updateIsLoading = (value: boolean) => {
     dispatch({

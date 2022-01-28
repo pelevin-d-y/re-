@@ -34,8 +34,9 @@ const formatContactData = (data: Data, id?: string): FormattedContact => {
     item.type === 'email' ? item : []
   )
   const primaryEmail =
-    data.find((item) => item.meta.type === 'primary') ||
-    data.find((item) => item.type === 'email')
+    data.find(
+      (item) => item.type === 'email' && item.meta.type === 'primary'
+    ) || data.find((item) => item.type === 'email')
 
   // Notes
   const Notes =
