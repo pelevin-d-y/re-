@@ -12,26 +12,35 @@ type Props = {
 }
 
 const TabNotes: React.FC<Props> = ({ className, mutableData, updateData }) => {
-  const noteData = mutableData?.find((item) => item.type === 'Notes')
-
+  const primaryNote =
+    mutableData?.find(
+      (item) => item.type === 'Notes' && item.meta.type === 'primary'
+    ) || mutableData?.find((item) => item.type === 'Notes')
   return (
     <div className={classNames(className, s.container)}>
       <Formik
         initialValues={{
-          notes: noteData?.data || '',
+          notes: primaryNote?.data || '',
         }}
         onSubmit={(values, { setSubmitting }) => {
-          if (noteData) {
-            updateData([{ ...noteData, data: values.notes }], [noteData]).then(
-              () => setSubmitting(false)
-            )
+          if (primaryNote) {
+            updateData(
+              [
+                {
+                  ...primaryNote,
+                  data: values.notes,
+                  meta: { ...primaryNote?.meta, type: 'primary' },
+                },
+              ],
+              [{ ...primaryNote, review: 2 }]
+            ).then(() => setSubmitting(false))
           } else {
             updateData([
               {
                 data: values.notes,
                 review: 1,
                 type: 'Notes',
-                meta: {},
+                meta: { type: 'primary' },
               },
             ]).then(() => setSubmitting(false))
           }

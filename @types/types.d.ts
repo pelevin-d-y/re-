@@ -125,9 +125,10 @@ type FormattedContact = {
   shortName?: string
   name?: ContactMutable
   names?: ContactMutable[]
+  allNotes?: ContactMutable[]
   avatar?: string
   contact_id: string
-  Notes?: string
+  Notes?: ContactMutable
   Status?: string
 }
 
