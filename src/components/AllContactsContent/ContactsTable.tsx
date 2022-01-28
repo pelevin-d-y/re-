@@ -15,7 +15,7 @@ import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { formatDate } from 'src/helpers/utils/parseTime'
-import { post } from 'src/api'
+import { apiHelpers, post } from 'src/api'
 import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
@@ -34,16 +34,38 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
   const router = useRouter()
+
   const updateUser = useCallback((userData: any) => {
-    const { newValue, previousValue } = formatDataForApi(
-      { Notes: userData.newNotes },
-      { Notes: userData.Notes }
-    )
-    const body = {
-      [userData.contact_id]: [...newValue, ...previousValue],
+    const defaultNote = {
+      type: 'Notes',
+      data: '',
+      review: 1,
+      meta: { type: 'primary' },
     }
 
-    return post.postContactsMutable(body)
+    if (userData.Notes) {
+      return apiHelpers.updateMutableData(
+        userData.contact_id,
+        [
+          {
+            ...userData.Notes,
+            data: userData.newNotes,
+            meta: {
+              type: 'primary',
+            },
+          },
+        ],
+        [
+          {
+            ...userData.Notes,
+            review: 2,
+          },
+        ]
+      )
+    }
+    return apiHelpers.updateMutableData(userData.contact_id, [
+      { ...defaultNote, data: userData.newNotes },
+    ])
   }, [])
 
   const columns: Column<any>[] = useMemo(
@@ -101,7 +123,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
         accessor: 'Notes',
         disableSortBy: true,
         Cell: ({ value, row }) => {
-          const [currentValue, setCurrentValue] = useState(value)
+          const [currentValue, setCurrentValue] = useState(value?.data)
 
           return (
             <EditField
@@ -113,7 +135,8 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
                 updateUser({
                   ...row.original,
                   newNotes: val,
-                }).catch(() => setCurrentValue(currentValue))
+                })
+                // .catch(() => setCurrentValue(currentValue))
               }}
             />
           )
@@ -166,7 +189,7 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
               <Checkbox {...getToggleAllRowsSelectedProps()} />
             </div>
           ),
-          Cell: ({ row }: any) => (
+          Cell: ({ row }) => (
             <div className={s.cellCheckbox}>
               <Checkbox {...row.getToggleRowSelectedProps()} />{' '}
             </div>
@@ -178,7 +201,9 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    setSelectedUsers(selectedFlatRows.map((item) => item.original as any))
+    setSelectedUsers(
+      selectedFlatRows.map((item) => item.original as FormattedContact)
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

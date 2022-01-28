@@ -128,7 +128,9 @@ const Table: React.FC<Props> = ({ className, data }) => {
   )
 
   useEffect(() => {
-    setSelectedUsers(selectedFlatRows.map((item) => item.original as any))
+    setSelectedUsers(
+      selectedFlatRows.map((item) => item.original as RecommendationUser)
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
 

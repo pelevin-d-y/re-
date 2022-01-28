@@ -33,13 +33,26 @@ const formatContactData = (data: Data, id?: string): FormattedContact => {
   const emails = data.flatMap((item: any) =>
     item.type === 'email' ? item : []
   )
-  const primaryEmail = data.find((item) => item.meta.type === 'primary')
+  const primaryEmail =
+    data.find(
+      (item) => item.type === 'email' && item.meta.type === 'primary'
+    ) || data.find((item) => item.type === 'email')
+
+  // Notes
+  const Notes =
+    data.find((item) => {
+      return item.type === 'Notes' && item.meta.type === 'primary'
+    }) || data.find((item) => item.type === 'Notes')
+
+  const allNotes = data.filter((item) => item.type === 'Notes')
 
   const parsedContact: any = {
     names,
     name,
     emails,
     primaryEmail,
+    Notes,
+    allNotes,
     shortName: data.flatMap((item: any) =>
       item.type === 'name_short' ? item.data : []
     )[0],
@@ -57,10 +70,6 @@ const formatContactData = (data: Data, id?: string): FormattedContact => {
     phone:
       data.flatMap((item: any) =>
         item.type === 'phone' ? item.data : []
-      )[0] || '',
-    Notes:
-      data.flatMap((item: any) =>
-        item.type === 'Notes' ? item.data : []
       )[0] || '',
     Playlist_Notes:
       data.flatMap((item: any) =>
