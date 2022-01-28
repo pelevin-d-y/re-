@@ -45,7 +45,7 @@ const PopoverRemoveCard: React.FC<Props> = ({
 
     post
       .postRecommendations({
-        [data.address]: {
+        [data.contact_id]: {
           Status: 'Declined',
           Notes: data?.Notes,
         },
