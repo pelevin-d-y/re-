@@ -201,7 +201,11 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     <CardContainer className={classNames(s.container, className)}>
       <>
         {data && (
-          <ModalEditorHeader data={state.bodyData} setValue={setValue} />
+          <ModalEditorHeader
+            data={state.bodyData}
+            name={data.name_short || getName(data)}
+            setValue={setValue}
+          />
         )}
         <ModalHtmlEditor
           className={s.editor}
