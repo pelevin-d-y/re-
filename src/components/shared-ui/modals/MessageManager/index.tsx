@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
@@ -104,7 +104,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
       : undefined
   }
 
-  const getSubject = () => {
+  const getSubject = useCallback(() => {
     if (data.templateData) {
       return data.templateData.Subject
     }
@@ -112,8 +112,9 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
       return parseMessage(data.message_template_subject, contactName)
     }
     return testTemplates[0].Subject
-  }
+  }, [contactName, data.message_template_subject, data.templateData])
 
+  // effect to set default value
   useEffect(() => {
     dispatch({
       type: 'updateBody',
@@ -131,12 +132,17 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
       },
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    addressTo,
-    contactName,
-    data.templateData,
-    clientState.data?.syncedEmails,
-  ])
+  }, [addressTo, contactName, clientState.data?.syncedEmails])
+
+  // effect to update subject if template is changed
+  useEffect(() => {
+    dispatch({
+      type: 'updateBody',
+      payload: {
+        subject: getSubject(),
+      },
+    })
+  }, [getSubject])
 
   const setConnectedUser = () => {
     const updatedUsers = dataMulti?.map((item) => {
