@@ -9,6 +9,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
 import { getName } from 'src/helpers/utils/get-name'
+import { useRouter } from 'next/router'
 import Tabs from './Tabs'
 
 type Props = {
@@ -19,7 +20,7 @@ type Props = {
 const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = usePopup()
   const [isOpen, setIsOpen] = useState(false)
-
+  const router = useRouter()
   const buttonHandler = () => {
     setIsOpen(false)
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
@@ -79,7 +80,16 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
               text={parseMessage(Summary, name)}
             /> */}
               <div className={s.actions}>
-                <PopoverDots variant="outlined" />
+                <PopoverDots
+                  variant="outlined"
+                  items={[
+                    {
+                      name: 'Manage',
+                      handler: () =>
+                        router.push(`/contact?id=${data.contact_id}`),
+                    },
+                  ]}
+                />
                 {/* <PopoverActions
                   variant="contained"
                   buttonClickHandler={buttonHandler}
