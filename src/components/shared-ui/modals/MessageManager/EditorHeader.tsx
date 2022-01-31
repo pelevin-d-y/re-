@@ -4,14 +4,21 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import TextareaAutosize from 'react-textarea-autosize'
 import Chips from 'src/components/shared-ui/Chips'
+import parseMessage from 'src/helpers/utils/parse-message'
 
 type Props = {
   className?: string
   data: SendMessageData
+  name?: string
   setValue: (field: SendMessageField, value: any) => void
 }
 
-const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
+const ModalEditorHeader: React.FC<Props> = ({
+  className,
+  data,
+  name,
+  setValue,
+}) => {
   const [isCc, setIsCc] = useState(false)
   const [isBcc, setIsBcc] = useState(false)
 
@@ -56,7 +63,7 @@ const ModalEditorHeader: React.FC<Props> = ({ className, data, setValue }) => {
       <div className={s.item}>
         <TextareaAutosize
           className={classNames(s.subject, s.textarea)}
-          defaultValue={data.subject}
+          defaultValue={data.subject && parseMessage(data.subject, '', name)}
           name="subject"
           onChange={(evt: React.FormEvent<HTMLTextAreaElement>) =>
             onChangeField(evt.currentTarget.value, 'subject')

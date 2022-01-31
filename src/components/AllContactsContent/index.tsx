@@ -32,7 +32,6 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
     get.getContactsMutable().then(async (res) => {
       const ids = Object.entries(res).map(([id]) => id)
       const lastMessages = await get.getLastEmails(ids)
-
       const formattedData = Object.entries(res).map(([id, contact]) => {
         const contactData = formatContactData(contact, id)
 
