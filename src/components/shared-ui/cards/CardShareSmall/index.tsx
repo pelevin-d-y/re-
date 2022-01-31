@@ -48,7 +48,7 @@ const CardShareSmall: React.FC<Props> = ({
         <Img className={s.img} img={image} alt="" />
       </div>
       <div className={s.actions}>
-        <Pin className={s.pin} />
+        {/* <Pin className={s.pin} /> */}
         <Button variant="contained" handler={openModalHandler}>
           {title}
         </Button>

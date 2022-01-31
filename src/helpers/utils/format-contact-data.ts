@@ -53,7 +53,7 @@ const formatContactData = (data: Data, id?: string): FormattedContact => {
     primaryEmail,
     Notes,
     allNotes,
-    shortName: data.flatMap((item: any) =>
+    name_short: data.flatMap((item: any) =>
       item.type === 'name_short' ? item.data : []
     )[0],
     avatar: data.flatMap((item: any) =>

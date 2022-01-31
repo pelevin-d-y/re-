@@ -48,7 +48,7 @@ const CardTextContent: React.FC<Props> = ({
         />
       )}
       <div className={s.actions}>
-        <Pin className={s.pin} />
+        {/* <Pin className={s.pin} /> */}
         <Button variant="outlined" handler={openModalHandler}>
           View List
         </Button>

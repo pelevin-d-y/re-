@@ -111,7 +111,7 @@ type MainUserData = {
   authUrls?: Record<string, string>
   syncedEmails?: string[]
   primaryEmail?: ContactMutable
-  shortName?: string
+  name_short?: string
 
   avatar?: string
   contacts?: RecommendationUser[]
@@ -122,7 +122,7 @@ type MainUserData = {
 
 type FormattedContact = {
   emails?: ContactMutable[]
-  shortName?: string
+  name_short?: string
   name?: ContactMutable
   names?: ContactMutable[]
   allNotes?: ContactMutable[]
