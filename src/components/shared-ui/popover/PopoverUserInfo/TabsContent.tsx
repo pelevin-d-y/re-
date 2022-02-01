@@ -13,6 +13,7 @@ type Props = {
   data: RecommendationUser | FormattedContact
   updateData: UpdateMutableData
   mutableData: ContactMutable[]
+  updateDataCallback?: () => void
 }
 
 const TabsContent: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const TabsContent: React.FC<Props> = ({
   data,
   mutableData,
   updateData,
+  updateDataCallback,
 }) => (
   <div className={classNames(s.container, className)}>
     <ReactTabs>
@@ -30,7 +32,11 @@ const TabsContent: React.FC<Props> = ({
         <Tab className={s.tabItem}>Notes</Tab>
       </TabList>
       <TabPanel>
-        <UserInfo mutableData={mutableData} updateData={updateData} />
+        <UserInfo
+          mutableData={mutableData}
+          updateData={updateData}
+          updateDataCallback={updateDataCallback}
+        />
         <div className={s.removeButtonContainer}>
           <Button className={s.removeButton} variant="outlined">
             Remove from Recommendations

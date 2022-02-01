@@ -4,8 +4,6 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { get } from 'src/api/requests'
 import formatContactData from 'src/helpers/utils/format-contact-data'
-import getLastMessage from 'src/helpers/utils/get-last-message'
-import formatLastMessage from 'src/helpers/utils/format-last-message'
 
 import { isArray, debounce } from 'lodash'
 import { getName } from 'src/helpers/utils/get-name'
@@ -27,27 +25,28 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
   const [searchText, setSearchText] = useState<string>('')
   const [searchResults, setSearchResults] = useState<FormattedContact[]>([])
 
-  useEffect(() => {
-    setLoading(true)
-    get.getContactsMutable().then(async (res) => {
-      // const ids = Object.entries(res).map(([id]) => id)
-      // const lastMessages = await get.getLastEmails(ids)
-      const lastMessages = [] as any
+  const fetchData = async () => {
+    return get.getContactsMutable().then(async (res) => {
       const formattedData = Object.entries(res).map(([id, contact]) => {
         const contactData = formatContactData(contact, id)
 
-        const lastMessage = getLastMessage(lastMessages[id])
-        const contactLastMessage = formatLastMessage(lastMessage)
-
-        return {
-          ...contactData,
-          ...contactLastMessage,
-        }
+        return contactData
       })
-
       setMutableData(formattedData)
-      setLoading(false)
     })
+  }
+
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      try {
+        setLoading(true)
+        await fetchData()
+        setLoading(false)
+      } catch (err) {
+        console.log('AllContactsContent fetchDataAsync err ==>', err)
+      }
+    }
+    fetchDataAsync()
   }, [])
 
   useEffect(() => {
@@ -97,7 +96,9 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
             />
             <TableActions className={s.actions} buttons={['contact']} />
           </div>
-          {searchResults && <ContactsTable data={searchResults} />}
+          {searchResults && (
+            <ContactsTable data={searchResults} fetchData={fetchData} />
+          )}
         </div>
       </CardContainer>
     )
