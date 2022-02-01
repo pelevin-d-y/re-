@@ -13,9 +13,15 @@ type Props = {
   className?: string
   mutableData?: ContactMutable[]
   updateData: UpdateMutableData
+  updateDataCallback?: () => void
 }
 
-const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
+const UserInfo: React.FC<Props> = ({
+  className,
+  mutableData,
+  updateData,
+  updateDataCallback,
+}) => {
   const nameData =
     mutableData?.find((item) => {
       return item.type === 'name' && item.meta.type === 'primary'
@@ -34,7 +40,8 @@ const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
             },
           },
         ],
-        [{ ...nameData, review: 2 }]
+        [{ ...nameData, review: 2 }],
+        updateDataCallback
       )
     }
   }

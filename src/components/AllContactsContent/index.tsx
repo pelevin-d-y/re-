@@ -4,8 +4,6 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { get } from 'src/api/requests'
 import formatContactData from 'src/helpers/utils/format-contact-data'
-import getLastMessage from 'src/helpers/utils/get-last-message'
-import formatLastMessage from 'src/helpers/utils/format-last-message'
 
 import { isArray, debounce } from 'lodash'
 import { getName } from 'src/helpers/utils/get-name'
@@ -98,7 +96,9 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
             />
             <TableActions className={s.actions} buttons={['contact']} />
           </div>
-          {searchResults && <ContactsTable data={searchResults} />}
+          {searchResults && (
+            <ContactsTable data={searchResults} fetchData={fetchData} />
+          )}
         </div>
       </CardContainer>
     )

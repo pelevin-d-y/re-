@@ -17,6 +17,7 @@ type Props = {
   buttonHandler: () => void
   updateData: UpdateMutableData
   mutableData: ContactMutable[]
+  updateDataCallback?: () => void
 }
 
 const PopupContent: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const PopupContent: React.FC<Props> = ({
   buttonHandler,
   mutableData,
   updateData,
+  updateDataCallback,
 }) => {
   const router = useRouter()
   const formattedMutableData = formatContactData(mutableData)
@@ -96,6 +98,7 @@ const PopupContent: React.FC<Props> = ({
           data={data}
           mutableData={mutableData}
           updateData={updateData}
+          updateDataCallback={updateDataCallback}
         />
       )}
     </CardContainer>

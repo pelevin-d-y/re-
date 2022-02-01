@@ -27,9 +27,10 @@ import CellLastMessage from '../shared-ui/Table/CellLastMessage'
 type Props = {
   className?: string
   data: FormattedContact[]
+  fetchData: () => void
 }
 
-const ContactsTable: React.FC<Props> = ({ className, data }) => {
+const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
   const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
   const router = useRouter()
@@ -80,7 +81,11 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
               image={row.original.avatar}
               strength={row.original.relationshipStrength}
             />
-            <PopoverUserInfo className={s.name} data={row.original} />
+            <PopoverUserInfo
+              className={s.name}
+              data={row.original}
+              updateDataCallback={fetchData}
+            />
           </div>
         ),
         sortType: customSortType(),

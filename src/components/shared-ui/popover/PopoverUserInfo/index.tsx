@@ -10,9 +10,14 @@ import PopupWithMutableData from './PopupWithMutableData'
 type Props = {
   className?: string
   data: RecommendationUser | FormattedContact
+  updateDataCallback?: () => void
 }
 
-const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
+const PopoverUserInfo: React.FC<Props> = ({
+  className,
+  data,
+  updateDataCallback,
+}) => {
   const { dispatch } = usePopup()
   const [isOpen, setIsOpen] = useState(false)
   const buttonHandler = () => {
@@ -40,7 +45,11 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
           </div>
         }
         popupContent={
-          <PopupWithMutableData data={data} buttonHandler={buttonHandler} />
+          <PopupWithMutableData
+            data={data}
+            buttonHandler={buttonHandler}
+            updateDataCallback={updateDataCallback}
+          />
         }
       />
     </div>

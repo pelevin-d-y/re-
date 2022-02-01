@@ -10,7 +10,8 @@ type GenericType<GT> = Omit<GT, 'mutableData' | 'updateData' | 'id'>
 
 export type UpdateMutableData = (
   val: ContactMutable[],
-  prevVal?: ContactMutable[] | undefined
+  prevVal?: ContactMutable[] | undefined,
+  callback?: () => void
 ) => Promise<void>
 
 const HOCUpdateMutableData = <T,>({
@@ -29,11 +30,15 @@ const HOCUpdateMutableData = <T,>({
 
   const updateMutableData = async (
     newVal: ContactMutable[],
-    prevVal?: ContactMutable[]
+    prevVal?: ContactMutable[],
+    callback?: () => void
   ) => {
     try {
       await apiHelpers.updateMutableData(id, newVal, prevVal)
       const contactMutableRes = await get.getContactsMutable([id])
+      if (callback) {
+        callback()
+      }
       setMutableData(Object.values(contactMutableRes)[0])
     } catch (err) {
       console.warn('updateMutableData ==>', err)
