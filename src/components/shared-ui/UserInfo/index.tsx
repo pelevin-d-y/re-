@@ -27,6 +27,7 @@ const UserInfo: React.FC<Props> = ({ className, mutableData, updateData }) => {
           {
             ...nameData,
             data: val.split(' '),
+            review: 1,
             meta: {
               ...nameData.meta,
               type: 'primary',

@@ -2,15 +2,10 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
-import PopoverDots from 'src/components/shared-ui/popover/PopoverDots'
-import Avatar from 'src/components/shared-ui/Avatar'
-import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { usePopup } from 'src/components/context/PopupContext'
 import { css } from 'astroturf'
-import Button from 'src/components/shared-ui/Button'
 import { getName } from 'src/helpers/utils/get-name'
-import { useRouter } from 'next/router'
-import Tabs from './Tabs'
+import PopupWithMutableData from './PopupWithMutableData'
 
 type Props = {
   className?: string
@@ -20,24 +15,9 @@ type Props = {
 const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
   const { dispatch } = usePopup()
   const [isOpen, setIsOpen] = useState(false)
-  const router = useRouter()
   const buttonHandler = () => {
     setIsOpen(false)
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
-  }
-
-  const getAvatarUrl = () => {
-    if ('image_url' in data) {
-      return data.image_url
-    }
-    return data.avatar
-  }
-
-  const getSubject = () => {
-    if ('message_template_subject' in data) {
-      return data.message_template_subject
-    }
-    return ''
   }
 
   return (
@@ -60,54 +40,7 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
           </div>
         }
         popupContent={
-          <CardContainer className={classNames(s.popup)}>
-            <div className={s.wrapper}>
-              <div className={s.header}>
-                <Avatar
-                  image={getAvatarUrl()}
-                  width={54}
-                  height={54}
-                  className={s.avatar}
-                  // strength={data.relationshipStrength}
-                />
-                <div className={s.headerInfo}>
-                  <div className={s.name}>{getName(data)}</div>
-                  <div className={s.subject}>{getSubject()}</div>
-                </div>
-              </div>
-              {/* <UserHeader
-              className={s.summary}
-              text={parseMessage(Summary, name)}
-            /> */}
-              <div className={s.actions}>
-                <PopoverDots
-                  variant="outlined"
-                  items={[
-                    {
-                      name: 'Manage',
-                      handler: () =>
-                        router.push(`/contact?id=${data.contact_id}`),
-                    },
-                  ]}
-                />
-                {/* <PopoverActions
-                  variant="contained"
-                  buttonClickHandler={buttonHandler}
-                  isArrow
-                >
-                  Say Hi
-                </PopoverActions> */}
-                <Button
-                  handler={buttonHandler}
-                  className={classNames(s.button)}
-                  variant="contained"
-                >
-                  Compose
-                </Button>
-              </div>
-            </div>
-            {data && <Tabs className={s.tabs} data={data} />}
-          </CardContainer>
+          <PopupWithMutableData data={data} buttonHandler={buttonHandler} />
         }
       />
     </div>
@@ -115,15 +48,6 @@ const PopoverUserInfo: React.FC<Props> = ({ className, data }) => {
 }
 
 const s = css`
-  .popup {
-    max-width: 308px;
-    width: 100%;
-  }
-
-  .wrapper {
-    padding: 20px;
-  }
-
   .triggerButton {
     padding: 0;
     margin: 0;
@@ -131,43 +55,6 @@ const s = css`
     border: none;
     cursor: pointer;
     font-weight: inherit;
-  }
-
-  .header {
-    display: flex;
-    flex-flow: row wrap;
-    margin-bottom: 12px;
-  }
-
-  .avatar {
-    margin-right: 18px;
-  }
-
-  .name {
-    margin-bottom: 7px;
-    font-size: 16px;
-    line-height: 19px;
-
-    font-weight: var(--bold);
-  }
-
-  .summary {
-    width: 100%;
-    padding: 10px 13px;
-
-    color: var(--blue);
-    background: var(--lightBlue);
-  }
-
-  .actions {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 6px;
-    margin-top: 0 px;
-  }
-
-  .button {
-    text-align: center;
   }
 `
 export default PopoverUserInfo
