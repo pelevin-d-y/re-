@@ -16,11 +16,11 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { formatDate } from 'src/helpers/utils/parseTime'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { post } from 'src/api'
 import EditField from 'src/components/shared-ui/EditField'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
+import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -96,15 +96,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         accessor: 'last_client_text',
         maxWidth: 100,
         disableSortBy: true,
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            {/* <div className={s.lastMessage}>Last message</div> */}
-            <div className={s.lastData}>
-              {formatDate(row.original.last_client_time)}
-            </div>
-            <div>{row.original.last_contact_message_text}</div>
-          </div>
-        ),
+        Cell: ({ value, row }) => <CellLastMessage data={row.original} />,
       },
       {
         Header: 'Next steps',

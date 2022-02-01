@@ -27,27 +27,28 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
   const [searchText, setSearchText] = useState<string>('')
   const [searchResults, setSearchResults] = useState<FormattedContact[]>([])
 
-  useEffect(() => {
-    setLoading(true)
-    get.getContactsMutable().then(async (res) => {
-      // const ids = Object.entries(res).map(([id]) => id)
-      // const lastMessages = await get.getLastEmails(ids)
-      const lastMessages = [] as any
+  const fetchData = async () => {
+    return get.getContactsMutable().then(async (res) => {
       const formattedData = Object.entries(res).map(([id, contact]) => {
         const contactData = formatContactData(contact, id)
 
-        const lastMessage = getLastMessage(lastMessages[id])
-        const contactLastMessage = formatLastMessage(lastMessage)
-
-        return {
-          ...contactData,
-          ...contactLastMessage,
-        }
+        return contactData
       })
-
       setMutableData(formattedData)
-      setLoading(false)
     })
+  }
+
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      try {
+        setLoading(true)
+        await fetchData()
+        setLoading(false)
+      } catch (err) {
+        console.log('AllContactsContent fetchDataAsync err ==>', err)
+      }
+    }
+    fetchDataAsync()
   }, [])
 
   useEffect(() => {

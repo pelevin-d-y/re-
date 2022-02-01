@@ -14,9 +14,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { formatDate } from 'src/helpers/utils/parseTime'
-import { apiHelpers, post } from 'src/api'
-import { formatDataForApi } from 'src/helpers/utils/format-data-to-api'
+import { apiHelpers } from 'src/api'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
@@ -24,6 +22,7 @@ import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Img from '../shared-ui/Img'
 import EditField from '../shared-ui/EditField'
+import CellLastMessage from '../shared-ui/Table/CellLastMessage'
 
 type Props = {
   className?: string
@@ -100,14 +99,11 @@ const ContactsTable: React.FC<Props> = ({ className, data }) => {
         Header: 'Last outreach',
         accessor: 'last_client_text',
         disableSortBy: true,
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div className={s.lastData}>
-              {formatDate(row.original.last_client_time)}
-            </div>
-            <div>{row.original.last_contact_message_text}</div>
-          </div>
-        ),
+        Cell: ({ value, row }) => {
+          return (
+            <CellLastMessage className={s.cellContent} data={row.original} />
+          )
+        },
       },
       {
         Header: 'Next steps',
@@ -382,14 +378,6 @@ const s = css`
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
-  }
-
-  .lastData {
-    margin-bottom: 6px;
-
-    font-size: 12px;
-    line-height: 14px;
-    color: #adadad;
   }
 
   .cardHeader {

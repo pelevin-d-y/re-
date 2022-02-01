@@ -101,12 +101,6 @@ const get = {
       .catch((err) => Promise.reject(err))
   },
 
-  getContactsMessages: (id: string): Promise<any> =>
-    requests
-      .get(`${AWS_API}/contacts/messages`, { id })
-      .then((res) => res)
-      .catch((err) => Promise.reject(err)),
-
   getMessagesRead: (id: string): Promise<any> =>
     requests
       .get(`${AWS_API}/messages/read`, { id })
