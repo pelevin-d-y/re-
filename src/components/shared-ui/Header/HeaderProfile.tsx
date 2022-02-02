@@ -26,6 +26,7 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
     : []
 
   const openPersonalizationPage = () => {
+    localStorage.setItem('menuOpen', 'true')
     router.push(`/personalization`)
   }
 

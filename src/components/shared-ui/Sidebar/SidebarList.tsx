@@ -3,48 +3,68 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Link from 'next/link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import { useRouter } from 'next/router'
 
 type Props = {
   className?: string
   isOpen: boolean
 }
 
-const SidebarList: React.FC<Props> = ({ className, isOpen }) => (
-  <div className={classNames(className, s.container, isOpen && s.default)}>
-    <ul className={s.list}>
-      <li>
-        <Link href="/">
-          <a className={s.item}>
-            <SvgIcon className={s.icon} icon="compass.svg" /> Home
-          </a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/lists">
-          <a className={s.item}>
-            <SvgIcon className={s.icon} icon="lists.svg" /> Lists
-          </a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/recommendations">
-          <a className={s.item}>
-            <SvgIcon className={s.icon} icon="recs.svg" /> Recommendations
-          </a>
-        </Link>
-      </li>
+const SidebarList: React.FC<Props> = ({ className, isOpen }) => {
+  const router = useRouter()
 
-      <li>
-        <Link href="/personalization">
-          <a className={s.item}>
-            <SvgIcon className={s.icon} icon="personlization.svg" />{' '}
-            Personalization
-          </a>
-        </Link>
-      </li>
-    </ul>
-  </div>
-)
+  return (
+    <div className={classNames(className, s.container, isOpen && s.default)}>
+      <ul className={s.list}>
+        <li>
+          <Link href="/">
+            <a className={classNames(s.item, router.route === '/' && s.active)}>
+              <SvgIcon className={s.icon} icon="compass.svg" /> Home
+            </a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/lists">
+            <a
+              className={classNames(
+                s.item,
+                router.route === '/lists' && s.active
+              )}
+            >
+              <SvgIcon className={s.icon} icon="lists.svg" /> Lists
+            </a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/recommendations">
+            <a
+              className={classNames(
+                s.item,
+                router.route === '/recommendations' && s.active
+              )}
+            >
+              <SvgIcon className={s.icon} icon="recs.svg" /> Recommendations
+            </a>
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/personalization">
+            <a
+              className={classNames(
+                s.item,
+                router.route === '/personalization' && s.active
+              )}
+            >
+              <SvgIcon className={s.icon} icon="personlization.svg" />{' '}
+              Personalization
+            </a>
+          </Link>
+        </li>
+      </ul>
+    </div>
+  )
+}
 
 const s = css`
   .list {
@@ -70,6 +90,12 @@ const s = css`
       color: var(--blue);
       border-right: 1px solid var(--blue);
     }
+  }
+
+  .active {
+    background: var(--lightBlue);
+    color: var(--blue);
+    border-right: 1px solid var(--blue);
   }
 
   .icon {
