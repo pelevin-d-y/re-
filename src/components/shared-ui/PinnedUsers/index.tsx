@@ -34,7 +34,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
       </div>
       {!state.data?.length && (
         <div className={s.paragraph}>
-          Pin actions, playlist and people to remember to followup up later.
+          Pin people to remember to followup up later.
         </div>
       )}
       <div className={s.cards}>

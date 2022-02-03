@@ -9,8 +9,8 @@ import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import UserHeader from 'src/components/shared-ui/UserHeader'
 import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
-import parseEmailMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import { formatDistanceToNowStrict, fromUnixTime } from 'date-fns'
 
 type Props = {
   className?: string
@@ -36,6 +36,12 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
         />
         <div className={classNames(s.userText)}>
           <PopoverUserInfo className={s.name} data={data} />
+          <div className={s.time}>
+            {formatDistanceToNowStrict(
+              fromUnixTime(Number(data.last_contact_message_time))
+            )}{' '}
+            ago
+          </div>
         </div>
       </div>
       <UserHeader
@@ -129,6 +135,11 @@ const s = css`
     padding-top: 6px;
     margin-left: 18px;
     padding-right: 20px;
+  }
+
+  .time {
+    font-size: 11px;
+    line-height: 13px;
   }
 `
 

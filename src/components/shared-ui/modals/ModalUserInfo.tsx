@@ -39,15 +39,11 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
             <div className={s.name}>{getName(data)}</div>
           </div>
         </div>
-        <div className={s.lastMessage}>
-          <div
-            className={s.message}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: parsedText(),
-            }}
-          />
-        </div>
+        <textarea
+          className={classNames(s.lastMessage)}
+          value={parsedText()}
+          disabled
+        />
       </div>
     </div>
   )
@@ -110,6 +106,7 @@ const s = css`
   }
 
   .lastMessage {
+    min-width: 50%;
     max-width: 50%;
     width: 100%;
     padding: 15px 21px;
@@ -120,7 +117,7 @@ const s = css`
     line-height: 14px;
 
     @include mobile {
-      max-width: 300px;
+      min-width: 300px;
     }
   }
 `

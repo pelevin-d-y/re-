@@ -5,6 +5,7 @@ import { css } from 'astroturf'
 import {
   Cell,
   Column,
+  Row as RowTable,
   useFlexLayout,
   useRowSelect,
   useRowState,
@@ -16,11 +17,14 @@ import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
+import { post } from 'src/api'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import UserHeader from '../shared-ui/UserHeader'
 import Button from '../shared-ui/Button'
 import SvgIcon from '../shared-ui/SvgIcon'
+import Close from '../shared-ui/Close'
+import { useClient } from '../context/ClientContext'
 
 type Props = {
   className?: string
@@ -30,6 +34,27 @@ type Props = {
 const Table: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
+  const { updateUserData } = useClient()
+
+  const removeRec = React.useCallback(
+    (row: RowTable<RecommendationUser>) => {
+      row.setState({ isLoading: true })
+      return post
+        .postRecommendations({
+          [row?.original?.contact_id]: {
+            Status: 'Declined',
+            Notes: row?.original?.Notes,
+          },
+        })
+        .then(() => {
+          updateUserData()
+          row.setState({ isLoading: false })
+        })
+        .catch((err) => console.log('postRecommendations err ==>', err))
+    },
+    [updateUserData]
+  )
+
   const columns: Column<any>[] = useMemo(
     () => [
       {
@@ -87,7 +112,22 @@ const Table: React.FC<Props> = ({ className, data }) => {
           </div>
         ),
       },
+      {
+        id: 'remove',
+        width: 'fit-content',
+        Cell: ({ row }) => (
+          <div className={s.removeWrapper}>
+            <Close
+              className={s.close}
+              handler={() => {
+                removeRec(row)
+              }}
+            />
+          </div>
+        ),
+      },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -133,11 +173,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFlatRows])
-
-  const removeUser = useCallback((e: React.MouseEvent, userData: any) => {
-    e.stopPropagation()
-    return null
-  }, [])
 
   return (
     <div className={s.container}>
@@ -265,7 +300,6 @@ const s = css`
 
   .tbody tr {
     margin-bottom: 5px;
-    padding-right: 26px;
 
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
@@ -304,6 +338,11 @@ const s = css`
   }
   .sortAsc {
     transform: scale(1, -1);
+  }
+
+  .close {
+    background: transparent;
+    color: #8e8e8e;
   }
 `
 
