@@ -43,6 +43,21 @@ const UserInfo: React.FC<Props> = ({
         [{ ...nameData, review: 2 }],
         updateDataCallback
       )
+    } else {
+      updateData(
+        [
+          {
+            type: 'name',
+            data: val.split(' '),
+            review: 1,
+            meta: {
+              type: 'primary',
+            },
+          },
+        ],
+        [],
+        updateDataCallback
+      )
     }
   }
 
