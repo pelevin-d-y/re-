@@ -9,32 +9,29 @@ import { get } from 'src/api'
 import LoaderStatic from 'src/components/shared-ui/Loader/LoaderStatic'
 import millisecondsToSeconds from 'date-fns/millisecondsToSeconds'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import Selector from 'src/components/shared-ui/Select'
 import UpcomingHeader from './CalendarHeader'
 import UpcomingItem from './CalendarItem'
 
 type Props = {
   className?: string
-  headerData: {
-    month: string
-    day: string
-    title: string
-    description: string
-  }
 }
 
-const getUserIds = async () => {
+const getUserIds = async (duration: string) => {
   const date = new Date()
-  const sevenDaysAgoDateSeconds = millisecondsToSeconds(
-    date.setDate(date.getDate() - 7)
-  ).toString()
+  const timeAgo =
+    duration === 'lastWeek'
+      ? millisecondsToSeconds(date.setDate(date.getDate() - 7)).toString()
+      : millisecondsToSeconds(date.setDate(date.getDate() - 30)).toString()
   const nowDateSeconds = millisecondsToSeconds(Date.now()).toString()
-  return get.getEventContacts(sevenDaysAgoDateSeconds, nowDateSeconds)
+  return get.getEventContacts(timeAgo, nowDateSeconds)
 }
 
-const HomeUpcoming: React.FC<Props> = ({ className, headerData }) => {
+const HomeUpcoming: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
   const [contacts, setContacts] = useState<FormattedContact[]>()
   const [isLoading, setIsLoading] = useState(false)
+  const [selector, setSelector] = useState('lastWeek')
 
   const followUpWithAllHandler = () => {
     if (contacts) {
@@ -48,7 +45,7 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData }) => {
     const getUsersData = async () => {
       try {
         setIsLoading(true)
-        const ids = await getUserIds()
+        const ids = await getUserIds(selector)
         let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
         if (ids && ids.length > 0) {
           const mutableData = await get.getContactsMutable(ids)
@@ -63,7 +60,7 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData }) => {
       }
     }
     getUsersData()
-  }, [])
+  }, [selector])
 
   const renderContacts = () => {
     const isContactsEmpty = contacts ? contacts.length === 0 : true
@@ -96,7 +93,31 @@ const HomeUpcoming: React.FC<Props> = ({ className, headerData }) => {
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <UpcomingHeader className={s.header} data={headerData} />
+      <UpcomingHeader
+        className={s.header}
+        text={
+          <div className={s.selectorWrapper}>
+            <div className={s.bigText}>Follow up with people you met with</div>
+            <Selector
+              className={s.selector}
+              styles={{
+                valueContainer: {
+                  padding: '0 0 0 15px',
+                },
+                singleValue: {
+                  fontSize: '17px',
+                  fontWeight: 'bold',
+                },
+              }}
+              handler={(option) => setSelector(option.value)}
+              options={[
+                { value: 'lastWeek', label: 'Last Week' },
+                { value: 'lastMonth', label: 'Last Month' },
+              ]}
+            />
+          </div>
+        }
+      />
       {isLoading ? <LoaderStatic /> : renderContacts()}
     </CardContainer>
   )
@@ -138,6 +159,33 @@ const s = css`
   .noContacts {
     font-size: 20px;
     padding-left: 18px;
+  }
+
+  .bigText {
+    margin-right: 10px;
+    flex: 1 0 auto;
+    margin-bottom: 3px;
+    font-size: 22px;
+    line-height: 22px;
+    font-weight: var(--bold);
+
+    @include mobile {
+      flex: auto;
+      margin-bottom: 10px;
+    }
+  }
+
+  .selectorWrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    @include mobile {
+      justify-content: center;
+    }
+  }
+
+  .selector {
+    width: 150px;
   }
 `
 

@@ -1,31 +1,25 @@
 import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
+import { format } from 'date-fns'
 
-type Data = {
-  month: string
-  day: string
-  title: string
-  description: string
-}
 type Props = {
   className?: string
-  data: Data
+  text?: React.ReactElement
 }
 
-const UpcomingHeader: React.FC<Props> = ({ className, data }) => {
-  const { month, day, title, description } = data
+const UpcomingHeader: React.FC<Props> = ({ className, text }) => {
+  const currentDay = new Date()
 
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.date}>
-        <div className={s.month}>{month}</div>
-        <div className={s.day}>{day}</div>
+        <div className={s.month}>
+          {format(currentDay, 'LLLL').substring(0, 3)}
+        </div>
+        <div className={s.day}>{currentDay.getDate()}</div>
       </div>
-      <div className={s.text}>
-        <div className={s.bigText}>{title}</div>
-        <div className={s.smallText}>{description}</div>
-      </div>
+      <div className={s.text}>{text}</div>
     </div>
   )
 }
@@ -78,12 +72,6 @@ const s = css`
     line-height: 24px;
     text-align: center;
     font-size: 20px;
-    font-weight: var(--bold);
-  }
-  .bigText {
-    margin-bottom: 3px;
-    font-size: 22px;
-    line-height: 22px;
     font-weight: var(--bold);
   }
   .smallText {

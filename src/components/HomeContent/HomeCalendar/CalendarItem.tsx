@@ -105,6 +105,7 @@ const s = css`
     width: 100%;
     @include mobile {
       margin-top: 12px;
+      margin-left: 0;
     }
   }
 
