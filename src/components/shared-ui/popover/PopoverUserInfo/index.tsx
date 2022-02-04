@@ -5,6 +5,7 @@ import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import { usePopup } from 'src/components/context/PopupContext'
 import { css } from 'astroturf'
 import { getName } from 'src/helpers/utils/get-name'
+import { isNameEmail } from 'src/helpers/utils/is-name-email'
 import PopupWithMutableData from './PopupWithMutableData'
 
 type Props = {
@@ -37,7 +38,11 @@ const PopoverUserInfo: React.FC<Props> = ({
           <div className={classNames(className, s.trigger)}>
             <button
               type="button"
-              className={s.triggerButton}
+              className={classNames(
+                s.triggerButton,
+                isNameEmail(data) && s.triggerButtonEmail,
+                !isNameEmail(data) && s.triggerButtonName
+              )}
               onClick={() => setIsOpen(true)}
             >
               {getName(data)}
@@ -64,6 +69,15 @@ const s = css`
     border: none;
     cursor: pointer;
     font-weight: inherit;
+    text-align: left;
+  }
+
+  .triggerButtonEmail {
+    font-weight: normal;
+  }
+
+  .triggerButtonName {
+    font-weight: bold;
   }
 `
 export default PopoverUserInfo
