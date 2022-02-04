@@ -12,6 +12,7 @@ type Props = {
   data: RecommendationUser | FormattedContact
   closeHandler: () => void
   isSent?: boolean
+  withAvatar?: boolean
 }
 
 const ModalContent: React.FC<Props> = ({
