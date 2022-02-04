@@ -41,7 +41,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
         {state.data?.map((item) => (
           <PinnedCard
             className={s.card}
-            key={item.first_message_id}
+            key={item.contact_id}
             data={item}
             template={item.templateData}
           />
