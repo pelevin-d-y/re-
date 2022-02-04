@@ -241,6 +241,7 @@ const s = css`
     overflow: auto;
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 36px;
   }
 
   .table {
