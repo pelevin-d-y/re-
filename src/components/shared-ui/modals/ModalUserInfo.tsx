@@ -5,6 +5,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { getName } from 'src/helpers/utils/get-name'
+import { formatDate } from 'src/helpers/utils/parseTime'
 import MessageStatus from './ComposeModalMulti/UsersManager/MessageStatus'
 
 type Props = {
@@ -30,6 +31,15 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
     return null
   }
 
+  const parsedTime = () => {
+    if ('last_contact_message_time' in data) {
+      const number = Number(data.last_contact_message_time) * 1000
+      const date = new Date(number)
+      return formatDate(date)
+    }
+    return null
+  }
+
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
@@ -40,11 +50,14 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
             <MessageStatus className={s.messageStatus} data={data} />
           </div>
         </div>
-        <textarea
-          className={classNames(s.lastMessage)}
-          value={parsedText()}
-          disabled
-        />
+
+        <div className={s.bodyContainer}>
+          <div className={s.subject}>{parsedTime() && parsedTime()}</div>
+          <div
+            className={s.body}
+            dangerouslySetInnerHTML={{ __html: parsedText() }}
+          />
+        </div>
       </div>
     </div>
   )
@@ -126,6 +139,27 @@ const s = css`
     @include mobile {
       min-width: 300px;
     }
+  }
+
+  .bodyContainer {
+    max-width: 50%;
+    background: #fafafa;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 14px;
+    overflow: auto;
+  }
+
+  .subject {
+    max-height: 100px;
+    padding: 8px 15px 0px 15px;
+    font-weight: var(--bold);
+  }
+
+  .body {
+    max-height: 100px;
+    padding: 2px 15px 12px 15px;
   }
 `
 
