@@ -8,6 +8,7 @@ import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseMessage from 'src/helpers/utils/parse-message'
 import Button from 'src/components/shared-ui/Button'
 import { getName } from 'src/helpers/utils/get-name'
+import { isNameEmail } from 'src/helpers/utils/is-name-email'
 
 type Props = {
   className?: string
@@ -25,7 +26,14 @@ const CalendarItem: React.FC<Props> = ({ data, className }) => {
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
-          <div className={s.name}>{getName(data)}</div>
+          <div
+            className={classNames(
+              !isNameEmail(data) && s.name,
+              isNameEmail(data) && s.email
+            )}
+          >
+            {getName(data)}
+          </div>
         </div>
       </div>
       {/* <div className={s.message}>
@@ -88,11 +96,17 @@ const s = css`
   .event {
     flex: 1 0 auto;
   }
+
   .name {
     margin-bottom: 4px;
     font-weight: var(--bold);
     line-height: 16px;
   }
+  .email {
+    margin-bottom: 4px;
+    line-height: 16px;
+  }
+
   .position {
     font-size: 12px;
     @include mobile {
