@@ -99,11 +99,7 @@ const ComposeModalMulti: React.FC = () => {
         addUserHandler={addUserHandler}
       />
       {popupData && (
-        <ModalContent
-          data={popupData}
-          withAvatar={false}
-          closeHandler={closeHandler}
-        />
+        <ModalContent data={popupData} closeHandler={closeHandler} />
       )}
     </ModalBase>
   )

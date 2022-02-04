@@ -11,7 +11,6 @@ type Props = {
   className?: string
   data: RecommendationUser | FormattedContact
   closeHandler: () => void
-  withAvatar?: boolean
   isSent?: boolean
 }
 
@@ -19,7 +18,6 @@ const ModalContent: React.FC<Props> = ({
   className,
   data,
   closeHandler,
-  withAvatar,
   isSent: messageIsSent,
 }) => {
   const [isSent, setIsSent] = useState(messageIsSent || false)
@@ -36,7 +34,7 @@ const ModalContent: React.FC<Props> = ({
         data={data}
         setIsSent={(val: boolean) => setIsSent(val)}
       />
-      <ModalUserInfo className={s.footer} data={data} withAvatar={withAvatar} />
+      <ModalUserInfo className={s.footer} data={data} />
     </div>
   )
 }

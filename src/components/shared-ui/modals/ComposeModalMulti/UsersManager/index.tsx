@@ -7,6 +7,7 @@ import Button from 'src/components/shared-ui/Button'
 import Search from 'src/components/shared-ui/Search'
 import { getName } from 'src/helpers/utils/get-name'
 import { debounce } from 'lodash'
+import { usePopup } from 'src/components/context/PopupContext'
 import MessageStatus from './MessageStatus'
 
 type Props = {
@@ -26,6 +27,7 @@ const UsersManager: React.FC<Props> = ({
   unselectedContacts,
   addUserHandler,
 }) => {
+  const { state } = usePopup()
   const getAvatar = (data: RecommendationUser | FormattedContact) => {
     if ('image_url' in data) {
       return data.image_url
@@ -71,7 +73,7 @@ const UsersManager: React.FC<Props> = ({
       </div>
       <div className={s.selected}>
         <div className={s.selectedHeader}>
-          <div className={s.sidebarTitle}>Sending to:</div>
+          <div className={s.sidebarTitle}>Sending to</div>
           <div className={s.selectedQuantity}>
             {selectedContacts.length} Selected
           </div>
@@ -83,29 +85,31 @@ const UsersManager: React.FC<Props> = ({
               tabIndex={0}
               onClick={() => selectUser(item)}
               onKeyDown={() => selectUser(item)}
-              className={classNames(s.user, s.selectedUser)}
+              className={classNames(
+                s.user,
+                s.selectedUser,
+                item.contact_id === state.data?.contact_id && s.activeUser
+              )}
               key={item.contact_id}
             >
               <Avatar className={s.avatar} image={getAvatar(item)} />
               <div className={s.userInfo}>
                 <div className={s.userName}>{getName(item)}</div>
+                <MessageStatus className={s.messageStatus} data={item} />
               </div>
               <CloseButton
                 className={s.buttonRemove}
                 handler={() => removeUser(item)}
               />
-              <MessageStatus className={s.messageStatus} data={item} />
             </div>
           ))}
         </div>
-        <div className={s.selectedActions}>
-          <Button variant="outlined">•••</Button>
-          <Button variant="outlined">Send to all</Button>
+      </div>
+      {unselectedContacts?.length !== 0 && (
+        <div className={s.selectedHeader}>
+          <div className={s.sidebarTitle}>Contacts to send to</div>
         </div>
-      </div>
-      <div className={s.selectedHeader}>
-        <div className={s.sidebarTitle}>Contacts to send to</div>
-      </div>
+      )}
       {unselectedContacts?.map((item) => (
         <div className={s.user} key={item.contact_id}>
           <Avatar className={s.avatar} image={getAvatar(item)} />
@@ -117,7 +121,7 @@ const UsersManager: React.FC<Props> = ({
             className={s.buttonAdd}
             handler={() => addUserHandler(item)}
           >
-            add
+            Add
           </Button>
         </div>
       ))}
@@ -204,12 +208,16 @@ const s = css`
   }
 
   .selectedUsers {
-    overflow: auto;
+    overflow: scroll;
     max-height: 320px;
+    margin-bottom: 41px;
   }
 
   .selectedQuantity {
     color: var(--blue);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
   }
 
   .user {
@@ -231,16 +239,16 @@ const s = css`
       .buttonRemove {
         display: block;
       }
-
-      .messageStatus {
-        display: none;
-      }
     }
     @include mobile {
       .buttonRemove {
         display: block !important;
       }
     }
+  }
+
+  .activeUser {
+    background: var(--lightBlue);
   }
 
   .messageStatus {
