@@ -263,15 +263,15 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
           })}
         </tbody>
       </table>
-      <div className={s.emptyCardContainer}>
-        {rows.length === 0 && (
+      {rows.length === 0 && (
+        <div className={s.emptyCardContainer}>
           <CardContainer className={classNames(className, s.emptyCard)}>
             <div className={s.cardLogo}>
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
           </CardContainer>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -284,7 +284,7 @@ const s = css`
     overflow: auto;
     padding-left: 20px;
     padding-right: 20px;
-    padding-bottom: 10px;
+    padding-bottom: 36px;
   }
 
   .table {

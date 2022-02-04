@@ -3,9 +3,9 @@ import ReactSelect, {
   StylesConfig,
   IndicatorProps,
   components,
-  ValueType,
 } from 'react-select'
 import { css } from 'astroturf'
+import classNames from 'classnames'
 import DropdownIndicator from './DropdownIndicator'
 
 const selectStyles = (styles: any): StylesConfig<Option, false> => ({
@@ -77,6 +77,7 @@ type Option = {
 }
 
 type Props = {
+  className?: string
   options: Option[]
   styles?: any
   label?: string
@@ -86,6 +87,7 @@ type Props = {
   isOpen?: boolean
   classes?: {
     arrow?: string
+    selector?: string
   }
   disabled?: boolean
   isLoading?: boolean
@@ -99,6 +101,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
         styles,
         label,
         classes,
+        className,
         disabled,
         handler,
         name,
@@ -108,7 +111,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
       },
       ref
     ) => (
-      <div className={s.container} ref={ref}>
+      <div className={classNames(s.container, className)} ref={ref}>
         {label && (
           <label htmlFor={label} className={s.label}>
             {label}
@@ -120,6 +123,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
           name={name}
           styles={selectStyles(styles)}
           onChange={handler}
+          className={classes?.selector}
           components={{
             DropdownIndicator: (props: IndicatorProps<any, any>) => (
               <components.DropdownIndicator {...props}>

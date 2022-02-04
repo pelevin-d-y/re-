@@ -38,9 +38,9 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
           <PopoverUserInfo className={s.name} data={data} />
           <div className={s.time}>
             {formatDistanceToNowStrict(
-              fromUnixTime(Number(data.last_contact_message_time))
-            )}{' '}
-            ago
+              fromUnixTime(Number(data.last_contact_message_time)),
+              { addSuffix: true }
+            )}
           </div>
         </div>
       </div>

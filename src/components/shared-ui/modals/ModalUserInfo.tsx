@@ -5,14 +5,14 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { getName } from 'src/helpers/utils/get-name'
+import MessageStatus from './ComposeModalMulti/UsersManager/MessageStatus'
 
 type Props = {
   className?: string
   data: RecommendationUser | FormattedContact
-  withAvatar?: boolean
 }
 
-const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
+const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
   const parsedText = () => {
     if ('last_contact_message_text' in data) {
       return parseMessage(data?.last_contact_message_text)
@@ -34,9 +34,10 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.info}>
-          {withAvatar && <Avatar className={s.avatar} image={getAvatarUrl()} />}
-          <div className={s.profileInfo}>
-            <div className={s.name}>{getName(data)}</div>
+          <Avatar className={s.avatar} image={getAvatarUrl()} />
+          <div className={s.userInfo}>
+            <div className={s.userName}>{getName(data)}</div>
+            <MessageStatus className={s.messageStatus} data={data} />
           </div>
         </div>
         <textarea
@@ -57,6 +58,9 @@ const s = css`
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: flex-start;
+    border: 1px solid #e6e6e6;
+    border-radius: 5.9845px;
+    padding: 18px 25px;
 
     @include mobile {
       flex-flow: column nowrap;
@@ -81,12 +85,15 @@ const s = css`
     margin-right: 19px;
   }
 
-  .name {
-    margin-bottom: 8px;
+  .userName {
+    margin-bottom: 3px;
 
+    font-size: 12px;
     font-weight: var(--bold);
-    font-size: 16px;
-    line-height: 19px;
+
+    @include mobile {
+      margin-right: 10px;
+    }
   }
 
   .lastMessageDate {

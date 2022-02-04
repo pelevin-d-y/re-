@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 
-import { formatDistance } from 'date-fns'
+import { formatDistance, fromUnixTime } from 'date-fns'
 
 type Props = {
   className?: string
@@ -13,9 +13,14 @@ const MessageStatus: React.FC<Props> = ({ className, data }) => (
   <div className={classNames(className, s.container)}>
     {'last_contact_message_time' in data && data?.last_contact_message_time && (
       <div className={s.date}>
-        {formatDistance(new Date(data?.last_contact_message_time), new Date(), {
-          addSuffix: true,
-        })}
+        Last Message{' '}
+        {formatDistance(
+          fromUnixTime(Number(data?.last_contact_message_time)),
+          new Date(),
+          {
+            addSuffix: true,
+          }
+        )}
       </div>
     )}
     {/* {'isSent' in data && data?.isSent ? (

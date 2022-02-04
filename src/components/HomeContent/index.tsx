@@ -21,12 +21,12 @@ const Content: React.FC = () => {
     [clientState.data?.contacts]
   )
 
-  const headerDataWeek = {
-    month: 'sep',
-    day: '9',
-    title: 'Follow up with people you met with last week',
-    description: '',
-  }
+  // const headerDataWeek = {
+  //   month: 'sep',
+  //   day: '9',
+  //   title: 'Follow up with people you met with last week',
+  //   description: '',
+  // }
 
   const shareHolidays = useMemo(
     () => ({
@@ -68,7 +68,7 @@ const Content: React.FC = () => {
         {!clientState.isLoading ? (
           <>
             {renderRecommendations()}
-            <HomeUpcoming className={s.section} headerData={headerDataWeek} />
+            <HomeUpcoming className={s.section} />
             <Grid className={s.section} division={2}>
               {shareHolidays.contacts && (
                 <CardShareMulti data={shareHolidays} />
