@@ -21,5 +21,5 @@ export const getName = (
     return data.address
   }
 
-  return ''
+  return '[name]'
 }

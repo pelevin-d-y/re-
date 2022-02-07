@@ -21,6 +21,7 @@ import { post } from 'src/api'
 import EditField from 'src/components/shared-ui/EditField'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
+import CellNextSteps from 'src/components/shared-ui/Table/CellNextSteps'
 import AddUserView from '../../shared-ui/AddUserView'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -103,9 +104,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 250,
         disableSortBy: true,
         Cell: ({ value, row }) => (
-          <div className={classNames(s.cellContent)}>
-            <div className={s.nextSteps}>Placeholder</div>
-          </div>
+          <CellNextSteps className={s.cellContent} data={row.original} />
         ),
       },
       {
@@ -342,14 +341,6 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     word-break: break-word;
-  }
-
-  .nextSteps {
-    padding: 8px 12px;
-
-    font-size: 11px;
-    line-height: 13px;
-    background: #fafafa;
   }
 
   .avatar {
