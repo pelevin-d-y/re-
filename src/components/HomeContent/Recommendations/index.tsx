@@ -25,6 +25,7 @@ const Recommendations: React.FC<Props> = ({ data, className }) => (
           data={contactItem}
           className={s.column}
           key={contactItem.first_message_id}
+          pin
         />
       ))}
     </div>
