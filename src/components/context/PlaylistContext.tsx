@@ -42,7 +42,6 @@ const PlaylistProvider: React.FC = ({ children }) => {
   const getPlaylistData = React.useCallback(async (listId) => {
     try {
       const playlist = await get.getPlaylistsData([listId] as string[])
-
       const newPlaylist = { ...playlist[0] }
 
       if (newPlaylist?.contacts && newPlaylist?.contacts?.length > 0) {
@@ -57,10 +56,6 @@ const PlaylistProvider: React.FC = ({ children }) => {
         const convertedContactsRespToObj = contactsResp.reduce((acc, item) => {
           return { ...acc, ...item }
         })
-
-        await get.getContactsMutable(
-          newPlaylist.contacts.map((item) => item.contact_id)
-        )
 
         newPlaylist.contacts = Object.entries(convertedContactsRespToObj).map(
           ([id, contact]) => formatContactData(contact, id)
