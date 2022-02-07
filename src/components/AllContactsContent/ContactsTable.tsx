@@ -23,6 +23,7 @@ import Row from '../shared-ui/Table/Row'
 import Img from '../shared-ui/Img'
 import EditField from '../shared-ui/EditField'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
+import CellNextSteps from '../shared-ui/Table/CellNextSteps'
 
 type Props = {
   className?: string
@@ -113,11 +114,9 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
       {
         Header: 'Next steps',
         disableSortBy: true,
-        Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            <div>Placeholder</div>
-          </div>
-        ),
+        Cell: ({ value, row }) => {
+          return <CellNextSteps className={s.cellContent} data={row.original} />
+        },
       },
       {
         Header: 'Notes',

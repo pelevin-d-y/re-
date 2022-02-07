@@ -25,6 +25,7 @@ import Button from '../shared-ui/Button'
 import SvgIcon from '../shared-ui/SvgIcon'
 import Close from '../shared-ui/Close'
 import { useClient } from '../context/ClientContext'
+import CellNextSteps from '../shared-ui/Table/CellNextSteps'
 
 type Props = {
   className?: string
@@ -83,17 +84,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
         disableSortBy: true,
       },
       {
-        Header: 'Next Steps',
+        Header: 'Next steps',
         id: 'Company',
         minWidth: 250,
         Cell: ({ value, row }) => (
-          <UserHeader
-            className={s.description}
-            text={parseMessage(
-              row.original.message_template_description,
-              row.original.name
-            )}
-          />
+          <CellNextSteps className={s.cellContent} data={row.original} />
         ),
         disableSortBy: true,
       },
