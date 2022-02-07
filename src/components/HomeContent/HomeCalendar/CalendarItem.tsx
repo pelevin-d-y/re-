@@ -9,6 +9,7 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import Button from 'src/components/shared-ui/Button'
 import { getName } from 'src/helpers/utils/get-name'
 import { isNameEmail } from 'src/helpers/utils/is-name-email'
+import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 
 type Props = {
   className?: string
@@ -26,14 +27,7 @@ const CalendarItem: React.FC<Props> = ({ data, className }) => {
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
-          <div
-            className={classNames(
-              !isNameEmail(data) && s.name,
-              isNameEmail(data) && s.email
-            )}
-          >
-            {getName(data)}
-          </div>
+          <PopoverUserInfo data={data} />
         </div>
       </div>
       {/* <div className={s.message}>
