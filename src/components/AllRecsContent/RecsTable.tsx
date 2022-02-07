@@ -300,6 +300,12 @@ const s = css`
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
+
+    &:hover {
+      .close {
+        opacity: 1;
+      }
+    }
   }
 
   .lastData {
@@ -339,6 +345,7 @@ const s = css`
   .close {
     background: transparent;
     color: #8e8e8e;
+    opacity: 0;
   }
 `
 
