@@ -7,7 +7,7 @@ const parseMessage = (
 
   comparator.set('<ContactName>', contactName || `[Contact name]`)
   comparator.set('<ClientName>', clientName || `[Client name]`)
-  comparator.set('<Intro Name>', clientName || `[Client name]`)
+  // comparator.set('<Intro Name>', clientName || `[Client name]`)
   comparator.set(/(\r\n|\r|\n)/g, '<br />')
 
   let newString = string
