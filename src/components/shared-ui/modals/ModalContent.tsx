@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { getName } from 'src/helpers/utils/get-name'
@@ -21,7 +21,11 @@ const ModalContent: React.FC<Props> = ({
   closeHandler,
   isSent: messageIsSent,
 }) => {
-  const [isSent, setIsSent] = useState(messageIsSent || false)
+  const [isSent, setIsSent] = useState<boolean>()
+
+  useEffect(() => {
+    setIsSent(messageIsSent)
+  }, [messageIsSent])
 
   return isSent ? (
     <ModalSent handler={closeHandler} names={getName(data)} />
