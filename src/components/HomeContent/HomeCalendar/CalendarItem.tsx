@@ -8,20 +8,47 @@ import UserHeader from 'src/components/shared-ui/UserHeader'
 import parseMessage from 'src/helpers/utils/parse-message'
 import Button from 'src/components/shared-ui/Button'
 import { getName } from 'src/helpers/utils/get-name'
+import Pin from 'src/components/shared-ui/Pin'
+import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
+import Close from 'src/components/shared-ui/Close'
 
 type Props = {
   className?: string
   data: FormattedContact
+  hideItemCallback?: () => void
 }
 
-const CalendarItem: React.FC<Props> = ({ data, className }) => {
+const CalendarItem: React.FC<Props> = ({
+  data,
+  className,
+  hideItemCallback,
+}) => {
   const { dispatch } = usePopup()
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
+  const hideItem = () => {
+    const { contact_id } = data
+    const storageKey = 'hidden_contacts_calendar'
+    const localHidden = JSON.parse(localStorage.getItem(storageKey) || '[]')
+
+    const newHidden = {
+      contact_id,
+      time_hidden: Date.now(),
+    }
+    localHidden.push(newHidden)
+
+    localStorage.setItem(storageKey, JSON.stringify(localHidden))
+
+    if (hideItemCallback) {
+      hideItemCallback()
+    }
+  }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
+      <Pin className={s.pin} data={data as any} />
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
@@ -45,6 +72,12 @@ const CalendarItem: React.FC<Props> = ({ data, className }) => {
       >
         Reach out
       </PopoverRate> */}
+      <Close
+        className={s.remove}
+        handler={() => {
+          hideItem()
+        }}
+      />
     </CardContainer>
   )
 }
@@ -115,6 +148,27 @@ const s = css`
     margin-right: 20px;
     @include mobile {
       max-width: 100%;
+    }
+  }
+
+  .pin {
+    margin-right: 11px;
+  }
+
+  .remove {
+    background: var(--white);
+    margin-left: 11px;
+  }
+
+  .container {
+    .remove {
+      opacity: 0;
+    }
+
+    &:hover {
+      .remove {
+        opacity: 0.6;
+      }
     }
   }
 `

@@ -57,7 +57,7 @@ const PinnedProvider: React.FC = ({ children }) => {
 
   const addPinned = useCallback(
     async (data: any) => {
-      if (state.data.find((item) => data.key === item.key)) {
+      if (state.data.find((item) => data.contact_id === item.contact_id)) {
         return null
       }
       await post.postPinnedContacts([...state.data, data])
@@ -70,7 +70,7 @@ const PinnedProvider: React.FC = ({ children }) => {
   const removePinned = useCallback(
     async (data: any) => {
       await post.postPinnedContacts(
-        state.data.filter((item) => item.key !== data.key)
+        state.data.filter((item) => item.contact_id !== data.contact_id)
       )
       await updatePinnedData()
       return null
