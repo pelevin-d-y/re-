@@ -15,11 +15,11 @@ const Pin: React.FC<Props> = ({ className, data }) => {
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    if (state.data.find((item) => item.key === data?.key)) {
+    if (state.data.find((item) => item.contact_id === data?.contact_id)) {
       return setIsActive(true)
     }
     return setIsActive(false)
-  }, [data?.key, state.data])
+  }, [data?.contact_id, state.data])
 
   const pinAction = () => {
     if (isActive) {

@@ -41,6 +41,19 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     }
   }
 
+  const filterContactsHidden = (formattedContacts: FormattedContact[]) => {
+    const storageKey = 'hidden_contacts_calendar'
+    const localHidden = JSON.parse(localStorage.getItem(storageKey) || '[]')
+
+    const hiddenContactsIds = localHidden.map(
+      (contact: { contact_id: string }) => contact.contact_id
+    )
+
+    return formattedContacts.filter(
+      (contact) => !hiddenContactsIds.includes(contact.contact_id)
+    )
+  }
+
   useEffect(() => {
     const getUsersData = async () => {
       try {
@@ -53,6 +66,9 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
             formatContactData(contact, id)
           )
         }
+
+        usersData = filterContactsHidden(usersData)
+
         setContacts(usersData)
         setIsLoading(false)
       } catch (error) {
@@ -61,6 +77,13 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     }
     getUsersData()
   }, [selector])
+
+  const hideItemCallback = () => {
+    let contactsFiltered = [...(contacts as FormattedContact[])]
+    contactsFiltered = filterContactsHidden(contactsFiltered)
+
+    setContacts(contactsFiltered)
+  }
 
   const renderContacts = () => {
     const isContactsEmpty = contacts ? contacts.length === 0 : true
@@ -72,7 +95,11 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
             <div className={s.noContacts}>No events</div>
           ) : (
             contacts?.map((item) => (
-              <UpcomingItem data={item} key={item.contact_id} />
+              <UpcomingItem
+                data={item}
+                key={item.contact_id}
+                hideItemCallback={hideItemCallback}
+              />
             ))
           )}
         </div>
