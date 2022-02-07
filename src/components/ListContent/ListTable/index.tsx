@@ -268,7 +268,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
               <SvgIcon className={s.logo} icon="contacts.svg" />
             </div>
             <div className={s.cardHeader}>Start creating your list</div>
-            <AddUserView className={s.addUserView} listId={data.playlist_id} />
+            {/* <AddUserView className={s.addUserView} listId={data.playlist_id} /> */}
           </CardContainer>
         )}
       </div>
