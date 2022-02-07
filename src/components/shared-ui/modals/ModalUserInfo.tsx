@@ -5,14 +5,15 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { getName } from 'src/helpers/utils/get-name'
+import { formatDate } from 'src/helpers/utils/parseTime'
+import MessageStatus from './ComposeModalMulti/UsersManager/MessageStatus'
 
 type Props = {
   className?: string
   data: RecommendationUser | FormattedContact
-  withAvatar?: boolean
 }
 
-const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
+const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
   const parsedText = () => {
     if ('last_contact_message_text' in data) {
       return parseMessage(data?.last_contact_message_text)
@@ -30,20 +31,33 @@ const ModalUserInfo: React.FC<Props> = ({ className, data, withAvatar }) => {
     return null
   }
 
+  const parsedTime = () => {
+    if ('last_contact_message_time' in data) {
+      const number = Number(data.last_contact_message_time) * 1000
+      const date = new Date(number)
+      return formatDate(date)
+    }
+    return null
+  }
+
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.info}>
-          {withAvatar && <Avatar className={s.avatar} image={getAvatarUrl()} />}
-          <div className={s.profileInfo}>
-            <div className={s.name}>{getName(data)}</div>
+          <Avatar className={s.avatar} image={getAvatarUrl()} />
+          <div className={s.userInfo}>
+            <div className={s.userName}>{getName(data)}</div>
+            <MessageStatus className={s.messageStatus} data={data} />
           </div>
         </div>
-        <textarea
-          className={classNames(s.lastMessage)}
-          value={parsedText()}
-          disabled
-        />
+
+        <div className={s.bodyContainer}>
+          <div className={s.subject}>{parsedTime() && parsedTime()}</div>
+          <div
+            className={s.body}
+            dangerouslySetInnerHTML={{ __html: parsedText() }}
+          />
+        </div>
       </div>
     </div>
   )
@@ -57,6 +71,9 @@ const s = css`
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: flex-start;
+    border: 1px solid #e6e6e6;
+    border-radius: 5.9845px;
+    padding: 18px 25px;
 
     @include mobile {
       flex-flow: column nowrap;
@@ -81,12 +98,15 @@ const s = css`
     margin-right: 19px;
   }
 
-  .name {
-    margin-bottom: 8px;
+  .userName {
+    margin-bottom: 3px;
 
+    font-size: 12px;
     font-weight: var(--bold);
-    font-size: 16px;
-    line-height: 19px;
+
+    @include mobile {
+      margin-right: 10px;
+    }
   }
 
   .lastMessageDate {
@@ -119,6 +139,27 @@ const s = css`
     @include mobile {
       min-width: 300px;
     }
+  }
+
+  .bodyContainer {
+    max-width: 50%;
+    background: #fafafa;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 14px;
+    overflow: auto;
+  }
+
+  .subject {
+    max-height: 100px;
+    padding: 8px 15px 0px 15px;
+    font-weight: var(--bold);
+  }
+
+  .body {
+    max-height: 100px;
+    padding: 2px 15px 12px 15px;
   }
 `
 

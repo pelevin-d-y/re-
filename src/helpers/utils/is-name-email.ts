@@ -1,25 +1,27 @@
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getName = (
+export const isNameEmail = (
   data: FormattedContact | RecommendationUser | MainUserData
-): string => {
+): boolean => {
   if (typeof data.name === 'string') {
-    return data.name
+    return false
   }
   if ('name' in data && data.name) {
-    return data.name.data.join(' ')
+    return false
   }
+
   if ('emails' in data && data.emails) {
     if (data?.emails?.[0]?.meta?.original) {
-      return data?.emails?.[0]?.meta?.original
+      return true
     }
+
     if (data?.emails?.[0]?.data) {
-      return data?.emails?.[0]?.data
+      return true
     }
   }
 
   if ('address' in data && data.address) {
-    return data.address
+    return true
   }
 
-  return '[name]'
+  return false
 }

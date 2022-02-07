@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import chunk from 'lodash/chunk'
+import keyBy from 'lodash/keyBy'
 
 type Action =
   | { type: 'UPDATE_LIST'; payload: any }
@@ -37,19 +39,25 @@ const playlistReducer = (state: State, action: any): State => {
 
 const PlaylistProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(playlistReducer, null)
-
   const getPlaylistData = React.useCallback(async (listId) => {
     try {
       const playlist = await get.getPlaylistsData([listId] as string[])
-
       const newPlaylist = { ...playlist[0] }
 
       if (newPlaylist?.contacts && newPlaylist?.contacts?.length > 0) {
-        const contactsResp = await get.getContactsMutable(
-          newPlaylist.contacts.map((item) => item.contact_id)
-        )
+        const contactsChunks = chunk(newPlaylist.contacts, 70)
 
-        newPlaylist.contacts = Object.entries(contactsResp).map(
+        const requests = contactsChunks.map((contactChunk) => {
+          return get.getContactsMutable(
+            contactChunk.map((item) => item.contact_id)
+          )
+        })
+        const contactsResp = await Promise.all(requests)
+        const convertedContactsRespToObj = contactsResp.reduce((acc, item) => {
+          return { ...acc, ...item }
+        })
+
+        newPlaylist.contacts = Object.entries(convertedContactsRespToObj).map(
           ([id, contact]) => formatContactData(contact, id)
         )
       }
