@@ -4,12 +4,12 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
-import UserHeader from 'src/components/shared-ui/UserHeader'
-import parseMessage from 'src/helpers/utils/parse-message'
+import NextStep from 'src/components/shared-ui/NextStep'
 import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import Close from 'src/components/shared-ui/Close'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 
 type Props = {
   className?: string
@@ -54,13 +54,9 @@ const CalendarItem: React.FC<Props> = ({
           <PopoverUserInfo data={data} />
         </div>
       </div>
-      {/* <div className={s.message}>
-        {data?.message_template_description && (
-          <UserHeader
-            text={parseMessage(data.message_template_description, data.name)}
-          />
-        )}
-      </div> */}
+      <div className={s.message}>
+        <NextStep text={getNextStep(data)} />
+      </div>
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
         Follow up
       </Button>

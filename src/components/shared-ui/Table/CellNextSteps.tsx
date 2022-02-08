@@ -14,7 +14,7 @@ const CellNextSteps: React.FC<Props> = ({ className, data }) => {
 
   const nextStep = useMemo(() => {
     if (data && state.data?.name) {
-      return getNextStep(data, state.data.name?.data.join(' '))
+      return getNextStep(data)
     }
     return 'Next step is not found'
   }, [data, state.data])

@@ -6,7 +6,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
 import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import UserHeader from 'src/components/shared-ui/UserHeader'
+import NextStep from 'src/components/shared-ui/NextStep'
 import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -44,7 +44,7 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
           </div>
         </div>
       </div>
-      <UserHeader
+      <NextStep
         className={s.description}
         text={data.message_template_subject}
       />

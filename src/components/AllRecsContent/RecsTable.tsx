@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -20,7 +20,6 @@ import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { post } from 'src/api'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import UserHeader from '../shared-ui/UserHeader'
 import Button from '../shared-ui/Button'
 import SvgIcon from '../shared-ui/SvgIcon'
 import Close from '../shared-ui/Close'

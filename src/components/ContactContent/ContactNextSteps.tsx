@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import data from './dummyData.json'
 import CardContainer from '../shared-ui/cards/CardContainer'
 import Avatar from '../shared-ui/Avatar'
-import UserHeader from '../shared-ui/UserHeader'
+import NextStep from '../shared-ui/NextStep'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
 
 type Props = {
@@ -27,7 +27,7 @@ const ContactNextSteps: React.FC<Props> = ({ className }) => (
               <div className={s.name}>{step?.name}</div>
             </div>
           </div>
-          <UserHeader className={s.message} text={step?.message} />
+          <NextStep className={s.message} text={step?.message} />
         </div>
         <div className={s.bottomContainer}>
           <div className={s.nextStep}>{step?.nextStep}</div>

@@ -5,11 +5,13 @@ import { getName } from 'src/helpers/utils/get-name'
 import { useRouter } from 'next/router'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import formatContactData from 'src/helpers/utils/format-contact-data'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 import CardContainer from '../../cards/CardContainer'
 import Avatar from '../../Avatar'
 import PopoverDots from '../PopoverDots'
 import Button from '../../Button'
 import TabsContent from './TabsContent'
+import NextStep from '../../NextStep'
 
 type Props = {
   className?: string
@@ -62,10 +64,7 @@ const PopupContent: React.FC<Props> = ({
             <div className={s.subject}>{getSubject()}</div>
           </div>
         </div>
-        {/* <UserHeader
-              className={s.summary}
-              text={parseMessage(Summary, name)}
-            /> */}
+        <NextStep className={s.nextStep} text={getNextStep(data)} />
         <div className={s.actions}>
           <PopoverDots
             variant="outlined"
@@ -133,12 +132,10 @@ const s = css`
     font-weight: var(--bold);
   }
 
-  .summary {
+  .nextStep {
     width: 100%;
     padding: 10px 13px;
-
-    color: var(--blue);
-    background: var(--lightBlue);
+    margin-bottom: 18px;
   }
 
   .actions {

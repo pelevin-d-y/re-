@@ -4,7 +4,7 @@ import { css } from 'astroturf'
 import { useClient } from 'src/components/context/ClientContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import UserHeader from 'src/components/shared-ui/UserHeader'
+import NextStep from 'src/components/shared-ui/NextStep'
 import parseMessage from 'src/helpers/utils/parse-message'
 import PopoverBase from '../PopoverBase'
 import PopoverActionsContent from '../PopoverActionsContent'
@@ -39,7 +39,7 @@ const TabRecs: React.FC<Props> = ({ className }) => {
                 </div>
                 <div className={s.description}>
                   {item.message_template_subject && (
-                    <UserHeader
+                    <NextStep
                       text={parseMessage(
                         item.message_template_subject,
                         item.name
