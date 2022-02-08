@@ -75,6 +75,7 @@ const getMainUserData = async () => {
   const [recommendations, contactResponse, authResponse] = requests
 
   const formattedClientData = formatContactData(contactResponse)
+
   const clientData = addAuthData(formattedClientData, authResponse)
 
   const mainUserData: MainUserData = {

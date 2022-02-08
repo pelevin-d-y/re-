@@ -1,7 +1,7 @@
 const parseMessage = (
   string: string,
-  contactName?: string,
-  clientName?: string
+  contactName?: string, // usually the person to whom the letter is addressed
+  clientName?: string // strata client
 ): string => {
   const comparator = new Map()
 

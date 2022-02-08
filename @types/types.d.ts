@@ -130,6 +130,7 @@ type FormattedContact = {
   contact_id: string
   Notes?: ContactMutable
   Status?: string
+  templateData?: Template
 }
 
 type ListData = {

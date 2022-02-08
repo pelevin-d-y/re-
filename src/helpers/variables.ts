@@ -4,6 +4,5 @@ const logInLink =
 const LS_ID_TOKEN = 'strata_id_token'
 const getAvatarUrl = (id: string): string =>
   `https://d1vi0xe0gbvwgr.cloudfront.net/contact_images/${id}.jpg`
-const primaryEmailType = 'primaryEmail'
 
-export { logInLink, LS_ID_TOKEN, getAvatarUrl, primaryEmailType }
+export { logInLink, LS_ID_TOKEN, getAvatarUrl }
