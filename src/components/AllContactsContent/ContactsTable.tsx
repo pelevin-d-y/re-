@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -24,6 +24,7 @@ import Img from '../shared-ui/Img'
 import EditField from '../shared-ui/EditField'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
 import CellNextSteps from '../shared-ui/Table/CellNextSteps'
+import { HOCLastMessage } from '../HOCs/HOCLastMessage'
 
 type Props = {
   className?: string
@@ -106,9 +107,12 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
         accessor: 'last_client_text',
         disableSortBy: true,
         Cell: ({ value, row }) => {
-          return (
-            <CellLastMessage className={s.cellContent} data={row.original} />
-          )
+          const WithLastMessage = HOCLastMessage({
+            WrappedComponent: CellLastMessage,
+            id: row.original.contact_id,
+          })
+
+          return <WithLastMessage />
         },
       },
       {
@@ -250,7 +254,6 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
           {rows.map((row: any) => {
             prepareRow(row)
             const { key, ...restProps } = row.getRowProps()
-
             return (
               <Row
                 row={row}
