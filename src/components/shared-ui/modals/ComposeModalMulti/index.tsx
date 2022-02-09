@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import ModalClose from 'src/components/shared-ui/Close'
 
 import { differenceWith } from 'lodash'
 import ModalBase from '../ModalBase'

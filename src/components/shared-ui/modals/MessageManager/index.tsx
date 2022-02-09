@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useCallback, useEffect, useReducer } from 'react'
+import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
@@ -12,8 +12,13 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
 import testTemplates from 'src/testTemplates.json'
 import { getName } from 'src/helpers/utils/get-name'
+import lodash from 'lodash'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
+
+interface UserWithTemplateData extends RecommendationUser {
+  templateData?: Template
+}
 
 type Props = {
   className?: string
@@ -73,7 +78,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const { state: clientState, updateUserData } = useClient()
+  const { state: clientState } = useClient()
   const { state: popupState, dispatch: popupDispatch } = usePopup()
   const { dataMulti } = popupState
 
@@ -165,6 +170,13 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     }
   }
 
+  const selectUser = (user: FormattedContact | UserWithTemplateData) => {
+    popupDispatch({
+      type: 'UPDATE_POPUP_DATA',
+      payload: user,
+    })
+  }
+
   const sendEmail = async () => {
     if (!state.bodyData.from_contact) {
       // eslint-disable-next-line no-alert
@@ -177,9 +189,8 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
       .sendMessage(state.bodyData)
       .then((resp) => {
         dispatch({ type: 'updateSendingStatus' })
-        setIsSent(true)
         setConnectedUser()
-        updateUserData()
+        setIsSent(true)
       })
       .catch((err) => {
         dispatch({ type: 'updateSendingStatus' })
