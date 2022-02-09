@@ -13,7 +13,7 @@ type Props = {
 const ModalLastMessage = React.forwardRef<any, Props>(
   ({ className, isLoading, lastMessageData }, ref) => {
     const parsedText = () => {
-      if (lastMessageData) {
+      if (lastMessageData?.last_contact_message_text) {
         return parseMessage(lastMessageData.last_contact_message_text)
       }
       return 'Last message is not defined'
