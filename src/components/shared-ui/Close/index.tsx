@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, MouseEvent } from 'react'
+import React, { MouseEvent } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'

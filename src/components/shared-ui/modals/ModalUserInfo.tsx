@@ -6,7 +6,9 @@ import { css } from 'astroturf'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { getName } from 'src/helpers/utils/get-name'
 import { formatDate } from 'src/helpers/utils/parseTime'
+import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
 import MessageStatus from './ComposeModalMulti/UsersManager/MessageStatus'
+import ModalLastMessage from './ModalLastMessage'
 
 type Props = {
   className?: string
@@ -14,13 +16,6 @@ type Props = {
 }
 
 const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
-  const parsedText = () => {
-    if ('last_contact_message_text' in data) {
-      return parseMessage(data?.last_contact_message_text)
-    }
-    return 'Last message is not defined'
-  }
-
   const getAvatarUrl = () => {
     if ('avatar' in data) {
       return data.avatar
@@ -31,11 +26,9 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
     return null
   }
 
-  const parsedTime = () => {
-    if ('last_contact_message_time' in data) {
-      const number = Number(data.last_contact_message_time) * 1000
-      const date = new Date(number)
-      return formatDate(date)
+  const parsedTime = (lastMessageData: any) => {
+    if (lastMessageData?.last_client_time) {
+      return formatDate(lastMessageData.last_client_time)
     }
     return null
   }
@@ -52,11 +45,21 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
         </div>
 
         <div className={s.bodyContainer}>
-          <div className={s.subject}>{parsedTime() && parsedTime()}</div>
-          <div
-            className={s.body}
-            dangerouslySetInnerHTML={{ __html: parsedText() }}
-          />
+          <HOCLastMessage id={data.contact_id}>
+            {(lastMessageData, isLoading, ref) => {
+              return (
+                <>
+                  <div className={s.subject}>{parsedTime(lastMessageData)}</div>
+                  <ModalLastMessage
+                    className={s.body}
+                    lastMessageData={lastMessageData}
+                    ref={ref}
+                    isLoading={isLoading}
+                  />
+                </>
+              )
+            }}
+          </HOCLastMessage>
         </div>
       </div>
     </div>
@@ -143,6 +146,7 @@ const s = css`
 
   .bodyContainer {
     max-width: 50%;
+    width: 100%;
     background: #fafafa;
     border: 1px solid #dddddd;
     border-radius: 6px;
