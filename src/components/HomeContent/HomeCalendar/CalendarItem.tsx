@@ -15,12 +15,14 @@ type Props = {
   className?: string
   data: FormattedContact
   hideItemCallback?: () => void
+  updateDataCallback?: () => void
 }
 
 const CalendarItem: React.FC<Props> = ({
   data,
   className,
   hideItemCallback,
+  updateDataCallback,
 }) => {
   const { dispatch } = usePopup()
   const buttonHandler = () => {
@@ -51,7 +53,10 @@ const CalendarItem: React.FC<Props> = ({
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
-          <PopoverUserInfo data={data} />
+          <PopoverUserInfo
+            data={data}
+            updateDataCallback={updateDataCallback}
+          />
         </div>
       </div>
       <div className={s.message}>

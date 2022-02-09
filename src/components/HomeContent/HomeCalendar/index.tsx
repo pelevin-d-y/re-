@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -54,29 +54,29 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     )
   }
 
-  useEffect(() => {
-    const getUsersData = async () => {
-      try {
-        setIsLoading(true)
-        const ids = await getUserIds(selector)
-        let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
-        if (ids && ids.length > 0) {
-          const mutableData = await get.getContactsMutable(ids)
-          usersData = Object.entries(mutableData).map(([id, contact]) =>
-            formatContactData(contact, id)
-          )
-        }
-
-        usersData = filterContactsHidden(usersData)
-
-        setContacts(usersData)
-        setIsLoading(false)
-      } catch (error) {
-        console.log('getUsersData ==>', error)
+  const fetchData = useCallback(async () => {
+    try {
+      const ids = await getUserIds(selector)
+      let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
+      if (ids && ids.length > 0) {
+        const mutableData = await get.getContactsMutable(ids)
+        usersData = Object.entries(mutableData).map(([id, contact]) =>
+          formatContactData(contact, id)
+        )
       }
+
+      usersData = filterContactsHidden(usersData)
+
+      setContacts(usersData)
+    } catch (error) {
+      console.log('getUsersData ==>', error)
     }
-    getUsersData()
   }, [selector])
+
+  useEffect(() => {
+    setIsLoading(true)
+    fetchData().finally(() => setIsLoading(false))
+  }, [fetchData])
 
   const hideItemCallback = () => {
     let contactsFiltered = [...(contacts as FormattedContact[])]
@@ -99,6 +99,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
                 data={item}
                 key={item.contact_id}
                 hideItemCallback={hideItemCallback}
+                updateDataCallback={fetchData}
               />
             ))
           )}
