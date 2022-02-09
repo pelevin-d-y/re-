@@ -10,7 +10,7 @@ type Props = {
   isLoading: boolean
 }
 
-const CellLastMessage: React.FC<Props> = React.forwardRef<any, Props>(
+const CellLastMessage = React.forwardRef<any, Props>(
   ({ className, isLoading, lastMessageData }, ref) => {
     return (
       <div ref={ref} className={classNames(s.container, className)}>

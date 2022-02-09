@@ -1,18 +1,16 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import Pin from 'src/components/shared-ui/Pin'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
-import PopoverActions from 'src/components/shared-ui/popover/PopoverActions'
+
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import NextStep from 'src/components/shared-ui/NextStep'
 import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { formatDistanceToNowStrict, fromUnixTime } from 'date-fns'
-import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
-import CellLastMessage from '../../Table/CellLastMessage'
 
 type Props = {
   className?: string
@@ -26,20 +24,9 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
-  // WrappedComponent: CellLastMessage,
-
   return (
     <CardContainer className={classNames(className, s.container)}>
       <PopoverRemoveCard classRemove={s.remove} data={data} />
-      <HOCLastMessage>
-        {(lastMessageData, isLoading, ref) => (
-          <CellLastMessage
-            isLoading={isLoading}
-            lastMessageData={lastMessageData}
-            ref={ref}
-          />
-        )}
-      </HOCLastMessage>
       <div className={classNames(s.rowUserInfo)}>
         <Avatar
           image={data.image_url}

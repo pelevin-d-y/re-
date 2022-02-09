@@ -107,12 +107,17 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
         accessor: 'last_client_text',
         disableSortBy: true,
         Cell: ({ value, row }) => {
-          const WithLastMessage = HOCLastMessage({
-            WrappedComponent: CellLastMessage,
-            id: row.original.contact_id,
-          })
-
-          return <WithLastMessage />
+          return (
+            <HOCLastMessage id={row.original.contact_id}>
+              {(lastMessageData, isLoading, ref) => (
+                <CellLastMessage
+                  isLoading={isLoading}
+                  lastMessageData={lastMessageData}
+                  ref={ref}
+                />
+              )}
+            </HOCLastMessage>
+          )
         },
       },
       {

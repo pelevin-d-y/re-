@@ -6,7 +6,9 @@ export const getName = (
     return data.name
   }
   if ('name' in data && data.name) {
-    return data.name.data.join(' ')
+    return Array.isArray(data.name.data)
+      ? data.name.data.join(' ')
+      : data.name.data
   }
   if ('emails' in data && data.emails) {
     if (data?.emails?.[0]?.meta?.original) {

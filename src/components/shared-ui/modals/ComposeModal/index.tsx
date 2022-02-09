@@ -3,8 +3,6 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import ModalBase from '../ModalBase'
 import ModalContent from '../ModalContent'
-import Button from '../../Button'
-import CloseButton from '../../Close'
 
 const ComposeModal: React.FC = () => {
   const { dispatch, state } = usePopup()
