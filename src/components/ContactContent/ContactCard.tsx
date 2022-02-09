@@ -8,7 +8,6 @@ import { getName } from 'src/helpers/utils/get-name'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
-import UserHeader from '../shared-ui/UserHeader'
 import { usePopup } from '../context/PopupContext'
 import { UserInfo } from '../shared-ui/UserInfo'
 

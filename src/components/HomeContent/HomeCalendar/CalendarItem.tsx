@@ -4,39 +4,64 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { usePopup } from 'src/components/context/PopupContext'
-import UserHeader from 'src/components/shared-ui/UserHeader'
-import parseMessage from 'src/helpers/utils/parse-message'
+import NextStep from 'src/components/shared-ui/NextStep'
 import Button from 'src/components/shared-ui/Button'
-import { getName } from 'src/helpers/utils/get-name'
-import { isNameEmail } from 'src/helpers/utils/is-name-email'
+import Pin from 'src/components/shared-ui/Pin'
+import Close from 'src/components/shared-ui/Close'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 
 type Props = {
   className?: string
   data: FormattedContact
+  hideItemCallback?: () => void
+  updateDataCallback?: () => void
 }
 
-const CalendarItem: React.FC<Props> = ({ data, className }) => {
+const CalendarItem: React.FC<Props> = ({
+  data,
+  className,
+  hideItemCallback,
+  updateDataCallback,
+}) => {
   const { dispatch } = usePopup()
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
 
+  const hideItem = () => {
+    const { contact_id } = data
+    const storageKey = 'hidden_contacts_calendar'
+    const localHidden = JSON.parse(localStorage.getItem(storageKey) || '[]')
+
+    const newHidden = {
+      contact_id,
+      time_hidden: Date.now(),
+    }
+    localHidden.push(newHidden)
+
+    localStorage.setItem(storageKey, JSON.stringify(localHidden))
+
+    if (hideItemCallback) {
+      hideItemCallback()
+    }
+  }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
+      <Pin className={s.pin} data={data as any} />
       <div className={s.profile}>
         <Avatar className={s.avatar} image={data.avatar} />
         <div className={s.text}>
-          <PopoverUserInfo data={data} />
+          <PopoverUserInfo
+            data={data}
+            updateDataCallback={updateDataCallback}
+          />
         </div>
       </div>
-      {/* <div className={s.message}>
-        {data?.message_template_description && (
-          <UserHeader
-            text={parseMessage(data.message_template_description, data.name)}
-          />
-        )}
-      </div> */}
+      <div className={s.message}>
+        <NextStep text={getNextStep(data)} />
+      </div>
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
         Follow up
       </Button>
@@ -47,6 +72,12 @@ const CalendarItem: React.FC<Props> = ({ data, className }) => {
       >
         Reach out
       </PopoverRate> */}
+      <Close
+        className={s.remove}
+        handler={() => {
+          hideItem()
+        }}
+      />
     </CardContainer>
   )
 }
@@ -123,6 +154,27 @@ const s = css`
     margin-right: 20px;
     @include mobile {
       max-width: 100%;
+    }
+  }
+
+  .pin {
+    margin-right: 11px;
+  }
+
+  .remove {
+    background: var(--white);
+    margin-left: 11px;
+  }
+
+  .container {
+    .remove {
+      opacity: 0;
+    }
+
+    &:hover {
+      .remove {
+        opacity: 0.6;
+      }
     }
   }
 `

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -14,18 +14,18 @@ import {
 } from 'react-table'
 import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import parseMessage from 'src/helpers/utils/parse-message'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { post } from 'src/api'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import UserHeader from '../shared-ui/UserHeader'
 import Button from '../shared-ui/Button'
 import SvgIcon from '../shared-ui/SvgIcon'
 import Close from '../shared-ui/Close'
 import { useClient } from '../context/ClientContext'
 import CellNextSteps from '../shared-ui/Table/CellNextSteps'
+import CellLastMessage from '../shared-ui/Table/CellLastMessage'
+import { HOCLastMessage } from '../HOCs/HOCLastMessage'
 
 type Props = {
   className?: string
@@ -77,9 +77,15 @@ const Table: React.FC<Props> = ({ className, data }) => {
         id: 'last-message',
         minWidth: 100,
         Cell: ({ value, row }) => (
-          <div className={s.cellContent}>
-            {row.original.last_contact_message_text}
-          </div>
+          <HOCLastMessage id={row.original.contact_id}>
+            {(lastMessageData, isLoading, ref) => (
+              <CellLastMessage
+                isLoading={isLoading}
+                lastMessageData={lastMessageData}
+                ref={ref}
+              />
+            )}
+          </HOCLastMessage>
         ),
         disableSortBy: true,
       },
@@ -300,6 +306,12 @@ const s = css`
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
+
+    &:hover {
+      .close {
+        opacity: 1;
+      }
+    }
   }
 
   .lastData {
@@ -339,6 +351,7 @@ const s = css`
   .close {
     background: transparent;
     color: #8e8e8e;
+    opacity: 0;
   }
 `
 

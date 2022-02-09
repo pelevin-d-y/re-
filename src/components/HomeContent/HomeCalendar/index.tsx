@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -41,26 +41,49 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     }
   }
 
-  useEffect(() => {
-    const getUsersData = async () => {
-      try {
-        setIsLoading(true)
-        const ids = await getUserIds(selector)
-        let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
-        if (ids && ids.length > 0) {
-          const mutableData = await get.getContactsMutable(ids)
-          usersData = Object.entries(mutableData).map(([id, contact]) =>
-            formatContactData(contact, id)
-          )
-        }
-        setContacts(usersData)
-        setIsLoading(false)
-      } catch (error) {
-        console.log('getUsersData ==>', error)
+  const filterContactsHidden = (formattedContacts: FormattedContact[]) => {
+    const storageKey = 'hidden_contacts_calendar'
+    const localHidden = JSON.parse(localStorage.getItem(storageKey) || '[]')
+
+    const hiddenContactsIds = localHidden.map(
+      (contact: { contact_id: string }) => contact.contact_id
+    )
+
+    return formattedContacts.filter(
+      (contact) => !hiddenContactsIds.includes(contact.contact_id)
+    )
+  }
+
+  const fetchData = useCallback(async () => {
+    try {
+      const ids = await getUserIds(selector)
+      let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
+      if (ids && ids.length > 0) {
+        const mutableData = await get.getContactsMutable(ids)
+        usersData = Object.entries(mutableData).map(([id, contact]) =>
+          formatContactData(contact, id)
+        )
       }
+
+      usersData = filterContactsHidden(usersData)
+
+      setContacts(usersData)
+    } catch (error) {
+      console.log('getUsersData ==>', error)
     }
-    getUsersData()
   }, [selector])
+
+  useEffect(() => {
+    setIsLoading(true)
+    fetchData().finally(() => setIsLoading(false))
+  }, [fetchData])
+
+  const hideItemCallback = () => {
+    let contactsFiltered = [...(contacts as FormattedContact[])]
+    contactsFiltered = filterContactsHidden(contactsFiltered)
+
+    setContacts(contactsFiltered)
+  }
 
   const renderContacts = () => {
     const isContactsEmpty = contacts ? contacts.length === 0 : true
@@ -72,7 +95,12 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
             <div className={s.noContacts}>No events</div>
           ) : (
             contacts?.map((item) => (
-              <UpcomingItem data={item} key={item.contact_id} />
+              <UpcomingItem
+                data={item}
+                key={item.contact_id}
+                hideItemCallback={hideItemCallback}
+                updateDataCallback={fetchData}
+              />
             ))
           )}
         </div>

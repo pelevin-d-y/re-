@@ -132,6 +132,7 @@ type FormattedContact = {
   Notes?: ContactMutable
   Status?: string
   isSent?: boolean
+  templateData?: Template
 }
 
 type ListData = {
