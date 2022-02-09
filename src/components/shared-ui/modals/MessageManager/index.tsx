@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Button from 'src/components/shared-ui/Button'
@@ -12,7 +12,6 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
 import testTemplates from 'src/testTemplates.json'
 import { getName } from 'src/helpers/utils/get-name'
-import lodash from 'lodash'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
 
@@ -170,12 +169,16 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     }
   }
 
-  const selectUser = (user: FormattedContact | UserWithTemplateData) => {
-    popupDispatch({
-      type: 'UPDATE_POPUP_DATA',
-      payload: user,
-    })
-  }
+  useEffect(() => {
+    const nextContact = dataMulti?.find((item: any) => !item.isSent)
+    if (nextContact) {
+      popupDispatch({
+        type: 'UPDATE_POPUP_DATA',
+        payload: nextContact,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataMulti, popupDispatch])
 
   const sendEmail = async () => {
     if (!state.bodyData.from_contact) {
@@ -187,7 +190,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
     return post
       .sendMessage(state.bodyData)
-      .then((resp) => {
+      .then(() => {
         dispatch({ type: 'updateSendingStatus' })
         setConnectedUser()
         setIsSent(true)

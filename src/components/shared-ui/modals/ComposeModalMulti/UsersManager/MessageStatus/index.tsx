@@ -39,6 +39,7 @@ const s = css`
 
   .date {
     margin-right: 15px;
+    white-space: nowrap;
   }
 
   .image {

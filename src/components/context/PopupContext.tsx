@@ -39,7 +39,7 @@ type State = {
   deleteListModalIsOpen: boolean
   modalPinnedIsOpen: boolean
   data: UserWithTemplateData | FormattedContact | null
-  dataMulti: UserWithTemplateData[] | FormattedContact[] | null
+  dataMulti: (UserWithTemplateData | FormattedContact)[] | null
   listId: string | ''
 }
 
