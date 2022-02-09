@@ -22,7 +22,7 @@ import EditField from 'src/components/shared-ui/EditField'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
 import CellNextSteps from 'src/components/shared-ui/Table/CellNextSteps'
-import AddUserView from '../../shared-ui/AddUserView'
+import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
@@ -97,7 +97,17 @@ const Table: React.FC<Props> = ({ className, data }) => {
         accessor: 'last_client_text',
         maxWidth: 100,
         disableSortBy: true,
-        Cell: ({ value, row }) => <CellLastMessage data={row.original} />,
+        Cell: ({ value, row }) => (
+          <HOCLastMessage id={row.original.contact_id}>
+            {(lastMessageData, isLoading, ref) => (
+              <CellLastMessage
+                isLoading={isLoading}
+                lastMessageData={lastMessageData}
+                ref={ref}
+              />
+            )}
+          </HOCLastMessage>
+        ),
       },
       {
         Header: 'Next steps',

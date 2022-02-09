@@ -8,7 +8,7 @@ type Props = {
   text: string
 }
 
-const UserHeader: React.FC<Props> = ({ className, text }) => (
+const NextStep: React.FC<Props> = ({ className, text }) => (
   <div className={classNames(className, s.container)}>
     <Img className={s.icon} alt="logo" img="logo-user-info.svg" />
     {text}
@@ -35,4 +35,4 @@ const s = css`
   }
 `
 
-export default UserHeader
+export default NextStep

@@ -4,7 +4,7 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
-import UserHeader from 'src/components/shared-ui/UserHeader'
+import NextStep from 'src/components/shared-ui/NextStep'
 import { LoaderAbsolute } from 'src/components/shared-ui/Loader'
 import { getName } from 'src/helpers/utils/get-name'
 
@@ -43,7 +43,7 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
       <div className={s.footer}>
         <div className={s.message}>
           {data?.message_template_description && (
-            <UserHeader
+            <NextStep
               text={parseMessage(data.message_template_description, data.name)}
             />
           )}

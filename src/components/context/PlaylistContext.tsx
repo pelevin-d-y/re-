@@ -2,7 +2,6 @@ import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import chunk from 'lodash/chunk'
-import keyBy from 'lodash/keyBy'
 
 type Action =
   | { type: 'UPDATE_LIST'; payload: any }
