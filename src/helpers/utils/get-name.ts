@@ -5,10 +5,8 @@ export const getName = (
   if (typeof data.name === 'string') {
     return data.name
   }
-  if ('name' in data && data.name) {
-    return Array.isArray(data.name.data)
-      ? data.name.data.join(' ')
-      : data.name.data
+  if ('name' in data && data.name && data.name.data[0]) {
+    return data.name.data.join(' ')
   }
   if ('emails' in data && data.emails) {
     if (data?.emails?.[0]?.meta?.original) {
