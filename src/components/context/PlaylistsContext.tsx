@@ -1,3 +1,4 @@
+import { chunk } from 'lodash'
 import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
@@ -62,9 +63,12 @@ const PlaylistsProvider: React.FC = ({ children }) => {
       >(
         playlistsData.map((playlist) => {
           const { contacts: playlistContacts } = playlist
+
           return playlistContacts && playlistContacts.length > 0
             ? get.getContactsMutable(
-                playlistContacts.map((item: any) => item.contact_id)
+                playlistContacts
+                  .map((item: any) => item.contact_id)
+                  .filter((_, index) => index <= 9)
               )
             : {}
         })
@@ -83,9 +87,9 @@ const PlaylistsProvider: React.FC = ({ children }) => {
             }
           )
 
-          newItem.contacts = formattedData
+          newItem.contactsData = formattedData
         } else {
-          newItem.contacts = []
+          newItem.contactsData = []
         }
 
         return newItem
