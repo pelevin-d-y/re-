@@ -82,6 +82,8 @@ const ComposeModalMulti: React.FC = () => {
     setSelectedContacts([])
     setUnselectedContacts([])
     dispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
+    dispatch({ type: 'UPDATE_COMPOSE_MULTI_DATA', payload: null })
+    dispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
   }
 
   return (
