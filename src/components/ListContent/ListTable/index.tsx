@@ -77,7 +77,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
               image={row.original.avatar}
               strength={row.original.relationshipStrength}
             />{' '}
-            <PopoverUserInfo className={s.name} data={row.original} />
+            <PopoverUserInfo
+              className={s.name}
+              data={row.original}
+              updateDataCallback={() => getPlaylistData(data.playlist_id)}
+            />
           </div>
         ),
         sortType: customSortType(),
@@ -149,7 +153,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         },
       },
     ],
-    [data.playlist_id, updateUser]
+    [data.playlist_id, getPlaylistData, updateUser]
   )
 
   const {
