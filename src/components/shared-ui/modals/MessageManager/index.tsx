@@ -73,7 +73,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const { state: clientState, updateUserData } = useClient()
+  const { state: clientState } = useClient()
   const { state: popupState, dispatch: popupDispatch } = usePopup()
   const { dataMulti } = popupState
 
@@ -165,7 +165,20 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     }
   }
 
-  const sendEmail = async () => {
+  useEffect(() => {
+    const nextContact = dataMulti?.find((item: any) => !item.isSent)
+    if (nextContact) {
+      process.nextTick(() => {
+        popupDispatch({
+          type: 'UPDATE_POPUP_DATA',
+          payload: nextContact,
+        })
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataMulti, popupDispatch])
+
+  const sendEmail = () => {
     if (!state.bodyData.from_contact) {
       // eslint-disable-next-line no-alert
       return alert('Please set primary email')
@@ -175,11 +188,10 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
     return post
       .sendMessage(state.bodyData)
-      .then((resp) => {
+      .then(() => {
         dispatch({ type: 'updateSendingStatus' })
-        setIsSent(true)
         setConnectedUser()
-        updateUserData()
+        setIsSent(true)
       })
       .catch((err) => {
         dispatch({ type: 'updateSendingStatus' })
@@ -217,7 +229,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
           <Button
             variant="contained"
             className={classNames(s.buttonSend, state.isSending && s.disabled)}
-            handler={() => sendEmail()}
+            handler={sendEmail}
           >
             {state.isSending ? (
               <SvgIcon className={s.spinner} icon="spinner.svg" />
