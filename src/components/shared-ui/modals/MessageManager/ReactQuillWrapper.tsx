@@ -1,10 +1,7 @@
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import dynamic from 'next/dynamic'
-
-const ReactQuill = dynamic(() => import('./ReactQuillWrapper'), {
-  ssr: false,
-})
+import ReactQuill, { Quill } from 'react-quill'
 
 type Props = {
   className?: string
@@ -19,17 +16,26 @@ const modules = {
   },
 }
 
+const Size = Quill.import('attributors/style/size')
+Size.whitelist = ['32px', '24px', '13px', '9px']
+Quill.register(Size, true)
+
 const HtmlEditorModal: React.FC<Props> = ({
   className,
   value,
   setEditorValue,
 }) => {
   return (
-    <ReactQuill
-      value={value}
-      setEditorValue={setEditorValue}
-      className={className}
-    />
+    <div className={classNames(className, s.container, 'modal-editor')}>
+      <ReactQuill
+        theme="snow"
+        value={value || ''}
+        modules={modules}
+        onChange={(quillValue) => {
+          setEditorValue('body', quillValue)
+        }}
+      />
+    </div>
   )
 }
 
