@@ -142,7 +142,7 @@ type ListData = {
     review?: number
     scores?: any
   }[]
-
+  contactsData?: FormattedContact[]
   playlist_id: string
   inclusions?: any
   info?: { name?: string; description?: string }
