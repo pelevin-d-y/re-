@@ -8,6 +8,7 @@ import getLastMessage from 'src/helpers/utils/get-last-message'
 type Props = {
   className?: string
   id: string
+  delay?: number // miliseconds
   children(
     lastMessageData: any,
     isLoading: boolean,
@@ -15,9 +16,9 @@ type Props = {
   ): ReactElement
 }
 
-const HOCLastMessage: React.FC<Props> = ({ children, id }) => {
+const HOCLastMessage: React.FC<Props> = ({ children, id, delay }) => {
   const { ref, inView } = useInView({
-    delay: 1400,
+    delay: delay || 1400,
   })
 
   const [isLoading, setIsLoading] = useState(false)
