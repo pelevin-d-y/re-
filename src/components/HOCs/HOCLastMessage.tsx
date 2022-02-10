@@ -18,7 +18,7 @@ type Props = {
 
 const HOCLastMessage: React.FC<Props> = ({ children, id, delay }) => {
   const { ref, inView } = useInView({
-    delay: delay || 1400,
+    delay: delay ?? 1400,
   })
 
   const [isLoading, setIsLoading] = useState(false)
