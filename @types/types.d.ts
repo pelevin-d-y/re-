@@ -94,6 +94,7 @@ type RecommendationUser = {
   key: string
   first_message_id: string
   first_message_from: string
+  isSent?: boolean
 }
 
 type ContactMutable = {
@@ -130,6 +131,7 @@ type FormattedContact = {
   contact_id: string
   Notes?: ContactMutable
   Status?: string
+  isSent?: boolean
   templateData?: Template
 }
 

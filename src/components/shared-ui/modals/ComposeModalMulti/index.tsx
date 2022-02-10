@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import ModalClose from 'src/components/shared-ui/Close'
 
 import { differenceWith } from 'lodash'
 import ModalBase from '../ModalBase'
@@ -99,7 +98,11 @@ const ComposeModalMulti: React.FC = () => {
         addUserHandler={addUserHandler}
       />
       {popupData && (
-        <ModalContent data={popupData} closeHandler={closeHandler} />
+        <ModalContent
+          data={popupData}
+          closeHandler={closeHandler}
+          isSent={popupData?.isSent}
+        />
       )}
     </ModalBase>
   )

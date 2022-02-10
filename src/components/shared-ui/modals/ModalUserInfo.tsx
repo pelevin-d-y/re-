@@ -145,7 +145,7 @@ const s = css`
   }
 
   .bodyContainer {
-    max-width: 50%;
+    max-width: 320px;
     width: 100%;
     background: #fafafa;
     border: 1px solid #dddddd;

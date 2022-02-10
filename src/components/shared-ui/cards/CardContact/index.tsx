@@ -15,9 +15,10 @@ import { formatDistanceToNowStrict, fromUnixTime } from 'date-fns'
 type Props = {
   className?: string
   data: RecommendationUser
+  pin?: boolean
 }
 
-const CardContact: React.FC<Props> = ({ className, data }) => {
+const CardContact: React.FC<Props> = ({ className, data, pin }) => {
   const { dispatch } = usePopup()
 
   const buttonHandler = () => {
@@ -49,7 +50,7 @@ const CardContact: React.FC<Props> = ({ className, data }) => {
         text={data.message_template_subject}
       />
       <div className={s.actions}>
-        <Pin className={s.pin} data={data} />
+        {pin && <Pin className={s.pin} data={data} />}
         <Button
           className={s.button}
           variant="contained"
