@@ -45,7 +45,7 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
         </div>
 
         <div className={s.bodyContainer}>
-          <HOCLastMessage id={data.contact_id}>
+          <HOCLastMessage id={data.contact_id} delay={0}>
             {(lastMessageData, isLoading, ref) => {
               return (
                 <>
