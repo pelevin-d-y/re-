@@ -166,7 +166,9 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   }
 
   useEffect(() => {
-    const nextContact = dataMulti?.find((item: any) => !item.isSent)
+    const nextContact = (dataMulti as Array<any>)?.find(
+      (item: any) => !item.isSent
+    )
     if (nextContact) {
       process.nextTick(() => {
         popupDispatch({
