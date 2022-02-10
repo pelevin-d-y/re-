@@ -10,11 +10,11 @@ type Props = {
 
 const ModalEditorToolbar: React.FC<Props> = ({ className }) => (
   <div id="editorToolbar" className={classNames(s.container, className)}>
-    <select className={classNames('ql-size', s.size)} defaultValue="medium">
-      <option value="huge">Heading 1</option>
-      <option value="large">Heading 2</option>
-      <option value="medium">medium</option>
-      <option value="small">small</option>
+    <select className={classNames('ql-size', s.size)} defaultValue="13px">
+      <option value="32px">Heading 1</option>
+      <option value="24px">Heading 2</option>
+      <option value="13px">medium</option>
+      <option value="9px">small</option>
     </select>
     <button type="button" className="ql-bold" />
     <button type="button" className="ql-italic" />
