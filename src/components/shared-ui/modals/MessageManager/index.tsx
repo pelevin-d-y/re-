@@ -15,10 +15,6 @@ import { getName } from 'src/helpers/utils/get-name'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
 
-interface UserWithTemplateData extends RecommendationUser {
-  templateData?: Template
-}
-
 type Props = {
   className?: string
   data: any
@@ -172,15 +168,17 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   useEffect(() => {
     const nextContact = dataMulti?.find((item: any) => !item.isSent)
     if (nextContact) {
-      popupDispatch({
-        type: 'UPDATE_POPUP_DATA',
-        payload: nextContact,
+      process.nextTick(() => {
+        popupDispatch({
+          type: 'UPDATE_POPUP_DATA',
+          payload: nextContact,
+        })
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataMulti, popupDispatch])
 
-  const sendEmail = async () => {
+  const sendEmail = () => {
     if (!state.bodyData.from_contact) {
       // eslint-disable-next-line no-alert
       return alert('Please set primary email')
@@ -231,7 +229,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
           <Button
             variant="contained"
             className={classNames(s.buttonSend, state.isSending && s.disabled)}
-            handler={() => sendEmail()}
+            handler={sendEmail}
           >
             {state.isSending ? (
               <SvgIcon className={s.spinner} icon="spinner.svg" />
