@@ -85,7 +85,9 @@ const formatContactData = (data: Data, id?: string): FormattedContact => {
             ]
           : []
       ) || [],
-    templateData: sample(testTemplates), // addition field for "next steps" till api is not ready
+    templateData: sample(
+      testTemplates.filter((item: any) => item.Action !== '<ContactName>')
+    ), // addition field for "next steps" till api is not ready
   }
 
   if (id) {
