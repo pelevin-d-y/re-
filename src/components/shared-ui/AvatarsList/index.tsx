@@ -5,7 +5,8 @@ import Avatar from 'src/components/shared-ui/Avatar'
 
 type Props = {
   className?: string
-  users: RecommendationUser[] | FormattedContact[]
+  playlistUsers: PlaylistContact[]
+  playlistUsersData: FormattedContact[]
   avatarWidth?: number
   avatarHeight?: number
   showHiddenUsers?: boolean
@@ -17,24 +18,27 @@ const AVATAR_TRANSITION = 10
 
 const AvatarList: React.FC<Props> = ({
   className,
-  users,
+  playlistUsersData,
+  playlistUsers,
   avatarWidth,
   avatarHeight,
   showHiddenUsers,
 }) => {
-  const visibleUsers = users.slice(0, MAX_VISIBLE_USERS)
-  const hiddenUsers = users.length - MAX_VISIBLE_USERS
+  const visibleUsers = playlistUsers.slice(0, MAX_VISIBLE_USERS)
+  const hiddenUsers = playlistUsers.length - MAX_VISIBLE_USERS
   const avatarWidthWithBorder = (avatarWidth || AVATAR_BASE_SIZE) + 4 // 4 - border-width
   const containerWidth =
     avatarWidthWithBorder * visibleUsers.length -
     AVATAR_TRANSITION * (visibleUsers.length - 1)
 
-  const getAvatar = (data: RecommendationUser | FormattedContact) => {
-    if ('avatar' in data) {
-      return data.avatar
-    }
-    if ('image_url' in data) {
-      return data.image_url
+  const getAvatar = (data?: RecommendationUser | FormattedContact) => {
+    if (data) {
+      if ('avatar' in data) {
+        return data.avatar
+      }
+      if ('image_url' in data) {
+        return data.image_url
+      }
     }
     return null
   }
@@ -54,7 +58,11 @@ const AvatarList: React.FC<Props> = ({
               className={s.avatarImage}
               width={avatarWidth || AVATAR_BASE_SIZE}
               height={avatarHeight || AVATAR_BASE_SIZE}
-              image={getAvatar(item)}
+              image={getAvatar(
+                playlistUsersData.find(
+                  (playlistItem) => item.contact_id === playlistItem.contact_id
+                )
+              )}
             />
           </div>
         ))}

@@ -1,4 +1,3 @@
-import { chunk } from 'lodash'
 import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'

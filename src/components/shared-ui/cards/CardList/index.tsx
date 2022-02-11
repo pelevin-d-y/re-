@@ -15,13 +15,12 @@ type Props = {
 
 const CardList: React.FC<Props> = ({
   className,
-  data: { info, playlist_id: playlistId, contacts },
+  data: { info, playlist_id: playlistId, contacts, contactsData },
 }) => {
   const router = useRouter()
   const { createPlaylist, getPlaylists } = usePlaylists()
   const { dispatch: popupDispatch } = usePopup()
   const id = playlistId
-
   const deleteHandler = async () => {
     popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
     popupDispatch({ type: 'UPDATE_LIST_ID_DATA', payload: id })
@@ -56,12 +55,13 @@ const CardList: React.FC<Props> = ({
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
-      {contacts && (
+      {contacts && contactsData && (
         <AvatarsList
           avatarWidth={38}
           avatarHeight={38}
           className={s.avatars}
-          users={contacts}
+          playlistUsersData={contactsData}
+          playlistUsers={contacts}
           showHiddenUsers
         />
       )}

@@ -135,13 +135,15 @@ type FormattedContact = {
   templateData?: Template
 }
 
+type PlaylistContact = {
+  contact_id: string
+  review?: number
+  scores?: any
+}
+
 type ListData = {
   actions?: any
-  contacts?: {
-    contact_id: string
-    review?: number
-    scores?: any
-  }[]
+  contacts?: PlaylistContact[]
   contactsData?: FormattedContact[]
   playlist_id: string
   inclusions?: any
@@ -151,7 +153,7 @@ type ListData = {
 
 type CreatePlaylist = {
   actions?: []
-  contacts?: any[]
+  contacts?: PlaylistContact
   inclusions?: []
   info?: { name: string; description?: string }
   triggers?: []
