@@ -25,6 +25,34 @@ type ContextType = {
 
 const PlaylistContext = React.createContext<ContextType | null>(null)
 
+const fetchDataLoop = async (contacts: PlaylistContact[]) => {
+  let allResponses: {
+    string: ContactMutable[]
+  }[] = []
+  const newContacts = [...contacts]
+  const contactsChunks = chunk(newContacts, 70) // quantity users in chunk
+
+  while (contactsChunks.length) {
+    const piece = contactsChunks
+      .splice(0, 7) // quantity requests per one iteration
+      .map((contactsChunk) =>
+        get.getContactsMutable(contactsChunk.map((item) => item.contact_id))
+      )
+    // eslint-disable-next-line no-await-in-loop
+    const responses = await Promise.all(piece).catch((err) => {
+      return err
+    })
+
+    allResponses = [
+      ...allResponses,
+      ...(responses as {
+        string: ContactMutable[]
+      }[]),
+    ]
+  }
+  return allResponses
+}
+
 const playlistReducer = (state: State, action: any): State => {
   switch (action.type) {
     case 'UPDATE_LIST': {
@@ -44,14 +72,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
       const newPlaylist = { ...playlist[0] }
 
       if (newPlaylist?.contacts && newPlaylist?.contacts?.length > 0) {
-        const contactsChunks = chunk(newPlaylist.contacts, 70)
-
-        const requests = contactsChunks.map((contactChunk) => {
-          return get.getContactsMutable(
-            contactChunk.map((item) => item.contact_id)
-          )
-        })
-        const contactsResp = await Promise.all(requests)
+        const contactsResp = await fetchDataLoop(newPlaylist.contacts)
         const convertedContactsRespToObj = contactsResp.reduce((acc, item) => {
           return { ...acc, ...item }
         })
