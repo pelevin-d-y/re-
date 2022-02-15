@@ -1,11 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { getName } from 'src/helpers/utils/get-name'
 import { usePinned } from 'src/components/context/PinnedContext'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
 import CloseButton from '../Close'
+import PopoverUserInfo from '../popover/PopoverUserInfo'
 
 type Props = {
   className?: string
@@ -24,7 +24,7 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
         image={data.image_url}
       />
       <div className={s.info}>
-        <div className={s.name}>{getName(data)}</div>
+        <PopoverUserInfo data={data} position="top left" />
       </div>
       <CloseButton
         className={s.close}
