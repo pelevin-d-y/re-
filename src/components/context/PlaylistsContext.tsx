@@ -1,5 +1,7 @@
+import chunk from 'lodash/chunk'
 import * as React from 'react'
 import { get, post } from 'src/api'
+import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
 type State = { data: ListData[]; isLoading: boolean }
@@ -53,9 +55,13 @@ const PlaylistsProvider: React.FC = ({ children }) => {
   const getPlaylists = React.useCallback(async () => {
     try {
       const playlistsIds = await get.getPlaylistsIds()
-      const playlistsData = await get.getPlaylistsData(
-        playlistsIds.map((item: string) => item)
-      )
+
+      const contactsChunks = chunk(playlistsIds, 90)
+      const requests = contactsChunks.map((contactChunk) => {
+        return () => get.getPlaylistsData(contactChunk)
+      })
+      const responses = await fetchDataQueue(requests)
+      const playlistsData = responses.flat()
 
       const contactsResp = await Promise.all<
         ContactMutable[] | Record<string, unknown>
@@ -67,7 +73,7 @@ const PlaylistsProvider: React.FC = ({ children }) => {
             ? get.getContactsMutable(
                 playlistContacts
                   .map((item: any) => item.contact_id)
-                  .filter((_, index) => index <= 9)
+                  .filter((_, index) => index <= 9) // for playlist we need only first 10 avatars
               )
             : {}
         })
