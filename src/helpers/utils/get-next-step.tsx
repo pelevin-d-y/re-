@@ -15,5 +15,5 @@ export const getNextStep = (
       return parseMessage(data.templateData.Action, getName(data))
     }
   }
-  return 'Next step is not found'
+  return ''
 }

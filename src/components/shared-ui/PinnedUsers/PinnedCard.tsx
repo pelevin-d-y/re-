@@ -1,9 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { getName } from 'src/helpers/utils/get-name'
+import { usePinned } from 'src/components/context/PinnedContext'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
+import CloseButton from '../Close'
+import PopoverUserInfo from '../popover/PopoverUserInfo'
 
 type Props = {
   className?: string
@@ -11,8 +13,9 @@ type Props = {
   template?: Template
 }
 
-const PinnedCard: React.FC<Props> = ({ className, data }) =>
-  data ? (
+const PinnedCard: React.FC<Props> = ({ className, data }) => {
+  const { removePinned } = usePinned()
+  return data ? (
     <CardContainer className={classNames(className, s.container)}>
       <Avatar
         className={s.avatar}
@@ -21,11 +24,17 @@ const PinnedCard: React.FC<Props> = ({ className, data }) =>
         image={data.image_url}
       />
       <div className={s.info}>
-        <div className={s.name}>{getName(data)}</div>
+        <PopoverUserInfo data={data} position="top left" />
       </div>
+      <CloseButton
+        className={s.close}
+        handler={() => {
+          removePinned(data)
+        }}
+      />
     </CardContainer>
   ) : null
-
+}
 const s = css`
   .container {
     position: relative;
@@ -34,6 +43,11 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     padding: 18px 50px 20px 20px;
+    &:hover {
+      .close {
+        opacity: 1;
+      }
+    }
   }
 
   .avatar {
@@ -63,6 +77,13 @@ const s = css`
 
   .checkbox {
     margin-right: 19px;
+  }
+
+  .close {
+    position: absolute;
+    opacity: 0;
+    right: 20px;
+    background: transparent;
   }
 `
 
