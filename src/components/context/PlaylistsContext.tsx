@@ -69,13 +69,14 @@ const PlaylistsProvider: React.FC = ({ children }) => {
         playlistsData.map((playlist) => {
           const { contacts: playlistContacts } = playlist
 
-          return playlistContacts && playlistContacts.length > 0
-            ? get.getContactsMutable(
-                playlistContacts
-                  .map((item: any) => item.contact_id)
-                  .filter((_, index) => index <= 9) // for playlist we need only first 10 avatars
-              )
-            : {}
+          if (playlistContacts && playlistContacts.length > 0) {
+            return get.getContactsMutable(
+              playlistContacts
+                .map((item: any) => item.contact_id)
+                .filter((_, index) => index <= 9) // for playlist we need only first 10 avatars
+            )
+          }
+          return {}
         })
       )
 
