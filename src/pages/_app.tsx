@@ -8,6 +8,7 @@ import { ClientProvider } from 'src/components/context/ClientContext'
 import { ToastContainer } from 'react-toastify'
 import 'ts-replace-all'
 import 'react-toastify/dist/ReactToastify.css'
+import ProductTour from 'src/components/ProductTour'
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <div suppressHydrationWarning>
@@ -15,6 +16,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => (
       <>
         <AuthProvider>
           <ClientProvider>
+            <ProductTour />
             <Head>
               <title>Strata</title>
             </Head>

@@ -13,7 +13,9 @@ type Props = {
 }
 
 const Spotlight: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classnames(className, s.container)}>
+  <CardContainer
+    className={classnames(className, s.container, 'spotlight-welcome')}
+  >
     <div className={s.header}>
       <div className={s.title}>Spotlight</div>
       <div className={s.imageWrapper}>

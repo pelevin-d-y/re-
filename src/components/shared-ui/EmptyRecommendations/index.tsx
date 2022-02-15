@@ -19,7 +19,9 @@ const EmptyRecommendations: React.FC<Props> = ({ className }) => {
   }
 
   return (
-    <CardContainer className={classNames(s.container, className)}>
+    <CardContainer
+      className={classNames(s.container, className, 'recommendations-welcome')}
+    >
       <div className={s.header}>
         <div className={s.circle}>
           <SvgIcon className={s.iconGoogle} icon="google-mail.svg" />
