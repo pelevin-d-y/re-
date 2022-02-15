@@ -8,16 +8,29 @@ import { getName } from 'src/helpers/utils/get-name'
 import { isNameEmail } from 'src/helpers/utils/is-name-email'
 import PopupWithMutableData from './PopupWithMutableData'
 
-type Props = {
+type PopoverUserInfoProps = {
   className?: string
   data: RecommendationUser | FormattedContact
   updateDataCallback?: () => void
+  position?:
+    | 'top left'
+    | 'top right'
+    | 'bottom right'
+    | 'bottom left'
+    | 'right center'
+    | 'left center'
+    | 'left bottom'
+    | 'top center'
+    | 'bottom center'
+    | 'center center'
+    | 'right bottom'
 }
 
-const PopoverUserInfo: React.FC<Props> = ({
+const PopoverUserInfo: React.FC<PopoverUserInfoProps> = ({
   className,
   data,
   updateDataCallback,
+  position,
 }) => {
   const { dispatch } = usePopup()
   const [isOpen, setIsOpen] = useState(false)
@@ -56,6 +69,7 @@ const PopoverUserInfo: React.FC<Props> = ({
             updateDataCallback={updateDataCallback}
           />
         }
+        position={position}
       />
     </div>
   )

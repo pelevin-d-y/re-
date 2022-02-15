@@ -113,7 +113,7 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
-  getEventContacts: (after?: string, before?: string): Promise<any> => {
+  getEventContacts: (after?: string, before?: string): Promise<string[]> => {
     const params = new URLSearchParams()
     if (before) {
       params.append('before', before)

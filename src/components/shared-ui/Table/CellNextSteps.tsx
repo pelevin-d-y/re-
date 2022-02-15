@@ -16,7 +16,7 @@ const CellNextSteps: React.FC<Props> = ({ className, data }) => {
     if (data && state.data?.name) {
       return getNextStep(data)
     }
-    return 'Next step is not found'
+    return ''
   }, [data, state.data])
 
   return <div className={classNames(s.container, className)}>{nextStep}</div>
