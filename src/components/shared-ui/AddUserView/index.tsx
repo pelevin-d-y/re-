@@ -9,6 +9,8 @@ import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import chunk from 'lodash/chunk'
+import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import UserItem from './UserItem'
 import { LoaderAbsolute } from '../Loader'
 
@@ -41,11 +43,18 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
           )
 
           if (excludedUserIds.length > 0) {
-            const contactsResp = await get.getContactsMutable(
-              excludedUserIds.map((item) => item)
-            )
+            const contactsChunks = chunk(excludedUserIds, 90)
+            const requests = contactsChunks.map((contactChunk) => {
+              return () => get.getContactsMutable(contactChunk)
+            })
 
-            formattedContacts = Object.entries(contactsResp).map(
+            const contactsResp = await fetchDataQueue(requests)
+            const convertedContactsRespToObj = contactsResp.reduce(
+              (acc, item) => {
+                return { ...acc, ...item }
+              }
+            )
+            formattedContacts = Object.entries(convertedContactsRespToObj).map(
               ([id, contact]) => formatContactData(contact, id)
             )
           }

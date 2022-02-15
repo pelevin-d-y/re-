@@ -153,7 +153,7 @@ type ListData = {
 
 type CreatePlaylist = {
   actions?: []
-  contacts?: PlaylistContact
+  contacts?: PlaylistContact[]
   inclusions?: []
   info?: { name: string; description?: string }
   triggers?: []

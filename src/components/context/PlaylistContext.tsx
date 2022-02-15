@@ -2,6 +2,7 @@ import * as React from 'react'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import chunk from 'lodash/chunk'
+import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 
 type Action =
   | { type: 'UPDATE_LIST'; payload: any }
@@ -44,14 +45,12 @@ const PlaylistProvider: React.FC = ({ children }) => {
       const newPlaylist = { ...playlist[0] }
 
       if (newPlaylist?.contacts && newPlaylist?.contacts?.length > 0) {
-        const contactsChunks = chunk(newPlaylist.contacts, 70)
-
+        const contactsChunks = chunk(newPlaylist.contacts, 90) // users per request
         const requests = contactsChunks.map((contactChunk) => {
-          return get.getContactsMutable(
-            contactChunk.map((item) => item.contact_id)
-          )
+          return () =>
+            get.getContactsMutable(contactChunk.map((item) => item.contact_id))
         })
-        const contactsResp = await Promise.all(requests)
+        const contactsResp = await fetchDataQueue(requests)
         const convertedContactsRespToObj = contactsResp.reduce((acc, item) => {
           return { ...acc, ...item }
         })

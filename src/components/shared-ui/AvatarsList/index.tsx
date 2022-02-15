@@ -5,8 +5,8 @@ import Avatar from 'src/components/shared-ui/Avatar'
 
 type Props = {
   className?: string
-  playlistUsers: PlaylistContact[]
-  playlistUsersData: FormattedContact[]
+  users: PlaylistContact[]
+  usersData?: FormattedContact[]
   avatarWidth?: number
   avatarHeight?: number
   showHiddenUsers?: boolean
@@ -18,14 +18,14 @@ const AVATAR_TRANSITION = 10
 
 const AvatarList: React.FC<Props> = ({
   className,
-  playlistUsersData,
-  playlistUsers,
+  usersData,
+  users,
   avatarWidth,
   avatarHeight,
   showHiddenUsers,
 }) => {
-  const visibleUsers = playlistUsers.slice(0, MAX_VISIBLE_USERS)
-  const hiddenUsers = playlistUsers.length - MAX_VISIBLE_USERS
+  const visibleUsers = users.slice(0, MAX_VISIBLE_USERS)
+  const hiddenUsers = users.length - MAX_VISIBLE_USERS
   const avatarWidthWithBorder = (avatarWidth || AVATAR_BASE_SIZE) + 4 // 4 - border-width
   const containerWidth =
     avatarWidthWithBorder * visibleUsers.length -
@@ -59,7 +59,7 @@ const AvatarList: React.FC<Props> = ({
               width={avatarWidth || AVATAR_BASE_SIZE}
               height={avatarHeight || AVATAR_BASE_SIZE}
               image={getAvatar(
-                playlistUsersData.find(
+                usersData?.find(
                   (playlistItem) => item.contact_id === playlistItem.contact_id
                 )
               )}

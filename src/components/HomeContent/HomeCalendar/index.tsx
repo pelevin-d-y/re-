@@ -10,6 +10,8 @@ import LoaderStatic from 'src/components/shared-ui/Loader/LoaderStatic'
 import millisecondsToSeconds from 'date-fns/millisecondsToSeconds'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import Selector from 'src/components/shared-ui/Select'
+import chunk from 'lodash/chunk'
+import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import UpcomingHeader from './CalendarHeader'
 import UpcomingItem from './CalendarItem'
 
@@ -59,12 +61,19 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
       const ids = await getUserIds(selector)
       let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
       if (ids && ids.length > 0) {
-        const mutableData = await get.getContactsMutable(ids)
-        usersData = Object.entries(mutableData).map(([id, contact]) =>
-          formatContactData(contact, id)
+        const contactsChunks = chunk(ids, 90)
+        const requests = contactsChunks.map((contactChunk) => {
+          return () => get.getContactsMutable(contactChunk)
+        })
+
+        const responses = await fetchDataQueue(requests)
+        const convertedContactsRespToObj = responses.reduce((acc, item) => {
+          return { ...acc, ...item }
+        })
+        usersData = Object.entries(convertedContactsRespToObj).map(
+          ([id, contact]) => formatContactData(contact, id)
         )
       }
-
       usersData = filterContactsHidden(usersData)
 
       setContacts(usersData)
