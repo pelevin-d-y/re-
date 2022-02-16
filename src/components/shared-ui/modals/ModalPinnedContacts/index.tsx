@@ -5,7 +5,7 @@ import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
 
 import CloseModal from '../../Close'
 import ModalBase from '../ModalBase'
-import AvatarList from '../../AvatarsList'
+import AvatarsList from '../../AvatarsList'
 import TabCreateList from './TabCreateList'
 import TabAddToExistingPlaylist from './TabAddToExistingPlaylist'
 
@@ -38,7 +38,7 @@ const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
             </TabList>
             <div className={s.avatars}>
               {state?.dataMulti && (
-                <AvatarList
+                <AvatarsList
                   users={state.dataMulti}
                   avatarWidth={59}
                   avatarHeight={59}

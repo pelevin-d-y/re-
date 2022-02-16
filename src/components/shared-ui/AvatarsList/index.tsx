@@ -16,7 +16,7 @@ const AVATAR_BASE_SIZE = 52
 const MAX_VISIBLE_USERS = 6
 const AVATAR_TRANSITION = 10
 
-const AvatarList: React.FC<Props> = ({
+const AvatarsList: React.FC<Props> = ({
   className,
   usersData,
   users,
@@ -30,7 +30,6 @@ const AvatarList: React.FC<Props> = ({
   const containerWidth =
     avatarWidthWithBorder * visibleUsers.length -
     AVATAR_TRANSITION * (visibleUsers.length - 1)
-
   const getAvatar = (data?: RecommendationUser | FormattedContact) => {
     if (data) {
       if ('avatar' in data) {
@@ -49,23 +48,28 @@ const AvatarList: React.FC<Props> = ({
         className={classNames(s.container)}
         style={{ width: containerWidth }}
       >
-        {visibleUsers.map((item, index) => (
-          <div
-            key={item.contact_id || index}
-            style={{ transform: `translateX(-${index * AVATAR_TRANSITION}px)` }}
-          >
-            <Avatar
-              className={s.avatarImage}
-              width={avatarWidth || AVATAR_BASE_SIZE}
-              height={avatarHeight || AVATAR_BASE_SIZE}
-              image={getAvatar(
-                usersData?.find(
-                  (playlistItem) => item.contact_id === playlistItem.contact_id
-                )
-              )}
-            />
-          </div>
-        ))}
+        {visibleUsers.map((item, index) => {
+          return (
+            <div
+              key={item.contact_id || index}
+              style={{
+                transform: `translateX(-${index * AVATAR_TRANSITION}px)`,
+              }}
+            >
+              <Avatar
+                className={s.avatarImage}
+                width={avatarWidth || AVATAR_BASE_SIZE}
+                height={avatarHeight || AVATAR_BASE_SIZE}
+                image={getAvatar(
+                  usersData?.find(
+                    (playlistItem) =>
+                      item.contact_id === playlistItem.contact_id
+                  )
+                )}
+              />
+            </div>
+          )
+        })}
       </div>
       {hiddenUsers <= 0 || !showHiddenUsers ? null : (
         <div className={s.hiddenUsers}>{hiddenUsers} +</div>
@@ -103,4 +107,4 @@ const s = css`
   }
 `
 
-export default AvatarList
+export default AvatarsList
