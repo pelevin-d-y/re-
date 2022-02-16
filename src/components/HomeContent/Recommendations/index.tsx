@@ -13,7 +13,9 @@ type Props = {
 const Recommendations: React.FC<Props> = ({ data, className }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.title}>
-      Your Top Recommendations <br />
+      <span>
+        Weekly <span className={s.damion}> Recommendations</span>
+      </span>
       <Link className={s.link} href="/recommendations">
         View all
         <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />
@@ -36,8 +38,9 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    padding: 22px 30px 44px 36px;
-    background: url('/svg/circles-background.svg') no-repeat center/cover;
+    padding: 24px 32px 32px 32px;
+    background: var(--gradientDark);
+    border-radius: 6px;
 
     @include mobile {
       padding: 16px;
@@ -45,27 +48,27 @@ const s = css`
   }
 
   .title {
-    margin-bottom: 18px;
-    font-size: 26px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 37px;
+    font-size: 24px;
+    line-height: 29px;
     font-weight: var(--bold);
+    color: var(--neutral5);
 
     @include tablet {
       text-align: center;
-    }
-
-    br {
-      display: none;
-
-      @include mobile {
-        display: block;
-      }
     }
   }
 
   .link {
     margin-left: 14px;
     text-decoration: none;
-    color: var(--blue);
+    font-weight: var(--regular);
+    color: var(--neutral5);
 
     font-size: 14px;
     line-height: 16px;
@@ -77,6 +80,24 @@ const s = css`
     margin-left: 6px;
 
     transform: rotate(180deg);
+  }
+
+  .damion {
+    position: relative;
+
+    font-size: 42px;
+    line-height: 57px;
+    font-family: Damion;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      display: block;
+      background: url('/images/decorate-line-1.png') no-repeat center/contain;
+      width: 100%;
+      height: 11px;
+    }
   }
 
   .cards {

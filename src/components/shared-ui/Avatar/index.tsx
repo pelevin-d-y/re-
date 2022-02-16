@@ -9,6 +9,7 @@ type Props = {
   width?: number
   height?: number
   image?: string | null
+  name?: string
   strength?: string | number | null
 }
 
@@ -18,12 +19,19 @@ const Avatar: React.FC<Props> = ({
   width,
   height,
   strength,
+  name,
 }) => {
   const [isError, setIsError] = useState(false)
-
+  console.log('name', name)
   const errorLoad = (status: boolean) => {
     setIsError(status)
   }
+
+  const firstSymbols = (str: string) =>
+    str
+      .split(/\s/)
+      // eslint-disable-next-line no-return-assign, no-param-reassign
+      .reduce((acc, word) => (acc += word.slice(0, 1)).toUpperCase(), '')
 
   return (
     <div
@@ -38,7 +46,9 @@ const Avatar: React.FC<Props> = ({
           errorLoad={errorLoad}
         />
       ) : (
-        <SvgIcon icon="avatar-placeholder.svg" className={s.svgIcon} />
+        <div className={s.placeholder}>
+          <span>{name && firstSymbols(name)}</span>
+        </div>
       )}
     </div>
   )
@@ -72,35 +82,19 @@ const s = css`
     object-fit: cover;
   }
 
-  .svgIcon {
+  .placeholder {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
     width: 100%;
     height: 100%;
+    font-size: 16px;
+
     border-radius: 50%;
-    overflow: hidden;
-  }
-
-  .red {
-    border: 2px solid #ff4949;
-    &::after {
-      background: var(--red);
-      border-color: #fff;
-    }
-  }
-
-  .green {
-    border: 2px solid #16bb58;
-    &::after {
-      background: #16bb58;
-      border-color: #fff;
-    }
-  }
-
-  .orange {
-    border: 2px solid #ff9900;
-    &::after {
-      background: #ff9900;
-      border-color: #fff;
-    }
+    background: var(--primary2);
+    color: var(--primary1);
   }
 `
 

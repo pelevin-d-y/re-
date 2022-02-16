@@ -252,7 +252,7 @@ const s = css`
   }
 
   .row:hover {
-    background: var(--lightBlue);
+    background: var(--primary2);
   }
 
   .cellName {

@@ -11,7 +11,7 @@ type Props = {
   text: string
   from?: number
   to: number
-  barColor: 'blue' | 'green' | 'red' | 'lightBlue' | 'orange'
+  barColor: 'blue' | 'green' | 'red' | '--primary2' | 'orange'
 }
 
 const Goal: React.FC<Props> = ({

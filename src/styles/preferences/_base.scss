@@ -29,6 +29,15 @@
   normal
 );
 
+@include font-face(
+  'Damion',
+  '../../../public/fonts/Damion',
+  normal,
+  normal
+);
+
+
+
 * {
   box-sizing: border-box;
 }
@@ -37,6 +46,7 @@ body {
   background: var(--neutral5);
   font-family: var(--font-display);
   font-size: 14px;
+  color: var(--neutral1);
 }
 
 h1, h2, h3, h4, h5, h6, p {

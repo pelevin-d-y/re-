@@ -53,7 +53,7 @@ const s = css`
   }
 
   .icon.active {
-    color: var(--blue);
+    color: var(--neutral1);
   }
 
   .button {
@@ -66,11 +66,10 @@ const s = css`
     background: none;
     outline: none;
     cursor: pointer;
-    background: var(--white);
 
     &:hover {
       .icon {
-        color: var(--blue);
+        color: var(--neutral1);
       }
     }
   }

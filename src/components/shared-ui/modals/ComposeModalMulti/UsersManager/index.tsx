@@ -234,7 +234,7 @@ const s = css`
     background: var(--white);
     cursor: pointer;
     &:hover {
-      background: var(--lightBlue);
+      background: var(--primary2);
 
       .buttonRemove {
         display: block;
@@ -248,7 +248,7 @@ const s = css`
   }
 
   .activeUser {
-    background: var(--lightBlue);
+    background: var(--primary2);
   }
 
   .messageStatus {

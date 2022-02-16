@@ -64,7 +64,7 @@ const s = css`
     border-left: 4px;
 
     &:hover {
-      background: var(--lightBlue);
+      background: var(--primary2);
     }
 
     &:hover .removeButton {

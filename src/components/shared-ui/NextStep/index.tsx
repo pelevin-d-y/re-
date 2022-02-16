@@ -22,7 +22,7 @@ const s = css`
     width: 100%;
     padding: 10px 10px 10px 16px;
 
-    background: var(--lightBlue);
+    background: var(--primary2);
     border-radius: 6px;
   }
 

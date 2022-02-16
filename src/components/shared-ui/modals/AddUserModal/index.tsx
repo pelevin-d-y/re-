@@ -102,7 +102,7 @@ const s = css`
     margin-left: auto;
 
     border-radius: 50%;
-    background: var(--lightBlue);
+    background: var(--primary2);
 
     svg {
       width: 30px;

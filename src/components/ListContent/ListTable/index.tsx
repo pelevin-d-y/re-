@@ -338,7 +338,7 @@ const s = css`
   }
 
   .row:hover {
-    background: var(--lightBlue);
+    background: var(--primary2);
   }
 
   .header_All {
@@ -429,7 +429,7 @@ const s = css`
     width: 162px;
     height: 162px;
     border-radius: 50%;
-    background: var(--lightBlue);
+    background: var(--primary2);
     display: flex;
     justify-content: center;
     align-items: center;

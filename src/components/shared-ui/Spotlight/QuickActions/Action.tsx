@@ -11,11 +11,11 @@ type Props = {
 
 const getColor = (
   variant: ActionVariantType
-): 'blue' | 'orange' | 'green' | 'lightBlue' => {
+): 'blue' | 'orange' | 'green' | '--primary2' => {
   if (variant === 'followup') return 'blue'
   if (variant === 'memes') return 'orange'
   if (variant === 'articles') return 'green'
-  if (variant === 'holidays') return 'lightBlue'
+  if (variant === 'holidays') return '--primary2'
   return 'blue'
 }
 
@@ -88,7 +88,7 @@ const s = css`
     color: var(--lightGreen);
   }
 
-  .lightBlue {
+  .--primary2 {
     color: #00d1ff;
   }
 `

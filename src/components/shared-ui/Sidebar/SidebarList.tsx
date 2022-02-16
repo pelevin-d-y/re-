@@ -86,14 +86,14 @@ const s = css`
     text-decoration: none;
 
     &:hover {
-      background: var(--lightBlue);
+      background: var(--primary2);
       color: var(--blue);
       border-right: 1px solid var(--blue);
     }
   }
 
   .active {
-    background: var(--lightBlue);
+    background: var(--primary2);
     color: var(--blue);
     border-right: 1px solid var(--blue);
   }

@@ -126,7 +126,7 @@ const s = css`
     border: none;
 
     &:hover {
-      background: var(--lightBlue);
+      background: var(--primary2);
     }
   }
 `

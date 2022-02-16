@@ -56,7 +56,7 @@ const s = css`
 
     font-size: 14px;
     font-weight: var(--semiBold);
-    border: 1px solid var(--blue);
+    border: 1px solid var(--neutral1);
     border-radius: 16px;
 
     transition: all 0.3s linear;
@@ -73,22 +73,22 @@ const s = css`
   }
 
   .outlined {
-    color: var(--blue);
+    color: var(--neutral1);
     background: var(--white);
 
     &:hover {
       color: var(--white);
-      background: var(--blue);
+      background: var(--neutral1);
     }
   }
 
   .contained {
-    background: var(--blue);
+    background: var(--neutral1);
     color: var(--white);
 
     &:hover {
       background: var(--white);
-      color: var(--blue);
+      color: var(--neutral1);
     }
   }
 
