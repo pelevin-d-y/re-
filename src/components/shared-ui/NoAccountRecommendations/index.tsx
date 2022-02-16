@@ -11,11 +11,11 @@ type Props = {
   className?: string
 }
 
-const EmptyRecommendations: React.FC<Props> = ({ className }) => {
+const NoAccountRecommendations: React.FC<Props> = ({ className }) => {
   const { dispatch } = usePopup()
 
   const openAddNewAccountModal = () => {
-    dispatch({ type: 'TOGGLE_ADD_NEW_ACCOUNT_POPUP' })
+    dispatch({ type: 'TOGGLE_ADD_FIRST_ACCOUNT_POPUP' })
   }
 
   return (
@@ -28,16 +28,16 @@ const EmptyRecommendations: React.FC<Props> = ({ className }) => {
         <div className={s.title}>Getting your Top Recommendations</div>
       </div>
       <div className={s.description}>
-        Strata’s engine is analyzing your network for top recommendations to
-        reach out to.
+        Strata’s engine analyze your network for top recommendations to reach
+        out to.
       </div>
       <div className={s.buttonBlock}>
         <Button
           className={s.button}
-          variant="outlined"
+          variant="contained"
           handler={openAddNewAccountModal}
         >
-          + Add another account
+          + Connect an account
         </Button>
       </div>
       <Img
@@ -92,7 +92,7 @@ const s = css`
   .button {
     font-size: 12px;
     line-height: 14px;
-    padding: 9px 48px;
+    padding: 9px 36px;
   }
 
   .circle {
@@ -137,13 +137,6 @@ const s = css`
     width: 22px;
     height: 22px;
   }
-
-  .progressImg {
-    width: 108px;
-    height: 3px;
-    margin-left: 12px;
-    margin-right: 12px;
-  }
 `
 
-export default EmptyRecommendations
+export default NoAccountRecommendations

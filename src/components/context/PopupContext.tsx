@@ -1,5 +1,9 @@
 import * as React from 'react'
 import ComposeModal from '../shared-ui/modals/ComposeModal'
+import AddFirstAccountModal from '../shared-ui/modals/AddFirstAccountModal'
+import AddNewAccountModal from '../shared-ui/modals/AddNewAccountModal'
+import AccountAddedModal from '../shared-ui/modals/AccountAddedModal'
+import WelcomeModal from '../shared-ui/modals/WelcomeModal'
 import ComposeModalMulti from '../shared-ui/modals/ComposeModalMulti'
 import ModalPinnedContacts from '../shared-ui/modals/ModalPinnedContacts'
 import CreateListModal from '../shared-ui/modals/CreateListModal'
@@ -19,6 +23,10 @@ type Action =
   | { type: 'TOGGLE_ADD_CONTACT_POPUP' }
   | { type: 'TOGGLE_CREATE_LIST_POPUP' }
   | { type: 'TOGGLE_DELETE_LIST_POPUP' }
+  | { type: 'TOGGLE_ADD_FIRST_ACCOUNT_POPUP' }
+  | { type: 'TOGGLE_ADD_NEW_ACCOUNT_POPUP' }
+  | { type: 'TOGGLE_ACCOUNT_ADDED_POPUP' }
+  | { type: 'TOGGLE_WELCOME_POPUP' }
   | { type: 'TOGGLE_TEMPLATES_POPUP' }
   | { type: 'TOGGLE_PINNED_USERS_POPUP' }
   | {
@@ -37,6 +45,10 @@ type State = {
   addContactModalIsOpen: boolean
   createListModalIsOpen: boolean
   deleteListModalIsOpen: boolean
+  addFirstAccountModalIsOpen: boolean
+  addNewAccountModalIsOpen: boolean
+  accountAddedModalIsOpen: boolean
+  welcomeModalIsOpen: boolean
   modalPinnedIsOpen: boolean
   data: UserWithTemplateData | FormattedContact | null
   dataMulti: UserWithTemplateData[] | FormattedContact[] | null
@@ -56,6 +68,10 @@ const initialState = {
   addContactModalIsOpen: false,
   createListModalIsOpen: false,
   deleteListModalIsOpen: false,
+  addFirstAccountModalIsOpen: false,
+  addNewAccountModalIsOpen: false,
+  accountAddedModalIsOpen: false,
+  welcomeModalIsOpen: false,
   modalPinnedIsOpen: false,
   data: null,
   dataMulti: null,
@@ -110,6 +126,30 @@ const popupReducer = (state: State, action: Action): State => {
         deleteListModalIsOpen: !state.deleteListModalIsOpen,
       }
     }
+    case 'TOGGLE_ADD_FIRST_ACCOUNT_POPUP': {
+      return {
+        ...state,
+        addFirstAccountModalIsOpen: !state.addFirstAccountModalIsOpen,
+      }
+    }
+    case 'TOGGLE_ADD_NEW_ACCOUNT_POPUP': {
+      return {
+        ...state,
+        addNewAccountModalIsOpen: !state.addNewAccountModalIsOpen,
+      }
+    }
+    case 'TOGGLE_ACCOUNT_ADDED_POPUP': {
+      return {
+        ...state,
+        accountAddedModalIsOpen: !state.accountAddedModalIsOpen,
+      }
+    }
+    case 'TOGGLE_WELCOME_POPUP': {
+      return {
+        ...state,
+        welcomeModalIsOpen: !state.welcomeModalIsOpen,
+      }
+    }
     case 'UPDATE_POPUP_DATA': {
       return {
         ...state,
@@ -156,6 +196,10 @@ const PopupProvider: React.FC = ({ children }) => {
       <ModalPinnedContacts />
       <CreateListModal />
       <DeleteListModal />
+      <AddFirstAccountModal />
+      <AddNewAccountModal />
+      <AccountAddedModal />
+      <WelcomeModal />
     </PopupContext.Provider>
   )
 }
