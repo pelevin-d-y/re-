@@ -42,20 +42,20 @@ const s = css`
 
   .outlined {
     color: var(--blue);
-    background: var(--white);
+    background: var(--shades2);
 
     &:hover {
-      color: var(--white);
+      color: var(--shades2);
       background: var(--blue);
     }
   }
 
   .contained {
     background: var(--blue);
-    color: var(--white);
+    color: var(--shades2);
 
     &:hover {
-      background: var(--white);
+      background: var(--shades2);
       color: var(--blue);
     }
   }

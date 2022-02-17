@@ -58,7 +58,7 @@ const PopoverDots: React.FC<Props> = ({ className, variant, items }) => {
 const s = css`
   .popup {
     padding: 6px 0;
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .list {
@@ -85,7 +85,7 @@ const s = css`
     font-size: 12px;
     font-weight: var(--bold);
     text-align: left;
-    background: var(--white);
+    background: var(--shades2);
     border: none;
     border-bottom: 1px solid var(--neutral5);
     cursor: pointer;

@@ -4,6 +4,7 @@ import CardContact from 'src/components/shared-ui/cards/CardContact'
 import Link from 'src/components/shared-ui/Link'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import classNames from 'classnames'
+import Typography from 'src/components/shared-ui/Typography'
 
 type Props = {
   data?: RecommendationUser[]
@@ -13,9 +14,17 @@ type Props = {
 const Recommendations: React.FC<Props> = ({ data, className }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.title}>
-      <span>
-        Weekly <span className={s.damion}> Recommendations</span>
-      </span>
+      <Typography tagVariant="h2" styleVariant="h3" fontWeight="bold">
+        Weekly{' '}
+        <Typography
+          className={s.damion}
+          styleVariant="h1"
+          tagVariant="span"
+          fontWeight="regular"
+        >
+          Recommendations
+        </Typography>
+      </Typography>
       <Link className={s.link} href="/recommendations">
         View all
         <SvgIcon className={s.linkIcon} icon="arrow-left.svg" />

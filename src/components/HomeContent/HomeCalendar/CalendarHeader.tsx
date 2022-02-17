@@ -43,7 +43,7 @@ const s = css`
     min-width: 45px;
     margin-right: 28px;
     overflow: hidden;
-    background: var(--white);
+    background: var(--shades2);
     border-radius: 6px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
@@ -65,7 +65,7 @@ const s = css`
     line-height: 11px;
     text-align: center;
     background: #ff0000;
-    color: var(--white);
+    color: var(--shades2);
   }
   .day {
     padding: 4px;

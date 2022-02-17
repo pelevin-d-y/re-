@@ -30,12 +30,74 @@
 );
 
 @include font-face(
+  'Gilroy',
+  '../../../public/fonts/Gilroy-Black',
+  900,
+  normal
+);
+
+@include font-face(
+  'Gilroy',
+  '../../../public/fonts/Gilroy-Bold',
+  700,
+  normal
+);
+
+@include font-face(
+  'Gilroy',
+  '../../../public/fonts/Gilroy-SemiBold',
+  600,
+  normal
+);
+
+@include font-face(
+  'Gilroy',
+  '../../../public/fonts/Gilroy-Regular',
+  normal,
+  normal
+);
+
+@include font-face(
+  'Inter',
+  '../../../public/fonts/Inter-Black',
+  900,
+  normal
+);
+
+@include font-face(
+  'Inter',
+  '../../../public/fonts/Inter-Bold',
+  700,
+  normal
+);
+
+@include font-face(
+  'Inter',
+  '../../../public/fonts/Inter-SemiBold',
+  600,
+  normal
+);
+
+@include font-face(
+  'Inter',
+  '../../../public/fonts/Inter-Medium',
+  500,
+  normal
+);
+
+@include font-face(
+  'Inter',
+  '../../../public/fonts/Inter-Regular',
+  normal,
+  normal
+);
+
+@include font-face(
   'Damion',
   '../../../public/fonts/Damion',
   normal,
   normal
 );
-
 
 
 * {
@@ -44,7 +106,7 @@
 
 body {
   background: var(--neutral5);
-  font-family: var(--font-display);
+  font-family: 'Inter', var(--fallback-font);
   font-size: 14px;
   color: var(--neutral1);
 }

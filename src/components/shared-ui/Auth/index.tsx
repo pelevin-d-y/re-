@@ -102,7 +102,7 @@ const Auth: React.FC<Props> = ({ className }) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
   .container {
-    background: var(--white);
+    background: var(--shades2);
     max-width: 475px;
     margin-top: 100px;
     margin-left: auto;

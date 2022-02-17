@@ -85,7 +85,7 @@ const s = css`
   .avatarImage {
     width: 52px;
     height: 52px;
-    border: 2px solid var(--white);
+    border: 2px solid var(--shades2);
   }
 
   .hiddenUsers {

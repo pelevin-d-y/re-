@@ -78,7 +78,7 @@ const s = css`
     overflow: auto;
     padding: 20px;
 
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .button {

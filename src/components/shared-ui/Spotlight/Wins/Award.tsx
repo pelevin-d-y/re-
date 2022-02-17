@@ -26,7 +26,7 @@ const s = css`
     width: 77px;
     height: 60px;
 
-    background: var(--white);
+    background: var(--shades2);
     box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 100px;
   }

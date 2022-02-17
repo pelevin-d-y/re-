@@ -132,7 +132,7 @@ const s = css`
     flex: 1 0 auto;
     box-sizing: border-box;
     border: none;
-    color: var(--black);
+    color: var(--shades1);
     -webkit-appearance: none;
   }
 

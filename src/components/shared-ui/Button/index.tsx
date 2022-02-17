@@ -74,20 +74,20 @@ const s = css`
 
   .outlined {
     color: var(--neutral1);
-    background: var(--white);
+    background: var(--shades2);
 
     &:hover {
-      color: var(--white);
+      color: var(--shades2);
       background: var(--neutral1);
     }
   }
 
   .contained {
     background: var(--neutral1);
-    color: var(--white);
+    color: var(--shades2);
 
     &:hover {
-      background: var(--white);
+      background: var(--shades2);
       color: var(--neutral1);
     }
   }

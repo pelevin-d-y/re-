@@ -57,7 +57,7 @@ const s = css`
 
     min-width: 111px;
     padding: 18px 10px 23px;
-    background: var(--white);
+    background: var(--shades2);
 
     border-radius: 100px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
@@ -85,7 +85,7 @@ const s = css`
   }
 
   .green {
-    color: var(--lightGreen);
+    color: var(--success2);
   }
 
   .--primary2 {

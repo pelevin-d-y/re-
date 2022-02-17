@@ -306,7 +306,7 @@ const s = css`
     max-width: 140px;
     width: 100%;
 
-    color: var(--white);
+    color: var(--shades2);
 
     &:hover {
       color: var(-blue);

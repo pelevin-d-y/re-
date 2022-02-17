@@ -111,7 +111,7 @@ const s = css`
     cursor: pointer;
 
     text-decoration: none;
-    background: var(--white);
+    background: var(--shades2);
     color: var(--blue);
     text-align: center;
     font-weight: var(--bold);
@@ -127,7 +127,7 @@ const s = css`
     cursor: pointer;
 
     text-decoration: none;
-    background: var(--white);
+    background: var(--shades2);
     color: var(--blue);
     text-align: center;
     font-weight: var(--bold);

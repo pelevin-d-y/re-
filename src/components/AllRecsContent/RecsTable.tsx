@@ -302,7 +302,7 @@ const s = css`
   }
 
   .checkbox {
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .tbody tr {

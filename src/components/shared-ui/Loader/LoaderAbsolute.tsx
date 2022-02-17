@@ -36,7 +36,7 @@ const s = css`
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--white);
+    background: var(--shades2);
     opacity: 0.4;
   }
 `

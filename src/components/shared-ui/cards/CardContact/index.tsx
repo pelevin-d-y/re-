@@ -80,7 +80,7 @@ const s = css`
     position: relative;
     display: flex;
     flex-flow: column nowrap;
-    background: var(--white);
+    background: var(--shades2);
 
     width: 100%;
     padding: 14px 15px 14px 10px;
@@ -97,7 +97,7 @@ const s = css`
     top: 5px;
     right: 5px;
 
-    background: var(--white);
+    background: var(--shades2);
     color: #bfbfbf;
 
     opacity: 0;

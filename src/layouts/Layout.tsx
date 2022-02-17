@@ -153,7 +153,7 @@ const s = css`
     z-index: 998;
     width: 100%;
     height: 100%;
-    background: var(--black);
+    background: var(--shades1);
     opacity: 0.5;
   }
 
@@ -178,7 +178,7 @@ const s = css`
   .footerLink {
     margin-right: 15px;
 
-    color: var(--black);
+    color: var(--shades1);
   }
 `
 

@@ -163,7 +163,7 @@ const s = css`
   }
 
   .remove {
-    background: var(--white);
+    background: var(--shades2);
     margin-left: 11px;
   }
 

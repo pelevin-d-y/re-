@@ -79,7 +79,7 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     padding: 12px 5px 12px 73px;
-    color: var(--black);
+    color: var(--shades1);
 
     font-weight: var(--semiBold);
     cursor: pointer;

@@ -99,14 +99,14 @@ const s = css`
   .dark {
     background: linear-gradient(90deg, #000000 0%, #383838 100%);
     .info {
-      color: var(--white);
+      color: var(--shades2);
     }
   }
 
   .light {
     .info {
-      color: var(--black);
-      background: var(--white);
+      color: var(--shades1);
+      background: var(--shades2);
     }
   }
 `

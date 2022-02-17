@@ -68,7 +68,7 @@ const s = css`
     box-sizing: content-box;
     flex: 0 0 auto;
     border-radius: 50%;
-    background: var(--white);
+    background: var(--shades2);
     &::after {
       content: '';
       z-index: 1;

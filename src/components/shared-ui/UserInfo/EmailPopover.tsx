@@ -115,7 +115,7 @@ const s = css`
     font-size: 11px;
     font-weight: var(--semiBold);
     text-align: left;
-    background: var(--white);
+    background: var(--shades2);
     border: none;
     border-bottom: 1px solid var(--neutral5);
     cursor: pointer;

@@ -2,7 +2,17 @@ import React, { FC } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 
-type tagsVariants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p'
+type tagsVariants =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'div'
+  | 'p'
+  | 'span'
+
 type styleVariants =
   | 'h1'
   | 'h2'
@@ -19,7 +29,7 @@ type Props = {
   className?: string
   tagVariant?: tagsVariants
   styleVariant?: styleVariants
-  fontWeight?: 'regular' | 'medium' | 'semiBold' | 'bold'
+  fontWeight?: 'regular' | 'medium' | 'semiBold' | 'bold' | 'black'
 }
 
 const Typography: FC<Props> = ({
@@ -36,9 +46,9 @@ const Typography: FC<Props> = ({
     <Component
       className={classNames(
         s.container,
-        className,
         styleVariant && s[styleVariant],
-        fontWeight && s[fontWeight]
+        fontWeight && s[fontWeight],
+        className
       )}
       {...props}
     >
@@ -53,27 +63,22 @@ const s = css`
 
   .h1 {
     font-size: 42px;
-    line-height: 50px;
+    line-height: 52px;
   }
 
   .h2 {
     font-size: 32px;
-    line-height: 38px;
+    line-height: 39px;
   }
 
   .h3 {
-    font-size: 32px;
-    line-height: 38px;
+    font-size: 24px;
+    line-height: 30px;
   }
 
   .h4 {
-    font-size: 24px;
-    line-height: 29px;
-  }
-
-  .h5 {
     font-size: 18px;
-    line-height: 21px;
+    line-height: 22px;
   }
 
   .body1 {
@@ -112,6 +117,9 @@ const s = css`
   }
   .bold {
     font-weight: var(--bold);
+  }
+  .black {
+    font-weight: var(--black);
   }
 `
 

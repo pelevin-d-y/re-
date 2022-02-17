@@ -60,7 +60,7 @@ const s = css`
     padding: 7px;
 
     line-height: 0;
-    background: var(--white);
+    background: var(--shades2);
     border: none;
     border-radius: 50%;
     background: none;

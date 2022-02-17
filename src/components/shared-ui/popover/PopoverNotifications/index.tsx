@@ -132,8 +132,8 @@ const s = css`
     font-size: 11px;
     line-height: 11px;
     border-radius: 50%;
-    border: 2px solid var(--white);
-    color: var(--white);
+    border: 2px solid var(--shades2);
+    color: var(--shades2);
     background: #ff0000;
     font-weight: bold;
   }

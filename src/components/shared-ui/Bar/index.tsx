@@ -28,7 +28,7 @@ const s = css`
     height: 100%;
     left: 0;
     top: 0;
-    background: var(--yellow);
+    background: var(--secondary2);
   }
 
   .barText {
@@ -48,7 +48,7 @@ const s = css`
   .green {
     background: #d0ffeb;
     .fillBar {
-      background: var(--lightGreen);
+      background: var(--success2);
     }
   }
 

@@ -235,7 +235,7 @@ const s = css`
   .selectedUser {
     border-radius: none;
     border: none;
-    background: var(--white);
+    background: var(--shades2);
     cursor: pointer;
     &:hover {
       background: var(--primary2);

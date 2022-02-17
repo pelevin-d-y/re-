@@ -96,8 +96,8 @@ const s = css`
 
     text-decoration: none;
     cursor: pointer;
-    color: var(--black);
-    border: 1px solid var(--white);
+    color: var(--shades1);
+    border: 1px solid var(--shades2);
     box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
 

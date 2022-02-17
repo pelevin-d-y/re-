@@ -170,7 +170,7 @@ const s = css`
     margin-right: auto;
 
     border-radius: 10px;
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .actions {
