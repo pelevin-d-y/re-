@@ -32,6 +32,7 @@ const PopoverAddList: React.FC<Props> = ({ className, user, lists }) => {
             ?.toLocaleLowerCase()
             .includes(searchText.toLowerCase())
       )
+
       setSearchResults(result)
     }
   }, [state.data, lists, searchText])
