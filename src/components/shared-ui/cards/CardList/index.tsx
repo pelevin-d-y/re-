@@ -60,7 +60,6 @@ const CardList: React.FC<Props> = ({
           avatarWidth={38}
           avatarHeight={38}
           className={s.avatars}
-          usersData={contactsData}
           users={contacts}
           showHiddenUsers
         />
