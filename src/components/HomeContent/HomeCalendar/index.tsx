@@ -12,6 +12,7 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 import Selector from 'src/components/shared-ui/Select'
 import chunk from 'lodash/chunk'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
+import DropdownIndicator from 'src/components/shared-ui/Select/DropdownIndicator'
 import UpcomingHeader from './CalendarHeader'
 import UpcomingItem from './CalendarItem'
 
@@ -138,19 +139,32 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
             <Selector
               className={s.selector}
               styles={{
+                indicatorsContainer: {
+                  padding: 0,
+                  paddingRight: '15px',
+                },
                 valueContainer: {
-                  padding: '0 0 0 15px',
+                  padding: 0,
                 },
                 singleValue: {
-                  fontSize: '17px',
+                  overflow: 'revert',
+                  fontSize: '22px',
                   fontWeight: 'bold',
+                  color: '#1966ff',
+                },
+                control: {
+                  border: 'none',
+                  '&:hover': {
+                    border: 'none !important',
+                  },
                 },
               }}
               handler={(option) => setSelector(option.value)}
               options={[
-                { value: 'lastWeek', label: 'Last Week' },
-                { value: 'lastMonth', label: 'Last Month' },
+                { value: 'lastWeek', label: 'last week' },
+                { value: 'lastMonth', label: 'last month' },
               ]}
+              dropdownIndicator={<DropdownIndicator icon="triangle.svg" />}
             />
           </div>
         }
@@ -205,6 +219,10 @@ const s = css`
     font-size: 22px;
     line-height: 22px;
     font-weight: var(--bold);
+
+    @include tablet {
+      margin-bottom: 0 !important;
+    }
 
     @include mobile {
       flex: auto;
