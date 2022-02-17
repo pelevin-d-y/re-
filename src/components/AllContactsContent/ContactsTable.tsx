@@ -18,6 +18,7 @@ import { apiHelpers } from 'src/api'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
+import { getName } from 'src/helpers/utils/get-name'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Img from '../shared-ui/Img'
@@ -81,6 +82,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
             <Avatar
               className={s.avatar}
               image={row.original.avatar}
+              name={getName(row.original)}
               strength={row.original.relationshipStrength}
             />
             <PopoverUserInfo

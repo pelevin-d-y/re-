@@ -26,7 +26,11 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
   return (
     <CardContainer className={s.container}>
       <div className={s.header}>
-        <Avatar image={data?.image_url} className={s.avatar} />
+        <Avatar
+          className={s.avatar}
+          name={getName(data)}
+          image={data?.image_url}
+        />
         <div className={s.info}>
           <div className={s.name}>{getName(data)}</div>
           {/* <div className={s.job}>Fund Manager @ JPM</div> */}

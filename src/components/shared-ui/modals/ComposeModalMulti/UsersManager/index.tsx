@@ -92,7 +92,11 @@ const UsersManager: React.FC<Props> = ({
               )}
               key={item.contact_id}
             >
-              <Avatar className={s.avatar} image={getAvatar(item)} />
+              <Avatar
+                className={s.avatar}
+                name={getName(item)}
+                image={getAvatar(item)}
+              />
               <div className={s.userInfo}>
                 <div className={s.userName}>{getName(item)}</div>
                 <MessageStatus className={s.messageStatus} data={item} />

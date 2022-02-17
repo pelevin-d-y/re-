@@ -9,7 +9,7 @@ type Props = {
   width?: number
   height?: number
   image?: string | null
-  name?: string
+  name: string
   strength?: string | number | null
 }
 
@@ -22,7 +22,6 @@ const Avatar: React.FC<Props> = ({
   name,
 }) => {
   const [isError, setIsError] = useState(false)
-  console.log('name', name)
   const errorLoad = (status: boolean) => {
     setIsError(status)
   }
@@ -33,6 +32,17 @@ const Avatar: React.FC<Props> = ({
       // eslint-disable-next-line no-return-assign, no-param-reassign
       .reduce((acc, word) => (acc += word.slice(0, 1)).toUpperCase(), '')
 
+  const renderPlaceholder = () => {
+    if (name) {
+      return (
+        <div className={s.placeholder}>
+          <span>{name && firstSymbols(name)}</span>
+        </div>
+      )
+    }
+
+    return <SvgIcon icon="avatar-placeholder.svg" className={s.svgIcon} />
+  }
   return (
     <div
       className={classNames(s.container, className, strength && s[strength])}
@@ -46,9 +56,7 @@ const Avatar: React.FC<Props> = ({
           errorLoad={errorLoad}
         />
       ) : (
-        <div className={s.placeholder}>
-          <span>{name && firstSymbols(name)}</span>
-        </div>
+        renderPlaceholder()
       )}
     </div>
   )

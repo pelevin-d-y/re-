@@ -17,6 +17,7 @@ import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { post } from 'src/api'
+import { getName } from 'src/helpers/utils/get-name'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Button from '../shared-ui/Button'
@@ -64,7 +65,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 200,
         Cell: ({ row }: Cell<RecommendationUser>) => (
           <div className={s.cellName}>
-            <Avatar className={s.avatar} image={row.original.image_url} />
+            <Avatar
+              className={s.avatar}
+              name={getName(row.original)}
+              image={row.original.image_url}
+            />
             <div>
               <PopoverUserInfo className={s.name} data={row.original} />
             </div>

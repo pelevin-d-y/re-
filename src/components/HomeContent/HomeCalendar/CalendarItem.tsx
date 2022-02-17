@@ -10,6 +10,7 @@ import Pin from 'src/components/shared-ui/Pin'
 import Close from 'src/components/shared-ui/Close'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -51,7 +52,7 @@ const CalendarItem: React.FC<Props> = ({
     <CardContainer className={classNames(className, s.container)}>
       <Pin className={s.pin} data={data as any} />
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={data.avatar} />
+        <Avatar className={s.avatar} name={getName(data)} image={data.avatar} />
         <div className={s.text}>
           <PopoverUserInfo
             data={data}

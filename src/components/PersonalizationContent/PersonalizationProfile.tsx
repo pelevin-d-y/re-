@@ -7,6 +7,7 @@ import Input from 'src/components/shared-ui/Input'
 import Button from 'src/components/shared-ui/Button'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { post } from 'src/api'
+import { getName } from 'src/helpers/utils/get-name'
 import Selector from '../shared-ui/Select'
 import { LoaderAbsolute } from '../shared-ui/Loader'
 import { useClient } from '../context/ClientContext'
@@ -139,7 +140,11 @@ const Profile: React.FC<Props> = ({ className, data }) => {
         {({ handleSubmit, isSubmitting }) => (
           <div className={s.content}>
             <div className={s.avatarBlock}>
-              <Avatar image={data.avatar} className={s.avatar} />
+              <Avatar
+                className={s.avatar}
+                image={data.avatar}
+                name={getName(data)}
+              />
             </div>
             <form className={s.form} onSubmit={handleSubmit}>
               <div className={s.row}>

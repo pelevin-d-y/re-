@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { formatTime } from 'src/helpers/utils/parseTime'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -14,7 +15,11 @@ const ThreadItem: React.FC<Props> = ({ className, data }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.header}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={data.image_url} />
+        <Avatar
+          className={s.avatar}
+          name={getName(data)}
+          image={data.image_url}
+        />
         <div className={s.profileInfo}>
           <div className={classNames(s.name, s.profileItem)}>{data.name}</div>
           <div className={s.profileItem}>Re: Investor needed</div>

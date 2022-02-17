@@ -23,6 +23,7 @@ import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
 import CellNextSteps from 'src/components/shared-ui/Table/CellNextSteps'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
+import { getName } from 'src/helpers/utils/get-name'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
@@ -75,6 +76,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             <Avatar
               className={s.avatar}
               image={row.original.avatar}
+              name={getName(row.original)}
               strength={row.original.relationshipStrength}
             />{' '}
             <PopoverUserInfo

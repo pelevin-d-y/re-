@@ -37,7 +37,11 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
         <div className={s.info}>
-          <Avatar className={s.avatar} image={getAvatarUrl()} />
+          <Avatar
+            className={s.avatar}
+            name={getName(data)}
+            image={getAvatarUrl()}
+          />
           <div className={s.userInfo}>
             <div className={s.userName}>{getName(data)}</div>
             <MessageStatus className={s.messageStatus} data={data} />

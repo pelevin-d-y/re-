@@ -8,6 +8,7 @@ import { useClient } from 'src/components/context/ClientContext'
 import classNames from 'classnames'
 import { logInLink } from 'src/helpers/variables'
 import { useRouter } from 'next/router'
+import { getName } from 'src/helpers/utils/get-name'
 import Button from '../Button'
 
 type Props = {
@@ -36,7 +37,9 @@ const HeaderProfile: React.FC<Props> = ({ className }) => {
       triggerElement={
         <div className={classNames(s.container, className)}>
           <a>
-            <Avatar image={state.data?.avatar} />
+            {state.data && (
+              <Avatar image={state.data?.avatar} name={getName(state.data)} />
+            )}
           </a>
         </div>
       }

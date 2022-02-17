@@ -34,7 +34,13 @@ const ContactCard: React.FC<Props> = ({
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <Avatar className={s.avatar} image={formattedData?.avatar} />
+        {formattedData && (
+          <Avatar
+            name={getName(formattedData)}
+            className={s.avatar}
+            image={formattedData.avatar}
+          />
+        )}
         <div className={s.headerInfo}>
           <div className={s.name}>
             {formattedData && getName(formattedData)}
