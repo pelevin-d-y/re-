@@ -7,6 +7,7 @@ import Img from 'src/components/shared-ui/Img'
 import CardGoals from 'src/components/shared-ui/cards/CardGoals'
 import QuickActions from './QuickActions'
 import Wins from './Wins'
+import OnboardingTasks from './OnboardingTasks'
 
 type Props = {
   className?: string
@@ -31,6 +32,7 @@ const Spotlight: React.FC<Props> = ({ className }) => (
         </div>
       </div>
     </div>
+    <OnboardingTasks />
     <QuickActions className={s.actions} />
     <CardGoals />
     {/* <Wins className={s.wins} /> */}
@@ -39,7 +41,6 @@ const Spotlight: React.FC<Props> = ({ className }) => (
 
 const s = css`
   .container {
-    padding: 12px 21px 28px 12px;
   }
 
   .header {
@@ -48,7 +49,7 @@ const s = css`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 27px;
-
+    padding: 32px 23px 0px;
     line-height: 31px;
   }
 
@@ -67,6 +68,7 @@ const s = css`
     flex-flow: row nowrap;
     justify-content: space-between;
     margin-bottom: 30px;
+    padding: 21px 23px 0;
   }
 
   .scoreTitle {
