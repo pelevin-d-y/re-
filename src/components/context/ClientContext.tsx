@@ -71,8 +71,9 @@ const getMainUserData = async () => {
     get.getRecommendations(),
     get.getContact(),
     get.getAuth(),
+    get.getClientId(),
   ])
-  const [recommendations, contactResponse, authResponse] = requests
+  const [recommendations, contactResponse, authResponse, clientId] = requests
 
   const formattedClientData = formatContactData(contactResponse)
 
@@ -81,6 +82,7 @@ const getMainUserData = async () => {
   const mainUserData: MainUserData = {
     ...clientData,
     contacts: recommendations, // have to remove when API is fixed
+    clientId,
   }
 
   return mainUserData

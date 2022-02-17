@@ -127,6 +127,13 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err))
   },
+
+  getClientId: (): Promise<string> => {
+    return requests
+      .get(`${AWS_API}/client/id`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err))
+  },
 }
 
 const post = {
