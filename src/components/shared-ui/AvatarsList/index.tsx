@@ -2,11 +2,11 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Avatar from 'src/components/shared-ui/Avatar'
+import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
   users: PlaylistContact[]
-  usersData?: FormattedContact[]
   avatarWidth?: number
   avatarHeight?: number
   showHiddenUsers?: boolean
@@ -16,29 +16,23 @@ const AVATAR_BASE_SIZE = 52
 const MAX_VISIBLE_USERS = 6
 const AVATAR_TRANSITION = 10
 
-const AvatarList: React.FC<Props> = ({
+const AvatarsList: React.FC<Props> = ({
   className,
-  usersData,
   users,
   avatarWidth,
   avatarHeight,
   showHiddenUsers,
 }) => {
+  const { state: clientState } = useClient()
   const visibleUsers = users.slice(0, MAX_VISIBLE_USERS)
   const hiddenUsers = users.length - MAX_VISIBLE_USERS
   const avatarWidthWithBorder = (avatarWidth || AVATAR_BASE_SIZE) + 4 // 4 - border-width
   const containerWidth =
     avatarWidthWithBorder * visibleUsers.length -
     AVATAR_TRANSITION * (visibleUsers.length - 1)
-
-  const getAvatar = (data?: RecommendationUser | FormattedContact) => {
-    if (data) {
-      if ('avatar' in data) {
-        return data.avatar
-      }
-      if ('image_url' in data) {
-        return data.image_url
-      }
+  const getAvatar = (id: string) => {
+    if (id && clientState.data?.clientId) {
+      return `https://strata-cc-client-public.s3.amazonaws.com/contacts_images/${clientState.data.clientId}/${id}.jpg`
     }
     return null
   }
@@ -49,23 +43,23 @@ const AvatarList: React.FC<Props> = ({
         className={classNames(s.container)}
         style={{ width: containerWidth }}
       >
-        {visibleUsers.map((item, index) => (
-          <div
-            key={item.contact_id || index}
-            style={{ transform: `translateX(-${index * AVATAR_TRANSITION}px)` }}
-          >
-            <Avatar
-              className={s.avatarImage}
-              width={avatarWidth || AVATAR_BASE_SIZE}
-              height={avatarHeight || AVATAR_BASE_SIZE}
-              image={getAvatar(
-                usersData?.find(
-                  (playlistItem) => item.contact_id === playlistItem.contact_id
-                )
-              )}
-            />
-          </div>
-        ))}
+        {visibleUsers.map((item, index) => {
+          return (
+            <div
+              key={item.contact_id || index}
+              style={{
+                transform: `translateX(-${index * AVATAR_TRANSITION}px)`,
+              }}
+            >
+              <Avatar
+                className={s.avatarImage}
+                width={avatarWidth || AVATAR_BASE_SIZE}
+                height={avatarHeight || AVATAR_BASE_SIZE}
+                image={getAvatar(item.contact_id)}
+              />
+            </div>
+          )
+        })}
       </div>
       {hiddenUsers <= 0 || !showHiddenUsers ? null : (
         <div className={s.hiddenUsers}>{hiddenUsers} +</div>
@@ -103,4 +97,4 @@ const s = css`
   }
 `
 
-export default AvatarList
+export default AvatarsList
