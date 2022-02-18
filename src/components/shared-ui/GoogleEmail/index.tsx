@@ -85,7 +85,7 @@ const s = css`
 
   .status {
     text-decoration: none;
-    color: var(--blue);
+    color: var(--primary1);
     font-size: 12px;
     line-height: 14px;
   }

@@ -147,7 +147,7 @@ const s = css`
     text-align: start;
 
     &:hover {
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 

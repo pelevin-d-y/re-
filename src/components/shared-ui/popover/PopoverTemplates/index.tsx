@@ -88,12 +88,12 @@ const s = css`
     cursor: pointer;
 
     &:hover {
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 
   .active {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .icon {

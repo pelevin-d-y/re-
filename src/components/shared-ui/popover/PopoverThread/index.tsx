@@ -71,7 +71,7 @@ const s = css`
 
     font-size: 14px;
     line-height: 16px;
-    color: var(--blue);
+    color: var(--primary1);
     border: none;
     background: none;
     cursor: pointer;

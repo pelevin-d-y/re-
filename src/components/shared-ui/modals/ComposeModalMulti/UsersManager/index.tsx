@@ -143,7 +143,7 @@ const s = css`
   }
 
   .modalHeader {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .searchContainer {
@@ -218,7 +218,7 @@ const s = css`
   }
 
   .selectedQuantity {
-    color: var(--blue);
+    color: var(--primary1);
     font-weight: 600;
     font-size: 14px;
     line-height: 17px;

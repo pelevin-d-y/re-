@@ -222,7 +222,7 @@ const s = css`
   }
 
   .new {
-    color: var(--blue);
+    color: var(--primary1);
     font-weight: var(--semiBold);
   }
 
@@ -235,7 +235,7 @@ const s = css`
 
     cursor: pointer;
     line-height: 14px;
-    color: var(--blue);
+    color: var(--primary1);
     font-size: 12px;
     font-weight: var(--semiBold);
     background: none;

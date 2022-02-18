@@ -131,7 +131,7 @@ const s = css`
 
   .thread {
     margin-left: 8px;
-    color: var(--blue);
+    color: var(--primary1);
     cursor: pointer;
   }
 

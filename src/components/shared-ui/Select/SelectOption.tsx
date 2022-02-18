@@ -56,7 +56,7 @@ const s = css`
   .check {
     width: 12px;
     height: 12px;
-    color: var(--blue);
+    color: var(--primary1);
     margin-right: 7px;
     opacity: 0;
   }

@@ -104,11 +104,11 @@ const s = css`
   }
 
   .to {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .from {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .buttons {
@@ -123,12 +123,12 @@ const s = css`
     cursor: pointer;
 
     &:hover {
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 
   .btnActive {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .selectArrow {

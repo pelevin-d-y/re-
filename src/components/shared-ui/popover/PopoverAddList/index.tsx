@@ -105,7 +105,7 @@ const s = css`
 
     &:hover {
       background: #fff;
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 

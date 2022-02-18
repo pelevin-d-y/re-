@@ -289,7 +289,7 @@ const s = css`
   }
 
   .cellHeaderAll {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .cellCheckbox {

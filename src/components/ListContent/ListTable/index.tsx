@@ -344,7 +344,7 @@ const s = css`
   }
 
   .header_All {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .emptyCardContainer {
@@ -372,7 +372,7 @@ const s = css`
   }
 
   .cellHeaderAll {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .cellCheckbox {
@@ -455,7 +455,7 @@ const s = css`
   .logo {
     width: 58px;
     height: 58px;
-    color: var(--blue);
+    color: var(--primary1);
 
     @include mobile {
       width: 35px;

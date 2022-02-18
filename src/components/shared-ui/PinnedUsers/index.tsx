@@ -78,7 +78,7 @@ const s = css`
   .headerAction {
     margin-left: auto;
 
-    color: var(--blue);
+    color: var(--primary1);
     border: none;
     background: none;
     cursor: pointer;

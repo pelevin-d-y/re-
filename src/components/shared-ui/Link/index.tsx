@@ -32,7 +32,7 @@ const s = css`
 
     font-size: 14px;
     font-weight: var(--semiBold);
-    border: 1px solid var(--blue);
+    border: 1px solid var(--primary1);
     border-radius: 16px;
     text-decoration: none;
 
@@ -41,22 +41,22 @@ const s = css`
   }
 
   .outlined {
-    color: var(--blue);
+    color: var(--primary1);
     background: var(--shades2);
 
     &:hover {
       color: var(--shades2);
-      background: var(--blue);
+      background: var(--primary1);
     }
   }
 
   .contained {
-    background: var(--blue);
+    background: var(--primary1);
     color: var(--shades2);
 
     &:hover {
       background: var(--shades2);
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 `

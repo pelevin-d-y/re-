@@ -94,7 +94,7 @@ const s = css`
   .dots {
     cursor: auto;
 
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 

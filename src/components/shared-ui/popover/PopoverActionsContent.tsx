@@ -75,7 +75,7 @@ const s = css`
     font-weight: var(--bold);
     text-align: left;
     background: var(--shades2);
-    color: var(--blue);
+    color: var(--primary1);
     border: none;
     border-bottom: 1px solid var(--neutral5);
     cursor: pointer;

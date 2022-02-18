@@ -41,7 +41,7 @@ const s = css`
     background: #cedeff;
 
     .fillBar {
-      background: var(--blue);
+      background: var(--primary1);
     }
   }
 

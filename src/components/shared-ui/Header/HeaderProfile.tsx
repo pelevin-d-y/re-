@@ -112,10 +112,10 @@ const s = css`
 
     text-decoration: none;
     background: var(--shades2);
-    color: var(--blue);
+    color: var(--primary1);
     text-align: center;
     font-weight: var(--bold);
-    border: 1px dashed var(--blue);
+    border: 1px dashed var(--primary1);
     border-radius: 6px;
   }
 
@@ -128,7 +128,7 @@ const s = css`
 
     text-decoration: none;
     background: var(--shades2);
-    color: var(--blue);
+    color: var(--primary1);
     text-align: center;
     font-weight: var(--bold);
     border-radius: 6px;
