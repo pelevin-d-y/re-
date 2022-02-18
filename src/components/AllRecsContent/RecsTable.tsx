@@ -18,15 +18,16 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { post } from 'src/api'
 import { getName } from 'src/helpers/utils/get-name'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Button from '../shared-ui/Button'
 import SvgIcon from '../shared-ui/SvgIcon'
 import Close from '../shared-ui/Close'
 import { useClient } from '../context/ClientContext'
-import CellNextSteps from '../shared-ui/Table/CellNextSteps'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
 import { HOCLastMessage } from '../HOCs/HOCLastMessage'
+import NextStep from '../shared-ui/NextStep'
 
 type Props = {
   className?: string
@@ -99,7 +100,10 @@ const Table: React.FC<Props> = ({ className, data }) => {
         id: 'Company',
         minWidth: 250,
         Cell: ({ value, row }) => (
-          <CellNextSteps className={s.cellContent} data={row.original} />
+          <NextStep
+            className={s.cellContent}
+            text={getNextStep(row.original)}
+          />
         ),
         disableSortBy: true,
       },
@@ -277,7 +281,6 @@ const s = css`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    overflow: hidden;
 
     font-size: 12px;
     line-height: 14px;

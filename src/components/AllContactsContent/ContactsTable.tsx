@@ -19,12 +19,13 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import { useRouter } from 'next/router'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { getName } from 'src/helpers/utils/get-name'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import EditField from '../shared-ui/EditField'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
-import CellNextSteps from '../shared-ui/Table/CellNextSteps'
 import { HOCLastMessage } from '../HOCs/HOCLastMessage'
+import NextStep from '../shared-ui/NextStep'
 
 type Props = {
   className?: string
@@ -125,7 +126,12 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
         Header: 'Next steps',
         disableSortBy: true,
         Cell: ({ value, row }) => {
-          return <CellNextSteps className={s.cellContent} data={row.original} />
+          return (
+            <NextStep
+              className={s.cellContent}
+              text={getNextStep(row.original)}
+            />
+          )
         },
       },
       {
@@ -373,7 +379,6 @@ const s = css`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .cellHeaderAll {

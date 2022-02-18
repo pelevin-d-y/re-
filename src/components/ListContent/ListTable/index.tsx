@@ -21,8 +21,9 @@ import { post } from 'src/api'
 import EditField from 'src/components/shared-ui/EditField'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
-import CellNextSteps from 'src/components/shared-ui/Table/CellNextSteps'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
+import NextStep from 'src/components/shared-ui/NextStep'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { getName } from 'src/helpers/utils/get-name'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
@@ -120,7 +121,10 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 250,
         disableSortBy: true,
         Cell: ({ value, row }) => (
-          <CellNextSteps className={s.cellContent} data={row.original} />
+          <NextStep
+            className={s.cellContent}
+            text={getNextStep(row.original)}
+          />
         ),
       },
       {
@@ -368,7 +372,6 @@ const s = css`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .cellHeaderAll {
