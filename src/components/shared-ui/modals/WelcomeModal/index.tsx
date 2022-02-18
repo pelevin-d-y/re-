@@ -1,109 +1,116 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
+import { useFreeStorage } from 'src/components/context/FreeStorageContext'
 import Img from 'src/components/shared-ui/Img'
 import CloseButton from 'src/components/shared-ui/Close'
 import ProgressBar from 'src/components/shared-ui/ProgressBar'
 import Button from 'src/components/shared-ui/Button'
-import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import classnames from 'classnames'
 import ModalBase from '../ModalBase'
 import Option from './Option'
 
 const steps = [
   {
+    value: 'communication-style',
     question: 'What’s closest to your email communication style?',
     options: [
       {
-        value: '',
+        value: 'formal',
         text: 'Formal',
         icon: 'welcome/formal.png',
       },
       {
-        value: '',
+        value: 'casual',
         text: 'Casual',
         icon: 'welcome/casual.png',
       },
     ],
   },
   {
+    value: 'personal-or-professional',
     question: 'Are you here for personal or professional growth?',
     options: [
       {
-        value: '',
+        value: 'personal',
         text: 'Personal',
         icon: 'welcome/personal.png',
       },
       {
-        value: '',
+        value: 'professional',
         text: 'Professional',
         icon: 'welcome/professional.png',
       },
     ],
   },
   {
+    value: 'recruitment-or-job-search',
     question: 'Are you looking to recruit or job search?',
     options: [
       {
-        value: '',
+        value: 'job-search',
         text: 'Job Search',
         icon: 'welcome/job-search.png',
       },
       {
-        value: '',
-        text: 'Recruit',
+        value: 'recruitment',
+        text: 'Recruitment',
         icon: 'welcome/recruit.png',
       },
     ],
   },
   {
+    value: 'stay-in-touch',
     question: 'How important is it to stay in touch with new contacts?',
     options: [
       {
-        value: '',
+        value: 'important',
         text: 'Important',
       },
       {
-        value: '',
+        value: 'not-important',
         text: 'Not Very Important',
       },
     ],
   },
   {
+    value: 'reconnect-with-contacts',
     question: 'How important is it to reconnect with old friends?',
     options: [
       {
-        value: '',
+        value: 'important',
         text: 'Important',
       },
       {
-        value: '',
+        value: 'not-important',
         text: 'Not Very Important',
       },
     ],
   },
   {
+    value: 'get-feedback-intro',
     question: 'How important is it to get feedback on intros you made?',
     options: [
       {
-        value: '',
+        value: 'important',
         text: 'Important',
       },
       {
-        value: '',
+        value: 'not-important',
         text: 'Not Very Important',
       },
     ],
   },
   {
+    value: 'give-feedback-intro',
     question: 'How important is it to give feedback on intros you received?',
     options: [
       {
-        value: '',
+        value: 'important',
         text: 'Important',
       },
       {
-        value: '',
+        value: 'not-important',
         text: 'Not Very Important',
       },
     ],
@@ -111,28 +118,52 @@ const steps = [
 ]
 
 const WelcomeModal: React.FC = () => {
-  const { dispatch, state } = usePopup()
-  const { welcomeModalIsOpen } = state
+  const { dispatch: dispatchPopup, state: popupState } = usePopup()
+  const { updateFreeStorage, state: freeStorageState } = useFreeStorage()
+
+  const [hasModalOpened, setHasModalOpened] = useState(false)
+
+  const { welcomeModalIsOpen } = popupState
+  const { welcome_questionnaire_shown } = freeStorageState
+
+  useEffect(() => {
+    if (!hasModalOpened && !welcome_questionnaire_shown) {
+      setHasModalOpened(true)
+      dispatchPopup({ type: 'TOGGLE_WELCOME_POPUP' })
+    }
+  }, [dispatchPopup, hasModalOpened, welcome_questionnaire_shown])
+
+  const [stepsValues, setStepsValues] = useState(Array(steps.length).fill(-1))
+  const saveStep = (step: number, value: number) => {
+    const values = [...stepsValues]
+    values[step] = value
+    setStepsValues(values)
+  }
 
   const [selectedOption, setSelectedOption] = useState(-1)
-  const [stepsValues, setStepsValues] = useState(Array(steps.length).fill(-1))
-
   const [currentStep, setCurrentStep] = useState(0)
-  const nextStep = () => {
-    setCurrentStep(currentStep + 1)
-    setSelectedOption(-1)
-    // setSelectedOption(stepsValues[currentStep])
-  }
   const prevStep = () => {
     setCurrentStep(currentStep - 1)
     setSelectedOption(-1)
-    // setSelectedOption(stepsValues[currentStep])
   }
   const selectStep = (index: number) => {
     setSelectedOption(index)
-    const copySteps = [...stepsValues]
-    copySteps[currentStep] = index
-    setStepsValues(copySteps)
+    saveStep(currentStep, index)
+
+    if (!isLastStep) {
+      setCurrentStep(currentStep + 1)
+      setSelectedOption(-1)
+    }
+  }
+
+  const getAnswers = () => {
+    const answers = {} as any
+    stepsValues.forEach((value, index) => {
+      const step = steps[index]
+      const option = step.options[value]
+      answers[step.value] = option.value
+    })
+    return answers
   }
 
   const isFirstStep = currentStep === 0
@@ -142,8 +173,20 @@ const WelcomeModal: React.FC = () => {
     (currentStep / (steps.length - 1)) * 95 + 2
   )
 
+  const saveAndCloseHandler = () => {
+    const answers = getAnswers()
+    updateFreeStorage({
+      welcome_questionnaire_shown: true,
+      welcome_questionnaire: answers,
+    })
+    dispatchPopup({ type: 'TOGGLE_WELCOME_POPUP' })
+  }
+
   const closeHandler = () => {
-    dispatch({ type: 'TOGGLE_WELCOME_POPUP' })
+    updateFreeStorage({
+      welcome_questionnaire_shown: true,
+    })
+    dispatchPopup({ type: 'TOGGLE_WELCOME_POPUP' })
   }
 
   return (
@@ -196,22 +239,11 @@ const WelcomeModal: React.FC = () => {
           </Button>
         )}
 
-        {!isLastStep && (
-          <Button
-            className={classnames(s.buttonSteps, s.buttonNext)}
-            variant="outlined"
-            handler={nextStep}
-            disabled={selectedOption === -1}
-          >
-            Next
-          </Button>
-        )}
-
         {isLastStep && (
           <Button
             className={s.buttonDone}
             variant="contained"
-            handler={closeHandler}
+            handler={saveAndCloseHandler}
             disabled={selectedOption === -1}
           >
             Done

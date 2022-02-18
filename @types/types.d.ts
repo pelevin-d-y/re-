@@ -160,3 +160,9 @@ type CreatePlaylist = {
 }
 
 type Playlists = ListData[]
+
+type FreeStorage = {
+  product_tour_shown?: boolean
+  welcome_questionnaire_shown?: boolean
+  welcome_questionnaire?: any
+}

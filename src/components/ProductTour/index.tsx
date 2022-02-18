@@ -13,6 +13,7 @@ const steps = [
   {
     target: '.recommendations-welcome',
     placement: 'bottom',
+    disableBeacon: true,
     content: (
       <>
         <h2>Here are your recommendations</h2>
@@ -26,6 +27,7 @@ const steps = [
   {
     target: '.spotlight-welcome',
     placement: 'left',
+    disableBeacon: true,
     content: (
       <>
         <h2>Here’s is your Spotlight</h2>
@@ -39,6 +41,7 @@ const steps = [
   {
     target: '.pinned-welcome',
     placement: 'left',
+    disableBeacon: true,
     content: (
       <>
         <h2>Pinned Contacts</h2>
@@ -54,6 +57,7 @@ const steps = [
     target: '.home-menu-welcome',
     placement: 'right',
     disableScrolling: true,
+    disableBeacon: true,
     content: (
       <>
         <h2>Home</h2>
@@ -69,6 +73,7 @@ const steps = [
     target: '.lists-menu-welcome',
     placement: 'right',
     disableScrolling: true,
+    disableBeacon: true,
     content: (
       <>
         <h2>List</h2>
@@ -83,6 +88,7 @@ const steps = [
     target: '.recommendations-menu-welcome',
     placement: 'right',
     disableScrolling: true,
+    disableBeacon: true,
     content: (
       <>
         <h2>Recommendations</h2>
@@ -99,6 +105,7 @@ const steps = [
     target: '.personalization-menu-welcome',
     placement: 'right',
     disableScrolling: true,
+    disableBeacon: true,
     content: (
       <>
         <h2>Personalization</h2>
@@ -120,12 +127,13 @@ const customStyle = {
     paddingLeft: '40px',
     paddingRight: '40px',
     border: '1px solid #fff',
+    marginRight: '38%',
   },
   buttonSkip: {
-    marginLeft: '280px',
+    marginLeft: '45%',
   },
   buttonClose: {
-    opacity: 0,
+    display: 'none',
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -135,9 +143,9 @@ const customStyle = {
 const ProductTour: React.FC<Props> = ({ className }) => {
   const [run, setRun] = React.useState(false)
 
-  setInterval(() => {
-    setRun(true)
-  }, 5000)
+  // setInterval(() => {
+  //   setRun(true)
+  // }, 5000)
 
   return (
     <div>
