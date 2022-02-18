@@ -31,6 +31,7 @@ const Avatar: React.FC<Props> = ({
       .split(/\s/)
       // eslint-disable-next-line no-return-assign, no-param-reassign
       .reduce((acc, word) => (acc += word.slice(0, 1)).toUpperCase(), '')
+      .slice(0, 2)
 
   const renderPlaceholder = () => {
     if (name) {
@@ -64,6 +65,7 @@ const Avatar: React.FC<Props> = ({
 
 const s = css`
   .container {
+    font-size: 16px;
     position: relative;
     box-sizing: content-box;
     flex: 0 0 auto;
@@ -98,7 +100,6 @@ const s = css`
     overflow: hidden;
     width: 100%;
     height: 100%;
-    font-size: 16px;
 
     border-radius: 50%;
     background: var(--primary2);

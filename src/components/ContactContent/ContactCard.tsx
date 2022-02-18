@@ -101,6 +101,7 @@ const s = css`
   }
 
   .avatar {
+    font-size: 38px !important;
     margin-bottom: 22px;
     width: 119px !important;
     height: 119px !important;

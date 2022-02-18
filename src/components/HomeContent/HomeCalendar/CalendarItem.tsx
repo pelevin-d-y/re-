@@ -107,7 +107,7 @@ const s = css`
     align-items: center;
     max-width: 250px;
     width: 100%;
-    margin-right: 9%;
+
     @include mobile {
       flex-flow: column nowrap;
       margin-right: 0;
@@ -134,6 +134,12 @@ const s = css`
     line-height: 16px;
   }
 
+  .text {
+    overflow: hidden;
+    max-width: 105px;
+    word-break: break-all;
+  }
+
   .position {
     font-size: 12px;
     @include mobile {
@@ -153,6 +159,7 @@ const s = css`
   .message {
     max-width: 40%;
     width: 100%;
+    word-break: break-word;
     margin-right: 20px;
     @include mobile {
       max-width: 100%;

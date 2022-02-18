@@ -6,6 +6,7 @@ import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import { useRouter } from 'next/router'
 import { usePopup } from 'src/components/context/PopupContext'
 import CloseButton from '../../Close'
+import Typography from '../../Typography'
 
 type Props = {
   className?: string
@@ -51,14 +52,16 @@ const CardList: React.FC<Props> = ({
     >
       <CloseButton className={s.removeButton} handler={deleteHandler} />
       {/* {image && <Img img={image} alt="icon" className={s.image} />} */}
-      <div className={s.title}>{info?.name}</div>
+      <Typography className={s.title} tagVariant="h4" fontVariant="inter">
+        {info?.name}
+      </Typography>
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
       {contacts && contactsData && (
         <AvatarsList
-          avatarWidth={38}
-          avatarHeight={38}
+          avatarWidth={47}
+          avatarHeight={47}
           className={s.avatars}
           users={contacts}
           showHiddenUsers
@@ -137,7 +140,6 @@ const s = css`
     padding-right: 50px;
     margin-bottom: 10px;
 
-    font-size: 24px;
     font-weight: var(--bold);
   }
 

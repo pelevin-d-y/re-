@@ -86,6 +86,7 @@ const s = css`
 
   .avatar {
     margin-right: 17px;
+    font-size: 18px;
 
     @include mobile {
       align-self: center;

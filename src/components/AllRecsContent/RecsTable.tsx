@@ -273,6 +273,7 @@ const s = css`
   }
 
   .avatar {
+    font-size: 16px;
     flex: 0 0 auto;
     margin-right: 20px;
   }

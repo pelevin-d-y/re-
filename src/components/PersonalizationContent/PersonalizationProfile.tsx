@@ -338,6 +338,7 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .avatar {
+    font-size: 33px;
     width: 87px !important;
     height: 87px !important;
   }
