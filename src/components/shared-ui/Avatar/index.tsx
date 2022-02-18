@@ -9,7 +9,7 @@ type Props = {
   width?: number
   height?: number
   image?: string | null
-  name: string
+  name?: string
   strength?: string | number | null
 }
 
