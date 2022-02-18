@@ -53,6 +53,7 @@ const AvatarsList: React.FC<Props> = ({
             >
               <Avatar
                 className={s.avatarImage}
+                name=""
                 width={avatarWidth || AVATAR_BASE_SIZE}
                 height={avatarHeight || AVATAR_BASE_SIZE}
                 image={getAvatar(item.contact_id)}
@@ -84,7 +85,7 @@ const s = css`
   .avatarImage {
     width: 52px;
     height: 52px;
-    border: 2px solid var(--white);
+    border: 2px solid var(--shades2);
   }
 
   .hiddenUsers {
@@ -93,7 +94,7 @@ const s = css`
     font-size: 14px;
     line-height: 16px;
     font-weight: var(--bold);
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 

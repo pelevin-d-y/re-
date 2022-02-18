@@ -79,7 +79,7 @@ const s = css`
   .headerAdd {
     margin-left: 15px;
 
-    color: var(--blue);
+    color: var(--primary1);
     line-height: 31px;
     cursor: pointer;
     text-decoration: none;

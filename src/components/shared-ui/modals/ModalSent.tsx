@@ -6,6 +6,7 @@ import { useClient } from 'src/components/context/ClientContext'
 import Button from '../Button'
 import Img from '../Img'
 import CardContact from '../cards/CardContact'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -24,10 +25,12 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
     if (typeof names === 'string') {
       return (
         <>
-          <div>Nice work on following up!</div>
-          <div className={s.smallText}>
+          <Typography tagVariant="div" styleVariant="h3">
+            Nice work on following up!
+          </Typography>
+          <Typography tagVariant="div" styleVariant="h4" fontWeight="regular">
             Keep it up and connect with {names}!{' '}
-          </div>
+          </Typography>
         </>
       )
     }
@@ -48,8 +51,8 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
           ) : null
         )}
       </div>
-      <Button variant="contained" className={s.buttonBack} handler={handler}>
-        Back to home
+      <Button variant="outlined" className={s.buttonBack} handler={handler}>
+        Return to Dashboard
       </Button>
     </div>
   )
@@ -67,8 +70,6 @@ const s = css`
     margin-right: auto;
     margin-top: 25px;
     padding: 28px 12px 53px 12px;
-
-    background: url('/svg/circles-background.svg') no-repeat center/cover;
   }
 
   .heder {
@@ -83,12 +84,6 @@ const s = css`
 
     font-weight: var(--bold);
     font-size: 26px;
-    line-height: 32px;
-  }
-
-  .smallText {
-    font-weight: var(--regular);
-    font-size: 18px;
     line-height: 32px;
   }
 
@@ -110,7 +105,7 @@ const s = css`
 
   .buttonBack {
     display: block;
-    max-width: 182px;
+    max-width: 262px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;

@@ -78,7 +78,7 @@ const s = css`
     overflow: auto;
     padding: 20px;
 
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .button {
@@ -88,12 +88,12 @@ const s = css`
     cursor: pointer;
 
     &:hover {
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 
   .active {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .icon {
@@ -126,7 +126,7 @@ const s = css`
     border: none;
 
     &:hover {
-      background: var(--lightBlue);
+      background: var(--primary2);
     }
   }
 `

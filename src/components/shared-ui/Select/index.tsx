@@ -3,11 +3,9 @@ import ReactSelect, {
   StylesConfig,
   IndicatorProps,
   components,
-  MenuProps,
 } from 'react-select'
 import { css } from 'astroturf'
 import classNames from 'classnames'
-import { OptionProps } from 'react-select/src/types'
 import DropdownIndicator from './DropdownIndicator'
 import SelectOption from './SelectOption'
 

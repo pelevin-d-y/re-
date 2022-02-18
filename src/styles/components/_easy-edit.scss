@@ -5,13 +5,17 @@
   overflow: hidden;
   min-height: 15px;
   min-width: 10px;
+  padding: 8px;
+
+  font-size: 11px;
+  line-height: 13px;
+  background: var(--neutral5);
 }
 
 .easy-edit-hover-on,
 .easy-edit-wrapper:hover {
   font-style: normal;
   border-radius: 4px;
-  background: #efefef;
   cursor: text;
 }
 
@@ -25,8 +29,8 @@
   width: 100%;
   padding: 6px 12px;
 
-  font-size: 14px;
-  line-height: 17px;
+  font-size: 11px;
+  line-height: 13px;
   border-radius: 4px;
   border: 1px solid #d8d8d8;
 }

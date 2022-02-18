@@ -5,77 +5,97 @@ import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Img from 'src/components/shared-ui/Img'
 import CardGoals from 'src/components/shared-ui/cards/CardGoals'
-import QuickActions from './QuickActions'
-import Wins from './Wins'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import { useClient } from 'src/components/context/ClientContext'
 import OnboardingTasks from './OnboardingTasks'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
 }
 
-const Spotlight: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classnames(className, s.container)}>
-    <div className={s.header}>
-      <div className={s.title}>Spotlight</div>
-      <div className={s.imageWrapper}>
-        <Img className={s.image} alt="avatar" img="spotlight.png" />
+const Spotlight: React.FC<Props> = ({ className }) => {
+  const { state: playlistsState } = usePlaylists()
+  const { state: clientState } = useClient()
+
+  return (
+    <CardContainer className={classnames(className, s.container)}>
+      <div className={s.header}>
+        <Typography className={s.title} fontVariant="damion">
+          Spotlight
+        </Typography>
+        <Img className={s.underline} alt="" img="decorate-line-2.png" />
       </div>
-    </div>
-    <div className={s.score}>
-      <div className={s.left}>
-        <div className={s.scoreTitle}>Network Score</div>
-        <span className={s.rating}>Good</span>
-      </div>
-      <div className={s.right}>
-        <div className={s.radar}>
-          <SvgIcon icon="radar.svg" />
+      <div className={s.score}>
+        <div className={s.left}>
+          <Typography className={s.rating} fontVariant="inter">
+            Great
+          </Typography>
+          <Typography className={s.ratingSubtitle} fontVariant="inter">
+            You’re all good!
+          </Typography>
+        </div>
+        <div className={s.right}>
+          <div className={s.radar}>
+            <SvgIcon icon="radar.svg" />
+          </div>
+          <Typography className={s.scoreTitle}>Network Score</Typography>
         </div>
       </div>
-    </div>
-    <OnboardingTasks />
-    <QuickActions className={s.actions} />
-    <CardGoals />
-    {/* <Wins className={s.wins} /> */}
-  </CardContainer>
-)
+      {!playlistsState.isLoading &&
+        !clientState.isLoading &&
+        (playlistsState.data.length === 0 ||
+          clientState.data?.authData ||
+          true) && <OnboardingTasks />}
+      <CardGoals />
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {
   }
 
   .header {
-    display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 27px;
-    padding: 32px 23px 0px;
-    line-height: 31px;
+    padding: 22px 23px 0px;
   }
 
   .actions {
     margin-bottom: 9px;
   }
 
+  .radar {
+    margin-bottom: 10px;
+  }
+
   .title {
-    font-size: 24px;
-    line-height: 31px;
-    font-weight: var(--bold);
+    font-size: 32px;
+    line-height: 44px;
+  }
+
+  .ratingSubtitle {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    color: var(--primary1);
+    text-align: center;
   }
 
   .score {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    margin-bottom: 30px;
-    padding: 21px 23px 0;
+    padding: 11px 23px 30px 23px;
   }
 
   .scoreTitle {
-    margin-bottom: 12px;
-
-    font-size: 18px;
-    font-weight: var(--bold);
+    font-size: 12px;
+    line-height: 15px;
+    color: var(--black);
+    text-align: center;
   }
 
   .right {
@@ -85,36 +105,23 @@ const s = css`
   }
 
   .rating {
-    font-size: 38px;
-    font-weight: var(--bold);
-    color: var(--blue);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 38px;
+    margin-bottom: 6px;
+    color: var(--primary1);
   }
 
   .longCard {
     margin-bottom: 8px;
   }
 
-  .imageWrapper {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-
-    width: 50px;
-    height: 50px;
-
-    border: 1px solid #e4e4e4;
-    border-radius: 50%;
-  }
-
-  .image {
-    width: 40px;
-    height: 34px;
-    object-fit: contain;
-  }
-
   .wins {
     margin-top: 11px;
+  }
+
+  .underline {
+    max-width: 135px;
   }
 `
 

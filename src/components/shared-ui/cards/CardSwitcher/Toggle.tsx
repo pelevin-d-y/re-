@@ -22,7 +22,7 @@ const s = css`
   .container {
     background: none;
     border: none;
-    color: var(--blue);
+    color: var(--primary1);
     padding: 0;
     cursor: pointer;
   }

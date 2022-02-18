@@ -67,7 +67,7 @@ const s = css`
   .container {
     display: flex;
     flex-flow: column nowrap;
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .tableActions {

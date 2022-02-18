@@ -51,11 +51,11 @@ const PopupContent: React.FC<Props> = ({
       <div className={s.wrapper}>
         <div className={s.header}>
           <Avatar
+            className={s.avatar}
             image={getAvatarUrl()}
+            name={getName(data)}
             width={54}
             height={54}
-            className={s.avatar}
-            // strength={data.relationshipStrength}
           />
           <div className={s.headerInfo}>
             <div className={s.name}>

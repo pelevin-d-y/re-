@@ -84,7 +84,7 @@ const s = css`
     font-size: 12px;
     font-weight: var(--bold);
     text-align: left;
-    background: var(--white);
+    background: var(--shades2);
     border: none;
     border-bottom: 1px solid var(--neutral5);
     cursor: pointer;

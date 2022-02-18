@@ -44,7 +44,7 @@ const s = css`
   .title {
     margin-bottom: 11px;
 
-    color: var(--black);
+    color: var(--shades1);
     font-weight: var(--bold);
     font-size: 38px;
     line-height: 42px;

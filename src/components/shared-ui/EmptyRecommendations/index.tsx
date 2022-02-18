@@ -6,6 +6,7 @@ import SvgIcon from '../SvgIcon'
 import Img from '../Img'
 import Button from '../Button'
 import CardContainer from '../cards/CardContainer'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -21,30 +22,36 @@ const EmptyRecommendations: React.FC<Props> = ({ className }) => {
   return (
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
-        <div className={s.circle}>
-          <SvgIcon className={s.iconGoogle} icon="google-mail.svg" />
-          <Img className={s.iconStrata} alt="logo" img="logo-user-info.svg" />
-        </div>
-        <div className={s.title}>Getting your Top Recommendations</div>
+        <Typography tagVariant="div" styleVariant="h3">
+          Getting your Weekly{' '}
+          <Typography
+            tagVariant="span"
+            styleVariant="h1"
+            fontVariant="damion"
+            fontWeight="regular"
+          >
+            Recommendations
+          </Typography>
+        </Typography>
       </div>
-      <div className={s.description}>
+      <Typography
+        className={s.description}
+        tagVariant="div"
+        styleVariant="body1"
+      >
         Strata’s engine is analyzing your network for top recommendations to
         reach out to.
-      </div>
+      </Typography>
       <div className={s.buttonBlock}>
         <Button
           className={s.button}
-          variant="outlined"
+          variant="contained"
           handler={openPersonalizationPage}
         >
           + Add another account
         </Button>
       </div>
-      <Img
-        className={s.image}
-        alt="recommendations cards"
-        img="recommendationsCard.png"
-      />
+      <Img className={s.image} alt="logo" img="google-strata-logo.png" />
     </CardContainer>
   )
 }
@@ -55,24 +62,20 @@ const s = css`
   .container {
     position: relative;
     padding: 45px 42px 60px 42px;
+    color: var(--neutral5);
 
-    background: url('/svg/circles-background.svg') no-repeat center/cover;
+    background: var(--gradientDark);
   }
 
   .header {
     display: flex;
     flex-flow: row nowrap;
 
-    max-width: 60%;
     width: 100%;
     margin-bottom: 24px;
 
     font-size: 24px;
     font-weight: var(--semiBold);
-
-    @include mobile {
-      max-width: 100%;
-    }
   }
 
   .description {
@@ -80,6 +83,10 @@ const s = css`
     width: 100%;
 
     margin-bottom: 31px;
+
+    @include mobile {
+      max-width: 100%;
+    }
   }
 
   .buttonBlock {
@@ -90,59 +97,36 @@ const s = css`
   }
 
   .button {
+    padding: 9px 12px;
+    max-width: 212px;
+    width: 100%;
+
     font-size: 12px;
     line-height: 14px;
-    padding: 9px 12px;
-  }
 
-  .circle {
-    position: relative;
-
-    flex: 1 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 62px;
-    width: 100%;
-    height: 62px;
-    margin-right: 29px;
-
-    border: 1.2px solid #e4e4e4;
-    border-radius: 50%;
+    &:hover {
+      background: var(--neutral1);
+      color: var(--shades2);
+    }
   }
 
   .image {
     position: absolute;
-    transform: translateY(-50%);
-    width: 40%;
-    height: 90%;
-    top: 50%;
-    right: 0%;
+    width: 22%;
+    max-height: 170px;
+
+    right: 2%;
+    bottom: 30px;
     object-fit: contain;
+
+    @include tablet {
+      width: 139px;
+      max-height: 131px;
+    }
 
     @include mobile {
       display: none;
     }
-  }
-
-  .iconGoogle {
-    width: 30px;
-    height: 30px;
-  }
-
-  .iconStrata {
-    position: absolute;
-    bottom: -2px;
-    right: -5px;
-    width: 22px;
-    height: 22px;
-  }
-
-  .progressImg {
-    width: 108px;
-    height: 3px;
-    margin-left: 12px;
-    margin-right: 12px;
   }
 `
 
