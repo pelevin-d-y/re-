@@ -29,6 +29,7 @@ const s = css`
     background: #ffffff;
     box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
+    max-width: 88px;
     min-width: 88px;
     min-height: 88px;
     padding: 11px;
