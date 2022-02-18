@@ -66,10 +66,12 @@ const steps = [
       {
         value: 'important',
         text: 'Important',
+        icon: null,
       },
       {
         value: 'not-important',
         text: 'Not Very Important',
+        icon: null,
       },
     ],
   },
@@ -80,10 +82,12 @@ const steps = [
       {
         value: 'important',
         text: 'Important',
+        icon: null,
       },
       {
         value: 'not-important',
         text: 'Not Very Important',
+        icon: null,
       },
     ],
   },
@@ -94,10 +98,12 @@ const steps = [
       {
         value: 'important',
         text: 'Important',
+        icon: null,
       },
       {
         value: 'not-important',
         text: 'Not Very Important',
+        icon: null,
       },
     ],
   },
@@ -108,10 +114,12 @@ const steps = [
       {
         value: 'important',
         text: 'Important',
+        icon: null,
       },
       {
         value: 'not-important',
         text: 'Not Very Important',
+        icon: null,
       },
     ],
   },
@@ -124,14 +132,24 @@ const WelcomeModal: React.FC = () => {
   const [hasModalOpened, setHasModalOpened] = useState(false)
 
   const { welcomeModalIsOpen } = popupState
+  const { hasFreeStorageLoaded } = freeStorageState
   const { welcome_questionnaire_shown } = freeStorageState
 
   useEffect(() => {
-    if (!hasModalOpened && !welcome_questionnaire_shown) {
+    if (
+      hasFreeStorageLoaded &&
+      !hasModalOpened &&
+      !welcome_questionnaire_shown
+    ) {
       setHasModalOpened(true)
       dispatchPopup({ type: 'TOGGLE_WELCOME_POPUP' })
     }
-  }, [dispatchPopup, hasModalOpened, welcome_questionnaire_shown])
+  }, [
+    dispatchPopup,
+    hasFreeStorageLoaded,
+    hasModalOpened,
+    welcome_questionnaire_shown,
+  ])
 
   const [stepsValues, setStepsValues] = useState(Array(steps.length).fill(-1))
   const saveStep = (step: number, value: number) => {

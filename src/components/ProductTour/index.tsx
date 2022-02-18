@@ -149,7 +149,9 @@ const ProductTour: React.FC<Props> = ({ className }) => {
   const { updateFreeStorage, state: freeStorageState } = useFreeStorage()
   const { state: clientState } = useClient()
 
+  const { hasFreeStorageLoaded } = freeStorageState
   const { product_tour_shown } = freeStorageState
+  const { welcome_questionnaire_shown } = freeStorageState
   const { isLoading } = clientState
 
   const statusAccounts = useMemo(
@@ -166,7 +168,14 @@ const ProductTour: React.FC<Props> = ({ className }) => {
   )
 
   useEffect(() => {
-    if (!isLoading && !hasTourLaunched && !product_tour_shown && isSynced) {
+    if (
+      hasFreeStorageLoaded &&
+      !isLoading &&
+      isSynced &&
+      !hasTourLaunched &&
+      !product_tour_shown &&
+      welcome_questionnaire_shown
+    ) {
       setHasTourLaunched(true)
       updateFreeStorage({ product_tour_shown: true })
 
@@ -180,6 +189,8 @@ const ProductTour: React.FC<Props> = ({ className }) => {
     isSynced,
     product_tour_shown,
     updateFreeStorage,
+    welcome_questionnaire_shown,
+    hasFreeStorageLoaded,
   ])
 
   return (

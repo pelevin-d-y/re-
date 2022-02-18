@@ -5,7 +5,7 @@ import Img from 'src/components/shared-ui/Img'
 
 type Props = {
   className?: string
-  img?: string
+  img?: string | null
   handler?: () => void
 }
 
