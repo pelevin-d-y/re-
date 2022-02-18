@@ -2,11 +2,11 @@ import React, { useCallback, useEffect } from 'react'
 import { get, post } from 'src/api'
 
 type Action =
-  | { type: 'UPDATE_IS_LOADING'; payload: boolean }
+  | { type: 'UPDATE_HAS_LOADED'; payload: boolean }
   | { type: 'UPDATE_DATA'; payload: any }
   | { type: 'SET_WELCOME_QUESTIONNAIRE_SHOWN'; payload: boolean }
 type State = FreeStorage & {
-  isLoading: boolean
+  hasFreeStorageLoaded: boolean
 }
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
@@ -18,10 +18,10 @@ type ContextType = {
 const FreeStorageContext = React.createContext<ContextType | null>(null)
 
 const initialState = {
-  isLoading: false,
+  hasFreeStorageLoaded: false,
   pinned: [],
-  product_tour_shown: true,
-  welcome_questionnaire_shown: true,
+  product_tour_shown: false,
+  welcome_questionnaire_shown: false,
 }
 
 const pinnedReducer = (state: State, action: Action): State => {
@@ -38,10 +38,10 @@ const pinnedReducer = (state: State, action: Action): State => {
         welcome_questionnaire_shown: action.payload,
       }
     }
-    case 'UPDATE_IS_LOADING': {
+    case 'UPDATE_HAS_LOADED': {
       return {
         ...state,
-        isLoading: action.payload,
+        hasFreeStorageLoaded: action.payload,
       }
     }
     default: {
@@ -59,9 +59,12 @@ const FreeStorageProvider: React.FC = ({ children }) => {
   }
 
   useEffect(() => {
-    dispatch({ type: 'UPDATE_IS_LOADING', payload: true })
-    fetchFreeStorage()
-    dispatch({ type: 'UPDATE_IS_LOADING', payload: false })
+    const fetchDataAsync = async () => {
+      await fetchFreeStorage()
+      dispatch({ type: 'UPDATE_HAS_LOADED', payload: true })
+    }
+
+    fetchDataAsync()
   }, [])
 
   const updateFreeStorage = useCallback(async (data: FreeStorage) => {
