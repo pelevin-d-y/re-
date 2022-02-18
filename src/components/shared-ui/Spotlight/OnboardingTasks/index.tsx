@@ -34,7 +34,7 @@ const OnboardingTasks: React.FC<Props> = ({ className }) => {
 
   const userHasNoList = useMemo(
     () =>
-      playlistsState?.data?.length ? playlistsState?.data?.length === 0 : false,
+      playlistsState?.data?.length ? playlistsState?.data?.length === 0 : true,
     [playlistsState?.data]
   )
 

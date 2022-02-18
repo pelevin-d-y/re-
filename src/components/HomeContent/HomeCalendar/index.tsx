@@ -14,6 +14,7 @@ import chunk from 'lodash/chunk'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import DropdownIndicator from 'src/components/shared-ui/Select/DropdownIndicator'
 import Typography from 'src/components/shared-ui/Typography'
+import { isDateBeforeLastMonday } from 'src/helpers/utils/date-tools'
 import UpcomingHeader from './CalendarHeader'
 import UpcomingItem from './CalendarItem'
 
@@ -72,7 +73,11 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     const storageKey = 'hidden_contacts_calendar'
     const localHidden = JSON.parse(localStorage.getItem(storageKey) || '[]')
 
-    const hiddenContactsIds = localHidden.map(
+    const contactsToHide = localHidden.filter((contact: any) =>
+      isDateBeforeLastMonday(contact.time_hidden)
+    )
+
+    const hiddenContactsIds = contactsToHide.map(
       (contact: { contact_id: string }) => contact.contact_id
     )
 
