@@ -5,7 +5,7 @@ import { css } from 'astroturf'
 type Props = {
   bar: number
   className?: string
-  barColor: 'blue' | 'green' | 'red' | 'lightBlue' | 'orange'
+  barColor: 'blue' | 'green' | 'red' | '--primary2' | 'orange'
 }
 
 const Bar: React.FC<Props> = ({ bar, className, barColor }) => (
@@ -28,7 +28,7 @@ const s = css`
     height: 100%;
     left: 0;
     top: 0;
-    background: var(--yellow);
+    background: var(--secondary2);
   }
 
   .barText {
@@ -41,14 +41,14 @@ const s = css`
     background: #cedeff;
 
     .fillBar {
-      background: var(--blue);
+      background: var(--primary1);
     }
   }
 
   .green {
     background: #d0ffeb;
     .fillBar {
-      background: var(--lightGreen);
+      background: var(--success2);
     }
   }
 
@@ -59,7 +59,7 @@ const s = css`
     }
   }
 
-  .lightBlue {
+  .--primary2 {
     background: #f2f2f2;
     .fillBar {
       background: #00d1ff;

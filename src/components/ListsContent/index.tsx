@@ -36,12 +36,12 @@ const ListsContent: React.FC<Props> = ({ className }) => {
               <SectionHeader
                 data={state.data.contacts}
                 title="Contacts"
-                description="Search your contacts to create lists"
+                description="Create lists with your contacts to organize tasks "
                 icon="contacts"
                 iconBackground="#F0F5FF"
-                iconColor="#1966FF"
+                iconColor="#5265af"
                 hideNumber
-                link={{ text: 'View', href: '/contacts' }}
+                link={{ text: 'View All ', href: '/contacts' }}
               />
               <div className={s.buttonContainer}>
                 <Button

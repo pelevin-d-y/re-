@@ -5,12 +5,13 @@ import classNames from 'classnames'
 
 type Props = {
   className?: string
+  icon?: string
 }
 
-const DropdownIndicator: React.FC<Props> = ({ className }) => (
+const DropdownIndicator: React.FC<Props> = ({ className, icon }) => (
   <SvgIcon
     className={classNames(s.container, className)}
-    icon="arrow-selector.svg"
+    icon={icon || 'arrow-selector.svg'}
   />
 )
 

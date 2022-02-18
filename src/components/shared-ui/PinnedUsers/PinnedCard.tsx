@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePinned } from 'src/components/context/PinnedContext'
+import { getName } from 'src/helpers/utils/get-name'
 import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
 import CloseButton from '../Close'
@@ -19,6 +20,7 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
     <CardContainer className={classNames(className, s.container)}>
       <Avatar
         className={s.avatar}
+        name={getName(data)}
         width={38}
         height={38}
         image={data.image_url}

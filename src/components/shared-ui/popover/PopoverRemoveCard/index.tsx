@@ -98,7 +98,7 @@ const s = css`
   .popup {
     padding: 22px 12px 10px 22px;
     margin-top: 5px;
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .title {
@@ -147,7 +147,7 @@ const s = css`
     text-align: start;
 
     &:hover {
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 

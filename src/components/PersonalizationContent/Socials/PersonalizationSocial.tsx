@@ -34,7 +34,7 @@ const s = css`
 
     font-weight: var(--semiBold);
     text-decoration: none;
-    color: var(--white);
+    color: var(--shades2);
     border-radius: 16px;
     cursor: pointer;
 

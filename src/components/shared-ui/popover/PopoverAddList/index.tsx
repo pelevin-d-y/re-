@@ -88,7 +88,7 @@ const s = css`
     padding: 18px 20px;
     padding-bottom: 0;
     max-height: 350px;
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .lists {
@@ -105,7 +105,7 @@ const s = css`
 
     &:hover {
       background: #fff;
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 

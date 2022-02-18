@@ -46,7 +46,7 @@ const s = css`
     padding: 20px 16px 24px 28px;
     overflow: hidden;
 
-    color: var(--white);
+    color: var(--shades2);
     border-radius: 6px;
   }
 
@@ -87,7 +87,7 @@ const s = css`
   .button {
     padding: 7px 8px;
     min-width: 174px;
-    color: var(--white);
+    color: var(--shades2);
     font-weight: var(--semiBold);
 
     cursor: pointer;

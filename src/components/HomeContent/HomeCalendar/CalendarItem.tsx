@@ -10,6 +10,7 @@ import Pin from 'src/components/shared-ui/Pin'
 import Close from 'src/components/shared-ui/Close'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -49,9 +50,8 @@ const CalendarItem: React.FC<Props> = ({
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Pin className={s.pin} data={data as any} />
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={data.avatar} />
+        <Avatar className={s.avatar} name={getName(data)} image={data.avatar} />
         <div className={s.text}>
           <PopoverUserInfo
             data={data}
@@ -62,6 +62,7 @@ const CalendarItem: React.FC<Props> = ({
       <div className={s.message}>
         <NextStep text={getNextStep(data)} />
       </div>
+      <Pin className={s.pin} data={data as any} />
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
         Follow up
       </Button>
@@ -90,6 +91,7 @@ const s = css`
     align-items: center;
     padding: 10px 22px 14px 17px;
     margin-bottom: 8px;
+
     @include mobile {
       flex-flow: column nowrap;
       padding: 14px 24px 18px 24px;
@@ -105,7 +107,7 @@ const s = css`
     align-items: center;
     max-width: 250px;
     width: 100%;
-    margin-right: 9%;
+
     @include mobile {
       flex-flow: column nowrap;
       margin-right: 0;
@@ -132,6 +134,12 @@ const s = css`
     line-height: 16px;
   }
 
+  .text {
+    overflow: hidden;
+    max-width: 105px;
+    word-break: break-all;
+  }
+
   .position {
     font-size: 12px;
     @include mobile {
@@ -151,6 +159,7 @@ const s = css`
   .message {
     max-width: 40%;
     width: 100%;
+    word-break: break-word;
     margin-right: 20px;
     @include mobile {
       max-width: 100%;
@@ -162,7 +171,7 @@ const s = css`
   }
 
   .remove {
-    background: var(--white);
+    background: var(--shades2);
     margin-left: 11px;
   }
 
@@ -174,6 +183,30 @@ const s = css`
     &:hover {
       .remove {
         opacity: 0.6;
+      }
+    }
+
+    @include tablet {
+      .remove {
+        opacity: 0.6;
+      }
+    }
+
+    @include mobile {
+      .text {
+        margin-bottom: 10px;
+      }
+
+      .remove {
+        margin: 0;
+      }
+
+      .pin {
+        margin: 0;
+      }
+
+      .message {
+        margin: 0;
       }
     }
   }

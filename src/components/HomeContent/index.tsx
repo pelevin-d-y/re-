@@ -14,6 +14,7 @@ import { LoaderStatic } from '../shared-ui/Loader'
 import Recommendations from './Recommendations'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import NoAccountRecommendations from '../shared-ui/NoAccountRecommendations'
+import Typography from '../shared-ui/Typography'
 
 const Content: React.FC = () => {
   const { state: clientState } = useClient()
@@ -31,7 +32,7 @@ const Content: React.FC = () => {
 
   const shareHolidays = useMemo(
     () => ({
-      title: 'Share Holiday',
+      title: 'Holiday',
       slides: ['share-hol-1.jpeg', 'share-hol-2.jpeg', 'share-hol-3.jpeg'],
       contacts: contacts?.slice(1, 4) as RecommendationUser[],
     }),
@@ -40,7 +41,7 @@ const Content: React.FC = () => {
 
   const shareMemes = useMemo(
     () => ({
-      title: 'Share Meme',
+      title: 'Meme',
       slides: ['share-meme1.jpeg', 'share-meme2.jpeg', 'share-meme3.jpeg'],
       contacts: contacts?.slice(1, 4) as RecommendationUser[],
     }),

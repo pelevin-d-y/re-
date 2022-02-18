@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -18,13 +18,14 @@ import { apiHelpers } from 'src/api'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
+import { getName } from 'src/helpers/utils/get-name'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import Img from '../shared-ui/Img'
 import EditField from '../shared-ui/EditField'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
-import CellNextSteps from '../shared-ui/Table/CellNextSteps'
 import { HOCLastMessage } from '../HOCs/HOCLastMessage'
+import NextStep from '../shared-ui/NextStep'
 
 type Props = {
   className?: string
@@ -81,6 +82,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
             <Avatar
               className={s.avatar}
               image={row.original.avatar}
+              name={getName(row.original)}
               strength={row.original.relationshipStrength}
             />
             <PopoverUserInfo
@@ -124,7 +126,12 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
         Header: 'Next steps',
         disableSortBy: true,
         Cell: ({ value, row }) => {
-          return <CellNextSteps className={s.cellContent} data={row.original} />
+          return (
+            <NextStep
+              className={s.cellContent}
+              text={getNextStep(row.original)}
+            />
+          )
         },
       },
       {
@@ -164,7 +171,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
                 router.push(`/contact?id=${row.original.contact_id}`)
               }}
             >
-              <Img alt="icon" className={s.pen} img="pen.png" />
+              <SvgIcon className={s.pen} icon="pen.svg" />
             </button>
           </div>
         ),
@@ -339,11 +346,15 @@ const s = css`
   }
 
   .row:hover {
-    background: var(--lightBlue);
+    background: var(--primary2);
   }
 
   .header_All {
-    color: var(--blue);
+    color: var(--primary1);
+  }
+
+  .pen {
+    color: var(--primary1);
   }
 
   .emptyCardContainer {
@@ -360,6 +371,7 @@ const s = css`
   }
 
   .avatar {
+    font-size: 16px;
     flex: 0 0 auto;
     margin-right: 20px;
   }
@@ -368,11 +380,10 @@ const s = css`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .cellHeaderAll {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .cellCheckbox {
@@ -418,7 +429,7 @@ const s = css`
     width: 162px;
     height: 162px;
     border-radius: 50%;
-    background: var(--lightBlue);
+    background: var(--primary2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -449,7 +460,7 @@ const s = css`
   .logo {
     width: 58px;
     height: 58px;
-    color: var(--blue);
+    color: var(--primary1);
 
     @include mobile {
       width: 35px;

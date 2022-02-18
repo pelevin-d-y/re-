@@ -81,7 +81,7 @@ const s = css`
   .icon {
     width: 90%;
     transition: all 0.2s linear;
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 

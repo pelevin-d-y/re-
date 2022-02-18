@@ -105,7 +105,7 @@ const s = css`
     height: 9px;
     margin-left: 6px;
 
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .popupEmail {
@@ -115,7 +115,7 @@ const s = css`
     font-size: 11px;
     font-weight: var(--semiBold);
     text-align: left;
-    background: var(--white);
+    background: var(--shades2);
     border: none;
     border-bottom: 1px solid var(--neutral5);
     cursor: pointer;
@@ -131,7 +131,7 @@ const s = css`
 
     span {
       margin-left: 5px;
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 
@@ -141,7 +141,7 @@ const s = css`
   }
 
   .status.primary {
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 

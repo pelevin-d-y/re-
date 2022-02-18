@@ -18,7 +18,7 @@ const Personalization: React.FC<Props> = () => (
 
 const s = css`
   .layout {
-    background: var(--white);
+    background: var(--shades2);
   }
 `
 

@@ -87,11 +87,11 @@ const s = css`
 
     cursor: pointer;
     background: none;
-    border: 1px dashed var(--blue);
+    border: 1px dashed var(--primary1);
     border-radius: 6px;
     font-size: 14px;
     line-height: 26px;
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 

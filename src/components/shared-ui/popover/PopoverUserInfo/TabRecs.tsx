@@ -6,6 +6,7 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import NextStep from 'src/components/shared-ui/NextStep'
 import parseMessage from 'src/helpers/utils/parse-message'
+import { getName } from 'src/helpers/utils/get-name'
 import PopoverBase from '../PopoverBase'
 import PopoverActionsContent from '../PopoverActionsContent'
 
@@ -25,6 +26,7 @@ const TabRecs: React.FC<Props> = ({ className }) => {
             <CardContainer className={s.card}>
               <Avatar
                 image={item.image_url}
+                name={getName(item)}
                 width={49}
                 height={49}
                 className={s.avatar}
@@ -92,7 +94,7 @@ const s = css`
   .dots {
     cursor: auto;
 
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 

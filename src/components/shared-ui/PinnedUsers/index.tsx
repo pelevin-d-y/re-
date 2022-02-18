@@ -5,6 +5,8 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePinned } from 'src/components/context/PinnedContext'
 import PinnedCard from './PinnedCard'
+import Typography from '../Typography'
+import Img from '../Img'
 
 type Props = {
   className?: string
@@ -28,7 +30,10 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
     >
       <div className={s.header}>
         <div className={s.headerText}>
-          <div className={s.headerImportant}>Pinned</div>
+          <Typography className={s.headerImportant} fontVariant="damion">
+            Pinned
+          </Typography>
+          <Img className={s.underline} alt="" img="decorate-line-2.png" />
         </div>
         <button className={s.headerAction} type="button" onClick={openModal}>
           Add/Create List
@@ -55,7 +60,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
 
 const s = css`
   .container {
-    padding: 24px 13px 22px 16px;
+    padding: 21px 19px 23px 33px;
   }
 
   .header {
@@ -68,22 +73,22 @@ const s = css`
   }
 
   .headerText {
-    font-weight: var(--bold);
-    font-size: 24px;
-    line-height: 31px;
+    font-size: 32px;
+    line-height: 44px;
   }
 
   .headerAction {
     margin-left: auto;
 
-    color: var(--blue);
+    color: var(--primary1);
     border: none;
     background: none;
     cursor: pointer;
+    padding-bottom: 40px;
   }
 
   .cards {
-    margin-top: 19px;
+    margin-top: 9px;
   }
 
   .card {
@@ -95,6 +100,10 @@ const s = css`
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
+  }
+
+  .underline {
+    max-width: 135px;
   }
 `
 

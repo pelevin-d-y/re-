@@ -48,7 +48,7 @@ const s = css`
     padding-top: 16px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--neutral3);
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .container {

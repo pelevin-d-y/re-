@@ -58,7 +58,7 @@ const s = css`
   }
 
   .premiumButton {
-    background: var(--blue);
+    background: var(--primary1);
   }
 `
 

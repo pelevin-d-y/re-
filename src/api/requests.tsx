@@ -113,6 +113,12 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
+  getFreeStorage: (): Promise<FreeStorage> =>
+    requests
+      .get(`${AWS_API}/dash/storage`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
   getEventContacts: (after?: string, before?: string): Promise<string[]> => {
     const params = new URLSearchParams()
     if (before) {
@@ -128,11 +134,12 @@ const get = {
       .catch((err) => Promise.reject(err))
   },
 
-  getFreeStorage: (): Promise<FreeStorage> =>
-    requests
-      .get(`${AWS_API}/dash/storage`)
+  getClientId: (): Promise<string> => {
+    return requests
+      .get(`${AWS_API}/client/id`)
       .then((res) => res)
-      .catch((err) => Promise.reject(err)),
+      .catch((err) => Promise.reject(err))
+  },
 }
 
 const post = {

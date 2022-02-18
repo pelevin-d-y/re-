@@ -22,7 +22,7 @@ const List: React.FC = () => (
 
 const s = css`
   .layout {
-    background: var(--white);
+    background: var(--shades2);
   }
 `
 

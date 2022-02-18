@@ -5,15 +5,16 @@ import Img from 'src/components/shared-ui/Img'
 
 type Props = {
   className?: string
+  title: string
   img?: string
   handler?: () => void
 }
 
 const OnboardingTasks: React.FC<Props> = ({
   className,
+  title,
   img,
   handler,
-  children,
 }) => (
   <div
     className={classNames(className, s.container)}
@@ -22,8 +23,8 @@ const OnboardingTasks: React.FC<Props> = ({
     role="button"
     tabIndex={0}
   >
-    {img && <Img img={img} alt="" className={s.image} />}
-    <p>{children}</p>
+    {img && <Img img={img} alt={title} className={s.image} />}
+    <p className={s.title}>{title}</p>
   </div>
 )
 
@@ -50,9 +51,18 @@ const s = css`
   }
 
   .image {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     margin-bottom: 5px;
+  }
+
+  .title {
+    border: none;
+    outlined: none;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: var(--black);
   }
 `
 

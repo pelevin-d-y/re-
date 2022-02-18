@@ -92,7 +92,7 @@ const s = css`
   .popup {
     padding: 15px 12px 15px 22px;
     margin-top: 5px;
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .actions {

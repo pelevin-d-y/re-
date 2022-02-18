@@ -103,7 +103,7 @@ const s = css`
     font-weight: bold;
     font-size: 18px;
     line-height: 31px;
-    color: var(--blue);
+    color: var(--primary1);
     cursor: pointer;
   }
 

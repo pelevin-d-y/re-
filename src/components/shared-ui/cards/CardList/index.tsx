@@ -6,6 +6,7 @@ import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import { useRouter } from 'next/router'
 import { usePopup } from 'src/components/context/PopupContext'
 import CloseButton from '../../Close'
+import Typography from '../../Typography'
 
 type Props = {
   className?: string
@@ -51,16 +52,17 @@ const CardList: React.FC<Props> = ({
     >
       <CloseButton className={s.removeButton} handler={deleteHandler} />
       {/* {image && <Img img={image} alt="icon" className={s.image} />} */}
-      <div className={s.title}>{info?.name}</div>
+      <Typography className={s.title} tagVariant="h4" fontVariant="inter">
+        {info?.name}
+      </Typography>
       {info?.description && (
         <div className={s.description}>{info.description}</div>
       )}
       {contacts && contactsData && (
         <AvatarsList
-          avatarWidth={38}
-          avatarHeight={38}
+          avatarWidth={47}
+          avatarHeight={47}
           className={s.avatars}
-          usersData={contactsData}
           users={contacts}
           showHiddenUsers
         />
@@ -97,13 +99,13 @@ const s = css`
 
     text-decoration: none;
     cursor: pointer;
-    color: var(--black);
-    border: 1px solid var(--white);
+    color: var(--shades1);
+    border: 1px solid var(--shades2);
     box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
 
     &:hover {
-      border: 1px solid var(--blue);
+      border: 1px solid var(--primary1);
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
         0px 1px 1px rgba(34, 34, 34, 0.0989128);
       border-radius: 6px;
@@ -138,7 +140,6 @@ const s = css`
     padding-right: 50px;
     margin-bottom: 10px;
 
-    font-size: 24px;
     font-weight: var(--bold);
   }
 

@@ -105,6 +105,7 @@ type ContactMutable = {
 }
 
 type MainUserData = {
+  clientId?: string
   name?: ContactMutable
   names?: ContactMutable[]
   emails?: ContactMutable[]

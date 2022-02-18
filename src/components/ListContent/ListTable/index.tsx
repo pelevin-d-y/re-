@@ -21,8 +21,10 @@ import { post } from 'src/api'
 import EditField from 'src/components/shared-ui/EditField'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
-import CellNextSteps from 'src/components/shared-ui/Table/CellNextSteps'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
+import NextStep from 'src/components/shared-ui/NextStep'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
+import { getName } from 'src/helpers/utils/get-name'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
@@ -75,6 +77,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
             <Avatar
               className={s.avatar}
               image={row.original.avatar}
+              name={getName(row.original)}
               strength={row.original.relationshipStrength}
             />{' '}
             <PopoverUserInfo
@@ -118,7 +121,10 @@ const Table: React.FC<Props> = ({ className, data }) => {
         minWidth: 250,
         disableSortBy: true,
         Cell: ({ value, row }) => (
-          <CellNextSteps className={s.cellContent} data={row.original} />
+          <NextStep
+            className={s.cellContent}
+            text={getNextStep(row.original)}
+          />
         ),
       },
       {
@@ -338,11 +344,11 @@ const s = css`
   }
 
   .row:hover {
-    background: var(--lightBlue);
+    background: var(--primary2);
   }
 
   .header_All {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .emptyCardContainer {
@@ -366,11 +372,10 @@ const s = css`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .cellHeaderAll {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .cellCheckbox {
@@ -429,7 +434,7 @@ const s = css`
     width: 162px;
     height: 162px;
     border-radius: 50%;
-    background: var(--lightBlue);
+    background: var(--primary2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -453,7 +458,7 @@ const s = css`
   .logo {
     width: 58px;
     height: 58px;
-    color: var(--blue);
+    color: var(--primary1);
 
     @include mobile {
       width: 35px;
@@ -469,10 +474,12 @@ const s = css`
   }
 
   .sort {
+    color: var(--primary1);
     margin-left: 3px;
   }
   .sortAsc {
     transform: scale(1, -1);
+    color: var(--primary1);
   }
 `
 

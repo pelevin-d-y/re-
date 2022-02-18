@@ -83,7 +83,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
             description="Create lists with your contacts to organize tasks "
             icon="contacts"
             iconBackground="#F0F5FF"
-            iconColor="#1966FF"
+            iconColor="#5265af"
             hideNumber={false}
           />
         </div>
@@ -170,7 +170,7 @@ const s = css`
     margin-right: auto;
 
     border-radius: 10px;
-    background: var(--white);
+    background: var(--shades2);
   }
 
   .actions {
