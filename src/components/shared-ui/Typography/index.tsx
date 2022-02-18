@@ -25,10 +25,13 @@ type styleVariants =
   | 'body4'
   | 'body5'
 
+type fontVariants = 'inter' | 'gilroy' | 'damion'
+
 type Props = {
   className?: string
   tagVariant?: tagsVariants
   styleVariant?: styleVariants
+  fontVariant?: fontVariants
   fontWeight?: 'regular' | 'medium' | 'semiBold' | 'bold' | 'black'
 }
 
@@ -36,8 +39,9 @@ const Typography: FC<Props> = ({
   className,
   tagVariant,
   styleVariant,
-  children,
   fontWeight,
+  fontVariant,
+  children,
   ...props
 }) => {
   const Component: any = tagVariant || 'p'
@@ -48,6 +52,7 @@ const Typography: FC<Props> = ({
         s.container,
         styleVariant && s[styleVariant],
         fontWeight && s[fontWeight],
+        fontVariant && s[fontVariant],
         className
       )}
       {...props}
@@ -120,6 +125,14 @@ const s = css`
   }
   .black {
     font-weight: var(--black);
+  }
+
+  .gilroy {
+    font-family: var(--gilroy);
+  }
+
+  .damion {
+    font-family: var(--damion);
   }
 `
 

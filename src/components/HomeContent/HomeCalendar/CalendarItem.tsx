@@ -91,6 +91,7 @@ const s = css`
     align-items: center;
     padding: 10px 22px 14px 17px;
     margin-bottom: 8px;
+
     @include mobile {
       flex-flow: column nowrap;
       padding: 14px 24px 18px 24px;

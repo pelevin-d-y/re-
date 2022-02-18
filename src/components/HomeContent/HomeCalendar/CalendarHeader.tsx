@@ -64,7 +64,7 @@ const s = css`
     font-size: 9px;
     line-height: 11px;
     text-align: center;
-    background: #ff0000;
+    background: var(--accentRose1);
     color: var(--shades2);
   }
   .day {
