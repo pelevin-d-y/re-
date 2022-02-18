@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Joyride from 'react-joyride'
+import Joyride, { Step } from 'react-joyride'
 import { useFreeStorage } from 'src/components/context/FreeStorageContext'
 import { useClient } from 'src/components/context/ClientContext'
 
@@ -11,7 +11,7 @@ const buttonsText = {
   last: 'Done',
 }
 
-const steps = [
+const steps: Step[] = [
   {
     target: '.recommendations-welcome',
     placement: 'bottom',
