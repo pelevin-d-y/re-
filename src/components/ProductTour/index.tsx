@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Joyride from 'react-joyride'
+import { useFreeStorage } from 'src/components/context/FreeStorageContext'
+import { useClient } from 'src/components/context/ClientContext'
 
 type Props = {
   className?: string
@@ -141,22 +143,56 @@ const customStyle = {
 }
 
 const ProductTour: React.FC<Props> = ({ className }) => {
-  const [run, setRun] = React.useState(false)
+  const [runTour, setRunTour] = useState(false)
+  const [hasTourLaunched, setHasTourLaunched] = useState(false)
 
-  // setInterval(() => {
-  //   setRun(true)
-  // }, 5000)
+  const { updateFreeStorage, state: freeStorageState } = useFreeStorage()
+  const { state: clientState } = useClient()
+
+  const { product_tour_shown } = freeStorageState
+  const { isLoading } = clientState
+
+  const statusAccounts = useMemo(
+    () =>
+      clientState.data?.authData
+        ? Object.values(clientState.data.authData)
+        : [],
+    [clientState?.data?.authData]
+  )
+
+  const isSynced = useMemo(
+    () => statusAccounts.some((status) => status === 2),
+    [statusAccounts]
+  )
+
+  useEffect(() => {
+    if (!isLoading && !hasTourLaunched && !product_tour_shown && isSynced) {
+      setHasTourLaunched(true)
+      updateFreeStorage({ product_tour_shown: true })
+
+      setTimeout(() => {
+        setRunTour(true)
+      }, 800)
+    }
+  }, [
+    isLoading,
+    hasTourLaunched,
+    isSynced,
+    product_tour_shown,
+    updateFreeStorage,
+  ])
 
   return (
     <div>
       <Joyride
         steps={steps}
-        run={run}
+        run={runTour}
         continuous
         scrollToFirstStep
         showSkipButton
         hideBackButton
-        scrollOffset={100}
+        scrollOffset={420}
+        scrollDuration={500}
         locale={buttonsText}
         styles={customStyle}
       />

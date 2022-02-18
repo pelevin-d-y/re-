@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { AuthProvider } from 'src/components/context/AuthContext'
 import { ClientProvider } from 'src/components/context/ClientContext'
+import { FreeStorageProvider } from 'src/components/context/FreeStorageContext'
 import { ToastContainer } from 'react-toastify'
 import 'ts-replace-all'
 import 'react-toastify/dist/ReactToastify.css'
@@ -16,11 +17,13 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => (
       <>
         <AuthProvider>
           <ClientProvider>
-            <ProductTour />
-            <Head>
-              <title>Strata</title>
-            </Head>
-            <Component {...pageProps} />
+            <FreeStorageProvider>
+              <ProductTour />
+              <Head>
+                <title>Strata</title>
+              </Head>
+              <Component {...pageProps} />
+            </FreeStorageProvider>
           </ClientProvider>
         </AuthProvider>
         <ToastContainer position="top-right" autoClose={2500} hideProgressBar />

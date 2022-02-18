@@ -1,17 +1,44 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import Img from 'src/components/shared-ui/Img'
 import CloseButton from 'src/components/shared-ui/Close'
 import Button from 'src/components/shared-ui/Button'
+import { useFreeStorage } from 'src/components/context/FreeStorageContext'
+import { useClient } from 'src/components/context/ClientContext'
 import ModalBase from '../ModalBase'
 
 const AccountAddedModal: React.FC = () => {
-  const { dispatch, state } = usePopup()
-  const { accountAddedModalIsOpen } = state
+  const [hasModalOpened, setHasModalOpened] = useState(false)
+
+  const { state: clientState } = useClient()
+  const { dispatch: popupDispatch, state: popupState } = usePopup()
+
+  const { accountAddedModalIsOpen } = popupState
+
+  const statusAccounts = useMemo(
+    () =>
+      clientState.data?.authData
+        ? Object.values(clientState.data.authData)
+        : [],
+    [clientState?.data?.authData]
+  )
+
+  const isSyncing = useMemo(() => {
+    const noAccountSynced = statusAccounts.every((status) => status !== 2)
+    const atLeastOneSyncing = statusAccounts.some((status) => status === 1)
+    return noAccountSynced && atLeastOneSyncing
+  }, [statusAccounts])
+
+  useEffect(() => {
+    if (!hasModalOpened && isSyncing) {
+      setHasModalOpened(true)
+      popupDispatch({ type: 'TOGGLE_ACCOUNT_ADDED_POPUP' })
+    }
+  }, [hasModalOpened, isSyncing, popupDispatch])
 
   const closeHandler = () => {
-    dispatch({ type: 'TOGGLE_ACCOUNT_ADDED_POPUP' })
+    popupDispatch({ type: 'TOGGLE_ACCOUNT_ADDED_POPUP' })
   }
 
   return (
