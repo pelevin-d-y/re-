@@ -16,14 +16,14 @@ const SidebarList: React.FC<Props> = ({ className, isOpen }) => {
   return (
     <div className={classNames(className, s.container, isOpen && s.default)}>
       <ul className={s.list}>
-        <li>
+        <li className="home-menu-welcome">
           <Link href="/">
             <a className={classNames(s.item, router.route === '/' && s.active)}>
               <SvgIcon className={s.icon} icon="compass.svg" /> Home
             </a>
           </Link>
         </li>
-        <li>
+        <li className="lists-menu-welcome">
           <Link href="/lists">
             <a
               className={classNames(
@@ -35,7 +35,7 @@ const SidebarList: React.FC<Props> = ({ className, isOpen }) => {
             </a>
           </Link>
         </li>
-        <li>
+        <li className="recommendations-menu-welcome">
           <Link href="/recommendations">
             <a
               className={classNames(
@@ -48,7 +48,7 @@ const SidebarList: React.FC<Props> = ({ className, isOpen }) => {
           </Link>
         </li>
 
-        <li>
+        <li className="personalization-menu-welcome">
           <Link href="/personalization">
             <a
               className={classNames(

@@ -25,7 +25,9 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
   }
 
   return (
-    <CardContainer className={classNames(className, s.container)}>
+    <CardContainer
+      className={classNames(className, s.container, 'pinned-welcome')}
+    >
       <div className={s.header}>
         <div className={s.headerText}>
           <Typography className={s.headerImportant} fontVariant="damion">

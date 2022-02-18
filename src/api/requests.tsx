@@ -113,6 +113,12 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
+  getFreeStorage: (): Promise<FreeStorage> =>
+    requests
+      .get(`${AWS_API}/dash/storage`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
   getEventContacts: (after?: string, before?: string): Promise<string[]> => {
     const params = new URLSearchParams()
     if (before) {
@@ -194,6 +200,12 @@ const post = {
   postPinnedContacts: (data: any): Promise<any> =>
     requests
       .post(`${AWS_API}/dash/pinned`, data)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
+  postFreeStorage: (data: FreeStorage): Promise<any> =>
+    requests
+      .post(`${AWS_API}/dash/storage`, data)
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 }

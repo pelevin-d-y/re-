@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
@@ -18,8 +18,23 @@ const Spotlight: React.FC<Props> = ({ className }) => {
   const { state: playlistsState } = usePlaylists()
   const { state: clientState } = useClient()
 
+  const showOnboardingTasks = useMemo(
+    () =>
+      !playlistsState.isLoading &&
+      !clientState.isLoading &&
+      (true || playlistsState.data.length === 0 || clientState.data?.authData),
+    [
+      clientState.data?.authData,
+      clientState.isLoading,
+      playlistsState.data.length,
+      playlistsState.isLoading,
+    ]
+  )
+
   return (
-    <CardContainer className={classnames(className, s.container)}>
+    <CardContainer
+      className={classnames(className, s.container, 'spotlight-welcome')}
+    >
       <div className={s.header}>
         <Typography className={s.title} fontVariant="damion">
           Spotlight
@@ -42,11 +57,7 @@ const Spotlight: React.FC<Props> = ({ className }) => {
           <Typography className={s.scoreTitle}>Network Score</Typography>
         </div>
       </div>
-      {!playlistsState.isLoading &&
-        !clientState.isLoading &&
-        (playlistsState.data.length === 0 ||
-          clientState.data?.authData ||
-          true) && <OnboardingTasks />}
+      {showOnboardingTasks && <OnboardingTasks />}
       <CardGoals />
     </CardContainer>
   )

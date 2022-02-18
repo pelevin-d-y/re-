@@ -11,11 +11,11 @@ type Props = {
   className?: string
 }
 
-const EmptyRecommendations: React.FC<Props> = ({ className }) => {
+const NoAccountRecommendations: React.FC<Props> = ({ className }) => {
   const { dispatch } = usePopup()
 
   const openAddNewAccountModal = () => {
-    dispatch({ type: 'TOGGLE_ADD_NEW_ACCOUNT_POPUP' })
+    dispatch({ type: 'TOGGLE_ADD_FIRST_ACCOUNT_POPUP' })
   }
 
   return (
@@ -40,8 +40,8 @@ const EmptyRecommendations: React.FC<Props> = ({ className }) => {
         tagVariant="div"
         styleVariant="body1"
       >
-        Strata’s engine is analyzing your network for top recommendations to
-        reach out to.
+        Strata’s engine analyze your network for top recommendations to reach
+        out to.
       </Typography>
       <div className={s.buttonBlock}>
         <Button
@@ -49,7 +49,7 @@ const EmptyRecommendations: React.FC<Props> = ({ className }) => {
           variant="contained"
           handler={openAddNewAccountModal}
         >
-          + Add another account
+          + Connect an account
         </Button>
       </div>
       <Img className={s.image} alt="logo" img="google-strata-logo.png" />
@@ -131,4 +131,4 @@ const s = css`
   }
 `
 
-export default EmptyRecommendations
+export default NoAccountRecommendations

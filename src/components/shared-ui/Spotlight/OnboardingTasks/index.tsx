@@ -1,31 +1,63 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePlaylists } from 'src/components/context/PlaylistsContext'
-import { usePopup } from 'src/components/context/PopupContext'
 import { useClient } from 'src/components/context/ClientContext'
-import { useRouter } from 'next/router'
-import TaskCard from './TaskCard'
+import { usePopup } from 'src/components/context/PopupContext'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import Task from './Task'
 import Typography from '../../Typography'
 
-type OnboardingTasksProps = {
+type Props = {
   className?: string
 }
 
-const OnboardingTasks: React.FC<OnboardingTasksProps> = ({ className }) => {
+const OnboardingTasks: React.FC<Props> = ({ className }) => {
   const { state: playlistsState } = usePlaylists()
   const { state: clientState } = useClient()
-
-  const router = useRouter()
-
   const { dispatch: popupDispatch } = usePopup()
+
+  const accounts = useMemo(
+    () =>
+      clientState.data?.authData
+        ? Object.entries(clientState.data.authData).length
+        : 0,
+    [clientState?.data?.authData]
+  )
+
+  const statusAccounts = useMemo(
+    () =>
+      clientState.data?.authData
+        ? Object.values(clientState.data.authData)
+        : [],
+    [clientState?.data?.authData]
+  )
+
+  const userHasNoList = useMemo(
+    () =>
+      playlistsState?.data?.length ? playlistsState?.data?.length === 0 : false,
+    [playlistsState?.data]
+  )
+
+  const userHasAccount = useMemo(
+    () => (accounts ? accounts > 0 : false),
+    [accounts]
+  )
+
+  const userHasSyncedAccount = useMemo(
+    () => statusAccounts.some((status) => status === 2),
+    [statusAccounts]
+  )
 
   const toggleCreateListModal = () => {
     popupDispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
   }
 
-  const openPersonalizationPage = () => {
-    router.push(`/personalization`)
+  const openAddAccountModal = () => {
+    if (accounts === 0) {
+      popupDispatch({ type: 'TOGGLE_ADD_FIRST_ACCOUNT_POPUP' })
+    } else {
+      popupDispatch({ type: 'TOGGLE_ADD_NEW_ACCOUNT_POPUP' })
+    }
   }
 
   return (
@@ -34,25 +66,28 @@ const OnboardingTasks: React.FC<OnboardingTasksProps> = ({ className }) => {
         Onboarding Tasks
       </Typography>
       <div className={s.tasks}>
-        {playlistsState?.data?.length === 0 && (
-          <TaskCard
+        {userHasAccount && userHasNoList && (
+          <Task
             title="Create first list"
-            icon="lists"
+            img="list-circled.png"
+            className={s.task}
             handler={toggleCreateListModal}
           />
         )}
-        {!clientState?.data?.authData && (
-          <TaskCard
+
+        {!userHasSyncedAccount && (
+          <Task
             title="Connect Account"
-            icon="google-mail"
-            handler={openPersonalizationPage}
+            img="email-strata.png"
+            className={s.task}
+            handler={openAddAccountModal}
           />
         )}
-        <TaskCard
-          title="Shared Strata"
-          icon="logo-icon"
-          // eslint-disable-next-line no-console
-          handler={() => console.log('task')}
+
+        <Task
+          title="Share Strata"
+          img="logo-user-info.svg"
+          className={s.task}
         />
       </div>
     </div>
@@ -61,7 +96,7 @@ const OnboardingTasks: React.FC<OnboardingTasksProps> = ({ className }) => {
 
 const s = css`
   .container {
-    padding: 14px 23px 17px;
+    padding: 14px 23px 12px;
     background: var(--secondary2);
   }
 
@@ -76,7 +111,19 @@ const s = css`
     overflow: scroll;
     display: flex;
     flex-flow: row nowrap;
-    margin-left: -9px;
+
+    margin-left: -23px;
+    margin-right: -23px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+  }
+
+  .task {
+    margin-left: 3%;
+    width: calc(90% / 3);
+    min-width: 92px;
   }
 `
 

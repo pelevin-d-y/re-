@@ -13,6 +13,7 @@ import CardShareMulti from '../shared-ui/cards/CardShareMulti'
 import { LoaderStatic } from '../shared-ui/Loader'
 import Recommendations from './Recommendations'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
+import NoAccountRecommendations from '../shared-ui/NoAccountRecommendations'
 import Typography from '../shared-ui/Typography'
 
 const Content: React.FC = () => {
@@ -53,15 +54,25 @@ const Content: React.FC = () => {
     (contact: RecommendationUser) => contact.Status !== 'Declined'
   )
 
-  const renderRecommendations = () =>
-    filteredStatusContacts && !arrayIsEmpty(filteredStatusContacts) ? (
-      <Recommendations
-        className={s.section}
-        data={filteredStatusContacts?.slice(0, 3)}
-      />
-    ) : (
-      <EmptyRecommendations className={s.section} />
-    )
+  const renderRecommendations = () => {
+    if (filteredStatusContacts && !arrayIsEmpty(filteredStatusContacts)) {
+      return (
+        <Recommendations
+          className={s.section}
+          data={filteredStatusContacts?.slice(0, 3)}
+        />
+      )
+    }
+
+    if (
+      clientState?.data?.authData &&
+      Object.entries(clientState.data.authData).length === 0
+    ) {
+      return <NoAccountRecommendations className={s.section} />
+    }
+
+    return <EmptyRecommendations className={s.section} />
+  }
 
   return (
     <div className={s.container}>
