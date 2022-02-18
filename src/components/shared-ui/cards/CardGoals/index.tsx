@@ -50,7 +50,7 @@ const CardGoals: React.FC<Props> = ({ className }) => (
 
 const s = css`
   .container {
-    padding: 15px;
+    padding: 9px 23px 17px;
   }
 
   .header {

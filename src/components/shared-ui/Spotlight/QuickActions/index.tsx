@@ -50,6 +50,10 @@ const QuickActions: React.FC<Props> = ({ className }) => (
 )
 
 const s = css`
+  .container {
+    padding: 17px 23px 10px;
+  }
+
   .title {
     margin-bottom: 19px;
 

@@ -12,7 +12,7 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 import Selector from 'src/components/shared-ui/Select'
 import chunk from 'lodash/chunk'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
-import Typography from 'src/components/shared-ui/Typography'
+import DropdownIndicator from 'src/components/shared-ui/Select/DropdownIndicator'
 import UpcomingHeader from './CalendarHeader'
 import UpcomingItem from './CalendarItem'
 
@@ -134,41 +134,38 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
       <UpcomingHeader
         className={s.header}
         text={
-          <div>
-            <div className={s.selectorWrapper}>
-              <Typography
-                className={s.bigText}
-                tagVariant="h3"
-                styleVariant="h4"
-                fontWeight="semiBold"
-              >
-                People you met with
-              </Typography>
-              <Selector
-                className={s.selector}
-                styles={{
-                  control: {
-                    minHeight: 30,
+          <div className={s.selectorWrapper}>
+            <div className={s.bigText}>Follow up with people you met with</div>
+            <Selector
+              className={s.selector}
+              styles={{
+                indicatorsContainer: {
+                  padding: 0,
+                  paddingRight: '15px',
+                },
+                valueContainer: {
+                  padding: 0,
+                },
+                singleValue: {
+                  overflow: 'revert',
+                  fontSize: '22px',
+                  fontWeight: 'bold',
+                  color: '#1966ff',
+                },
+                control: {
+                  border: 'none',
+                  '&:hover': {
                     border: 'none !important',
                   },
-                  valueContainer: {
-                    padding: '0 0 0 15px',
-                  },
-                  singleValue: {
-                    fontSize: '17px',
-                    fontWeight: 'bold',
-                  },
-                }}
-                handler={(option) => setSelector(option.value)}
-                options={[
-                  { value: 'lastWeek', label: 'Last Week' },
-                  { value: 'lastMonth', label: 'Last Month' },
-                ]}
-              />
-            </div>
-            <Typography styleVariant="body2">
-              Follow up to to stay connected with them
-            </Typography>
+                },
+              }}
+              handler={(option) => setSelector(option.value)}
+              options={[
+                { value: 'lastWeek', label: 'last week' },
+                { value: 'lastMonth', label: 'last month' },
+              ]}
+              dropdownIndicator={<DropdownIndicator icon="triangle.svg" />}
+            />
           </div>
         }
       />
@@ -216,6 +213,17 @@ const s = css`
   }
 
   .bigText {
+    margin-right: 10px;
+    flex: 1 0 auto;
+    margin-bottom: 3px;
+    font-size: 22px;
+    line-height: 22px;
+    font-weight: var(--bold);
+
+    @include tablet {
+      margin-bottom: 0 !important;
+    }
+
     @include mobile {
       flex: auto;
       margin-bottom: 10px;

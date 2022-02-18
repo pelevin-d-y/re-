@@ -60,6 +60,7 @@ const s = css`
   }
   .month {
     padding: 2px 0;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: 9px;
     line-height: 11px;
