@@ -112,7 +112,8 @@ const s = css`
   }
 
   .buttons {
-    flex: 1 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
   }
 
   .button {

@@ -87,15 +87,15 @@ const s = css`
 
     &:hover {
       background: var(--primary2);
-      color: var(--blue);
-      border-right: 1px solid var(--blue);
+      color: var(--primary1);
+      border-right: 1px solid var(--primary1);
     }
   }
 
   .active {
     background: var(--primary2);
-    color: var(--blue);
-    border-right: 1px solid var(--blue);
+    color: var(--primary1);
+    border-right: 1px solid var(--primary1);
   }
 
   .icon {

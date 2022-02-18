@@ -36,23 +36,26 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <div className={s.info}>
-          <Avatar
-            className={s.avatar}
-            name={getName(data)}
-            image={getAvatarUrl()}
-          />
-          <div className={s.userInfo}>
-            <div className={s.userName}>{getName(data)}</div>
-            <MessageStatus className={s.messageStatus} data={data} />
-          </div>
-        </div>
+        <HOCLastMessage id={data.contact_id} delay={0}>
+          {(lastMessageData, isLoading, ref) => {
+            return (
+              <>
+                <div className={s.info}>
+                  <Avatar
+                    className={s.avatar}
+                    name={getName(data)}
+                    image={getAvatarUrl()}
+                  />
+                  <div className={s.userInfo}>
+                    <div className={s.userName}>{getName(data)}</div>
+                    <MessageStatus
+                      className={s.messageStatus}
+                      data={lastMessageData}
+                    />
+                  </div>
+                </div>
 
-        <div className={s.bodyContainer}>
-          <HOCLastMessage id={data.contact_id} delay={0}>
-            {(lastMessageData, isLoading, ref) => {
-              return (
-                <>
+                <div className={s.bodyContainer}>
                   <div className={s.subject}>{parsedTime(lastMessageData)}</div>
                   <ModalLastMessage
                     className={s.body}
@@ -60,11 +63,11 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
                     ref={ref}
                     isLoading={isLoading}
                   />
-                </>
-              )
-            }}
-          </HOCLastMessage>
-        </div>
+                </div>
+              </>
+            )
+          }}
+        </HOCLastMessage>
       </div>
     </div>
   )

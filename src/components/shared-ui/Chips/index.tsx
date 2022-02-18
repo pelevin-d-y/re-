@@ -159,7 +159,7 @@ const s = css`
     padding: 0 4px 0 4px;
     display: inline-flex;
     align-items: center;
-    color: var(--blue);
+    color: var(--primary1);
     border-radius: 30px;
     word-break: break-word;
   }
