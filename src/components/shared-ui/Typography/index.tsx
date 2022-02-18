@@ -124,7 +124,7 @@ const s = css`
     font-weight: var(--bold);
   }
   .black {
-    font-weight: var(--black);
+    font-weight: var(--bolder);
   }
 
   .gilroy {
