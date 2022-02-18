@@ -5,6 +5,7 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Avatar from 'src/components/shared-ui/Avatar'
 import { useClient } from 'src/components/context/ClientContext'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -59,7 +60,10 @@ const PopoverNotifications: React.FC<Props> = ({ className }) => {
                       <div className={s.itemTitle}>{item.title}</div>
                       <div className={s.description}>{item.description}</div>
                       <div className={s.contact}>
-                        <Avatar image={item.user.image_url} />
+                        <Avatar
+                          name={getName(item)}
+                          image={item.user.image_url}
+                        />
                         <div className={s.contactName}>{item.user.name}</div>
                       </div>
                       <div className={s.table}>
@@ -128,8 +132,8 @@ const s = css`
     font-size: 11px;
     line-height: 11px;
     border-radius: 50%;
-    border: 2px solid var(--white);
-    color: var(--white);
+    border: 2px solid var(--shades2);
+    color: var(--shades2);
     background: #ff0000;
     font-weight: bold;
   }
@@ -218,7 +222,7 @@ const s = css`
   }
 
   .new {
-    color: var(--blue);
+    color: var(--primary1);
     font-weight: var(--semiBold);
   }
 
@@ -231,7 +235,7 @@ const s = css`
 
     cursor: pointer;
     line-height: 14px;
-    color: var(--blue);
+    color: var(--primary1);
     font-size: 12px;
     font-weight: var(--semiBold);
     background: none;

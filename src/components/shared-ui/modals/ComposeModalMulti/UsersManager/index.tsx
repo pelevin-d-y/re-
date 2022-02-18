@@ -92,7 +92,11 @@ const UsersManager: React.FC<Props> = ({
               )}
               key={item.contact_id}
             >
-              <Avatar className={s.avatar} image={getAvatar(item)} />
+              <Avatar
+                className={s.avatar}
+                name={getName(item)}
+                image={getAvatar(item)}
+              />
               <div className={s.userInfo}>
                 <div className={s.userName}>{getName(item)}</div>
                 <MessageStatus className={s.messageStatus} data={item} />
@@ -139,7 +143,7 @@ const s = css`
   }
 
   .modalHeader {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .searchContainer {
@@ -214,7 +218,7 @@ const s = css`
   }
 
   .selectedQuantity {
-    color: var(--blue);
+    color: var(--primary1);
     font-weight: 600;
     font-size: 14px;
     line-height: 17px;
@@ -231,10 +235,10 @@ const s = css`
   .selectedUser {
     border-radius: none;
     border: none;
-    background: var(--white);
+    background: var(--shades2);
     cursor: pointer;
     &:hover {
-      background: var(--lightBlue);
+      background: var(--primary2);
 
       .buttonRemove {
         display: block;
@@ -248,7 +252,7 @@ const s = css`
   }
 
   .activeUser {
-    background: var(--lightBlue);
+    background: var(--primary2);
   }
 
   .messageStatus {

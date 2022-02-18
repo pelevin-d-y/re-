@@ -73,8 +73,8 @@ const s = css`
   }
 
   .tabItem[aria-selected='true'] {
-    color: var(--black);
-    border-bottom: 4px solid var(--black);
+    color: var(--shades1);
+    border-bottom: 4px solid var(--shades1);
   }
 
   .panel {

@@ -20,6 +20,7 @@ const ContactNextSteps: React.FC<Props> = ({ className }) => (
             <Avatar
               className={s.avatar}
               image={step?.avatar}
+              name={step.name}
               height={59}
               width={59}
             />
@@ -85,6 +86,7 @@ const s = css`
 
   .avatar {
     margin-right: 17px;
+    font-size: 18px;
 
     @include mobile {
       align-self: center;

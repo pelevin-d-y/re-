@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import Img from '../Img'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -9,10 +10,13 @@ type Props = {
 }
 
 const NextStep: React.FC<Props> = ({ className, text }) => (
-  <div className={classNames(className, s.container)}>
+  <Typography
+    className={classNames(className, s.container)}
+    styleVariant="body4"
+  >
     <Img className={s.icon} alt="logo" img="logo-user-info.svg" />
     {text}
-  </div>
+  </Typography>
 )
 
 const s = css`
@@ -22,7 +26,7 @@ const s = css`
     width: 100%;
     padding: 10px 10px 10px 16px;
 
-    background: var(--lightBlue);
+    background: var(--primary2);
     border-radius: 6px;
   }
 

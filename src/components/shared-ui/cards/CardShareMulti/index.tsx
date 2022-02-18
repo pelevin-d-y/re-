@@ -6,6 +6,7 @@ import Button from 'src/components/shared-ui/Button'
 import Img from 'src/components/shared-ui/Img'
 import { usePopup } from 'src/components/context/PopupContext'
 import CardSwitcher from '../CardSwitcher'
+import Typography from '../../Typography'
 
 type Props = {
   data: {
@@ -59,7 +60,18 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
   return (
     <CardContainer className={classNames(s.container, className)}>
       <div className={s.header}>
-        <div className={s.title}>{title}</div>
+        <Typography styleVariant="h4" fontWeight="bold">
+          Share{' '}
+          <Typography
+            className={s.titleAccent}
+            tagVariant="span"
+            styleVariant="h3"
+            fontWeight="regular"
+            fontVariant="damion"
+          >
+            {title}
+          </Typography>
+        </Typography>
         <CardSwitcher nextHandler={nextStep} prevHandler={prevStep} />
       </div>
       <div className={s.content}>
@@ -68,10 +80,10 @@ const CardShareMulti: React.FC<Props> = ({ className, data }) => {
       <div className={s.actions}>
         <Button
           className={s.button}
-          variant="contained"
+          variant="outlined"
           handler={openModalHandler}
         >
-          Share
+          Share {title}
         </Button>
       </div>
     </CardContainer>
@@ -96,10 +108,8 @@ const s = css`
     margin-bottom: 7px;
   }
 
-  .title {
-    font-size: 18px;
-    line-height: 42px;
-    font-weight: var(--bold);
+  .titleAccent {
+    color: var(--primary1);
   }
 
   .content {
@@ -128,7 +138,7 @@ const s = css`
     display: block;
     margin-left: auto;
     margin-right: auto;
-    max-width: 230px;
+
     width: 100%;
   }
 `

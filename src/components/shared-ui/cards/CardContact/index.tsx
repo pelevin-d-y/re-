@@ -11,6 +11,7 @@ import Button from 'src/components/shared-ui/Button'
 import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCard'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { formatDistanceToNowStrict, fromUnixTime } from 'date-fns'
+import { getName } from 'src/helpers/utils/get-name'
 
 type Props = {
   className?: string
@@ -31,8 +32,9 @@ const CardContact: React.FC<Props> = ({ className, data, pin }) => {
       <div className={classNames(s.rowUserInfo)}>
         <Avatar
           image={data.image_url}
-          width={54}
-          height={54}
+          name={getName(data)}
+          width={44}
+          height={44}
           className={s.avatar}
         />
         <div className={classNames(s.userText)}>
@@ -78,10 +80,10 @@ const s = css`
     position: relative;
     display: flex;
     flex-flow: column nowrap;
-    background: var(--white);
+    background: var(--shades2);
 
     width: 100%;
-    padding: 14px 24px 16px 17px;
+    padding: 14px 15px 14px 10px;
 
     &:hover {
       .remove {
@@ -95,7 +97,7 @@ const s = css`
     top: 5px;
     right: 5px;
 
-    background: var(--white);
+    background: var(--shades2);
     color: #bfbfbf;
 
     opacity: 0;

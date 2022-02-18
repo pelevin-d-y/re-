@@ -70,7 +70,7 @@ const s = css`
 
   .title {
     padding-right: 50px;
-    color: var(--black);
+    color: var(--shades1);
     font-weight: 500;
     font-size: 20px;
     line-height: 42px;
@@ -78,7 +78,7 @@ const s = css`
 
   .description {
     padding-right: 50px;
-    color: var(--black);
+    color: var(--shades1);
     font-weight: normal;
     font-size: 12px;
     line-height: 22px;

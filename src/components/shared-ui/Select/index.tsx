@@ -7,6 +7,7 @@ import ReactSelect, {
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import DropdownIndicator from './DropdownIndicator'
+import SelectOption from './SelectOption'
 
 const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   container: (provided) => ({
@@ -63,10 +64,14 @@ const selectStyles = (styles: any): StylesConfig<Option, false> => ({
   menu: (provided) => ({
     ...provided,
     margin: 0,
+    boxShadow:
+      '0px 4px 8px rgba(0, 0, 0, 0.119865), 0px 1px 1px rgba(34, 34, 34, 0.0989128)',
     ...styles?.menu,
   }),
   menuList: (provided) => ({
     ...provided,
+    borderRadius: '6px !important',
+    padding: 0,
     ...styles?.menuList,
   }),
 })
@@ -91,6 +96,7 @@ type Props = {
   }
   disabled?: boolean
   isLoading?: boolean
+  dropdownIndicator?: React.ReactElement
 }
 
 const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
@@ -108,6 +114,7 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
         isOpen,
         value,
         isLoading,
+        dropdownIndicator,
       },
       ref
     ) => (
@@ -127,9 +134,12 @@ const Selector: React.FC<Props & { ref?: React.Ref<HTMLDivElement> }> =
           components={{
             DropdownIndicator: (props: IndicatorProps<any, any>) => (
               <components.DropdownIndicator {...props}>
-                <DropdownIndicator className={classes?.arrow} />
+                {dropdownIndicator || (
+                  <DropdownIndicator className={classes?.arrow} />
+                )}
               </components.DropdownIndicator>
             ),
+            Option: (props: any) => <SelectOption data={props} />,
           }}
           isSearchable={false}
           defaultValue={value || options[0]}

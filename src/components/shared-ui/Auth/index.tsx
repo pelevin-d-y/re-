@@ -102,7 +102,7 @@ const Auth: React.FC<Props> = ({ className }) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
   .container {
-    background: var(--white);
+    background: var(--shades2);
     max-width: 475px;
     margin-top: 100px;
     margin-left: auto;
@@ -129,7 +129,7 @@ const s = css`
   .link {
     cursor: pointer;
     text-decoration: none;
-    color: var(--blue);
+    color: var(--primary1);
     line-height: 17px;
     font-weight: 500;
   }
@@ -162,7 +162,7 @@ const s = css`
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 export default Auth

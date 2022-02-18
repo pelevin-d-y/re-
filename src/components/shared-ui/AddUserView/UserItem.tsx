@@ -30,11 +30,13 @@ const UserItem: React.FC<Props> = ({ className, data, listId }) => {
     }
   }
 
+  const name = getName(data)
+
   return (
     <li className={classNames(s.container, className)}>
       <div className={s.profile}>
-        <Avatar className={s.avatar} image={data.avatar} />
-        <span className={s.name}>{getName(data)}</span>
+        <Avatar className={s.avatar} name={name} image={data.avatar} />
+        <span className={s.name}>{name}</span>
       </div>
       <Button
         className={s.button}

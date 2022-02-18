@@ -156,7 +156,7 @@ const s = css`
     margin-top: 8px;
     font-size: 14px;
     font-weight: var(--bold);
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .inputWrapper {
