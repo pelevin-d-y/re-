@@ -50,7 +50,6 @@ const CalendarItem: React.FC<Props> = ({
 
   return (
     <CardContainer className={classNames(className, s.container)}>
-      <Pin className={s.pin} data={data as any} />
       <div className={s.profile}>
         <Avatar className={s.avatar} name={getName(data)} image={data.avatar} />
         <div className={s.text}>
@@ -63,6 +62,7 @@ const CalendarItem: React.FC<Props> = ({
       <div className={s.message}>
         <NextStep text={getNextStep(data)} />
       </div>
+      <Pin className={s.pin} data={data as any} />
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
         Follow up
       </Button>
@@ -176,6 +176,30 @@ const s = css`
     &:hover {
       .remove {
         opacity: 0.6;
+      }
+    }
+
+    @include tablet {
+      .remove {
+        opacity: 0.6;
+      }
+    }
+
+    @include mobile {
+      .text {
+        margin-bottom: 10px;
+      }
+
+      .remove {
+        margin: 0;
+      }
+
+      .pin {
+        margin: 0;
+      }
+
+      .message {
+        margin: 0;
       }
     }
   }

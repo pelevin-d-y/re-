@@ -25,11 +25,12 @@ const SelectOption: React.FC<SelectOptionType> = ({ data }) => (
 const s = css`
   .root {
     padding: 0 !important;
+    background-color: transparent !important;
     &:hover {
-      background: transparent !important;
+      background-color: transparent !important;
     }
     &:active {
-      background: transparent !important;
+      background-color: transparent !important;
     }
   }
 

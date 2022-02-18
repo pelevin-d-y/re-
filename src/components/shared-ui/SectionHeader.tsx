@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 // import Search from 'src/components/shared-ui/Search'
 import Link from 'src/components/shared-ui/Link'
+import Typography from './Typography'
 
 type Props = {
   data: RecommendationUser[] | ListData[] | FormattedContact[] | null
@@ -40,7 +41,7 @@ const SectionHeader: React.FC<Props> = ({
     </div>
     <div className={s.content}>
       <div className={s.title}>
-        <span>{title}</span>
+        <Typography fontVariant="inter">{title}</Typography>
         {!hideNumber && ` (${data?.length})`}{' '}
         {link && (
           <Link className={s.link} href={link.href}>
@@ -120,10 +121,9 @@ const s = css`
 
     font-size: 22px;
     line-height: 22px;
-
-    span {
-      font-weight: var(--bold);
-    }
+    display: flex;
+    align-items: baseline;
+    font-weight: bold;
   }
 
   .description {
@@ -139,7 +139,7 @@ const s = css`
     font-size: 14px;
     line-height: 17px;
     font-weight: var(--bold);
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .linkIcon {
@@ -147,7 +147,7 @@ const s = css`
     height: 10px;
     margin-left: 6px;
 
-    color: var(--blue);
+    color: var(--primary1);
     transform: rotate(180deg);
   }
 `

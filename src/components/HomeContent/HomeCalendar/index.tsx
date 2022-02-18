@@ -13,6 +13,7 @@ import Selector from 'src/components/shared-ui/Select'
 import chunk from 'lodash/chunk'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import DropdownIndicator from 'src/components/shared-ui/Select/DropdownIndicator'
+import Typography from 'src/components/shared-ui/Typography'
 import UpcomingHeader from './CalendarHeader'
 import UpcomingItem from './CalendarItem'
 
@@ -22,12 +23,35 @@ type Props = {
 
 const getUserIds = async (duration: string) => {
   const date = new Date()
-  const timeAgo =
-    duration === 'lastWeek'
-      ? millisecondsToSeconds(date.setDate(date.getDate() - 7)).toString()
-      : millisecondsToSeconds(date.setDate(date.getDate() - 30)).toString()
   const nowDateSeconds = millisecondsToSeconds(Date.now()).toString()
-  return get.getEventContacts(timeAgo, nowDateSeconds)
+  switch (duration) {
+    case 'lastWeek': {
+      const timeAgo = millisecondsToSeconds(
+        date.setDate(date.getDate() - 7)
+      ).toString()
+
+      return get.getEventContacts(timeAgo, nowDateSeconds)
+    }
+
+    case 'lastMonth': {
+      const timeAgo = millisecondsToSeconds(
+        date.setDate(date.getDate() - 30)
+      ).toString()
+
+      return get.getEventContacts(timeAgo, nowDateSeconds)
+    }
+
+    case 'lastQuarter': {
+      const timeAgo = millisecondsToSeconds(
+        date.setDate(date.getDate() - 90)
+      ).toString()
+
+      return get.getEventContacts(timeAgo, nowDateSeconds)
+    }
+
+    default:
+      return null
+  }
 }
 
 const HomeUpcoming: React.FC<Props> = ({ className }) => {
@@ -134,39 +158,54 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
       <UpcomingHeader
         className={s.header}
         text={
-          <div className={s.selectorWrapper}>
-            <div className={s.bigText}>Follow up with people you met with</div>
-            <Selector
-              className={s.selector}
-              styles={{
-                indicatorsContainer: {
-                  padding: 0,
-                  paddingRight: '15px',
-                },
-                valueContainer: {
-                  padding: 0,
-                },
-                singleValue: {
-                  overflow: 'revert',
-                  fontSize: '22px',
-                  fontWeight: 'bold',
-                  color: '#1966ff',
-                },
-                control: {
-                  border: 'none',
-                  '&:hover': {
-                    border: 'none !important',
+          <>
+            <div className={s.selectorWrapper}>
+              <Typography className={s.bigText} fontVariant="inter">
+                People you met with
+              </Typography>
+              <Selector
+                className={s.selector}
+                styles={{
+                  container: {
+                    width: '125px',
                   },
-                },
-              }}
-              handler={(option) => setSelector(option.value)}
-              options={[
-                { value: 'lastWeek', label: 'last week' },
-                { value: 'lastMonth', label: 'last month' },
-              ]}
-              dropdownIndicator={<DropdownIndicator icon="triangle.svg" />}
-            />
-          </div>
+                  indicatorsContainer: {
+                    padding: 0,
+                  },
+                  valueContainer: {
+                    padding: 0,
+                  },
+                  singleValue: {
+                    overflow: 'revert',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    color: '#5265af',
+                    top: '43%',
+                  },
+                  control: {
+                    minHeight: '0 !important',
+                    border: 'none',
+                    '&:hover': {
+                      border: 'none !important',
+                    },
+                  },
+                  menu: {
+                    marginTop: '5px !important',
+                  },
+                }}
+                handler={(option) => setSelector(option.value)}
+                options={[
+                  { value: 'lastWeek', label: 'last week' },
+                  { value: 'lastMonth', label: 'last month' },
+                  { value: 'lastQuarter', label: 'last quarter' },
+                ]}
+                dropdownIndicator={<DropdownIndicator icon="triangle.svg" />}
+              />
+            </div>
+            <Typography className={s.smallText} fontVariant="inter">
+              Follow up to to stay connected with them
+            </Typography>
+          </>
         }
       />
       {isLoading ? <LoaderStatic /> : renderContacts()}
@@ -213,12 +252,12 @@ const s = css`
   }
 
   .bigText {
+    margin-bottom: 9px;
     margin-right: 10px;
     flex: 1 0 auto;
-    margin-bottom: 3px;
-    font-size: 22px;
-    line-height: 22px;
-    font-weight: var(--bold);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
 
     @include tablet {
       margin-bottom: 0 !important;
@@ -230,9 +269,14 @@ const s = css`
     }
   }
 
+  .smallText {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
   .selectorWrapper {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     flex-wrap: wrap;
     @include mobile {
       justify-content: center;

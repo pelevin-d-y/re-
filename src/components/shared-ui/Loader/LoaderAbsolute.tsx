@@ -26,7 +26,7 @@ const s = css`
     transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .overlay {

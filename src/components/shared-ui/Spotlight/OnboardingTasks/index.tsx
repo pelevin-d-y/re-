@@ -6,6 +6,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { useRouter } from 'next/router'
 import TaskCard from './TaskCard'
+import Typography from '../../Typography'
 
 type OnboardingTasksProps = {
   className?: string
@@ -29,7 +30,9 @@ const OnboardingTasks: React.FC<OnboardingTasksProps> = ({ className }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <div className={s.title}>Onboarding Tasks</div>
+      <Typography className={s.title} fontVariant="damion">
+        Onboarding Tasks
+      </Typography>
       <div className={s.tasks}>
         {playlistsState?.data?.length === 0 && (
           <TaskCard
@@ -59,15 +62,14 @@ const OnboardingTasks: React.FC<OnboardingTasksProps> = ({ className }) => {
 const s = css`
   .container {
     padding: 14px 23px 17px;
-    background: #f0f5ff;
+    background: var(--secondary2);
   }
 
   .title {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
-    color: #111212;
-    margin-bottom: 13px;
+    font-size: 24px;
+    line-height: 33px;
+    color: #812557;
+    margin-bottom: 15px;
   }
 
   .tasks {
@@ -75,7 +77,6 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     margin-left: -9px;
-    padding-bottom: 5px;
   }
 `
 
