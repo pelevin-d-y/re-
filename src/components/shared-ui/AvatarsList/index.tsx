@@ -53,7 +53,6 @@ const AvatarsList: React.FC<Props> = ({
             >
               <Avatar
                 className={s.avatarImage}
-                name=""
                 width={avatarWidth || AVATAR_BASE_SIZE}
                 height={avatarHeight || AVATAR_BASE_SIZE}
                 image={getAvatar(item.contact_id)}
