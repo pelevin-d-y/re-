@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import SvgIcon from '../SvgIcon'
 import CardRecs from '../cards/CardRecs'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -38,8 +39,10 @@ const ListRecs: React.FC<Props> = ({ className, contacts, playlistData }) => {
   return filteredContacts?.length !== 0 ? (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        <SvgIcon className={s.svg} icon="lists.svg" />
-        <div className={s.title}>Add these recs to list?</div>
+        <SvgIcon className={s.svg} icon="recs.svg" />
+        <Typography className={s.title} fontVariant="inter">
+          Add these recs to list?
+        </Typography>
       </div>
       <div className={s.cards}>
         {filteredContacts?.map((user) => (
@@ -69,15 +72,13 @@ const s = css`
   .svg {
     width: 24px;
     height: 24px;
-    color: var(--blue);
+    color: var(--primary1);
     margin-right: 16px;
   }
 
   .title {
     font-size: 14px;
-    font-weight: 700;
     line-height: 17px;
-    color: var(--blue);
   }
 
   .cards {

@@ -49,7 +49,7 @@ const s = css`
     font-size: 12px;
     line-height: 14px;
     text-align: center;
-    color: var(--blue);
+    color: var(--black);
   }
 `
 

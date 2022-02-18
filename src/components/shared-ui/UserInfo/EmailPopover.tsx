@@ -105,7 +105,7 @@ const s = css`
     height: 9px;
     margin-left: 6px;
 
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .popupEmail {
@@ -131,7 +131,7 @@ const s = css`
 
     span {
       margin-left: 5px;
-      color: var(--blue);
+      color: var(--primary1);
     }
   }
 
@@ -141,7 +141,7 @@ const s = css`
   }
 
   .status.primary {
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 

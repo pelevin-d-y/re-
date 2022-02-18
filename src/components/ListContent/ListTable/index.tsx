@@ -471,10 +471,12 @@ const s = css`
   }
 
   .sort {
+    color: var(--primary1);
     margin-left: 3px;
   }
   .sortAsc {
     transform: scale(1, -1);
+    color: var(--primary1);
   }
 `
 

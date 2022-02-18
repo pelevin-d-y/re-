@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import {
@@ -21,7 +21,6 @@ import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { getName } from 'src/helpers/utils/get-name'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import Img from '../shared-ui/Img'
 import EditField from '../shared-ui/EditField'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
 import CellNextSteps from '../shared-ui/Table/CellNextSteps'
@@ -166,7 +165,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
                 router.push(`/contact?id=${row.original.contact_id}`)
               }}
             >
-              <Img alt="icon" className={s.pen} img="pen.png" />
+              <SvgIcon className={s.pen} icon="pen.svg" />
             </button>
           </div>
         ),
@@ -345,7 +344,11 @@ const s = css`
   }
 
   .header_All {
-    color: var(--blue);
+    color: var(--primary1);
+  }
+
+  .pen {
+    color: var(--primary1);
   }
 
   .emptyCardContainer {
@@ -374,7 +377,7 @@ const s = css`
   }
 
   .cellHeaderAll {
-    color: var(--blue);
+    color: var(--primary1);
   }
 
   .cellCheckbox {
@@ -451,7 +454,7 @@ const s = css`
   .logo {
     width: 58px;
     height: 58px;
-    color: var(--blue);
+    color: var(--primary1);
 
     @include mobile {
       width: 35px;

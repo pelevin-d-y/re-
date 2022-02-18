@@ -94,7 +94,7 @@ const s = css`
     font-size: 14px;
     line-height: 16px;
     font-weight: var(--bold);
-    color: var(--blue);
+    color: var(--primary1);
   }
 `
 
