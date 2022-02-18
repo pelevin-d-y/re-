@@ -5,6 +5,8 @@ import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Img from 'src/components/shared-ui/Img'
 import CardGoals from 'src/components/shared-ui/cards/CardGoals'
+import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import { useClient } from 'src/components/context/ClientContext'
 import OnboardingTasks from './OnboardingTasks'
 import Typography from '../Typography'
 
@@ -12,34 +14,43 @@ type Props = {
   className?: string
 }
 
-const Spotlight: React.FC<Props> = ({ className }) => (
-  <CardContainer className={classnames(className, s.container)}>
-    <div className={s.header}>
-      <Typography className={s.title} fontVariant="damion">
-        Spotlight
-      </Typography>
-      <Img className={s.underline} alt="" img="decorate-line-2.png" />
-    </div>
-    <div className={s.score}>
-      <div className={s.left}>
-        <Typography className={s.rating} fontVariant="inter">
-          Great
+const Spotlight: React.FC<Props> = ({ className }) => {
+  const { state: playlistsState } = usePlaylists()
+  const { state: clientState } = useClient()
+
+  return (
+    <CardContainer className={classnames(className, s.container)}>
+      <div className={s.header}>
+        <Typography className={s.title} fontVariant="damion">
+          Spotlight
         </Typography>
-        <Typography className={s.ratingSubtitle} fontVariant="inter">
-          You’re all good!
-        </Typography>
+        <Img className={s.underline} alt="" img="decorate-line-2.png" />
       </div>
-      <div className={s.right}>
-        <div className={s.radar}>
-          <SvgIcon icon="radar.svg" />
+      <div className={s.score}>
+        <div className={s.left}>
+          <Typography className={s.rating} fontVariant="inter">
+            Great
+          </Typography>
+          <Typography className={s.ratingSubtitle} fontVariant="inter">
+            You’re all good!
+          </Typography>
         </div>
-        <Typography className={s.scoreTitle}>Network Score</Typography>
+        <div className={s.right}>
+          <div className={s.radar}>
+            <SvgIcon icon="radar.svg" />
+          </div>
+          <Typography className={s.scoreTitle}>Network Score</Typography>
+        </div>
       </div>
-    </div>
-    <OnboardingTasks />
-    <CardGoals />
-  </CardContainer>
-)
+      {!playlistsState.isLoading &&
+        !clientState.isLoading &&
+        (playlistsState.data.length === 0 ||
+          clientState.data?.authData ||
+          true) && <OnboardingTasks />}
+      <CardGoals />
+    </CardContainer>
+  )
+}
 
 const s = css`
   .container {
