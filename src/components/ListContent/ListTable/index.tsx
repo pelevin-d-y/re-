@@ -18,13 +18,13 @@ import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { post } from 'src/api'
-import EditField from 'src/components/shared-ui/EditField'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
 import NextStep from 'src/components/shared-ui/NextStep'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { getName } from 'src/helpers/utils/get-name'
+import CellNotes from 'src/components/shared-ui/Table/CellNotes'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
@@ -71,6 +71,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Contact',
         accessor: 'name',
+        maxWidth: 130,
         minWidth: 180,
         Cell: ({ row }) => (
           <div className={s.cellName}>
@@ -102,7 +103,6 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Last outreach',
         accessor: 'last_client_text',
-        maxWidth: 100,
         disableSortBy: true,
         Cell: ({ value, row }) => (
           <HOCLastMessage id={row.original.contact_id}>
@@ -118,14 +118,8 @@ const Table: React.FC<Props> = ({ className, data }) => {
       },
       {
         Header: 'Next steps',
-        minWidth: 250,
         disableSortBy: true,
-        Cell: ({ value, row }) => (
-          <NextStep
-            className={s.cellContent}
-            text={getNextStep(row.original)}
-          />
-        ),
+        Cell: ({ value, row }) => <NextStep text={getNextStep(row.original)} />,
       },
       {
         Header: 'Notes',
@@ -143,12 +137,11 @@ const Table: React.FC<Props> = ({ className, data }) => {
           )
 
           return (
-            <EditField
-              type="text"
+            <CellNotes
               value={currentValue}
-              placeholder=""
+              maxRows={3}
+              onChange={setCurrentValue}
               onSave={(val: string) => {
-                setCurrentValue(val)
                 updateUser({
                   ...row.original,
                   newNotes: val,
@@ -361,6 +354,7 @@ const s = css`
     flex-flow: row nowrap;
     align-items: center;
     word-break: break-word;
+    font-weight: var(--reqular);
   }
 
   .avatar {
@@ -372,6 +366,7 @@ const s = css`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .cellHeaderAll {

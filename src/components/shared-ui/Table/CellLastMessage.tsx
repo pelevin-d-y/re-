@@ -46,6 +46,7 @@ const s = css`
   .container {
     padding: 8px;
     background: var(--neutral5);
+    border-radius: 6px;
   }
   .messageLoader {
     width: 50px;
