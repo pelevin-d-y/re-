@@ -96,7 +96,10 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
         <div className={s.content}>
           <TableProvider>
             <div className={s.contentHeader}>
-              <TableActions className={s.actions} buttons={['contact']} />
+              <TableActions
+                className={s.actions}
+                buttons={['contact', 'addToList']}
+              />
             </div>
             {pinnedDebounce && <PinnedTable data={pinnedDebounce} />}
           </TableProvider>
