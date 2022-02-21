@@ -76,7 +76,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
       {
         Header: 'Contact',
         accessor: 'name',
-        minWidth: 180,
+        width: 180,
         Cell: ({ row }) => (
           <div className={s.cellName}>
             <Avatar
@@ -108,6 +108,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
         Header: 'Last outreach',
         accessor: 'last_client_text',
         disableSortBy: true,
+        width: 200,
         Cell: ({ value, row }) => {
           return (
             <HOCLastMessage id={row.original.contact_id}>
@@ -125,19 +126,16 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
       {
         Header: 'Next steps',
         disableSortBy: true,
+        width: 200,
         Cell: ({ value, row }) => {
-          return (
-            <NextStep
-              className={s.cellContent}
-              text={getNextStep(row.original)}
-            />
-          )
+          return <NextStep text={getNextStep(row.original)} />
         },
       },
       {
         Header: 'Notes',
         accessor: 'Notes',
         disableSortBy: true,
+        width: 200,
         Cell: ({ value, row }) => {
           const [currentValue, setCurrentValue] = useState(value?.data)
 

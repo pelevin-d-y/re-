@@ -63,7 +63,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Contact',
         accessor: 'name',
-        minWidth: 200,
+        width: 180,
         Cell: ({ row }: Cell<RecommendationUser>) => (
           <div className={s.cellName}>
             <Avatar
@@ -81,7 +81,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Last Outreach',
         id: 'last-message',
-        minWidth: 100,
+        width: 200,
         Cell: ({ value, row }) => (
           <HOCLastMessage id={row.original.contact_id}>
             {(lastMessageData, isLoading, ref) => (
@@ -98,7 +98,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Next steps',
         id: 'Company',
-        minWidth: 250,
+        width: 200,
         Cell: ({ value, row }) => (
           <NextStep
             className={s.cellContent}
@@ -109,7 +109,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       },
       {
         id: 'button',
-        minWidth: 150,
+        width: 130,
         Cell: () => (
           <div className={s.buttonWrapper}>
             <Button
@@ -124,7 +124,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       },
       {
         id: 'remove',
-        width: 'fit-content',
+        width: 60,
         Cell: ({ row }) => (
           <div className={s.removeWrapper}>
             <Close

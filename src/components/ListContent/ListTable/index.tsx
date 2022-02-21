@@ -71,7 +71,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Contact',
         accessor: 'name',
-        maxWidth: 130,
+        width: 180,
         minWidth: 180,
         Cell: ({ row }) => (
           <div className={s.cellName}>
@@ -104,6 +104,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         Header: 'Last outreach',
         accessor: 'last_client_text',
         disableSortBy: true,
+        width: 200,
         Cell: ({ value, row }) => (
           <HOCLastMessage id={row.original.contact_id}>
             {(lastMessageData, isLoading, ref) => (
@@ -119,12 +120,14 @@ const Table: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Next steps',
         disableSortBy: true,
+        width: 200,
         Cell: ({ value, row }) => <NextStep text={getNextStep(row.original)} />,
       },
       {
         Header: 'Notes',
         accessor: 'Playlist_Notes',
         disableSortBy: true,
+        width: 180,
         Cell: ({ value, row }) => {
           const currentPlaylistValue =
             value.filter(
