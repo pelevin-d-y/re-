@@ -52,7 +52,7 @@ const CardContact: React.FC<Props> = ({ className, data, pin }) => {
         text={data.message_template_subject}
       />
       <div className={s.actions}>
-        {pin && <Pin className={s.pin} data={data} />}
+        {pin && <Pin className={s.pin} data={data.contact_id} />}
         <Button
           className={s.button}
           variant="contained"

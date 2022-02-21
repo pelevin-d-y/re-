@@ -62,7 +62,7 @@ const CalendarItem: React.FC<Props> = ({
       <div className={s.message}>
         <NextStep text={getNextStep(data)} />
       </div>
-      <Pin className={s.pin} data={data as any} />
+      <Pin className={s.pin} data={data.contact_id} />
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
         Follow up
       </Button>
@@ -136,8 +136,9 @@ const s = css`
 
   .text {
     overflow: hidden;
-    max-width: 105px;
+    max-width: 100%;
     word-break: break-all;
+    margin-right: 10px;
   }
 
   .position {
