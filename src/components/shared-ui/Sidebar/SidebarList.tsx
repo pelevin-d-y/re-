@@ -61,6 +61,19 @@ const SidebarList: React.FC<Props> = ({ className, isOpen }) => {
             </a>
           </Link>
         </li>
+
+        <li className="pinned-menu-welcome">
+          <Link href="/pinned">
+            <a
+              className={classNames(
+                s.item,
+                router.route === '/pinned' && s.active
+              )}
+            >
+              <SvgIcon className={s.icon} icon="pin.svg" /> Pinned Contacts
+            </a>
+          </Link>
+        </li>
       </ul>
     </div>
   )

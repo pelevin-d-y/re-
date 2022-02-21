@@ -6,7 +6,7 @@ import { usePinned } from 'src/components/context/PinnedContext'
 
 type Props = {
   className?: string
-  data?: RecommendationUser
+  data: string
 }
 
 const Pin: React.FC<Props> = ({ className, data }) => {
@@ -15,11 +15,11 @@ const Pin: React.FC<Props> = ({ className, data }) => {
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    if (state.data.find((item) => item.contact_id === data?.contact_id)) {
+    if (state.data.find((item) => item === data)) {
       return setIsActive(true)
     }
     return setIsActive(false)
-  }, [data?.contact_id, state.data])
+  }, [data, state.data])
 
   const pinAction = () => {
     if (isActive) {
