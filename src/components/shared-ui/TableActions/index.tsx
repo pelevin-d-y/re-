@@ -5,7 +5,6 @@ import { css } from 'astroturf'
 import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
-import AddUserView from 'src/components/shared-ui/AddUserView'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 
 const actions = [
@@ -15,6 +14,7 @@ const actions = [
   'dots',
   'removeContacts',
   'filter',
+  'addToList',
 ] as const
 
 type Buttons = Array<typeof actions[number]>
@@ -29,6 +29,16 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
   const { removeUsers, getPlaylistData } = usePlaylist()
   const { state: selectedUsers } = useTable()
   const { dispatch: popupDispatch } = usePopup()
+
+  const addToListHandler = () => {
+    if (selectedUsers) {
+      popupDispatch({
+        type: 'UPDATE_COMPOSE_MULTI_DATA',
+        payload: selectedUsers,
+      })
+      popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
+    }
+  }
 
   const removeUsersHandler = async () => {
     if (data && 'playlist_id' in data) {
@@ -72,6 +82,16 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
             listId={data.playlist_id}
           />
         )}
+      {buttons.includes('addToList') && (
+        <Button
+          className={classNames(s.button)}
+          handler={addToListHandler}
+          disabled={isSelectedUsersEmpty}
+          variant="outlined"
+        >
+          Add to list
+        </Button>
+      )}
       {buttons.includes('removeContacts') && (
         <Button
           className={classNames(s.button, s.remove)}
@@ -107,7 +127,7 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
           className={classNames(s.contact, s.button)}
           variant="contained"
         >
-          Compose
+          Contact
         </Button>
       )}
     </div>

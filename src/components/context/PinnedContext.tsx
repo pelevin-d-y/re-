@@ -4,12 +4,12 @@ import { get, post } from 'src/api'
 type Action =
   | { type: 'UPDATE_PINNED_DATA'; payload: any }
   | { type: 'UPDATE_IS_LOADING'; payload: boolean }
-type State = { data: any[]; isLoading: boolean }
+type State = { data: string[]; isLoading: boolean }
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
-  addPinned: (data: any) => any
-  removePinned: (data: any) => any
+  addPinned: (data: string) => any
+  removePinned: (data: string) => any
   dispatch: Dispatch
 }
 
@@ -56,8 +56,8 @@ const PinnedProvider: React.FC = ({ children }) => {
   }, [])
 
   const addPinned = useCallback(
-    async (data: any) => {
-      if (state.data.find((item) => data.contact_id === item.contact_id)) {
+    async (data: string) => {
+      if (state.data.find((item) => data === item)) {
         return null
       }
       await post.postPinnedContacts([...state.data, data])
@@ -68,10 +68,8 @@ const PinnedProvider: React.FC = ({ children }) => {
   )
 
   const removePinned = useCallback(
-    async (data: any) => {
-      await post.postPinnedContacts(
-        state.data.filter((item) => item.contact_id !== data.contact_id)
-      )
+    async (data: string) => {
+      await post.postPinnedContacts(state.data.filter((item) => item !== data))
       await updatePinnedData()
       return null
     },

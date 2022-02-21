@@ -8,6 +8,7 @@ import Img from 'src/components/shared-ui/Img'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import UserInfoEmail from './UserInfoEmail'
 import EditField from '../EditField'
+import SvgIcon from '../SvgIcon'
 
 type Props = {
   className?: string
@@ -72,7 +73,7 @@ const UserInfo: React.FC<Props> = ({
         <li className={s.item}>
           <div className={s.itemTitle}>
             <span>Name</span>
-            <Img alt="icon" className={s.pen} img="pen.png" />
+            <SvgIcon className={s.pen} icon="pen.svg" />
           </div>
           <EditField
             type="text"
@@ -85,7 +86,7 @@ const UserInfo: React.FC<Props> = ({
           <li className={s.item}>
             <div className={s.itemTitle}>
               <span>Met</span>
-              <Img alt="icon" className={s.pen} img="pen.png" />
+                <SvgIcon className={s.pen} icon="pen.svg" />
             </div>
             <div className={s.value}>{formatDate(data.last_contact_time)}</div>
           </li>
@@ -94,7 +95,7 @@ const UserInfo: React.FC<Props> = ({
           <li className={s.item}>
             <div className={s.itemTitle}>
               <span>Last Outreach</span>
-              <Img alt="icon" className={s.pen} img="pen.png" />
+                <SvgIcon className={s.pen} icon="pen.svg" />
             </div>
             <div className={classNames(s.value, s.outreach)}>
               {data.last_client_text}
