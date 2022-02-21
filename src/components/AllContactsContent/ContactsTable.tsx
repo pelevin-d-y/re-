@@ -22,10 +22,10 @@ import { getName } from 'src/helpers/utils/get-name'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
-import EditField from '../shared-ui/EditField'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
 import { HOCLastMessage } from '../HOCs/HOCLastMessage'
 import NextStep from '../shared-ui/NextStep'
+import CellNotes from '../shared-ui/Table/CellNotes'
 
 type Props = {
   className?: string
@@ -142,10 +142,10 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
           const [currentValue, setCurrentValue] = useState(value?.data)
 
           return (
-            <EditField
-              type="text"
+            <CellNotes
+              maxRows={3}
               value={currentValue}
-              placeholder=""
+              onChange={setCurrentValue}
               onSave={(val: string) => {
                 setCurrentValue(val)
                 updateUser({
