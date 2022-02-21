@@ -16,7 +16,6 @@ import Avatar from 'src/components/shared-ui/Avatar'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
-import { post } from 'src/api'
 import { getName } from 'src/helpers/utils/get-name'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
@@ -24,7 +23,6 @@ import Row from '../shared-ui/Table/Row'
 import Button from '../shared-ui/Button'
 import SvgIcon from '../shared-ui/SvgIcon'
 import Close from '../shared-ui/Close'
-import { useClient } from '../context/ClientContext'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
 import { HOCLastMessage } from '../HOCs/HOCLastMessage'
 import NextStep from '../shared-ui/NextStep'
@@ -56,7 +54,7 @@ const PinnedTable: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Contact',
         accessor: 'name',
-        minWidth: 200,
+        width: 180,
         Cell: ({ row }: Cell<any>) => (
           <div className={s.cellName}>
             <Avatar
@@ -74,7 +72,7 @@ const PinnedTable: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Last Outreach',
         id: 'last-message',
-        minWidth: 100,
+        width: 250,
         Cell: ({ value, row }) => (
           <HOCLastMessage id={row.original.contact_id}>
             {(lastMessageData, isLoading, ref) => (
@@ -91,18 +89,13 @@ const PinnedTable: React.FC<Props> = ({ className, data }) => {
       {
         Header: 'Next steps',
         id: 'Company',
-        minWidth: 250,
-        Cell: ({ value, row }) => (
-          <NextStep
-            className={s.cellContent}
-            text={getNextStep(row.original)}
-          />
-        ),
+        width: 250,
+        Cell: ({ value, row }) => <NextStep text={getNextStep(row.original)} />,
         disableSortBy: true,
       },
       {
         id: 'button',
-        minWidth: 150,
+        width: 130,
         Cell: () => (
           <div className={s.buttonWrapper}>
             <Button
