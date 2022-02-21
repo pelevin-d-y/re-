@@ -60,7 +60,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
 
 const s = css`
   .container {
-    padding: 21px 19px 23px 33px;
+    padding: 21px 19px 23px;
   }
 
   .header {

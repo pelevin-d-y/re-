@@ -41,6 +41,7 @@ const s = css`
   .container {
     position: relative;
 
+    box-shadow: 0px 1px 1px 0px #22222219;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
