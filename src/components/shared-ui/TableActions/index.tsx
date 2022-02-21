@@ -107,7 +107,7 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
           className={classNames(s.contact, s.button)}
           variant="contained"
         >
-          Compose
+          Contact
         </Button>
       )}
     </div>

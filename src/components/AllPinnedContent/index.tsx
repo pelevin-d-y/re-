@@ -4,29 +4,29 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
 import { useDebounce } from 'use-debounce/lib'
-
 import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
-import RecsTable from './RecsTable'
 import { LoaderStatic } from '../shared-ui/Loader'
 import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import TableActions from '../shared-ui/TableActions'
 import { TableProvider } from '../context/TableContext'
+import { usePinned } from '../context/PinnedContext'
+import PinnedTable from './PinnedTable'
 
 type Props = {
   className?: string
 }
 
-const AllRecsContent: React.FC<Props> = ({ className }) => {
-  const { state: clientState } = useClient()
+const AllPinnedContent: React.FC<Props> = ({ className }) => {
+  const { state: pinnedState } = usePinned()
 
-  const [contacts, setContacts] = useState(clientState.data?.contacts)
-  const [contactsDebounce] = useDebounce(contacts, 700)
+  const [pinned, setPinned] = useState(pinnedState.data)
+  const [pinnedDebounce] = useDebounce(pinned, 700)
 
-  const filterContacts = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (clientState.data?.contacts) {
-      const allContacts = clientState.data.contacts
+  const filterPinned = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (pinnedState.data) {
+      const allContacts = pinnedState.data
       const filteredContacts = allContacts.filter(
         (item) =>
           (item.name as string)
@@ -34,31 +34,31 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             .search(event.target.value.toLocaleLowerCase()) !== -1
       )
 
-      setContacts(filteredContacts)
+      setPinned(filteredContacts)
     }
   }
 
   useEffect(() => {
-    setContacts(clientState.data?.contacts)
-  }, [clientState.data?.contacts])
+    setPinned(pinnedState.data)
+  }, [pinnedState.data])
 
   const renderContent = () =>
-    clientState.data?.contacts && !arrayIsEmpty(clientState.data.contacts) ? (
+    pinnedState.data && !arrayIsEmpty(pinnedState.data) ? (
       <CardContainer className={s.container}>
         <div className={s.sectionHeader}>
           <SectionHeader
             className={s.sectionHeaderContent}
-            data={contacts || null}
-            title="All Recommendations"
-            description="Browse and reach out to your recommendations or start a list to manage for later"
-            icon="recs"
+            data={pinned || null}
+            title="All Pinned Contacts"
+            description="Followup with these pinned contacts. You can create a new list with pinned contacts to manage for later."
+            icon="pin"
             iconBackground="#F0F5FF"
             iconColor="#5265af"
-            hideNumber={false}
+            hideNumber
           />
           <Search
             classes={{ container: s.search }}
-            onChange={filterContacts}
+            onChange={filterPinned}
             inputPlaceholder="Search recommendations…"
           />
         </div>
@@ -67,17 +67,17 @@ const AllRecsContent: React.FC<Props> = ({ className }) => {
             <div className={s.contentHeader}>
               <TableActions className={s.actions} buttons={['contact']} />
             </div>
-            {contactsDebounce && <RecsTable data={contactsDebounce} />}
+            {pinnedDebounce && <PinnedTable data={pinnedDebounce} />}
           </TableProvider>
         </div>
       </CardContainer>
     ) : (
-      <EmptyRecommendations />
+      'Empty placeholder'
     )
 
   return (
     <div className={classNames(s.main, className)}>
-      {!clientState.isLoading ? renderContent() : <LoaderStatic />}
+      {!pinnedState.isLoading ? renderContent() : <LoaderStatic />}
     </div>
   )
 }
@@ -169,4 +169,4 @@ const s = css`
   }
 `
 
-export default AllRecsContent
+export default AllPinnedContent
