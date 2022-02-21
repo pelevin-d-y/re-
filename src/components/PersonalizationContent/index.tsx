@@ -10,6 +10,7 @@ import Notification from './PersonalizationNotification'
 import PasswordChangeForm from './PesonalizationPasswordChange'
 import PersonalizationInvites from './PersonalizationInvites'
 import { LoaderStatic } from '../shared-ui/Loader'
+import PersonalizationProductTour from './ProductTour'
 
 type Props = {
   className?: string
@@ -27,6 +28,7 @@ const PersonalizationContent: React.FC<Props> = ({ className }) => {
         <PersonalizationSection className={s.section} title="Accounts">
           <Accounts data={clientState.data} />
         </PersonalizationSection>
+        <PersonalizationProductTour />
       </>
     ) : (
       <div>No data</div>
