@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
 import { useDebounce } from 'use-debounce/lib'
+import formatContactData from 'src/helpers/utils/format-contact-data'
+import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
+import { get } from 'src/api/requests'
+import { chunk } from 'lodash'
 import SectionHeader from '../shared-ui/SectionHeader'
-import { useClient } from '../context/ClientContext'
 import Search from '../shared-ui/Search'
 import { LoaderStatic } from '../shared-ui/Loader'
-import EmptyRecommendations from '../shared-ui/EmptyRecommendations'
 import TableActions from '../shared-ui/TableActions'
 import { TableProvider } from '../context/TableContext'
 import { usePinned } from '../context/PinnedContext'
@@ -21,16 +23,49 @@ type Props = {
 const AllPinnedContent: React.FC<Props> = ({ className }) => {
   const { state: pinnedState } = usePinned()
 
-  const [pinned, setPinned] = useState(pinnedState.data)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [pinned, setPinned] = React.useState<FormattedContact[]>()
+
+  const fetchData = React.useCallback(async () => {
+    try {
+      const ids = pinnedState.data
+      let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
+      if (ids && ids.length > 0) {
+        const contactsChunks = chunk(ids, 90)
+        const requests = contactsChunks.map((contactChunk) => {
+          return () => get.getContactsMutable(contactChunk)
+        })
+
+        const responses = await fetchDataQueue(requests)
+        const convertedContactsRespToObj = responses.reduce((acc, item) => {
+          return { ...acc, ...item }
+        })
+        usersData = Object.entries(convertedContactsRespToObj).map(
+          ([id, contact]) => formatContactData(contact, id)
+        )
+      }
+
+      setPinned(usersData)
+    } catch (error) {
+      console.log('getUsersData ==>', error)
+    }
+  }, [pinnedState.data])
+
+  React.useEffect(() => {
+    setIsLoading(true)
+    fetchData().finally(() => setIsLoading(false))
+  }, [fetchData])
+
   const [pinnedDebounce] = useDebounce(pinned, 700)
 
   const filterPinned = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (pinnedState.data) {
-      const allContacts = pinnedState.data
+    if (pinned) {
+      const allContacts = pinned
       const filteredContacts = allContacts.filter(
         (item) =>
-          (item.name as string)
-            .toLocaleLowerCase()
+          item?.name?.data
+            .join(' ')
+            ?.toLocaleLowerCase()
             .search(event.target.value.toLocaleLowerCase()) !== -1
       )
 
@@ -38,12 +73,8 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
     }
   }
 
-  useEffect(() => {
-    setPinned(pinnedState.data)
-  }, [pinnedState.data])
-
   const renderContent = () =>
-    pinnedState.data && !arrayIsEmpty(pinnedState.data) ? (
+    !isLoading ? (
       <CardContainer className={s.container}>
         <div className={s.sectionHeader}>
           <SectionHeader
@@ -72,12 +103,12 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
         </div>
       </CardContainer>
     ) : (
-      'Empty placeholder'
+      <LoaderStatic />
     )
 
   return (
     <div className={classNames(s.main, className)}>
-      {!pinnedState.isLoading ? renderContent() : <LoaderStatic />}
+      {!isLoading ? renderContent() : <LoaderStatic />}
     </div>
   )
 }

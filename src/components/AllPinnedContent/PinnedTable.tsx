@@ -39,18 +39,17 @@ const PinnedTable: React.FC<Props> = ({ className, data }) => {
   const { setState: setSelectedUsers } = useTableContext()
   const tableData = useMemo(() => data, [data])
 
-  // const { removePinned } = usePinned()
+  const { removePinned } = usePinned()
 
-  // const removePIn = React.useCallback((row: RowTable<any>) => {
-  //   row.setState({ isLoading: true })
-  //   console.log(row.original)
-  //   removePinned(row?.original)
-  //     .then(() => {
-  //       row.setState({ isLoading: false })
-  //     })
-  //     .catch((err: any) => console.log('removePinned err ==>', err))
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  const removePin = React.useCallback((row: RowTable<any>) => {
+    row.setState({ isLoading: true })
+    removePinned(row?.original.contact_id)
+      .then(() => {
+        row.setState({ isLoading: false })
+      })
+      .catch((err: any) => console.log('removePinned err ==>', err))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const columns: Column<any>[] = useMemo(
     () => [
@@ -124,8 +123,7 @@ const PinnedTable: React.FC<Props> = ({ className, data }) => {
             <Close
               className={s.close}
               handler={() => {
-                console.log('')
-                // removePIn(row)
+                removePin(row)
               }}
             />
           </div>
