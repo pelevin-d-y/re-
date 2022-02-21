@@ -10,12 +10,13 @@ import PopoverUserInfo from '../popover/PopoverUserInfo'
 
 type Props = {
   className?: string
-  data?: RecommendationUser | null
+  data?: FormattedContact | null
   template?: Template
 }
 
 const PinnedCard: React.FC<Props> = ({ className, data }) => {
   const { removePinned } = usePinned()
+
   return data ? (
     <CardContainer className={classNames(className, s.container)}>
       <Avatar
@@ -23,7 +24,7 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
         name={getName(data)}
         width={38}
         height={38}
-        image={data.image_url}
+        image={data.avatar}
       />
       <div className={s.info}>
         <PopoverUserInfo data={data} position="top left" />
@@ -31,7 +32,7 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
       <CloseButton
         className={s.close}
         handler={() => {
-          removePinned(data)
+          removePinned(data.contact_id)
         }}
       />
     </CardContainer>
