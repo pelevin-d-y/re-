@@ -136,8 +136,9 @@ const s = css`
 
   .text {
     overflow: hidden;
-    max-width: 105px;
+    max-width: 100%;
     word-break: break-all;
+    margin-right: 10px;
   }
 
   .position {
