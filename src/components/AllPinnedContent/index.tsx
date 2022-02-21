@@ -23,8 +23,8 @@ type Props = {
 const AllPinnedContent: React.FC<Props> = ({ className }) => {
   const { state: pinnedState } = usePinned()
 
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [pinned, setPinned] = React.useState<FormattedContact[]>()
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [pinned, setPinned] = React.useState<FormattedContact[]>([])
 
   const fetchData = React.useCallback(async () => {
     try {
@@ -74,7 +74,7 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
   }
 
   const renderContent = () =>
-    !isLoading ? (
+    pinned && (
       <CardContainer className={s.container}>
         <div className={s.sectionHeader}>
           <SectionHeader
@@ -105,8 +105,6 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
           </TableProvider>
         </div>
       </CardContainer>
-    ) : (
-      <LoaderStatic />
     )
 
   return (
