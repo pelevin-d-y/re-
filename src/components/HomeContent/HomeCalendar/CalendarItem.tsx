@@ -60,19 +60,12 @@ const CalendarItem: React.FC<Props> = ({
         </div>
       </div>
       <div className={s.message}>
-        <NextStep text={getNextStep(data)} />
+        <NextStep className={s.nextStep} text={getNextStep(data)} />
       </div>
       <Pin className={s.pin} data={data.contact_id} />
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
-        Follow up
-      </Button>
-      {/* <PopoverRate
-        className={s.button}
-        buttonClickHandler={buttonHandler}
-        variant="outlined"
-      >
         Reach out
-      </PopoverRate> */}
+      </Button>
       <Close
         className={s.remove}
         handler={() => {
@@ -124,16 +117,6 @@ const s = css`
     flex: 1 0 auto;
   }
 
-  .name {
-    margin-bottom: 4px;
-    font-weight: var(--bold);
-    line-height: 16px;
-  }
-  .email {
-    margin-bottom: 4px;
-    line-height: 16px;
-  }
-
   .text {
     overflow: hidden;
     max-width: 100%;
@@ -165,6 +148,10 @@ const s = css`
     @include mobile {
       max-width: 100%;
     }
+  }
+
+  .nextStep {
+    background-color: var(--neutral5);
   }
 
   .pin {

@@ -87,11 +87,14 @@ const s = css`
   }
 
   .triggerButtonEmail {
-    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
   }
 
   .triggerButtonName {
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
   }
 `
 export default PopoverUserInfo

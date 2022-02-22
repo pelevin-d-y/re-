@@ -130,7 +130,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     padding-top: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 20.5px;
   }
 
   .userText {
@@ -141,6 +141,7 @@ const s = css`
   }
 
   .time {
+    color: var(--neutral2);
     font-size: 11px;
     line-height: 13px;
   }
