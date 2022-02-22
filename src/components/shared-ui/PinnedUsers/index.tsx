@@ -4,10 +4,6 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePinned } from 'src/components/context/PinnedContext'
-import { chunk } from 'lodash'
-import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
-import formatContactData from 'src/helpers/utils/format-contact-data'
-import { get } from 'src/api/requests'
 import PinnedCard from './PinnedCard'
 import Typography from '../Typography'
 import Img from '../Img'
@@ -18,47 +14,15 @@ type Props = {
 }
 
 const PinnedUsers: React.FC<Props> = ({ className }) => {
-  const [pinned, setPinned] = React.useState<FormattedContact[]>()
-  const [isLoading, setIsLoading] = React.useState(false)
-
   const { dispatch: popupDispatch } = usePopup()
   const { state } = usePinned()
-
-  const fetchData = React.useCallback(async () => {
-    try {
-      const ids = state.data
-      let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
-      if (ids && ids.length > 0) {
-        const contactsChunks = chunk(ids, 90)
-        const requests = contactsChunks.map((contactChunk) => {
-          return () => get.getContactsMutable(contactChunk)
-        })
-
-        const responses = await fetchDataQueue(requests)
-        const convertedContactsRespToObj = responses.reduce((acc, item) => {
-          return { ...acc, ...item }
-        })
-        usersData = Object.entries(convertedContactsRespToObj).map(
-          ([id, contact]) => formatContactData(contact, id)
-        )
-      }
-
-      setPinned(usersData)
-    } catch (error) {
-      console.log('getUsersData ==>', error)
-    }
-  }, [state.data])
-
-  React.useEffect(() => {
-    setIsLoading(true)
-    fetchData().finally(() => setIsLoading(false))
-  }, [fetchData])
+  const { data: pinnedData, isLoading } = state
 
   const openModal = () => {
-    if (pinned) {
+    if (pinnedData) {
       popupDispatch({
         type: 'UPDATE_COMPOSE_MULTI_DATA',
-        payload: pinned,
+        payload: pinnedData,
       })
       popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
     }
@@ -79,7 +43,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
           Add/Create List
         </button>
       </div>
-      {!pinned?.length && (
+      {!pinnedData?.length && (
         <div className={s.paragraph}>
           Pin people to remember to followup up later.
         </div>
@@ -88,7 +52,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
         <LoaderStatic />
       ) : (
         <div className={s.cards}>
-          {pinned?.map((item) => (
+          {pinnedData?.map((item) => (
             <PinnedCard
               className={s.card}
               key={item.contact_id}

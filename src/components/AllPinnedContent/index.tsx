@@ -1,13 +1,9 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
-import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
-import { useDebounce } from 'use-debounce/lib'
-import formatContactData from 'src/helpers/utils/format-contact-data'
-import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
-import { get } from 'src/api/requests'
-import { chunk } from 'lodash'
+import { debounce } from 'lodash'
+import { getName } from 'src/helpers/utils/get-name'
 import SectionHeader from '../shared-ui/SectionHeader'
 import Search from '../shared-ui/Search'
 import { LoaderStatic } from '../shared-ui/Loader'
@@ -21,65 +17,38 @@ type Props = {
 }
 
 const AllPinnedContent: React.FC<Props> = ({ className }) => {
-  const { state: pinnedState } = usePinned()
+  const [searchResults, setSearchResults] = useState<FormattedContact[]>([])
+  const [searchText, setSearchText] = useState<string>('')
 
-  const [isLoading, setIsLoading] = React.useState(true)
-  const [pinned, setPinned] = React.useState<FormattedContact[]>([])
+  const { state } = usePinned()
+  const { isLoading, data } = state
 
-  const fetchData = React.useCallback(async () => {
-    try {
-      const ids = pinnedState.data
-      let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
-      if (ids && ids.length > 0) {
-        const contactsChunks = chunk(ids, 90)
-        const requests = contactsChunks.map((contactChunk) => {
-          return () => get.getContactsMutable(contactChunk)
-        })
-
-        const responses = await fetchDataQueue(requests)
-        const convertedContactsRespToObj = responses.reduce((acc, item) => {
-          return { ...acc, ...item }
-        })
-        usersData = Object.entries(convertedContactsRespToObj).map(
-          ([id, contact]) => formatContactData(contact, id)
-        )
-      }
-
-      setPinned(usersData)
-    } catch (error) {
-      console.log('getUsersData ==>', error)
+  useEffect(() => {
+    if (data) {
+      const results = (
+        data as Array<RecommendationUser | FormattedContact>
+      ).filter((item: FormattedContact | RecommendationUser) => {
+        return getName(item).toLowerCase().includes(searchText.toLowerCase())
+      })
+      setSearchResults(results as FormattedContact[])
     }
-  }, [pinnedState.data])
+  }, [data, searchText])
 
-  React.useEffect(() => {
-    setIsLoading(true)
-    fetchData().finally(() => setIsLoading(false))
-  }, [fetchData])
-
-  const [pinnedDebounce] = useDebounce(pinned, 700)
-
-  const filterPinned = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (pinned) {
-      const allContacts = pinned
-      const filteredContacts = allContacts.filter(
-        (item) =>
-          item?.name?.data
-            .join(' ')
-            ?.toLocaleLowerCase()
-            .search(event.target.value.toLocaleLowerCase()) !== -1
-      )
-
-      setPinned(filteredContacts)
-    }
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value)
   }
 
+  const debounceHandleSearch = useMemo(() => {
+    return debounce(handleSearch, 300)
+  }, [])
+
   const renderContent = () =>
-    pinned && (
+    searchResults && (
       <CardContainer className={s.container}>
         <div className={s.sectionHeader}>
           <SectionHeader
             className={s.sectionHeaderContent}
-            data={pinned || null}
+            data={searchResults || null}
             title="All Pinned Contacts"
             description="Followup with these pinned contacts. You can create a new list with pinned contacts to manage for later."
             icon="pin"
@@ -89,7 +58,7 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
           />
           <Search
             classes={{ container: s.search }}
-            onChange={filterPinned}
+            onChange={debounceHandleSearch}
             inputPlaceholder="Search recommendations…"
           />
         </div>
@@ -101,7 +70,7 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
                 buttons={['contact', 'addToList']}
               />
             </div>
-            {pinnedDebounce && <PinnedTable data={pinnedDebounce} />}
+            {searchResults && <PinnedTable data={searchResults} />}
           </TableProvider>
         </div>
       </CardContainer>
