@@ -3,10 +3,12 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { useClient } from 'src/components/context/ClientContext'
 
+import { usePopup } from 'src/components/context/PopupContext'
 import Button from '../Button'
 import Img from '../Img'
 import CardContact from '../cards/CardContact'
 import Typography from '../Typography'
+import CloseButton from '../Close'
 
 type Props = {
   className?: string
@@ -16,6 +18,14 @@ type Props = {
 
 const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
   const { state } = useClient()
+  const { dispatch, state: popupState } = usePopup()
+
+  const closeHandler = () => {
+    if (popupState.multiEmailsIsOpen) {
+      return dispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
+    }
+    return dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: null })
+  }
 
   const messageTemplate = () => {
     if (Array.isArray(names)) {
@@ -40,7 +50,13 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <div className={s.heder}>
+      <div className={s.top}>
+        <Typography fontVariant="inter" styleVariant="h4" fontWeight="bold">
+          Message Sent!
+        </Typography>
+        <CloseButton className={s.closeContainer} handler={closeHandler} />
+      </div>
+      <div className={s.header}>
         <Img className={s.check} img="sentCheck.png" alt="check" />
         <div className={s.text}>{messageTemplate()}</div>
       </div>
@@ -59,29 +75,55 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
     flex-flow: column nowrap;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 25px;
-    padding: 28px 12px 53px 12px;
+    padding: 28px 12px;
   }
 
-  .heder {
+  .top {
+    margin-bottom: 26px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header {
+    position: relative;
+    display: flex;
+    justify-content: center;
     flex-flow: row nowrap;
     margin-bottom: 20px;
+
+    @include mobile {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      background: var(--gradientLight);
+      border-radius: 8px;
+      width: 100%;
+      height: 208px;
+      z-index: 0;
+      top: -20px;
+    }
   }
 
   .text {
+    z-index: 1;
     max-width: 467px;
     margin-left: 19px;
-
+    color: white;
     font-weight: var(--bold);
     font-size: 26px;
     line-height: 32px;
@@ -90,17 +132,22 @@ const s = css`
   .check {
     width: 66px;
     height: 62px;
+    z-index: 1;
   }
 
   .cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 15px;
-    margin-left: -17px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
   }
 
   .card {
-    margin-left: 17px;
+    width: 100%;
+    margin: 11px;
+    flex: 1 0 calc(33.333% - 90px);
+    width: 100%;
+    min-width: 193px;
+    max-width: 193px;
   }
 
   .buttonBack {
