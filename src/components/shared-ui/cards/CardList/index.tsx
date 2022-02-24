@@ -5,6 +5,7 @@ import AvatarsList from 'src/components/shared-ui/AvatarsList'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import { useRouter } from 'next/router'
 import { usePopup } from 'src/components/context/PopupContext'
+import { useMediaQuery } from 'react-responsive'
 import CloseButton from '../../Close'
 import Typography from '../../Typography'
 
@@ -21,6 +22,7 @@ const CardList: React.FC<Props> = ({
   const router = useRouter()
   const { createPlaylist, getPlaylists } = usePlaylists()
   const { dispatch: popupDispatch } = usePopup()
+  const isDesktop = useMediaQuery({ query: '(min-width: 769px)' })
   const id = playlistId
   const deleteHandler = async () => {
     popupDispatch({ type: 'TOGGLE_DELETE_LIST_POPUP' })
@@ -60,8 +62,8 @@ const CardList: React.FC<Props> = ({
       )}
       {contacts && contactsData && (
         <AvatarsList
-          avatarWidth={47}
-          avatarHeight={47}
+          avatarWidth={isDesktop ? 47 : 42}
+          avatarHeight={isDesktop ? 47 : 42}
           className={s.avatars}
           users={contacts}
           showHiddenUsers
@@ -116,6 +118,8 @@ const s = css`
     }
 
     @include mobile {
+      padding: 12px;
+
       .removeButton {
         display: block;
       }
@@ -157,6 +161,11 @@ const s = css`
   .avatars {
     margin-top: 15px;
     margin-bottom: 20px;
+
+    @include mobile {
+      display: flex;
+      flex-flow: column nowrap;
+    }
   }
 
   .actions {
