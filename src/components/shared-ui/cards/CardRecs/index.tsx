@@ -61,19 +61,22 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
   .container {
+    min-width: 275px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: 13px;
     height: auto;
+    padding: 17px 18px 0px 19px;
   }
 
   .header {
+    width: 100%;
     background: white;
     display: flex;
     justify-content: space-between;
-    padding: 17px 18px 14px 21px;
+    margin-bottom: 14px;
   }
 
   .avatar {
@@ -85,10 +88,10 @@ const s = css`
   }
 
   .name {
-    font-size: 12px;
-    font-weight: 800;
-    line-height: 14px;
-    white-space: nowrap;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    word-break: break-all;
   }
 
   .job {
@@ -99,8 +102,8 @@ const s = css`
   }
 
   .footer {
-    max-width: 90%;
     margin-bottom: 18px;
+    width: 100%;
   }
 `
 

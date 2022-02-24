@@ -181,6 +181,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
                     padding: 0,
                   },
                   singleValue: {
+                    margin: 0,
                     overflow: 'revert',
                     fontSize: '18px',
                     fontWeight: 'bold',
