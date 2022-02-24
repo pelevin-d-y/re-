@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 
 import { formatDistance } from 'date-fns'
+import Typography from 'src/components/shared-ui/Typography'
 
 type Props = {
   className?: string
@@ -13,12 +14,12 @@ const MessageStatus: React.FC<Props> = ({ className, data }) => {
   return (
     <div className={classNames(className, s.container)}>
       {data?.last_client_time && (
-        <div className={s.date}>
+        <Typography className={s.date} fontVariant="inter" styleVariant="body3">
           Last Message{' '}
           {formatDistance(data?.last_client_time, new Date(), {
             addSuffix: true,
           })}
-        </div>
+        </Typography>
       )}
       {/* {'isSent' in data && data?.isSent ? (
           <Img className={s.image} alt="sent" img="message-sent.png" />
@@ -36,8 +37,7 @@ const s = css`
   }
 
   .date {
-    margin-right: 15px;
-    white-space: nowrap;
+    color: var(--primary1);
   }
 
   .image {

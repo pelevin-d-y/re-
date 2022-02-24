@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePinned } from 'src/components/context/PinnedContext'
@@ -7,6 +7,7 @@ import CardContainer from '../cards/CardContainer'
 import Avatar from '../Avatar'
 import CloseButton from '../Close'
 import PopoverUserInfo from '../popover/PopoverUserInfo'
+import { LoaderAbsolute } from '../Loader'
 
 type Props = {
   className?: string
@@ -16,6 +17,7 @@ type Props = {
 
 const PinnedCard: React.FC<Props> = ({ className, data }) => {
   const { removePinned } = usePinned()
+  const [loading, setIsLoading] = useState(false)
 
   return data ? (
     <CardContainer className={classNames(className, s.container)}>
@@ -29,12 +31,17 @@ const PinnedCard: React.FC<Props> = ({ className, data }) => {
       <div className={s.info}>
         <PopoverUserInfo data={data} position="top left" />
       </div>
-      <CloseButton
-        className={s.close}
-        handler={() => {
-          removePinned(data.contact_id)
-        }}
-      />
+      {loading ? (
+        <LoaderAbsolute />
+      ) : (
+        <CloseButton
+          className={s.close}
+          handler={() => {
+            setIsLoading(true)
+            removePinned(data.contact_id).finally(() => setIsLoading(false))
+          }}
+        />
+      )}
     </CardContainer>
   ) : null
 }

@@ -117,13 +117,19 @@ const s = css`
   }
 
   .title {
+    display: flex;
+    align-items: baseline;
     margin-bottom: 4px;
 
     font-size: 22px;
     line-height: 22px;
-    display: flex;
-    align-items: baseline;
     font-weight: bold;
+
+    @include mobile {
+      flex-flow: column nowrap;
+      text-align: center;
+      align-items: center;
+    }
   }
 
   .description {
@@ -140,6 +146,11 @@ const s = css`
     line-height: 17px;
     font-weight: var(--bold);
     color: var(--primary1);
+
+    @include mobile {
+      margin-top: 8px;
+      margin-left: 15px;
+    }
   }
 
   .linkIcon {

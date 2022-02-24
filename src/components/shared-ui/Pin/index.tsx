@@ -11,22 +11,24 @@ type Props = {
 
 const Pin: React.FC<Props> = ({ className, data }) => {
   const { state, addPinned, removePinned } = usePinned()
+  const [loading, setLoading] = useState(false)
 
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    if (state.data.find((item) => item === data)) {
+    if (state.ids.find((item) => item === data)) {
       return setIsActive(true)
     }
     return setIsActive(false)
-  }, [data, state.data])
+  }, [data, state.ids])
 
   const pinAction = () => {
+    setLoading(true)
     if (isActive) {
-      removePinned(data)
+      removePinned(data).finally(() => setLoading(false))
     }
     if (!isActive) {
-      addPinned(data)
+      addPinned(data).finally(() => setLoading(false))
     }
   }
 
@@ -38,7 +40,11 @@ const Pin: React.FC<Props> = ({ className, data }) => {
     >
       <SvgIcon
         icon="pin.svg"
-        className={classNames(s.icon, isActive && s.active)}
+        className={classNames(
+          s.icon,
+          isActive && s.active,
+          loading && s.loadingPin
+        )}
       />
     </button>
   )
@@ -54,6 +60,21 @@ const s = css`
 
   .icon.active {
     color: var(--neutral1);
+  }
+
+  .loadingPin path {
+    fill: var(--neutral1);
+    animation-name: glow-blue;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+  }
+
+  @-webkit-keyframes glow-blue {
+    100% {
+      fill: #bfbfbf;
+    }
   }
 
   .button {

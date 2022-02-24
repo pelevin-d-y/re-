@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
@@ -11,6 +11,11 @@ import Close from 'src/components/shared-ui/Close'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { getName } from 'src/helpers/utils/get-name'
+import getLastMessage from 'src/helpers/utils/get-last-message'
+import formatLastMessage from 'src/helpers/utils/format-last-message'
+import { get } from 'src/api/requests'
+import { format } from 'date-fns'
+import Typography from 'src/components/shared-ui/Typography'
 
 type Props = {
   className?: string
@@ -29,6 +34,28 @@ const CalendarItem: React.FC<Props> = ({
   const buttonHandler = () => {
     dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
   }
+
+  const [lastMessageData, setLastMessageData] = useState<any>(null)
+
+  const fetchLastEmail = async () => {
+    await get
+      .getLastEmails([data.contact_id])
+      .then((res) => {
+        const lastMessageResponse = getLastMessage(res[data.contact_id])
+        const contactLastMessage = formatLastMessage(lastMessageResponse)
+        setLastMessageData(contactLastMessage)
+      })
+      .catch((err) => {
+        if (err.response.status === 502) {
+          fetchLastEmail()
+        }
+      })
+  }
+
+  useEffect(() => {
+    fetchLastEmail()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const hideItem = () => {
     const { contact_id } = data
@@ -54,25 +81,27 @@ const CalendarItem: React.FC<Props> = ({
         <Avatar className={s.avatar} name={getName(data)} image={data.avatar} />
         <div className={s.text}>
           <PopoverUserInfo
+            className={s.name}
             data={data}
             updateDataCallback={updateDataCallback}
           />
+          <Typography
+            className={s.time}
+            fontVariant="inter"
+            styleVariant="body4"
+          >
+            {lastMessageData?.last_client_time &&
+              format(lastMessageData?.last_client_time, 'EEEE LLL d, yyyy')}
+          </Typography>
         </div>
       </div>
       <div className={s.message}>
-        <NextStep text={getNextStep(data)} />
+        <NextStep className={s.nextStep} text={getNextStep(data)} />
       </div>
       <Pin className={s.pin} data={data.contact_id} />
       <Button className={s.button} variant="outlined" handler={buttonHandler}>
-        Follow up
-      </Button>
-      {/* <PopoverRate
-        className={s.button}
-        buttonClickHandler={buttonHandler}
-        variant="outlined"
-      >
         Reach out
-      </PopoverRate> */}
+      </Button>
       <Close
         className={s.remove}
         handler={() => {
@@ -125,13 +154,10 @@ const s = css`
   }
 
   .name {
-    margin-bottom: 4px;
-    font-weight: var(--bold);
-    line-height: 16px;
-  }
-  .email {
-    margin-bottom: 4px;
-    line-height: 16px;
+    margin-bottom: 3px;
+    @include mobile {
+      text-align: center;
+    }
   }
 
   .text {
@@ -139,6 +165,13 @@ const s = css`
     max-width: 100%;
     word-break: break-all;
     margin-right: 10px;
+  }
+
+  .time {
+    color: var(--primary1);
+    @include mobile {
+      text-align: center;
+    }
   }
 
   .position {
@@ -165,6 +198,10 @@ const s = css`
     @include mobile {
       max-width: 100%;
     }
+  }
+
+  .nextStep {
+    background-color: var(--neutral5);
   }
 
   .pin {

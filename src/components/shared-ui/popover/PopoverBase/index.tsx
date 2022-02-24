@@ -37,6 +37,7 @@ const Popover: React.FC<Props> = ({
     closeOnDocumentClick
     on={showPopupEvent || 'hover'}
     open={open}
+    arrow={false}
     nested={nested}
     onClose={onClose}
   >

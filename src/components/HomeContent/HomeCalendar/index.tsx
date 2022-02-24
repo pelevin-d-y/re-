@@ -181,6 +181,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
                     padding: 0,
                   },
                   singleValue: {
+                    margin: 0,
                     overflow: 'revert',
                     fontSize: '18px',
                     fontWeight: 'bold',
@@ -270,7 +271,7 @@ const s = css`
 
     @include mobile {
       flex: auto;
-      margin-bottom: 10px;
+      margin-bottom: 10px !important;
     }
   }
 
@@ -285,6 +286,7 @@ const s = css`
     flex-wrap: wrap;
     @include mobile {
       justify-content: center;
+      margin-bottom: 10px;
     }
   }
 

@@ -39,10 +39,7 @@ const AvatarsList: React.FC<Props> = ({
 
   return (
     <div className={classNames(className, s.container)}>
-      <div
-        className={classNames(s.container)}
-        style={{ width: containerWidth }}
-      >
+      <div className={classNames(s.avatars)} style={{ width: containerWidth }}>
         {visibleUsers.map((item, index) => {
           return (
             <div
@@ -69,16 +66,17 @@ const AvatarsList: React.FC<Props> = ({
 }
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     align-items: center;
   }
 
   .avatars {
     display: flex;
     flex-flow: row nowrap;
-    overflow: hidden;
   }
 
   .avatarImage {
@@ -94,6 +92,10 @@ const s = css`
     line-height: 16px;
     font-weight: var(--bold);
     color: var(--primary1);
+
+    @include mobile {
+      margin-top: 8px;
+    }
   }
 `
 
