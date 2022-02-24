@@ -14,7 +14,6 @@ import { getName } from 'src/helpers/utils/get-name'
 import getLastMessage from 'src/helpers/utils/get-last-message'
 import formatLastMessage from 'src/helpers/utils/format-last-message'
 import { get } from 'src/api/requests'
-import { LoaderStatic } from 'src/components/shared-ui/Loader'
 import { format } from 'date-fns'
 import Typography from 'src/components/shared-ui/Typography'
 
@@ -37,23 +36,19 @@ const CalendarItem: React.FC<Props> = ({
   }
 
   const [lastMessageData, setLastMessageData] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(false)
 
   const fetchLastEmail = async () => {
-    setIsLoading(true)
     await get
       .getLastEmails([data.contact_id])
       .then((res) => {
         const lastMessageResponse = getLastMessage(res[data.contact_id])
         const contactLastMessage = formatLastMessage(lastMessageResponse)
         setLastMessageData(contactLastMessage)
-        setIsLoading(false)
       })
       .catch((err) => {
         if (err.response.status === 502) {
           fetchLastEmail()
         }
-        setIsLoading(false)
       })
   }
 
