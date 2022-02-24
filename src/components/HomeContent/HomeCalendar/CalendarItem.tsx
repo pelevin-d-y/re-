@@ -174,6 +174,9 @@ const s = css`
 
   .time {
     color: var(--primary1);
+    @include mobile {
+      text-align: center;
+    }
   }
 
   .position {
