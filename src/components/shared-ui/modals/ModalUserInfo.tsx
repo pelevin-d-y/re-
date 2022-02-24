@@ -9,6 +9,7 @@ import { formatDate } from 'src/helpers/utils/parseTime'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
 import MessageStatus from './ComposeModalMulti/UsersManager/MessageStatus'
 import ModalLastMessage from './ModalLastMessage'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -47,7 +48,14 @@ const ModalUserInfo: React.FC<Props> = ({ className, data }) => {
                     image={getAvatarUrl()}
                   />
                   <div className={s.userInfo}>
-                    <div className={s.userName}>{getName(data)}</div>
+                    <Typography
+                      className={s.userName}
+                      fontVariant="inter"
+                      fontWeight="medium"
+                      styleVariant="body1"
+                    >
+                      {getName(data)}
+                    </Typography>
                     <MessageStatus
                       className={s.messageStatus}
                       data={lastMessageData}
@@ -109,10 +117,7 @@ const s = css`
   }
 
   .userName {
-    margin-bottom: 3px;
-
-    font-size: 12px;
-    font-weight: var(--bold);
+    margin-bottom: 7px;
 
     @include mobile {
       margin-right: 10px;
