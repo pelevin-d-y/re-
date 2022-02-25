@@ -112,10 +112,6 @@ const s = css`
     }
   }
 
-  .sectionHeaderContent {
-    padding-right: 0;
-  }
-
   .search {
     padding-bottom: 0;
     margin-left: auto;
