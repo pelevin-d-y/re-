@@ -14,7 +14,12 @@ type Props = {
 const Recommendations: React.FC<Props> = ({ data, className }) => (
   <div className={classNames(s.container, className)}>
     <div className={s.title}>
-      <Typography tagVariant="h2" styleVariant="h3" fontWeight="bold">
+      <Typography
+        className={s.weekly}
+        tagVariant="h2"
+        styleVariant="h3"
+        fontWeight="bold"
+      >
         Weekly{' '}
         <Typography
           className={s.damion}
@@ -70,6 +75,7 @@ const s = css`
 
     @include tablet {
       text-align: center;
+      justify-content: center;
     }
   }
 
@@ -129,6 +135,12 @@ const s = css`
       margin-right: auto;
       margin-left: auto;
       margin-bottom: 13px;
+    }
+  }
+
+  .weekly {
+    @include mobile {
+      margin-bottom: 15px;
     }
   }
 `

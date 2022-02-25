@@ -274,6 +274,10 @@ const s = css`
 
   .editorActions {
     margin-right: auto;
+
+    @include mobile {
+      margin-bottom: 10px;
+    }
   }
 
   .buttons {

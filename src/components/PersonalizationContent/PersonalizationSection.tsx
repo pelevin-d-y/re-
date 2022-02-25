@@ -20,6 +20,8 @@ const PersonalizationSection: React.FC<Props> = ({
 )
 
 const s = css`
+  @import 'src/styles/preferences/_mixins.scss';
+
   .container {
     width: 100%;
     padding: 34px 28px 49px;
@@ -36,6 +38,10 @@ const s = css`
     font-size: 22px;
     line-height: 22px;
     font-weight: var(--bold);
+
+    @include mobile {
+      text-align: center;
+    }
   }
 `
 
