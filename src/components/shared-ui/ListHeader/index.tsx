@@ -143,6 +143,7 @@ const s = css`
   }
 
   .description {
+    overflow: hidden;
     display: block;
     width: 100%;
     resize: none;

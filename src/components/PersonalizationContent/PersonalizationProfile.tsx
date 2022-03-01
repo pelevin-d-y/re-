@@ -349,8 +349,9 @@ const s = css`
     flex-direction: column;
 
     @include mobile {
+      margin-bottom: 20px;
       margin-right: 0;
-      max-width: fit-content;
+      align-items: center;
     }
   }
 
@@ -362,6 +363,7 @@ const s = css`
 
     @include mobile {
       display: block;
+      max-width: 100%;
     }
   }
 

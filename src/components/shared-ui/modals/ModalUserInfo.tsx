@@ -93,27 +93,33 @@ const s = css`
     border-radius: 5.9845px;
     padding: 18px 25px;
 
-    @include mobile {
-      flex-flow: column nowrap;
+    @include tablet {
+      flex-direction: column;
+      align-items: center;
     }
   }
 
-  .profile {
+  .UserInfo {
     display: flex;
-    flex-flow: row nowrap;
-
-    @include mobile {
-      margin-bottom: 10px;
-    }
   }
 
   .info {
     display: flex;
     flex-flow: row nowrap;
+
+    @include tablet {
+      margin-bottom: 10px;
+      flex-flow: column;
+      align-items: center;
+    }
   }
 
   .avatar {
     margin-right: 19px;
+
+    @include tablet {
+      margin-bottom: 10px;
+    }
   }
 
   .userName {

@@ -36,6 +36,7 @@ const Pin: React.FC<Props> = ({ className, data }) => {
     <button
       type="button"
       onClick={pinAction}
+      disabled={loading}
       className={classNames(className, s.button)}
     >
       <SvgIcon

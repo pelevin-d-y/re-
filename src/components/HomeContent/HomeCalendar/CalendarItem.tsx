@@ -210,6 +210,7 @@ const s = css`
 
   .remove {
     background: var(--shades2);
+    color: var(--neutral2);
     margin-left: 11px;
   }
 

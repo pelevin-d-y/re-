@@ -87,11 +87,14 @@ const s = css`
   }
 
   .triggerButtonEmail {
+    color: var(--neutral1);
+    color: black;
     font-size: 12px;
     line-height: 14px;
   }
 
   .triggerButtonName {
+    color: var(--neutral1);
     font-weight: 500;
     font-size: 14px;
     line-height: 14px;

@@ -4,11 +4,24 @@ import { get, post } from 'src/api'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 
+type ActionState = {
+  type: 'delete' | 'add' | null
+  idsToDelete: string[]
+  idsToAdd: string[]
+}
+
 type Action =
   | { type: 'UPDATE_PINNED_DATA'; payload: FormattedContact[] }
   | { type: 'UPDATE_IS_LOADING'; payload: boolean }
   | { type: 'UPDATE_PINNED_IDS'; payload: string[] }
-type State = { data: FormattedContact[]; isLoading: boolean; ids: string[] }
+  | { type: 'DO_ACTION'; payload: ActionState }
+
+type State = {
+  data: FormattedContact[]
+  isLoading: boolean
+  ids: string[]
+  actionState: ActionState
+}
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
@@ -33,6 +46,12 @@ const pinnedReducer = (state: State, action: Action): State => {
         data: action.payload,
       }
     }
+    case 'DO_ACTION': {
+      return {
+        ...state,
+        actionState: action.payload,
+      }
+    }
     case 'UPDATE_IS_LOADING': {
       return {
         ...state,
@@ -43,6 +62,11 @@ const pinnedReducer = (state: State, action: Action): State => {
       return {
         ids: [],
         data: [],
+        actionState: {
+          type: null,
+          idsToDelete: [],
+          idsToAdd: [],
+        },
         isLoading: false,
       }
     }
@@ -54,6 +78,11 @@ const PinnedProvider: React.FC = ({ children }) => {
     ids: [],
     data: [],
     isLoading: false,
+    actionState: {
+      type: null,
+      idsToDelete: [],
+      idsToAdd: [],
+    },
   })
 
   const getPinnedData = React.useCallback(async () => {
@@ -62,25 +91,29 @@ const PinnedProvider: React.FC = ({ children }) => {
 
     try {
       let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
-      if (ids && ids.length > 0) {
-        const contactsChunks = chunk(ids, 90)
-        const requests = contactsChunks.map((contactChunk) => {
-          return () => get.getContactsMutable(contactChunk)
-        })
 
-        const responses = await fetchDataQueue(requests)
+      const contactsChunks = chunk(ids, 90)
+      const requests = contactsChunks.map((contactChunk) => {
+        return () => get.getContactsMutable(contactChunk)
+      })
+
+      const responses = await fetchDataQueue(requests)
+
+      if (responses.length <= 0) {
+        usersData = []
+      } else {
         const convertedContactsRespToObj = responses.reduce((acc, item) => {
           return { ...acc, ...item }
         })
         usersData = Object.entries(convertedContactsRespToObj).map(
           ([id, contact]) => formatContactData(contact, id)
         )
-
-        dispatch({
-          type: 'UPDATE_PINNED_DATA',
-          payload: usersData,
-        })
       }
+
+      dispatch({
+        type: 'UPDATE_PINNED_DATA',
+        payload: usersData,
+      })
     } catch (error) {
       console.log('getUsersData ==>', error)
     }
@@ -95,25 +128,75 @@ const PinnedProvider: React.FC = ({ children }) => {
     fetchData()
   }, [getPinnedData])
 
+  useEffect(() => {
+    const updatePinnedStore = async () => {
+      if (state.actionState.type === 'delete') {
+        await post.postPinnedContacts(
+          state.ids.filter((item) => {
+            return !state.actionState.idsToDelete.includes(item)
+          })
+        )
+        await getPinnedData().then(() => {
+          dispatch({
+            type: 'DO_ACTION',
+            payload: {
+              ...state.actionState,
+              type: null,
+              idsToDelete: [],
+            },
+          })
+        })
+      }
+
+      if (state.actionState.type === 'add') {
+        await post.postPinnedContacts([
+          ...state.ids,
+          ...state.actionState.idsToAdd,
+        ])
+        await getPinnedData().then(() => {
+          dispatch({
+            type: 'DO_ACTION',
+            payload: {
+              ...state.actionState,
+              type: null,
+              idsToAdd: [],
+            },
+          })
+        })
+      }
+    }
+    updatePinnedStore()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.actionState])
+
   const addPinned = useCallback(
     async (data: string) => {
-      if (state.ids.find((item) => data === item)) {
-        return null
-      }
-      await post.postPinnedContacts([...state.ids, data])
-      await getPinnedData()
-      return null
+      dispatch({
+        type: 'DO_ACTION',
+        payload: {
+          ...state.actionState,
+          type: 'add',
+          idsToAdd: [...state.actionState.idsToAdd, data],
+        },
+      })
     },
-    [getPinnedData, state.ids]
+    [state.actionState]
   )
 
   const removePinned = useCallback(
     async (data: string) => {
-      await post.postPinnedContacts(state.ids.filter((item) => item !== data))
-      await getPinnedData()
+      dispatch({
+        type: 'DO_ACTION',
+        payload: {
+          ...state.actionState,
+          type: 'delete',
+          idsToDelete: [...state.actionState.idsToDelete, data],
+        },
+      })
+
       return null
     },
-    [getPinnedData, state.ids]
+    [state.actionState]
   )
 
   const value: ContextType = React.useMemo(
