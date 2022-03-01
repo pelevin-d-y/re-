@@ -48,7 +48,12 @@ const TabNotes: React.FC<Props> = ({ className, mutableData, updateData }) => {
       >
         {({ handleSubmit, isSubmitting }) => (
           <form className={s.form} onSubmit={handleSubmit}>
-            <Field className={s.textarea} name="notes" as="textarea" />
+            <Field
+              placeholder="Include a note for this contact..."
+              className={s.textarea}
+              name="notes"
+              as="textarea"
+            />
             <Button
               className={s.button}
               type="submit"

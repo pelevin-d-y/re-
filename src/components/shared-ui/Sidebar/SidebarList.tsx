@@ -87,14 +87,17 @@ const s = css`
 
   .item {
     position: relative;
-
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     padding: 12px 5px 12px 73px;
     color: var(--shades1);
-
-    font-weight: var(--semiBold);
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--neutral1);
+    font-weight: var(--medium);
     cursor: pointer;
     text-decoration: none;
 

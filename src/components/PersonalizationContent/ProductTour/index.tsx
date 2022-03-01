@@ -7,8 +7,6 @@ import Button from 'src/components/shared-ui/Button'
 import Img from 'src/components/shared-ui/Img'
 import { useFreeStorage } from 'src/components/context/FreeStorageContext'
 import { useRouter } from 'next/router'
-import { LoaderAbsolute } from 'src/components/shared-ui/Loader'
-import { type } from 'os'
 
 type Props = {
   className?: string
@@ -17,13 +15,10 @@ type Props = {
 const PersonalizationProductTour: React.FC<Props> = ({ className }) => {
   const router = useRouter()
 
-  const { dispatch, state } = useFreeStorage()
+  const { updateFreeStorage } = useFreeStorage()
 
   const tourLaunched = () => {
-    dispatch({
-      type: 'UPDATE_DATA',
-      payload: { ...state, product_tour_shown: false },
-    })
+    updateFreeStorage({ product_tour_shown: true })
     router.push('/')
   }
 
@@ -64,7 +59,7 @@ const s = css`
     padding: 45px 42px 60px 42px;
     color: var(--white);
 
-    background: var(--gradientLight);
+    background: var(--gradientLightReverse);
   }
 
   .header {

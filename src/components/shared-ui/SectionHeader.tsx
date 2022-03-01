@@ -41,8 +41,11 @@ const SectionHeader: React.FC<Props> = ({
     </div>
     <div className={s.content}>
       <div className={s.title}>
-        <Typography fontVariant="inter">{title}</Typography>
-        {!hideNumber && ` (${data?.length})`}{' '}
+        <Typography fontVariant="gilroy" fontWeight="bold" styleVariant="h3">
+          {title}{' '}
+          <span className={s.count}>{!hideNumber && ` (${data?.length})`}</span>
+        </Typography>
+
         {link && (
           <Link className={s.link} href={link.href}>
             {link.text}
@@ -50,7 +53,9 @@ const SectionHeader: React.FC<Props> = ({
           </Link>
         )}
       </div>
-      <div className={s.description}>{description}</div>
+      <Typography fontVariant="inter" styleVariant="body3">
+        {description}
+      </Typography>
     </div>
     {/* <Search
       classes={{ container: s.search }}
@@ -120,10 +125,7 @@ const s = css`
     display: flex;
     align-items: baseline;
     margin-bottom: 4px;
-
-    font-size: 22px;
-    line-height: 22px;
-    font-weight: bold;
+    color: var(--neutral1);
 
     @include mobile {
       flex-flow: column nowrap;
@@ -132,9 +134,8 @@ const s = css`
     }
   }
 
-  .description {
-    font-size: 12px;
-    line-height: 22px;
+  .count {
+    color: var(--primary1);
   }
 
   .link {
