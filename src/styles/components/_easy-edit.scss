@@ -35,19 +35,19 @@
   border: 1px solid #d8d8d8;
 }
 
-.list-note-easy-edit-wrapper {
-  font-size: 13px;
-}
-
-.list-note-easy-edit-component-wrapper input {
-  font-size: 13px;
+.profile-card-easy-edit-wrapper {
+  padding: 16px;
+  font-size: 14px;
+  border: 1px solid var(--neutral4);
 }
 
 .profile-card-easy-edit-component-wrapper input {
   display: block;
   width: 100%;
   outline: none;
-  border: none;
+  padding: 16px;
+  font-size: 14px;
+  border: 1px solid var(--neutral4);
 }
 
 .profile-card-easy-edit-validation-error {

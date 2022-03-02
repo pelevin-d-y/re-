@@ -7,6 +7,7 @@ import { UserInfo } from '../../UserInfo'
 import TabLists from './TabLists'
 import TabNotes from './TabNotes'
 import Button from '../../Button'
+import Typography from '../../Typography'
 
 type Props = {
   className?: string
@@ -26,10 +27,16 @@ const TabsContent: React.FC<Props> = ({
   <div className={classNames(s.container, className)}>
     <ReactTabs>
       <TabList className={s.tabs}>
-        <Tab className={s.tabItem}>Info</Tab>
-        <Tab className={s.tabItem}>List</Tab>
+        <Tab className={s.tabItem}>
+          <Typography styleVariant="body1">Info</Typography>
+        </Tab>
+        <Tab className={s.tabItem}>
+          <Typography styleVariant="body1">List</Typography>
+        </Tab>
         {/* <Tab className={s.tabItem}>Recs</Tab> */}
-        <Tab className={s.tabItem}>Notes</Tab>
+        <Tab className={s.tabItem}>
+          <Typography styleVariant="body1">Notes</Typography>
+        </Tab>
       </TabList>
       <TabPanel>
         <UserInfo
@@ -76,19 +83,19 @@ const s = css`
   .tabItem {
     display: inline-block;
     min-width: 63px;
-    border-bottom: 4px solid transparent;
+    padding-bottom: 6px;
+    border-bottom: 2px solid transparent;
 
     text-align: center;
     font-size: 14px;
     line-height: 31px;
-    font-weight: var(--bold);
     color: #c7c7c7;
     cursor: pointer;
   }
 
   .tabItem[aria-selected='true'] {
     color: var(--shades1);
-    border-bottom: 4px solid #000000;
+    border-bottom: 2px solid #000000;
   }
 
   .panel {
