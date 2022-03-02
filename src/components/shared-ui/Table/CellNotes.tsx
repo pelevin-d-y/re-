@@ -36,6 +36,7 @@ const CellNotes: React.FC<Props> = ({
     >
       <TextareaAutosize
         className={s.textarea}
+        placeholder="Include a note for this contact..."
         value={value || ''}
         onBlur={(e) => onSave(e.target.value)}
         onKeyDown={onKeyDown}

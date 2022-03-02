@@ -4,6 +4,8 @@ import { css } from 'astroturf'
 import { useClient } from 'src/components/context/ClientContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import { useFreeStorage } from 'src/components/context/FreeStorageContext'
+import { useRouter } from 'next/router'
 import Task from './Task'
 import Typography from '../../Typography'
 
@@ -14,7 +16,11 @@ type Props = {
 const OnboardingTasks: React.FC<Props> = ({ className }) => {
   const { state: playlistsState } = usePlaylists()
   const { state: clientState } = useClient()
+
+  const router = useRouter()
+
   const { dispatch: popupDispatch } = usePopup()
+  const { updateFreeStorage } = useFreeStorage()
 
   const accounts = useMemo(
     () =>
@@ -60,6 +66,11 @@ const OnboardingTasks: React.FC<Props> = ({ className }) => {
     }
   }
 
+  const launchProductTour = () => {
+    updateFreeStorage({ product_tour_shown: true })
+    router.push('/')
+  }
+
   return (
     <div className={classNames(className, s.container)}>
       <Typography className={s.title} fontVariant="damion">
@@ -88,6 +99,13 @@ const OnboardingTasks: React.FC<Props> = ({ className }) => {
           title="Share Strata"
           img="logo-user-info.svg"
           className={s.task}
+        />
+
+        <Task
+          title="Product Tour"
+          img="flag.svg"
+          className={s.task}
+          handler={launchProductTour}
         />
       </div>
     </div>

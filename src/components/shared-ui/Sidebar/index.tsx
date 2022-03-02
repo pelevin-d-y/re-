@@ -39,7 +39,7 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    background: #fafafa;
+    background: #fff;
   }
 
   .logo {
