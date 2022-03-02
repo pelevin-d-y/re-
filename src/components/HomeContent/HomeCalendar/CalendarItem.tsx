@@ -16,11 +16,13 @@ import formatLastMessage from 'src/helpers/utils/format-last-message'
 import { get } from 'src/api/requests'
 import { format } from 'date-fns'
 import Typography from 'src/components/shared-ui/Typography'
+import Checkbox from 'src/components/shared-ui/Checkbox'
 
 type Props = {
   className?: string
   data: FormattedContact
   hideItemCallback?: () => void
+  selectItemCallback?: (isChecked: boolean, contact_id: string) => void
   updateDataCallback?: () => void
 }
 
@@ -28,6 +30,7 @@ const CalendarItem: React.FC<Props> = ({
   data,
   className,
   hideItemCallback,
+  selectItemCallback,
   updateDataCallback,
 }) => {
   const { dispatch } = usePopup()
@@ -75,9 +78,20 @@ const CalendarItem: React.FC<Props> = ({
     }
   }
 
+  const selectItem = (isChecked: boolean) => {
+    if (selectItemCallback) {
+      selectItemCallback(isChecked, data.contact_id)
+    }
+  }
+
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
+        <Checkbox
+          id={data.contact_id}
+          className={s.checkbox}
+          handler={selectItem}
+        />
         <Avatar className={s.avatar} name={getName(data)} image={data.avatar} />
         <div className={s.text}>
           <PopoverUserInfo
@@ -85,14 +99,24 @@ const CalendarItem: React.FC<Props> = ({
             data={data}
             updateDataCallback={updateDataCallback}
           />
-          <Typography
-            className={s.time}
-            fontVariant="inter"
-            styleVariant="body4"
-          >
-            {lastMessageData?.last_client_time &&
-              format(lastMessageData?.last_client_time, 'EEEE LLL d, yyyy')}
-          </Typography>
+          {data.title && (
+            <Typography
+              className={s.jobTitle}
+              fontVariant="inter"
+              styleVariant="body4"
+            >
+              {data.title}
+            </Typography>
+          )}
+          {data.lastEvent?.start_time && (
+            <Typography
+              className={s.time}
+              fontVariant="inter"
+              styleVariant="body4"
+            >
+              {format(data.lastEvent.start_time * 1000, 'EEEE LLL d, yyyy')}
+            </Typography>
+          )}
         </div>
       </div>
       <div className={s.message}>
@@ -167,6 +191,14 @@ const s = css`
     margin-right: 10px;
   }
 
+  .jobTitle {
+    color: var(--black);
+    margin-bottom: 6px;
+    @include mobile {
+      text-align: center;
+    }
+  }
+
   .time {
     color: var(--primary1);
     @include mobile {
@@ -202,6 +234,10 @@ const s = css`
 
   .nextStep {
     background-color: var(--neutral5);
+  }
+
+  .checkbox {
+    margin-right: 16px;
   }
 
   .pin {

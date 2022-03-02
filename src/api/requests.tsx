@@ -129,7 +129,7 @@ const get = {
     }
 
     return requests
-      .get(`${AWS_API}/dash/interval/event-contacts`, params)
+      .get(`${AWS_API}/new/dash/interval/event-contacts`, params)
       .then((res) => res)
       .catch((err) => Promise.reject(err))
   },

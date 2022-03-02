@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classNames from 'classnames'
 import { css } from 'astroturf'
@@ -22,7 +22,7 @@ type Props = {
   className?: string
 }
 
-const getUserIds = async (duration: string) => {
+const getUserEvents = async (duration: string) => {
   const date = new Date()
   const nowDateSeconds = millisecondsToSeconds(Date.now()).toString()
   switch (duration) {
@@ -55,16 +55,50 @@ const getUserIds = async (duration: string) => {
   }
 }
 
+const getUserIds = (events: any) => {
+  return Object.keys(events)
+}
+
+const getUserLastEvent = (id: string, events: any): EventInfo | null => {
+  const userEvents = events[id]
+  if (!userEvents) return null
+
+  const listOfEvents = Object.values(userEvents) as EventInfo[][]
+  const lastEvent = listOfEvents[listOfEvents.length - 1]
+
+  return lastEvent[lastEvent.length - 1]
+}
+
 const HomeUpcoming: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
   const [contacts, setContacts] = useState<FormattedContact[]>()
   const [isLoading, setIsLoading] = useState(false)
   const [selector, setSelector] = useState('lastWeek')
+  const [selectedContacts, setSelectedContacts] = useState<string[]>([])
+
+  const isContactSelected = useMemo(() => {
+    return selectedContacts.length > 0
+  }, [selectedContacts])
 
   const followUpWithAllHandler = () => {
-    if (contacts) {
+    if (!contacts) return
+
+    if (!isContactSelected) {
       popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
       popupDispatch({ type: 'UPDATE_COMPOSE_MULTI_DATA', payload: contacts })
+      popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
+    }
+
+    if (isContactSelected) {
+      const contactsFiltered = contacts.filter((contact) =>
+        selectedContacts.includes(contact.contact_id)
+      )
+
+      popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
+      popupDispatch({
+        type: 'UPDATE_COMPOSE_MULTI_DATA',
+        payload: contactsFiltered,
+      })
       popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
     }
   }
@@ -88,7 +122,8 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const ids = await getUserIds(selector)
+      const events = await getUserEvents(selector)
+      const ids = await getUserIds(events)
       let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
       if (ids && ids.length > 0) {
         const contactsChunks = chunk(ids, 90)
@@ -101,7 +136,12 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
           return { ...acc, ...item }
         })
         usersData = Object.entries(convertedContactsRespToObj).map(
-          ([id, contact]) => formatContactData(contact, id)
+          ([id, contact]) => {
+            const contactEntry = formatContactData(contact, id)
+            contactEntry.lastEvent = getUserLastEvent(id, events)
+
+            return contactEntry
+          }
         )
       }
       usersData = filterContactsHidden(usersData)
@@ -124,6 +164,17 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     setContacts(contactsFiltered)
   }
 
+  const selectItemCallback = (isSelected: boolean, contact_id: string) => {
+    const listContacts = [...selectedContacts]
+    if (isSelected) {
+      listContacts.push(contact_id)
+    } else {
+      listContacts.splice(listContacts.indexOf(contact_id), 1)
+    }
+
+    setSelectedContacts(listContacts)
+  }
+
   const renderContacts = () => {
     const isContactsEmpty = contacts ? contacts.length === 0 : true
 
@@ -138,6 +189,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
                 data={item}
                 key={item.contact_id}
                 hideItemCallback={hideItemCallback}
+                selectItemCallback={selectItemCallback}
                 updateDataCallback={fetchData}
               />
             ))
@@ -151,7 +203,9 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
             disabled={isContactsEmpty}
             handler={followUpWithAllHandler}
           >
-            Follow up with all
+            {isContactSelected
+              ? 'Follow up with selected'
+              : 'Follow up with all'}
           </Button>
         </div>
       </>

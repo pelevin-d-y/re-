@@ -125,6 +125,7 @@ type MainUserData = {
 type FormattedContact = {
   emails?: ContactMutable[]
   name_short?: string
+  title?: string
   name?: ContactMutable
   names?: ContactMutable[]
   allNotes?: ContactMutable[]
@@ -134,6 +135,7 @@ type FormattedContact = {
   Status?: string
   isSent?: boolean
   templateData?: Template
+  lastEvent?: EventInfo | null
 }
 
 type PlaylistContact = {
@@ -166,4 +168,24 @@ type FreeStorage = {
   product_tour_shown?: boolean
   welcome_questionnaire_shown?: boolean
   welcome_questionnaire?: any
+}
+
+type EventInfo = {
+  event_id?: string
+  from_address?: string
+  to_addresses?: any
+  start_time?: number
+  stop_time?: number
+  event_status?: string | number | null
+  event_instance_id?: number
+  recurrence?: boolean
+  info?: {
+    title?: string
+    description?: string
+    location?: string
+    message_id?: string
+    nylas_account?: string
+    nylas_calendar?: string
+    ical_id?: string
+  }
 }
