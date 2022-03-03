@@ -3,10 +3,8 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import UserInfoEmail from './UserInfoEmail'
-import EditField from '../EditField'
-import SvgIcon from '../SvgIcon'
-import Typography from '../Typography'
 import UserInfoName from './UserInfoName'
+import UserInfoShortName from './UserInfoShortName'
 
 type Props = {
   className?: string
@@ -26,6 +24,13 @@ const UserInfo: React.FC<Props> = ({
       <ul className={s.list}>
         <li className={s.item}>
           <UserInfoName
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+          />
+        </li>
+        <li className={s.item}>
+          <UserInfoShortName
             mutableData={mutableData}
             updateData={updateData}
             updateDataCallback={updateDataCallback}

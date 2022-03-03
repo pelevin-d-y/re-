@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
@@ -14,74 +14,49 @@ type Props = {
   updateDataCallback?: () => void
 }
 
-const UserInfoName: React.FC<Props> = ({
+const UserInfoShortName: React.FC<Props> = ({
   className,
   mutableData,
   updateData,
   updateDataCallback,
 }) => {
-  const [newName, setNewName] = useState<null | string>(null)
-
-  const unreviewedNames = useMemo(() => {
-    const newNameData = newName
-      ? {
-          type: 'name',
-          data: newName.split(' ') || [''],
-          meta: {
-            type: 'primary',
-          },
-          review: 1,
-        }
-      : null
-
-    let composeArray: ContactMutable[] = []
-
-    const defaultUnreviewedNames = mutableData?.filter(
-      (item) => item.type === 'name' && item.review === 0
+  const unreviewedShortNames = useMemo(() => {
+    return mutableData?.filter(
+      (item) => item.type === 'name_short' && item.review === 0
     )
+  }, [mutableData])
 
-    if (newNameData) {
-      composeArray.push(newNameData)
-    }
-    if (defaultUnreviewedNames) {
-      composeArray = [...composeArray, ...defaultUnreviewedNames]
-    }
-    return composeArray
-  }, [mutableData, newName])
-
-  const primaryNameData = useMemo(
+  const primaryShortNameData = useMemo(
     () =>
       mutableData?.find((item) => {
-        return item.type === 'name' && item.meta.type === 'primary'
-      }) || mutableData?.find((item) => item.type === 'name'),
+        return item.type === 'name_short' && item.meta.type === 'primary'
+      }) || mutableData?.find((item) => item.type === 'name_short'),
     [mutableData]
   )
 
-  const onSave = (val: string) => {
-    setNewName(val)
-  }
-
-  const acceptHandler = async (data: ContactMutable) => {
-    if (primaryNameData) {
+  const onSaveName = (val: string) => {
+    if (primaryShortNameData) {
       updateData(
         [
           {
-            ...data,
+            ...primaryShortNameData,
+            data: val,
             review: 1,
             meta: {
-              ...primaryNameData.meta,
+              ...primaryShortNameData.meta,
               type: 'primary',
             },
           },
         ],
-        [{ ...primaryNameData, review: 2 }],
+        [{ ...primaryShortNameData, review: 2 }],
         updateDataCallback
       )
     } else {
       updateData(
         [
           {
-            ...data,
+            type: 'name_short',
+            data: val?.split(' ') || '',
             review: 1,
             meta: {
               type: 'primary',
@@ -94,6 +69,10 @@ const UserInfoName: React.FC<Props> = ({
     }
   }
 
+  const acceptHandler = async (data: ContactMutable) => {
+    await updateData([{ ...data, review: 1 }])
+  }
+
   const declineHandler = async (data: ContactMutable) => {
     await updateData([{ ...data, review: 2 }])
   }
@@ -102,26 +81,21 @@ const UserInfoName: React.FC<Props> = ({
     <div className={classNames(s.container, className)}>
       <div className={s.title}>
         <span>
-          <Typography styleVariant="body2">Name </Typography>
+          <Typography styleVariant="body2">Nickname</Typography>
         </span>
         <SvgIcon className={s.pen} icon="pen.svg" />
       </div>
       <EditField
         type="text"
-        value={
-          primaryNameData?.data
-            ? primaryNameData?.data?.join(' ')
-            : primaryNameData?.data
-        }
-        classPrefix="profile-card-"
+        value={primaryShortNameData?.data}
         placeholder=" "
-        // onSave={(val: string) => onSaveName(val)}
-        onSave={(val: string) => onSave(val)}
+        classPrefix="profile-card-"
+        onSave={(val: string) => onSaveName(val)}
       />
-      {!!unreviewedNames?.length && (
+      {!!unreviewedShortNames?.length && (
         <UserInfoReview
-          unreviewedData={unreviewedNames}
-          title={`We detect ${unreviewedNames.length} name changes`}
+          unreviewedData={unreviewedShortNames}
+          title={`We detect ${unreviewedShortNames.length} nickname changes`}
           acceptHandler={acceptHandler}
           declineHandler={declineHandler}
         />
@@ -148,4 +122,4 @@ const s = css`
   }
 `
 
-export default UserInfoName
+export default UserInfoShortName
