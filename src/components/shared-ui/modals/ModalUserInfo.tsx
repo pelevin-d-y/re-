@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import Avatar from 'src/components/shared-ui/Avatar'
 
 import { css } from 'astroturf'
-import parseMessage from 'src/helpers/utils/parse-message'
 import { getName } from 'src/helpers/utils/get-name'
 import { formatDate } from 'src/helpers/utils/parseTime'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
