@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
@@ -27,9 +27,10 @@ const UserInfo: React.FC<Props> = ({
             mutableData={mutableData}
             updateData={updateData}
             updateDataCallback={updateDataCallback}
+            mutableDataType="name"
           />
         </li>
-        <li className={s.item}>
+        {/* <li className={s.item}>
           <UserInfoShortName
             mutableData={mutableData}
             updateData={updateData}
@@ -40,7 +41,7 @@ const UserInfo: React.FC<Props> = ({
           <li className={s.item}>
             <UserInfoEmail data={mutableData} updateApiData={updateData} />
           </li>
-        )}
+        )} */}
         {/* {data.last_contact_time && (
           <li className={s.item}>
             <div className={s.itemTitle}>

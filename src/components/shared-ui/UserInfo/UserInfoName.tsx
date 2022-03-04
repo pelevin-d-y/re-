@@ -6,11 +6,13 @@ import Typography from '../Typography'
 import SvgIcon from '../SvgIcon'
 import EditField from '../EditField'
 import UserInfoReview from './UserInfoReview'
+import { LoaderAbsolute } from '../Loader'
 
 type Props = {
   className?: string
   mutableData?: ContactMutable[]
   updateData: UpdateMutableData
+  mutableDataType: MutableDataType
   updateDataCallback?: () => void
 }
 
@@ -19,78 +21,116 @@ const UserInfoName: React.FC<Props> = ({
   mutableData,
   updateData,
   updateDataCallback,
+  mutableDataType,
 }) => {
-  const [newName, setNewName] = useState<null | string>(null)
+  const [newMutableData, setNewMutableData] = useState<null | ContactMutable[]>(
+    null
+  )
+  console.log(
+    '🚀 ~ file: UserInfoName.tsx ~ line 27 ~ newMutableData',
+    newMutableData
+  )
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const formatDataValueToDisplay = (data: any) => {
+    if (Array.isArray(data)) {
+      return data.join(' ')
+    }
+    return data
+  }
+
+  const formatDataValueForApi = (data: any) => {
+    if (mutableDataType === 'name') {
+      return data.split(' ') || ['']
+    }
+    return data
+  }
 
   const unreviewedNames = useMemo(() => {
-    const newNameData = newName
-      ? {
-          type: 'name',
-          data: newName.split(' ') || [''],
-          meta: {
-            type: 'primary',
-          },
-          review: 1,
-        }
-      : null
-
-    let composeArray: ContactMutable[] = []
+    let composedArray: ContactMutable[] = []
 
     const defaultUnreviewedNames = mutableData?.filter(
-      (item) => item.type === 'name' && item.review === 0
+      (item) => item.type === mutableDataType && item.review === 0
     )
-
-    if (newNameData) {
-      composeArray.push(newNameData)
+    if (newMutableData) {
+      composedArray = [...newMutableData, ...composedArray]
     }
     if (defaultUnreviewedNames) {
-      composeArray = [...composeArray, ...defaultUnreviewedNames]
+      composedArray = [...composedArray, ...defaultUnreviewedNames]
     }
-    return composeArray
-  }, [mutableData, newName])
+    return composedArray
+  }, [mutableData, mutableDataType, newMutableData])
 
   const primaryNameData = useMemo(
     () =>
       mutableData?.find((item) => {
-        return item.type === 'name' && item.meta.type === 'primary'
-      }) || mutableData?.find((item) => item.type === 'name'),
-    [mutableData]
+        return item.type === mutableDataType && item.meta.type === 'primary'
+      }) || mutableData?.find((item) => item.type === mutableDataType),
+    [mutableData, mutableDataType]
   )
 
   const onSave = (val: string) => {
-    setNewName(val)
+    const stateValue = newMutableData
+      ? [
+          ...newMutableData,
+          {
+            type: mutableDataType,
+            data: formatDataValueForApi(val),
+            review: 1,
+            meta: {},
+          },
+        ]
+      : [
+          {
+            type: mutableDataType,
+            data: formatDataValueForApi(val),
+            review: 1,
+            meta: {},
+          },
+        ]
+
+    setNewMutableData(stateValue)
   }
 
   const acceptHandler = async (data: ContactMutable) => {
-    if (primaryNameData) {
-      updateData(
-        [
-          {
-            ...data,
-            review: 1,
-            meta: {
-              ...primaryNameData.meta,
-              type: 'primary',
+    setIsLoading(true)
+    try {
+      if (primaryNameData) {
+        await updateData(
+          [
+            {
+              ...data,
+              review: 1,
+              meta: {
+                ...primaryNameData.meta,
+                type: 'primary',
+              },
             },
-          },
-        ],
-        [{ ...primaryNameData, review: 2 }],
-        updateDataCallback
-      )
-    } else {
-      updateData(
-        [
-          {
-            ...data,
-            review: 1,
-            meta: {
-              type: 'primary',
+          ],
+          [{ ...primaryNameData, review: 2 }],
+          updateDataCallback
+        )
+      } else {
+        await updateData(
+          [
+            {
+              ...data,
+              review: 1,
+              meta: {
+                type: 'primary',
+              },
             },
-          },
-        ],
-        [],
-        updateDataCallback
-      )
+          ],
+          [],
+          updateDataCallback
+        )
+      }
+
+      setIsLoading(false)
+    } catch (err) {
+      setIsLoading(false)
+      console.warn('acceptHandler error ==>', err)
     }
   }
 
@@ -100,22 +140,21 @@ const UserInfoName: React.FC<Props> = ({
 
   return (
     <div className={classNames(s.container, className)}>
+      {isLoading && <LoaderAbsolute />}
       <div className={s.title}>
         <span>
-          <Typography styleVariant="body2">Name </Typography>
+          <Typography styleVariant="body2">Name</Typography>
         </span>
         <SvgIcon className={s.pen} icon="pen.svg" />
       </div>
       <EditField
         type="text"
         value={
-          primaryNameData?.data
-            ? primaryNameData?.data?.join(' ')
-            : primaryNameData?.data
+          primaryNameData?.data &&
+          formatDataValueToDisplay(primaryNameData.data)
         }
         classPrefix="profile-card-"
         placeholder=" "
-        // onSave={(val: string) => onSaveName(val)}
         onSave={(val: string) => onSave(val)}
       />
       {!!unreviewedNames?.length && (
@@ -131,6 +170,10 @@ const UserInfoName: React.FC<Props> = ({
 }
 
 const s = css`
+  .container {
+    position: relative;
+  }
+
   .title {
     display: flex;
     flex-flow: row nowrap;
