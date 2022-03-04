@@ -14,21 +14,19 @@ type Props = {
   updateData: UpdateMutableData
   mutableDataType: MutableDataType
   updateDataCallback?: () => void
+  label: string
 }
 
-const UserInfoName: React.FC<Props> = ({
+const UserInfoItem: React.FC<Props> = ({
   className,
   mutableData,
   updateData,
   updateDataCallback,
   mutableDataType,
+  label,
 }) => {
   const [newMutableData, setNewMutableData] = useState<null | ContactMutable[]>(
     null
-  )
-  console.log(
-    '🚀 ~ file: UserInfoName.tsx ~ line 27 ~ newMutableData',
-    newMutableData
   )
 
   const [isLoading, setIsLoading] = useState(false)
@@ -47,7 +45,7 @@ const UserInfoName: React.FC<Props> = ({
     return data
   }
 
-  const unreviewedNames = useMemo(() => {
+  const unreviewedData = useMemo(() => {
     let composedArray: ContactMutable[] = []
 
     const defaultUnreviewedNames = mutableData?.filter(
@@ -135,7 +133,9 @@ const UserInfoName: React.FC<Props> = ({
   }
 
   const declineHandler = async (data: ContactMutable) => {
+    setIsLoading(true)
     await updateData([{ ...data, review: 2 }])
+    setIsLoading(false)
   }
 
   return (
@@ -143,7 +143,7 @@ const UserInfoName: React.FC<Props> = ({
       {isLoading && <LoaderAbsolute />}
       <div className={s.title}>
         <span>
-          <Typography styleVariant="body2">Name</Typography>
+          <Typography styleVariant="body2">{label}</Typography>
         </span>
         <SvgIcon className={s.pen} icon="pen.svg" />
       </div>
@@ -157,10 +157,10 @@ const UserInfoName: React.FC<Props> = ({
         placeholder=" "
         onSave={(val: string) => onSave(val)}
       />
-      {!!unreviewedNames?.length && (
+      {!!unreviewedData?.length && (
         <UserInfoReview
-          unreviewedData={unreviewedNames}
-          title={`We detect ${unreviewedNames.length} name changes`}
+          unreviewedData={unreviewedData}
+          title={`We detect ${unreviewedData.length} name changes`}
           acceptHandler={acceptHandler}
           declineHandler={declineHandler}
         />
@@ -191,4 +191,4 @@ const s = css`
   }
 `
 
-export default UserInfoName
+export default UserInfoItem

@@ -38,7 +38,7 @@ const UserInfoReview: React.FC<Props> = ({
           return (
             <li className={s.item} key={item.data}>
               <div className={s.name}>
-                {isArray(item.data) ? item.data.join(' ') : null}
+                {isArray(item.data) ? item.data.join(' ') : item.data}
               </div>
               <div className={s.actions}>
                 <Button

@@ -45,8 +45,8 @@ const HOCUpdateMutableData = <T,>({
     }
   }
 
-  const ComponentWithProps = (props: GenericType<T>) =>
-    mutableData ? (
+  const ComponentWithProps = (props: GenericType<T>) => {
+    return mutableData ? (
       <WrappedComponent
         {...(props as T)}
         mutableData={mutableData}
@@ -54,6 +54,7 @@ const HOCUpdateMutableData = <T,>({
         id={id}
       />
     ) : null
+  }
 
   return ComponentWithProps
 }

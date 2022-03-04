@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import UserInfoEmail from './UserInfoEmail'
-import UserInfoName from './UserInfoName'
-import UserInfoShortName from './UserInfoShortName'
+import UserInfoItem from './UserInfoItem'
 
 type Props = {
   className?: string
@@ -23,25 +22,46 @@ const UserInfo: React.FC<Props> = ({
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
         <li className={s.item}>
-          <UserInfoName
+          <UserInfoItem
             mutableData={mutableData}
             updateData={updateData}
             updateDataCallback={updateDataCallback}
             mutableDataType="name"
+            label="Name"
           />
         </li>
-        {/* <li className={s.item}>
-          <UserInfoShortName
+        <li className={s.item}>
+          <UserInfoItem
             mutableData={mutableData}
             updateData={updateData}
             updateDataCallback={updateDataCallback}
+            mutableDataType="name_short"
+            label="Nickname"
           />
         </li>
         {mutableData && (
           <li className={s.item}>
             <UserInfoEmail data={mutableData} updateApiData={updateData} />
           </li>
-        )} */}
+        )}
+        <li className={s.item}>
+          <UserInfoItem
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+            mutableDataType="title"
+            label="Title"
+          />
+        </li>
+        <li className={s.item}>
+          <UserInfoItem
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+            mutableDataType="company"
+            label="Company"
+          />
+        </li>
         {/* {data.last_contact_time && (
           <li className={s.item}>
             <div className={s.itemTitle}>
@@ -81,7 +101,6 @@ const s = css`
 
     font-size: 12px;
     line-height: 14px;
-    border-bottom: 1px solid #dddddd;
 
     &:hover {
       .pen {
