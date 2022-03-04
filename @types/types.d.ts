@@ -97,8 +97,21 @@ type RecommendationUser = {
   isSent?: boolean
 }
 
+type MutableDataType =
+  | 'name_short'
+  | 'name'
+  | 'image'
+  | 'company'
+  | 'title'
+  | 'phone'
+  | 'Notes'
+  | 'email'
+  | 'primaryEmail'
+  | 'name_suffix'
+  | 'Playlist_Notes'
+
 type ContactMutable = {
-  type: string
+  type: mutableDataType
   data: any
   review: number
   meta: any

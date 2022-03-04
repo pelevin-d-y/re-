@@ -3,8 +3,7 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import UserInfoEmail from './UserInfoEmail'
-import EditField from '../EditField'
-import SvgIcon from '../SvgIcon'
+import UserInfoItem from './UserInfoItem'
 
 type Props = {
   className?: string
@@ -19,63 +18,48 @@ const UserInfo: React.FC<Props> = ({
   updateData,
   updateDataCallback,
 }) => {
-  const nameData =
-    mutableData?.find((item) => {
-      return item.type === 'name' && item.meta.type === 'primary'
-    }) || mutableData?.find((item) => item.type === 'name')
-  const onSaveName = (val: string) => {
-    if (nameData) {
-      updateData(
-        [
-          {
-            ...nameData,
-            data: val.split(' '),
-            review: 1,
-            meta: {
-              ...nameData.meta,
-              type: 'primary',
-            },
-          },
-        ],
-        [{ ...nameData, review: 2 }],
-        updateDataCallback
-      )
-    } else {
-      updateData(
-        [
-          {
-            type: 'name',
-            data: val.split(' '),
-            review: 1,
-            meta: {
-              type: 'primary',
-            },
-          },
-        ],
-        [],
-        updateDataCallback
-      )
-    }
-  }
-
   return (
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
+        <li className={s.item}>
+          <UserInfoItem
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+            mutableDataType="name"
+            label="Name"
+          />
+        </li>
+        <li className={s.item}>
+          <UserInfoItem
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+            mutableDataType="name_short"
+            label="Nickname"
+          />
+        </li>
         {mutableData && (
           <li className={s.item}>
             <UserInfoEmail data={mutableData} updateApiData={updateData} />
           </li>
         )}
         <li className={s.item}>
-          <div className={s.itemTitle}>
-            <span>Name</span>
-            <SvgIcon className={s.pen} icon="pen.svg" />
-          </div>
-          <EditField
-            type="text"
-            value={nameData?.data.join(' ') || ''}
-            classPrefix="profile-card-"
-            onSave={(val: string) => onSaveName(val)}
+          <UserInfoItem
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+            mutableDataType="title"
+            label="Title"
+          />
+        </li>
+        <li className={s.item}>
+          <UserInfoItem
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+            mutableDataType="company"
+            label="Company"
           />
         </li>
         {/* {data.last_contact_time && (
@@ -104,9 +88,6 @@ const UserInfo: React.FC<Props> = ({
 }
 
 const s = css`
-  .container {
-  }
-
   .list {
     width: 100%;
     padding: 0;
@@ -116,33 +97,16 @@ const s = css`
 
   .item {
     position: relative;
-    padding: 14px 20px;
+    padding: 14px 16px;
 
     font-size: 12px;
     line-height: 14px;
-    border-bottom: 1px solid #dddddd;
 
     &:hover {
       .pen {
         opacity: 1;
       }
     }
-  }
-
-  .itemTitle {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    white-space: nowrap;
-    color: #adadad;
-  }
-
-  .pen {
-    width: 15px;
-    height: 13px;
-
-    opacity: 0;
   }
 
   .outreach {

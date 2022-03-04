@@ -40,7 +40,7 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
             ? 'Primary'
             : ('Set Primary' as 'Primary' | 'Set Primary'),
       })),
-    [emails, primaryEmail.data]
+    [emails, primaryEmail?.data]
   )
 
   const setPrimaryEmail = async (emailData: {
