@@ -46,7 +46,7 @@ const TabsContent: React.FC<Props> = ({
         />
         <div className={s.removeButtonContainer}>
           <Button className={s.removeButton} variant="outlined">
-            Remove from Recommendations
+            Don’t recommend contact
           </Button>
         </div>
       </TabPanel>
@@ -107,10 +107,15 @@ const s = css`
   }
 
   .removeButton {
+    color: var(--primary1);
+    border: 1px solid var(--primary1);
     display: block;
     max-width: 247px;
     width: 100%;
     margin: 22px auto 0 auto;
+    &:hover {
+      background: var(--primary1);
+    }
   }
 `
 

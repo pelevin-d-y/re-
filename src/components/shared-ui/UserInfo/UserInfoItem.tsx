@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
+import _ from 'lodash'
 import Typography from '../Typography'
 import SvgIcon from '../SvgIcon'
 import EditField from '../EditField'
@@ -31,6 +32,23 @@ const UserInfoItem: React.FC<Props> = ({
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const checkCompliance = (val: any) => {
+    let checked = false
+    mutableData?.forEach((item) => {
+      if (item.type !== mutableDataType && !val) {
+        checked = true
+      }
+      if (
+        (item.type === mutableDataType &&
+          _.isEqual(item?.data, val?.split(' '))) ||
+        item?.data === val
+      ) {
+        checked = true
+      }
+    })
+    return checked
+  }
+
   const formatDataValueToDisplay = (data: any) => {
     if (Array.isArray(data)) {
       return data.join(' ')
@@ -40,7 +58,7 @@ const UserInfoItem: React.FC<Props> = ({
 
   const formatDataValueForApi = (data: any) => {
     if (mutableDataType === 'name') {
-      return data.split(' ') || ['']
+      return data?.split(' ') || ['']
     }
     return data
   }
@@ -69,6 +87,8 @@ const UserInfoItem: React.FC<Props> = ({
   )
 
   const onSave = (val: string) => {
+    console.log(checkCompliance(val))
+    if (checkCompliance(val)) return
     const stateValue = newMutableData
       ? [
           ...newMutableData,
