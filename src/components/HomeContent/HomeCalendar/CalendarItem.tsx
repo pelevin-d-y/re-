@@ -87,12 +87,18 @@ const CalendarItem: React.FC<Props> = ({
   return (
     <CardContainer className={classNames(className, s.container)}>
       <div className={s.profile}>
-        <Checkbox
-          id={data.contact_id}
-          className={s.checkbox}
-          handler={selectItem}
-        />
-        <Avatar className={s.avatar} name={getName(data)} image={data.avatar} />
+        <div className={s.avatarCheckbox}>
+          <Checkbox
+            id={data.contact_id}
+            className={s.checkbox}
+            handler={selectItem}
+          />
+          <Avatar
+            className={s.avatar}
+            name={getName(data)}
+            image={data.avatar}
+          />
+        </div>
         <div className={s.text}>
           <PopoverUserInfo
             className={s.name}
@@ -122,16 +128,19 @@ const CalendarItem: React.FC<Props> = ({
       <div className={s.message}>
         <NextStep className={s.nextStep} text={getNextStep(data)} />
       </div>
-      <Pin className={s.pin} data={data.contact_id} />
-      <Button className={s.button} variant="outlined" handler={buttonHandler}>
-        Reach out
-      </Button>
-      <Close
-        className={s.remove}
-        handler={() => {
-          hideItem()
-        }}
-      />
+
+      <div className={s.actions}>
+        <Pin className={s.pin} data={data.contact_id} />
+        <Button className={s.button} variant="outlined" handler={buttonHandler}>
+          Reach out
+        </Button>
+        <Close
+          className={s.remove}
+          handler={() => {
+            hideItem()
+          }}
+        />
+      </div>
     </CardContainer>
   )
 }
@@ -170,7 +179,6 @@ const s = css`
     margin-right: 26px;
     @include mobile {
       margin-right: 0;
-      margin-bottom: 15px;
     }
   }
   .event {
@@ -189,6 +197,17 @@ const s = css`
     max-width: 100%;
     word-break: break-all;
     margin-right: 10px;
+  }
+
+  .avatarCheckbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 45px;
+
+    @include mobile {
+      margin-bottom: 10px;
+    }
   }
 
   .meetingTitle {
@@ -213,13 +232,26 @@ const s = css`
       display: none;
     }
   }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30%;
+
+    @include mobile {
+      margin-top: 12px;
+    }
+  }
+
   .button {
     margin-left: auto;
     max-width: 119px;
     width: 100%;
+
     @include mobile {
-      margin-top: 12px;
-      margin-left: 0;
+      margin-left: 12px;
+      margin-right: 12px;
     }
   }
 
