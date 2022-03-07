@@ -99,13 +99,13 @@ const CalendarItem: React.FC<Props> = ({
             data={data}
             updateDataCallback={updateDataCallback}
           />
-          {data.title && (
+          {data.lastEvent?.info?.title && (
             <Typography
-              className={s.jobTitle}
+              className={s.meetingTitle}
               fontVariant="inter"
               styleVariant="body4"
             >
-              {data.title}
+              {data.lastEvent.info.title}
             </Typography>
           )}
           {data.lastEvent?.start_time && (
@@ -191,9 +191,10 @@ const s = css`
     margin-right: 10px;
   }
 
-  .jobTitle {
+  .meetingTitle {
     color: var(--black);
-    margin-bottom: 6px;
+    margin-top: 4px;
+    margin-bottom: 2px;
     @include mobile {
       text-align: center;
     }
