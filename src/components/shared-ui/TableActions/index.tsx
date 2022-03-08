@@ -6,7 +6,7 @@ import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContac
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
-import { usePinned } from 'src/components/context/PinnedContext'
+// import { usePinned } from 'src/components/context/PinnedContext'
 
 const actions = [
   'createList',
@@ -31,7 +31,7 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
   const { removeUsers, getPlaylistData } = usePlaylist()
   const { state: selectedUsers } = useTable()
   const { dispatch: popupDispatch } = usePopup()
-  const { clearPinned } = usePinned()
+  // const { clearPinned } = usePinned()
 
   const addToListHandler = () => {
     if (selectedUsers) {
@@ -70,7 +70,7 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
   }
 
   const clearPinnedContacts = () => {
-    clearPinned()
+    // clearPinned()
   }
 
   const isSelectedUsersEmpty = !!(selectedUsers && selectedUsers.length <= 0)
