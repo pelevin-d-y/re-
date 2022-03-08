@@ -6,6 +6,7 @@ import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContac
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
+import { usePinned } from 'src/components/context/PinnedContext'
 
 const actions = [
   'createList',
@@ -15,6 +16,7 @@ const actions = [
   'removeContacts',
   'filter',
   'addToList',
+  'clearPinnedContacts',
 ] as const
 
 type Buttons = Array<typeof actions[number]>
@@ -29,6 +31,7 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
   const { removeUsers, getPlaylistData } = usePlaylist()
   const { state: selectedUsers } = useTable()
   const { dispatch: popupDispatch } = usePopup()
+  const { clearPinned } = usePinned()
 
   const addToListHandler = () => {
     if (selectedUsers) {
@@ -66,6 +69,10 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
     popupDispatch({ type: 'TOGGLE_CREATE_LIST_POPUP' })
   }
 
+  const clearPinnedContacts = () => {
+    clearPinned()
+  }
+
   const isSelectedUsersEmpty = !!(selectedUsers && selectedUsers.length <= 0)
   return (
     <div className={classNames(className, s.container)}>
@@ -82,6 +89,15 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
             listId={data.playlist_id}
           />
         )}
+      {buttons.includes('clearPinnedContacts') && (
+        <Button
+          className={classNames(s.button, s.clearPinned)}
+          handler={clearPinnedContacts}
+          variant="outlined"
+        >
+          Clear pinned
+        </Button>
+      )}
       {buttons.includes('addToList') && (
         <Button
           className={classNames(s.button)}
@@ -200,6 +216,18 @@ const s = css`
 
     @include mobile {
       margin-left: 3px;
+    }
+  }
+
+  .clearPinned {
+    color: var(--red);
+    background-color: var(--white);
+    border: 1px solid var(--red);
+    margin-right: 12px;
+
+    &:hover {
+      background-color: var(--red);
+      color: var(--white);
     }
   }
 `

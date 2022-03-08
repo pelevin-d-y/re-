@@ -27,6 +27,7 @@ type ContextType = {
   state: State
   addPinned: (data: string) => any
   removePinned: (data: string) => any
+  clearPinned: () => any
   dispatch: Dispatch
 }
 
@@ -199,14 +200,28 @@ const PinnedProvider: React.FC = ({ children }) => {
     [state.actionState]
   )
 
+  const clearPinned = useCallback(async () => {
+    dispatch({
+      type: 'DO_ACTION',
+      payload: {
+        ...state.actionState,
+        type: 'delete',
+        idsToDelete: [...state.ids],
+      },
+    })
+
+    return null
+  }, [state])
+
   const value: ContextType = React.useMemo(
     () => ({
       state,
       addPinned,
       removePinned,
+      clearPinned,
       dispatch,
     }),
-    [addPinned, removePinned, state]
+    [addPinned, clearPinned, removePinned, state]
   )
 
   return (

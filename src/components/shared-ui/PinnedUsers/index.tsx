@@ -15,7 +15,7 @@ type Props = {
 
 const PinnedUsers: React.FC<Props> = ({ className }) => {
   const { dispatch: popupDispatch } = usePopup()
-  const { state } = usePinned()
+  const { state, clearPinned } = usePinned()
   const { data: pinnedData, isLoading } = state
 
   const openModal = () => {
@@ -26,6 +26,10 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
       })
       popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
     }
+  }
+
+  const clearAll = () => {
+    clearPinned()
   }
 
   return (
@@ -60,6 +64,11 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
               template={item.templateData}
             />
           ))}
+          {pinnedData?.length !== 0 && (
+            <button className={s.clearButton} type="button" onClick={clearAll}>
+              Clear all
+            </button>
+          )}
         </div>
       )}
     </CardContainer>
@@ -112,6 +121,20 @@ const s = css`
 
   .underline {
     max-width: 135px;
+  }
+
+  .clearButton {
+    width: 100%;
+    background: var(--white);
+    border: none;
+    color: var(--red);
+    margin-top: 12px;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 `
 
