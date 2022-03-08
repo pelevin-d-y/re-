@@ -67,7 +67,7 @@ const AllPinnedContent: React.FC<Props> = ({ className }) => {
             <div className={s.contentHeader}>
               <TableActions
                 className={s.actions}
-                buttons={['contact', 'addToList']}
+                buttons={['clearPinnedContacts', 'contact', 'addToList']}
               />
             </div>
             {searchResults && <PinnedTable data={searchResults} />}
