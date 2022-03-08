@@ -17,6 +17,7 @@ import { get } from 'src/api/requests'
 import { format } from 'date-fns'
 import Typography from 'src/components/shared-ui/Typography'
 import Checkbox from 'src/components/shared-ui/Checkbox'
+import { formatDateHideYear } from 'src/helpers/utils/parseTime'
 
 type Props = {
   className?: string
@@ -120,7 +121,7 @@ const CalendarItem: React.FC<Props> = ({
               fontVariant="inter"
               styleVariant="body4"
             >
-              {format(data.lastEvent.start_time * 1000, 'EEEE LLL d, yyyy')}
+              {formatDateHideYear(data.lastEvent.start_time)}
             </Typography>
           )}
         </div>
@@ -203,10 +204,10 @@ const s = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 45px;
 
     @include mobile {
       margin-bottom: 10px;
+      margin-right: 45px;
     }
   }
 

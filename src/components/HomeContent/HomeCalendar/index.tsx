@@ -120,6 +120,17 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     )
   }
 
+  const sortContacts = (formattedContacts: FormattedContact[]) => {
+    return formattedContacts.sort((a, b) => {
+      const aLastEvent = a.lastEvent
+      const bLastEvent = b.lastEvent
+
+      if (!aLastEvent?.start_time || !bLastEvent?.start_time) return 0
+
+      return bLastEvent.start_time - aLastEvent.start_time
+    })
+  }
+
   const fetchData = useCallback(async () => {
     try {
       const events = await getUserEvents(selector)
@@ -145,6 +156,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
         )
       }
       usersData = filterContactsHidden(usersData)
+      usersData = sortContacts(usersData)
 
       setContacts(usersData)
     } catch (error) {
