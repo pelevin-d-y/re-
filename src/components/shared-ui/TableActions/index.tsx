@@ -223,7 +223,6 @@ const s = css`
     color: var(--red);
     background-color: var(--white);
     border: 1px solid var(--red);
-    margin-right: 12px;
 
     &:hover {
       background-color: var(--red);
