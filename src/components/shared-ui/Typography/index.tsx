@@ -32,6 +32,7 @@ type Props = {
   tagVariant?: tagsVariants
   styleVariant?: styleVariants
   fontVariant?: fontVariants
+  style?: React.CSSProperties
   fontWeight?: 'regular' | 'medium' | 'semiBold' | 'bold' | 'black'
 }
 
@@ -42,12 +43,14 @@ const Typography: FC<Props> = ({
   fontWeight,
   fontVariant,
   children,
+  style,
   ...props
 }) => {
   const Component: any = tagVariant || 'p'
 
   return (
     <Component
+      style={style}
       className={classNames(
         s.container,
         styleVariant && s[styleVariant],

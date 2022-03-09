@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Joyride, { Step } from 'react-joyride'
 import { useFreeStorage } from 'src/components/context/FreeStorageContext'
 import { useClient } from 'src/components/context/ClientContext'
+import Typography from '../shared-ui/Typography'
 
 type Props = {
   className?: string
@@ -18,11 +19,17 @@ const steps: Step[] = [
     disableBeacon: true,
     content: (
       <>
-        <h2>Here are your recommendations</h2>
-        <p>
+        <Typography
+          style={{ marginBottom: '8px' }}
+          styleVariant="h1"
+          fontVariant="damion"
+        >
+          Here are your recommendations
+        </Typography>
+        <Typography fontVariant="inter" styleVariant="body1">
           This is where you get your weekly recommendations. Reaching out to
           these recommendations will boost your network score.
-        </p>
+        </Typography>
       </>
     ),
   },
@@ -32,11 +39,17 @@ const steps: Step[] = [
     disableBeacon: true,
     content: (
       <>
-        <h2>Here’s is your Spotlight</h2>
-        <p>
+        <Typography
+          style={{ marginBottom: '8px' }}
+          styleVariant="h1"
+          fontVariant="damion"
+        >
+          Here’s is your Spotlight
+        </Typography>
+        <Typography fontVariant="inter" styleVariant="body1">
           Spotlight gives you an overview of your overall network health and
           metrics that gives your insight on how you’re performing.
-        </p>
+        </Typography>
       </>
     ),
   },
@@ -46,12 +59,18 @@ const steps: Step[] = [
     disableBeacon: true,
     content: (
       <>
-        <h2>Pinned Contacts</h2>
-        <p>
+        <Typography
+          style={{ marginBottom: '8px' }}
+          styleVariant="h1"
+          fontVariant="damion"
+        >
+          Pinned Contacts
+        </Typography>
+        <Typography fontVariant="inter" styleVariant="body1">
           Pin your recommendations and contacts to save as a task for later or
           even create a list to organization a group of contacts for any
           particular task later.
-        </p>
+        </Typography>
       </>
     ),
   },
@@ -62,12 +81,18 @@ const steps: Step[] = [
     disableBeacon: true,
     content: (
       <>
-        <h2>Home</h2>
-        <p>
+        <Typography
+          style={{ marginBottom: '8px' }}
+          styleVariant="h1"
+          fontVariant="damion"
+        >
+          Home
+        </Typography>
+        <Typography fontVariant="inter" styleVariant="body1">
           Home houses your dashboard of your weekly recommendations, relevant
           past events, discover content to share as well as your spotlight
           overview
-        </p>
+        </Typography>
       </>
     ),
   },
@@ -78,11 +103,17 @@ const steps: Step[] = [
     disableBeacon: true,
     content: (
       <>
-        <h2>List</h2>
-        <p>
+        <Typography
+          style={{ marginBottom: '8px' }}
+          styleVariant="h1"
+          fontVariant="damion"
+        >
+          List
+        </Typography>
+        <Typography fontVariant="inter" styleVariant="body1">
           This is where you can manage groups of contacts as a list to manage,
           share and vet through workflows
-        </p>
+        </Typography>
       </>
     ),
   },
@@ -93,13 +124,19 @@ const steps: Step[] = [
     disableBeacon: true,
     content: (
       <>
-        <h2>Recommendations</h2>
-        <p>
+        <Typography
+          style={{ marginBottom: '8px' }}
+          styleVariant="h1"
+          fontVariant="damion"
+        >
+          Recommendations
+        </Typography>
+        <Typography fontVariant="inter" styleVariant="body1">
           You can view all your weekly recommendations here to manage. The more
           you act of these recommendation, the higher the network score. If you
           don’t like a recommendation, tell us why so we learn more about what
           you care about
-        </p>
+        </Typography>
       </>
     ),
   },
@@ -110,8 +147,16 @@ const steps: Step[] = [
     disableBeacon: true,
     content: (
       <>
-        <h2>Personalization</h2>
-        <p>Manage your account and weekly recommendations here</p>
+        <Typography
+          style={{ marginBottom: '8px' }}
+          styleVariant="h1"
+          fontVariant="damion"
+        >
+          Personalization
+        </Typography>
+        <Typography fontVariant="inter" styleVariant="body1">
+          Manage your account and weekly recommendations here
+        </Typography>
       </>
     ),
   },
@@ -126,13 +171,17 @@ const customStyle = {
   },
   buttonNext: {
     borderRadius: 40,
-    paddingLeft: '40px',
-    paddingRight: '40px',
+    minWidth: '160px',
     border: '1px solid #fff',
-    marginRight: '38%',
+    marginRight: '45%',
+    background: '#FFFFFF',
+    color: '#111212',
+    marginBottom: '14px',
   },
   buttonSkip: {
-    marginLeft: '45%',
+    border: '1px solid #fff',
+    borderRadius: 40,
+    minWidth: '160px',
   },
   buttonClose: {
     display: 'none',
@@ -140,9 +189,16 @@ const customStyle = {
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
+  tooltipContainer: {
+    'text-align': 'left',
+  },
+  tooltipFooter: {
+    flexDirection: 'column-reverse',
+    alignItems: 'baseline',
+  },
 }
 
-const ProductTour: React.FC<Props> = ({ className }) => {
+const ProductTour: React.FC<Props> = () => {
   const [runTour, setRunTour] = useState(false)
   const [hasTourLaunched, setHasTourLaunched] = useState(false)
 

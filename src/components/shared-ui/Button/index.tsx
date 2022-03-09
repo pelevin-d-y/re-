@@ -53,9 +53,7 @@ const s = css`
     display: inline-block;
     padding: 7px 11px;
     height: 32px;
-
     font-size: 14px;
-    font-weight: var(--semiBold);
     border: 1px solid var(--neutral1);
     border-radius: 16px;
 
@@ -65,7 +63,7 @@ const s = css`
 
   .button:disabled {
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.2;
   }
 
   .arrowButton {

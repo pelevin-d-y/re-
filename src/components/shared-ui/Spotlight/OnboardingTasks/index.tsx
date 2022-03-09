@@ -67,7 +67,7 @@ const OnboardingTasks: React.FC<Props> = ({ className }) => {
   }
 
   const launchProductTour = () => {
-    updateFreeStorage({ product_tour_shown: true })
+    updateFreeStorage({ product_tour_shown: false })
     router.push('/')
   }
 

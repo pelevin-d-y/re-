@@ -18,7 +18,7 @@ const PersonalizationProductTour: React.FC<Props> = ({ className }) => {
   const { updateFreeStorage } = useFreeStorage()
 
   const tourLaunched = () => {
-    updateFreeStorage({ product_tour_shown: true })
+    updateFreeStorage({ product_tour_shown: false })
     router.push('/')
   }
 

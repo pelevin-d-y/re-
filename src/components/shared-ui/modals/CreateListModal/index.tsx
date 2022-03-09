@@ -68,6 +68,7 @@ const CreateListModal: React.FC = () => {
                     field={field}
                     form={form}
                     meta={meta}
+                    placeholder="Add a name for this list..."
                   />
                 )}
               </Field>
@@ -80,6 +81,7 @@ const CreateListModal: React.FC = () => {
                     field={field}
                     form={form}
                     meta={meta}
+                    placeholder="Add a description for this list..."
                   />
                 )}
               </Field>

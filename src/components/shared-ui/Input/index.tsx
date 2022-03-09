@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { FieldProps } from 'formik'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -39,7 +40,14 @@ const Input: React.FC<Props & FieldProps> = ({
         {...restProps}
       />
       {errors[field.name] && (
-        <div className={s.error}>{errors[field.name]}</div>
+        <Typography
+          className={s.error}
+          styleVariant="body3"
+          fontWeight="medium"
+          fontVariant="inter"
+        >
+          {errors[field.name]}
+        </Typography>
       )}
     </div>
   )
@@ -72,10 +80,8 @@ const s = css`
 
   .error {
     position: absolute;
-    top: 100%;
-
-    font-size: 11px;
-    color: var(--red);
+    bottom: -18px;
+    color: var(--primary1);
   }
 `
 

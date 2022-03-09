@@ -59,6 +59,7 @@ const TabCreatePlaylist: React.FC<Props> = ({ className, users }) => {
                 form={form}
                 meta={meta}
                 label="Name"
+                placeholder="Add a name for this list..."
               />
             )}
           </Field>
@@ -71,6 +72,7 @@ const TabCreatePlaylist: React.FC<Props> = ({ className, users }) => {
                 form={form}
                 meta={meta}
                 label="Description"
+                placeholder="Add a description for this list..."
               />
             )}
           </Field>
