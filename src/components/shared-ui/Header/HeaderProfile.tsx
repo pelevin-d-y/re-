@@ -109,7 +109,7 @@ const s = css`
     width: 100%;
     margin-top: 17px;
     cursor: pointer;
-
+    // drop-shadow: none;
     text-decoration: none;
     background: var(--shades2);
     color: var(--primary1);
@@ -125,7 +125,7 @@ const s = css`
     padding-top: 16px;
     padding-bottom: 16px;
     cursor: pointer;
-
+    // drop-shadow: none;
     text-decoration: none;
     background: var(--shades2);
     color: var(--primary1);

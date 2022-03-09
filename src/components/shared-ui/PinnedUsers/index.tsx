@@ -57,12 +57,7 @@ const PinnedUsers: React.FC<Props> = ({ className }) => {
       ) : (
         <div className={s.cards}>
           {pinnedData?.map((item) => (
-            <PinnedCard
-              className={s.card}
-              key={item.contact_id}
-              data={item}
-              template={item.templateData}
-            />
+            <PinnedCard className={s.card} key={item.contact_id} data={item} />
           ))}
           {pinnedData?.length !== 0 && (
             <button className={s.clearButton} type="button" onClick={clearAll}>

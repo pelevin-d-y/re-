@@ -87,7 +87,6 @@ const UserInfoItem: React.FC<Props> = ({
   )
 
   const onSave = (val: string) => {
-    console.log(checkCompliance(val))
     if (checkCompliance(val)) return
     const stateValue = newMutableData
       ? [

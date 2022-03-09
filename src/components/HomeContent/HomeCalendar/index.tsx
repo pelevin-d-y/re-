@@ -135,6 +135,7 @@ const HomeUpcoming: React.FC<Props> = ({ className }) => {
     try {
       const events = await getUserEvents(selector)
       const ids = await getUserIds(events)
+
       let usersData: React.SetStateAction<FormattedContact[] | undefined> = []
       if (ids && ids.length > 0) {
         const contactsChunks = chunk(ids, 90)
