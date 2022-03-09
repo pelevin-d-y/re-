@@ -190,10 +190,10 @@ const customStyle = {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   tooltipContainer: {
-    'text-align': 'left',
+    textAlign: 'left' as const,
   },
   tooltipFooter: {
-    flexDirection: 'column-reverse',
+    flexDirection: 'column-reverse' as const,
     alignItems: 'baseline',
   },
 }
