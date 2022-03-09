@@ -146,9 +146,6 @@ const s = css`
   }
 
   .error {
-    position: absolute;
-    top: calc(100% - 3px);
-
     margin: 0;
     font-size: 11px;
     color: tomato;

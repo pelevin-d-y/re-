@@ -12,7 +12,9 @@ type Props = {
 }
 
 const Recommendations: React.FC<Props> = ({ data, className }) => (
-  <div className={classNames(s.container, className)}>
+  <div
+    className={classNames(s.container, className, 'recommendations-welcome')}
+  >
     <div className={s.title}>
       <Typography
         className={s.weekly}

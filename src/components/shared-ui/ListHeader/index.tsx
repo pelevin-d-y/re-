@@ -6,7 +6,6 @@ import { css } from 'astroturf'
 import { useDebounce } from 'use-debounce/lib'
 import { post } from 'src/api'
 import { useRouter } from 'next/router'
-import { usePlaylists } from 'src/components/context/PlaylistsContext'
 
 type Props = {
   className?: string
@@ -16,8 +15,6 @@ type Props = {
 
 const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   const router = useRouter()
-  const { createPlaylist } = usePlaylists()
-  const [isLoading, setIsLoading] = useState(false)
   const [fields, setFields] = useState({
     title: data.info?.name,
     description: data.info?.description,
@@ -28,21 +25,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
   useEffect(() => {
     setFields({ title: data.info?.name, description: data.info?.description })
   }, [data.contacts, data.info?.description, data.info?.name])
-
-  const createList = () => {
-    if (fields.title || fields.description) {
-      setIsLoading(true)
-      createPlaylist({ title: fields.title, description: fields.description })
-        .then((res) => {
-          setIsLoading(false)
-          router.push(`/list?id=${res[0].playlist_id}`)
-        })
-        .catch((err) => {
-          setIsLoading(false)
-          console.log('ListHeader err =>', err)
-        })
-    }
-  }
 
   useEffect(() => {
     const updatePlaylist = () => {
@@ -62,7 +44,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
               },
             ])
             .catch((err) => {
-              setIsLoading(false)
               console.log('ListHeader err =>', err)
             })
         }
@@ -91,9 +72,6 @@ const ListHeader: React.FC<Props> = ({ className, data, updateNewList }) => {
       setFields({ title: debounceFields.title, description: e.target.value })
     }
   }
-
-  const isButtonActive = () =>
-    (!fields.title && !fields.description) || isLoading
 
   return (
     <div className={classNames(className, s.container)}>
@@ -135,10 +113,10 @@ const s = css`
     margin-top: 13px;
     margin-bottom: 0;
     width: 100%;
-
+    color: var(--neutral1);
     border: none;
-    font-size: 26px;
-    line-height: 42px;
+    font-size: 24px;
+    line-height: 29px;
     font-weight: var(--bold);
   }
 
@@ -147,10 +125,11 @@ const s = css`
     display: block;
     width: 100%;
     resize: none;
-
+    color: var(--neutral1);
     border: none;
-    font-weight: var(--bold);
+    font-weight: var(--medium);
     font-size: 16px;
+    line-height: 19px;
   }
 
   .userCount {

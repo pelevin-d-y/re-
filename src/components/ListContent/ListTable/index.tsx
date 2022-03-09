@@ -25,6 +25,7 @@ import NextStep from 'src/components/shared-ui/NextStep'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { getName } from 'src/helpers/utils/get-name'
 import CellNotes from 'src/components/shared-ui/Table/CellNotes'
+import Typography from 'src/components/shared-ui/Typography'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
@@ -280,9 +281,16 @@ const Table: React.FC<Props> = ({ className, data }) => {
         {rows.length === 0 && (
           <CardContainer className={classNames(className, s.emptyCard)}>
             <div className={s.cardLogo}>
-              <SvgIcon className={s.logo} icon="contacts.svg" />
+              <SvgIcon className={s.logo} icon="lists.svg" />
             </div>
-            <div className={s.cardHeader}>Start creating your list</div>
+            <Typography
+              className={s.cardHeader}
+              fontVariant="gilroy"
+              fontWeight="bold"
+              styleVariant="h3"
+            >
+              Search contacts to add to your list
+            </Typography>
             {/* <AddUserView className={s.addUserView} listId={data.playlist_id} /> */}
           </CardContainer>
         )}
@@ -407,9 +415,7 @@ const s = css`
   }
 
   .cardHeader {
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 42px;
+    max-width: 202px;
     text-align: center;
     margin-bottom: 30px;
   }
@@ -429,8 +435,8 @@ const s = css`
   }
 
   .cardLogo {
-    width: 162px;
-    height: 162px;
+    width: 174px;
+    height: 174px;
     border-radius: 50%;
     background: var(--primary2);
     display: flex;
@@ -454,8 +460,8 @@ const s = css`
   }
 
   .logo {
-    width: 58px;
-    height: 58px;
+    width: 73px;
+    height: 73px;
     color: var(--primary1);
 
     @include mobile {
