@@ -122,7 +122,7 @@ const s = css`
     width: 100%;
     background: var(--white);
     border: none;
-    color: var(--red);
+    color: var(--blue);
     margin-top: 12px;
 
     cursor: pointer;
