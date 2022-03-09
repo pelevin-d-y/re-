@@ -115,12 +115,11 @@ const s = css`
 
   .container {
     position: relative;
-    width: 60%;
+    max-width: 356px;
     z-index: 18;
     box-shadow: none;
-
+    width: 100%;
     @include mobile {
-      width: 100%;
     }
   }
 
