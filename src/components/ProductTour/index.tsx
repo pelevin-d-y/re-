@@ -15,7 +15,7 @@ const buttonsText = {
 const steps: Step[] = [
   {
     target: '.recommendations-welcome',
-    placement: 'bottom',
+    placement: 'top',
     disableBeacon: true,
     content: (
       <>
