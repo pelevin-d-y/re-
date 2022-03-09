@@ -168,7 +168,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    max-width: 250px;
+    max-width: 280px;
     width: 100%;
 
     @include mobile {
@@ -238,7 +238,7 @@ const s = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 30%;
+    min-width: 180px;
 
     @include mobile {
       margin-top: 12px;
@@ -257,7 +257,6 @@ const s = css`
   }
 
   .message {
-    max-width: 40%;
     width: 100%;
     word-break: break-word;
     margin-right: 20px;
