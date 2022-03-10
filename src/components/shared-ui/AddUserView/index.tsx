@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
-
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Search from 'src/components/shared-ui/Search'
 import { css } from 'astroturf'
@@ -8,7 +7,6 @@ import { useDebounce } from 'use-debounce'
 import { get, post } from 'src/api'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import useOnClickOutside from 'src/helpers/hooks/use-click-outside'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
 import chunk from 'lodash/chunk'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import UserItem from './UserItem'
@@ -16,15 +14,15 @@ import { LoaderAbsolute } from '../Loader'
 
 type Props = {
   className?: string
-  listId: string
+  handler: (user: FormattedContact) => void
+  data: any // (FormattedContact | RecommendationUser)[] | undefined TODO: fix data: any
 }
 
-const AddUserView: React.FC<Props> = ({ className, listId }) => {
+const AddUserView: React.FC<Props> = ({ className, handler, data }) => {
   const [searchState, setSearchState] = useState('')
   const [searchValue] = useDebounce(searchState, 700)
   const [isLoading, setIsLoading] = useState(false)
   const [contacts, setContacts] = useState<FormattedContact[]>([])
-  const { state: playlistState } = usePlaylist()
 
   const ref = useRef(null)
 
@@ -36,11 +34,9 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
           const searchResponse = await post.postContactsSearch(searchValue)
           let formattedContacts: FormattedContact[] | [] = []
           const excludedUserIds = searchResponse.filter(
-            (item) =>
-              !playlistState?.contacts?.find(
-                (contact) => contact.contact_id === item
-              )
+            (item) => !data?.find((contact: any) => contact.contact_id === item)
           )
+          // TODO:fix contact: any
 
           if (excludedUserIds.length > 0) {
             const contactsChunks = chunk(excludedUserIds, 90)
@@ -71,7 +67,7 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
     } else {
       setContacts([])
     }
-  }, [playlistState?.contacts, searchValue])
+  }, [data, searchValue])
 
   useOnClickOutside(ref, () => {
     setContacts([])
@@ -102,7 +98,7 @@ const AddUserView: React.FC<Props> = ({ className, listId }) => {
           </div>
         ) : (
           contacts?.map((item) => (
-            <UserItem data={item} key={item.contact_id} listId={listId} />
+            <UserItem data={item} key={item.contact_id} handler={handler} />
           ))
         )}
       </ul>

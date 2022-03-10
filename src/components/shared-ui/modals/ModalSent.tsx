@@ -50,22 +50,33 @@ const ModalSent: React.FC<Props> = ({ className, names, handler }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <div className={s.top}>
-        <Typography fontVariant="inter" styleVariant="h4" fontWeight="bold">
-          Message Sent!
-        </Typography>
-        <CloseButton className={s.closeContainer} handler={closeHandler} />
-      </div>
-      <div className={s.header}>
-        <Img className={s.check} img="sentCheck.png" alt="check" />
-        <div className={s.text}>{messageTemplate()}</div>
-      </div>
-      <div className={s.cards}>
-        {state.data?.contacts?.map((item, index) =>
-          index < 6 ? (
-            <CardContact className={s.card} data={item} key={item.contact_id} />
-          ) : null
-        )}
+      <div className={s.content}>
+        <div className={s.top}>
+          <Typography fontVariant="inter" styleVariant="h4" fontWeight="bold">
+            Message Sent!
+          </Typography>
+          <CloseButton className={s.closeContainer} handler={closeHandler} />
+        </div>
+        <div
+          className={classNames(
+            s.header,
+            state.data?.contacts?.length === 0 && s.headerEmpty
+          )}
+        >
+          <Img className={s.check} img="sentCheck.png" alt="check" />
+          <div className={s.text}>{messageTemplate()}</div>
+        </div>
+        <div className={s.cards}>
+          {state.data?.contacts?.map((item, index) =>
+            index < 6 ? (
+              <CardContact
+                className={s.card}
+                data={item}
+                key={item.contact_id}
+              />
+            ) : null
+          )}
+        </div>
       </div>
       <Button variant="outlined" className={s.buttonBack} handler={handler}>
         Return to Dashboard
@@ -85,10 +96,15 @@ const s = css`
     margin-left: auto;
     margin-right: auto;
     padding: 28px 12px;
+    min-height: 350px;
+  }
+
+  .content {
+    flex: 1 0 auto;
   }
 
   .top {
-    margin-bottom: 26px;
+    margin-bottom: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -106,6 +122,7 @@ const s = css`
       justify-content: center;
       align-items: center;
     }
+
     &::after {
       content: '';
       position: absolute;
@@ -116,6 +133,12 @@ const s = css`
       height: 208px;
       z-index: 0;
       top: -20px;
+    }
+  }
+
+  .headerEmpty {
+    &::after {
+      height: 137px;
     }
   }
 
@@ -151,6 +174,7 @@ const s = css`
   }
 
   .buttonBack {
+    flex-shrink: 0;
     display: block;
     max-width: 262px;
     width: 100%;
