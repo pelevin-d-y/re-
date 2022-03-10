@@ -45,7 +45,6 @@ const s = css`
     position: relative;
     width: 100%;
     max-height: calc(100vh - 2rem);
-    min-height: 500px;
     background: var(--shades2);
     overflow: auto;
     inset: auto;
