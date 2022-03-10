@@ -64,7 +64,15 @@ const s = css`
   .name {
     font-size: 14px;
     line-height: 17px;
+    word-break: break-word;
     font-weight: var(--bold);
+    margin-right: 10px;
+  }
+
+  .button {
+    max-width: 60px;
+    width: 100%;
+    flex: 1 0 auto;
   }
 `
 
