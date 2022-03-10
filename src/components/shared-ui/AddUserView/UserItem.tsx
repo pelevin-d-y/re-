@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import { usePlaylist } from 'src/components/context/PlaylistContext'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
 import { getName } from 'src/helpers/utils/get-name'
@@ -10,25 +9,11 @@ import { LoaderAbsolute } from '../Loader'
 type Props = {
   className?: string
   data: FormattedContact
-  listId: string
+  handler: (user: FormattedContact) => void
 }
 
-const UserItem: React.FC<Props> = ({ className, data, listId }) => {
+const UserItem: React.FC<Props> = ({ className, data, handler }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const { addUsers: addUserToPlaylist, getPlaylistData } = usePlaylist()
-
-  const addUser = async (user: FormattedContact) => {
-    try {
-      setIsLoading(true)
-
-      await addUserToPlaylist(listId, [user])
-      await getPlaylistData(listId)
-      setIsLoading(false)
-    } catch (err) {
-      setIsLoading(false)
-      console.log('addUser err ==>', err)
-    }
-  }
 
   const name = getName(data)
 
@@ -41,9 +26,13 @@ const UserItem: React.FC<Props> = ({ className, data, listId }) => {
       <Button
         className={s.button}
         variant="outlined"
-        handler={() => addUser(data)}
+        handler={async () => {
+          setIsLoading(true)
+          await handler(data)
+          setIsLoading(false)
+        }}
       >
-        add
+        Add
       </Button>
       {isLoading && <LoaderAbsolute />}
     </li>
@@ -75,7 +64,15 @@ const s = css`
   .name {
     font-size: 14px;
     line-height: 17px;
+    word-break: break-word;
     font-weight: var(--bold);
+    margin-right: 10px;
+  }
+
+  .button {
+    max-width: 60px;
+    width: 100%;
+    flex: 1 0 auto;
   }
 `
 

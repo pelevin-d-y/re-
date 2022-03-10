@@ -33,7 +33,19 @@ const Content: React.FC = () => {
   const shareHolidays = useMemo(
     () => ({
       title: 'Holiday',
-      slides: ['share-hol-1.jpeg', 'share-hol-2.jpeg', 'share-hol-3.jpeg'],
+      slides: [
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+1-14.jpg',
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+1-24.jpg',
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+1-9.jpg',
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+2-9.jpg',
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+4-7.jpg',
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+5-3.jpg',
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+6-18.jpg',
+        'https://strata-memes.s3.amazonaws.com/holiday_images/Holiday+Graphics+9-9.jpg',
+        // 'share-hol-1.jpeg',
+        // 'share-hol-2.jpeg',
+        // 'share-hol-3.jpeg',
+      ],
       contacts: contacts?.slice(1, 4) as RecommendationUser[],
     }),
     [contacts]
