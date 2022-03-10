@@ -1,13 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CloseButton from 'src/components/shared-ui/Close'
 import Avatar from 'src/components/shared-ui/Avatar'
 import Button from 'src/components/shared-ui/Button'
-import Search from 'src/components/shared-ui/Search'
 import { getName } from 'src/helpers/utils/get-name'
-import { debounce } from 'lodash'
 import { usePopup } from 'src/components/context/PopupContext'
+import AddUserView from 'src/components/shared-ui/AddUserView'
 import MessageStatus from './MessageStatus'
 
 type Props = {
@@ -27,7 +26,9 @@ const UsersManager: React.FC<Props> = ({
   unselectedContacts,
   addUserHandler,
 }) => {
-  const { state } = usePopup()
+  const { state, dispatch } = usePopup()
+  const { dataMulti } = state
+
   const getAvatar = (data: RecommendationUser | FormattedContact) => {
     if ('image_url' in data) {
       return data.image_url
@@ -38,38 +39,20 @@ const UsersManager: React.FC<Props> = ({
     return null
   }
 
-  const [searchText, setSearchText] = useState<string>('')
-  const [searchResults, setSearchResults] = useState<
-    RecommendationUser[] | FormattedContact[]
-  >([])
-
-  useEffect(() => {
-    if (selectedContacts) {
-      const results = (
-        selectedContacts as Array<RecommendationUser | FormattedContact>
-      ).filter((item: FormattedContact | RecommendationUser) => {
-        return getName(item).toLowerCase().includes(searchText.toLowerCase())
+  const searchAddHandler = (user: any) => {
+    // TODO: fix user: any
+    if (dataMulti) {
+      dispatch({
+        type: 'UPDATE_COMPOSE_MULTI_DATA',
+        payload: [...dataMulti, user],
       })
-      setSearchResults(results as RecommendationUser[] | FormattedContact[])
     }
-  }, [selectedContacts, searchText])
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value)
   }
-
-  const debounceHandleSearch = useMemo(() => {
-    return debounce(handleSearch, 300)
-  }, [])
 
   return (
     <div className={classNames(s.container, className)}>
       <div className={s.searchContainer}>
-        <Search
-          classes={{ container: s.search, input: s.searchInput }}
-          inputPlaceholder="Search contacts to add…"
-          onChange={debounceHandleSearch}
-        />
+        <AddUserView data={dataMulti} handler={searchAddHandler} />
       </div>
       <div className={s.selected}>
         <div className={s.selectedHeader}>
@@ -79,7 +62,7 @@ const UsersManager: React.FC<Props> = ({
           </div>
         </div>
         <div className={s.selectedUsers}>
-          {searchResults?.map((item) => (
+          {selectedContacts?.map((item) => (
             <div
               role="button"
               tabIndex={0}

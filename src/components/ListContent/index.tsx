@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { css } from 'astroturf'
 import Table from 'src/components/ListContent/ListTable'
-
 import ListHeader from 'src/components/shared-ui/ListHeader'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useClient } from 'src/components/context/ClientContext'
@@ -13,7 +12,11 @@ import TableActions from '../shared-ui/TableActions'
 import AddUserView from '../shared-ui/AddUserView'
 
 const Content: React.FC = () => {
-  const { state: playlistData, getPlaylistData } = usePlaylist()
+  const {
+    state: playlistData,
+    addUsers: addUserToPlaylist,
+    getPlaylistData,
+  } = usePlaylist()
   const { state: clientState } = useClient()
   const router = useRouter()
 
@@ -22,6 +25,17 @@ const Content: React.FC = () => {
       getPlaylistData(router.query.id as string)
     }
   }, [getPlaylistData, router.query.id])
+
+  const addUser = async (user: FormattedContact) => {
+    if (playlistData) {
+      try {
+        await addUserToPlaylist(playlistData?.playlist_id, [user])
+        await getPlaylistData(playlistData?.playlist_id)
+      } catch (err) {
+        console.log('addUser err ==>', err)
+      }
+    }
+  }
 
   return playlistData ? (
     <div className={s.container}>
@@ -37,7 +51,7 @@ const Content: React.FC = () => {
 
           {playlistData && (
             <div className={s.tableActions}>
-              <AddUserView listId={playlistData.playlist_id} />
+              <AddUserView data={playlistData?.contacts} handler={addUser} />
               <TableActions
                 data={playlistData}
                 buttons={[
