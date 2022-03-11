@@ -13,29 +13,39 @@ type Props = {
     slides: string[]
     title: string
     contacts: RecommendationUser[]
+    imagesLocal?: boolean
   }
   className?: string
 }
 
 const CardShareMulti: React.FC<Props> = ({ className, data }) => {
-  const { slides, title, contacts } = data
+  const { slides, title, contacts, imagesLocal } = data
   const [slide, setSlide] = useState(slides[0])
   const { dispatch: popupDispatch } = usePopup()
 
   const openModalHandler = () => {
     popupDispatch({ type: 'UPDATE_POPUP_DATA', payload: null })
 
-    const url =
-      process.env.NODE_ENV === 'development'
-        ? `/images/${slide}`
-        : `https://app.strata.cc/images/${slide}`
+    let url = ''
+    if (imagesLocal) {
+      url =
+        process.env.NODE_ENV === 'development'
+          ? `/images/${slide}`
+          : `https://app.strata.cc/images/${slide}`
+    } else {
+      url = slide
+    }
 
     popupDispatch({
       type: 'UPDATE_COMPOSE_MULTI_DATA',
       payload:
         contacts.map((item) => ({
           ...item,
-          customTemplate: `<img src=${url} />`,
+          customTemplate: `Hi <Contact Name>!
+
+            <img src=${url} />
+
+            -- <Client Name>`,
         })) || [],
     })
     popupDispatch({ type: 'TOGGLE_COMPOSE_MULTI_POPUP' })
