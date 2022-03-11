@@ -67,6 +67,7 @@ const reducer = (state: State, action: Action) => {
 
 const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const template =
+    data?.customTemplate ||
     data?.templateData?.Message ||
     data?.message_template_body ||
     testTemplates[0].Message
