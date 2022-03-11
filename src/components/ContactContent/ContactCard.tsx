@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import parseMessage from 'src/helpers/utils/parse-message'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { getName } from 'src/helpers/utils/get-name'
@@ -80,6 +79,10 @@ const s = css`
     min-width: 350px;
     padding: 37px 24px 47px 18px;
     border-right: 1px solid #dddddd;
+    background: var(--shades2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
+      0px 1px 1px rgba(34, 34, 34, 0.0989128);
+    border-radius: 6px;
   }
 
   .header {

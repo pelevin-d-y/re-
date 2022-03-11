@@ -27,7 +27,9 @@ const ContactContent: React.FC<Props> = ({ className }) => {
     <div className={classNames(className, s.container)}>
       <div className={s.contactCard}>
         <WithMutableDataContactCard />
-        {/* <WithMutableDataContactTabs /> */}
+      </div>
+      <div className={s.contactTabs}>
+        <WithMutableDataContactTabs />
       </div>
     </div>
   )
@@ -41,19 +43,31 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     width: 100%;
+
+    @include tablet {
+      flex-direction: column;
+    }
   }
 
   .contactCard {
     width: 67%;
+    padding-right: 12px;
+    @include tablet {
+      padding-right: 0;
+      width: 100%;
+      padding-right: 0;
+      padding-bottom: 12px;
+    }
+  }
+
+  .contactTabs {
+    max-height: 40%;
+    flex: 1;
+    height: 100%;
     background: var(--shades2);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
       0px 1px 1px rgba(34, 34, 34, 0.0989128);
     border-radius: 6px;
-
-    @include tablet {
-      padding-right: 0;
-      width: 100%;
-    }
   }
 `
 

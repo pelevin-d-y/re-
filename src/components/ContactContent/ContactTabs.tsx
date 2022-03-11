@@ -3,10 +3,11 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
 import formatContactData from 'src/helpers/utils/format-contact-data'
-import ContactLists from './ContactLists'
 import ContactNextSteps from './ContactNextSteps'
 import TabNotes from '../shared-ui/popover/PopoverUserInfo/TabNotes'
 import { UpdateMutableData } from '../HOCs/HOCUpdateMutableData'
+import TabLists from '../shared-ui/popover/PopoverUserInfo/TabLists'
+import Typography from '../shared-ui/Typography'
 
 type Props = {
   className?: string
@@ -26,14 +27,26 @@ const ContactTabs: React.FC<Props> = ({
     <div className={classNames(className, s.container)}>
       <ReactTabs>
         <TabList className={s.tabs}>
-          <Tab className={s.tabItem}>Next Steps</Tab>
-          <Tab className={s.tabItem}>Lists</Tab>
-          <Tab className={s.tabItem}>Notes</Tab>
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1" fontVariant="inter">
+              Lists
+            </Typography>
+          </Tab>
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1" fontVariant="inter">
+              Next Steps
+            </Typography>
+          </Tab>
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1" fontVariant="inter">
+              Notes
+            </Typography>
+          </Tab>
         </TabList>
+        <TabPanel>{data && <TabLists data={data} />}</TabPanel>
         <TabPanel>
           <ContactNextSteps />
         </TabPanel>
-        <TabPanel>{data && <ContactLists data={data} />}</TabPanel>
         <TabPanel>
           <TabNotes updateData={updateData} mutableData={mutableData} />
         </TabPanel>
@@ -46,7 +59,7 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    padding: 37px 24px 47px 18px;
+    padding: 25px 0px 25px;
     width: 100%;
   }
 
@@ -56,6 +69,7 @@ const s = css`
     padding-right: 20px;
     margin: 0;
     border-bottom: 1px solid #dddddd;
+    justify-content: space-between;
   }
 
   .tabItem {
@@ -63,18 +77,16 @@ const s = css`
     white-space: nowrap;
     max-width: 100px;
     width: 100%;
-    border-bottom: 4px solid transparent;
+    border-bottom: 2px solid transparent;
     text-align: center;
-    font-size: 14px;
-    line-height: 31px;
-    font-weight: var(--bold);
     color: #c7c7c7;
     cursor: pointer;
+    padding: 10px;
   }
 
   .tabItem[aria-selected='true'] {
     color: var(--shades1);
-    border-bottom: 4px solid var(--shades1);
+    border-bottom: 2px solid var(--shades1);
   }
 
   .panel {
