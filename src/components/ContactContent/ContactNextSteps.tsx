@@ -53,7 +53,7 @@ const s = css`
   @import 'src/styles/preferences/_mixins.scss';
 
   .container {
-    padding: 12px 15px 29px 19px;
+    padding: 12px 15px 0px 19px;
   }
 
   .card {

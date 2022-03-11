@@ -1,15 +1,16 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import parseMessage from 'src/helpers/utils/parse-message'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { getName } from 'src/helpers/utils/get-name'
+import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
 import { usePopup } from '../context/PopupContext'
 import { UserInfo } from '../shared-ui/UserInfo'
+import NextStep from '../shared-ui/NextStep'
 
 type Props = {
   className?: string
@@ -34,37 +35,36 @@ const ContactCard: React.FC<Props> = ({
   return (
     <div className={classNames(className, s.container)}>
       <div className={s.header}>
-        {formattedData && (
-          <Avatar
-            name={getName(formattedData)}
-            className={s.avatar}
-            image={formattedData.avatar}
-          />
-        )}
-        <div className={s.headerInfo}>
+        <div className={s.headerTop}>
+          {formattedData && (
+            <Avatar
+              name={getName(formattedData)}
+              className={s.avatar}
+              image={formattedData.avatar}
+            />
+          )}
           <div className={s.name}>
             {formattedData && getName(formattedData)}
           </div>
-          {/* {formattedData?.templateData ? (
-            <UserHeader
-              className={s.message}
-              text={parseMessage(
-                formattedData?.templateData?.Subject,
-                formattedData.name
-              )}
-            />
-          ) : null} */}
         </div>
         <div className={s.actions}>
-          <PopoverDots className={s.dots} variant="outlined" />
-          <PopoverActions
-            className={s.buttonPopup}
-            variant="contained"
-            buttonClickHandler={buttonHandler}
-            isArrow
-          >
-            Appreciate you!
-          </PopoverActions>
+          {formattedData && (
+            <NextStep
+              className={s.nextStep}
+              text={getNextStep(formattedData)}
+            />
+          )}
+          <div className={s.buttons}>
+            <PopoverDots className={s.dots} variant="outlined" />
+            <PopoverActions
+              className={s.buttonPopup}
+              variant="contained"
+              buttonClickHandler={buttonHandler}
+              isArrow
+            >
+              Appreciate you!
+            </PopoverActions>
+          </div>
         </div>
       </div>
       <UserInfo mutableData={mutableData} updateData={updateData} />
@@ -79,19 +79,25 @@ const s = css`
     min-width: 350px;
     padding: 37px 24px 47px 18px;
     border-right: 1px solid #dddddd;
-
-    @include mobile {
-      min-width: auto;
-      max-width: 350px;
-      border-right: none;
-      align-self: center;
-    }
+    background: var(--shades2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
+      0px 1px 1px rgba(34, 34, 34, 0.0989128);
+    border-radius: 6px;
   }
 
   .header {
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
+  }
+
+  .headerTop {
+    display: flex;
     align-items: center;
+    margin-bottom: 32px;
+    @include mobile {
+      flex-direction: column;
+    }
   }
 
   .headerInfo {
@@ -102,13 +108,38 @@ const s = css`
 
   .avatar {
     font-size: 38px !important;
-    margin-bottom: 22px;
     width: 119px !important;
     height: 119px !important;
+    margin-right: 39px;
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
   }
 
   .actions {
+    display: flex;
     margin-bottom: 47px;
+    justify-content: space-between;
+
+    @include mobile {
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+
+  .buttons {
+    display: flex;
+  }
+
+  .nextStep {
+    max-width: 350px;
+    width: 100%;
+    margin-right: 38px;
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
   }
 
   .name {

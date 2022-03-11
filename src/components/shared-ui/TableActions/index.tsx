@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import Button from 'src/components/shared-ui/Button'
 import { css } from 'astroturf'
-import PopoverAddContact from 'src/components/shared-ui/popover/PopoverAddContact'
 import { useTable } from 'src/components/context/TableContext'
 import { usePopup } from 'src/components/context/PopupContext'
 import { usePlaylist } from 'src/components/context/PlaylistContext'
@@ -11,7 +10,6 @@ import { usePlaylist } from 'src/components/context/PlaylistContext'
 const actions = [
   'createList',
   'contact',
-  'addContactToListPopover',
   'dots',
   'removeContacts',
   'filter',
@@ -81,14 +79,6 @@ const TableActions: React.FC<Props> = ({ className, data, buttons }) => {
           •••
         </Button>
       )}
-      {data &&
-        buttons.includes('addContactToListPopover') &&
-        'playlist_id' in data && (
-          <PopoverAddContact
-            className={classNames(s.contacts, s.button)}
-            listId={data.playlist_id}
-          />
-        )}
       {buttons.includes('clearPinnedContacts') && (
         <Button
           className={classNames(s.button, s.clearPinned)}

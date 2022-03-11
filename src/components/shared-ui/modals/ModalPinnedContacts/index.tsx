@@ -13,7 +13,7 @@ type Props = {
   className?: string
 }
 
-const ModalPinnedContacts: React.FC<Props> = ({ className }) => {
+const ModalPinnedContacts: React.FC<Props> = () => {
   const { state, dispatch: popupDispatch } = usePopup()
 
   const closeHandler = () => {

@@ -71,7 +71,7 @@ const TabNotes: React.FC<Props> = ({ className, mutableData, updateData }) => {
 
 const s = css`
   .container {
-    padding: 16px 16px 34px 16px;
+    padding: 16px 16px 0px 16px;
   }
 
   .textarea {
