@@ -2,7 +2,10 @@ import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
+import { usePopup } from 'src/components/context/PopupContext'
 import CardContainer from '../../cards/CardContainer'
+import Typography from '../../Typography'
+import SvgIcon from '../../SvgIcon'
 
 type Props = {
   className?: string
@@ -11,6 +14,8 @@ type Props = {
 
 const TabLists: React.FC<Props> = ({ className, data }) => {
   const { state: playlistsState } = usePlaylists()
+  const { dispatch: popupDispatch } = usePopup()
+
   const lists = useMemo(
     () =>
       playlistsState.data?.reduce<ListData[]>((acc, item) => {
@@ -26,6 +31,16 @@ const TabLists: React.FC<Props> = ({ className, data }) => {
     [data.contact_id, playlistsState.data]
   )
 
+  const openModal = () => {
+    if (data) {
+      popupDispatch({
+        type: 'UPDATE_COMPOSE_MULTI_DATA',
+        payload: [data] as RecommendationUser[] | FormattedContact[],
+      })
+      popupDispatch({ type: 'TOGGLE_PINNED_USERS_POPUP' })
+    }
+  }
+
   return (
     <div className={classNames(className, s.container)}>
       <ul>
@@ -33,8 +48,25 @@ const TabLists: React.FC<Props> = ({ className, data }) => {
           <li className={s.item} key={list.playlist_id}>
             <a className={s.link} href={`/list?id=${list.playlist_id}`}>
               <CardContainer className={s.card}>
-                <div className={s.title}>{list.info?.name}</div>
-                <div className={s.description}>{list.info?.description}</div>
+                <div className={s.titleWrapper}>
+                  <SvgIcon className={s.icon} icon="lists.svg" />
+                  <Typography
+                    className={s.title}
+                    fontVariant="inter"
+                    fontWeight="medium"
+                    styleVariant="body1"
+                  >
+                    {list.info?.name}
+                  </Typography>
+                </div>
+                <Typography
+                  fontVariant="inter"
+                  fontWeight="medium"
+                  styleVariant="body3"
+                  className={s.description}
+                >
+                  {list.info?.description}
+                </Typography>
               </CardContainer>
             </a>
           </li>
@@ -49,7 +81,7 @@ const TabLists: React.FC<Props> = ({ className, data }) => {
 
 const s = css`
   .container {
-    padding: 16px 16px 34px 16px;
+    padding: 16px 16px 25px 16px;
   }
 
   .link {
@@ -66,18 +98,30 @@ const s = css`
   }
 
   .card {
+    box-shadow: 0px 1px 1px 0px #22222219;
     padding: 16px 16px 12px 16px;
   }
 
-  .title {
-    margin-bottom: 10px;
+  .titleWrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+  }
 
-    font-size: 16px;
-    font-weight: var(--bold);
+  .icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 9px;
+  }
+
+  .title {
   }
 
   .description {
-    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .button {

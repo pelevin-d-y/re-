@@ -46,6 +46,7 @@ const Content: React.FC = () => {
         // 'share-hol-2.jpeg',
         // 'share-hol-3.jpeg',
       ],
+      imagesLocal: false,
       contacts: contacts?.slice(1, 4) as RecommendationUser[],
     }),
     [contacts]
@@ -55,6 +56,7 @@ const Content: React.FC = () => {
     () => ({
       title: 'Meme',
       slides: ['share-meme1.jpeg', 'share-meme2.jpeg', 'share-meme3.jpeg'],
+      imagesLocal: true,
       contacts: contacts?.slice(1, 4) as RecommendationUser[],
     }),
     [contacts]

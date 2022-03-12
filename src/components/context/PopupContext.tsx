@@ -35,7 +35,11 @@ type Action =
     }
   | {
       type: 'UPDATE_COMPOSE_MULTI_DATA'
-      payload: UserWithTemplateData[] | FormattedContact[] | null
+      payload:
+        | UserWithTemplateData[]
+        | FormattedContact[]
+        | RecommendationUser[]
+        | null
     }
   | { type: 'UPDATE_LIST_ID_DATA'; payload: string }
 

@@ -2,7 +2,7 @@ import parseMessage from 'src/helpers/utils/parse-message'
 import { getName } from 'src/helpers/utils/get-name'
 
 export const getNextStep = (
-  data?: FormattedContact | RecommendationUser
+  data?: FormattedContact | RecommendationUser | ContactMutable
 ): string => {
   if (data) {
     if (
