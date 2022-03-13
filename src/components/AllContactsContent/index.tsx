@@ -60,6 +60,7 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
               .includes(searchText.toLowerCase()))
         )
       })
+
       setSearchResults(results)
     }
   }, [mutableData, searchText])

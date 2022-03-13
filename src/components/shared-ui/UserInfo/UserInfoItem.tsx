@@ -46,6 +46,9 @@ const UserInfoItem: React.FC<Props> = ({
     () =>
       mutableData?.find((item) => {
         return item.type === mutableDataType && item.meta.type === 'primary'
+      }) ||
+      mutableData?.find((item) => {
+        return item.type === mutableDataType && item.review === 1
       }),
     [mutableData, mutableDataType]
   )
@@ -57,7 +60,6 @@ const UserInfoItem: React.FC<Props> = ({
       ) || null
 
     if (defaultReviewData && defaultReviewData.length === 1) {
-      console.log('defaultReviewData', defaultReviewData)
       updateData([
         {
           ...defaultReviewData[0],
@@ -155,7 +157,7 @@ const UserInfoItem: React.FC<Props> = ({
         placeholder=" "
         onSave={(val: string) => onSave(val)}
       />
-      {!!reviewData?.length && (
+      {reviewData && reviewData?.length > 0 && (
         <UserInfoReview
           reviewData={reviewData}
           title={`We detected ${reviewData.length} values`}

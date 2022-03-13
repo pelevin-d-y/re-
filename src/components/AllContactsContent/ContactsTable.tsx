@@ -175,6 +175,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
         ),
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [router, updateUser]
   )
 
@@ -189,6 +190,14 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
     {
       columns,
       data: tableData || [],
+      initialState: {
+        sortBy: [
+          {
+            id: 'name',
+            desc: false,
+          },
+        ],
+      },
     },
     useSortBy,
     useFlexLayout,

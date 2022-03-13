@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { getBaseMutableData } from 'src/helpers/utils/base-mutable-data'
@@ -18,9 +18,7 @@ type Props = {
 const schema = yup.string().email()
 
 const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
-  const [newMutableData, setNewMutableData] = useState<null | ContactMutable[]>(
-    null
-  )
+  const [reviewData, setReviewData] = useState<null | ContactMutable[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
   const emails: ContactMutable[] | undefined = data?.filter(
@@ -47,20 +45,26 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
     [emails, primaryEmail?.data]
   )
 
-  const unreviewedData = useMemo(() => {
-    let composedArray: ContactMutable[] = []
+  useEffect(() => {
+    const defaultReviewData =
+      data?.filter((item) => item.type === 'email' && item.review === 0) || null
 
-    const defaultUnreviewedNames = data?.filter(
-      (item) => item.type === 'email' && item.review === 0
-    )
-    if (newMutableData) {
-      composedArray = [...newMutableData, ...composedArray]
+    if (defaultReviewData && defaultReviewData.length === 1) {
+      updateApiData([
+        {
+          ...defaultReviewData[0],
+          review: 1,
+          meta: {
+            type: 'primary',
+          },
+        },
+      ])
     }
-    if (defaultUnreviewedNames) {
-      composedArray = [...composedArray, ...defaultUnreviewedNames]
+    if (defaultReviewData && defaultReviewData.length > 1) {
+      setReviewData(defaultReviewData)
     }
-    return composedArray
-  }, [data, newMutableData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const setPrimaryEmail = async (emailData: {
     status: 'Primary' | 'Set Primary'
@@ -118,33 +122,21 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
   }
 
   const onSave = (val: string) => {
-    const stateValue = newMutableData
-      ? [
-          ...newMutableData,
-          {
-            type: 'email',
-            data: val,
-            review: 1,
-            meta: {},
-          },
-        ]
-      : [
-          {
-            type: 'email',
-            data: val,
-            review: 1,
-            meta: {},
-          },
-        ]
-
-    setNewMutableData(stateValue)
+    addEmail(val)
   }
 
   const acceptHandler = async (acceptData: ContactMutable) => {
     addEmail(acceptData.data)
   }
 
-  const declineHandler = (declineData: ContactMutable) => {}
+  const declineHandler = (declineData: ContactMutable) => {
+    updateApiData([
+      {
+        ...declineData,
+        review: 2,
+      },
+    ])
+  }
 
   return (
     <div className={classNames(className, s.container)}>
@@ -160,10 +152,10 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
           classPrefix="profile-card-"
         />
       )}
-      {!!unreviewedData?.length && (
+      {reviewData && reviewData?.length > 0 && (
         <UserInfoReview
-          unreviewedData={unreviewedData}
-          title={`We detect ${unreviewedData.length} name changes`}
+          reviewData={reviewData}
+          title={`We detect ${reviewData.length} name changes`}
           acceptHandler={acceptHandler}
           declineHandler={declineHandler}
         />

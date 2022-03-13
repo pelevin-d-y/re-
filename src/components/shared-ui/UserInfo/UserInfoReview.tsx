@@ -34,7 +34,7 @@ const UserInfoReview: React.FC<Props> = ({
       </Typography>
 
       <ul>
-        {reviewData.map((item) => {
+        {reviewData?.map((item) => {
           return (
             <li className={s.item} key={item.data}>
               <div className={s.name}>

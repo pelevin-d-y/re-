@@ -44,7 +44,7 @@ const UserInfo: React.FC<Props> = ({
             <UserInfoEmail data={mutableData} updateApiData={updateData} />
           </li>
         )}
-        <li className={s.item}>
+        {/* <li className={s.item}>
           <UserInfoItem
             mutableData={mutableData}
             updateData={updateData}
@@ -61,7 +61,7 @@ const UserInfo: React.FC<Props> = ({
             mutableDataType="company"
             label="Company"
           />
-        </li>
+        </li> */}
         {/* {data.last_contact_time && (
           <li className={s.item}>
             <div className={s.itemTitle}>
