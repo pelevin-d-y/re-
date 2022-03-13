@@ -4,6 +4,7 @@ import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { arrayIsEmpty } from 'src/helpers/utils/array-is-empty'
 import { useDebounce } from 'use-debounce/lib'
+import { getName } from 'src/helpers/utils/get-name'
 
 import SectionHeader from '../shared-ui/SectionHeader'
 import { useClient } from '../context/ClientContext'

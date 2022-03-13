@@ -7,7 +7,7 @@ import Button from '../Button'
 
 type Props = {
   className?: string
-  unreviewedData: ContactMutable[]
+  reviewData: ContactMutable[]
   title: string
   acceptHandler: (data: ContactMutable) => void
   declineHandler: (data: ContactMutable) => void
@@ -16,7 +16,7 @@ type Props = {
 
 const UserInfoReview: React.FC<Props> = ({
   className,
-  unreviewedData,
+  reviewData,
   title,
   acceptHandler,
   declineHandler,
@@ -34,7 +34,7 @@ const UserInfoReview: React.FC<Props> = ({
       </Typography>
 
       <ul>
-        {unreviewedData.map((item) => {
+        {reviewData?.map((item) => {
           return (
             <li className={s.item} key={item.data}>
               <div className={s.name}>
