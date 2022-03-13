@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { getBaseMutableData } from 'src/helpers/utils/base-mutable-data'
@@ -7,6 +7,7 @@ import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import EmailPopover from './EmailPopover'
 import EditField from '../EditField'
 import { LoaderAbsolute } from '../Loader'
+import UserInfoReview from './UserInfoReview'
 
 type Props = {
   className?: string
@@ -17,6 +18,7 @@ type Props = {
 const schema = yup.string().email()
 
 const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
+  const [reviewData, setReviewData] = useState<null | ContactMutable[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
   const emails: ContactMutable[] | undefined = data?.filter(
@@ -42,6 +44,27 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
       })),
     [emails, primaryEmail?.data]
   )
+
+  useEffect(() => {
+    const defaultReviewData =
+      data?.filter((item) => item.type === 'email' && item.review === 0) || null
+
+    if (defaultReviewData && defaultReviewData.length === 1) {
+      updateApiData([
+        {
+          ...defaultReviewData[0],
+          review: 1,
+          meta: {
+            type: 'primary',
+          },
+        },
+      ])
+    }
+    if (defaultReviewData && defaultReviewData.length > 1) {
+      setReviewData(defaultReviewData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const setPrimaryEmail = async (emailData: {
     status: 'Primary' | 'Set Primary'
@@ -98,6 +121,23 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
     }
   }
 
+  const onSave = (val: string) => {
+    addEmail(val)
+  }
+
+  const acceptHandler = async (acceptData: ContactMutable) => {
+    addEmail(acceptData.data)
+  }
+
+  const declineHandler = (declineData: ContactMutable) => {
+    updateApiData([
+      {
+        ...declineData,
+        review: 2,
+      },
+    ])
+  }
+
   return (
     <div className={classNames(className, s.container)}>
       <EmailPopover data={emailsWithPrimary} setEmail={setPrimaryEmail} />
@@ -107,9 +147,17 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
           type="text"
           value={primaryEmail.data as string}
           onSave={(val: string) => {
-            addEmail(val)
+            onSave(val)
           }}
           classPrefix="profile-card-"
+        />
+      )}
+      {reviewData && reviewData?.length > 0 && (
+        <UserInfoReview
+          reviewData={reviewData}
+          title={`We detect ${reviewData.length} name changes`}
+          acceptHandler={acceptHandler}
+          declineHandler={declineHandler}
         />
       )}
     </div>

@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
-import _ from 'lodash'
 import Typography from '../Typography'
 import SvgIcon from '../SvgIcon'
 import EditField from '../EditField'
@@ -26,28 +25,8 @@ const UserInfoItem: React.FC<Props> = ({
   mutableDataType,
   label,
 }) => {
-  const [newMutableData, setNewMutableData] = useState<null | ContactMutable[]>(
-    null
-  )
-
+  const [reviewData, setReviewData] = useState<null | ContactMutable[]>([])
   const [isLoading, setIsLoading] = useState(false)
-
-  const checkCompliance = (val: any) => {
-    let checked = false
-    mutableData?.forEach((item) => {
-      if (item.type !== mutableDataType && !val) {
-        checked = true
-      }
-      if (
-        (item.type === mutableDataType &&
-          _.isEqual(item?.data, val?.split(' '))) ||
-        item?.data === val
-      ) {
-        checked = true
-      }
-    })
-    return checked
-  }
 
   const formatDataValueToDisplay = (data: any) => {
     if (Array.isArray(data)) {
@@ -63,97 +42,102 @@ const UserInfoItem: React.FC<Props> = ({
     return data
   }
 
-  const unreviewedData = useMemo(() => {
-    let composedArray: ContactMutable[] = []
-
-    const defaultUnreviewedNames = mutableData?.filter(
-      (item) => item.type === mutableDataType && item.review === 0
-    )
-    if (newMutableData) {
-      composedArray = [...newMutableData, ...composedArray]
-    }
-    if (defaultUnreviewedNames) {
-      composedArray = [...composedArray, ...defaultUnreviewedNames]
-    }
-    return composedArray
-  }, [mutableData, mutableDataType, newMutableData])
-
-  const primaryNameData = useMemo(
+  const primaryData = useMemo(
     () =>
       mutableData?.find((item) => {
         return item.type === mutableDataType && item.meta.type === 'primary'
-      }) || mutableData?.find((item) => item.type === mutableDataType),
+      }) ||
+      mutableData?.find((item) => {
+        return item.type === mutableDataType && item.review === 1
+      }),
     [mutableData, mutableDataType]
   )
 
-  const onSave = (val: string) => {
-    if (checkCompliance(val)) return
-    const stateValue = newMutableData
-      ? [
-          ...newMutableData,
-          {
-            type: mutableDataType,
-            data: formatDataValueForApi(val),
-            review: 1,
-            meta: {},
-          },
-        ]
-      : [
-          {
-            type: mutableDataType,
-            data: formatDataValueForApi(val),
-            review: 1,
-            meta: {},
-          },
-        ]
+  useEffect(() => {
+    const defaultReviewData =
+      mutableData?.filter(
+        (item) => item.type === mutableDataType && item.review === 0
+      ) || null
 
-    setNewMutableData(stateValue)
+    if (defaultReviewData && defaultReviewData.length === 1) {
+      updateData([
+        {
+          ...defaultReviewData[0],
+          review: 1,
+          meta: {
+            type: 'primary',
+          },
+        },
+      ])
+    }
+    if (defaultReviewData && defaultReviewData.length > 1) {
+      setReviewData(defaultReviewData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const composeItemForAPI = (
+    data: ContactMutable,
+    type: 'confirm' | 'delete'
+  ): ContactMutable => {
+    switch (type) {
+      case 'confirm':
+        return {
+          ...data,
+          review: 1,
+          meta: {
+            ...data.meta,
+            type: 'primary',
+          },
+        }
+
+      case 'delete':
+        return { ...data, review: 2 }
+
+      default:
+        return data
+    }
   }
 
-  const acceptHandler = async (data: ContactMutable) => {
-    setIsLoading(true)
+  const updateConfirmedData = async (data: ContactMutable) => {
     try {
-      if (primaryNameData) {
+      if (primaryData) {
         await updateData(
-          [
-            {
-              ...data,
-              review: 1,
-              meta: {
-                ...primaryNameData.meta,
-                type: 'primary',
-              },
-            },
-          ],
-          [{ ...primaryNameData, review: 2 }],
+          [composeItemForAPI(data, 'confirm')],
+          [composeItemForAPI(primaryData, 'delete')],
           updateDataCallback
         )
       } else {
         await updateData(
-          [
-            {
-              ...data,
-              review: 1,
-              meta: {
-                type: 'primary',
-              },
-            },
-          ],
-          [],
+          [composeItemForAPI(data, 'confirm')],
+          undefined,
           updateDataCallback
         )
       }
-
-      setIsLoading(false)
     } catch (err) {
       setIsLoading(false)
-      console.warn('acceptHandler error ==>', err)
+      Promise.reject(err)
     }
+  }
+
+  const onSave = (val: string) => {
+    updateConfirmedData({
+      type: mutableDataType,
+      data: formatDataValueForApi(val),
+      review: 1,
+      meta: {},
+    })
+  }
+
+  const acceptHandler = async (data: ContactMutable) => {
+    setIsLoading(true)
+    await updateConfirmedData(data)
+    setIsLoading(false)
   }
 
   const declineHandler = async (data: ContactMutable) => {
     setIsLoading(true)
-    await updateData([{ ...data, review: 2 }])
+    await updateData([composeItemForAPI(data, 'delete')])
     setIsLoading(false)
   }
 
@@ -168,18 +152,15 @@ const UserInfoItem: React.FC<Props> = ({
       </div>
       <EditField
         type="text"
-        value={
-          primaryNameData?.data &&
-          formatDataValueToDisplay(primaryNameData.data)
-        }
+        value={primaryData?.data && formatDataValueToDisplay(primaryData.data)}
         classPrefix="profile-card-"
         placeholder=" "
         onSave={(val: string) => onSave(val)}
       />
-      {!!unreviewedData?.length && (
+      {reviewData && reviewData?.length > 0 && (
         <UserInfoReview
-          unreviewedData={unreviewedData}
-          title={`We detect ${unreviewedData.length} name changes`}
+          reviewData={reviewData}
+          title={`We detected ${reviewData.length} values`}
           acceptHandler={acceptHandler}
           declineHandler={declineHandler}
         />
