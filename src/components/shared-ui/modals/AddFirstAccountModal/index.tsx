@@ -3,11 +3,9 @@ import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import Img from 'src/components/shared-ui/Img'
 import CloseButton from 'src/components/shared-ui/Close'
-import Button from 'src/components/shared-ui/Button'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import { useClient } from 'src/components/context/ClientContext'
 import ModalBase from '../ModalBase'
-// import ModalContent from '../ModalContent'
 
 const AddFirstAccountModal: React.FC = () => {
   const { dispatch, state } = usePopup()
@@ -21,9 +19,8 @@ const AddFirstAccountModal: React.FC = () => {
 
   return (
     <ModalBase
-      className={s.container}
       isOpen={addFirstAccountModalIsOpen}
-      onClose={closeHandler}
+      styles={{ maxWidth: '600px' }}
     >
       <CloseButton className={s.closeContainer} handler={closeHandler} />
 
@@ -56,10 +53,6 @@ const AddFirstAccountModal: React.FC = () => {
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    max-width: 600px;
-  }
 
   .closeContainer {
     width: 30px;

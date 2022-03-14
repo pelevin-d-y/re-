@@ -3,11 +3,11 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { Tab, Tabs as ReactTabs, TabList, TabPanel } from 'react-tabs'
 import formatContactData from 'src/helpers/utils/format-contact-data'
-import ContactNextSteps from './ContactNextSteps'
 import TabNotes from '../shared-ui/popover/PopoverUserInfo/TabNotes'
 import { UpdateMutableData } from '../HOCs/HOCUpdateMutableData'
 import TabLists from '../shared-ui/popover/PopoverUserInfo/TabLists'
 import Typography from '../shared-ui/Typography'
+import TabRecs from '../shared-ui/popover/PopoverUserInfo/TabRecs'
 
 type Props = {
   className?: string
@@ -34,7 +34,7 @@ const ContactTabs: React.FC<Props> = ({
           </Tab>
           <Tab className={s.tabItem}>
             <Typography styleVariant="body1" fontVariant="inter">
-              Next Steps
+              Recs
             </Typography>
           </Tab>
           <Tab className={s.tabItem}>
@@ -45,10 +45,14 @@ const ContactTabs: React.FC<Props> = ({
         </TabList>
         <TabPanel>{data && <TabLists data={data} />}</TabPanel>
         <TabPanel>
-          <ContactNextSteps />
+          <TabRecs />
         </TabPanel>
         <TabPanel>
-          <TabNotes updateData={updateData} mutableData={mutableData} />
+          <TabNotes
+            className={s.tabNotes}
+            updateData={updateData}
+            mutableData={mutableData}
+          />
         </TabPanel>
       </ReactTabs>
     </div>
@@ -91,6 +95,10 @@ const s = css`
 
   .panel {
     padding: 16px;
+  }
+
+  .tabNotes {
+    padding-bottom: 0;
   }
 `
 

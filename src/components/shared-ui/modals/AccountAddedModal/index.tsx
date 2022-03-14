@@ -4,7 +4,6 @@ import { usePopup } from 'src/components/context/PopupContext'
 import Img from 'src/components/shared-ui/Img'
 import CloseButton from 'src/components/shared-ui/Close'
 import Button from 'src/components/shared-ui/Button'
-import { useFreeStorage } from 'src/components/context/FreeStorageContext'
 import { useClient } from 'src/components/context/ClientContext'
 import ModalBase from '../ModalBase'
 
@@ -42,11 +41,7 @@ const AccountAddedModal: React.FC = () => {
   }
 
   return (
-    <ModalBase
-      className={s.container}
-      isOpen={accountAddedModalIsOpen}
-      onClose={closeHandler}
-    >
+    <ModalBase isOpen={accountAddedModalIsOpen} styles={{ maxWidth: '600px' }}>
       <CloseButton className={s.closeContainer} handler={closeHandler} />
 
       <div className={s.header}>
@@ -75,10 +70,6 @@ const AccountAddedModal: React.FC = () => {
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    max-width: 600px;
-  }
 
   .closeContainer {
     width: 30px;

@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 import ModalBase from '../ModalBase'
 import ModalContent from '../ModalContent'
@@ -13,39 +12,12 @@ const ComposeModal: React.FC = () => {
   }
 
   return (
-    <ModalBase
-      className={s.container}
-      isOpen={emailModalIsOpen}
-      onClose={closeHandler}
-    >
+    <ModalBase isOpen={emailModalIsOpen} styles={{ maxWidth: '900px' }}>
       {data && (
         <ModalContent data={data} withAvatar closeHandler={closeHandler} />
       )}
     </ModalBase>
   )
 }
-
-const s = css`
-  @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    max-width: 900px;
-  }
-
-  .footer {
-    margin-top: 29px;
-  }
-
-  .closeContainer {
-    width: 30px;
-    margin-left: calc(100% - 50px);
-    margin-top: 15px;
-  }
-
-  .buttonRemove {
-    background: transparent;
-    color: var(--neutral2);
-  }
-`
 
 export default ComposeModal

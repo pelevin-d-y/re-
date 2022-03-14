@@ -22,9 +22,13 @@ const ModalPinnedContacts: React.FC<Props> = () => {
 
   return (
     <ModalBase
-      className={s.container}
       isOpen={state.modalPinnedIsOpen}
-      onClose={closeHandler}
+      styles={{
+        overflow: 'visible',
+        maxWidth: '475px',
+        padding: '30px 33px 49px',
+        minHeight: '462px',
+      }}
     >
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
@@ -59,13 +63,6 @@ const ModalPinnedContacts: React.FC<Props> = () => {
 }
 
 const s = css`
-  .container {
-    overflow: visible;
-    max-width: 475px;
-    padding: 30px 33px 49px;
-    min-height: 462px;
-  }
-
   .close {
     position: absolute;
     right: 23px;
@@ -105,8 +102,8 @@ const s = css`
   }
 
   .tab[aria-selected='true'] {
-    color: var(--primary1);
-    border-bottom: 4px solid var(--primary1);
+    color: var(--neutral1);
+    border-bottom: 4px solid var(--neutral1);
   }
 
   .avatars {

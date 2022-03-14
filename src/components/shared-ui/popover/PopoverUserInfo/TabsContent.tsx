@@ -8,6 +8,7 @@ import TabLists from './TabLists'
 import TabNotes from './TabNotes'
 import Button from '../../Button'
 import Typography from '../../Typography'
+import TabRecs from './TabRecs'
 
 type Props = {
   className?: string
@@ -34,7 +35,9 @@ const TabsContent: React.FC<Props> = ({
           <Tab className={s.tabItem}>
             <Typography styleVariant="body1">List</Typography>
           </Tab>
-          {/* <Tab className={s.tabItem}>Recs</Tab> */}
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1">Recs</Typography>
+          </Tab>
           <Tab className={s.tabItem}>
             <Typography styleVariant="body1">Notes</Typography>
           </Tab>
@@ -55,9 +58,9 @@ const TabsContent: React.FC<Props> = ({
         <TabPanel>
           <TabLists data={data} />
         </TabPanel>
-        {/* <TabPanel>
-              <TabRecs />
-            </TabPanel> */}
+        <TabPanel>
+          <TabRecs />
+        </TabPanel>
         <TabPanel>
           <TabNotes mutableData={mutableData} updateData={updateData} />
         </TabPanel>
