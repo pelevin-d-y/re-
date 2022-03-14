@@ -67,7 +67,7 @@ const ContactCard: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      <UserInfo mutableData={mutableData} updateData={updateData} />
+      <UserInfo mutableData={mutableData} updateData={updateData} id={id} />
     </div>
   )
 }
