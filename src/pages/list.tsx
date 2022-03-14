@@ -5,17 +5,20 @@ import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 import { css } from 'astroturf'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
+import { PinnedProvider } from 'src/components/context/PinnedContext'
 
 const List: React.FC = () => (
   <TemplatesProvider>
     <Layout className={s.layout}>
-      <PlaylistsProvider>
-        <PlaylistProvider>
-          <PopupProvider>
-            <ListContent />
-          </PopupProvider>
-        </PlaylistProvider>
-      </PlaylistsProvider>
+      <PinnedProvider>
+        <PlaylistsProvider>
+          <PlaylistProvider>
+            <PopupProvider>
+              <ListContent />
+            </PopupProvider>
+          </PlaylistProvider>
+        </PlaylistsProvider>
+      </PinnedProvider>
     </Layout>
   </TemplatesProvider>
 )

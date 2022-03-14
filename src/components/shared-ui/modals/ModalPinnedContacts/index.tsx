@@ -102,8 +102,8 @@ const s = css`
   }
 
   .tab[aria-selected='true'] {
-    color: var(--primary1);
-    border-bottom: 4px solid var(--primary1);
+    color: var(--neutral1);
+    border-bottom: 4px solid var(--neutral1);
   }
 
   .avatars {

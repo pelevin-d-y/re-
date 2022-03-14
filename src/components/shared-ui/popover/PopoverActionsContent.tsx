@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -32,7 +33,13 @@ const PopoverActionsContent: React.FC<Props> = ({ className }) => (
             onClick={() => item.handler()}
             className={s.popupButton}
           >
-            {item.name}
+            <Typography
+              fontVariant="inter"
+              styleVariant="body3"
+              fontWeight="medium"
+            >
+              {item.name}
+            </Typography>
           </button>
         </li>
       ))}
@@ -42,7 +49,13 @@ const PopoverActionsContent: React.FC<Props> = ({ className }) => (
           onClick={() => null}
           className={classNames(s.popupButton, s.ignore)}
         >
-          Ignore
+          <Typography
+            fontVariant="inter"
+            styleVariant="body3"
+            fontWeight="medium"
+          >
+            Ignore
+          </Typography>
         </button>
       </li>
     </ul>
@@ -71,8 +84,6 @@ const s = css`
     padding-top: 9px;
     padding-bottom: 9px;
     outlined: none;
-    font-size: 12px;
-    font-weight: var(--bold);
     text-align: left;
     background: var(--shades2);
     color: var(--primary1);
@@ -82,7 +93,7 @@ const s = css`
   }
 
   .ignore {
-    color: var(-black);
+    color: var(--black);
   }
 `
 
