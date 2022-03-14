@@ -38,11 +38,7 @@ const AddAccountModal: React.FC = () => {
   }, [addresses])
 
   return (
-    <ModalBase
-      className={s.container}
-      isOpen={addNewAccountModalIsOpen}
-      onClose={closeHandler}
-    >
+    <ModalBase isOpen={addNewAccountModalIsOpen} styles={{ maxWidth: '600px' }}>
       <CloseButton className={s.closeContainer} handler={closeHandler} />
 
       <div className={s.header}>
@@ -100,10 +96,6 @@ const AddAccountModal: React.FC = () => {
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    max-width: 600px;
-  }
 
   .closeContainer {
     width: 30px;

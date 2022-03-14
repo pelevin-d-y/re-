@@ -208,11 +208,7 @@ const WelcomeModal: React.FC = () => {
   }
 
   return (
-    <ModalBase
-      className={s.container}
-      isOpen={welcomeModalIsOpen}
-      onClose={closeHandler}
-    >
+    <ModalBase isOpen={welcomeModalIsOpen} styles={{ maxWidth: '600px' }}>
       <CloseButton className={s.closeContainer} handler={closeHandler} />
 
       <div className={s.header}>
@@ -274,10 +270,6 @@ const WelcomeModal: React.FC = () => {
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    max-width: 600px;
-  }
 
   .closeContainer {
     width: 30px;

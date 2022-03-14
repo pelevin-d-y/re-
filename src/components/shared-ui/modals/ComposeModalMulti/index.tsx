@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
 
 import { differenceWith } from 'lodash'
@@ -88,9 +87,12 @@ const ComposeModalMulti: React.FC = () => {
 
   return (
     <ModalBase
-      className={s.container}
+      styles={{
+        maxWidth: '1055px',
+        display: 'grid',
+        gridTemplateColumns: '2fr 4fr',
+      }}
       isOpen={multiEmailsIsOpen}
-      onClose={closeHandler}
     >
       <UsersManager
         selectedContacts={selectedContacts}
@@ -109,23 +111,5 @@ const ComposeModalMulti: React.FC = () => {
     </ModalBase>
   )
 }
-
-const s = css`
-  .container {
-    max-width: 1055px;
-    display: grid;
-    grid-template-columns: 2fr 4fr;
-  }
-
-  .close {
-    position: absolute;
-    right: 16px;
-    top: 16px;
-  }
-
-  .content {
-    padding: 29px 30px 15px;
-  }
-`
 
 export default ComposeModalMulti

@@ -1,54 +1,41 @@
 import React from 'react'
-import ReactModal from 'react-modal'
-import { css } from 'astroturf'
-import classNames from 'classnames'
+import Popup from 'reactjs-popup'
 
 type Props = {
   isOpen: boolean
-  onClose: () => void
   className?: string
+  styles?: React.CSSProperties
 }
 
-const EmailModal: React.FC<Props> = ({
-  children,
-  isOpen,
-  onClose,
-  className,
-}) => {
-  ReactModal.setAppElement('#__next')
-  const modalStyles = {
-    overlay: {
-      zIndex: 20,
-      background: 'rgba(0, 0, 0, 0.5)',
-      width: '100vw',
-      height: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+const ModalBase: React.FC<Props> = ({ children, isOpen, styles }) => {
+  const overlayStyle = {
+    background: 'rgba(0, 0, 0, 0.5)',
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+
+  const contentStyle = {
+    width: '100%',
+    maxHeight: 'calc(100vh - 2rem)',
+    background: '#FFFFFF',
+    overflow: 'auto',
+    inset: 'auto',
   }
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={onClose}
-      className={classNames(className, s.container)}
-      style={modalStyles}
+    <Popup
+      nested
+      modal
+      open={isOpen}
+      {...{ overlayStyle }}
+      contentStyle={{ ...contentStyle, ...styles }}
     >
       {children}
-    </ReactModal>
+    </Popup>
   )
 }
 
-const s = css`
-  .container {
-    position: relative;
-    width: 100%;
-    max-height: calc(100vh - 2rem);
-    background: var(--shades2);
-    overflow: auto;
-    inset: auto;
-  }
-`
-
-export default EmailModal
+export default ModalBase
