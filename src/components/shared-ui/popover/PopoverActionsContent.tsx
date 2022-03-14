@@ -70,7 +70,7 @@ const s = css`
     width: 100%;
     padding-top: 9px;
     padding-bottom: 9px;
-
+    outlined: none;
     font-size: 12px;
     font-weight: var(--bold);
     text-align: left;

@@ -24,32 +24,21 @@ const TabRecs: React.FC<Props> = ({ className }) => {
         {contacts?.map((item) => (
           <li className={s.item} key={item.first_message_id}>
             <CardContainer className={s.card}>
-              <Avatar
-                image={item.image_url}
-                name={getName(item)}
-                width={49}
-                height={49}
-                className={s.avatar}
+              <PopoverBase
+                triggerElement={
+                  <div className={s.description}>
+                    {item.message_template_subject && (
+                      <NextStep
+                        text={parseMessage(
+                          item.message_template_subject,
+                          item.name
+                        )}
+                      />
+                    )}
+                  </div>
+                }
+                popupContent={<PopoverActionsContent />}
               />
-              <div className={s.info}>
-                <div className={s.name}>
-                  {item.name}{' '}
-                  <PopoverBase
-                    triggerElement={<div className={s.dots}>•••</div>}
-                    popupContent={<PopoverActionsContent />}
-                  />
-                </div>
-                <div className={s.description}>
-                  {item.message_template_subject && (
-                    <NextStep
-                      text={parseMessage(
-                        item.message_template_subject,
-                        item.name
-                      )}
-                    />
-                  )}
-                </div>
-              </div>
             </CardContainer>
           </li>
         ))}
@@ -71,30 +60,20 @@ const s = css`
   }
 
   .card {
+    box-shadow: 0px 1px 1px 0px #22222219;
     display: flex;
     flex-flow: row nowrap;
     padding: 16px 12px 14px 13px;
-  }
-
-  .info {
-    width: 100%;
-    margin-left: 13px;
-  }
-
-  .name {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-
-    margin-bottom: 11px;
-
-    font-weight: var(--bold);
   }
 
   .dots {
     cursor: auto;
 
     color: var(--primary1);
+  }
+
+  .description {
+    width: 100%;
   }
 `
 
