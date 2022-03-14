@@ -28,9 +28,12 @@ const CreateListModal: React.FC = () => {
 
   return (
     <ModalBase
-      className={s.container}
+      styles={{
+        maxWidth: '475px',
+        padding: '30px 33px 49px',
+        minHeight: 'auto',
+      }}
       isOpen={createListModalIsOpen}
-      onClose={closeHandler}
     >
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.content}>
@@ -112,12 +115,6 @@ const CreateListModal: React.FC = () => {
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-
-  .container {
-    max-width: 475px;
-    padding: 30px 33px 49px;
-    min-height: auto;
-  }
 
   .field {
     margin-bottom: 21px;

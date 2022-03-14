@@ -2,11 +2,15 @@ import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
+import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
 import UserInfoEmail from './UserInfoEmail'
 import UserInfoItem from './UserInfoItem'
+import UserInfoItemTextInput from './UserInfoItemTextInput'
+import UserInfoLastMesaage from './UserInfoLastMesaage'
 
 type Props = {
   className?: string
+  id: string
   mutableData?: ContactMutable[]
   updateData: UpdateMutableData
   updateDataCallback?: () => void
@@ -17,51 +21,56 @@ const UserInfo: React.FC<Props> = ({
   mutableData,
   updateData,
   updateDataCallback,
+  id,
 }) => {
   return (
     <div className={classNames(s.container, className)}>
       <ul className={s.list}>
         <li className={s.item}>
-          <UserInfoItem
-            mutableData={mutableData}
-            updateData={updateData}
-            updateDataCallback={updateDataCallback}
-            mutableDataType="name"
-            label="Name"
-          />
+          <UserInfoItem label="Name">
+            <UserInfoItemTextInput
+              mutableData={mutableData}
+              updateData={updateData}
+              updateDataCallback={updateDataCallback}
+              mutableDataType="name"
+              id={id}
+            />
+          </UserInfoItem>
         </li>
         <li className={s.item}>
-          <UserInfoItem
-            mutableData={mutableData}
-            updateData={updateData}
-            updateDataCallback={updateDataCallback}
-            mutableDataType="name_short"
-            label="Nickname"
-          />
+          <UserInfoItem label="Nickname">
+            <UserInfoItemTextInput
+              mutableData={mutableData}
+              updateData={updateData}
+              updateDataCallback={updateDataCallback}
+              mutableDataType="name_short"
+              id={id}
+            />
+          </UserInfoItem>
         </li>
         {mutableData && (
           <li className={s.item}>
-            <UserInfoEmail data={mutableData} updateApiData={updateData} />
+            <UserInfoEmail
+              data={mutableData}
+              updateApiData={updateData}
+              updateDataCallback={updateDataCallback}
+            />
           </li>
         )}
-        {/* <li className={s.item}>
-          <UserInfoItem
-            mutableData={mutableData}
-            updateData={updateData}
-            updateDataCallback={updateDataCallback}
-            mutableDataType="title"
-            label="Title"
-          />
-        </li>
         <li className={s.item}>
-          <UserInfoItem
-            mutableData={mutableData}
-            updateData={updateData}
-            updateDataCallback={updateDataCallback}
-            mutableDataType="company"
-            label="Company"
-          />
-        </li> */}
+          <UserInfoItem label="Last Message">
+            <HOCLastMessage id={id}>
+              {(lastMessageData, isLoading, ref) => (
+                <UserInfoLastMesaage
+                  data={lastMessageData}
+                  isLoading={isLoading}
+                  ref={ref}
+                />
+              )}
+            </HOCLastMessage>
+          </UserInfoItem>
+        </li>
+
         {/* {data.last_contact_time && (
           <li className={s.item}>
             <div className={s.itemTitle}>

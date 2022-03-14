@@ -17,10 +17,8 @@ const EmailModal: React.FC = () => {
 
   return (
     <ModalBase
-      className={s.container}
+      styles={{ maxWidth: ' 475px', padding: '30px 33px' }}
       isOpen={addContactModalIsOpen}
-      // isOpen={true}
-      onClose={closeHandler}
     >
       <CloseModal handler={closeHandler} className={s.close} />
       <div className={s.header}>
@@ -88,10 +86,6 @@ const EmailModal: React.FC = () => {
 
 const s = css`
   @import 'src/styles/preferences/_mixins.scss';
-  .container {
-    max-width: 475px;
-    padding: 30px 33px;
-  }
 
   .icon {
     display: block;

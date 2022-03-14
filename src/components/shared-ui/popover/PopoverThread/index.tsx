@@ -5,8 +5,8 @@ import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import Close from 'src/components/shared-ui/Close'
 import { useClient } from 'src/components/context/ClientContext'
-import ThreadItem from './ThreadItem'
 import { getName } from 'src/helpers/utils/get-name'
+import ThreadItem from './ThreadItem'
 
 type Props = {
   className?: string

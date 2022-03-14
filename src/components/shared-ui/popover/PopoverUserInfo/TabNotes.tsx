@@ -60,7 +60,7 @@ const TabNotes: React.FC<Props> = ({ className, mutableData, updateData }) => {
               variant="outlined"
               disabled={isSubmitting}
             >
-              Save
+              Save Note
             </Button>
           </form>
         )}
@@ -71,13 +71,15 @@ const TabNotes: React.FC<Props> = ({ className, mutableData, updateData }) => {
 
 const s = css`
   .container {
-    padding: 16px 16px 0px 16px;
+    padding: 16px;
   }
 
   .textarea {
     border-radius: 4px;
-    border: 1px solid #dddddd;
+    border: 1px solid var(--neutral4);
+    background: var(--neutral5);
     width: 100%;
+    color: var(--neutral1);
     height: 291px;
     resize: none;
     padding: 13px 18px 18px 14px;

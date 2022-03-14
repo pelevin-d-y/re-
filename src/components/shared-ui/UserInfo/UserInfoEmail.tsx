@@ -13,11 +13,17 @@ type Props = {
   className?: string
   data: ContactMutable[]
   updateApiData: UpdateMutableData
+  updateDataCallback?: () => void
 }
 
 const schema = yup.string().email()
 
-const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
+const UserInfoEmail: React.FC<Props> = ({
+  className,
+  data,
+  updateApiData,
+  updateDataCallback,
+}) => {
   const [reviewData, setReviewData] = useState<null | ContactMutable[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -83,26 +89,34 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
     ) as ContactMutable
 
     if (currentPrimaryEmail) {
-      await updateApiData([
-        {
-          ...selectedEmail,
-          meta: { ...selectedEmail.meta, type: 'primary' },
-        },
-        {
-          ...currentPrimaryEmail,
-          meta: { ...currentPrimaryEmail.meta, type: null },
-        },
-      ])
-    } else {
-      await updateApiData([
-        {
-          ...selectedEmail,
-          meta: {
-            ...selectedEmail.meta,
-            type: 'primary',
+      await updateApiData(
+        [
+          {
+            ...selectedEmail,
+            meta: { ...selectedEmail.meta, type: 'primary' },
           },
-        },
-      ])
+          {
+            ...currentPrimaryEmail,
+            meta: { ...currentPrimaryEmail.meta, type: null },
+          },
+        ],
+        undefined,
+        updateDataCallback
+      )
+    } else {
+      await updateApiData(
+        [
+          {
+            ...selectedEmail,
+            meta: {
+              ...selectedEmail.meta,
+              type: 'primary',
+            },
+          },
+        ],
+        undefined,
+        updateDataCallback
+      )
     }
 
     setIsLoading(false)
@@ -112,7 +126,11 @@ const UserInfoEmail: React.FC<Props> = ({ className, data, updateApiData }) => {
     setIsLoading(true)
     try {
       await schema.validate(value)
-      await updateApiData([getBaseMutableData({ data: value, type: 'email' })])
+      await updateApiData(
+        [getBaseMutableData({ data: value, type: 'email' })],
+        undefined,
+        updateDataCallback
+      )
       setIsLoading(false)
     } catch (err) {
       // eslint-disable-next-line no-console

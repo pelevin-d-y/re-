@@ -72,8 +72,8 @@ const TabLists: React.FC<Props> = ({ className, data }) => {
           </li>
         ))}
       </ul>
-      <button type="button" className={s.button}>
-        + Add to new list{' '}
+      <button type="button" className={s.button} onClick={openModal}>
+        + Add to new list
       </button>
     </div>
   )

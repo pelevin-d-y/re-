@@ -2,11 +2,9 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { usePopup } from 'src/components/context/PopupContext'
-import Close from 'src/components/shared-ui/Close'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import ModalBase from 'src/components/shared-ui/modals/ModalBase'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
-import ModalListActions from '../ModalListActions'
 import { LoaderAbsolute } from '../../Loader'
 import Button from '../../Button'
 
@@ -39,9 +37,12 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
 
   return (
     <ModalBase
-      className={classNames(className, s.container)}
+      styles={{
+        maxWidth: '254px',
+        width: '100%',
+        minHeight: 'auto',
+      }}
       isOpen={popupState.deleteListModalIsOpen}
-      onClose={closeHandler}
     >
       <CardContainer className={classNames(className, s.popup)}>
         <div className={s.title}>
@@ -70,12 +71,6 @@ const DeleteListModal: React.FC<Props> = ({ className }) => {
 }
 
 const s = css`
-  .container {
-    max-width: 254px;
-    width: 100%;
-    min-height: auto;
-  }
-
   .title {
     display: flex;
     justify-content: center;

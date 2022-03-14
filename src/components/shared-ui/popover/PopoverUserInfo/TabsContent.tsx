@@ -8,6 +8,7 @@ import TabLists from './TabLists'
 import TabNotes from './TabNotes'
 import Button from '../../Button'
 import Typography from '../../Typography'
+import TabRecs from './TabRecs'
 
 type Props = {
   className?: string
@@ -23,45 +24,50 @@ const TabsContent: React.FC<Props> = ({
   mutableData,
   updateData,
   updateDataCallback,
-}) => (
-  <div className={classNames(s.container, className)}>
-    <ReactTabs>
-      <TabList className={s.tabs}>
-        <Tab className={s.tabItem}>
-          <Typography styleVariant="body1">Info</Typography>
-        </Tab>
-        <Tab className={s.tabItem}>
-          <Typography styleVariant="body1">List</Typography>
-        </Tab>
-        {/* <Tab className={s.tabItem}>Recs</Tab> */}
-        <Tab className={s.tabItem}>
-          <Typography styleVariant="body1">Notes</Typography>
-        </Tab>
-      </TabList>
-      <TabPanel>
-        <UserInfo
-          mutableData={mutableData}
-          updateData={updateData}
-          updateDataCallback={updateDataCallback}
-        />
-        <div className={s.removeButtonContainer}>
-          <Button className={s.removeButton} variant="outlined">
-            Don’t recommend contact
-          </Button>
-        </div>
-      </TabPanel>
-      <TabPanel>
-        <TabLists data={data} />
-      </TabPanel>
-      {/* <TabPanel>
-            <TabRecs />
-          </TabPanel> */}
-      <TabPanel>
-        <TabNotes mutableData={mutableData} updateData={updateData} />
-      </TabPanel>
-    </ReactTabs>
-  </div>
-)
+}) => {
+  return (
+    <div className={classNames(s.container, className)}>
+      <ReactTabs>
+        <TabList className={s.tabs}>
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1">Info</Typography>
+          </Tab>
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1">List</Typography>
+          </Tab>
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1">Recs</Typography>
+          </Tab>
+          <Tab className={s.tabItem}>
+            <Typography styleVariant="body1">Notes</Typography>
+          </Tab>
+        </TabList>
+        <TabPanel>
+          <UserInfo
+            mutableData={mutableData}
+            updateData={updateData}
+            updateDataCallback={updateDataCallback}
+            id={data.contact_id}
+          />
+          <div className={s.removeButtonContainer}>
+            <Button className={s.removeButton} variant="outlined">
+              Don’t recommend contact
+            </Button>
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <TabLists data={data} />
+        </TabPanel>
+        <TabPanel>
+          <TabRecs />
+        </TabPanel>
+        <TabPanel>
+          <TabNotes mutableData={mutableData} updateData={updateData} />
+        </TabPanel>
+      </ReactTabs>
+    </div>
+  )
+}
 
 const s = css`
   .container {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
 import { getName } from 'src/helpers/utils/get-name'
@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { getNextStep } from 'src/helpers/utils/get-next-step'
+import { usePinned } from 'src/components/context/PinnedContext'
 import CardContainer from '../../cards/CardContainer'
 import Avatar from '../../Avatar'
 import PopoverDots from '../PopoverDots'
@@ -23,13 +24,32 @@ type Props = {
 }
 
 const PopupContent: React.FC<Props> = ({
-  className,
   data,
   buttonHandler,
   mutableData,
   updateData,
   updateDataCallback,
 }) => {
+  const { state, addPinned, removePinned } = usePinned()
+
+  const [isPinned, setIsPinned] = useState(false)
+
+  useEffect(() => {
+    if (state.ids.find((item) => item === data.contact_id)) {
+      return setIsPinned(true)
+    }
+    return setIsPinned(false)
+  }, [data, state.ids])
+
+  const pinAction = () => {
+    if (isPinned) {
+      removePinned(data.contact_id)
+    }
+    if (!isPinned) {
+      addPinned(data.contact_id)
+    }
+  }
+
   const router = useRouter()
   const formattedMutableData = formatContactData(mutableData)
   const getAvatarUrl = () => {
@@ -72,6 +92,10 @@ const PopupContent: React.FC<Props> = ({
               {
                 name: 'Manage',
                 handler: () => router.push(`/contact?id=${data.contact_id}`),
+              },
+              {
+                name: !isPinned ? 'Pin' : 'Unpin',
+                handler: () => pinAction(),
               },
             ]}
           />
