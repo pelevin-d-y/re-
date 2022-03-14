@@ -7,6 +7,7 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 
 import { isArray, debounce } from 'lodash'
 import { getName } from 'src/helpers/utils/get-name'
+import { arrayInsertItem } from 'src/helpers/utils/array-insert-item'
 import SectionHeader from '../shared-ui/SectionHeader'
 import Search from '../shared-ui/Search'
 import { LoaderStatic } from '../shared-ui/Loader'
@@ -25,14 +26,26 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
   const [searchText, setSearchText] = useState<string>('')
   const [searchResults, setSearchResults] = useState<FormattedContact[]>([])
 
-  const fetchData = async () => {
+  const fetchData = async (userId?: string) => {
     return get.getContactsMutable().then(async (res) => {
       const formattedData = Object.entries(res).map(([id, contact]) => {
         const contactData = formatContactData(contact, id)
 
         return contactData
       })
-      setMutableData(formattedData)
+
+      const updatedUser = formattedData.find(
+        (item) => item.contact_id === userId
+      )
+      if (updatedUser && mutableData) {
+        const userIndex = mutableData.findIndex(
+          (item) => item.contact_id === updatedUser.contact_id
+        )
+
+        setMutableData(arrayInsertItem(mutableData, userIndex, updatedUser))
+      } else {
+        setMutableData(formattedData)
+      }
     })
   }
 
