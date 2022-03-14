@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
-import Button from 'src/components/shared-ui/Button'
 import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import Typography from '../Typography'
 
 interface PrimaryEmail extends ContactMutable {
   status: 'Primary' | 'Set Primary'
@@ -38,8 +38,11 @@ const EmailPopover: React.FC<Props> = ({ className, data, setEmail }) => {
             onKeyDown={() => setIsOpen(true)}
             tabIndex={0}
           >
-            Email ({data.length}) <span>Primary</span>{' '}
-            <SvgIcon className={s.selectArrow} icon="arrow-selector.svg" />
+            <Typography styleVariant="body2">Email ({data.length})</Typography>
+            <div>
+              <span>Primary</span>{' '}
+              <SvgIcon className={s.selectArrow} icon="arrow-selector.svg" />
+            </div>
           </div>
         </div>
       }
@@ -122,6 +125,9 @@ const s = css`
   }
 
   .trigger {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
     margin-bottom: 10px;
 
     cursor: pointer;

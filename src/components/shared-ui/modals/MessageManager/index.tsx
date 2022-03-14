@@ -65,6 +65,18 @@ const reducer = (state: State, action: Action) => {
   }
 }
 
+const getAddressTo = (data: any) => {
+  const primaryEmail =
+    data?.emails?.find(
+      (item: ContactMutable) =>
+        item.type === 'email' && item.meta.type === 'primary'
+    )?.data ||
+    data?.emails[0]?.data ||
+    ''
+
+  return data?.address || primaryEmail
+}
+
 const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const template =
     data?.customTemplate ||
@@ -83,7 +95,8 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     (clientState.data && getName(clientState.data))
   const contactName = data.name_short || getName(data)
 
-  const addressTo = data?.address || data.emails[0]?.data
+  const addressTo = getAddressTo(data)
+  console.log('🚀 ~ file: index.tsx ~ line 87 ~ data', data)
 
   useEffect(() => {
     let parsedMessage
