@@ -67,6 +67,7 @@ const reducer = (state: State, action: Action) => {
 
 const getAddressTo = (data: any) => {
   const primaryEmail =
+    data?.address ||
     data?.emails?.find(
       (item: ContactMutable) =>
         item.type === 'email' && item.meta.type === 'primary'
