@@ -96,7 +96,6 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const contactName = data.name_short || getName(data)
 
   const addressTo = getAddressTo(data)
-  console.log('🚀 ~ file: index.tsx ~ line 87 ~ data', data)
 
   useEffect(() => {
     let parsedMessage
