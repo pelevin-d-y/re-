@@ -44,9 +44,7 @@ const ContactTabs: React.FC<Props> = ({
           </Tab>
         </TabList>
         <TabPanel>{data && <TabLists data={data} />}</TabPanel>
-        <TabPanel>
-          <TabRecs />
-        </TabPanel>
+        <TabPanel>{data && <TabRecs data={data} />}</TabPanel>
         <TabPanel>
           <TabNotes
             className={s.tabNotes}
