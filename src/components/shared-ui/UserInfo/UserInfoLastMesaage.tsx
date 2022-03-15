@@ -37,6 +37,7 @@ const UserInfoLastMesaage = React.forwardRef<any, Props>(
               </Typography>
               <div
                 className={s.text}
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: parsedText() }}
               />
             </>
@@ -50,6 +51,9 @@ const UserInfoLastMesaage = React.forwardRef<any, Props>(
 const s = css`
   .container {
     padding: 16px;
+    max-height: 200px;
+    overflow: auto;
+
     border: 1px solid var(--neutral4);
     border-radius: 4px;
     line-height: 17px;

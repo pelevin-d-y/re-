@@ -33,7 +33,6 @@ const AllContactsContent: React.FC<Props> = ({ className }) => {
 
         return contactData
       })
-
       const updatedUser = formattedData.find(
         (item) => item.contact_id === userId
       )
