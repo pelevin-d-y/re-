@@ -5,16 +5,21 @@ import { useClient } from 'src/components/context/ClientContext'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import NextStep from 'src/components/shared-ui/NextStep'
 import parseMessage from 'src/helpers/utils/parse-message'
-import PopoverBase from '../PopoverBase'
-import PopoverActionsContent from '../PopoverActionsContent'
+import { usePopup } from 'src/components/context/PopupContext'
 
 type Props = {
   className?: string
+  data: RecommendationUser | FormattedContact
 }
 
-const TabRecs: React.FC<Props> = ({ className }) => {
+const TabRecs: React.FC<Props> = ({ className, data }) => {
   const { state } = useClient()
   const contacts = useMemo(() => state.data?.contacts?.slice(0, 3), [state])
+  const { dispatch } = usePopup()
+
+  const buttonHandler = () => {
+    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: data })
+  }
 
   return (
     <div className={classNames(className, s.container)}>
@@ -22,21 +27,20 @@ const TabRecs: React.FC<Props> = ({ className }) => {
         {contacts?.map((item) => (
           <li className={s.item} key={item.first_message_id}>
             <CardContainer className={s.card}>
-              <PopoverBase
-                triggerElement={
-                  <div className={s.description}>
-                    {item.message_template_subject && (
-                      <NextStep
-                        text={parseMessage(
-                          item.message_template_subject,
-                          item.name
-                        )}
-                      />
+              <div
+                className={s.description}
+                onClick={buttonHandler}
+                aria-hidden="true"
+              >
+                {item.message_template_subject && (
+                  <NextStep
+                    text={parseMessage(
+                      item.message_template_subject,
+                      item.name
                     )}
-                  </div>
-                }
-                popupContent={<PopoverActionsContent />}
-              />
+                  />
+                )}
+              </div>
             </CardContainer>
           </li>
         ))}
@@ -51,6 +55,7 @@ const s = css`
   }
 
   .item {
+    cursor: pointer;
     margin-bottom: 8px;
     &:last-child {
       margin-bottom: 0;

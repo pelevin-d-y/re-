@@ -59,7 +59,7 @@ const TabsContent: React.FC<Props> = ({
           <TabLists data={data} />
         </TabPanel>
         <TabPanel>
-          <TabRecs />
+          <TabRecs data={data} />
         </TabPanel>
         <TabPanel>
           <TabNotes mutableData={mutableData} updateData={updateData} />
