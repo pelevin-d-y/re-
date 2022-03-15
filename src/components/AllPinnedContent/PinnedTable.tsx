@@ -138,14 +138,6 @@ const PinnedTable: React.FC<Props> = ({ className, data }) => {
     {
       columns,
       data: tableData || [],
-      initialState: {
-        sortBy: [
-          {
-            id: 'name',
-            desc: false,
-          },
-        ],
-      },
     },
     useSortBy,
     useFlexLayout,
