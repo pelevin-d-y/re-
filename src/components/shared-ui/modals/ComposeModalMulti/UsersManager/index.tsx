@@ -7,6 +7,8 @@ import Button from 'src/components/shared-ui/Button'
 import { getName } from 'src/helpers/utils/get-name'
 import { usePopup } from 'src/components/context/PopupContext'
 import AddUserView from 'src/components/shared-ui/AddUserView'
+import SvgIcon from 'src/components/shared-ui/SvgIcon'
+import Typography from 'src/components/shared-ui/Typography'
 import MessageStatus from './MessageStatus'
 
 type Props = {
@@ -88,6 +90,23 @@ const UsersManager: React.FC<Props> = ({
                 className={s.buttonRemove}
                 handler={() => removeUser(item)}
               />
+              <div className={s.messageSent}>
+                {item.isSent && (
+                  <>
+                    <Typography
+                      className={s.sentText}
+                      fontVariant="inter"
+                      styleVariant="body4"
+                    >
+                      Sent!
+                    </Typography>
+                    <SvgIcon className={s.icon} icon="message-sent.svg" />
+                  </>
+                )}
+                {!item.isSent && (
+                  <SvgIcon className={s.icon} icon="message.svg" />
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -216,6 +235,7 @@ const s = css`
   }
 
   .selectedUser {
+    position: relative;
     border-radius: none;
     border: none;
     background: var(--shades2);
@@ -245,6 +265,21 @@ const s = css`
 
   .avatar {
     margin-right: 18px;
+  }
+
+  .sentText {
+    margin-right: 6px;
+  }
+
+  .messageSent {
+    color: #2bb774;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+
+    @include mobile {
+      display: none;
+    }
   }
 `
 
