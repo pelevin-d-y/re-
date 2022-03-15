@@ -42,6 +42,10 @@ const UserInfoItemTextInput: React.FC<Props> = ({
       return primary
     }
 
+    return []
+  }, [mutableData, mutableDataType])
+
+  const confirmedData = useMemo(() => {
     const confirmed = mutableData?.filter((item) => {
       return item.type === mutableDataType && item.review === 1
     })
@@ -49,7 +53,6 @@ const UserInfoItemTextInput: React.FC<Props> = ({
     if (confirmed && confirmed.length > 0) {
       return confirmed
     }
-
     return []
   }, [mutableData, mutableDataType])
 
@@ -104,11 +107,24 @@ const UserInfoItemTextInput: React.FC<Props> = ({
       (item) => item.type === mutableDataType && item.review === 0
     )
 
-    if (defaultReviewData && defaultReviewData.length === 1) {
-      updateConfirmedData(defaultReviewData[0])
+    if (primaryData.length === 0) {
+      if (defaultReviewData && defaultReviewData.length === 1) {
+        updateData([composeItemForAPI(defaultReviewData[0], 'confirm')])
+      }
+
+      if (defaultReviewData && defaultReviewData.length > 1) {
+        setReviewData(defaultReviewData)
+      }
     }
-    if (defaultReviewData && defaultReviewData.length > 1) {
-      setReviewData(defaultReviewData)
+
+    if (
+      defaultReviewData &&
+      defaultReviewData.length > 0 &&
+      primaryData.length > 0
+    ) {
+      updateData(
+        defaultReviewData.map((item) => composeItemForAPI(item, 'delete'))
+      )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -134,19 +150,33 @@ const UserInfoItemTextInput: React.FC<Props> = ({
     })
   }
 
+  const getFieldValue = () => {
+    if (primaryData.length > 0) {
+      return (
+        primaryData[0]?.data && formatDataValueToDisplay(primaryData[0].data)
+      )
+    }
+    if (confirmedData.length > 0) {
+      return (
+        confirmedData[0]?.data &&
+        formatDataValueToDisplay(confirmedData[0].data)
+      )
+    }
+
+    return ''
+  }
+
   return (
     <>
       {isLoading && <LoaderAbsolute />}
       <EditField
         type="text"
-        value={
-          primaryData[0]?.data && formatDataValueToDisplay(primaryData[0].data)
-        }
+        value={getFieldValue()}
         classPrefix="profile-card-"
         placeholder=" "
         onSave={(val: string) => onSave(val)}
       />
-      {reviewData && reviewData?.length > 0 && (
+      {reviewData && reviewData?.length > 1 && (
         <UserInfoReview
           reviewData={reviewData}
           title={`We detected ${reviewData.length} values`}

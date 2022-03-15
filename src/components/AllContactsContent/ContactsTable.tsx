@@ -190,14 +190,6 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
     {
       columns,
       data: tableData || [],
-      initialState: {
-        sortBy: [
-          {
-            id: 'name',
-            desc: false,
-          },
-        ],
-      },
     },
     useSortBy,
     useFlexLayout,

@@ -37,6 +37,7 @@ const UserInfoLastMesaage = React.forwardRef<any, Props>(
               </Typography>
               <div
                 className={s.text}
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: parsedText() }}
               />
             </>
