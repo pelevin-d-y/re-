@@ -13,15 +13,21 @@ interface PrimaryEmail extends ContactMutable {
 type Props = {
   className?: string
   data: PrimaryEmail[]
-  setEmail: (emailData: any) => void
+  setMutableData: (emailData: any) => void
+  label: string
 }
 
-const EmailPopover: React.FC<Props> = ({ className, data, setEmail }) => {
+const EmailPopover: React.FC<Props> = ({
+  className,
+  data,
+  setMutableData,
+  label,
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const setEmailHandler = (emailData: any) => {
     setIsOpen(false)
-    setEmail(emailData)
+    setMutableData(emailData)
   }
 
   return (
@@ -38,7 +44,9 @@ const EmailPopover: React.FC<Props> = ({ className, data, setEmail }) => {
             onKeyDown={() => setIsOpen(true)}
             tabIndex={0}
           >
-            <Typography styleVariant="body2">Email ({data.length})</Typography>
+            <Typography styleVariant="body2">
+              {label} ({data.length})
+            </Typography>
             <div>
               <span>Primary</span>{' '}
               <SvgIcon className={s.selectArrow} icon="arrow-selector.svg" />
@@ -152,3 +160,5 @@ const s = css`
 `
 
 export default EmailPopover
+
+// aleksander@strata.cc

@@ -5,13 +5,14 @@ import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import EditField from '../EditField'
 import { LoaderAbsolute } from '../Loader'
 import UserInfoReview from './UserInfoReview'
+import { UpdateDataCallback } from '.'
 
 type Props = {
   className?: string
   mutableData?: ContactMutable[]
   updateData: UpdateMutableData
   mutableDataType: MutableDataType
-  updateDataCallback?: (id: string) => void
+  updateDataCallback?: UpdateDataCallback
   id: string
 }
 
@@ -20,6 +21,36 @@ const formatDataValueToDisplay = (data: any) => {
     return data.join(' ')
   }
   return data
+}
+
+const formatDataValueForApi = (data: any, mutableDataType: string) => {
+  if (mutableDataType === 'name') {
+    return data?.split(' ') || ['']
+  }
+  return data
+}
+
+const composeItemForAPI = (
+  data: ContactMutable,
+  type?: 'confirm' | 'delete'
+): ContactMutable => {
+  switch (type) {
+    case 'confirm':
+      return {
+        ...data,
+        review: 1,
+        meta: {
+          ...data.meta,
+          type: 'primary',
+        },
+      }
+
+    case 'delete':
+      return { ...data, review: 2 }
+
+    default:
+      return data
+  }
 }
 
 const UserInfoItemTextInput: React.FC<Props> = ({
@@ -55,36 +86,6 @@ const UserInfoItemTextInput: React.FC<Props> = ({
     }
     return []
   }, [mutableData, mutableDataType])
-
-  const formatDataValueForApi = (data: any) => {
-    if (mutableDataType === 'name') {
-      return data?.split(' ') || ['']
-    }
-    return data
-  }
-
-  const composeItemForAPI = (
-    data: ContactMutable,
-    type: 'confirm' | 'delete'
-  ): ContactMutable => {
-    switch (type) {
-      case 'confirm':
-        return {
-          ...data,
-          review: 1,
-          meta: {
-            ...data.meta,
-            type: 'primary',
-          },
-        }
-
-      case 'delete':
-        return { ...data, review: 2 }
-
-      default:
-        return data
-    }
-  }
 
   const updateConfirmedData = async (data: ContactMutable) => {
     try {
@@ -144,7 +145,7 @@ const UserInfoItemTextInput: React.FC<Props> = ({
   const onSave = (val: string) => {
     updateConfirmedData({
       type: mutableDataType,
-      data: formatDataValueForApi(val),
+      data: formatDataValueForApi(val, mutableDataType),
       review: 1,
       meta: {},
     })
