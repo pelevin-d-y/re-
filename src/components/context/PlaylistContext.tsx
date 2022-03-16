@@ -4,6 +4,8 @@ import formatContactData from 'src/helpers/utils/format-contact-data'
 import chunk from 'lodash/chunk'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 
+const CONTACTS_PER_PAGE = 12
+
 type Action =
   | { type: 'UPDATE_LIST'; payload: any }
   | { type: 'UPDATE_SELECTED_USERS'; payload: any[] }
@@ -14,6 +16,7 @@ type ContextType = {
   state: State
   dispatch: Dispatch
   getPlaylistData: (listId: string) => void
+  getPlaylistDataPaginated: (listId: string, page?: number) => void
   removeUsers: (
     listId: string,
     userData: (RecommendationUser | FormattedContact)[]
@@ -67,6 +70,39 @@ const PlaylistProvider: React.FC = ({ children }) => {
     }
   }, [])
 
+  const getPlaylistDataPaginated = React.useCallback(
+    async (listId, page = 1) => {
+      try {
+        dispatch({ type: 'UPDATE_LIST', payload: null })
+
+        const playlist = await get.getPlaylistsData([listId] as string[])
+        const newPlaylist = { ...playlist[0] }
+
+        if (newPlaylist?.contacts && newPlaylist?.contacts?.length > 0) {
+          const contactsChunks = chunk(newPlaylist.contacts, CONTACTS_PER_PAGE) // users per request
+          newPlaylist.pages = Math.ceil(
+            contactsChunks.length / CONTACTS_PER_PAGE
+          )
+
+          const pageToFetch = contactsChunks[page - 1]
+          const contacts = await get.getContactsMutable(
+            pageToFetch.map((item) => item.contact_id)
+          )
+
+          newPlaylist.contacts = Object.entries(contacts).map(([id, contact]) =>
+            formatContactData(contact, id)
+          )
+        }
+
+        dispatch({ type: 'UPDATE_LIST', payload: newPlaylist })
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log('getPlaylistData err =>', err)
+      }
+    },
+    []
+  )
+
   const removeUsers = React.useCallback(
     (listId, users: (RecommendationUser | FormattedContact)[]) =>
       post
@@ -107,10 +143,11 @@ const PlaylistProvider: React.FC = ({ children }) => {
       state,
       dispatch,
       getPlaylistData,
+      getPlaylistDataPaginated,
       addUsers,
       removeUsers,
     }),
-    [state, getPlaylistData, addUsers, removeUsers]
+    [state, getPlaylistData, getPlaylistDataPaginated, addUsers, removeUsers]
   )
 
   return (

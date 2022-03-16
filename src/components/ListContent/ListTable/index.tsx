@@ -26,6 +26,7 @@ import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { getName } from 'src/helpers/utils/get-name'
 import CellNotes from 'src/components/shared-ui/Table/CellNotes'
 import Typography from 'src/components/shared-ui/Typography'
+import PageNavigation from 'src/components/shared-ui/PageNavigation'
 import Row from '../../shared-ui/Table/Row'
 import Close from '../../shared-ui/Close'
 import Checkbox from '../../shared-ui/Table/Checkbox'
@@ -33,12 +34,31 @@ import Checkbox from '../../shared-ui/Table/Checkbox'
 type Props = {
   className?: string
   data: ListData
+  showPagination?: boolean
+  currentPage?: number
+  pages?: number
+  onChangePage?: (page: number) => void
 }
 
-const Table: React.FC<Props> = ({ className, data }) => {
+const Table: React.FC<Props> = ({
+  className,
+  data,
+  showPagination,
+  currentPage,
+  pages,
+  onChangePage,
+}) => {
   const { setState: setSelectedUsers } = useTableContext()
   const { removeUsers, getPlaylistData } = usePlaylist()
   const tableData = useMemo(() => data.contacts, [data.contacts])
+
+  const [page, setPage] = useState(currentPage || 1)
+  const selectPage = (selectedPage: number) => {
+    setPage(selectedPage)
+    if (onChangePage) {
+      onChangePage(selectedPage)
+    }
+  }
 
   const updateUser = useCallback((userData: any) => {
     const newValue = [
@@ -275,6 +295,13 @@ const Table: React.FC<Props> = ({ className, data }) => {
               </Row>
             )
           })}
+          {showPagination && (
+            <PageNavigation
+              pages={pages || 1}
+              value={page}
+              onChange={(value) => selectPage(value)}
+            />
+          )}
         </tbody>
       </table>
       <div className={s.emptyCardContainer}>

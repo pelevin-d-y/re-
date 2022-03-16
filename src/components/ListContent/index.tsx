@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { css } from 'astroturf'
 import Table from 'src/components/ListContent/ListTable'
 import ListHeader from 'src/components/shared-ui/ListHeader'
@@ -6,6 +6,7 @@ import { usePlaylist } from 'src/components/context/PlaylistContext'
 import { useClient } from 'src/components/context/ClientContext'
 import { TableProvider } from 'src/components/context/TableContext'
 import { useRouter } from 'next/router'
+import { useParams } from 'react-router-dom'
 import { LoaderAbsolute } from '../shared-ui/Loader'
 import ListRecs from '../shared-ui/ListRecs'
 import TableActions from '../shared-ui/TableActions'
@@ -15,22 +16,30 @@ const Content: React.FC = () => {
   const {
     state: playlistData,
     addUsers: addUserToPlaylist,
-    getPlaylistData,
+    getPlaylistDataPaginated,
   } = usePlaylist()
   const { state: clientState } = useClient()
   const router = useRouter()
 
+  const { page: pageQuery } = useParams()
+  const [page, setPage] = useState(pageQuery ? parseInt(pageQuery, 10) : 1)
+
+  const goToPage = (newPage: number) => {
+    router.push(`?id=${router.query.id}&page=${newPage}`)
+    setPage(newPage)
+  }
+
   useEffect(() => {
     if (router.query.id) {
-      getPlaylistData(router.query.id as string)
+      getPlaylistDataPaginated(router.query.id as string, page)
     }
-  }, [getPlaylistData, router.query.id])
+  }, [getPlaylistDataPaginated, page, router.query.id])
 
   const addUser = async (user: FormattedContact) => {
     if (playlistData) {
       try {
         await addUserToPlaylist(playlistData?.playlist_id, [user])
-        await getPlaylistData(playlistData?.playlist_id)
+        await getPlaylistDataPaginated(playlistData?.playlist_id)
       } catch (err) {
         console.log('addUser err ==>', err)
       }
@@ -63,7 +72,15 @@ const Content: React.FC = () => {
               />
             </div>
           )}
-          {playlistData && <Table data={playlistData} />}
+          {playlistData && (
+            <Table
+              data={playlistData}
+              showPagination
+              currentPage={page}
+              pages={playlistData.pages || 1}
+              onChangePage={(newPage) => goToPage(newPage)}
+            />
+          )}
         </TableProvider>
       </div>
     </div>
