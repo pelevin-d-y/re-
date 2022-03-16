@@ -3,17 +3,20 @@ import classNames from 'classnames'
 import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
-import UserInfoEmail from './UserInfoEmail'
+import * as yup from 'yup'
+import UserInfoSelect from './UserInfoSelect'
 import UserInfoItem from './UserInfoItem'
 import UserInfoItemTextInput from './UserInfoItemTextInput'
 import UserInfoLastMesaage from './UserInfoLastMesaage'
+
+type UpdateDataCallback = (id: string) => void
 
 type Props = {
   className?: string
   id: string
   mutableData?: ContactMutable[]
   updateData: UpdateMutableData
-  updateDataCallback?: () => void
+  updateDataCallback?: UpdateDataCallback
 }
 
 const UserInfo: React.FC<Props> = ({
@@ -50,10 +53,14 @@ const UserInfo: React.FC<Props> = ({
         </li>
         {mutableData && (
           <li className={s.item}>
-            <UserInfoEmail
+            <UserInfoSelect
               data={mutableData}
               updateApiData={updateData}
               updateDataCallback={updateDataCallback}
+              id={id}
+              mutableDataType="email"
+              label="Email"
+              validationSchema={yup.string().email().required()}
             />
           </li>
         )}
@@ -133,3 +140,4 @@ const s = css`
 `
 
 export { UserInfo }
+export type { UpdateDataCallback }
