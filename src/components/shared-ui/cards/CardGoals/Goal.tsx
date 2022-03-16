@@ -46,7 +46,6 @@ const Goal: React.FC<Props> = ({
 const s = css`
   .container {
     padding: 16px 20px 11px 20px;
-
     box-shadow: 0px 1px 1px rgba(34, 34, 34, 0.0989128);
   }
 
@@ -55,11 +54,7 @@ const s = css`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-  }
-
-  .connection {
-    color: var(--red);
-    line-height: 31px;
+    margin-bottom: 18px;
   }
 
   .text {
@@ -69,6 +64,7 @@ const s = css`
 
   .subtitle {
     font-weight: var(--semiBold);
+    margin-bottom: 5px;
   }
 
   .period {
