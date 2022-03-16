@@ -12,6 +12,7 @@ import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
 import testTemplates from 'src/testTemplates.json'
 import { getName } from 'src/helpers/utils/get-name'
+import { useTemplates } from 'src/components/context/TemplatesContext'
 import ModalEditorHeader from './EditorHeader'
 import ModalHtmlEditor from './HtmlEditor'
 
@@ -79,17 +80,24 @@ const getAddressTo = (data: any) => {
 }
 
 const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
-  const template =
-    data?.customTemplate ||
-    data?.templateData?.Message ||
-    data?.message_template_body ||
-    testTemplates[0].Message
-
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const { state: clientState } = useClient()
   const { state: popupState, dispatch: popupDispatch } = usePopup()
-  const { dataMulti } = popupState
+  const { state: templateState } = useTemplates()
+
+  const { data: templateData } = templateState
+  const { dataMulti, data: composeData } = popupState
+
+  const currentTemplate =
+    templateData?.find(
+      (template: Template) =>
+        template.message_template_id ===
+        composeData?.templateData?.message_template_id
+    ) ||
+    templateData?.find(
+      (template: Template) => template.info.name === 'Always Reconnect'
+    )
 
   const clientName =
     (clientState.data && clientState.data.name_short) ||
@@ -100,15 +108,15 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   useEffect(() => {
     let parsedMessage
-    if (template && clientName && contactName) {
+    if (currentTemplate && clientName && contactName) {
       parsedMessage = parseMessage(
-        template,
+        currentTemplate.body,
         contactName.split(' ')[0],
         clientName
       )
     }
     setValue('body', parsedMessage)
-  }, [contactName, template, clientState, clientName])
+  }, [contactName, currentTemplate, clientState, clientName])
 
   const getPrimaryEmail = () => {
     if (clientState.data?.primaryEmail?.data) {

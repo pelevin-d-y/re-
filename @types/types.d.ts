@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 
 type Template = {
-  Template: string
-  Action: string
-  Subject: string
-  Message: string
+  body: string
+  description: string
+  info: { name: string }
+  message_template_id: string
+  subject: string
 }
 
 type ListRequest = {

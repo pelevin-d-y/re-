@@ -1,9 +1,13 @@
 import * as React from 'react'
-import testTemplates from 'src/testTemplates.json'
+import { get } from 'src/api/requests'
 
 type Templates = Template[]
-type Action = { type: 'UPDATE_PLAYLIST_DATA'; payload: Templates }
-type State = { data: Templates }
+
+type Action =
+  | { type: 'UPDATE_MESSAGE_TEMPLATE_DATA'; payload: Templates }
+  | { type: 'UPDATE_IS_LOADING'; payload: boolean }
+
+type State = { data: Templates; isLoading: boolean }
 type Dispatch = React.Dispatch<Action>
 type ContextType = {
   state: State
@@ -14,15 +18,22 @@ const TemplatesContext = React.createContext<ContextType | null>(null)
 
 const popupReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'UPDATE_PLAYLIST_DATA': {
+    case 'UPDATE_MESSAGE_TEMPLATE_DATA': {
       return {
         ...state,
         data: action.payload,
       }
     }
+    case 'UPDATE_IS_LOADING': {
+      return {
+        ...state,
+        isLoading: action.payload,
+      }
+    }
     default: {
       return {
         data: [],
+        isLoading: false,
       }
     }
   }
@@ -30,8 +41,35 @@ const popupReducer = (state: State, action: Action): State => {
 
 const TemplatesProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(popupReducer, {
-    data: testTemplates,
+    data: [],
+    isLoading: false,
   })
+
+  React.useEffect(() => {
+    const setTemplates = async () => {
+      try {
+        updateIsLoading(true)
+        const TemplatesResp = await get.getMessageTemplates()
+
+        dispatch({
+          type: 'UPDATE_MESSAGE_TEMPLATE_DATA',
+          payload: TemplatesResp,
+        })
+        updateIsLoading(false)
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('templates err', err)
+      }
+    }
+    setTemplates()
+  }, [])
+
+  const updateIsLoading = (value: boolean) => {
+    dispatch({
+      type: 'UPDATE_IS_LOADING',
+      payload: value,
+    })
+  }
 
   const value: ContextType = React.useMemo(
     () => ({

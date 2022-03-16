@@ -53,14 +53,14 @@ const PopoverTemplates: React.FC<Props> = () => {
           <div className={s.title}>Snippets</div>
           <ul className={s.templatesList}>
             {templatesData.map((template) =>
-              template.Template ? (
-                <li key={template.Message}>
+              template ? (
+                <li key={template.info.name}>
                   <button
                     onClick={() => selectTemplate(template)}
                     className={s.templateItemButton}
                     type="button"
                   >
-                    {template.Template}
+                    {template.info.name}
                   </button>
                 </li>
               ) : null
