@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { css } from 'astroturf'
+import Typography from '../Typography'
 
 type Props = {
   className?: string
@@ -10,21 +11,15 @@ type Props = {
 
 const Period: React.FC<Props> = ({ className, from, to }) => (
   <div className={classNames(className, s.container)}>
-    <span className={s.from}>{from || 0}</span> of{' '}
-    <span className={s.to}>{to}</span>
+    <Typography
+      className={s.from}
+      fontVariant="inter"
+      fontWeight="bold"
+      styleVariant="body1"
+    >{`${from || 0} of ${to}`}</Typography>
   </div>
 )
 
-const s = css`
-  .container {
-    font-weight: var(--bold);
-    font-size: 12px;
-  }
-
-  .from {
-    margin-right: 2px;
-    font-size: 32px;
-  }
-`
+const s = css``
 
 export default Period

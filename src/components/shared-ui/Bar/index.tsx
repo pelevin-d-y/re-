@@ -38,29 +38,24 @@ const s = css`
   }
 
   .blue {
-    background: #cedeff;
-
     .fillBar {
       background: var(--primary1);
     }
   }
 
   .green {
-    background: #d0ffeb;
     .fillBar {
-      background: var(--success2);
+      background: var(--success1);
     }
   }
 
   .red {
-    background: #ffe9e9;
     .fillBar {
       background: var(--red);
     }
   }
 
   .--primary2 {
-    background: #f2f2f2;
     .fillBar {
       background: #00d1ff;
     }
@@ -68,7 +63,7 @@ const s = css`
 
   .orange {
     .fillBar {
-      background: var(--ginger);
+      background: var(--secondary1);
     }
   }
 `

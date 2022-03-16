@@ -246,6 +246,10 @@ const s = css`
       .buttonRemove {
         display: block;
       }
+
+      .messageSent {
+        display: none;
+      }
     }
     @include mobile {
       .buttonRemove {

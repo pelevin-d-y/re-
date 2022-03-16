@@ -73,7 +73,7 @@ const OnboardingTasks: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <Typography className={s.title} fontVariant="damion">
+      <Typography className={s.title} fontVariant="damion" styleVariant="h3">
         Onboarding Tasks
       </Typography>
       <div className={s.tasks}>
@@ -119,8 +119,6 @@ const s = css`
   }
 
   .title {
-    font-size: 24px;
-    line-height: 33px;
     color: #812557;
     margin-bottom: 15px;
   }
