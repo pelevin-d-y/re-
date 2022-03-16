@@ -4,11 +4,11 @@ import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import classnames from 'classnames'
 import SvgIcon from 'src/components/shared-ui/SvgIcon'
 import Img from 'src/components/shared-ui/Img'
-import CardGoals from 'src/components/shared-ui/cards/CardGoals'
 import { usePlaylists } from 'src/components/context/PlaylistsContext'
 import { useClient } from 'src/components/context/ClientContext'
 import OnboardingTasks from './OnboardingTasks'
 import Typography from '../Typography'
+import WeeklyOverview from './WeeklyOverview'
 
 type Props = {
   className?: string
@@ -58,7 +58,7 @@ const Spotlight: React.FC<Props> = ({ className }) => {
         </div>
       </div>
       {showOnboardingTasks && <OnboardingTasks />}
-      <CardGoals />
+      <WeeklyOverview />
     </CardContainer>
   )
 }

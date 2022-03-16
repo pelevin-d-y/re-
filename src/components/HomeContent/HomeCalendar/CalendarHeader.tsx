@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from 'astroturf'
 import classNames from 'classnames'
 import { format } from 'date-fns'
+import CardCalendar from 'src/components/shared-ui/cards/CardCalendar'
 
 type Props = {
   className?: string
@@ -13,12 +14,11 @@ const UpcomingHeader: React.FC<Props> = ({ className, text }) => {
 
   return (
     <div className={classNames(className, s.container)}>
-      <div className={s.date}>
-        <div className={s.month}>
-          {format(currentDay, 'LLLL').substring(0, 3)}
-        </div>
-        <div className={s.day}>{currentDay.getDate()}</div>
-      </div>
+      <CardCalendar
+        className={s.calendar}
+        title={format(currentDay, 'LLLL').substring(0, 3)}
+        text={currentDay.getDate()}
+      />
       <div className={s.text}>{text}</div>
     </div>
   )
@@ -37,47 +37,21 @@ const s = css`
       align-items: center;
     }
   }
-  .date {
-    display: flex;
-    flex-flow: column nowrap;
-    min-width: 45px;
-    margin-right: 28px;
-    overflow: hidden;
-    background: var(--shades2);
-    border-radius: 6px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.119865),
-      0px 1px 1px rgba(34, 34, 34, 0.0989128);
-    @include mobile {
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
-  }
+
   .text {
     margin-top: 3px;
     @include mobile {
       text-align: center;
     }
   }
-  .month {
-    padding: 2px 0;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 9px;
-    line-height: 11px;
-    text-align: center;
-    background: var(--accentRose1);
-    color: var(--shades2);
-  }
-  .day {
-    padding: 4px;
-    line-height: 24px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: var(--bold);
-  }
-  .smallText {
-    font-size: 12px;
-    line-height: 22px;
+
+  .calendar {
+    margin-right: 28px;
+
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
   }
 `
 
