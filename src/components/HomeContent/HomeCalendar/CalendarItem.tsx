@@ -9,15 +9,14 @@ import Button from 'src/components/shared-ui/Button'
 import Pin from 'src/components/shared-ui/Pin'
 import Close from 'src/components/shared-ui/Close'
 import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { getName } from 'src/helpers/utils/get-name'
 import getLastMessage from 'src/helpers/utils/get-last-message'
 import formatLastMessage from 'src/helpers/utils/format-last-message'
 import { get } from 'src/api/requests'
-import { format } from 'date-fns'
 import Typography from 'src/components/shared-ui/Typography'
 import Checkbox from 'src/components/shared-ui/Checkbox'
 import { formatDateHideYear } from 'src/helpers/utils/parseTime'
+import { useTemplates } from 'src/components/context/TemplatesContext'
 
 type Props = {
   className?: string
@@ -127,7 +126,7 @@ const CalendarItem: React.FC<Props> = ({
         </div>
       </div>
       <div className={s.message}>
-        <NextStep className={s.nextStep} text={getNextStep(data)} />
+        <NextStep className={s.nextStep} data={data} />
       </div>
 
       <div className={s.actions}>

@@ -5,7 +5,6 @@ import { getName } from 'src/helpers/utils/get-name'
 import { useRouter } from 'next/router'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import formatContactData from 'src/helpers/utils/format-contact-data'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { usePinned } from 'src/components/context/PinnedContext'
 import CardContainer from '../../cards/CardContainer'
 import Avatar from '../../Avatar'
@@ -84,7 +83,7 @@ const PopupContent: React.FC<Props> = ({
             <div className={s.subject}>{getSubject()}</div>
           </div>
         </div>
-        <NextStep className={s.nextStep} text={getNextStep(data)} />
+        <NextStep className={s.nextStep} data={data} />
         <div className={s.actions}>
           <PopoverDots
             variant="outlined"

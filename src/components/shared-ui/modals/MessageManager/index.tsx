@@ -18,7 +18,7 @@ import ModalHtmlEditor from './HtmlEditor'
 
 type Props = {
   className?: string
-  data: any
+  data: RecommendationUser | FormattedContact
   setIsSent: (val: boolean) => void
 }
 
@@ -84,20 +84,12 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   const { state: clientState } = useClient()
   const { state: popupState, dispatch: popupDispatch } = usePopup()
-  const { state: templateState } = useTemplates()
+  const { state: templateState, getTemplate } = useTemplates()
 
-  const { data: templateData } = templateState
   const { dataMulti, data: composeData } = popupState
+  console.log('🚀 ~ file: index.tsx ~ line 90 ~ composeData', composeData)
 
-  const currentTemplate =
-    templateData?.find(
-      (template: Template) =>
-        template.message_template_id ===
-        composeData?.templateData?.message_template_id
-    ) ||
-    templateData?.find(
-      (template: Template) => template.info.name === 'Always Reconnect'
-    )
+  const currentTemplate = getTemplate(composeData || undefined)
 
   const clientName =
     (clientState.data && clientState.data.name_short) ||
@@ -129,14 +121,8 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   }
 
   const getSubject = useCallback(() => {
-    if (data.templateData) {
-      return data.templateData.Subject
-    }
-    if (data?.message_template_subject) {
-      return parseMessage(data.message_template_subject, contactName)
-    }
-    return testTemplates[0].Subject
-  }, [contactName, data.message_template_subject, data.templateData])
+    return currentTemplate?.subject
+  }, [currentTemplate?.subject])
 
   // effect to set default value
   useEffect(() => {

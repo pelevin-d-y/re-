@@ -12,7 +12,11 @@ const ComposeModal: React.FC = () => {
   }
 
   return (
-    <ModalBase isOpen={emailModalIsOpen} styles={{ maxWidth: '900px' }}>
+    <ModalBase
+      isOpen={emailModalIsOpen}
+      styles={{ maxWidth: '900px' }}
+      onClose={closeHandler}
+    >
       {data && (
         <ModalContent data={data} withAvatar closeHandler={closeHandler} />
       )}

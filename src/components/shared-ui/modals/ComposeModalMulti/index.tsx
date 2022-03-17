@@ -93,6 +93,7 @@ const ComposeModalMulti: React.FC = () => {
         gridTemplateColumns: '2fr 4fr',
       }}
       isOpen={multiEmailsIsOpen}
+      onClose={closeHandler}
     >
       <UsersManager
         selectedContacts={selectedContacts}

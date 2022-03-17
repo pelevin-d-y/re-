@@ -22,7 +22,6 @@ import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import CellLastMessage from 'src/components/shared-ui/Table/CellLastMessage'
 import { HOCLastMessage } from 'src/components/HOCs/HOCLastMessage'
 import NextStep from 'src/components/shared-ui/NextStep'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 import { getName } from 'src/helpers/utils/get-name'
 import CellNotes from 'src/components/shared-ui/Table/CellNotes'
 import Typography from 'src/components/shared-ui/Typography'
@@ -142,7 +141,7 @@ const Table: React.FC<Props> = ({
         Header: 'Next steps',
         disableSortBy: true,
         width: 200,
-        Cell: ({ value, row }) => <NextStep text={getNextStep(row.original)} />,
+        Cell: ({ value, row }) => <NextStep data={row.original} />,
       },
       {
         Header: 'Notes',

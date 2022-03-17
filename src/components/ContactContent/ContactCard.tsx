@@ -4,7 +4,6 @@ import { css } from 'astroturf'
 import { UpdateMutableData } from 'src/components/HOCs/HOCUpdateMutableData'
 import formatContactData from 'src/helpers/utils/format-contact-data'
 import { getName } from 'src/helpers/utils/get-name'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Avatar from '../shared-ui/Avatar'
 import PopoverDots from '../shared-ui/popover/PopoverDots'
 import PopoverActions from '../shared-ui/popover/PopoverActions'
@@ -49,10 +48,7 @@ const ContactCard: React.FC<Props> = ({
         </div>
         <div className={s.actions}>
           {formattedData && (
-            <NextStep
-              className={s.nextStep}
-              text={getNextStep(formattedData)}
-            />
+            <NextStep className={s.nextStep} data={formattedData} />
           )}
           <div className={s.buttons}>
             <PopoverDots className={s.dots} variant="outlined" />

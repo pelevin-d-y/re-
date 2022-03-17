@@ -150,6 +150,7 @@ type FormattedContact = {
   isSent?: boolean
   templateData?: Template
   lastEvent?: EventInfo | null
+  message_template_id?: string
 }
 
 type PlaylistContact = {

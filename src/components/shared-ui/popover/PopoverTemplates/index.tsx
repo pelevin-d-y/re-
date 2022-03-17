@@ -5,8 +5,6 @@ import Popover from 'src/components/shared-ui/popover/PopoverBase'
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import { usePopup } from 'src/components/context/PopupContext'
-import { useClient } from 'src/components/context/ClientContext'
-import { findIndex } from 'lodash'
 import classNames from 'classnames'
 
 type Props = {
@@ -23,6 +21,8 @@ const PopoverTemplates: React.FC<Props> = () => {
   } = useTemplates()
 
   const selectTemplate = (template: Template) => {
+    console.log('template', template)
+    console.log('🚀 ~ file: index.tsx ~ line 17 ~ data', data)
     if (data) {
       modalDispatch({
         type: 'UPDATE_POPUP_DATA',
