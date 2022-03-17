@@ -16,6 +16,7 @@ type ContextType = {
   state: State
   dispatch: React.Dispatch<Action>
   updateUserData: () => void
+  removeContactRecommendation: (id: string) => void
 }
 
 const ClientContext = React.createContext<ContextType | null>(null)
@@ -111,6 +112,27 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
     []
   )
 
+  const removeContactRecommendation = React.useCallback(
+    async (id: string) => {
+      const contacts = state.data?.contacts
+      if (contacts) {
+        const newContacts = [...contacts]
+        newContacts.splice(
+          newContacts.findIndex((contact) => contact.contact_id === id),
+          1
+        )
+        dispatch({
+          type: 'UPDATE_USER_DATA',
+          payload: {
+            ...state.data,
+            contacts: newContacts,
+          },
+        })
+      }
+    },
+    [state.data]
+  )
+
   React.useEffect(() => {
     const setClientData = async () => {
       try {
@@ -158,6 +180,7 @@ const ClientProvider: React.FC = ({ children }): JSX.Element => {
       dispatch,
       updateIsLoading,
       updateUserData,
+      removeContactRecommendation,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

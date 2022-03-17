@@ -81,7 +81,7 @@ const getAddressTo = (data: any) => {
 const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const { state: clientState } = useClient()
+  const { state: clientState, removeContactRecommendation } = useClient()
   const { state: popupState, dispatch: popupDispatch } = usePopup()
   const { getTemplate } = useTemplates()
 
@@ -186,6 +186,10 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataMulti, popupDispatch])
 
+  const removeRecommendation = () => {
+    removeContactRecommendation(data.contact_id)
+  }
+
   const sendEmail = () => {
     if (!state.bodyData.from_contact) {
       // eslint-disable-next-line no-alert
@@ -200,6 +204,7 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
         dispatch({ type: 'updateSendingStatus' })
         setConnectedUser()
         setIsSent(true)
+        removeRecommendation()
       })
       .catch((err) => {
         dispatch({ type: 'updateSendingStatus' })
