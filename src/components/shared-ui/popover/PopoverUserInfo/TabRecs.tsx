@@ -32,14 +32,7 @@ const TabRecs: React.FC<Props> = ({ className, data }) => {
                 onClick={buttonHandler}
                 aria-hidden="true"
               >
-                {item.message_template_subject && (
-                  <NextStep
-                    text={parseMessage(
-                      item.message_template_subject,
-                      item.name
-                    )}
-                  />
-                )}
+                {item.message_template_subject && <NextStep data={item} />}
               </div>
             </CardContainer>
           </li>

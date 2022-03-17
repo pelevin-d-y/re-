@@ -12,7 +12,7 @@ export const getNextStep = (
       return parseMessage(data.message_template_description, data.name)
     }
     if ('templateData' in data && data.templateData) {
-      return parseMessage(data.templateData.Action, getName(data))
+      return parseMessage(data.templateData.subject, getName(data))
     }
   }
   return ''

@@ -1,4 +1,3 @@
-import sample from 'lodash/sample'
 import testTemplates from 'src/testTemplates.json'
 
 type Data = ContactMutable[]
@@ -85,9 +84,6 @@ const formatContactData = (data: Data, id?: string): FormattedContact => {
             ]
           : []
       ) || [],
-    templateData: sample(
-      testTemplates.filter((item: any) => item.Action !== '<ContactName>')
-    ), // addition field for "next steps" till api is not ready
   }
 
   if (id) {

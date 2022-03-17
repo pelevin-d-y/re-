@@ -19,7 +19,6 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import { useRouter } from 'next/router'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { getName } from 'src/helpers/utils/get-name'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import CellLastMessage from '../shared-ui/Table/CellLastMessage'
@@ -128,7 +127,7 @@ const ContactsTable: React.FC<Props> = ({ className, data, fetchData }) => {
         disableSortBy: true,
         width: 200,
         Cell: ({ value, row }) => {
-          return <NextStep text={getNextStep(row.original)} />
+          return <NextStep data={row.original} />
         },
       },
       {

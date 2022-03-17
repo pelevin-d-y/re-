@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import 'ts-replace-all'
 import 'react-toastify/dist/ReactToastify.css'
 import ProductTour from 'src/components/ProductTour'
+import { TemplatesProvider } from 'src/components/context/TemplatesContext'
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <div suppressHydrationWarning>
@@ -17,13 +18,15 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => (
       <>
         <AuthProvider>
           <ClientProvider>
-            <FreeStorageProvider>
-              <ProductTour />
-              <Head>
-                <title>Strata</title>
-              </Head>
-              <Component {...pageProps} />
-            </FreeStorageProvider>
+            <TemplatesProvider>
+              <FreeStorageProvider>
+                <ProductTour />
+                <Head>
+                  <title>Strata</title>
+                </Head>
+                <Component {...pageProps} />
+              </FreeStorageProvider>
+            </TemplatesProvider>
           </ClientProvider>
         </AuthProvider>
         <ToastContainer position="top-right" autoClose={2500} hideProgressBar />
