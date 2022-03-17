@@ -260,6 +260,13 @@ const UserInfoSelect: React.FC<Props> = ({
       )
     }
 
+    if (mutableDataConfirmed.length > 0) {
+      return (
+        mutableDataConfirmed[0]?.data &&
+        formatDataValueToDisplay(mutableDataConfirmed[0].data)
+      )
+    }
+
     return ''
   }
 
