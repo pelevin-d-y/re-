@@ -8,7 +8,9 @@ const ComposeModal: React.FC = () => {
   const { data, emailModalIsOpen } = state
 
   const closeHandler = () => {
-    dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: null })
+    if (state.emailModalIsOpen) {
+      dispatch({ type: 'TOGGLE_COMPOSE_POPUP', payload: null })
+    }
   }
 
   return (

@@ -10,7 +10,6 @@ import { useClient } from 'src/components/context/ClientContext'
 import parseMessage from 'src/helpers/utils/parse-message'
 import { usePopup } from 'src/components/context/PopupContext'
 import { post } from 'src/api'
-import testTemplates from 'src/testTemplates.json'
 import { getName } from 'src/helpers/utils/get-name'
 import { useTemplates } from 'src/components/context/TemplatesContext'
 import ModalEditorHeader from './EditorHeader'
@@ -84,10 +83,9 @@ const MessageManager: React.FC<Props> = ({ className, data, setIsSent }) => {
 
   const { state: clientState } = useClient()
   const { state: popupState, dispatch: popupDispatch } = usePopup()
-  const { state: templateState, getTemplate } = useTemplates()
+  const { getTemplate } = useTemplates()
 
   const { dataMulti, data: composeData } = popupState
-  console.log('🚀 ~ file: index.tsx ~ line 90 ~ composeData', composeData)
 
   const currentTemplate = getTemplate(composeData || undefined)
 
