@@ -33,6 +33,7 @@ module.exports = {
     'arrow-body-style': 0,
     'import/extensions': 'off',
     'react/prop-types': 'off',
+    'react/require-default-props': 'off',
     camelcase: 'off',
     'react/display-name': 'off',
     'react/react-in-jsx-scope': 'off',

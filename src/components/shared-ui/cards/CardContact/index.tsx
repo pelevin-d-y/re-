@@ -12,7 +12,6 @@ import PopoverRemoveCard from 'src/components/shared-ui/popover/PopoverRemoveCar
 import CardContainer from 'src/components/shared-ui/cards/CardContainer'
 import { formatDistanceToNowStrict, fromUnixTime } from 'date-fns'
 import { getName } from 'src/helpers/utils/get-name'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 
 type Props = {
   className?: string
@@ -48,7 +47,7 @@ const CardContact: React.FC<Props> = ({ className, data, pin }) => {
           </div>
         </div>
       </div>
-      <NextStep className={s.description} text={getNextStep(data)} />
+      <NextStep className={s.description} data={data} />
       <div className={s.actions}>
         {pin && <Pin className={s.pin} data={data.contact_id} />}
         <Button

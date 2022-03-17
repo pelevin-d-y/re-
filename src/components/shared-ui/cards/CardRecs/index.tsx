@@ -46,11 +46,7 @@ const CardRecs: React.FC<Props> = ({ data, addUser }) => {
       </div>
       <div className={s.footer}>
         <div className={s.message}>
-          {data?.message_template_description && (
-            <NextStep
-              text={parseMessage(data.message_template_description, data.name)}
-            />
-          )}
+          {data?.message_template_description && <NextStep data={data} />}
         </div>
       </div>
       {isLoading && <LoaderAbsolute />}

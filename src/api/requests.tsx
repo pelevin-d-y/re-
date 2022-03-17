@@ -113,6 +113,12 @@ const get = {
       .then((res) => res)
       .catch((err) => Promise.reject(err)),
 
+  getMessageTemplates: (): Promise<Template[]> =>
+    requests
+      .get(`${AWS_API}/messages/templates`)
+      .then((res) => res)
+      .catch((err) => Promise.reject(err)),
+
   getFreeStorage: (): Promise<FreeStorage> =>
     requests
       .get(`${AWS_API}/dash/storage`)

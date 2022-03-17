@@ -17,7 +17,6 @@ import PopoverUserInfo from 'src/components/shared-ui/popover/PopoverUserInfo'
 import { useTable as useTableContext } from 'src/components/context/TableContext'
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { getName } from 'src/helpers/utils/get-name'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Button from '../shared-ui/Button'
@@ -90,7 +89,7 @@ const PinnedTable: React.FC<Props> = ({ className, data }) => {
         Header: 'Next steps',
         id: 'Company',
         width: 250,
-        Cell: ({ value, row }) => <NextStep text={getNextStep(row.original)} />,
+        Cell: ({ value, row }) => <NextStep data={row.original} />,
         disableSortBy: true,
       },
       {

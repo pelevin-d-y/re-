@@ -18,7 +18,6 @@ import { useTable as useTableContext } from 'src/components/context/TableContext
 import { customSortType } from 'src/helpers/utils/custom-sort-table'
 import { post } from 'src/api'
 import { getName } from 'src/helpers/utils/get-name'
-import { getNextStep } from 'src/helpers/utils/get-next-step'
 import Checkbox from '../shared-ui/Table/Checkbox'
 import Row from '../shared-ui/Table/Row'
 import Button from '../shared-ui/Button'
@@ -101,10 +100,7 @@ const Table: React.FC<Props> = ({ className, data }) => {
         id: 'Company',
         width: 200,
         Cell: ({ value, row }) => (
-          <NextStep
-            className={s.cellContent}
-            text={getNextStep(row.original)}
-          />
+          <NextStep className={s.cellContent} data={row.original} />
         ),
         disableSortBy: true,
       },

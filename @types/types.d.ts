@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 
 type Template = {
-  Template: string
-  Action: string
-  Subject: string
-  Message: string
+  body: string
+  description: string
+  info: { name: string }
+  message_template_id: string
+  subject: string
 }
 
 type ListRequest = {
@@ -149,6 +150,7 @@ type FormattedContact = {
   isSent?: boolean
   templateData?: Template
   lastEvent?: EventInfo | null
+  message_template_id?: string
 }
 
 type PlaylistContact = {
@@ -165,6 +167,7 @@ type ListData = {
   inclusions?: any
   info?: { name?: string; description?: string }
   triggers?: []
+  pages?: number
 }
 
 type CreatePlaylist = {

@@ -8,17 +8,15 @@ import { PlaylistProvider } from 'src/components/context/PlaylistContext'
 import { PlaylistsProvider } from 'src/components/context/PlaylistsContext'
 
 const List: React.FC = () => (
-  <TemplatesProvider>
-    <Layout className={s.layout}>
-      <PlaylistsProvider>
-        <PlaylistProvider>
-          <PopupProvider>
-            <CreateListContent />
-          </PopupProvider>
-        </PlaylistProvider>
-      </PlaylistsProvider>
-    </Layout>
-  </TemplatesProvider>
+  <Layout className={s.layout}>
+    <PlaylistsProvider>
+      <PlaylistProvider>
+        <PopupProvider>
+          <CreateListContent />
+        </PopupProvider>
+      </PlaylistProvider>
+    </PlaylistsProvider>
+  </Layout>
 )
 
 const s = css`
