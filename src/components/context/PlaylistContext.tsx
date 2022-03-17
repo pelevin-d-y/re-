@@ -80,9 +80,7 @@ const PlaylistProvider: React.FC = ({ children }) => {
 
         if (newPlaylist?.contacts && newPlaylist?.contacts?.length > 0) {
           const contactsChunks = chunk(newPlaylist.contacts, CONTACTS_PER_PAGE) // users per request
-          newPlaylist.pages = Math.ceil(
-            contactsChunks.length / CONTACTS_PER_PAGE
-          )
+          newPlaylist.pages = contactsChunks.length
 
           const pageToFetch = contactsChunks[page - 1]
           const contacts = await get.getContactsMutable(
