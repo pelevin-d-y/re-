@@ -166,6 +166,7 @@ type ListData = {
   inclusions?: any
   info?: { name?: string; description?: string }
   triggers?: []
+  pages?: number
 }
 
 type CreatePlaylist = {
