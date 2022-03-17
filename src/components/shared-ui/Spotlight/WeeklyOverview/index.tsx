@@ -112,9 +112,9 @@ const WeeklyOverview: React.FC<Props> = ({ className }) => (
     <CardWeeklyOverview
       className={s.goal}
       text="New Friend"
-      period="You use to talk to Josie 5x a week. What happened?"
+      period="You met Joseph last week! Keep in touch with them!"
     >
-      <Img alt="" img="metric-static/metric-static2.png" className={s.avatar} />
+      <Img alt="" img="metric-static/metric-static5.png" className={s.avatar} />
     </CardWeeklyOverview>
   </CardContainer>
 )

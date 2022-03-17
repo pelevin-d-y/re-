@@ -14,7 +14,11 @@ import chunk from 'lodash/chunk'
 import { fetchDataQueue } from 'src/helpers/utils/fetchDataQueue'
 import DropdownIndicator from 'src/components/shared-ui/Select/DropdownIndicator'
 import Typography from 'src/components/shared-ui/Typography'
-import { isDateBeforeLastMonday } from 'src/helpers/utils/date-tools'
+import {
+  getLastWeekMonday,
+  getLastWeekSunday,
+  isDateBeforeLastMonday,
+} from 'src/helpers/utils/date-tools'
 import UpcomingHeader from './CalendarHeader'
 import UpcomingItem from './CalendarItem'
 
@@ -27,11 +31,15 @@ const getUserEvents = async (duration: string) => {
   const nowDateSeconds = millisecondsToSeconds(Date.now()).toString()
   switch (duration) {
     case 'lastWeek': {
-      const timeAgo = millisecondsToSeconds(
-        date.setDate(date.getDate() - 7)
+      const start = millisecondsToSeconds(
+        getLastWeekMonday().getTime()
       ).toString()
 
-      return get.getEventContacts(timeAgo, nowDateSeconds)
+      const end = millisecondsToSeconds(
+        getLastWeekSunday().getTime()
+      ).toString()
+
+      return get.getEventContacts(start, end)
     }
 
     case 'lastMonth': {
